@@ -1,0 +1,26 @@
+.paging-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0 0 0;
+
+  .pagination-button {
+    color: #a8a8a8;
+    padding: 8px;
+    background: transparent;
+
+    &:disabled {
+      display: none;
+    }
+
+    // 현재 페이지 표현
+    &[aria-current="page"] {
+      width: 30px;
+      color: #5698d2;
+      background: transparent;
+      border-radius: 8px;
+      cursor: revert;
+      transform: revert;
+    }
+  }
+}

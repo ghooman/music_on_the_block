@@ -12,23 +12,37 @@ import { Link } from "react-router-dom";
 const notice_dummy = [
   {
     id: 0,
-    title: "세븐일레븐 OOO점 공지합니다.",
+    title: "세븐일레븐 강남 대청점 공지합니다.",
     day: "2023.01.17",
   },
-  { id: 1, title: "세븐일레븐 OOO점 공지합니다.", day: "2023.01.18" },
-  { id: 2, title: "세븐일레븐 OOO점 공지합니다.", day: "2023.01.19" },
-  { id: 3, title: "세븐일레븐 OOO점 공지합니다.", day: "2023.01.20" },
-  { id: 4, title: "세븐일레븐 OOO점 공지합니다.", day: "2023.01.21" },
-  { id: 5, title: "세븐일레븐 OOO점 공지합니다.", day: "2023.01.22" },
-  { id: 6, title: "세븐일레븐 OOO점 공지합니다.", day: "2023.01.23" },
+  { id: 1, title: "세븐일레븐 강남 도곡로점 공지합니다.", day: "2023.01.18" },
+  { id: 2, title: "세븐일레븐 강남 롯데점 공지합니다.", day: "2023.01.19" },
+  { id: 3, title: "세븐일레븐 강남 선릉점 공지합니다.", day: "2023.01.20" },
+  { id: 4, title: "세븐일레븐 강남 스퀘어점 공지합니다.", day: "2023.01.21" },
+  { id: 5, title: "세븐일레븐 강남 언주로점 공지합니다.", day: "2023.01.22" },
+  { id: 6, title: "세븐일레븐 강남 인텔릭스점 공지합니다.", day: "2023.01.23" },
 ];
+
+function randomDate(start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+function randomTime() {
+  const startDate = new Date(2022, 0, 1); // 2022년 1월 1일
+  const endDate = new Date(2022, 11, 31); // 2022년 12월 31일
+  const randomDateValue = randomDate(startDate, endDate);
+
+  const fixedRandomDate = randomDateValue.toISOString().slice(0, 19).replace("T", " "); // 고정된 무작위 시간값
+
+  return fixedRandomDate; // 고정된 값으로 반환
+}
+
 const actionDummyData = [
   {
     id: 1,
-    detectionDate: "2022-00-00 00:00:00 ~ 2022-0000 00:00:30",
-    location: "세븐일레븐 OOO점",
+    detectionDate: randomTime() + " ~ " + randomTime(),
+    location: "세븐일레븐 가산 광진점",
     detectionText: "장시간 체류",
-    actionDate: "2022-00-00 00:00:00",
+    actionDate: randomTime(),
     checker: "김확인",
     actionPerson: "김조치",
     violator: "김위반",
@@ -37,10 +51,10 @@ const actionDummyData = [
   },
   {
     id: 2,
-    detectionDate: "2022-00-00 00:00:00 ~ 2022-0000 00:00:30",
-    location: "세븐일레븐 OOO점",
+    detectionDate: randomTime() + " ~ " + randomTime(),
+    location: "세븐일레븐 남성 사당로점",
     detectionText: "장시간 체류",
-    actionDate: "2022-00-00 00:00:00",
+    actionDate: randomTime(),
     checker: "김확인",
     actionPerson: "김조치",
     violator: "김위반",
@@ -49,10 +63,10 @@ const actionDummyData = [
   },
   {
     id: 3,
-    detectionDate: "2022-00-00 00:00:00 ~ 2022-0000 00:00:30",
-    location: "세븐일레븐 OOO점",
+    detectionDate: randomTime() + " ~ " + randomTime(),
+    location: "세븐일레븐 사당 5동점",
     detectionText: "장시간 체류",
-    actionDate: "2022-00-00 00:00:00",
+    actionDate: randomTime(),
     checker: "김확인",
     actionPerson: "김조치",
     violator: "김위반",
@@ -61,10 +75,10 @@ const actionDummyData = [
   },
   {
     id: 4,
-    detectionDate: "2022-00-00 00:00:00 ~ 2022-0000 00:00:30",
-    location: "세븐일레븐 OOO점",
+    detectionDate: randomTime() + " ~ " + randomTime(),
+    location: "세븐일레븐 뚝섬역점",
     detectionText: "장시간 체류",
-    actionDate: "2022-00-00 00:00:00",
+    actionDate: randomTime(),
     checker: "김확인",
     actionPerson: "김조치",
     violator: "김위반",
@@ -73,10 +87,10 @@ const actionDummyData = [
   },
   {
     id: 5,
-    detectionDate: "2022-00-00 00:00:00 ~ 2022-0000 00:00:30",
-    location: "세븐일레븐 OOO점",
+    detectionDate: randomTime() + " ~ " + randomTime(),
+    location: "세븐일레븐 성동 금호점",
     detectionText: "장시간 체류",
-    actionDate: "2022-00-00 00:00:00",
+    actionDate: randomTime(),
     checker: "김확인",
     actionPerson: "김조치",
     violator: "김위반",
@@ -85,10 +99,10 @@ const actionDummyData = [
   },
   {
     id: 6,
-    detectionDate: "2022-00-00 00:00:00 ~ 2022-0000 00:00:30",
-    location: "세븐일레븐 OOO점",
+    detectionDate: randomTime() + " ~ " + randomTime(),
+    location: "세븐일레븐 경복궁점",
     detectionText: "장시간 체류",
-    actionDate: "2022-00-00 00:00:00",
+    actionDate: randomTime(),
     checker: "김확인",
     actionPerson: "김조치",
     violator: "김위반",
@@ -98,14 +112,14 @@ const actionDummyData = [
 ];
 
 const statistical_dummy = [
-  "세븐일레븐 OO1점",
-  "세븐일레븐 OO2점",
-  "세븐일레븐 OO3점",
-  "세븐일레븐 OO4점",
-  "세븐일레븐 OO5점",
-  "세븐일레븐 OO6점",
-  "세븐일레븐 OO7점",
-  "세븐일레븐 OO8점",
+  "세븐일레븐 개봉역점",
+  "세븐일레븐 개봉 아이파크점",
+  "세븐일레븐 고척 공원점",
+  "세븐일레븐 고척 중앙로점",
+  "세븐일레븐 경의숲길점",
+  "세븐일레븐 가락몰점",
+  "세븐일레븐 롯데월드 광장점",
+  "세븐일레븐 문정강진점",
 ];
 function Main({ setClickMenu }) {
   // 경고 알림 카운트
@@ -217,12 +231,12 @@ function NumberCounter({ initialValue, targetValue }) {
                   <div className="textbox__info">
                     {count >= 1 ? (
                       <p className="textbox__status">
-                        현재 세븐일레븐 OOO점 센서값은
+                        현재 세븐일레븐 금정 신중로점 센서값은
                         <br /> 모두 위험한 상태 입니다.
                       </p>
                     ) : (
                       <p className="textbox__status">
-                        현재 세븐일레븐 OOO점 센서값은
+                        현재 세븐일레븐 관악 남현점 센서값은
                         <br /> 모두 안전한 상태 입니다. :)
                       </p>
                     )}
@@ -262,7 +276,7 @@ function NumberCounter({ initialValue, targetValue }) {
                     >
                       <p>
                         {selectedSites.length === 0
-                          ? "세븐일레븐 OOO점"
+                          ? "세븐일레븐 관악점"
                           : selectedSites.length === 1
                           ? selectedSites[0]
                           : `${selectedSites[0]} 외 ${

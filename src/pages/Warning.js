@@ -6,53 +6,51 @@ import StorageModal from "../components/StorageModal";
 
 const dummyData = [
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 사당점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 강남점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 종로점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 중랑점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 송파점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 고려대점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 관악점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 홍익대점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 강북점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 서초점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 신촌점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 구로점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 잠실점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 노원점",
   },
   {
-    name: "세븐 일레븐 OOO점",
+    name: "세븐 일레븐 명동점",
   },
-  {
-    name: "세븐 일레븐 OOO점",
-  },
+
 ];
 const Warning = () => {
   const [storageModal, setStorageModal] = useState(false);
@@ -68,10 +66,15 @@ const Warning = () => {
   const [isClickActive, setisClickActive] = useState(false);//조치하기버튼토글
   const [isClickvideo, setisClickvideo] = useState(false);//영상확인토글
 
+  const [selectedName, setSelectedName] = useState(null);
+
+
   const handleItemClick = (index) => {
     setSelectedIndex(index);
     handleClick();
     handleCCTVClick();
+    const clickedItem = dummyData[index];
+    setSelectedName(clickedItem.name);
   };
 
   const handleClick = () => {
@@ -184,7 +187,7 @@ const Warning = () => {
               <ul className="sensing-list__main">
                 <li className={`sensing__item ${showSensingItem ? "active" : ""}`}>
                   <span className="sensing-item__time">
-                    2022-00-00 00:00:00 ~ 2022-0000 00:00:30
+                    2022-01-22 05:14:51 ~ 2022-01-23 05:40:10
                   </span>
                   <span className="sensing-item__text">기물파손</span>
                   {/* <button className="sensing-item__btn">조치하기</button> */}
@@ -214,11 +217,11 @@ const Warning = () => {
                 <div className="enter-action__info">
                   <div className="info__left">
                     <span className="info-left__title">
-                      세븐일레븐 OOO점
+                      {selectedName}
                       <span className="safety-belt__text">기물파손</span>
                     </span>
                     <span className="info-left__time">
-                      2022-00-00 00:00:00 ~ 2022-0000 00:00:30
+                      2022-01-22 05:14:51 ~ 2022-01-23 05:40:10
                     </span>
                   </div>
                   <button className={`check-video__btn ${isClickvideo ? "active" : ""}`}

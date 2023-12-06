@@ -2,7 +2,7 @@ import React from "react";
 import "./ActionDetailModal.scss";
 import dummy from "../assets/images/dummy2.png";
 import closeIcon from "../assets/images/ci_close-big.svg";
-const ActionDetailModal = ({ setActionListModal }) => {
+const ActionDetailModal = ({ setActionListModal,selectedAction }) => {
   return (
     <div className="action-detail-modal__background">
       <button className="action-detail__close-icon">
@@ -26,12 +26,12 @@ const ActionDetailModal = ({ setActionListModal }) => {
           <div className="right-box__info">
             <span className="info__title">감지 일시</span>
             <div className="info__text">
-              2022-00-00 00:00:00 ~ 2022-0000 00:00:30
+              {selectedAction ? selectedAction.detectionDate : ""}
             </div>
           </div>
           <div className="right-box__info">
             <span className="info__title">점포 위치</span>{" "}
-            <div className="info__text">세븐일레븐 OOO점</div>
+            <div className="info__text">{selectedAction ? selectedAction.location : ""}</div>
           </div>
           <div className="right-box__info">
             <span className="info__title">감지 내용</span>
@@ -39,23 +39,23 @@ const ActionDetailModal = ({ setActionListModal }) => {
           </div>
           <div className="right-box__info">
             <span className="info__title">조치 일시</span>
-            <div className="info__text">2022-00-00 00:00:00</div>
+            <div className="info__text">{selectedAction ? selectedAction.actionDate : ""}</div>
           </div>
           <div className="right-box__info">
             <span className="info__title">확인자</span>
-            <div className="info__text">김확인</div>
+            <div className="info__text">{selectedAction ? selectedAction.checker : ""}</div>
           </div>
           <div className="right-box__info">
             <span className="info__title">조치자</span>
-            <div className="info__text">김조치</div>
+            <div className="info__text">{selectedAction ? selectedAction.actionPerson : ""}</div>
           </div>
           <div className="right-box__info">
             <span className="info__title">위반자</span>
-            <div className="info__text">김위반</div>
+            <div className="info__text">{selectedAction ? selectedAction.violator : ""}</div>
           </div>
           <div className="right-box__info">
             <span className="info__result-title">조치결과</span>
-            <div className="info__result-text">기물파손에 대한 점포 응대</div>
+            <div className="info__result-text">{selectedAction ? selectedAction.resultAction : ""}</div>
           </div>
         </div>
       </div>

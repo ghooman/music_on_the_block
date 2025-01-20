@@ -9,58 +9,16 @@ import {
   useLocation,
   // useNavigate,
 } from "react-router-dom";
-import LogoHansung from "../assets/images/hansung-logo.png";
+// import LogoHansung from "../assets/images/";
 import Main from "../pages/Main";
-import Control from "../pages/Control";
-import Warning from "../pages/Warning";
-import Statistical from "../pages/Statistical";
-import ActionList from "../pages/ActionList";
-import Notice from "../pages/Notice";
-import Login from "../pages/Login";
+
+//이미지
+import logo from '../assets/images/miracle-logo.svg';
+
 
 
 const Header = ({ setIsLoggedIn }) => {
-  const [loginName, setLoginName] = useState("admin");
-  const [mMenuOnOff, setMmenuOnOff] = useState(false);
 
-  // const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // 로그아웃 버튼 클릭 시 로컬 스토리지에서 토큰이랑로그인 삭제
-    localStorage.removeItem("token"); // 토큰 삭제
-    localStorage.removeItem("isLoggedIn"); 
-    setIsLoggedIn(false); // 로그인 상태를 false로 설정
-    window.location.href = "/";
-  };
-
-  const handleMmenuOnOff = () => {
-    setMmenuOnOff((prevMmenuOnOff) => {
-      const newMmenuOnOff = !prevMmenuOnOff;
-      if (newMmenuOnOff) {
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.overflow = "";
-      }
-      return newMmenuOnOff;
-    });
-  };
-  const handleMmenuBackground = (e) => {
-    if (e.target === e.currentTarget) {
-      console.log(e.target);
-      console.log(e.currentTarget);
-      setMmenuOnOff((prevMmenuOnOff) => {
-        const newMmenuOnOff = !prevMmenuOnOff;
-        if (newMmenuOnOff) {
-          document.body.style.overflow = "hidden";
-        } else {
-          document.body.style.overflow = "";
-        }
-        return newMmenuOnOff;
-      });
-    }
-  };
-  // localStorage.setItem("clickMenu", "");
-  // console.log("hello", localStorage.getItem("clickMenu") === null);
   const location = useLocation();
   console.log("location", location.pathname.slice(1));
   const [clickMenu, setClickMenu] = useState(location.pathname.slice(1));
@@ -69,13 +27,11 @@ const Header = ({ setIsLoggedIn }) => {
     <>
       <div className="header">
         <div className="header-inner">
-          <h1
-            onClick={() => {
-              setClickMenu("");
-            }}
-          >
-            <Link to="/">
-              <img src={LogoHansung} alt="hansungLogo" />
+          <h1>
+            <Link 
+              to="https://apex.miracleplay.gg/"
+              target="_b"
+            ><img src={logo} alt="logo" />
             </Link>
           </h1>
           <div className="header-menu">
@@ -88,147 +44,15 @@ const Header = ({ setIsLoggedIn }) => {
                   setClickMenu("");
                 }}
               >
-                <Link to="/">대시보드</Link>
-              </li>
-              <li
-                className={`header-menu__li ${
-                  clickMenu === "control" ? "header-menu__li-clicked" : ""
-                }`}
-                onClick={() => {
-                  setClickMenu("control");
-                }}
-              >
-                <Link to="/control">관제</Link>
-              </li>
-              <li
-                className={`header-menu__li ${
-                  clickMenu === "warning" ? "header-menu__li-clicked" : ""
-                } `}
-                onClick={() => {
-                  setClickMenu("warning");
-                }}
-              >
-                <Link to="/warning">경고처리</Link>
-              </li>
-              <li
-                className={`header-menu__li ${
-                  clickMenu === "statistical" ? "header-menu__li-clicked" : ""
-                }`}
-                onClick={() => {
-                  setClickMenu("statistical");
-                }}
-              >
-                <Link to="/statistical">통계분석</Link>
-              </li>
-              <li
-                className={`header-menu__li ${
-                  clickMenu === "actionlist" ? "header-menu__li-clicked" : ""
-                }`}
-                onClick={() => {
-                  setClickMenu("actionlist");
-                }}
-              >
-                <Link to="/actionlist">조치목록</Link>
-              </li>
-              <li
-                className={`header-menu__li ${
-                  clickMenu === "notice" ? "header-menu__li-clicked" : ""
-                }`}
-                onClick={() => {
-                  setClickMenu("notice");
-                  localStorage.setItem("clickMenu", "notice");
-                }}
-              >
-                <Link to="/notice">공지사항</Link>
+                <Link to="/">EARN</Link>
               </li>
             </ul>
           </div>
-          {/* <div className="header-menu__username">{loginName},로그인 </div> */}
-          {/* <div className="header-menu__username">{loginName} 로그아웃 </div> */}
-          <div className="header-menu__username">{loginName} <button onClick={handleLogout}>로그아웃</button> </div>
-          {/* 반응형시 나오는 버튼 */}
-          <div
-            className={mMenuOnOff ? "m-main-menu active" : "m-main-menu"}
-            onClick={handleMmenuOnOff}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          {/* 버튼클릭시 호출되는 메뉴들 */}
-
-          {mMenuOnOff ? (
-            <div className="header__mobile-menu">
-              <p className="mobile-menu__login-status">{loginName} 로그인중</p>
-              <ul className="mobile-menu__list">
-                <li
-                  className={`mobile-menu__li  ${
-                    clickMenu === "" ? "mobile-menu__li-clicked" : ""
-                  }`}
-                  onClick={() => setClickMenu("")}
-                >
-                  <Link to="/">대시보드</Link>
-                </li>
-                <li
-                  className={`mobile-menu__li ${
-                    clickMenu === "control" ? "mobile-menu__li-clicked" : ""
-                  }`}
-                  onClick={() => setClickMenu("control")}
-                >
-                  <Link to="/control">관제</Link>
-                </li>
-                <li
-                  className={`mobile-menu__li ${
-                    clickMenu === "warning" ? "mobile-menu__li-clicked" : ""
-                  } `}
-                  onClick={() => setClickMenu("warning")}
-                >
-                  <Link to="/warning">경고처리</Link>
-                </li>
-                <li
-                  className={`mobile-menu__li ${
-                    clickMenu === "statistical" ? "mobile-menu__li-clicked" : ""
-                  }`}
-                  onClick={() => setClickMenu("statistical")}
-                >
-                  <Link to="/statistical">통계분석</Link>
-                </li>
-                <li
-                  className={`mobile-menu__li ${
-                    clickMenu === "actionlist" ? "mobile-menu__li-clicked" : ""
-                  }`}
-                  onClick={() => setClickMenu("actionlist")}
-                >
-                  <Link to="/actionlist">조치목록</Link>
-                </li>
-                <li
-                  className={`mobile-menu__li ${
-                    clickMenu === "notice" ? "mobile-menu__li-clicked" : ""
-                  }`}
-                  onClick={() => setClickMenu("notice")}
-                >
-                  <Link to="/notice">공지사항</Link>
-                </li>
-              </ul>
-            </div>
-          ) : null}
         </div>
       </div>
-      <div
-        className={
-          mMenuOnOff
-            ? "m-main-menu__background active-menu"
-            : "m-main-menu__background"
-        }
-        onClick={handleMmenuBackground}
-      ></div>
+
       <Routes>
-        <Route path="/" element={<Main setClickMenu={setClickMenu} />} />
-        <Route path="/control" element={<Control />} />
-        <Route path="/warning" element={<Warning />} />
-        <Route path="/statistical" element={<Statistical />} />
-        <Route path="/actionlist" element={<ActionList />} />
-        <Route path="/notice" element={<Notice />} />
+        <Route path="/" element={<Main />} />
       </Routes>
     </>
   );

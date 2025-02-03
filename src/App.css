@@ -1,56 +1,86 @@
-/* @font-face {
-  font-family: "Pretendard";
-  src: url("./assets/fonts/Pretendard-ExtraLight.woff");
-}
-@font-face {
-  font-family: "Pretendard400";
-  src: url("./assets/fonts/Pretendard-ExtraLight.woff");
-} */
-@font-face {
-  font-family: 'Pretendard400';
-  src: url('./assets/fonts/Pretendard-Light.woff');
-}
-@font-face {
-  font-family: 'Pretendard600';
-  src: url('./assets/fonts/Pretendard-Regular.woff');
-}
-@font-face {
-  font-family: 'Pretendard700';
-  src: url('./assets/fonts/Pretendard-Bold.woff');
-}
 
-/* @font-face {
-  font-family: Pretendard;
-  src: url("./assets/fonts/Pretendard-ExtraLight.woff");
+@font-face {
+  font-family: 'Orbitron400';
+  src: url('./assets/fonts/Orbitron-Regular.ttf');
 }
 @font-face {
-  font-family: Pretendard400;
-  src: url("./assets/fonts/Pretendard-ExtraLight.woff");
-} */
-@font-face {
-  font-family: Pretendard400;
-  src: url('./assets/fonts/Pretendard-Light.woff');
+  font-family: 'Orbitron500';
+  src: url('./assets/fonts/Orbitron-Medium.ttf');
 }
 @font-face {
-  font-family: Pretendard;
-  src: url('./assets/fonts/Pretendard-Light.woff');
+  font-family: 'Orbitron600';
+  src: url('./assets/fonts/Orbitron-SemiBold.ttf');
 }
 @font-face {
-  font-family: Pretendard500;
-  src: url('./assets/fonts/Pretendard-Regular.woff');
+  font-family: 'Orbitron700';
+  src: url('./assets/fonts/Orbitron-Bold.ttf');
 }
 @font-face {
-  font-family: Pretendard600;
-  src: url('./assets/fonts/Pretendard-Regular.woff');
+  font-family: 'Orbitron800';
+  src: url('./assets/fonts/Orbitron-ExtraBold.ttf');
 }
 @font-face {
-  font-family: Pretendard700;
-  src: url('./assets/fonts/Pretendard-Bold.woff');
+  font-family: 'Orbitron900';
+  src: url('./assets/fonts/Orbitron-Black.ttf');
 }
 
 @font-face {
-  font-family: 'Digital Numbers';
-  src: url('./assets/fonts/DigitalNumbers-Regular.ttf');
+  font-family: Orbitron400;
+  src: url('./assets/fonts/Orbitron-Regular.ttf');
+}
+@font-face {
+  font-family: Orbitron500;
+  src: url('./assets/fonts/Orbitron-Medium.ttf');
+}
+@font-face {
+  font-family: Orbitron600;
+  src: url('./assets/fonts/Orbitron-SemiBold.ttf');
+}
+@font-face {
+  font-family: Orbitron700;
+  src: url('./assets/fonts/Orbitron-Bold.ttf');
+}
+@font-face {
+  font-family: Orbitron800;
+  src: url('./assets/fonts/Orbitron-ExtraBold.ttf');
+}
+@font-face {
+  font-family: Orbitron900;
+  src: url('./assets/fonts/Orbitron-Black.ttf');
+}
+
+@font-face {
+  font-family: 'Inter400';
+  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
+}
+@font-face {
+  font-family: 'Inter500';
+  src: url('./assets/fonts/Inter_24pt-Medium.ttf');
+}
+@font-face {
+  font-family: 'Inter600';
+  src: url('./assets/fonts/Inter_24pt-SemiBold.ttf');
+}
+@font-face {
+  font-family: 'Inter700';
+  src: url('./assets/fonts/Inter_24pt-Bold.ttf');
+}
+
+@font-face {
+  font-family: Inter400;
+  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
+}
+@font-face {
+  font-family: Inter500;
+  src: url('./assets/fonts/Inter_24pt-Medium.ttf');
+}
+@font-face {
+  font-family: Inter600;
+  src: url('./assets/fonts/Inter_24pt-SemiBold.ttf');
+}
+@font-face {
+  font-family: Inter700;
+  src: url('./assets/fonts/Inter_24pt-Bold.ttf');
 }
 
 html,

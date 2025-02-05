@@ -1,18 +1,18 @@
-import "./App.css";
-import React, { useState, useEffect } from "react";
-import Header from "./components/Header";
-import Intro from "./components/Intro";
+import './App.css';
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header';
+import Intro from './components/Intro';
 import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  // useNavigate,
-} from "react-router-dom";
-import Album from "./pages/Album";
-
+    BrowserRouter,
+    Link,
+    Route,
+    Router,
+    Routes,
+    useLocation,
+    // useNavigate,
+} from 'react-router-dom';
+import Album from './pages/Album';
+import Create from './pages/Create';
 
 function Layout({ children }) {
   return (
@@ -25,8 +25,6 @@ function Layout({ children }) {
   );
 }
 
-
-
 function App() {
 
   return (
@@ -37,6 +35,10 @@ function App() {
         <Route
           path="/Album"
           element={<Layout><Album/></Layout>}
+        />
+        <Route
+          path="/Create"
+          element={<Layout><Create/></Layout>}
         />
       </Routes>
     </div>

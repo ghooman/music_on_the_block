@@ -18,7 +18,9 @@ function Layout({ children }) {
   return (
     <div>
       <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      {children}
+      <div className="inner">
+        {children}
+      </div>
     </div>
   );
 }
@@ -34,7 +36,7 @@ function App() {
         <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
         <Route
           path="/Album"
-          element={<Layout/>}
+          element={<Layout><Album/></Layout>}
         />
       </Routes>
     </div>

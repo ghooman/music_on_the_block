@@ -1,0 +1,186 @@
+.mypage {
+  //   background-color: #242424;
+  //   width: 964px;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  .mypage__profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .mypage__profile-bg {
+      width: 100%;
+      background-color: #333;
+      border-radius: 50px;
+      img {
+        width: 100%;
+      }
+    }
+    .mypage__profile-info {
+      margin-top: -120px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: cent er;
+      width: 700px;
+      height: 300px;
+      border-radius: 12px;
+      border: 1px solid var(--primary-base, #cf0);
+      background: #0b0b0c;
+      .mypage__profile-edit-box {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 8px;
+        .mypage__profile-img {
+          margin-right: 12px;
+        }
+        .mypage__profile-info-box {
+          .mypage__username {
+            color: #fff;
+            font-family: Orbitron;
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 100%; /* 40px */
+            letter-spacing: 1.2px;
+          }
+          .mypage__stats {
+            .stats__info {
+              display: flex;
+              align-items: center;
+              img {
+                margin-right: 8px;
+              }
+              span {
+                color: var(--Text-music-title, #f1f1f1);
+                font-family: Orbitron;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                letter-spacing: 0.48px;
+                margin-right: 4px;
+              }
+              .neon {
+                color: var(--primary-base, #cf0);
+              }
+            }
+          }
+        }
+        .mypage__profile-edit {
+          margin-left: auto;
+          margin-bottom: auto;
+        }
+      }
+      .mypage__bio {
+        color: var(--Text-music-sub, #aaa);
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.48px;
+        margin-bottom: 8px;
+      }
+      .mypage__social-icons {
+        width: 100%;
+        .social-icon {
+          width: 40px;
+          height: 40px;
+          background-color: #171717;
+          border-radius: 50%;
+          margin-right: 16px;
+          img {
+            margin: 0 auto;
+            object-fit: cover;
+          }
+        }
+      }
+      .mypage__exp {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 8px;
+        .mypage__exp-box {
+          display: flex;
+          padding: 16px 12px 12px 12px;
+          justify-content: space-between;
+          align-items: flex-start;
+          flex: 1 0 0;
+          border-radius: 12px;
+          border: 1px solid var(--primary-200, #a9d400);
+          background: var(--Dark-Color-01, #0b0b0c);
+          .exp-box__neon {
+            color: var(--primary-base, #cf0);
+            font-family: Orbitron;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            letter-spacing: 0.48px;
+          }
+          .exp-box__value {
+            color: var(--secondary-400, #007e56);
+            text-align: right;
+            font-family: Orbitron;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            letter-spacing: 0.54px;
+          }
+        }
+      }
+    }
+  }
+  .mypage__nav {
+    display: flex;
+    margin-top: 40px;
+    .mypage__nav-item {
+      margin-right: 12px;
+      display: flex;
+      padding: 8px 12px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 12px 4px 12px 12px;
+      background: var(--Color-03, #222);
+      color: var(--Text-music-sub, #aaa);
+      font-family: Orbitron;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 100%; /* 14px */
+      letter-spacing: 0.42px;
+    }
+    .active {
+      color: var(--Text-dark-title, #1a1a1a);
+      background: var(--primary-base, #cf0);
+    }
+  }
+  .mypage__services {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    .mypage__service-btn {
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Orbitron;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: 0.48px;
+      border-radius: 12px;
+      background: var(--Color-04, #383838);
+      height: 52px;
+      padding: 8px 10px;
+    }
+    .active {
+      color: var(--Text-dark-title, #1a1a1a);
+      background: var(--primary-100, #cf0);
+    }
+  }
+}

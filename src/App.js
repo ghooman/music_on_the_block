@@ -12,7 +12,7 @@ import {
   // useNavigate,
 } from "react-router-dom";
 import Album from "./pages/Album";
-
+import MyPage from "./pages/MyPage";
 
 function Layout({ children }) {
   return (
@@ -23,19 +23,14 @@ function Layout({ children }) {
   );
 }
 
-
-
 function App() {
-
   return (
     <div className="App">
       <title>MUSIC ON THE BLOCK</title>
       <Routes>
         <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
-        <Route
-          path="/Album"
-          element={<Layout/>}
-        />
+        <Route path="/Album" element={<Layout />} />
+        <Route path="/MyPage" element={<MyPage />} />
       </Routes>
     </div>
   );

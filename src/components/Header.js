@@ -15,6 +15,7 @@ import Album from "../pages/Album";
 //이미지
 import mainLogo from "../assets/images/header/logo.svg";
 import Menu from "./Menu";
+import MyPage from "../pages/MyPage";
 
 const Header = ({ setIsLoggedIn }) => {
   const [isActive, setIsActive] = useState(false);
@@ -110,6 +111,7 @@ const Header = ({ setIsLoggedIn }) => {
 
       <Routes>
         <Route path="/" element={<Album />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </>
   );

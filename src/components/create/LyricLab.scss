@@ -1,0 +1,159 @@
+.create__lyric-lab {
+    .selected-wrap {
+        padding: 12px;
+        border-radius: 18px;
+        border: 1px solid #222;
+        .wrap-title {
+            color: var(--primary-base, #cf0);
+            font-family: Orbitron400;
+            font-size: 18px;
+            letter-spacing: 0.54px;
+            margin-bottom: 12px;
+        }
+        .wrap-content {
+            // display: grid;
+            // grid-template-columns: repeat(4, 1fr);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .selected-item {
+        .item-title {
+            color: var(--Text-music-title, #f1f1f1);
+            font-family: Orbitron600;
+            font-size: 18px;
+            letter-spacing: 0.54px;
+            margin-bottom: 8px;
+        }
+        .item-value {
+            display: flex;
+            gap: 8px;
+            p {
+                color: var(--Text-music-sub, #aaa);
+                font-family: Inter500;
+                font-size: 14px;
+                letter-spacing: 0.42px;
+            }
+        }
+    }
+
+    .tag-select-title {
+        .tag-select-title__text {
+            color: var(--Text-music-title, #f1f1f1);
+            font-family: Orbitron400;
+            font-size: 24px;
+            letter-spacing: 0.72px;
+            position: relative;
+            margin-bottom: 8px;
+            &::after {
+                position: absolute;
+                content: '';
+                width: 5px;
+                height: 5px;
+                top: 0;
+                background-color: #f1f1f1;
+                border-radius: 100%;
+            }
+        }
+        .tag-select-title__notice {
+            color: var(--Daisy, #ffd700);
+            font-family: Inter400;
+            font-size: 12px;
+            padding: 4px;
+            background-color: #222;
+            border-radius: 100px;
+            width: fit-content;
+        }
+    }
+
+    .tag-select {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        .tag-title {
+            color: #cf0;
+            font-family: Orbitron400;
+            font-size: 18px;
+            letter-spacing: 0.54px;
+        }
+        .tag-preset {
+            display: flex;
+            gap: 12px;
+        }
+        .tag-input-box {
+            position: relative;
+        }
+        .tag-input {
+            height: 54px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #383838;
+            background-color: #0b0b0c;
+        }
+        .tag-input-comment-button {
+            position: absolute;
+            background-color: #cf0;
+            width: 120px;
+            height: 30px;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1a1a1a;
+            font-family: orbitron600;
+            font-size: 14px;
+            letter-spacing: 0.42px;
+            border-radius: 12px;
+        }
+        .tag-selected {
+            display: flex;
+            gap: 16px;
+        }
+        .tag-button {
+            padding: 8px;
+            border-radius: 10px 2px 10px 10px;
+            font-family: Inter400;
+            font-size: 14px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            &.presets {
+                border: 1px solid #565656;
+                color: #565656;
+                gap: 4px;
+                &:hover,
+                &.enable {
+                    border: 1px solid #a9d400;
+                    color: #a9d400;
+                    &::after {
+                        background-color: #a9d400;
+                    }
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    top: 2px;
+                    right: 2px;
+                    border-radius: 100%;
+                    background-color: #565656;
+                }
+            }
+
+            &.selected {
+                gap: 4px;
+                background-color: #cf0;
+                color: #1a1a1a;
+            }
+        }
+    }
+    .mb16 {
+        margin-bottom: 16px;
+    }
+    .mb40 {
+        margin-bottom: 40px;
+    }
+}

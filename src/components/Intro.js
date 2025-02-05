@@ -231,7 +231,7 @@ const Intro = ({ setIsLoggedIn }) => {
                   //   <Link to="/dd">{item.tabTitle}</Link>
                   // </SwiperSlide>
                   <SwiperSlide key={item.tabTitle}>
-                    <Link to="/dd">{item.tabTitle}</Link>
+                    <Link to="/create">{item.tabTitle}</Link>
                   </SwiperSlide>
                 ))}
               </Swiper>

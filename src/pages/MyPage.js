@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/MyPage.scss";
 import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
 import gearImg from "../assets/images/mypage/gear.svg";
 import demoSocial from "../assets/images/mypage/instar.png";
+
 const MyPage = () => {
+  const [selectedService, setSelectedService] = useState("AI Services");
+  const [selectedAiService, setSelectedAiService] = useState(
+    "AI Lyric & Songwriting"
+  );
+
+  const handleServiceClick = (service) => {
+    setSelectedService(service);
+  };
+
+  const handleAiServiceClick = (aiService) => {
+    setSelectedAiService(aiService);
+  };
+
   return (
     <div className="mypage">
       {/* 프로필 섹션 */}
@@ -70,32 +84,55 @@ const MyPage = () => {
       </div>
 
       <nav className="mypage__nav">
-        <button className="mypage__nav-item active">AI Services</button>
-        <button className="mypage__nav-item">Albums</button>
-        <button className="mypage__nav-item">My Favorites</button>
-        <button className="mypage__nav-item">Rewards & Payments</button>
-        <button className="mypage__nav-item">Tournaments</button>
+        {[
+          "AI Services",
+          "Albums",
+          "My Favorites",
+          "Rewards & Payments",
+          "Tournaments",
+        ].map((service) => (
+          <button
+            key={service}
+            className={`mypage__nav-item ${
+              selectedService === service ? "active" : ""
+            }`}
+            onClick={() => handleServiceClick(service)}
+          >
+            {service}
+          </button>
+        ))}
       </nav>
 
-      {/* AI 서비스 선택 */}
       <div className="mypage__services">
-        <button className="mypage__service-btn active">
-          AI Lyric & Songwriting
-        </button>
-        <button className="mypage__service-btn">AI Singing Evaluation</button>
-        <button className="mypage__service-btn">AI Cover Creation</button>
+        {[
+          "AI Lyric & Songwriting",
+          "AI Singing Evaluation",
+          "AI Cover Creation",
+        ].map((aiService) => (
+          <button
+            key={aiService}
+            className={`mypage__service-btn ${
+              selectedAiService === aiService ? "active" : ""
+            }`}
+            onClick={() => handleAiServiceClick(aiService)}
+          >
+            {aiService}
+          </button>
+        ))}
       </div>
 
-      {/* AI 서비스 상태 */}
       <section className="mypage__status">
         <h3 className="mypage__title">
           AI Service <span>Status*</span>
         </h3>
         <div className="mypage__status-filters">
-          <button className="active">ALL</button>
-          <button>Lyric</button>
-          <button>Songwriting</button>
-          <button>Lyric & Songwriting</button>
+          {["ALL", "Lyric", "Songwriting", "Lyric & Songwriting"].map(
+            (filter) => (
+              <button key={filter} className="status-filter">
+                {filter}
+              </button>
+            )
+          )}
         </div>
         <div className="mypage__chart"></div>
       </section>

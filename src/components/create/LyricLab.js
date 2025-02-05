@@ -125,6 +125,7 @@ const TagSelect = ({ title, preset, setLiricLab, objKey, selected }) => {
     const [selectedPreset, setSelectedPreset] = useState('');
 
     const addItem = () => {
+        if (!input.trim()) return;
         setSelectedPreset(null);
         setLiricLab((prev) => {
             let copy = { ...prev };

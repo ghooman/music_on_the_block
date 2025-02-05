@@ -1,0 +1,149 @@
+.music_create {
+    * {
+        box-sizing: border-box;
+    }
+    padding: 30px;
+    .title {
+        color: #cf0;
+        font-family: Orbitron400;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.72px;
+        position: relative;
+        &::after {
+            position: absolute;
+            content: '';
+            width: 5px;
+            height: 5px;
+            top: 0;
+            background-color: #cf0;
+            border-radius: 100%;
+        }
+        margin-bottom: 76px;
+    }
+
+    .progress {
+        display: flex;
+        align-items: center;
+        .progress__item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        .progress__square {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: #565656;
+            &.enable {
+                background-color: #cf0;
+            }
+        }
+        .progress__text {
+            font: inherit;
+            color: #565656;
+            font-family: Orbitron700;
+            font-size: 14px;
+            text-align: center;
+            &.enable {
+                color: #cf0;
+            }
+        }
+
+        .progress__arrow {
+            flex: 1;
+            background-color: #565656;
+            height: 1px;
+            margin: 0px 36px;
+            position: relative;
+            &::before,
+            &::after {
+                position: absolute;
+                content: '';
+                width: 5px;
+                height: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            &::before {
+                background-color: #565656;
+                border-radius: 100%;
+                left: 0;
+            }
+            &::after {
+                clip-path: polygon(100% 50%, 0 0, 0 100%);
+                background-color: #565656;
+                right: -1px;
+            }
+
+            &.enable {
+                background-color: #cf0;
+                &::before,
+                &::after {
+                    background-color: #cf0;
+                }
+            }
+        }
+    }
+
+    .lyric {
+        padding: 24px;
+        border-radius: 18px;
+        background-image: url('../assets/images/create/bg.png');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        .lyric__title {
+            color: var(--Text-music-title, #f1f1f1);
+            font-family: Orbitron400;
+            font-size: 18px;
+            letter-spacing: 0.54px;
+        }
+        .lyric__strong {
+            color: var(--primary-base, #cf0);
+            font-family: Orbitron400;
+            font-size: 36px;
+            line-height: 100%; /* 36px */
+        }
+        .lyric__notice {
+            color: var(--Text-music-sub, #aaa);
+            font-family: Inter400;
+            font-size: 16px;
+            letter-spacing: 0.48px;
+        }
+        .lyric__tip-box {
+            display: flex;
+            max-width: 715px;
+            padding: 12px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border-radius: 4px;
+            background: var(--primary-700, #121a00);
+        }
+        .lyric__tip-header {
+            color: var(--secondary-base, #00ffb3);
+            font-family: Inter400;
+            line-height: 100%; /* 16px */
+            white-space: nowrap;
+        }
+        .lyric__tips {
+            color: var(--secondary-400, #007e56);
+            font-family: Inter400;
+            font-size: 16px;
+            line-height: 100%; /* 16px */
+        }
+    }
+    .mb16 {
+        margin-bottom: 16px;
+    }
+    .mb40 {
+        margin-bottom: 40px;
+    }
+}

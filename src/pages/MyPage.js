@@ -5,7 +5,7 @@ import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
 import gearImg from "../assets/images/mypage/gear.svg";
 import demoSocial from "../assets/images/mypage/instar.png";
-
+import demoChart from "../assets/images/mypage/demo-chart.png";
 const MyPage = () => {
   const [selectedService, setSelectedService] = useState("AI Services");
   const [selectedAiService, setSelectedAiService] = useState(
@@ -121,63 +121,9 @@ const MyPage = () => {
         ))}
       </div>
 
-      <section className="mypage__status">
-        <h3 className="mypage__title">
-          AI Service <span>Status*</span>
-        </h3>
-        <div className="mypage__status-filters">
-          {["ALL", "Lyric", "Songwriting", "Lyric & Songwriting"].map(
-            (filter) => (
-              <button key={filter} className="status-filter">
-                {filter}
-              </button>
-            )
-          )}
-        </div>
-        <div className="mypage__chart"></div>
-      </section>
-
-      {/* AI 서비스 상세 정보 */}
-      <section className="mypage__details">
-        <h3 className="mypage__title">AI Service Detail</h3>
-        <div className="mypage__info-grid">
-          <div className="mypage__info-card">
-            <h4>Top Tags</h4>
-            <span className="mypage__highlight">Love</span>
-          </div>
-          <div className="mypage__info-card">
-            <h4>Total Creation</h4>
-            <p>239</p>
-          </div>
-          <div className="mypage__info-card">
-            <h4>Total Cost</h4>
-            <p>5,304 MOB</p>
-          </div>
-          <div className="mypage__info-card">
-            <h4>Top Genre</h4>
-            <p>Ballad</p>
-          </div>
-          <div className="mypage__info-card">
-            <h4>Top Style</h4>
-            <p>Romantic</p>
-          </div>
-          <div className="mypage__info-card">
-            <h4>Last Used Date</h4>
-            <p>Sat, 04 Nov 2023 14:40:00 UTC+9</p>
-          </div>
-        </div>
-      </section>
-
-      {/* AI 작업 트렌드 */}
-      <section className="mypage__trends">
-        <h3 className="mypage__title">AI Work Trends by Period*</h3>
-        <div className="mypage__filters">
-          <button className="active">Filter</button>
-          <button>Month</button>
-          <button>Year</button>
-        </div>
-        <div className="mypage__chart"></div>
-      </section>
+      <div className="mypage__chart">
+        <img src={demoChart} alt="chart" />
+      </div>
     </div>
   );
 };

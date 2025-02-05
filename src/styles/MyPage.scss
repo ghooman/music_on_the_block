@@ -183,4 +183,13 @@
       background: var(--primary-100, #cf0);
     }
   }
+  .mypage__chart {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 40px;
+    text-align: center;
+    img {
+      width: 100%;
+    }
+  }
 }

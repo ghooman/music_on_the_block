@@ -13,13 +13,10 @@ import {
 import Album from "../pages/Album";
 
 //이미지
-import mainLogo from '../assets/images/header/logo.svg';
+import mainLogo from "../assets/images/header/logo.svg";
 import Menu from "./Menu";
 
-
-
 const Header = ({ setIsLoggedIn }) => {
-
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
@@ -37,7 +34,10 @@ const Header = ({ setIsLoggedIn }) => {
               <path class="line" d="M7 16 27 16"></path>
             </svg>
           </label> */}
-          <button className={`menu-btn ${isActive ? "active" : ""}`} onClick={handleClick}>
+          <button
+            className={`menu-btn ${isActive ? "active" : ""}`}
+            onClick={handleClick}
+          >
             <svg viewBox="0 0 64 48">
               <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
               <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
@@ -46,30 +46,58 @@ const Header = ({ setIsLoggedIn }) => {
           </button>
 
           <h1>
-            <Link
-              to='/'
-            >
-              <img src={mainLogo} className="logo"/>
+            <Link to="/">
+              <img src={mainLogo} className="logo" />
               <div className="text-box">
                 <div className="text-wrap">
                   <svg width={300} height={30} viewBox="0 0 300 30">
-                    <text x="0" y="90%">M</text>
-                    <text x="22" y="90%">U</text>
-                    <text x="42" y="90%">S</text>
-                    <text x="62" y="90%">I</text>
-                    <text x="70" y="90%">C</text>
-                    <text x="96" y="90%">O</text>
-                    <text x="116" y="90%">N</text>
+                    <text x="0" y="90%">
+                      M
+                    </text>
+                    <text x="22" y="90%">
+                      U
+                    </text>
+                    <text x="42" y="90%">
+                      S
+                    </text>
+                    <text x="62" y="90%">
+                      I
+                    </text>
+                    <text x="70" y="90%">
+                      C
+                    </text>
+                    <text x="96" y="90%">
+                      O
+                    </text>
+                    <text x="116" y="90%">
+                      N
+                    </text>
                   </svg>
                   <svg width={300} height={30} viewBox="0 0 300 30">
-                    <text x="0" y="60%">T</text>
-                    <text x="18" y="60%">H</text>
-                    <text x="38" y="60%">E</text>
-                    <text x="64" y="60%">B</text>
-                    <text x="84" y="60%">L</text>
-                    <text x="104" y="60%">O</text>
-                    <text x="124" y="60%">C</text>
-                    <text x="144" y="60%">K</text>
+                    <text x="0" y="60%">
+                      T
+                    </text>
+                    <text x="18" y="60%">
+                      H
+                    </text>
+                    <text x="38" y="60%">
+                      E
+                    </text>
+                    <text x="64" y="60%">
+                      B
+                    </text>
+                    <text x="84" y="60%">
+                      L
+                    </text>
+                    <text x="104" y="60%">
+                      O
+                    </text>
+                    <text x="124" y="60%">
+                      C
+                    </text>
+                    <text x="144" y="60%">
+                      K
+                    </text>
                   </svg>
                 </div>
               </div>
@@ -78,7 +106,7 @@ const Header = ({ setIsLoggedIn }) => {
         </div>
       </div>
 
-      <Menu/>
+      <Menu />
 
       <Routes>
         <Route path="/" element={<Album />} />

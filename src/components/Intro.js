@@ -10,8 +10,6 @@ import {
   // useNavigate,
 } from "react-router-dom";
 // import LogoHansung from "../assets/images/";
-import Main from "../pages/Main";
-import '../styles/Main.scss';
 
 //스와이퍼
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -305,9 +303,7 @@ const Intro = ({ setIsLoggedIn }) => {
         </div>
       </div>
 
-      {/* <Routes>
-        <Route path="/" element={<Main />} />
-      </Routes> */}
+
     </>
   );
 };

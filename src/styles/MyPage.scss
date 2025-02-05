@@ -293,4 +293,36 @@
       }
     }
   }
+  .mypage__period {
+    margin-bottom: 20px;
+    .period__title {
+      color: var(--primary-base, #cf0);
+      font-family: Orbitron;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: 0.72px;
+      margin-bottom: 24px;
+    }
+    .period__menu {
+      display: flex;
+      margin-bottom: 16px;
+      .period__menu-item {
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 2px 10px 10px;
+        border: 1px solid var(--primary-200, #a9d400);
+        color: var(--primary-base, #cf0);
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 100%; /* 14px */
+        margin-right: 12px;
+      }
+    }
+  }
 }

@@ -1,47 +1,10 @@
 .create__lyric-lab {
-    .selected-wrap {
-        padding: 12px;
-        border-radius: 18px;
-        border: 1px solid #222;
-        .wrap-title {
-            color: var(--primary-base, #cf0);
-            font-family: Orbitron400;
-            font-size: 18px;
-            letter-spacing: 0.54px;
-            margin-bottom: 12px;
-        }
-        .wrap-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            // display: flex;
-            // justify-content: space-between;
-            align-items: center;
-        }
-    }
-
-    .selected-item {
-        .item-title {
-            color: var(--Text-music-title, #f1f1f1);
-            font-family: Orbitron600;
-            font-size: 18px;
-            letter-spacing: 0.54px;
-            margin-bottom: 8px;
-        }
-        .item-value {
-            display: flex;
-            gap: 8px;
-            p {
-                color: var(--Text-music-sub, #aaa);
-                font-family: Inter500;
-                font-size: 14px;
-                letter-spacing: 0.42px;
-            }
-        }
-    }
-
     .tag-select-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         .tag-select-title__text {
-            color: var(--Text-music-title, #f1f1f1);
+            color: var(--Text-music-title, #cf0);
             font-family: Orbitron400;
             font-size: 24px;
             letter-spacing: 0.72px;
@@ -53,7 +16,7 @@
                 width: 5px;
                 height: 5px;
                 top: 0;
-                background-color: #f1f1f1;
+                background-color: #cf0;
                 border-radius: 100%;
             }
         }
@@ -62,10 +25,20 @@
             font-family: Inter400;
             font-size: 12px;
             padding: 4px;
+            height: 23px;
             background-color: #222;
             border-radius: 100px;
             width: fit-content;
         }
+    }
+
+    .tag-select-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 16px;
+        border: 1px solid #222;
+        border-radius: 12px;
     }
 
     .tag-select {
@@ -73,10 +46,16 @@
         flex-direction: column;
         gap: 16px;
         .tag-title {
-            color: #cf0;
             font-family: Orbitron400;
             font-size: 18px;
             letter-spacing: 0.54px;
+            color: #f1f1f1;
+        }
+        .tag-sub-title {
+            color: #a9d400;
+            font-family: Inter400;
+            font-size: 14px;
+            letter-spacing: 0.42px;
         }
         .tag-preset {
             display: flex;

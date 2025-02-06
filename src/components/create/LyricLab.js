@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+
+import SubBanner from './SubBanner';
+import SelectItem from './SelectItem';
 
 import cancelIcon from '../../assets/images/icon/cancel.svg';
 
@@ -32,84 +35,83 @@ const stylisticPreset = {
     Soft: ['Gentle', 'Smooth', 'Subtle', 'Delicate', 'Mellow'],
 };
 
-const LyricLab = ({ setPageNumber }) => {
-    const [liricLab, setLiricLab] = useState({
+const LyricLab = ({ setPageNumber, setLiric, children }) => {
+    const [lyric, setLyric] = useState({
         lyric_tag: [],
         lyric_genre: [],
         lyric_style: [],
         lyric_stylistic: [],
     });
 
+    const [selectPreset, setSelectPreset] = useState({
+        lyric_tag: '',
+        lyric_genre: '',
+        lyric_style: '',
+        lyric_stylistic: '',
+    });
+
+    const removeSelectPreset = (key) => {
+        setSelectPreset((prev) => {
+            let copy = { ...prev };
+            copy[key] = '';
+            return copy;
+        });
+    };
+
+    const addTag = (key, value) => {
+        removeSelectPreset(key);
+        setLyric((prev) => {
+            let copy = { ...prev };
+            let set = Array.from(new Set([...copy[key], value]));
+            copy[key] = set;
+            return copy;
+        });
+    };
+
+    const deleteTag = (key, value) => {
+        removeSelectPreset(key);
+        setLyric((prev) => {
+            let copy = { ...prev };
+            copy[key] = copy[key].filter((item) => item !== value);
+            return copy;
+        });
+    };
+
+    useEffect(() => {
+        setLiric(lyric);
+    }, [lyric]);
+
     return (
         <div className="create__lyric-lab">
-            <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <SelectedWrap title="Lyric Lab">
-                    <SelectedItem title="Tags" value={liricLab?.lyric_tag} />
-                    <SelectedItem title="Genre" value={liricLab?.lyric_genre} />
-                    <SelectedItem title="Style" value={liricLab?.lyric_style} />
-                    <SelectedItem title="Stylistic" value={liricLab?.lyric_stylistic} />
-                </SelectedWrap>
-                {/* <SelectedWrap title="Melody Maker">
-                            <SelectedItem title="Tags" />
-                            <SelectedItem title="Genre" />
-                            <SelectedItem title="Style" />
-                            <SelectedItem title="Musical Instrument" />
-                            <SelectedItem title="Tempo" />
-                        </SelectedWrap> */}
-            </div>
-            <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div className="tag-select-wrap mb40">
                 <TagSelectTitle />
-                <TagSelect
-                    title="Popular Tags"
-                    setLiricLab={setLiricLab}
-                    objKey="lyric_tag"
-                    selected={liricLab?.lyric_tag}
-                    preset={tagPreset}
-                />
-                <TagSelect
-                    title="Popular Genre"
-                    setLiricLab={setLiricLab}
-                    objKey="lyric_genre"
-                    selected={liricLab?.lyric_genre}
-                    preset={genrePreset}
-                />
-                <TagSelect
-                    title="Popular Style"
-                    setLiricLab={setLiricLab}
-                    objKey="lyric_style"
-                    selected={liricLab?.lyric_style}
-                    preset={stylePreset}
-                />
-                <TagSelect
-                    title="Popular Stylistic"
-                    setLiricLab={setLiricLab}
-                    objKey="lyric_stylistic"
-                    selected={liricLab?.lyric_stylistic}
-                    preset={stylisticPreset}
-                />
+                <SelectItem title="Select a Tags" subTitle="Popular Tags">
+                    <SelectItem.Preset presets={tagPreset}></SelectItem.Preset>
+                    <SelectItem.InputAndButton handler={addTag} objKey="lyric_tag"></SelectItem.InputAndButton>
+                    <SelectItem.SelectedItems handler={deleteTag} objKey="lyric_tag" selected={lyric.lyric_tag} />
+                </SelectItem>
+                <SelectItem title="Select a Genre" subTitle="Popular Genre">
+                    <SelectItem.Preset presets={genrePreset}></SelectItem.Preset>
+                    <SelectItem.InputAndButton handler={addTag} objKey="lyric_genre"></SelectItem.InputAndButton>
+                    <SelectItem.SelectedItems handler={deleteTag} objKey="lyric_genre" selected={lyric.lyric_genre} />
+                </SelectItem>
+                <SelectItem title="Select a Style" subTitle="Popular Style">
+                    <SelectItem.Preset presets={stylePreset}></SelectItem.Preset>
+                    <SelectItem.InputAndButton handler={addTag} objKey="lyric_style"></SelectItem.InputAndButton>
+                    <SelectItem.SelectedItems handler={deleteTag} objKey="lyric_style" selected={lyric.lyric_style} />
+                </SelectItem>
+                <TagSelectInput mainTitle="Your Story" />
             </div>
+            <SubBanner>
+                <SubBanner.Title text="What happens if I skip a step?" />
+                <SubBanner.Message text="You can choose to skip any step and still create a meaningful result. Complete both steps for a full song (lyrics + composition), or focus on just one to highlight your strengths." />
+                <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
+            </SubBanner>
+            {children} {/** 버튼 */}
         </div>
     );
 };
 export default LyricLab;
-
-const SelectedWrap = ({ children, title }) => {
-    return (
-        <div className="selected-wrap">
-            <h2 className="wrap-title">{title}</h2>
-            <div className="wrap-content">{children}</div>
-        </div>
-    );
-};
-
-const SelectedItem = ({ title, value }) => {
-    return (
-        <div className="selected-item">
-            <p className="item-title">{title}</p>
-            <div className="item-value">{value?.length > 0 ? value.map((item) => <p>{item}</p>) : <p>-</p>}</div>
-        </div>
-    );
-};
 
 const TagSelectTitle = () => {
     return (
@@ -120,14 +122,14 @@ const TagSelectTitle = () => {
     );
 };
 
-const TagSelect = ({ title, preset, setLiricLab, objKey, selected }) => {
+const TagSelect = ({ mainTitle, subTitle, preset, setLyric, objKey, selected }) => {
     const [input, setInput] = useState('');
     const [selectedPreset, setSelectedPreset] = useState('');
 
     const addItem = () => {
         if (!input.trim()) return;
         setSelectedPreset(null);
-        setLiricLab((prev) => {
+        setLyric((prev) => {
             let copy = { ...prev };
             let set = Array.from(new Set([...copy[objKey], input]));
             copy[objKey] = set;
@@ -138,7 +140,7 @@ const TagSelect = ({ title, preset, setLiricLab, objKey, selected }) => {
 
     const deleteItem = (deleteItem) => {
         setSelectedPreset(null);
-        setLiricLab((prev) => {
+        setLyric((prev) => {
             let copy = { ...prev };
             copy[objKey] = copy[objKey].filter((item) => item !== deleteItem);
             return copy;
@@ -146,7 +148,7 @@ const TagSelect = ({ title, preset, setLiricLab, objKey, selected }) => {
     };
 
     const handlePreset = (key, value) => {
-        setLiricLab((prev) => {
+        setLyric((prev) => {
             let copy = { ...prev };
             copy[objKey] = value;
             setSelectedPreset(key);
@@ -156,7 +158,8 @@ const TagSelect = ({ title, preset, setLiricLab, objKey, selected }) => {
 
     return (
         <div className="tag-select">
-            <h3 className="tag-title">{title}</h3>
+            <h3 className="tag-title">{mainTitle}</h3>
+            <h4 className="tag-sub-title">{subTitle}</h4>
             <div className="tag-preset">
                 {preset &&
                     Object.entries(preset).map(([key, value], index) => (
@@ -194,6 +197,15 @@ const TagSelect = ({ title, preset, setLiricLab, objKey, selected }) => {
                     </button>
                 ))}
             </div>
+        </div>
+    );
+};
+
+const TagSelectInput = ({ mainTitle }) => {
+    return (
+        <div className="tag-select">
+            <h3 className="tag-title">{mainTitle}</h3>
+            <input className="tag-input" type="text" placeholder="Briefly describe the story you want to tell."></input>
         </div>
     );
 };

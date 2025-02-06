@@ -40,6 +40,11 @@
             border: 1px solid #cf0;
             padding: 24px;
         }
+        progress {
+            width: 100%;
+            max-width: 48px;
+            height: 5px;
+        }
     }
 
     .creating-select {

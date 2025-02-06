@@ -1,7 +1,18 @@
+.tag-select-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+    border: 1px solid #222;
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
 .create__select-components {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
     .tag-title {
         font-family: Orbitron400;
         font-size: 18px;
@@ -28,20 +39,35 @@
         border: 1px solid #383838;
         background-color: #0b0b0c;
     }
-    .tag-input-comment-button {
+    .tag-input-comment-button-wrap {
         position: absolute;
-        background-color: #cf0;
-        width: 120px;
-        height: 30px;
+        display: flex;
+        gap: 16px;
         right: 12px;
         top: 50%;
         transform: translateY(-50%);
+    }
+    .tag-input-comment-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #cf0;
+        width: 120px;
+        height: 30px;
         color: #1a1a1a;
         font-family: orbitron600;
         font-size: 14px;
         letter-spacing: 0.42px;
         border-radius: 12px;
+        position: relative;
+        input {
+            position: absolute;
+            height: 0px;
+            width: 0px;
+            border: none;
+        }
     }
+
     .tag-selected {
         display: flex;
         gap: 16px;

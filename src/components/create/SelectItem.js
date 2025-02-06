@@ -4,17 +4,26 @@ import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
 
-const SelectItem = ({ mainTitle, subTitle, preset, setLyric, objKey, selected }) => {
+export const SelectItemWrap = ({ children }) => {
+    return <div className="tag-select-wrap">{children}</div>;
+};
+
+export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, selected, multiple, color }) => {
     const [input, setInput] = useState('');
     const [selectedPreset, setSelectedPreset] = useState('');
 
     const addItem = () => {
         if (!input.trim()) return;
         setSelectedPreset(null);
-        setLyric((prev) => {
+
+        setter((prev) => {
             let copy = { ...prev };
-            let set = Array.from(new Set([...copy[objKey], input]));
-            copy[objKey] = set;
+            if (multiple) {
+                let set = Array.from(new Set([...copy[objKey], input]));
+                copy[objKey] = set;
+            } else {
+                copy[objKey] = [input];
+            }
             return copy;
         });
         setInput('');
@@ -22,7 +31,7 @@ const SelectItem = ({ mainTitle, subTitle, preset, setLyric, objKey, selected })
 
     const deleteItem = (deleteItem) => {
         setSelectedPreset(null);
-        setLyric((prev) => {
+        setter((prev) => {
             let copy = { ...prev };
             copy[objKey] = copy[objKey].filter((item) => item !== deleteItem);
             return copy;
@@ -30,7 +39,7 @@ const SelectItem = ({ mainTitle, subTitle, preset, setLyric, objKey, selected })
     };
 
     const handlePreset = (key, value) => {
-        setLyric((prev) => {
+        setter((prev) => {
             let copy = { ...prev };
             copy[objKey] = value;
             setSelectedPreset(key);
@@ -67,9 +76,24 @@ const SelectItem = ({ mainTitle, subTitle, preset, setLyric, objKey, selected })
                         if (e.key === 'Enter') addItem();
                     }}
                 ></input>
-                <button className="tag-input-comment-button" onClick={addItem}>
-                    Comment
-                </button>
+                <div className="tag-input-comment-button-wrap">
+                    {color && (
+                        <label className="tag-input-comment-button">
+                            Select
+                            <input
+                                type="color"
+                                // style={{ display: 'none' }}
+                                onChange={(e) => setInput(e.target.value)}
+                                onBlur={() => {
+                                    addItem();
+                                }}
+                            />
+                        </label>
+                    )}
+                    <button className="tag-input-comment-button" onClick={addItem}>
+                        Comment
+                    </button>
+                </div>
             </div>
             <div className="tag-selected">
                 {selected.map((item, index) => (

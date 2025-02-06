@@ -130,10 +130,43 @@
             }
             .albums__item__more-btn {
               margin-left: auto;
-              //   margin-right: auto;
             }
           }
         }
+      }
+    }
+  }
+  .albums__my-albums {
+    .my-albums__header {
+      display: flex;
+      justify-content: space-between;
+      .my-albums__title {
+        color: #fff;
+        font-family: "TT Octosquares Trl";
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        span {
+          color: #cf0;
+          font-family: "TT Octosquares Trl";
+          font-size: 32px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
+        }
+      }
+      .my-albums__more-btn {
+        width: 160px;
+        height: 40px;
+        fill: var(--mob_main, #cf0);
+        color: var(--black, #000);
+        text-align: center;
+        font-family: "TT Octosquares Trl";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
       }
     }
   }

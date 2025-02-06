@@ -7,6 +7,9 @@ import playIcon from "../../assets/images/icon/play.svg";
 import commentIcon from "../../assets/images/icon/comment.svg";
 import demoAlbum from "../../assets/images/mypage/demo-album.png";
 import demoUser from "../../assets/images/mypage/demo-user.png";
+import buttonBg from "../../assets/images/mypage/button-bg.svg";
+import emptyHeartIcon from "../../assets/images/icon/empty-heart.svg";
+import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
 const Albums = () => {
   return (
     <div className="albums">
@@ -130,6 +133,35 @@ const Albums = () => {
           <button className="my-albums__item">Lyric</button>
           <button className="my-albums__item">Latest</button>
         </div>
+
+        <table className="my-albums__table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Artist</th>
+              <th>AI Service</th>
+              <th>AI Service Type</th>
+              <th>Song Title</th>
+              <th>Date</th>
+              <th>Like</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Yolkhead</td>
+              <td>AI Lyric & Songwriting</td>
+              <td>Lyric</td>
+              <td>he dances through his masks like breathing</td>
+              <td>2021.09.01</td>
+              <td>145</td>
+              <td>
+                <button className="my-albums__detail-btn">Details</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
     </div>
   );

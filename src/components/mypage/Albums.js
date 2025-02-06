@@ -1,28 +1,20 @@
 import "./Albums.scss";
 
-import filterIcon from "../../assets/images/icon/filter.svg";
 import heartIcon from "../../assets/images/icon/heart.svg";
 import moreIcon from "../../assets/images/icon/more.svg";
 import playIcon from "../../assets/images/icon/play.svg";
 import commentIcon from "../../assets/images/icon/comment.svg";
 import demoAlbum from "../../assets/images/mypage/demo-album.png";
 import demoUser from "../../assets/images/mypage/demo-user.png";
-import buttonBg from "../../assets/images/mypage/button-bg.svg";
 import emptyHeartIcon from "../../assets/images/icon/empty-heart.svg";
 import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
+import Filter from "../filter/Filter";
 const Albums = () => {
   return (
     <div className="albums">
       <h1 className="albums__title">Top Albums</h1>
-      <div className="albums__filter">
-        <button className="albums__filter__btn">
-          <img src={filterIcon} alt="filter" />
-          <span>Filter</span>
-        </button>
-        <button className="albums__filter__btn active">
-          <span>AI Lyric & Songwriting</span>
-        </button>
-      </div>
+      <Filter />
+
       <div className="albums__list">
         <div className="albums__item">
           <p className="albums__item-title">Top Likes</p>
@@ -125,13 +117,7 @@ const Albums = () => {
           />
         </div>
         <div className="my-albums__filter">
-          <button className="my-albums__filter-btn">
-            <img src={filterIcon} alt="filter" />
-            Filter
-          </button>
-          <button className="my-albums__item">AI Lyric & Songwriting</button>
-          <button className="my-albums__item">Lyric</button>
-          <button className="my-albums__item">Latest</button>
+          <Filter />
         </div>
 
         <table className="my-albums__table">
@@ -153,11 +139,69 @@ const Albums = () => {
               <td>Yolkhead</td>
               <td>AI Lyric & Songwriting</td>
               <td>Lyric</td>
-              <td>he dances through his masks like breathing</td>
-              <td>2021.09.01</td>
-              <td>145</td>
+              <td>Songname</td>
+              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
               <td>
-                <button className="my-albums__detail-btn">Details</button>
+                <img src={halfHeartIcon} alt="like-heart-icon"></img>
+              </td>
+              <td>
+                <button className="my-albums__detail-btn">View Detail</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Yolkhead</td>
+              <td>AI Lyric & Songwriting</td>
+              <td>Lyric</td>
+              <td>Songname</td>
+              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+              <td>
+                <img src={emptyHeartIcon} alt="like-heart-icon"></img>
+              </td>
+              <td>
+                <button className="my-albums__detail-btn">View Detail</button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Yolkhead</td>
+              <td>AI Lyric & Songwriting</td>
+              <td>Lyric</td>
+              <td>Songname</td>
+              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+              <td>
+                <img src={halfHeartIcon} alt="like-heart-icon"></img>
+              </td>
+              <td>
+                <button className="my-albums__detail-btn">View Detail</button>
+              </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Yolkhead</td>
+              <td>AI Lyric & Songwriting</td>
+              <td>Lyric</td>
+              <td>Songname</td>
+              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+              <td>
+                <img src={halfHeartIcon} alt="like-heart-icon"></img>
+              </td>
+              <td>
+                <button className="my-albums__detail-btn">View Detail</button>
+              </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Yolkhead</td>
+              <td>AI Lyric & Songwriting</td>
+              <td>Lyric</td>
+              <td>Songname</td>
+              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+              <td>
+                <img src={halfHeartIcon} alt="like-heart-icon"></img>
+              </td>
+              <td>
+                <button className="my-albums__detail-btn">View Detail</button>
               </td>
             </tr>
           </tbody>

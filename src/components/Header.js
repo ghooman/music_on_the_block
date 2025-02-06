@@ -27,21 +27,13 @@ const Header = ({ setIsLoggedIn }) => {
         <>
             <div className="header">
                 <div className="header__inner">
-                    {/* <label class="hamburger">
-            <input type="checkbox" />
-            <svg viewBox="0 0 32 32">
-              <path class="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
-              <path class="line" d="M7 16 27 16"></path>
-            </svg>
-          </label> */}
-                    <button className={`menu-btn ${isActive ? 'active' : ''}`} onClick={handleClick}>
-                        <svg viewBox="0 0 64 48">
-                            <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
-                            <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
-                            <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
-                        </svg>
-                    </button>
-
+                  <button className={`menu-btn ${isActive ? 'active' : ''}`} onClick={handleClick}>
+                    <svg viewBox="0 0 64 48">
+                        <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
+                        <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
+                        <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
+                    </svg>
+                  </button>
                     <h1>
                         <Link to="/">
                             <img src={mainLogo} className="logo" />
@@ -103,7 +95,7 @@ const Header = ({ setIsLoggedIn }) => {
                 </div>
             </div>
 
-            <Menu />
+            <Menu active={isActive} />
 
       {/* <Routes>
         <Route path="/" element={<Album />} />

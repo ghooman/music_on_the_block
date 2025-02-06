@@ -30,19 +30,28 @@
   overflow: hidden;
   width: 280px;
   transition: 0.3s;
-  animation: menuLeft 0.4s ease-in-out forwards;
-  animation-delay: 1.3s;
-  @keyframes menuLeft {
-    0%{
-      opacity: 0;
-      left: -300px;
-    }
-    100%{
-      opacity: 1;
-      left: 16px;
-    }
-
+  opacity: 0;
+  z-index: 10;
+  // animation: menuLeft 0.4s ease-in-out forwards;
+  // animation-delay: 1.3s;
+  // @keyframes menuLeft {
+  //   0%{
+  //     opacity: 0;
+  //     left: -300px;
+  //   }
+  //   100%{
+  //     opacity: 1;
+  //     left: 16px;
+  //   }
+  // }
+  &.active{
+    left: 16px;
+    opacity: 1;
   }
+  // &.fixed{
+  //   top:16px;
+  //   height:calc(100% - 30px);
+  // }
   .menu__cover{
     padding: 24px 16px;
     display: flex;

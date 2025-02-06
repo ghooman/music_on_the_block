@@ -36,6 +36,9 @@
         gap: 10px;
         border-radius: 12px;
         background-color: #1a1a1a;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         &:hover {
             border: 1px solid #cf0;
             padding: 24px;
@@ -52,6 +55,9 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
     .creating-select__wait-text {
         color: #6e6e6e;

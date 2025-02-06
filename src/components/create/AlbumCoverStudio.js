@@ -1,10 +1,14 @@
+import { SelectItem, SelectItemWrap } from './SelectItem';
+import { useEffect, useState } from 'react';
+
 import SubBanner from './SubBanner';
 
 import creatingIcon from '../../assets/images/icon/creating.svg';
+import demoImage from '../../assets/images/intro/intro-demo-img.png';
+import demoImage2 from '../../assets/images/intro/intro-demo-img2.png';
+import demoImage3 from '../../assets/images/intro/intro-demo-img3.png';
 
 import './AlbumCoverStudio.scss';
-import { SelectItem, SelectItemWrap } from './SelectItem';
-import { useEffect, useState } from 'react';
 
 const colorPreset = {
     '#FF4550': ['#FF4550'],
@@ -78,7 +82,18 @@ With customization ON, the design will also reflect your additional settings."
 export default AlbumCoverSudio;
 
 const CoverCreate = () => {
-    const images = new Array(9).fill(null);
+    const [selectImage, setSelectImage] = useState(null);
+    const images = [
+        demoImage,
+        demoImage2,
+        demoImage,
+        demoImage3,
+        demoImage2,
+        demoImage,
+        demoImage3,
+        demoImage2,
+        demoImage3,
+    ];
 
     return (
         <div className="creating mb40">
@@ -86,19 +101,23 @@ const CoverCreate = () => {
                 <p className="creating-list__title">Album Cover Studio History</p>
                 <div className="creating-list__items">
                     {images.map((item, index) => (
-                        <CreateItem />
+                        <CreateItem item={item} setSelectImage={setSelectImage} key={index} />
                     ))}
                 </div>
             </div>
-            <div className="creating-select">
-                <img src={creatingIcon} alt="creating" />
-                <p className="creating-select__wait-text">Creating Your Album Cover...Please wait.</p>
+            <div className="creating-select" style={{ backgroundImage: selectImage ? `url(${selectImage})` : '' }}>
+                {!selectImage && (
+                    <>
+                        <img src={creatingIcon} alt="creating" />
+                        <p className="creating-select__wait-text">Creating Your Album Cover...Please wait.</p>
+                    </>
+                )}
             </div>
         </div>
     );
 };
 
-const CreateItem = () => {
+const CreateItem = ({ item, setSelectImage }) => {
     const [progressValue, setProgressValue] = useState(0);
     const [isCreated, setIsCreated] = useState(false);
 
@@ -120,10 +139,15 @@ const CreateItem = () => {
     }, []);
 
     return (
-        <div className="creating-list__items--item">
-            {isCreated ? (
-                <div>완성</div>
-            ) : (
+        <div
+            className="creating-list__items--item"
+            onClick={() => {
+                if (!isCreated) return;
+                setSelectImage(item);
+            }}
+            style={{ backgroundImage: isCreated ? `url(${item})` : '' }}
+        >
+            {!isCreated && (
                 <>
                     <img src={creatingIcon} alt="creating" />
                     <progress value={progressValue} max={100}></progress>

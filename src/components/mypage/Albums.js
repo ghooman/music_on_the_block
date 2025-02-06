@@ -9,13 +9,14 @@ import demoUser from "../../assets/images/mypage/demo-user.png";
 import emptyHeartIcon from "../../assets/images/icon/empty-heart.svg";
 import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
 import Filter from "../filter/Filter";
+import AlbumsTable from "../filter/AlbumsTable";
 const Albums = () => {
   return (
     <div className="albums">
       <section className="albums__list">
         <div className="albums__header">
           <h1 className="albums__title">Top Albums</h1>
-          <Filter />
+          <Filter list={["AI Lyric + Songwriting"]} />
         </div>
         <div className="albums__body">
           <div className="albums__item">
@@ -133,94 +134,8 @@ const Albums = () => {
         </div>
         <div className="my-albums__filter">
           <Filter />
+          <AlbumsTable />
         </div>
-
-        <table className="my-albums__table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Artist</th>
-              <th>AI Service</th>
-              <th>AI Service Type</th>
-              <th>Song Title</th>
-              <th>Date</th>
-              <th>Like</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Yolkhead</td>
-              <td>AI Lyric & Songwriting</td>
-              <td>Lyric</td>
-              <td>Songname</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>
-                <img src={halfHeartIcon} alt="like-heart-icon"></img>
-              </td>
-              <td>
-                <button className="my-albums__detail-btn">View Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Yolkhead</td>
-              <td>AI Lyric & Songwriting</td>
-              <td>Lyric</td>
-              <td>Songname</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>
-                <img src={emptyHeartIcon} alt="like-heart-icon"></img>
-              </td>
-              <td>
-                <button className="my-albums__detail-btn">View Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Yolkhead</td>
-              <td>AI Lyric & Songwriting</td>
-              <td>Lyric</td>
-              <td>Songname</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>
-                <img src={halfHeartIcon} alt="like-heart-icon"></img>
-              </td>
-              <td>
-                <button className="my-albums__detail-btn">View Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Yolkhead</td>
-              <td>AI Lyric & Songwriting</td>
-              <td>Lyric</td>
-              <td>Songname</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>
-                <img src={halfHeartIcon} alt="like-heart-icon"></img>
-              </td>
-              <td>
-                <button className="my-albums__detail-btn">View Detail</button>
-              </td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>Yolkhead</td>
-              <td>AI Lyric & Songwriting</td>
-              <td>Lyric</td>
-              <td>Songname</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>
-                <img src={halfHeartIcon} alt="like-heart-icon"></img>
-              </td>
-              <td>
-                <button className="my-albums__detail-btn">View Detail</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </section>
     </div>
   );

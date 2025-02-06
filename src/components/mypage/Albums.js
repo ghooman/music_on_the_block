@@ -6,10 +6,9 @@ import playIcon from "../../assets/images/icon/play.svg";
 import commentIcon from "../../assets/images/icon/comment.svg";
 import demoAlbum from "../../assets/images/mypage/demo-album.png";
 import demoUser from "../../assets/images/mypage/demo-user.png";
-import emptyHeartIcon from "../../assets/images/icon/empty-heart.svg";
-import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
-import Filter from "../filter/Filter";
-import AlbumsTable from "../filter/AlbumsTable";
+
+import Filter from "../unit/Filter";
+import AlbumsTable from "../unit/AlbumsTable";
 const Albums = () => {
   return (
     <div className="albums">

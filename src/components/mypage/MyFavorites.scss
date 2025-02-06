@@ -1,0 +1,39 @@
+.my-favorites {
+  padding: 20px 16px 16px 16px;
+  color: var(--primary-200, #a9d400);
+  text-align: center;
+  font-family: Orbitron;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-radius: 12px;
+  border: 1px solid var(--Color-03, #222);
+  .my-favorites__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    .my-favorites__title {
+      color: var(--primary-base, #cf0);
+      font-family: Orbitron;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: 0.72px;
+    }
+  }
+  .my-favorites__search {
+    display: flex;
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 12px;
+    border: 1px solid var(--Color-04, #383838);
+    background: var(--Dark-Color-01, #0b0b0c);
+    margin-bottom: 24px;
+  }
+}

@@ -9,6 +9,7 @@ import demoChart from "../assets/images/mypage/demo-chart.png";
 import demoChart2 from "../assets/images/mypage/demo-chart2.png";
 import demoChart3 from "../assets/images/mypage/demo-chart3.png";
 import AiServices from "../components/mypage/AiServices";
+import Albums from "../components/mypage/Albums";
 const MyPage = () => {
   const [selectedService, setSelectedService] = useState("AI Services");
 
@@ -100,6 +101,7 @@ const MyPage = () => {
       </nav>
 
       {selectedService === "AI Services" && <AiServices />}
+      {selectedService === "Albums" && <Albums />}
     </div>
   );
 };

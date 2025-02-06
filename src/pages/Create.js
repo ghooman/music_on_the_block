@@ -6,14 +6,19 @@ import LyricLab from '../components/create/LyricLab';
 import MelodyMaker from '../components/create/MelodyMaker';
 import DescriptionBanner from '../components/create/DescriptionBanner';
 import AlbumCoverSudio from '../components/create/AlbumCoverStudio';
+import Finalize from '../components/create/Finalize';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(0);
-    const [lylic, setLiric] = useState({
+    const [lylicData, setLyricData] = useState({
         lyric_tag: [],
         lyric_genre: [],
         lyric_style: [],
         lyric_stylistic: [],
+    });
+
+    const [melodyData, setMelodyData] = useState({
+        melody_instrument: [],
     });
 
     return (
@@ -21,16 +26,21 @@ const Create = () => {
             <Title />
             <Progress pageNumber={pageNumber} />
             <DescriptionBanner pageNumber={pageNumber} />
-            <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <SelectedWrap title="Lyric Lab">
-                    <SelectedItem title="Tags" value={lylic?.lyric_tag} />
-                    <SelectedItem title="Genre" value={lylic?.lyric_genre} />
-                    <SelectedItem title="Style" value={lylic?.lyric_style} />
-                    <SelectedItem title="Stylistic" value={lylic?.lyric_stylistic} />
-                </SelectedWrap>
-            </div>
+            {pageNumber !== 3 && (
+                <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <SelectedWrap title="Lyric Lab">
+                        <SelectedItem title="Tags" value={lylicData?.lyric_tag} />
+                        <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+                        <SelectedItem title="Style" value={lylicData?.lyric_style} />
+                        <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+                    </SelectedWrap>
+                    <SelectedWrap title="Melody Maker">
+                        <SelectedItem title="Tags" value={melodyData?.melody_instrument} />
+                    </SelectedWrap>
+                </div>
+            )}
             {pageNumber === 0 && (
-                <LyricLab setPageNumber={setPageNumber} setLiric={setLiric}>
+                <LyricLab handler={setLyricData}>
                     <ButtonWrap>
                         <ButtonWrap.Button title="skip" />
                         <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
@@ -38,14 +48,22 @@ const Create = () => {
                 </LyricLab>
             )}
             {pageNumber === 1 && (
-                <MelodyMaker>
+                <MelodyMaker handler={setMelodyData}>
                     <ButtonWrap>
                         <ButtonWrap.Button title="skip" />
                         <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
                     </ButtonWrap>
                 </MelodyMaker>
             )}
-            {pageNumber === 2 && <AlbumCoverSudio></AlbumCoverSudio>}
+            {pageNumber === 2 && (
+                <AlbumCoverSudio>
+                    <ButtonWrap>
+                        <ButtonWrap.Button title="skip" />
+                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                    </ButtonWrap>
+                </AlbumCoverSudio>
+            )}
+            {pageNumber === 3 && <Finalize></Finalize>}
         </div>
     );
 };

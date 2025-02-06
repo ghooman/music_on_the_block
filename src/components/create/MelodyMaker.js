@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import SubBanner from './SubBanner';
 import SelectItem from './SelectItem';
@@ -6,44 +6,18 @@ import SelectItem from './SelectItem';
 import './MelodyMaker.scss';
 
 const instrumentPreset = {
-    Orchestra: ['Violin'],
-    Band: ['Drum'],
+    Orchestra: ['Violin', 'Chello', 'Timpani'],
+    Band: ['Drum', 'Guitar', 'Bass', 'Synth'],
 };
 
-const MelodyMaker = ({ children }) => {
+const MelodyMaker = ({ handler, children }) => {
     const [melody, setMelody] = useState({
         melody_instrument: [],
     });
-    const [selectPreset, setSelectPreset] = useState({
-        melody_instrument: '',
-    });
 
-    const removeSelectPreset = (key) => {
-        setSelectPreset((prev) => {
-            let copy = { ...prev };
-            copy[key] = '';
-            return copy;
-        });
-    };
-
-    const addTag = (key, value) => {
-        removeSelectPreset(key);
-        setMelody((prev) => {
-            let copy = { ...prev };
-            let set = Array.from(new Set([...copy[key], value]));
-            copy[key] = set;
-            return copy;
-        });
-    };
-
-    const deleteTag = (key, value) => {
-        removeSelectPreset(key);
-        setMelody((prev) => {
-            let copy = { ...prev };
-            copy[key] = copy[key].filter((item) => item !== value);
-            return copy;
-        });
-    };
+    useEffect(() => {
+        handler(melody);
+    }, [melody, handler]);
 
     return (
         <div className="create__melody-maker">
@@ -53,15 +27,14 @@ const MelodyMaker = ({ children }) => {
                 <SubBanner.Button title="Load Details"></SubBanner.Button>
             </SubBanner>
             <div className="tag-select-wrap mb40">
-                <SelectItem title="Select a Musical Instrument" subTitle="Popular Musical Instrument">
-                    <SelectItem.Preset presets={instrumentPreset}></SelectItem.Preset>
-                    <SelectItem.InputAndButton handler={addTag} objKey="melody_instrument"></SelectItem.InputAndButton>
-                    <SelectItem.SelectedItems
-                        handler={deleteTag}
-                        objKey="melody_instrument"
-                        selected={melody.melody_instrument}
-                    />
-                </SelectItem>
+                <SelectItem
+                    mainTitle="Popular Tags"
+                    subTitle="Popular Tags"
+                    setLyric={setMelody}
+                    objKey="melody_instrument"
+                    selected={melody?.melody_instrument}
+                    preset={instrumentPreset}
+                />
             </div>
             <SubBanner>
                 <SubBanner.Title text="What happens if I skip a step"></SubBanner.Title>

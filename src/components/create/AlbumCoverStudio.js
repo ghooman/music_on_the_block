@@ -4,7 +4,7 @@ import creatingIcon from '../../assets/images/icon/creating.svg';
 
 import './AlbumCoverStudio.scss';
 
-const AlbumCoverSudio = () => {
+const AlbumCoverSudio = ({ children }) => {
     return (
         <div className="create__album-cover-studio">
             <SubBanner>
@@ -16,6 +16,7 @@ With customization ON, the design will also reflect your additional settings."
                 <SubBanner.Button title="Generate"></SubBanner.Button>
             </SubBanner>
             <CoverCreate />
+            {children}
         </div>
     );
 };
@@ -26,7 +27,7 @@ const CoverCreate = () => {
     const images = new Array(9).fill(null);
 
     return (
-        <div className="creating">
+        <div className="creating mb40">
             <div className="creating-list">
                 <p className="creating-list__title">Album Cover Studio History</p>
                 <div className="creating-list__items">

@@ -17,6 +17,36 @@
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
+        border-radius: 12px;
+        position: relative;
+
+        .music-info__image__feel-box {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            gap: 8px;
+        }
+        .music-info__image__feel-item {
+            color: #1a1a1a;
+            font-family: Inter400;
+            font-size: 14px;
+            border-radius: 12px 4px 12px 12px;
+            background: var(--secondary-100, #00ffb3);
+            padding: 4px 12px;
+        }
+        .music-info__image__confirm {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            padding: 4px 10px;
+            color: var(--Text-dark-title, #1a1a1a);
+            font-family: Orbitron600;
+            font-size: 14px;
+            letter-spacing: 0.42px;
+            border-radius: 12px;
+            background-color: #cf0;
+        }
     }
     .music-info__data {
         display: flex;
@@ -94,46 +124,4 @@
         font-size: 20px;
     }
     //////////////////////////////////////////////
-
-    .check-list {
-        padding: 16px;
-        border-radius: 12px;
-        border: 1px solid #222;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-    .check-list__title {
-        color: #cf0;
-        font-family: Orbitron400;
-        font-size: 18px;
-        line-height: 30px;
-    }
-    .check-list__items {
-        width: 100%;
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        input {
-            width: fit-content;
-        }
-    }
-    .check-list__items--title {
-        color: #fff;
-        font-family: Inter500;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 26px; /* 162.5% */
-        letter-spacing: -0.32px;
-    }
-    .check-list__items--desc {
-        color: #aaa;
-        font-family: Inter400;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 20px; /* 142.857% */
-        letter-spacing: -0.28px;
-    }
 }

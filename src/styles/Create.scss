@@ -142,8 +142,15 @@
 
     .button-wrap {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         gap: 24px;
+
+        .button-wrap__right {
+            display: flex;
+            gap: 24px;
+            float: right;
+        }
+
         button {
             color: var(--Text-music-title, #f1f1f1);
             font-family: Orbitron600;
@@ -154,14 +161,95 @@
             height: 40px;
             text-transform: capitalize;
 
-            &.next {
-                background: var(--primary-base, #cf0);
+            &.next,
+            &.upload {
+                background: #cf0;
                 color: #1a1a1a;
             }
             &.skip {
-                background: var(--tertiary-400, #6458ff);
+                background: #6458ff;
+            }
+
+            &.back {
+                color: #1f1f1f;
+                background-color: #383838;
+            }
+
+            &:disabled {
+                border: 1px solid #2c3a00;
+                background-color: #000;
+                color: #565656;
             }
         }
+    }
+
+    .check-list {
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid #222;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .check-list__title {
+        color: #cf0;
+        font-family: Orbitron400;
+        font-size: 18px;
+        line-height: 30px;
+    }
+    .check-list__items {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        input[type='checkbox'] {
+            display: none;
+        }
+        .check {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 1px solid #565656;
+            background-color: #383838;
+            border-radius: 4px;
+            position: relative;
+            transition: 0.3s all;
+            cursor: pointer;
+        }
+
+        input:checked + .check {
+            background-color: transparent; /* 체크 시 배경색 변경 */
+            border-color: #cf0;
+        }
+
+        input:checked + .check::after {
+            content: '✔';
+            color: #cf0;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .check-list__items--title {
+        color: #fff;
+        font-family: Inter500;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 26px; /* 162.5% */
+        letter-spacing: -0.32px;
+        line-height: 100%;
+    }
+    .check-list__items--desc {
+        color: #aaa;
+        font-family: Inter400;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: -0.28px;
     }
 
     .mb16 {

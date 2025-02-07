@@ -1,40 +1,40 @@
-import React, { useState } from "react";
-import "./Header.scss";
+import React, { useState } from 'react';
+import './Header.scss';
 import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  // useNavigate,
-} from "react-router-dom";
+    BrowserRouter,
+    Link,
+    Route,
+    Router,
+    Routes,
+    useLocation,
+    // useNavigate,
+} from 'react-router-dom';
 // import LogoHansung from "../assets/images/";
-import Album from "../pages/Album";
+import Album from '../pages/Album';
 
 //이미지
-import mainLogo from "../assets/images/header/logo.svg";
-import Menu from "./Menu";
-import MyPage from "../pages/MyPage";
+import mainLogo from '../assets/images/header/logo.svg';
+import Menu from './Menu';
+import MyPage from '../pages/MyPage';
 
 const Header = ({ setIsLoggedIn }) => {
-  const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(false);
 
-  const handleClick = () => {
-    setIsActive(!isActive);
-  };
+    const handleClick = () => {
+        setIsActive(!isActive);
+    };
 
     return (
         <>
             <div className="header">
                 <div className="header__inner">
-                  <button className={`menu-btn ${isActive ? 'active' : ''}`} onClick={handleClick}>
-                    <svg viewBox="0 0 64 48">
-                        <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
-                        <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
-                        <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
-                    </svg>
-                  </button>
+                    <button className={`menu-btn ${isActive ? 'active' : ''}`} onClick={handleClick}>
+                        <svg viewBox="0 0 64 48">
+                            <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
+                            <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
+                            <path d="M45,33 L19,33 C-8,33 6,-2 22,14 L45,37"></path>
+                        </svg>
+                    </button>
                     <h1>
                         <Link to="/">
                             <img src={mainLogo} className="logo" />
@@ -98,11 +98,11 @@ const Header = ({ setIsLoggedIn }) => {
 
             <Menu active={isActive} />
 
-      {/* <Routes>
+            {/* <Routes>
         <Route path="/" element={<Album />} />
       </Routes> */}
-    </>
-  );
+        </>
+    );
 };
 
 export default Header;

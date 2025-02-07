@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
 
-import '../styles/Create.scss';
 import LyricLab from '../components/create/LyricLab';
 import MelodyMaker from '../components/create/MelodyMaker';
 import DescriptionBanner from '../components/create/DescriptionBanner';
 import AlbumCoverSudio from '../components/create/AlbumCoverStudio';
 import Finalize from '../components/create/Finalize';
+import SkipModal from '../components/SkipModal';
+
+import '../styles/Create.scss';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -16,17 +18,15 @@ const Create = () => {
         lyric_style: [],
         lyric_stylistic: [],
     });
-
     const [melodyData, setMelodyData] = useState({
         melody_tag: [],
         melody_genre: [],
         melody_style: [],
         melody_instrument: [],
     });
-
     const [tempo, setTempo] = useState([90]);
-
     const [albumCover, setAlbumCover] = useState(null);
+    const [checkList, setCheckList] = useState(false);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -66,31 +66,46 @@ const Create = () => {
             {pageNumber === 0 && (
                 <LyricLab handler={setLyricData}>
                     <ButtonWrap>
-                        <ButtonWrap.Button title="skip" />
-                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                        <span></span>
+                        <div className="button-wrap__right">
+                            <ButtonWrap.Button title="skip" />
+                            <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                        </div>
                     </ButtonWrap>
                 </LyricLab>
             )}
             {pageNumber === 1 && (
                 <MelodyMaker handler={setMelodyData} tempo={tempo} setTempo={setTempo}>
                     <ButtonWrap>
-                        <ButtonWrap.Button title="skip" />
-                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                        <ButtonWrap.Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
+                        <div className="button-wrap__right">
+                            <ButtonWrap.Button title="skip" />
+                            <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                        </div>
                     </ButtonWrap>
                 </MelodyMaker>
             )}
             {pageNumber === 2 && (
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
                     <ButtonWrap>
-                        <ButtonWrap.Button title="skip" />
-                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                        <ButtonWrap.Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
+                        <div className="button-wrap__right">
+                            <ButtonWrap.Button title="skip" />
+                            <ButtonWrap.Button
+                                title="next"
+                                disabled={!albumCover}
+                                handler={() => setPageNumber((prev) => prev + 1)}
+                            />
+                        </div>
                     </ButtonWrap>
                 </AlbumCoverSudio>
             )}
             {pageNumber === 3 && (
                 <Finalize albumCover={albumCover}>
+                    <CheckList setCheckList={setCheckList}></CheckList>
                     <ButtonWrap>
-                        <ButtonWrap.Button title="upload" handler={() => alert('음악생성.')} />
+                        <ButtonWrap.Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
+                        <ButtonWrap.Button title="upload" disabled={!checkList} handler={() => alert('음악생성.')} />
                     </ButtonWrap>
                 </Finalize>
             )}
@@ -152,13 +167,71 @@ const SelectedItem = ({ title, value, multiple }) => {
     );
 };
 
+const CheckList = ({ setCheckList }) => {
+    const [check1, setCheck1] = useState(false);
+    const [check2, setCheck2] = useState(false);
+    const [check3, setCheck3] = useState(false);
+    const [check4, setCheck4] = useState(false);
+
+    useEffect(() => {
+        if (check1 && check2 && check3 && check4) setCheckList(true);
+        else setCheckList(false);
+    }, [check1, check2, check3, check4, setCheckList]);
+
+    return (
+        <div className="check-list">
+            <p className="check-list__title">Final Checklist</p>
+            <label className="check-list__items">
+                <input checked={check1} onChange={() => setCheck1((prev) => !prev)} type="checkbox"></input>
+                <span className="check"></span>
+                <div>
+                    <p className="check-list__items--title">Is your work finalized?</p>
+                    <span className="check-list__items--desc">
+                        Are the lyrics, melody, or both finalized and ready for the next step?
+                    </span>
+                </div>
+            </label>
+            <label className="check-list__items">
+                <input checked={check2} onChange={() => setCheck2((prev) => !prev)} type="checkbox"></input>
+                <span className="check"></span>
+                <div>
+                    <p className="check-list__items--title">Does your work align with your vision?</p>
+                    <span className="check-list__items--desc">
+                        Does the tone, mood, and overall content match what you envisioned?
+                    </span>
+                </div>
+            </label>
+            <label className="check-list__items">
+                <input checked={check3} onChange={() => setCheck3((prev) => !prev)} type="checkbox"></input>
+                <span className="check"></span>
+                <div>
+                    <p className="check-list__items--title">Have you reviewed all key details?</p>
+                    <span className="check-list__items--desc">
+                        Make sure to double-check tags, settings, and content accuracy.
+                    </span>
+                </div>
+            </label>
+            <label className="check-list__items">
+                <input checked={check4} onChange={() => setCheck4((prev) => !prev)} type="checkbox"></input>
+                <span className="check"></span>
+                <div>
+                    <p className="check-list__items--title">Are you ready to save or upload your work?</p>
+                    <span className="check-list__items--desc">
+                        Choose to save your work as a draft or upload it to the community.
+                    </span>
+                </div>
+            </label>
+        </div>
+    );
+};
+
 const ButtonWrap = ({ children }) => {
     return <div className="button-wrap">{children}</div>;
 };
 
-ButtonWrap.Button = ({ title, handler }) => {
+ButtonWrap.Button = ({ title, handler, disabled }) => {
     return (
-        <button className={title} onClick={handler}>
+        <button className={title} disabled={disabled} onClick={handler}>
             {title}
         </button>
     );

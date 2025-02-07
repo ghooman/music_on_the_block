@@ -4,6 +4,10 @@ import { useState } from 'react';
 import SubBanner from './SubBanner';
 import { SelectItem, SelectItemWrap, SelectItemStory } from './SelectItem';
 
+import subBg1 from '../../assets/images/create/subbanner-bg1.png';
+import subBg2 from '../../assets/images/create/subbanner-bg2.png';
+import subBg3 from '../../assets/images/create/subbanner-bg3.png';
+
 import './LyricLab.scss';
 
 const tagPreset = {
@@ -84,6 +88,7 @@ const LyricLab = ({ handler, children }) => {
                 <SelectItemStory />
             </SelectItemWrap>
             <SubBanner>
+                <SubBanner.LeftImages src={subBg2} />
                 <SubBanner.Title text="What happens if I skip a step?" />
                 <SubBanner.Message text="You can choose to skip any step and still create a meaningful result. Complete both steps for a full song (lyrics + composition), or focus on just one to highlight your strengths." />
                 <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />

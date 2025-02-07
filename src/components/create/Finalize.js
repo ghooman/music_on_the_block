@@ -5,7 +5,7 @@ const Finalize = ({ children, albumCover }) => {
         <div className="craete__finalizes">
             <MusicInfo albumCover={albumCover}></MusicInfo>
             <CreatedLyrics></CreatedLyrics>
-            <CheckList></CheckList>
+
             {children}
         </div>
     );
@@ -27,7 +27,13 @@ const MusicInfo = ({ albumCover }) => {
 
     return (
         <div className="music-info">
-            <div className="music-info__image" style={{ backgroundImage: `url(${albumCover})` }}></div>
+            <div className="music-info__image" style={{ backgroundImage: `url(${albumCover.image})` }}>
+                <div className="music-info__image__feel-box">
+                    {albumCover?.feel.map((item) => (
+                        <div className="music-info__image__feel-item">{item}</div>
+                    ))}
+                </div>
+            </div>
             <ul className="music-info__data">
                 {datas.map((item) => (
                     <li className="music-info__data--item">
@@ -75,50 +81,6 @@ const CreatedLyrics = () => {
                     </div>
                 ))}
             </div>
-        </div>
-    );
-};
-
-const CheckList = () => {
-    return (
-        <div className="check-list">
-            <p className="check-list__title">Final Checklist</p>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Is your work finalized?</p>
-                    <span className="check-list__items--desc">
-                        Are the lyrics, melody, or both finalized and ready for the next step?
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Does your work align with your vision?</p>
-                    <span className="check-list__items--desc">
-                        Does the tone, mood, and overall content match what you envisioned?
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Have you reviewed all key details?</p>
-                    <span className="check-list__items--desc">
-                        Make sure to double-check tags, settings, and content accuracy.
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Are you ready to save or upload your work?</p>
-                    <span className="check-list__items--desc">
-                        Choose to save your work as a draft or upload it to the community.
-                    </span>
-                </div>
-            </label>
         </div>
     );
 };

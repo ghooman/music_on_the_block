@@ -150,10 +150,10 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
             </div>
             <div
                 className={`tag-title__tempos ${
-                    tempo > 60 && tempo < 80 ? 'slow' : tempo > 80 && tempo < 120 ? 'medium' : tempo > 120 ? 'fast' : ''
+                    tempo > 59 && tempo < 80 ? 'slow' : tempo > 80 && tempo < 120 ? 'medium' : tempo > 120 ? 'fast' : ''
                 }`}
             >
-                {tempo > 60 && tempo < 80 && 'Slow : Calm and reflective (60-80 BPM)'}
+                {tempo > 59 && tempo < 80 && 'Slow : Calm and reflective (60-80 BPM)'}
                 {tempo > 80 && tempo < 120 && 'Medium: Balanced and versatile (81-120 BPM)'}
                 {tempo > 120 && 'Fast: Energetic and upbeat (121-160 BPM)'}
             </div>

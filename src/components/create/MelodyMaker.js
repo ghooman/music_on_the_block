@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 import SubBanner from './SubBanner';
 import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemStory } from './SelectItem';
 
+import subBg1 from '../../assets/images/create/subbanner-bg1.png';
+import subBg2 from '../../assets/images/create/subbanner-bg2.png';
+import subBg3 from '../../assets/images/create/subbanner-bg3.png';
+
 import './MelodyMaker.scss';
 
 const tagPreset = {

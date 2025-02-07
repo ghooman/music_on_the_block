@@ -85,7 +85,7 @@ With customization ON, the design will also reflect your additional settings."
                         setCoverCreate(false);
                         setTimeout(() => {
                             setCoverCreate(true);
-                        }, 200);
+                        }, 2);
                     }}
                 ></SubBanner.Button>
             </SubBanner>
@@ -99,27 +99,28 @@ export default AlbumCoverSudio;
 
 const CoverCreate = ({ coverCreate, setAlbumCover }) => {
     const [selectImage, setSelectImage] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
     const images = [
-        { image: demoImage, feel: [] },
-        { image: demoImage2, feel: [] },
-        { image: demoImage3, feel: [] },
-        { image: demoImage4, feel: [] },
-        { image: demoImage5, feel: [] },
-        { image: demoImage6, feel: [] },
-        { image: demoImage7, feel: [] },
-        { image: demoImage8, feel: [] },
-        { image: demoImage9, feel: [] },
+        { image: demoImage, feel: ['Exiting', 'Minilalist'] },
+        { image: demoImage2, feel: ['Loud', 'April'] },
+        { image: demoImage3, feel: ['Heart', 'Beat'] },
+        { image: demoImage4, feel: ['Japan', 'Tired'] },
+        { image: demoImage5, feel: ['Sunset', 'Sunglass'] },
+        { image: demoImage6, feel: ['Pain', 'Press'] },
+        { image: demoImage7, feel: ['Organic', 'Shadow', 'Dance'] },
+        { image: demoImage8, feel: ['Space', 'Void', 'Stars', 'Science'] },
+        { image: demoImage9, feel: ['Scared', 'Sweet', 'Girl'] },
     ];
 
     useEffect(() => {
         if (coverCreate === false) {
             setSelectImage(null);
+            setAlbumCover(null);
         }
     }, [coverCreate]);
 
-    useEffect(() => {
-        setAlbumCover(selectImage);
-    }, [selectImage]);
+    console.log(selectImage?.progress);
 
     return (
         <div className="creating mb40">
@@ -127,18 +128,39 @@ const CoverCreate = ({ coverCreate, setAlbumCover }) => {
                 <p className="creating-list__title">Album Cover Studio History</p>
                 <div className="creating-list__items">
                     {images.map((item, index) => (
-                        <CreateItem item={item} setSelectImage={setSelectImage} key={index} coverCreate={coverCreate} />
+                        <CreateItem
+                            item={item}
+                            setSelectImage={setSelectImage}
+                            currentIndex={currentIndex}
+                            setCurrentIndex={setCurrentIndex}
+                            key={index}
+                            index={index}
+                            coverCreate={coverCreate}
+                        />
                     ))}
                 </div>
             </div>
             <div
                 className="creating-select"
-                style={{ backgroundImage: selectImage ? `url(${selectImage.image})` : '' }}
+                style={{ backgroundImage: selectImage?.isCreated ? `url(${selectImage.image})` : '' }}
             >
-                {!selectImage && (
+                {selectImage?.isCreated && (
+                    <>
+                        <div className="creating-select__feel-box">
+                            {selectImage?.feel.map((item) => (
+                                <div className="creating-select__feel-item">{item}</div>
+                            ))}
+                        </div>
+                        <button className="creating-select__confirm" onClick={() => setAlbumCover(selectImage)}>
+                            Confirm
+                        </button>
+                    </>
+                )}
+                {!selectImage?.isCreated && (
                     <>
                         <img src={creatingIcon} alt="creating" />
                         <p className="creating-select__wait-text">Creating Your Album Cover...Please wait.</p>
+                        <progress value={selectImage?.progress} max={100}></progress>
                     </>
                 )}
             </div>
@@ -146,17 +168,28 @@ const CoverCreate = ({ coverCreate, setAlbumCover }) => {
     );
 };
 
-const CreateItem = ({ item, setSelectImage, coverCreate }) => {
+const CreateItem = ({ item, setSelectImage, coverCreate, currentIndex, index, setCurrentIndex }) => {
     const [progressValue, setProgressValue] = useState(0);
     const [isCreated, setIsCreated] = useState(false);
+
+    let Interval;
+
+    useEffect(() => {
+        if (currentIndex === index) {
+            setSelectImage((prev) => {
+                return { ...item, progress: progressValue, isCreated };
+            });
+        }
+    }, [progressValue, currentIndex]);
 
     useEffect(() => {
         if (!coverCreate) {
             setProgressValue(0);
             setIsCreated(false);
+            clearInterval(Interval);
             return;
         }
-        let Interval = setInterval(() => {
+        Interval = setInterval(() => {
             let value = Math.floor(Math.random() * (100 - progressValue));
             setProgressValue((prev) => {
                 if (prev >= 90) {
@@ -174,10 +207,9 @@ const CreateItem = ({ item, setSelectImage, coverCreate }) => {
 
     return (
         <div
-            className="creating-list__items--item"
+            className={`creating-list__items--item ${index === currentIndex ? 'selected' : ''}`}
             onClick={() => {
-                if (!isCreated) return;
-                setSelectImage(item);
+                setCurrentIndex(index);
             }}
             style={{ backgroundImage: isCreated && coverCreate ? `url(${item.image})` : '' }}
         >

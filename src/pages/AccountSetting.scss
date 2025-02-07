@@ -1,0 +1,363 @@
+.account-setting {
+  .account-setting--title {
+    color: var(--primary-base, #cf0);
+    font-family: Orbitron;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.9px;
+    margin-bottom: 40px;
+  }
+  .account-setting__info {
+    margin-bottom: 40px;
+    display: flex;
+    padding: 20px 16px 16px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    .account-setting__info-box {
+      .info-box__title {
+        color: var(--primary-base, #cf0);
+        font-family: Orbitron;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.72px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        flex: 1 0 0;
+        margin-bottom: 16px;
+      }
+      .info-box__picture-box {
+        .picture-box__title {
+          color: var(--Text-music-title, #f1f1f1);
+          font-family: Orbitron;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          margin-bottom: 8px;
+        }
+        .picture-box__edit-box {
+          position: relative;
+          margin-bottom: 8px;
+          z-index: 1;
+          img {
+            width: 160px;
+            height: 160px;
+            flex-shrink: 0;
+          }
+          .picture-box__edit-btn {
+            position: absolute;
+            bottom: 0;
+            left: 60%;
+            background-color: var(--Color-03, #222);
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            img {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+        .picture-box__desc {
+          color: var(--primary-200, #a9d400);
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          letter-spacing: 0.42px;
+        }
+      }
+    }
+    .account-setting__background-box {
+      width: 100%;
+      .background-box__title {
+        color: var(--Text-music-title, #f1f1f1);
+        font-family: Orbitron;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: 0.54px;
+        margin-bottom: 8px;
+      }
+      .background-box__edit-box {
+        padding: 4px;
+        width: 100%;
+        height: 200px;
+        border-radius: 4px;
+        border: 1px solid var(--Color-03, #222);
+        background: var(--Color-02, #1a1a1a);
+        margin-bottom: 8px;
+        .background-box__edit-btn {
+          display: flex;
+          padding: 8px 16px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          border-radius: 4px;
+          background: var(--button-grey, #272727);
+          margin-left: auto;
+          img {
+            margin-right: 8px;
+          }
+          span {
+            color: #fff;
+            font-family: Poppins;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 100%; /* 14px */
+          }
+        }
+      }
+      .background-box__desc {
+        color: var(--primary-200, #a9d400);
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.42px;
+      }
+    }
+    .account-setting__user-info {
+      width: 100%;
+      .user-info__item {
+        width: 100%;
+        margin-bottom: 16px;
+        .user-info__title {
+          color: var(--Text-music-title, #f1f1f1);
+          font-family: Orbitron;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          letter-spacing: 0.54px;
+          margin-bottom: 8px;
+        }
+        .user-info__desc {
+          color: var(--primary-200, #a9d400);
+          font-family: Inter;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+          letter-spacing: 0.42px;
+          margin-bottom: 12px;
+        }
+        .user-info__input-box {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          margin: 16px 0 4px 0;
+          padding: 12px;
+          height: 54px;
+          align-self: stretch;
+          border-radius: 12px;
+          border: 1px solid var(--Color-04, #383838);
+          background: var(--Dark-Color-01, #0b0b0c);
+          .user-info__input {
+            z-index: 1;
+            display: flex;
+            padding: 12px;
+            gap: 10px;
+            border: none;
+          }
+          .user-info__edit-btn {
+            width: 120px;
+            display: flex;
+            height: 28px;
+            padding: 4px 10px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            color: var(--Text-dark-title, #1a1a1a);
+            border-radius: 12px;
+            background: var(--primary-base, #cf0);
+            font-family: Orbitron;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.42px;
+            display: flex;
+            padding: 4px 0px;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+          }
+        }
+        .user-info__error {
+          color: var(--warning, #df1919);
+          font-family: Inter;
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 100%; /* 12px */
+          letter-spacing: 0.36px;
+        }
+      }
+    }
+  }
+  .account-setting__details {
+    margin-bottom: 40px;
+    display: flex;
+    padding: 20px 16px 16px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    .details__header {
+      .details__title {
+        color: var(--primary-base, #cf0);
+        font-family: Orbitron;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.72px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        flex: 1 0 0;
+      }
+    }
+    .details__item {
+      width: 100%;
+      margin-bottom: 16px;
+      .details__item-title {
+        color: var(--Text-music-title, #f1f1f1);
+        font-family: Orbitron;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: 0.54px;
+        margin-bottom: 8px;
+      }
+      .details__input {
+        border-radius: 12px;
+        border: 1px solid var(--Color-04, #383838);
+        background: var(--Dark-Color-01, #0b0b0c);
+        display: flex;
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        align-self: stretch;
+      }
+    }
+  }
+  .account-setting__social {
+    margin-bottom: 40px;
+    display: flex;
+    padding: 20px 16px 16px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    .social__header {
+      .social__title {
+        color: var(--primary-base, #cf0);
+        font-family: Orbitron;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.72px;
+      }
+    }
+    .social__item {
+      width: 100%;
+      margin-bottom: 16px;
+      .social__item-title {
+        color: var(--Text-music-title, #f1f1f1);
+        font-family: Orbitron;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: 0.54px;
+        margin-bottom: 8px;
+      }
+      .social__desc {
+        color: var(--primary-200, #a9d400);
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.42px;
+        margin-bottom: 12px;
+      }
+      .social__input-box {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 16px 0 4px 0;
+        padding: 12px;
+        height: 54px;
+        align-self: stretch;
+        border-radius: 12px;
+        border: 1px solid var(--Color-04, #383838);
+        background: var(--Dark-Color-01, #0b0b0c);
+        .social__input {
+          z-index: 1;
+          display: flex;
+          padding: 12px;
+          gap: 10px;
+          border: none;
+        }
+        .social__edit-btn {
+          width: 120px;
+          display: flex;
+          height: 28px;
+          padding: 4px 10px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          color: var(--Text-dark-title, #1a1a1a);
+          border-radius: 12px;
+          background: var(--primary-base, #cf0);
+          font-family: Orbitron;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: normal;
+          letter-spacing: 0.42px;
+          display: flex;
+          padding: 4px 0px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+      .social__error {
+        color: var(--warning, #df1919);
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 100%; /* 12px */
+        letter-spacing: 0.36px;
+      }
+    }
+  }
+}

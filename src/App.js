@@ -14,7 +14,7 @@ import {
 import Album from "./pages/Album";
 import Create from "./pages/Create";
 import MyPage from "./pages/MyPage";
-
+import AccountSetting from "./pages/AccountSetting";
 function Layout({ children }) {
   return (
     <div>
@@ -51,6 +51,14 @@ function App() {
           element={
             <Layout>
               <MyPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/AccountSetting"
+          element={
+            <Layout>
+              <AccountSetting />
             </Layout>
           }
         />

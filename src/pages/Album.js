@@ -364,7 +364,7 @@ function Album() {
             clickable: true,
           }}
           modules={[Pagination]}
-          className="swiper__test"
+          className="swiper-music-list"
           onSlideChange={(swiper) => handleSlideChange(swiper)}
         >
           <SwiperSlide><p>Slide 1</p></SwiperSlide>

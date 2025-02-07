@@ -53,7 +53,7 @@ const MelodyMaker = ({ handler, children }) => {
             </SubBanner>
             <SelectItemWrap>
                 <SelectItem
-                    mainTitle="Popular Tags"
+                    mainTitle="Select a Tags"
                     subTitle="Popular Tags"
                     setter={setMelody}
                     objKey="melody_tag"
@@ -62,24 +62,24 @@ const MelodyMaker = ({ handler, children }) => {
                     multiple
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
+                    mainTitle="Select a Genre"
+                    subTitle="Popular Genre"
                     setter={setMelody}
                     objKey="melody_genre"
                     selected={melody?.melody_genre}
                     preset={genrePreset}
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
+                    mainTitle="Select a Style"
+                    subTitle="Popular Style"
                     setter={setMelody}
                     objKey="melody_style"
                     selected={melody?.melody_style}
                     preset={stylePreset}
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
+                    mainTitle="Select a Musical Instrument"
+                    subTitle="Popular Musical Instrument"
                     setter={setMelody}
                     objKey="melody_instrument"
                     selected={melody?.melody_instrument}

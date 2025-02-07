@@ -49,7 +49,7 @@ const LyricLab = ({ handler, children }) => {
         <div className="create__lyric-lab">
             <SelectItemWrap>
                 <SelectItem
-                    mainTitle="Popular Tags"
+                    mainTitle="Selet a Tags"
                     subTitle="Popular Tags"
                     setter={setLyric}
                     objKey="lyric_tag"
@@ -58,24 +58,24 @@ const LyricLab = ({ handler, children }) => {
                     multiple
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
+                    mainTitle="Select a Genre"
+                    subTitle="Popular Genre"
                     setter={setLyric}
                     objKey="lyric_genre"
                     selected={lyric?.lyric_genre}
                     preset={genrePreset}
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
+                    mainTitle="Select a Style"
+                    subTitle="Popular Style"
                     setter={setLyric}
                     objKey="lyric_style"
                     selected={lyric?.lyric_style}
                     preset={stylePreset}
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
+                    mainTitle="Select a Stylistic"
+                    subTitle="Popular Stylistic"
                     setter={setLyric}
                     objKey="lyric_stylistic"
                     selected={lyric?.lyric_stylistic}

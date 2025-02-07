@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Menu.scss";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import levelIcon from '../assets/images/menu/level-icon.svg';
 import userImg from '../assets/images/intro/intro-demo-img2.png';
 import copyIcon from '../assets/images/menu/content-copy-icon.svg';
 
-const Menu = () => {
+const Menu = ({active}) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
@@ -33,9 +33,29 @@ const Menu = () => {
     setActiveSubItem(subItemName);
   };
 
+
+
+
+  // const [isScrolled, setIsScrolled] = useState(false);
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 80) {
+  //       setIsScrolled(true);
+  //     } else {
+  //       setIsScrolled(false);
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+  
+
   return (
     <>
-      <div className="menu">
+      {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
+      <div className={`menu ${active ? 'active' : ''}`}>
         <div className="menu__cover">
           <dl className="menu__box">
             <dt className="menu__box__title">My Pg</dt>
@@ -116,7 +136,7 @@ const Menu = () => {
                 </div>
 
                 {/* 일반 아이템 - Albums */}
-                <div className={`menu__box__gnb-list__item album ${activeSingle === "album" ? "active" : ""}`}>
+                <div className={`menu__box__gnb-list__item ${activeSingle === "album" ? "active" : ""}`}>
                   <Link
                     to='' 
                     className="menu__box__gnb-list__item__btn" 
@@ -232,11 +252,11 @@ const Menu = () => {
                 </div>
 
                 {/* 일반 아이템 - My Favorites */}
-                <div className={`menu__box__gnb-list__item my-favorites ${activeSingle === "my-favorites" ? "active" : ""}`}>
+                <div className={`menu__box__gnb-list__item my-favorite ${activeSingle === "my-favorite" ? "active" : ""}`}>
                   <Link
                     to=''
                     className="menu__box__gnb-list__item__btn" 
-                    onClick={() => handleSingleActive("my-favorites")}
+                    onClick={() => handleSingleActive("my-favorite")}
                   >
                     <p className="icon"></p>My Favorites
                   </Link>

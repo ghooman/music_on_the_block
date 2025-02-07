@@ -5,13 +5,38 @@ import { SelectItem, SelectItemWrap } from './SelectItem';
 
 import './MelodyMaker.scss';
 
+const tagPreset = {
+    Love: ['passionate', 'romantic', 'tender', 'endearing', 'devoted'],
+    Trable: ['chaotic', 'turbulent', 'unsettling', 'difficult', 'hectic'],
+    Winter: ['frosty', 'chilly', 'serene', 'crisp', 'snowy'],
+};
+
+const genrePreset = {
+    POP: ['POP'],
+    Ballad: ['Ballad'],
+    'R&B': ['R&B'],
+    Rock: ['Rock'],
+};
+
+const stylePreset = {
+    Happy: ['Happy'],
+    Sad: ['Sad'],
+    Excitement: ['Excitement'],
+    Passionate: ['Passionate'],
+};
+
 const instrumentPreset = {
-    Orchestra: ['Violin', 'Chello', 'Timpani'],
-    Band: ['Drum', 'Guitar', 'Bass', 'Synth'],
+    Guitar: ['Guitar'],
+    Piano: ['Piano'],
+    Drums: ['Drums'],
+    Bass: ['Bass'],
 };
 
 const MelodyMaker = ({ handler, children }) => {
     const [melody, setMelody] = useState({
+        melody_tag: [],
+        melody_genre: [],
+        melody_style: [],
         melody_instrument: [],
     });
 
@@ -27,6 +52,31 @@ const MelodyMaker = ({ handler, children }) => {
                 <SubBanner.Button title="Load Details"></SubBanner.Button>
             </SubBanner>
             <SelectItemWrap>
+                <SelectItem
+                    mainTitle="Popular Tags"
+                    subTitle="Popular Tags"
+                    setter={setMelody}
+                    objKey="melody_tag"
+                    selected={melody?.melody_tag}
+                    preset={tagPreset}
+                    multiple
+                />
+                <SelectItem
+                    mainTitle="Popular Tags"
+                    subTitle="Popular Tags"
+                    setter={setMelody}
+                    objKey="melody_genre"
+                    selected={melody?.melody_genre}
+                    preset={genrePreset}
+                />
+                <SelectItem
+                    mainTitle="Popular Tags"
+                    subTitle="Popular Tags"
+                    setter={setMelody}
+                    objKey="melody_style"
+                    selected={melody?.melody_style}
+                    preset={stylePreset}
+                />
                 <SelectItem
                     mainTitle="Popular Tags"
                     subTitle="Popular Tags"

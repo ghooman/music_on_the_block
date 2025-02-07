@@ -101,15 +101,18 @@
             margin-bottom: 12px;
         }
         .wrap-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            // display: flex;
-            // justify-content: space-between;
+            display: flex;
+            gap: 16px 16px;
+            flex-wrap: wrap;
             align-items: center;
         }
     }
 
     .selected-item {
+        min-width: 25%;
+        &.multiple {
+            width: 100%;
+        }
         .item-title {
             color: var(--Text-music-title, #f1f1f1);
             font-family: Orbitron600;
@@ -120,19 +123,19 @@
         .item-value {
             display: flex;
             gap: 8px;
-            span {
-                color: #1a1a1a;
-                font-family: Inter400;
-                font-size: 14px;
-                border-radius: 12px 4px 12px 12px;
-                background: var(--secondary-100, #00ffb3);
-                padding: 4px 12px;
-            }
-            p {
+            .values {
                 color: var(--Text-music-sub, #aaa);
                 font-family: Inter500;
                 font-size: 14px;
                 letter-spacing: 0.42px;
+                &.multiple {
+                    color: #1a1a1a;
+                    font-family: Inter400;
+                    font-size: 14px;
+                    border-radius: 12px 4px 12px 12px;
+                    background: var(--secondary-100, #00ffb3);
+                    padding: 4px 12px;
+                }
             }
         }
     }

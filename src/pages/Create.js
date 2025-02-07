@@ -18,6 +18,9 @@ const Create = () => {
     });
 
     const [melodyData, setMelodyData] = useState({
+        melody_tag: [],
+        melody_genre: [],
+        melody_style: [],
         melody_instrument: [],
     });
 
@@ -29,13 +32,16 @@ const Create = () => {
             {pageNumber !== 3 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyric Lab">
-                        <SelectedItem title="Tags" value={lylicData?.lyric_tag} />
+                        <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
                         <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
                         <SelectedItem title="Style" value={lylicData?.lyric_style} />
                         <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
                     </SelectedWrap>
                     <SelectedWrap title="Melody Maker">
-                        <SelectedItem title="Tags" value={melodyData?.melody_instrument} />
+                        <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
+                        <SelectedItem title="Genre" value={melodyData?.melody_genre} />
+                        <SelectedItem title="Style" value={melodyData?.melody_style} />
+                        <SelectedItem title="Musical Instrument" value={melodyData?.melody_instrument} />
                     </SelectedWrap>
                 </div>
             )}
@@ -103,12 +109,20 @@ const SelectedWrap = ({ children, title }) => {
     );
 };
 
-const SelectedItem = ({ title, value }) => {
+const SelectedItem = ({ title, value, multiple }) => {
     return (
-        <div className="selected-item">
+        <div className={`selected-item ${multiple ? 'multiple' : ''}`}>
             <p className="item-title">{title}</p>
             <div className="item-value">
-                {value?.length > 0 ? value.map((item) => <span key={item}>{item}</span>) : <p>-</p>}
+                {value?.length > 0 ? (
+                    value.map((item) => (
+                        <span className={`values ${multiple ? 'multiple' : ''} `} key={item}>
+                            {item}
+                        </span>
+                    ))
+                ) : (
+                    <p className="values">-</p>
+                )}
             </div>
         </div>
     );

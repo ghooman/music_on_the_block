@@ -4,8 +4,6 @@ import { useState } from 'react';
 import SubBanner from './SubBanner';
 import { SelectItem, SelectItemWrap } from './SelectItem';
 
-import cancelIcon from '../../assets/images/icon/cancel.svg';
-
 import './LyricLab.scss';
 
 const tagPreset = {
@@ -50,7 +48,6 @@ const LyricLab = ({ handler, children }) => {
     return (
         <div className="create__lyric-lab">
             <SelectItemWrap>
-                <TagSelectTitle />
                 <SelectItem
                     mainTitle="Popular Tags"
                     subTitle="Popular Tags"
@@ -95,12 +92,3 @@ const LyricLab = ({ handler, children }) => {
     );
 };
 export default LyricLab;
-
-const TagSelectTitle = () => {
-    return (
-        <div className="tag-select-title">
-            <h2 className="tag-select-title__text">Select a Tags</h2>
-            <div className="tag-select-title__notice">You can enter up to 5 keywords</div>
-        </div>
-    );
-};

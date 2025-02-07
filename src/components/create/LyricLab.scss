@@ -1,37 +1,4 @@
 .create__lyric-lab {
-    .tag-select-title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .tag-select-title__text {
-            color: var(--Text-music-title, #cf0);
-            font-family: Orbitron400;
-            font-size: 24px;
-            letter-spacing: 0.72px;
-            position: relative;
-            margin-bottom: 8px;
-            &::after {
-                position: absolute;
-                content: '';
-                width: 5px;
-                height: 5px;
-                top: 0;
-                background-color: #cf0;
-                border-radius: 100%;
-            }
-        }
-        .tag-select-title__notice {
-            color: var(--Daisy, #ffd700);
-            font-family: Inter400;
-            font-size: 12px;
-            padding: 4px;
-            height: 23px;
-            background-color: #222;
-            border-radius: 100px;
-            width: fit-content;
-        }
-    }
-
     .mb16 {
         margin-bottom: 16px;
     }

@@ -136,7 +136,7 @@ const Menu = ({active}) => {
                 </div>
 
                 {/* 일반 아이템 - Albums */}
-                <div className={`menu__box__gnb-list__item album ${activeSingle === "album" ? "active" : ""}`}>
+                <div className={`menu__box__gnb-list__item ${activeSingle === "album" ? "active" : ""}`}>
                   <Link
                     to='' 
                     className="menu__box__gnb-list__item__btn" 
@@ -252,11 +252,11 @@ const Menu = ({active}) => {
                 </div>
 
                 {/* 일반 아이템 - My Favorites */}
-                <div className={`menu__box__gnb-list__item my-favorites ${activeSingle === "my-favorites" ? "active" : ""}`}>
+                <div className={`menu__box__gnb-list__item my-favorite ${activeSingle === "my-favorite" ? "active" : ""}`}>
                   <Link
                     to=''
                     className="menu__box__gnb-list__item__btn" 
-                    onClick={() => handleSingleActive("my-favorites")}
+                    onClick={() => handleSingleActive("my-favorite")}
                   >
                     <p className="icon"></p>My Favorites
                   </Link>

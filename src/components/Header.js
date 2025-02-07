@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import './Header.scss';
+import React, { useState } from "react";
+import "./Header.scss";
 import {
-    BrowserRouter,
-    Link,
-    Route,
-    Router,
-    Routes,
-    useLocation,
-    // useNavigate,
-} from 'react-router-dom';
+  BrowserRouter,
+  Link,
+  Route,
+  Router,
+  Routes,
+  useLocation,
+  // useNavigate,
+} from "react-router-dom";
 // import LogoHansung from "../assets/images/";
-import Album from '../pages/Album';
+import Album from "../pages/Album";
 
 //이미지
-import mainLogo from '../assets/images/header/logo.svg';
-import Menu from './Menu';
+import mainLogo from "../assets/images/header/logo.svg";
+import Menu from "./Menu";
+import MyPage from "../pages/MyPage";
 
 const Header = ({ setIsLoggedIn }) => {
-    const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-    const handleClick = () => {
-        setIsActive(!isActive);
-    };
+  const handleClick = () => {
+    setIsActive(!isActive);
+  };
 
     return (
         <>

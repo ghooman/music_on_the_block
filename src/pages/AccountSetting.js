@@ -1,4 +1,4 @@
-import "./AccountSetting.scss";
+import "../styles/AccountSetting.scss";
 // 이미지
 import demoUser from "../assets/images/account/demo-user1.png";
 import editIcon1 from "../assets/images/icon/picture1.svg";

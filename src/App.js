@@ -14,12 +14,12 @@ import {
 import Album from "./pages/Album";
 import Create from "./pages/Create";
 import MyPage from "./pages/MyPage";
-
+import AccountSetting from "./pages/AccountSetting";
 function Layout({ children }) {
   return (
     <div>
       <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      {children}
+      <div className="inner">{children}</div>
     </div>
   );
 }
@@ -30,9 +30,38 @@ function App() {
       <title>MUSIC ON THE BLOCK</title>
       <Routes>
         <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
-        <Route path="/Album" element={<Layout />} />
-        <Route path="/create" element={<Create />}></Route>
-        <Route path="/MyPage" element={<MyPage />} />
+        <Route
+          path="/Album"
+          element={
+            <Layout>
+              <Album />
+            </Layout>
+          }
+        />
+        <Route
+          path="/Create"
+          element={
+            <Layout>
+              <Create />
+            </Layout>
+          }
+        />
+        <Route
+          path="/MyPage"
+          element={
+            <Layout>
+              <MyPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/AccountSetting"
+          element={
+            <Layout>
+              <AccountSetting />
+            </Layout>
+          }
+        />
       </Routes>
     </div>
   );

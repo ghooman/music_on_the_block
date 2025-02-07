@@ -109,10 +109,9 @@ const Header = ({ setIsLoggedIn }) => {
 
       <Menu />
 
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Album />} />
-        <Route path="/mypage" element={<MyPage />} />
-      </Routes>
+      </Routes> */}
     </>
   );
 };

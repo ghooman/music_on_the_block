@@ -1,0 +1,51 @@
+.create__description-banner {
+    padding: 24px;
+    border-radius: 18px;
+    background-image: url('../../assets/images/create/bg.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .desc-banner__title {
+        color: var(--Text-music-title, #f1f1f1);
+        font-family: Orbitron400;
+        font-size: 18px;
+        letter-spacing: 0.54px;
+    }
+    .desc-banner__strong {
+        color: var(--primary-base, #cf0);
+        font-family: Orbitron400;
+        font-size: 36px;
+        line-height: 100%; /* 36px */
+    }
+    .desc-banner__notice {
+        color: var(--Text-music-sub, #aaa);
+        font-family: Inter400;
+        font-size: 16px;
+        letter-spacing: 0.48px;
+    }
+    .desc-banner__tip-box {
+        display: flex;
+        max-width: 715px;
+        padding: 12px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        border-radius: 4px;
+        background: var(--primary-700, #121a00);
+    }
+    .desc-banner__tip-header {
+        color: var(--secondary-base, #00ffb3);
+        font-family: Inter400;
+        line-height: 100%; /* 16px */
+        white-space: nowrap;
+    }
+    .desc-banner__tips {
+        color: var(--secondary-400, #007e56);
+        font-family: Inter400;
+        font-size: 16px;
+        line-height: 100%; /* 16px */
+    }
+}

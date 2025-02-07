@@ -1,0 +1,68 @@
+.create__album-cover-studio {
+    .creating {
+        display: flex;
+        gap: 24px;
+    }
+    .creating-list,
+    .creating-select {
+        width: 100%;
+        padding: 24px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .creating-list {
+        background-color: #383838;
+        gap: 40px;
+    }
+    .creating-list__title {
+        color: #f1f1f1;
+        text-align: center;
+        font-family: Orbitron500;
+        font-size: 18px;
+    }
+    .creating-list__items {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+    .creating-list__items--item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        gap: 10px;
+        border-radius: 12px;
+        background-color: #1a1a1a;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        &:hover {
+            border: 1px solid #cf0;
+            padding: 24px;
+        }
+        progress {
+            width: 100%;
+            max-width: 48px;
+            height: 5px;
+        }
+    }
+
+    .creating-select {
+        background-color: #0b0b0c;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .creating-select__wait-text {
+        color: #6e6e6e;
+        text-align: center;
+        font-family: Inter400;
+        font-size: 16px;
+    }
+}

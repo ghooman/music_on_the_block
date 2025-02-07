@@ -3,16 +3,67 @@ import React from 'react';
 
 import '../styles/Create.scss';
 import LyricLab from '../components/create/LyricLab';
+import MelodyMaker from '../components/create/MelodyMaker';
+import DescriptionBanner from '../components/create/DescriptionBanner';
+import AlbumCoverSudio from '../components/create/AlbumCoverStudio';
+import Finalize from '../components/create/Finalize';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(0);
+    const [lylicData, setLyricData] = useState({
+        lyric_tag: [],
+        lyric_genre: [],
+        lyric_style: [],
+        lyric_stylistic: [],
+    });
+
+    const [melodyData, setMelodyData] = useState({
+        melody_instrument: [],
+    });
 
     return (
         <div className="music_create">
             <Title />
             <Progress pageNumber={pageNumber} />
-            <Banner />
-            {pageNumber === 0 && <LyricLab setPageNumber={setPageNumber} />}
+            <DescriptionBanner pageNumber={pageNumber} />
+            {pageNumber !== 3 && (
+                <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <SelectedWrap title="Lyric Lab">
+                        <SelectedItem title="Tags" value={lylicData?.lyric_tag} />
+                        <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+                        <SelectedItem title="Style" value={lylicData?.lyric_style} />
+                        <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+                    </SelectedWrap>
+                    <SelectedWrap title="Melody Maker">
+                        <SelectedItem title="Tags" value={melodyData?.melody_instrument} />
+                    </SelectedWrap>
+                </div>
+            )}
+            {pageNumber === 0 && (
+                <LyricLab handler={setLyricData}>
+                    <ButtonWrap>
+                        <ButtonWrap.Button title="skip" />
+                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                    </ButtonWrap>
+                </LyricLab>
+            )}
+            {pageNumber === 1 && (
+                <MelodyMaker handler={setMelodyData}>
+                    <ButtonWrap>
+                        <ButtonWrap.Button title="skip" />
+                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                    </ButtonWrap>
+                </MelodyMaker>
+            )}
+            {pageNumber === 2 && (
+                <AlbumCoverSudio>
+                    <ButtonWrap>
+                        <ButtonWrap.Button title="skip" />
+                        <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                    </ButtonWrap>
+                </AlbumCoverSudio>
+            )}
+            {pageNumber === 3 && <Finalize></Finalize>}
         </div>
     );
 };
@@ -29,7 +80,7 @@ const Progress = ({ pageNumber }) => {
     return (
         <div className="progress mb40">
             {pages.map((item, index, { length }) => (
-                <React.Fragment>
+                <React.Fragment key={item}>
                     <div className="progress__item">
                         <div className={`progress__square ${pageNumber >= index ? 'enable' : ''}`}></div>
                         <p className={`progress__text ${pageNumber >= index ? 'enable' : ''}`}>{item}</p>
@@ -43,24 +94,34 @@ const Progress = ({ pageNumber }) => {
     );
 };
 
-const Banner = () => {
+const SelectedWrap = ({ children, title }) => {
     return (
-        <div className="lyric mb40">
-            <p className="lyric__title">Lyric Lab</p>
-            <strong className="lyric__strong">"Crafting the Perfect Words for Your Song"</strong>
-            <p className="lyric__notice">
-                In this step, you’ll provide the core elements for your song’s lyrics. Start by selecting up to 5
-                meaningful keywords that capture the essence of your story. Then, choose a genre and emotional style
-                that best matches the vibe of your song. Finally, describe the story you want to tell in up to 100
-                words. AI will use this informatio
-            </p>
-            <div className="lyric__tip-box">
-                <p className="lyric__tip-header">Tip : </p>
-                <p className="lyric__tips">
-                    Use keywords that represent themes or emotions, such as 'Love,' 'Dream,' or 'Adventure.' Be as
-                    descriptive as possible in the story section for the best results
-                </p>
+        <div className="selected-wrap">
+            <h2 className="wrap-title">{title}</h2>
+            <div className="wrap-content">{children}</div>
+        </div>
+    );
+};
+
+const SelectedItem = ({ title, value }) => {
+    return (
+        <div className="selected-item">
+            <p className="item-title">{title}</p>
+            <div className="item-value">
+                {value?.length > 0 ? value.map((item) => <span key={item}>{item}</span>) : <p>-</p>}
             </div>
         </div>
+    );
+};
+
+const ButtonWrap = ({ children }) => {
+    return <div className="button-wrap">{children}</div>;
+};
+
+ButtonWrap.Button = ({ title, handler }) => {
+    return (
+        <button className={title} onClick={handler}>
+            {title}
+        </button>
     );
 };

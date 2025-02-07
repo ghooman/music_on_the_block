@@ -4,7 +4,7 @@ import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
 
 const AlbumsTable = () => {
   return (
-    <table className="my-albums__table">
+    <table className="albums-table">
       <thead>
         <tr>
           <th>#</th>
@@ -29,7 +29,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -57,7 +57,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -85,7 +85,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -99,7 +99,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -113,7 +113,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -127,7 +127,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -141,7 +141,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
         <tr>
@@ -155,7 +155,7 @@ const AlbumsTable = () => {
             <img src={halfHeartIcon} alt="like-heart-icon"></img>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <button className="albums-table__detail-btn">Detail</button>
           </td>
         </tr>
       </tbody>

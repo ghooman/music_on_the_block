@@ -5,12 +5,11 @@ import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
 import gearImg from "../assets/images/mypage/gear.svg";
 import demoSocial from "../assets/images/mypage/instar.png";
-import demoChart from "../assets/images/mypage/demo-chart.png";
-import demoChart2 from "../assets/images/mypage/demo-chart2.png";
-import demoChart3 from "../assets/images/mypage/demo-chart3.png";
+
 import AiServices from "../components/mypage/AiServices";
 import Albums from "../components/mypage/Albums";
 import MyFavorites from "../components/mypage/MyFavorites";
+import Reward from "../components/mypage/Reward";
 const MyPage = () => {
   const [selectedService, setSelectedService] = useState("AI Services");
 
@@ -104,6 +103,7 @@ const MyPage = () => {
       {selectedService === "AI Services" && <AiServices />}
       {selectedService === "Albums" && <Albums />}
       {selectedService === "My Favorites" && <MyFavorites />}
+      {selectedService === "Rewards & Payments" && <Reward />}
     </div>
   );
 };

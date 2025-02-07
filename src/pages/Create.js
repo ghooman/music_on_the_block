@@ -24,6 +24,14 @@ const Create = () => {
         melody_instrument: [],
     });
 
+    const [tempo, setTempo] = useState([90]);
+
+    const [albumCover, setAlbumCover] = useState(null);
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [pageNumber]);
+
     return (
         <div className="music_create">
             <Title />
@@ -41,7 +49,17 @@ const Create = () => {
                         <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
                         <SelectedItem title="Genre" value={melodyData?.melody_genre} />
                         <SelectedItem title="Style" value={melodyData?.melody_style} />
-                        <SelectedItem title="Musical Instrument" value={melodyData?.melody_instrument} />
+                        <SelectedItem
+                            title={
+                                <>
+                                    Musical
+                                    <br />
+                                    Instrument
+                                </>
+                            }
+                            value={melodyData?.melody_instrument}
+                        />
+                        <SelectedItem title="Tempo" value={tempo} />
                     </SelectedWrap>
                 </div>
             )}
@@ -54,7 +72,7 @@ const Create = () => {
                 </LyricLab>
             )}
             {pageNumber === 1 && (
-                <MelodyMaker handler={setMelodyData}>
+                <MelodyMaker handler={setMelodyData} tempo={tempo} setTempo={setTempo}>
                     <ButtonWrap>
                         <ButtonWrap.Button title="skip" />
                         <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
@@ -62,14 +80,20 @@ const Create = () => {
                 </MelodyMaker>
             )}
             {pageNumber === 2 && (
-                <AlbumCoverSudio>
+                <AlbumCoverSudio setAlbumCover={setAlbumCover}>
                     <ButtonWrap>
                         <ButtonWrap.Button title="skip" />
                         <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
                     </ButtonWrap>
                 </AlbumCoverSudio>
             )}
-            {pageNumber === 3 && <Finalize></Finalize>}
+            {pageNumber === 3 && (
+                <Finalize albumCover={albumCover}>
+                    <ButtonWrap>
+                        <ButtonWrap.Button title="upload" handler={() => alert('음악생성.')} />
+                    </ButtonWrap>
+                </Finalize>
+            )}
         </div>
     );
 };

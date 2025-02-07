@@ -5,13 +5,23 @@ import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
 
-export const SelectItemWrap = ({ children }) => {
+export const SelectItemWrap = ({ children, dropdown }) => {
+    const [visible, setVisible] = useState(!dropdown);
+
     return (
         <div className="create__select-components">
             <div className="tag-select-title">
                 <h2 className="tag-select-title__text">Select a Tags</h2>
+                {dropdown && (
+                    <div
+                        className={`tag-select-title__dropdown-toggle ${visible ? 'visible' : ''}`}
+                        onClick={() => setVisible((prev) => !prev)}
+                    >
+                        <div className={`tag-select-title__dropdown-thumb ${visible ? 'visible' : ''}`}></div>
+                    </div>
+                )}
             </div>
-            {children}
+            {visible ? children : null}
         </div>
     );
 };
@@ -95,7 +105,6 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
                             Select
                             <input
                                 type="color"
-                                // style={{ display: 'none' }}
                                 onChange={(e) => setInput(e.target.value)}
                                 onBlur={() => {
                                     addItem();
@@ -120,18 +129,17 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
     );
 };
 
-export const SelectItemTempo = () => {
+export const SelectItemTempo = ({ tempo, setTempo }) => {
     const rangeRef = useRef(null);
-    const [value, setValue] = useState([0]);
 
     const rangesInstance = useRanger({
         getRangerElement: () => rangeRef.current,
-        values: value,
-        min: 0,
-        max: 100,
-        stepSize: 5,
+        values: tempo,
+        min: 60,
+        max: 250,
+        stepSize: 1,
         onChange: (instance) => {
-            setValue(instance.sortedValues);
+            setTempo(instance.sortedValues);
         },
     });
 
@@ -140,13 +148,23 @@ export const SelectItemTempo = () => {
             <div className="tag-title__block">
                 <h3 className="tag-title">Select a Tempo</h3>
             </div>
+            <div
+                className={`tag-title__tempos ${
+                    tempo > 60 && tempo < 80 ? 'slow' : tempo > 80 && tempo < 120 ? 'medium' : tempo > 120 ? 'fast' : ''
+                }`}
+            >
+                {tempo > 60 && tempo < 80 && 'Slow : Calm and reflective (60-80 BPM)'}
+                {tempo > 80 && tempo < 120 && 'Medium: Balanced and versatile (81-120 BPM)'}
+                {tempo > 120 && 'Fast: Energetic and upbeat (121-160 BPM)'}
+            </div>
             <div className="tag-select__range" ref={rangeRef}>
-                {/* <div
-                    className="tag-select__range--applicable"
-                    style={{ width: `${rangesInstance.getPercentageForValue(value)}%` }}
-                ></div> */}
                 {rangesInstance?.getSteps().map(() => {
-                    return <div style={{ width: `${rangesInstance.getPercentageForValue(value)}%` }}>1</div>;
+                    return (
+                        <div
+                            className="tag-select__range--applicable"
+                            style={{ width: `${rangesInstance.getPercentageForValue(tempo)}%` }}
+                        ></div>
+                    );
                 })}
                 {rangesInstance
                     .handles()
@@ -164,7 +182,11 @@ export const SelectItemTempo = () => {
                             style={{
                                 left: `${rangesInstance.getPercentageForValue(value)}%`,
                             }}
-                        />
+                        >
+                            <div className="tag-select__range--thumb-tick">
+                                <span>{value}</span> BPM
+                            </div>
+                        </button>
                     ))}
             </div>
         </div>

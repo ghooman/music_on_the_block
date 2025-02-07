@@ -357,7 +357,7 @@ function Album() {
           loop={true}
           slidesPerView={5}
           centeredSlides={true}
-          spaceBetween={16}
+          spaceBetween={0}
           initialSlide={2}
           grabCursor={true}
           pagination={{
@@ -367,15 +367,59 @@ function Album() {
           className="swiper-music-list"
           onSlideChange={(swiper) => handleSlideChange(swiper)}
         >
-          <SwiperSlide><p>Slide 1</p></SwiperSlide>
-          <SwiperSlide><p>Slide 2</p></SwiperSlide>
+          {tracks.map((track, index) => (
+            <SwiperSlide
+              key={track.id}
+              className={`swiper-music-list__item ${selectedTrackIndex === index ? 'active' : ''}`}
+              onClick={() => handleTrackClick(index)}
+            >
+              <div className="swiper-music-list__item__left">
+                <div
+                  className="swiper-music-list__item__left__img"
+                  style={{ backgroundImage: `url(${track.cover})` }}
+                >
+                </div>
+                <span className="time">
+                  {selectedTrackIndex === index
+                    ? `${formatTime(currentTime)}`
+                    : formatTime(track.duration)}
+                </span>
+              </div>
+              <div className="swiper-music-list__item__right">
+                <p className="swiper-music-list__item__right__title">
+                  {track.title}
+                </p>
+                <div className="swiper-music-list__item__right__love-play">
+                  <p className="love"><img src={loveIcon}/>145</p>
+                  <p className="play"><img src={playIcon}/>145</p>
+                </div>
+                <div className="swiper-music-list__item__right__user">
+                  <p className="swiper-music-list__item__right__user__info">
+                    <img src={defaultCoverImg}/>Yolkhead
+                  </p>
+                  <button className="swiper-music-list__item__right__user__btn">
+                    유저정보
+                  </button>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+          {/* {tracks.map((track, index) => (
+            <SwiperSlide className="swiper-music-list__item">
+              <p 
+                // style={{ backgroundImage: `url(${track.cover})` }}
+              >1
+              </p>
+            </SwiperSlide>
+          ))} */}
+          {/* <SwiperSlide><p>Slide 2</p></SwiperSlide>
           <SwiperSlide><p>Slide 3</p></SwiperSlide>
           <SwiperSlide><p>Slide 4</p></SwiperSlide>
           <SwiperSlide><p>Slide 5</p></SwiperSlide>
           <SwiperSlide><p>Slide 6</p></SwiperSlide>
           <SwiperSlide><p>Slide 7</p></SwiperSlide>
           <SwiperSlide><p>Slide 8</p></SwiperSlide>
-          <SwiperSlide><p>Slide 9</p></SwiperSlide>
+          <SwiperSlide><p>Slide 9</p></SwiperSlide> */}
         </Swiper>
       </section>
 

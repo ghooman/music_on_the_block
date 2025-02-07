@@ -32,7 +32,7 @@ const instrumentPreset = {
     Bass: ['Bass'],
 };
 
-const MelodyMaker = ({ handler, children }) => {
+const MelodyMaker = ({ handler, children, tempo, setTempo }) => {
     const [melody, setMelody] = useState({
         melody_tag: [],
         melody_genre: [],
@@ -85,7 +85,7 @@ const MelodyMaker = ({ handler, children }) => {
                     selected={melody?.melody_instrument}
                     preset={instrumentPreset}
                 />
-                <SelectItemTempo />
+                <SelectItemTempo tempo={tempo} setTempo={setTempo} />
                 <SelectItemStory />
             </SelectItemWrap>
             <SubBanner>

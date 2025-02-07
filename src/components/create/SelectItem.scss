@@ -9,7 +9,7 @@
 
     .tag-select-title {
         display: flex;
-        justify-content: space-between;
+        gap: 16px;
         align-items: center;
         .tag-select-title__text {
             color: var(--Text-music-title, #cf0);
@@ -26,6 +26,34 @@
                 top: 0;
                 background-color: #cf0;
                 border-radius: 100%;
+            }
+        }
+
+        .tag-select-title__dropdown-toggle {
+            width: 50px;
+            height: 24px;
+            border-radius: 20px;
+            background-color: #222;
+            transition: 0.3s;
+            display: flex;
+            padding: 4px;
+            align-items: center;
+            cursor: pointer;
+            &.visible {
+                background-color: #cf0;
+            }
+        }
+        .tag-select-title__dropdown-thumb {
+            width: 18px;
+            height: 18px;
+            background-color: #f1f1f1;
+            border-radius: 20px;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.4);
+            transition: 0.3s all;
+            position: relative;
+            left: 0;
+            &.visible {
+                left: calc(100% - 18px);
             }
         }
     }
@@ -98,6 +126,7 @@
             border-radius: 12px;
             position: relative;
             input {
+                background-color: #222;
                 position: absolute;
                 height: 0px;
                 width: 0px;
@@ -150,11 +179,31 @@
         }
     }
 
+    .tag-title__tempos {
+        padding: 4px;
+        border-radius: 100px;
+        font-family: Inter400;
+        font-size: 12px;
+        border: 1px solid;
+        width: fit-content;
+
+        &.slow {
+            color: #5a9bf6;
+        }
+        &.medium {
+            color: #ffd700;
+        }
+        &.fast {
+            color: #ff6f61;
+        }
+    }
+
     .tag-select__range {
         position: relative;
         height: 16px;
         background-color: #383838;
         border-radius: 25px;
+        margin-top: 40px;
 
         .tag-select__range--applicable {
             position: absolute;
@@ -162,6 +211,7 @@
             left: 0;
             background-color: #cf0;
             border-radius: 25px;
+            transition: 0.6s;
         }
 
         .tag-select__range--thumb {
@@ -173,6 +223,37 @@
             border-radius: 4px;
             background-color: #cf0;
             box-shadow: -4px 0px 4px 0px rgba(44, 58, 0, 0.6);
+            .tag-select__range--thumb-tick {
+                position: absolute;
+                top: -45px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #222;
+                padding: 8px 12px;
+                border-radius: 8px;
+                border: 1px solid #cf0;
+                text-align: center;
+                font-family: Orbitron700;
+                font-size: 12px;
+                white-space: nowrap;
+                line-height: 16px; /* 133.333% */
+                span {
+                    color: #cf0;
+                    font: inherit;
+                }
+                &::before {
+                    z-index: -1;
+                    content: '';
+                    position: absolute;
+                    border-bottom: 10px solid transparent;
+                    border-top: 10px solid transparent;
+                    border-left: 10px solid #cf0;
+                    border-right: 10px solid transparent;
+                    bottom: -20px;
+                    left: 50%;
+                    transform: translateX(-50%) rotate(90deg);
+                }
+            }
         }
     }
 }

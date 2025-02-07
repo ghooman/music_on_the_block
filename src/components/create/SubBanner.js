@@ -18,9 +18,9 @@ SubBanner.SubMessage = ({ text }) => {
     return <p className="sub-banner__sub-message">{text}</p>;
 };
 
-SubBanner.Button = ({ title, action }) => {
+SubBanner.Button = ({ title, handler }) => {
     return (
-        <button className="sub-banner__buttons" onClick={action}>
+        <button className="sub-banner__buttons" onClick={handler}>
             {title}
         </button>
     );

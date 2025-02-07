@@ -1,9 +1,9 @@
 import './Finalize.scss';
 
-const Finalize = ({ children }) => {
+const Finalize = ({ children, albumCover }) => {
     return (
         <div className="craete__finalizes">
-            <MusicInfo></MusicInfo>
+            <MusicInfo albumCover={albumCover}></MusicInfo>
             <CreatedLyrics></CreatedLyrics>
             <CheckList></CheckList>
             {children}
@@ -13,7 +13,7 @@ const Finalize = ({ children }) => {
 
 export default Finalize;
 
-const MusicInfo = () => {
+const MusicInfo = ({ albumCover }) => {
     const datas = [
         { title: 'Title', value: 'Winter Serenity' },
         { title: 'AI Artist', value: 'Winter Serenity' },
@@ -27,7 +27,7 @@ const MusicInfo = () => {
 
     return (
         <div className="music-info">
-            <div className="music-info__image">2</div>
+            <div className="music-info__image" style={{ backgroundImage: `url(${albumCover})` }}></div>
             <ul className="music-info__data">
                 {datas.map((item) => (
                     <li className="music-info__data--item">

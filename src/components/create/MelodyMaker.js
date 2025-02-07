@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemWrap } from './SelectItem';
+import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemStory } from './SelectItem';
 
 import './MelodyMaker.scss';
 
@@ -85,6 +85,8 @@ const MelodyMaker = ({ handler, children }) => {
                     selected={melody?.melody_instrument}
                     preset={instrumentPreset}
                 />
+                <SelectItemTempo />
+                <SelectItemStory />
             </SelectItemWrap>
             <SubBanner>
                 <SubBanner.Title text="What happens if I skip a step"></SubBanner.Title>

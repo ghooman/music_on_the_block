@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { useRanger, Ranger } from '@tanstack/react-ranger';
 
 import cancelIcon from '../../assets/images/icon/cancel.svg';
 
@@ -119,6 +120,65 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
     );
 };
 
-const SelectItemTempo = () => {
-    return <div></div>;
+export const SelectItemTempo = () => {
+    const rangeRef = useRef(null);
+    const [value, setValue] = useState([0]);
+
+    const rangesInstance = useRanger({
+        getRangerElement: () => rangeRef.current,
+        values: value,
+        min: 0,
+        max: 100,
+        stepSize: 5,
+        onChange: (instance) => {
+            setValue(instance.sortedValues);
+        },
+    });
+
+    return (
+        <div className="tag-select">
+            <div className="tag-title__block">
+                <h3 className="tag-title">Select a Tempo</h3>
+            </div>
+            <div className="tag-select__range" ref={rangeRef}>
+                {/* <div
+                    className="tag-select__range--applicable"
+                    style={{ width: `${rangesInstance.getPercentageForValue(value)}%` }}
+                ></div> */}
+                {rangesInstance?.getSteps().map(() => {
+                    return <div style={{ width: `${rangesInstance.getPercentageForValue(value)}%` }}>1</div>;
+                })}
+                {rangesInstance
+                    .handles()
+                    ?.map(({ value, onKeyDownHandler, onMouseDownHandler, onTouchStart, isActive }, i) => (
+                        <button
+                            className="tag-select__range--thumb"
+                            key={i}
+                            onKeyDown={onKeyDownHandler}
+                            onMouseDown={onMouseDownHandler}
+                            onTouchStart={onTouchStart}
+                            role="slider"
+                            aria-valuemin={rangesInstance.options.min}
+                            aria-valuemax={rangesInstance.options.max}
+                            aria-valuenow={value}
+                            style={{
+                                left: `${rangesInstance.getPercentageForValue(value)}%`,
+                            }}
+                        />
+                    ))}
+            </div>
+        </div>
+    );
+};
+
+export const SelectItemStory = () => {
+    return (
+        <div className="tag-select">
+            <div className="tag-title__block">
+                <h3 className="tag-title">Your Story</h3>
+                <p className="tag-title__notice">You can enter up to 100 words</p>
+            </div>
+            <input className="tag-input" type="text" placeholder="Briefly describe the story you want to tell." />
+        </div>
+    );
 };

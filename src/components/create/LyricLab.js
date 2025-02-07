@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemWrap } from './SelectItem';
+import { SelectItem, SelectItemWrap, SelectItemStory } from './SelectItem';
 
 import './LyricLab.scss';
 
@@ -81,6 +81,7 @@ const LyricLab = ({ handler, children }) => {
                     selected={lyric?.lyric_stylistic}
                     preset={stylisticPreset}
                 />
+                <SelectItemStory />
             </SelectItemWrap>
             <SubBanner>
                 <SubBanner.Title text="What happens if I skip a step?" />

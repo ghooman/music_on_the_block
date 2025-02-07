@@ -11,6 +11,7 @@ import demoChart3 from "../assets/images/mypage/demo-chart3.png";
 import AiServices from "../components/mypage/AiServices";
 import Albums from "../components/mypage/Albums";
 import MyFavorites from "../components/mypage/MyFavorites";
+import FilterDateModal from "../components/unit/FilterDateModal";
 const MyPage = () => {
   const [selectedService, setSelectedService] = useState("AI Services");
 
@@ -100,7 +101,7 @@ const MyPage = () => {
           </button>
         ))}
       </nav>
-
+      <FilterDateModal />
       {selectedService === "AI Services" && <AiServices />}
       {selectedService === "Albums" && <Albums />}
       {selectedService === "My Favorites" && <MyFavorites />}

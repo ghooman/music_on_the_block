@@ -147,6 +147,18 @@
           letter-spacing: 0.54px;
           margin-bottom: 8px;
         }
+        .user-info__desc-box {
+          display: flex;
+          justify-content: space-between;
+          .user-info__count {
+            color: var(--primary-200, #a9d400);
+            font-family: Inter;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 100%; /* 14px */
+          }
+        }
         .user-info__desc {
           color: var(--primary-200, #a9d400);
           font-family: Inter;

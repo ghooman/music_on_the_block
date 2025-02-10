@@ -9,6 +9,7 @@
     align-self: stretch;
     border-radius: 12px;
     border: 1px solid var(--Color-03, #222);
+    margin-bottom: 40px;
     .section__header {
       width: 100%;
       display: flex;
@@ -22,6 +23,71 @@
         font-style: normal;
         line-height: normal;
         letter-spacing: 0.72px;
+      }
+    }
+    .section__table {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      thead {
+        border-bottom: 1px solid var(--stroke-stroke, #232323);
+        tr {
+          height: 70px;
+          padding: 12px 16px;
+          gap: 16px;
+          align-items: center;
+          align-self: stretch;
+          th {
+            color: var(--primary-200, #a9d400);
+            text-align: center;
+            font-family: Orbitron400;
+            font-size: 14px;
+            font-style: normal;
+            line-height: normal;
+          }
+        }
+      }
+      tbody {
+        tr {
+          height: 70px;
+          padding: 12px 16px;
+          gap: 16px;
+          align-self: stretch;
+          td {
+            color: var(--Text-music-sub, #aaa);
+            text-align: center;
+            font-family: Inter400;
+            font-size: 14px;
+            font-style: normal;
+            line-height: normal;
+            .table-button {
+              color: var(--Text-music-sub, #aaa);
+              font-family: Inter500;
+              font-size: 12px;
+              font-style: normal;
+              line-height: 100%; /* 12px */
+              letter-spacing: 0.36px;
+              display: flex;
+              width: 100px;
+              padding: 8px 12px;
+              justify-content: center;
+              align-items: center;
+              gap: 8px;
+              border-radius: 12px;
+              background: var(--Color-03, #222);
+            }
+          }
+          .pending {
+            color: #df1919;
+          }
+          .completed {
+            color: #cf0;
+          }
+          &:hover {
+            background: var(--Color-04, #383838);
+          }
+        }
       }
     }
   }

@@ -10,6 +10,27 @@
         border-radius: 12px;
         display: flex;
         flex-direction: column;
+        height: 462px;
+        progress {
+            width: 100%;
+            max-width: 270px;
+            height: 4px;
+            &::-webkit-progress-bar {
+                background-color: #6e6e6e;
+                border-radius: 5px;
+            }
+
+            &::-webkit-progress-value {
+                background-color: #cf0; /* 진행 색상 */
+                border-radius: 5px;
+            }
+
+            /* Firefox */
+            &::-moz-progress-bar {
+                background-color: #cf0;
+                border-radius: 5px;
+            }
+        }
     }
 
     .creating-list {
@@ -39,14 +60,33 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        &:hover {
+        border: 1px solid transparent;
+        transition: 0.3s all;
+        cursor: pointer;
+        &:hover,
+        &.selected {
             border: 1px solid #cf0;
             padding: 24px;
         }
         progress {
             width: 100%;
             max-width: 48px;
-            height: 5px;
+            height: 4px;
+            &::-webkit-progress-bar {
+                background-color: #6e6e6e;
+                border-radius: 5px;
+            }
+
+            &::-webkit-progress-value {
+                background-color: #cf0; /* 진행 색상 */
+                border-radius: 5px;
+            }
+
+            /* Firefox */
+            &::-moz-progress-bar {
+                background-color: #cf0;
+                border-radius: 5px;
+            }
         }
     }
 
@@ -58,11 +98,48 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        position: relative;
+
+        .creating-select__feel-box {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            gap: 8px;
+        }
+        .creating-select__feel-item {
+            color: #1a1a1a;
+            font-family: Inter400;
+            font-size: 14px;
+            border-radius: 12px 4px 12px 12px;
+            background: var(--secondary-100, #00ffb3);
+            padding: 4px 12px;
+        }
+        .creating-select__confirm {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            padding: 4px 10px;
+            color: var(--Text-dark-title, #1a1a1a);
+            font-family: Orbitron600;
+            font-size: 14px;
+            letter-spacing: 0.42px;
+            border-radius: 12px;
+            background-color: #cf0;
+        }
     }
     .creating-select__wait-text {
         color: #6e6e6e;
         text-align: center;
         font-family: Inter400;
         font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .create__album-cover-studio {
+        .creating {
+            flex-direction: column;
+        }
     }
 }

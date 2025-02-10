@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemWrap } from './SelectItem';
+import { SelectItem, SelectItemWrap, SelectItemStory } from './SelectItem';
 
-import cancelIcon from '../../assets/images/icon/cancel.svg';
+import subBg2 from '../../assets/images/create/subbanner-bg2.png';
 
 import './LyricLab.scss';
 
@@ -35,57 +35,47 @@ const stylisticPreset = {
     Soft: ['Soft'],
 };
 
-const LyricLab = ({ handler, children }) => {
-    const [lyric, setLyric] = useState({
-        lyric_tag: [],
-        lyric_genre: [],
-        lyric_style: [],
-        lyric_stylistic: [],
-    });
-
-    useEffect(() => {
-        handler(lyric);
-    }, [lyric, handler]);
-
+const LyricLab = ({ handler, children, value }) => {
     return (
         <div className="create__lyric-lab">
             <SelectItemWrap>
-                <TagSelectTitle />
                 <SelectItem
-                    mainTitle="Popular Tags"
+                    mainTitle="Selet a Tags"
                     subTitle="Popular Tags"
-                    setter={setLyric}
+                    setter={handler}
                     objKey="lyric_tag"
-                    selected={lyric?.lyric_tag}
+                    selected={value?.lyric_tag}
                     preset={tagPreset}
                     multiple
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
-                    setter={setLyric}
+                    mainTitle="Select a Genre"
+                    subTitle="Popular Genre"
+                    setter={handler}
                     objKey="lyric_genre"
-                    selected={lyric?.lyric_genre}
+                    selected={value?.lyric_genre}
                     preset={genrePreset}
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
-                    setter={setLyric}
+                    mainTitle="Select a Style"
+                    subTitle="Popular Style"
+                    setter={handler}
                     objKey="lyric_style"
-                    selected={lyric?.lyric_style}
+                    selected={value?.lyric_style}
                     preset={stylePreset}
                 />
                 <SelectItem
-                    mainTitle="Popular Tags"
-                    subTitle="Popular Tags"
-                    setter={setLyric}
+                    mainTitle="Select a Stylistic"
+                    subTitle="Popular Stylistic"
+                    setter={handler}
                     objKey="lyric_stylistic"
-                    selected={lyric?.lyric_stylistic}
+                    selected={value?.lyric_stylistic}
                     preset={stylisticPreset}
                 />
+                <SelectItemStory />
             </SelectItemWrap>
             <SubBanner>
+                <SubBanner.LeftImages src={subBg2} />
                 <SubBanner.Title text="What happens if I skip a step?" />
                 <SubBanner.Message text="You can choose to skip any step and still create a meaningful result. Complete both steps for a full song (lyrics + composition), or focus on just one to highlight your strengths." />
                 <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
@@ -95,12 +85,3 @@ const LyricLab = ({ handler, children }) => {
     );
 };
 export default LyricLab;
-
-const TagSelectTitle = () => {
-    return (
-        <div className="tag-select-title">
-            <h2 className="tag-select-title__text">Select a Tags</h2>
-            <div className="tag-select-title__notice">You can enter up to 5 keywords</div>
-        </div>
-    );
-};

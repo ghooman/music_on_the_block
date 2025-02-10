@@ -183,5 +183,5 @@ img {
   width: 100%;
   max-width: calc(960px + 16px);
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 88px 16px 100px;
 }

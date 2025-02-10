@@ -1,11 +1,14 @@
+import dummy_ai_artist from '../../assets/images/mypage/demo-user.png';
+
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 import './Finalize.scss';
 
-const Finalize = ({ children }) => {
+const Finalize = ({ children, albumCover, skipLyric, skipMelody }) => {
     return (
         <div className="craete__finalizes">
-            <MusicInfo></MusicInfo>
-            <CreatedLyrics></CreatedLyrics>
-            <CheckList></CheckList>
+            <MusicInfo albumCover={albumCover} skipMelody={skipMelody}></MusicInfo>
+            <CreatedLyrics skipLyric={skipLyric}></CreatedLyrics>
             {children}
         </div>
     );
@@ -13,10 +16,18 @@ const Finalize = ({ children }) => {
 
 export default Finalize;
 
-const MusicInfo = () => {
+const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
     const datas = [
         { title: 'Title', value: 'Winter Serenity' },
-        { title: 'AI Artist', value: 'Winter Serenity' },
+        {
+            title: 'AI Artist',
+            value: (
+                <>
+                    <img src={dummy_ai_artist} alt="artist" /> Yolkhaed
+                </>
+            ),
+            color: 'white',
+        },
         { title: 'Ai Service', value: 'AI Lyric & Songwriting' },
         { title: 'Genre', value: 'Lyric' },
         { title: 'Style', value: 'POP' },
@@ -27,12 +38,23 @@ const MusicInfo = () => {
 
     return (
         <div className="music-info">
-            <div className="music-info__image">2</div>
+            <div style={{ width: '100%' }}>
+                <div className="music-info__image" style={{ backgroundImage: `url(${albumCover.image})` }}>
+                    <div className="music-info__image__feel-box">
+                        {albumCover?.feel.map((item) => (
+                            <div className="music-info__image__feel-item">{item}</div>
+                        ))}
+                    </div>
+                </div>
+                {!skipMelody && <AudioPlayer />}
+            </div>
             <ul className="music-info__data">
                 {datas.map((item) => (
                     <li className="music-info__data--item">
                         <div className="music-info__data--item-title">{item.title}</div>
-                        <div className="music-info__data--item-value">{item.value}</div>
+                        <div className="music-info__data--item-value" style={{ color: item.color }}>
+                            {item.value}
+                        </div>
                     </li>
                 ))}
             </ul>
@@ -40,7 +62,7 @@ const MusicInfo = () => {
     );
 };
 
-const CreatedLyrics = () => {
+const CreatedLyrics = ({ skipLyric }) => {
     const lyrics = [
         {
             part: 'Verse1',
@@ -63,6 +85,7 @@ const CreatedLyrics = () => {
             lyric: 'it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search',
         },
     ];
+    if (skipLyric) return null;
 
     return (
         <div className="created-lyrics">
@@ -75,50 +98,6 @@ const CreatedLyrics = () => {
                     </div>
                 ))}
             </div>
-        </div>
-    );
-};
-
-const CheckList = () => {
-    return (
-        <div className="check-list">
-            <p className="check-list__title">Final Checklist</p>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Is your work finalized?</p>
-                    <span className="check-list__items--desc">
-                        Are the lyrics, melody, or both finalized and ready for the next step?
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Does your work align with your vision?</p>
-                    <span className="check-list__items--desc">
-                        Does the tone, mood, and overall content match what you envisioned?
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Have you reviewed all key details?</p>
-                    <span className="check-list__items--desc">
-                        Make sure to double-check tags, settings, and content accuracy.
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input type="checkbox"></input>
-                <div>
-                    <p className="check-list__items--title">Are you ready to save or upload your work?</p>
-                    <span className="check-list__items--desc">
-                        Choose to save your work as a draft or upload it to the community.
-                    </span>
-                </div>
-            </label>
         </div>
     );
 };

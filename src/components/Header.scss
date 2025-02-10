@@ -23,15 +23,15 @@
 .header{
   width: 100%;
   padding: 16px;
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index: 9;
   .header__inner{
     display: flex;
     align-items: center;
     height: 56px;
     gap: 8px;
- 
-    
-
-
 
     /* From Uiverse.io by JulanDeAlb */ 
 .hamburger {
@@ -174,7 +174,7 @@
             transform: translate(0,0);
           }
 
-      }
+        }
       }
     }
 

@@ -1,0 +1,33 @@
+.modal__create-complete {
+    .create-complete__logo-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 16px;
+        img {
+        }
+        p {
+            color: #cf0;
+            font-size: 18px;
+            font-family: orbitron600;
+        }
+    }
+
+    .create-complete__text {
+        text-align: center;
+        color: #aaa;
+        font-family: orbitron600;
+        letter-spacing: 0.48px;
+        margin-bottom: 24px;
+    }
+    .create-complete__button {
+        height: 48px;
+        width: 100%;
+        background-color: #cf0;
+        color: #1a1a1a;
+        font-family: orbitron600;
+        letter-spacing: 0.48px;
+        border-radius: 12px;
+    }
+}

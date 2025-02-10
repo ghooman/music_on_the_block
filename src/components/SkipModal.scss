@@ -1,0 +1,49 @@
+.modal__skip {
+    .skip-modal__desc {
+        color: #aaa;
+        font-family: orbitron600;
+        line-height: 100%;
+        letter-spacing: 0.48px;
+        span {
+            color: #00d293;
+            font: inherit;
+        }
+        margin-bottom: 16px;
+    }
+
+    .skip-modal__sub-desc {
+        display: flex;
+        gap: 8px;
+        padding: 8px 12px;
+        background-color: #222;
+        color: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter400;
+        img {
+            width: 14px;
+            height: 14px;
+        }
+        margin-bottom: 24px;
+    }
+
+    .skip-modal__button-wrap {
+        width: 100%;
+        display: flex;
+        gap: 24px;
+    }
+    .skip-modal__button {
+        font-family: orbitron600;
+        letter-spacing: 0.48px;
+        border-radius: 12px;
+        padding: 8px 10px;
+        &.go-back {
+            color: #f1f1f1;
+            background-color: #383838;
+        }
+        &.yes-continue {
+            color: #1a1a1a;
+            background-color: #cf0;
+            flex: 1;
+        }
+    }
+}

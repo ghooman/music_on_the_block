@@ -5,17 +5,35 @@
     gap: 12px;
     border-radius: 12px;
     background-color: #222;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    .create__sub-banner-bg {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+
+        &.left {
+            left: 24px;
+        }
+
+        &.right {
+            right: 24px;
+        }
+    }
     .sub-banner__title {
         color: #00ffb3;
         font-family: Orbitron400;
         font-size: 28px;
         line-height: 100%; /* 28px */
+        z-index: 3;
     }
     .sub-banner__message {
         color: #f1f1f1;
         font-family: Inter400;
         font-size: 16px;
         letter-spacing: 0.48px;
+        z-index: 3;
     }
     .sub-banner__sub-message {
         color: #00d293;
@@ -23,6 +41,7 @@
         font-size: 16px;
         line-height: 100%; /* 16px */
         letter-spacing: 0.48px;
+        z-index: 3;
     }
     .sub-banner__buttons {
         border-radius: 12px;
@@ -32,5 +51,6 @@
         background: var(--secondary-base, #00ffb3);
         padding: 8px 10px;
         width: fit-content;
+        z-index: 3;
     }
 }

@@ -1,11 +1,29 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { useRanger, Ranger } from '@tanstack/react-ranger';
 
 import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
 
-export const SelectItemWrap = ({ children }) => {
-    return <div className="tag-select-wrap">{children}</div>;
+export const SelectItemWrap = ({ children, dropdown }) => {
+    const [visible, setVisible] = useState(!dropdown);
+
+    return (
+        <div className="create__select-components">
+            <div className="tag-select-title">
+                <h2 className="tag-select-title__text">Select a Tags</h2>
+                {dropdown && (
+                    <div
+                        className={`tag-select-title__dropdown-toggle ${visible ? 'visible' : ''}`}
+                        onClick={() => setVisible((prev) => !prev)}
+                    >
+                        <div className={`tag-select-title__dropdown-thumb ${visible ? 'visible' : ''}`}></div>
+                    </div>
+                )}
+            </div>
+            {visible ? children : null}
+        </div>
+    );
 };
 
 export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, selected, multiple, color }) => {
@@ -20,6 +38,9 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
             let copy = { ...prev };
             if (multiple) {
                 let set = Array.from(new Set([...copy[objKey], input]));
+                if (set.length > 5) {
+                    set.shift();
+                }
                 copy[objKey] = set;
             } else {
                 copy[objKey] = [input];
@@ -48,8 +69,13 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
     };
 
     return (
-        <div className="create__select-components">
-            <h3 className="tag-title">{mainTitle}</h3>
+        <div className="tag-select">
+            <div className="tag-title__block">
+                <h3 className="tag-title">{mainTitle}</h3>
+                <p className="tag-title__notice">
+                    {multiple ? 'You can enter up to 5 keywords' : ' You can select only one option'}
+                </p>
+            </div>
             <h4 className="tag-sub-title">{subTitle}</h4>
             <div className="tag-preset">
                 {preset &&
@@ -82,7 +108,6 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
                             Select
                             <input
                                 type="color"
-                                // style={{ display: 'none' }}
                                 onChange={(e) => setInput(e.target.value)}
                                 onBlur={() => {
                                     addItem();
@@ -91,7 +116,7 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
                         </label>
                     )}
                     <button className="tag-input-comment-button" onClick={addItem}>
-                        Comment
+                        Add
                     </button>
                 </div>
             </div>
@@ -107,4 +132,78 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
     );
 };
 
-export default SelectItem;
+export const SelectItemTempo = ({ tempo, setTempo }) => {
+    const rangeRef = useRef(null);
+
+    const rangesInstance = useRanger({
+        getRangerElement: () => rangeRef.current,
+        values: tempo,
+        min: 60,
+        max: 250,
+        stepSize: 1,
+        onChange: (instance) => {
+            setTempo(instance.sortedValues);
+        },
+    });
+
+    return (
+        <div className="tag-select">
+            <div className="tag-title__block">
+                <h3 className="tag-title">Select a Tempo</h3>
+            </div>
+            <div
+                className={`tag-title__tempos ${
+                    tempo > 59 && tempo < 80 ? 'slow' : tempo > 80 && tempo < 120 ? 'medium' : tempo > 120 ? 'fast' : ''
+                }`}
+            >
+                {tempo > 59 && tempo < 80 && 'Slow : Calm and reflective (60-80 BPM)'}
+                {tempo > 80 && tempo < 120 && 'Medium: Balanced and versatile (81-120 BPM)'}
+                {tempo > 120 && 'Fast: Energetic and upbeat (121-160 BPM)'}
+            </div>
+            <div className="tag-select__range" ref={rangeRef}>
+                {rangesInstance?.getSteps().map(() => {
+                    return (
+                        <div
+                            className="tag-select__range--applicable"
+                            style={{ width: `${rangesInstance.getPercentageForValue(tempo)}%` }}
+                        ></div>
+                    );
+                })}
+                {rangesInstance
+                    .handles()
+                    ?.map(({ value, onKeyDownHandler, onMouseDownHandler, onTouchStart, isActive }, i) => (
+                        <button
+                            className="tag-select__range--thumb"
+                            key={i}
+                            onKeyDown={onKeyDownHandler}
+                            onMouseDown={onMouseDownHandler}
+                            onTouchStart={onTouchStart}
+                            role="slider"
+                            aria-valuemin={rangesInstance.options.min}
+                            aria-valuemax={rangesInstance.options.max}
+                            aria-valuenow={value}
+                            style={{
+                                left: `${rangesInstance.getPercentageForValue(value)}%`,
+                            }}
+                        >
+                            <div className="tag-select__range--thumb-tick">
+                                <span>{value}</span> BPM
+                            </div>
+                        </button>
+                    ))}
+            </div>
+        </div>
+    );
+};
+
+export const SelectItemStory = () => {
+    return (
+        <div className="tag-select">
+            <div className="tag-title__block">
+                <h3 className="tag-title">Your Story</h3>
+                <p className="tag-title__notice">You can enter up to 100 words</p>
+            </div>
+            <textarea className="tag-input" type="text" placeholder="Briefly describe the story you want to tell." />
+        </div>
+    );
+};

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/MyPage.scss";
 import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
@@ -44,9 +45,9 @@ const MyPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mypage__profile-edit">
+            <Link to="/account-setting" className="mypage__profile-edit">
               <img src={gearImg} alt="gear" />
-            </div>
+            </Link>
           </div>
           <p className="mypage__bio">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

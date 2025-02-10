@@ -1,10 +1,29 @@
 import "../styles/AccountSetting.scss";
+import { useState, useEffect } from "react";
+
 // 이미지
 import demoUser from "../assets/images/account/demo-user1.png";
 import editIcon1 from "../assets/images/icon/picture1.svg";
 import editIcon2 from "../assets/images/icon/picture2.svg";
 
 const AccountSetting = () => {
+  const [profileImg, setProfileImg] = useState(demoUser);
+  const [bgImg, setBgImg] = useState("");
+  const [userName, setUserName] = useState("");
+  const [nation, setNation] = useState("");
+  const [email, setEmail] = useState("");
+  const [intro, setIntro] = useState("");
+  const [heldTokens, setHeldTokens] = useState("");
+  const [joinDate, setJoinDate] = useState("");
+  const [level, setLevel] = useState("");
+  const [exp, setExp] = useState("");
+  const [dob, setDob] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [socials, setSocials] = useState([]);
+
+  const [isError, setIsError] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
+
   return (
     <div className="account-setting">
       <h1 className="account-setting--title">AccountSetting</h1>
@@ -15,7 +34,7 @@ const AccountSetting = () => {
           <div className="info-box__picture-box">
             <p className="picture-box__title">Artist Profile</p>
             <div className="picture-box__edit-box">
-              <img src={demoUser} alt="profile-img" />
+              <img src={profileImg} alt="profile-img" />
               <button className="picture-box__edit-btn">
                 <img src={editIcon1} alt="edit" />
               </button>

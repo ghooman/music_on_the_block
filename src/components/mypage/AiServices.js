@@ -3,11 +3,14 @@ import "./AiServices.scss";
 import demoChart from "../../assets/images/mypage/demo-chart.png";
 import demoChart2 from "../../assets/images/mypage/demo-chart2.png";
 import demoChart3 from "../../assets/images/mypage/demo-chart3.png";
-
+import FilterDateModal from "../../components/unit/FilterDateModal";
+import Filter from "../unit/Filter";
 const AiServices = () => {
   const [selectedAiService, setSelectedAiService] = useState(
     "AI Lyric & Songwriting"
   );
+
+  const [openModal, setOpenModal] = useState(false);
 
   const handleAiServiceClick = (aiService) => {
     setSelectedAiService(aiService);
@@ -87,15 +90,14 @@ const AiServices = () => {
 
       <section className="mypage__period">
         <p className="period__title">AI Work Trends by Period</p>
-        <div className="period__menu">
-          <button className="period__menu-item">Filter</button>
-          <button className="period__menu-item">Month</button>
-          <button className="period__menu-item">5</button>
+        <div className="period__menu" onClick={() => setOpenModal(true)}>
+          <Filter list={["All", "Lyric", "Latest"]} />
         </div>
         <div className="period__chart">
           <img src={demoChart3} alt="chart" />
         </div>
       </section>
+      {openModal && <FilterDateModal setOpenModal={setOpenModal} />}
     </>
   );
 };

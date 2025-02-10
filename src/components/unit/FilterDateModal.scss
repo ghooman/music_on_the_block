@@ -2,17 +2,22 @@
   .filter-date-box,
   .filter-count-box {
     p {
-      color: #f1f1f1;
-      font-family: Orbitron, sans-serif;
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Orbitron;
       font-size: 14px;
+      font-style: normal;
       font-weight: 400;
+      line-height: normal;
       letter-spacing: 0.42px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--Color-04, #383838);
     }
 
     div {
       display: flex;
-      gap: 16px;
-
+      gap: 8px;
+      margin-bottom: 24px;
       .custom-radio {
         display: flex;
         padding: 8px;
@@ -45,6 +50,7 @@
 
         // 선택되었을 때 스타일 변경
         &.active {
+          color: #cf0;
           display: flex;
           padding: 8px;
           justify-content: center;
@@ -65,12 +71,54 @@
             }
           }
         }
-
         &:hover {
           border-color: #a6ff00;
           color: #a6ff00;
         }
       }
+    }
+  }
+  .filter-footer {
+    display: flex;
+    gap: 24px;
+    .filter-footer__apply-btn {
+      width: 253px;
+      height: 40px;
+      border-radius: 12px;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-base, #cf0);
+      display: flex;
+      color: var(--Text-dark-title, #1a1a1a);
+      font-family: Orbitron600;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.48px;
+      .filter-footer__apply-btn__count {
+        display: flex;
+        text-align: center;
+        margin-left: 4px;
+        height: 24px;
+        padding: 4px 9px;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 10px 6px 10px 10px;
+        background: var(--black, #000);
+      }
+    }
+    .filter-footer__reset-btn {
+      display: flex;
+      height: 48px;
+      padding: 8px 10px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 75px;
+      height: 45px;
+      border-radius: 12px;
+      border: 1px solid var(--Color-04, #383838);
+      background: var(--Color-03, #222);
     }
   }
 }

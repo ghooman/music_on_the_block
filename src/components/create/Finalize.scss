@@ -19,6 +19,7 @@
         background-position: center;
         border-radius: 12px;
         position: relative;
+        height: 428px;
 
         .music-info__image__feel-box {
             position: absolute;
@@ -73,12 +74,21 @@
         align-items: center;
     }
     .music-info__data--item-value {
+        display: flex;
         flex: 1;
         color: #aaa;
         font-family: Inter400;
         font-size: 14px;
         line-height: 100%; /* 14px */
         padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        img {
+            width: 24px;
+            height: 24px;
+            border-radius: 200px;
+        }
     }
 
     ////////////////////////////////////////////////
@@ -124,4 +134,54 @@
         font-size: 20px;
     }
     //////////////////////////////////////////////
+    .rhap_container {
+        background-color: transparent;
+
+        .rhap_play-pause-button {
+            position: relative;
+            top: -4px;
+            svg {
+                transform: scale(1.8);
+            }
+        }
+        .rhap_controls-section {
+            flex-direction: column;
+        }
+        .rhap_additional-controls {
+            display: none;
+        }
+        .rhap_volume-controls {
+            width: 100%;
+            max-width: 450px;
+        }
+        .rhap_volume-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .rhap_progress-indicator {
+            width: 10px;
+            background-color: #cf0;
+        }
+        .rhap_volume-button {
+            position: relative;
+            top: -3px;
+        }
+        .rhap_volume-indicator {
+            width: 8px;
+            height: 16px;
+            top: -6px;
+            background-color: #dddddd;
+            opacity: 1;
+            box-shadow: -4px 0px 4px 0px rgba(53, 54, 51, 0.6);
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .craete__finalizes {
+        .music-info {
+            flex-direction: column;
+        }
+    }
 }

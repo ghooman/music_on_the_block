@@ -92,6 +92,7 @@
         }
         .tag-preset {
             display: flex;
+            flex-wrap: wrap;
             gap: 12px;
         }
         .tag-input-box {
@@ -136,6 +137,7 @@
 
         .tag-selected {
             display: flex;
+            flex-wrap: wrap;
             gap: 16px;
         }
         .tag-button {
@@ -253,6 +255,18 @@
                     left: 50%;
                     transform: translateX(-50%) rotate(90deg);
                 }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .create__select-components {
+        .tag-select {
+            .tag-title__block {
+                align-items: flex-start;
+                gap: 8px;
+                flex-direction: column;
             }
         }
     }

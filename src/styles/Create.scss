@@ -122,6 +122,7 @@
         }
         .item-value {
             display: flex;
+            flex-wrap: wrap;
             gap: 8px;
             .values {
                 color: var(--Text-music-sub, #aaa);
@@ -165,6 +166,9 @@
             &.upload {
                 background: #cf0;
                 color: #1a1a1a;
+                &:active {
+                    background-color: #a9d400;
+                }
             }
             &.skip {
                 background: #6458ff;
@@ -257,5 +261,17 @@
     }
     .mb40 {
         margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .music_create {
+        .progress {
+            justify-content: space-between;
+
+            .progress__arrow {
+                display: none;
+            }
+        }
     }
 }

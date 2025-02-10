@@ -14,6 +14,8 @@ import demoImage7 from '../../assets/images/demo/album04.svg';
 import demoImage8 from '../../assets/images/demo/album05.svg';
 import demoImage9 from '../../assets/images/demo/album06.svg';
 
+import subBg3 from '../../assets/images/create/subbanner-bg3.png';
+
 import './AlbumCoverStudio.scss';
 
 const colorPreset = {
@@ -74,6 +76,7 @@ const AlbumCoverSudio = ({ children, setAlbumCover }) => {
                 />
             </SelectItemWrap>
             <SubBanner>
+                <SubBanner.RightImages src={subBg3} />
                 <SubBanner.Title text="Generate Album Cover"></SubBanner.Title>
                 <SubBanner.Message
                     text="If customization is OFF, the design will be based on your input from Steps 1 & 2.

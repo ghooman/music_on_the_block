@@ -9,6 +9,8 @@ import Finalize from '../components/create/Finalize';
 import SkipModal from '../components/SkipModal';
 
 import '../styles/Create.scss';
+import CreateCompleteModal from '../components/CreateCompleteModal';
+import GetStarted from '../components/create/GetStarted';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(0);
@@ -28,16 +30,34 @@ const Create = () => {
     const [albumCover, setAlbumCover] = useState(null);
     const [checkList, setCheckList] = useState(false);
 
+    const [skipLyric, setSkipLyric] = useState(false);
+    const [skipMelody, setSkipMelody] = useState(false);
+
+    const [skip, setSkip] = useState('');
+    const [createCompleteModal, setCreateCompleteModal] = useState(false);
+
+    const skipHandler = (target) => {
+        if (skip === 'lyric') {
+            setSkipLyric(true);
+        } else {
+            setSkipMelody(true);
+        }
+        setPageNumber((prev) => prev + 1);
+        setSkip(false);
+    };
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [pageNumber]);
+
+    if (pageNumber === -1) return <GetStarted handler={() => setPageNumber(0)} />;
 
     return (
         <div className="music_create">
             <Title />
             <Progress pageNumber={pageNumber} />
             <DescriptionBanner pageNumber={pageNumber} />
-            {pageNumber !== 3 && (
+            {pageNumber !== 4 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyric Lab">
                         <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
@@ -64,23 +84,31 @@ const Create = () => {
                 </div>
             )}
             {pageNumber === 0 && (
-                <LyricLab handler={setLyricData}>
+                <LyricLab handler={setLyricData} value={lylicData}>
                     <div className="button-wrap">
                         <span></span>
                         <div className="button-wrap__right">
-                            <Button title="skip" />
-                            <Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                            <Button title="skip" handler={() => setSkip('lyric')} />
+                            <Button
+                                title="next"
+                                disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
+                                handler={() => setPageNumber((prev) => prev + 1)}
+                            />
                         </div>
                     </div>
                 </LyricLab>
             )}
             {pageNumber === 1 && (
-                <MelodyMaker handler={setMelodyData} tempo={tempo} setTempo={setTempo}>
+                <MelodyMaker handler={setMelodyData} value={melodyData} tempo={tempo} setTempo={setTempo}>
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
                         <div className="button-wrap__right">
-                            <Button title="skip" />
-                            <Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                            <Button title="skip" handler={() => setSkip('melody')} />
+                            <Button
+                                title="next"
+                                disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
+                                handler={() => setPageNumber((prev) => prev + 1)}
+                            />
                         </div>
                     </div>
                 </MelodyMaker>
@@ -90,7 +118,7 @@ const Create = () => {
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
                         <div className="button-wrap__right">
-                            <Button title="skip" />
+                            <Button title="skip" handler={() => setSkip(true)} />
                             <Button
                                 title="next"
                                 disabled={!albumCover}
@@ -101,14 +129,22 @@ const Create = () => {
                 </AlbumCoverSudio>
             )}
             {pageNumber === 3 && (
-                <Finalize albumCover={albumCover}>
+                <Finalize
+                    albumCover={albumCover}
+                    lylicData={lylicData}
+                    melodyData={melodyData}
+                    skipLyric={skipLyric}
+                    skipMelody={skipMelody}
+                >
                     <CheckList setCheckList={setCheckList}></CheckList>
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
-                        <Button title="upload" disabled={!checkList} handler={() => alert('음악생성.')} />
+                        <Button title="upload" disabled={!checkList} handler={() => setCreateCompleteModal(true)} />
                     </div>
                 </Finalize>
             )}
+            {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
+            {createCompleteModal && <CreateCompleteModal setCreateCompleteModal={setCreateCompleteModal} />}
         </div>
     );
 };

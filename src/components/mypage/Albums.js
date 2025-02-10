@@ -119,16 +119,14 @@ const Albums = () => {
 
       <section className="albums__my-albums">
         <div className="my-albums__header">
-          <p className="my-albums__title">
-            My <span className="neon">Albums</span>
-          </p>
+          <p className="my-albums__title">My Albums</p>
           <button className="my-albums__more-btn"> View All </button>
         </div>
         <div className="my-albums__input">
           <input
             type="text"
             className="my-albums__search"
-            placeholder="Search"
+            placeholder="Search by song title..."
           />
         </div>
         <div className="my-albums__filter">

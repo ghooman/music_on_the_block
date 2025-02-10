@@ -90,8 +90,11 @@ const AiServices = () => {
 
       <section className="mypage__period">
         <p className="period__title">AI Work Trends by Period</p>
-        <div className="period__menu" onClick={() => setOpenModal(true)}>
-          <Filter list={["All", "Lyric", "Latest"]} />
+        <div className="period__menu">
+          <Filter
+            list={["All", "Lyric", "Latest"]}
+            clickEvent={() => setOpenModal(true)}
+          />
         </div>
         <div className="period__chart">
           <img src={demoChart3} alt="chart" />

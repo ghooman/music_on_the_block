@@ -19,6 +19,7 @@
     border: 1px solid var(--Color-03, #222);
     .albums__body {
       display: flex;
+      gap: 16px;
       .albums__item {
         width: 300px;
         display: flex;
@@ -90,25 +91,26 @@
     }
   }
   .albums__my-albums {
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    padding: 20px 16px 16px 16px;
+    margin-top: 50px;
     .my-albums__header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
       .my-albums__title {
-        color: #fff;
-        font-family: "TT Octosquares Trl";
-        font-size: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        flex: 1 0 0;
+        color: var(--primary-base, #cf0);
+        font-family: Orbitron400;
+        font-size: 24px;
         font-style: normal;
-        font-weight: 700;
         line-height: normal;
-        span {
-          color: #cf0;
-          font-family: "TT Octosquares Trl";
-          font-size: 32px;
-          font-style: normal;
-          font-weight: 700;
-          line-height: normal;
-        }
+        letter-spacing: 0.72px;
       }
       .my-albums__more-btn {
         width: 160px;

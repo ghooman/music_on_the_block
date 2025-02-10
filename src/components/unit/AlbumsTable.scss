@@ -14,10 +14,9 @@
       th {
         color: var(--primary-200, #a9d400);
         text-align: center;
-        font-family: Orbitron;
+        font-family: Orbitron400;
         font-size: 14px;
         font-style: normal;
-        font-weight: 400;
         line-height: normal;
       }
     }
@@ -32,10 +31,9 @@
       td {
         color: var(--Text-music-sub, #aaa);
         text-align: center;
-        font-family: Inter;
+        font-family: Inter400;
         font-size: 14px;
         font-style: normal;
-        font-weight: 400;
         line-height: normal;
         .albums-table__detail-btn {
           display: flex;

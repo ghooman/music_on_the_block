@@ -38,10 +38,9 @@
         .mypage__profile-info-box {
           .mypage__username {
             color: #fff;
-            font-family: Orbitron;
+            font-family: Orbitron400;
             font-size: 40px;
             font-style: normal;
-            font-weight: 400;
             line-height: 100%; /* 40px */
             letter-spacing: 1.2px;
           }
@@ -54,10 +53,9 @@
               }
               span {
                 color: var(--Text-music-title, #f1f1f1);
-                font-family: Orbitron;
+                font-family: Orbitron400;
                 font-size: 16px;
                 font-style: normal;
-                font-weight: 400;
                 line-height: normal;
                 letter-spacing: 0.48px;
                 margin-right: 4px;
@@ -75,10 +73,9 @@
       }
       .mypage__bio {
         color: var(--Text-music-sub, #aaa);
-        font-family: Inter;
+        font-family: Inter400;
         font-size: 16px;
         font-style: normal;
-        font-weight: 400;
         line-height: normal;
         letter-spacing: 0.48px;
         margin-bottom: 8px;
@@ -113,20 +110,18 @@
           background: var(--Dark-Color-01, #0b0b0c);
           .exp-box__neon {
             color: var(--primary-base, #cf0);
-            font-family: Orbitron;
+            font-family: Orbitron400;
             font-size: 16px;
             font-style: normal;
-            font-weight: 400;
             line-height: normal;
             letter-spacing: 0.48px;
           }
           .exp-box__value {
             color: var(--secondary-400, #007e56);
             text-align: right;
-            font-family: Orbitron;
+            font-family: Orbitron400;
             font-size: 18px;
             font-style: normal;
-            font-weight: 400;
             line-height: normal;
             letter-spacing: 0.54px;
           }
@@ -147,10 +142,9 @@
       border-radius: 12px 4px 12px 12px;
       background: var(--Color-03, #222);
       color: var(--Text-music-sub, #aaa);
-      font-family: Orbitron;
+      font-family: Orbitron500;
       font-size: 14px;
       font-style: normal;
-      font-weight: 500;
       line-height: 100%; /* 14px */
       letter-spacing: 0.42px;
     }

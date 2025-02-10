@@ -6,10 +6,9 @@
   gap: 40px;
   .mypage__service-btn {
     color: var(--Text-music-title, #f1f1f1);
-    font-family: Orbitron;
+    font-family: Orbitron600;
     font-size: 16px;
     font-style: normal;
-    font-weight: 600;
     line-height: normal;
     letter-spacing: 0.48px;
     border-radius: 12px;
@@ -36,10 +35,9 @@
   .ai-status__title {
     margin-bottom: 24px;
     color: var(--primary-base, #cf0);
-    font-family: Orbitron;
+    font-family: Orbitron400;
     font-size: 24px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
     letter-spacing: 0.72px;
   }
@@ -58,10 +56,9 @@
       justify-content: center;
       align-items: center;
       color: var(--Text-music-un, #565656);
-      font-family: Orbitron;
+      font-family: Orbitron500;
       font-size: 14px;
       font-style: normal;
-      font-weight: 500;
       line-height: 100%; /* 14px */
       letter-spacing: 0.42px;
       padding: 8px 12px;
@@ -87,10 +84,9 @@
     width: 50%;
     .ai-status__detail-title {
       color: var(--primary-base, #cf0);
-      font-family: Orbitron;
+      font-family: Orbitron400;
       font-size: 18px;
       font-style: normal;
-      font-weight: 400;
       line-height: normal;
       letter-spacing: 0.54px;
       margin-bottom: 14px;
@@ -100,8 +96,13 @@
         display: flex;
         margin-bottom: 12px;
         .detail-item__title {
+          box-sizing: border-box;
+          color: var(--Text-music-title, #f1f1f1);
+          width: 100%;
+          max-width: 140px;
+          font-family: Inter500;
+          font-size: 14px;
           display: flex;
-          width: 140px;
           padding: 8px 12px;
           justify-content: center;
           align-items: center;
@@ -122,10 +123,8 @@
           border-right: 1px solid var(--Color-03, #222);
           border-bottom: 1px solid var(--Color-03, #222);
           color: var(--Text-music-sub, #aaa);
-          font-family: Inter;
+          font-family: Inter400;
           font-size: 14px;
-          font-style: normal;
-          font-weight: 400;
           line-height: 100%; /* 14px */
         }
       }
@@ -136,10 +135,9 @@
   margin-bottom: 20px;
   .period__title {
     color: var(--primary-base, #cf0);
-    font-family: Orbitron;
+    font-family: Orbitron400;
     font-size: 24px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
     letter-spacing: 0.72px;
     margin-bottom: 24px;
@@ -155,10 +153,9 @@
       border-radius: 10px 2px 10px 10px;
       border: 1px solid var(--primary-200, #a9d400);
       color: var(--primary-base, #cf0);
-      font-family: Inter;
+      font-family: Inter400;
       font-size: 14px;
       font-style: normal;
-      font-weight: 400;
       line-height: 100%; /* 14px */
       margin-right: 12px;
     }

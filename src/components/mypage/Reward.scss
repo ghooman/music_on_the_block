@@ -10,16 +10,16 @@
     border-radius: 12px;
     border: 1px solid var(--Color-03, #222);
     .section__header {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 24px;
       .header-title {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron;
+        font-family: Orbitron400;
         font-size: 24px;
         font-style: normal;
-        font-weight: 400;
         line-height: normal;
         letter-spacing: 0.72px;
       }

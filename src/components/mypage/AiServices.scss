@@ -40,6 +40,16 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: 0.72px;
+    position: relative;
+    &::after {
+      position: absolute;
+      content: "";
+      width: 5px;
+      height: 5px;
+      top: 0;
+      background-color: #cf0;
+      border-radius: 100%;
+    }
   }
   .ai-status__menu {
     width: 566px;
@@ -141,6 +151,16 @@
     line-height: normal;
     letter-spacing: 0.72px;
     margin-bottom: 24px;
+    position: relative;
+    &::after {
+      position: absolute;
+      content: "";
+      width: 5px;
+      height: 5px;
+      top: 0;
+      background-color: #cf0;
+      border-radius: 100%;
+    }
   }
   .period__menu {
     display: flex;

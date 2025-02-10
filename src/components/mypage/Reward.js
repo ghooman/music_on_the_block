@@ -36,7 +36,9 @@ const Reward = () => {
               <td>AI Lyric & Songwriting</td>
               <td className="pending">Pending</td>
               <td>
-                <button className="table-button">Details</button>
+                <div className="td-content">
+                  <button className="table-button">Details</button>
+                </div>
               </td>
             </tr>
             <tr>
@@ -47,7 +49,9 @@ const Reward = () => {
               <td>AI Lyric & Songwriting</td>
               <td className="completed">Completed</td>
               <td>
-                <button className="table-button">Details</button>
+                <div className="td-content">
+                  <button className="table-button">Details</button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -82,9 +86,11 @@ const Reward = () => {
               <td>150 MOB</td>
               <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
               <td>AI Lyric & Songwriting</td>
-              <td>Completed</td>
+              <td className="pending">Pending</td>
               <td>
-                <button className="table-button">Details</button>
+                <div className="td-content">
+                  <button className="table-button">Details</button>
+                </div>
               </td>
             </tr>
             <tr>
@@ -95,7 +101,9 @@ const Reward = () => {
               <td>AI Lyric & Songwriting</td>
               <td className="completed">Completed</td>
               <td>
-                <button className="table-button">Details</button>
+                <div className="td-content">
+                  <button className="table-button">Details</button>
+                </div>
               </td>
             </tr>
           </tbody>

@@ -13,7 +13,7 @@ import CreateCompleteModal from '../components/CreateCompleteModal';
 import GetStarted from '../components/create/GetStarted';
 
 const Create = () => {
-    const [pageNumber, setPageNumber] = useState(0);
+    const [pageNumber, setPageNumber] = useState(-1);
     const [lylicData, setLyricData] = useState({
         lyric_tag: [],
         lyric_genre: [],
@@ -36,7 +36,7 @@ const Create = () => {
     const [skip, setSkip] = useState('');
     const [createCompleteModal, setCreateCompleteModal] = useState(false);
 
-    const skipHandler = (target) => {
+    const skipHandler = () => {
         if (skip === 'lyric') {
             setSkipLyric(true);
         } else {
@@ -57,7 +57,7 @@ const Create = () => {
             <Title />
             <Progress pageNumber={pageNumber} />
             <DescriptionBanner pageNumber={pageNumber} />
-            {pageNumber !== 4 && (
+            {pageNumber !== 3 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyric Lab">
                         <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
@@ -85,6 +85,7 @@ const Create = () => {
             )}
             {pageNumber === 0 && (
                 <LyricLab handler={setLyricData} value={lylicData}>
+                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
                         <span></span>
                         <div className="button-wrap__right">
@@ -100,25 +101,26 @@ const Create = () => {
             )}
             {pageNumber === 1 && (
                 <MelodyMaker handler={setMelodyData} value={melodyData} tempo={tempo} setTempo={setTempo}>
+                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
-                        <div className="button-wrap__right">
-                            <Button title="skip" handler={() => setSkip('melody')} />
-                            <Button
-                                title="next"
-                                disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
-                                handler={() => setPageNumber((prev) => prev + 1)}
-                            />
-                        </div>
+                        {/* <div className="button-wrap__right"> */}
+                        <Button title="skip" handler={() => setSkip('melody')} />
+                        <Button
+                            title="next"
+                            disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
+                            handler={() => setPageNumber((prev) => prev + 1)}
+                        />
+                        {/* </div> */}
                     </div>
                 </MelodyMaker>
             )}
             {pageNumber === 2 && (
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
+                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
                         <div className="button-wrap__right">
-                            <Button title="skip" handler={() => setSkip(true)} />
                             <Button
                                 title="next"
                                 disabled={!albumCover}
@@ -136,6 +138,7 @@ const Create = () => {
                     skipLyric={skipLyric}
                     skipMelody={skipMelody}
                 >
+                    {/** children은 버튼만 정의 함. */}
                     <CheckList setCheckList={setCheckList}></CheckList>
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
@@ -204,59 +207,54 @@ const SelectedItem = ({ title, value, multiple }) => {
 };
 
 const CheckList = ({ setCheckList }) => {
-    const [check1, setCheck1] = useState(false);
-    const [check2, setCheck2] = useState(false);
-    const [check3, setCheck3] = useState(false);
-    const [check4, setCheck4] = useState(false);
+    const [checks, setChecks] = useState([false, false, false, false]);
+
+    const chekkkk = [
+        {
+            title: 'Is your work finalized?',
+            desc: 'Are the lyrics, melody, or both finalized and ready for the next step?',
+        },
+        {
+            title: 'Does your work align with your vision?',
+            desc: 'Does the tone, mood, and overall content match what you envisioned?',
+        },
+        {
+            title: 'Have you reviewed all key details?',
+            desc: 'Make sure to double-check tags, settings, and content accuracy.',
+        },
+        {
+            title: 'Are you ready to save or upload your work?',
+            desc: 'Choose to save your work as a draft or upload it to the community.',
+        },
+    ];
 
     useEffect(() => {
-        if (check1 && check2 && check3 && check4) setCheckList(true);
-        else setCheckList(false);
-    }, [check1, check2, check3, check4, setCheckList]);
+        setCheckList(checks.every((item) => item));
+    }, [checks, setCheckList]);
 
     return (
         <div className="check-list">
             <p className="check-list__title">Final Checklist</p>
-            <label className="check-list__items">
-                <input checked={check1} onChange={() => setCheck1((prev) => !prev)} type="checkbox"></input>
-                <span className="check"></span>
-                <div>
-                    <p className="check-list__items--title">Is your work finalized?</p>
-                    <span className="check-list__items--desc">
-                        Are the lyrics, melody, or both finalized and ready for the next step?
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input checked={check2} onChange={() => setCheck2((prev) => !prev)} type="checkbox"></input>
-                <span className="check"></span>
-                <div>
-                    <p className="check-list__items--title">Does your work align with your vision?</p>
-                    <span className="check-list__items--desc">
-                        Does the tone, mood, and overall content match what you envisioned?
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input checked={check3} onChange={() => setCheck3((prev) => !prev)} type="checkbox"></input>
-                <span className="check"></span>
-                <div>
-                    <p className="check-list__items--title">Have you reviewed all key details?</p>
-                    <span className="check-list__items--desc">
-                        Make sure to double-check tags, settings, and content accuracy.
-                    </span>
-                </div>
-            </label>
-            <label className="check-list__items">
-                <input checked={check4} onChange={() => setCheck4((prev) => !prev)} type="checkbox"></input>
-                <span className="check"></span>
-                <div>
-                    <p className="check-list__items--title">Are you ready to save or upload your work?</p>
-                    <span className="check-list__items--desc">
-                        Choose to save your work as a draft or upload it to the community.
-                    </span>
-                </div>
-            </label>
+            {chekkkk.map((item, index) => (
+                <label className="check-list__items" key={`check-list-index${index}`}>
+                    <input
+                        checked={checks[index]}
+                        onChange={() =>
+                            setChecks((prev) => {
+                                let copy = [...prev];
+                                copy[index] = !copy[index];
+                                return copy;
+                            })
+                        }
+                        type="checkbox"
+                    ></input>
+                    <span className="check"></span>
+                    <div>
+                        <p className="check-list__items--title">{item.title}</p>
+                        <span className="check-list__items--desc">{item.desc}</span>
+                    </div>
+                </label>
+            ))}
         </div>
     );
 };

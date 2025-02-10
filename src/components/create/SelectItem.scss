@@ -104,6 +104,11 @@
             border-radius: 12px;
             border: 1px solid #383838;
             background-color: #0b0b0c;
+            transition: 0.3s all;
+            resize: none;
+            &:focus {
+                border-color: #cf0;
+            }
         }
         .tag-input-comment-button-wrap {
             position: absolute;

@@ -38,6 +38,9 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
             let copy = { ...prev };
             if (multiple) {
                 let set = Array.from(new Set([...copy[objKey], input]));
+                if (set.length > 5) {
+                    set.shift();
+                }
                 copy[objKey] = set;
             } else {
                 copy[objKey] = [input];
@@ -200,7 +203,7 @@ export const SelectItemStory = () => {
                 <h3 className="tag-title">Your Story</h3>
                 <p className="tag-title__notice">You can enter up to 100 words</p>
             </div>
-            <input className="tag-input" type="text" placeholder="Briefly describe the story you want to tell." />
+            <textarea className="tag-input" type="text" placeholder="Briefly describe the story you want to tell." />
         </div>
     );
 };

@@ -101,10 +101,13 @@
             margin-bottom: 12px;
         }
         .wrap-content {
-            display: flex;
-            gap: 16px 16px;
-            flex-wrap: wrap;
-            align-items: center;
+            // display: flex;
+            // gap: 16px 16px;
+            // flex-wrap: wrap;
+            // align-items: center;
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(4, 1fr);
         }
     }
 
@@ -112,6 +115,7 @@
         min-width: 20%;
         &.multiple {
             width: 100%;
+            grid-column: span 4;
         }
         .item-title {
             color: var(--Text-music-title, #f1f1f1);
@@ -180,6 +184,7 @@
             }
 
             &:disabled {
+                cursor: not-allowed;
                 border: 1px solid #2c3a00;
                 background-color: #000;
                 color: #565656;
@@ -266,9 +271,18 @@
 
 @media screen and (max-width: 768px) {
     .music_create {
+        .selected-wrap {
+            .wrap-content {
+                grid-template-columns: repeat(2, 1fr);
+                .selected-item {
+                    &.multiple {
+                        grid-column: span 2;
+                    }
+                }
+            }
+        }
         .progress {
             justify-content: space-between;
-
             .progress__arrow {
                 display: none;
             }

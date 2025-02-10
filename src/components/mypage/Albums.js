@@ -32,10 +32,17 @@ const Albums = () => {
                 <p className="albums__item-desc-text">
                   he dances through his masks like breathing - Yolkhead
                 </p>
-                <div className="albums__item__play-count">
-                  <img src={heartIcon} alt="play" />
-                  <span>145</span>
+                <div className="albums__item__icon-box">
+                  <div className="albums__item__play-count">
+                    <img src={heartIcon} alt="play" />
+                    <span>145</span>
+                  </div>
+                  <div className="albums__item__play-count">
+                    <img src={commentIcon} alt="play" />
+                    <span>326</span>
+                  </div>
                 </div>
+
                 <div className="albums__item__user-info">
                   <img
                     className="albums__item__user-img"
@@ -64,9 +71,15 @@ const Albums = () => {
                 <p className="albums__item-desc-text">
                   he dances through his masks like breathing - Yolkhead
                 </p>
-                <div className="albums__item__play-count">
-                  <img src={commentIcon} alt="play" />
-                  <span>326</span>
+                <div className="albums__item__icon-box">
+                  <div className="albums__item__play-count">
+                    <img src={heartIcon} alt="play" />
+                    <span>145</span>
+                  </div>
+                  <div className="albums__item__play-count">
+                    <img src={commentIcon} alt="play" />
+                    <span>326</span>
+                  </div>
                 </div>
                 <div className="albums__item__user-info">
                   <img
@@ -96,9 +109,15 @@ const Albums = () => {
                 <p className="albums__item-desc-text">
                   he dances through his masks like breathing - Yolkhead
                 </p>
-                <div className="albums__item__play-count">
-                  <img src={playIcon} alt="play" />
-                  <span>326K</span>
+                <div className="albums__item__icon-box">
+                  <div className="albums__item__play-count">
+                    <img src={heartIcon} alt="play" />
+                    <span>145</span>
+                  </div>
+                  <div className="albums__item__play-count">
+                    <img src={commentIcon} alt="play" />
+                    <span>326</span>
+                  </div>
                 </div>
                 <div className="albums__item__user-info">
                   <img

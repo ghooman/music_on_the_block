@@ -249,7 +249,7 @@ const Menu = () => {
                   }`}
                 >
                   <Link
-                    to="/MyPage"
+                    to="/account-setting"
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("my-page")}
                   >
@@ -264,7 +264,7 @@ const Menu = () => {
                   }`}
                 >
                   <Link
-                    to=""
+                    to="/my-page"
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("my-favorites")}
                   >

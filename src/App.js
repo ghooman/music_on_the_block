@@ -47,7 +47,7 @@ function App() {
           }
         />
         <Route
-          path="/MyPage"
+          path="/my-page"
           element={
             <Layout>
               <MyPage />
@@ -55,7 +55,7 @@ function App() {
           }
         />
         <Route
-          path="/AccountSetting"
+          path="/account-setting"
           element={
             <Layout>
               <AccountSetting />

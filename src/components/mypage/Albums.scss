@@ -53,16 +53,21 @@
               line-height: 100%; /* 14px */
               letter-spacing: 0.42px;
             }
-            .albums__item__play-count {
+            .albums__item__icon-box {
               display: flex;
-              gap: 4px;
-              span {
-                color: var(--Text-music-sub, #aaa);
-                font-family: Inter400;
-                font-size: 12px;
-                font-style: normal;
-                line-height: 100%; /* 12px */
-                letter-spacing: 0.36px;
+              gap: 12px;
+              align-items: center;
+              .albums__item__play-count {
+                display: flex;
+                gap: 4px;
+                span {
+                  color: var(--Text-music-sub, #aaa);
+                  font-family: Inter400;
+                  font-size: 12px;
+                  font-style: normal;
+                  line-height: 100%; /* 12px */
+                  letter-spacing: 0.36px;
+                }
               }
             }
             .albums__item__user-info {

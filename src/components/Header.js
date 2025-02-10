@@ -107,7 +107,7 @@ const Header = ({ setIsLoggedIn }) => {
         </div>
       </div>
 
-      <Menu />
+      {/* <Menu /> */}
 
       {/* <Routes>
         <Route path="/" element={<Album />} />

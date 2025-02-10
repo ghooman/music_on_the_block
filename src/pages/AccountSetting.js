@@ -87,7 +87,7 @@ const AccountSetting = () => {
             <p className="user-info__title">Introduction </p>
             <div className="user-info__desc-box">
               <span className="user-info__desc">
-                First change is free, subsequent changes cost 1 MOB each.
+                Write your Introduction in 150 characters or less.
               </span>
               <span className="user-info__count">Characters: 120/150</span>
             </div>

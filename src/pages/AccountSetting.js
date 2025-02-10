@@ -22,7 +22,44 @@ const AccountSetting = () => {
   const [socials, setSocials] = useState([]);
 
   const [isError, setIsError] = useState(false);
-  const [errorMessages, setErrorMessages] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({
+    userName: [],
+    email: [],
+    intro: [],
+    socials: [],
+  });
+
+  // 유효성 검사
+  const validate = () => {
+    let errors = {
+      userName: [],
+      nation: [],
+      email: [],
+      intro: [],
+      socials: [],
+    };
+
+    if (userName === "error") {
+      errors.userName.push(
+        "This username is already taken. Please try another"
+      );
+    }
+    if (email === "error") {
+      errors.email.push("This email is already registered. Please try another");
+    }
+    if (intro === "error") {
+      errors.intro.push("Your bio must be 150 characters or less.");
+      errors.intro.push(
+        "Invalid password. Please include uppercase, lowercase, and special characters."
+      );
+    }
+    if (socials.includes("error")) {
+      errors.socials.push("This username is already taken. Please try another");
+    }
+
+    setErrorMessages(errors);
+    setIsError(Object.values(errors).some((err) => err.length > 0)); // 에러가 하나라도 있으면 true
+  };
 
   return (
     <div className="account-setting">
@@ -65,16 +102,21 @@ const AccountSetting = () => {
                 type="text"
                 className="user-info__input"
                 placeholder="User Name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
-              <button className="user-info__edit-btn">Change(1 MOB)</button>
+              <button className="user-info__edit-btn" onClick={validate}>
+                Change(1 MOB)
+              </button>
             </div>
-            <span className="user-info__error">
-              This username is already taken. Please try another
-            </span>
+            {errorMessages.userName.map((err, idx) => (
+              <span key={idx} className="user-info__error">
+                {err}
+              </span>
+            ))}
           </div>
           <div className="user-info__item">
             <p className="user-info__title">Nation</p>
-
             <div className="user-info__input-box">
               <input
                 type="text"
@@ -83,13 +125,9 @@ const AccountSetting = () => {
               />
               <button className="user-info__edit-btn">Change</button>
             </div>
-            <span className="user-info__error">
-              This username is already taken. Please try another
-            </span>
           </div>
           <div className="user-info__item">
             <p className="user-info__title">Email</p>
-
             <div className="user-info__input-box">
               <input
                 type="text"
@@ -98,9 +136,11 @@ const AccountSetting = () => {
               />
               <button className="user-info__edit-btn">Change</button>
             </div>
-            <span className="user-info__error">
-              This email is already registered. Please try another.
-            </span>
+            {errorMessages.email.map((err, idx) => (
+              <span key={idx} className="user-info__error">
+                {err}
+              </span>
+            ))}
           </div>
           <div className="user-info__item">
             <p className="user-info__title">Introduction </p>
@@ -108,7 +148,9 @@ const AccountSetting = () => {
               <span className="user-info__desc">
                 Write your Introduction in 150 characters or less.
               </span>
-              <span className="user-info__count">Characters: 120/150</span>
+              <span className="user-info__count">
+                Characters: {intro.length || 0}/150
+              </span>
             </div>
             <div className="user-info__input-box">
               <input
@@ -118,12 +160,11 @@ const AccountSetting = () => {
               />
               <button className="user-info__edit-btn">Change</button>
             </div>
-            <span className="user-info__error">
-              Your bio must be 150 characters or less. Please shorten your text.
-              <br />
-              Invalid password. Please include uppercase, lowercase, and special
-              characters.
-            </span>
+            {errorMessages.intro.map((err, idx) => (
+              <span key={idx} className="user-info__error">
+                {err}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -215,9 +256,11 @@ const AccountSetting = () => {
             />
             <button className="social__edit-btn">Change</button>
           </div>
-          <span className="social__error">
-            This username is already taken. Please try another
-          </span>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
         </div>
         <div className="social__item">
           <p className="social__item-title">Instagram</p>
@@ -229,9 +272,11 @@ const AccountSetting = () => {
             />
             <button className="social__edit-btn">Change</button>
           </div>
-          <span className="social__error">
-            This username is already taken. Please try another
-          </span>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
         </div>
         <div className="social__item">
           <p className="social__item-title">Instagram</p>
@@ -243,9 +288,11 @@ const AccountSetting = () => {
             />
             <button className="social__edit-btn">Change</button>
           </div>
-          <span className="social__error">
-            This username is already taken. Please try another
-          </span>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
         </div>
         <div className="social__item">
           <p className="social__item-title">Instagram</p>
@@ -257,9 +304,11 @@ const AccountSetting = () => {
             />
             <button className="social__edit-btn">Change</button>
           </div>
-          <span className="social__error">
-            This username is already taken. Please try another
-          </span>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
         </div>
         <div className="social__item">
           <p className="social__item-title">Instagram</p>
@@ -271,9 +320,11 @@ const AccountSetting = () => {
             />
             <button className="social__edit-btn">Change</button>
           </div>
-          <span className="social__error">
-            This username is already taken. Please try another
-          </span>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
         </div>
       </section>
     </div>

@@ -4,7 +4,11 @@ import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
 import gearImg from "../assets/images/mypage/gear.svg";
-import demoSocial from "../assets/images/mypage/instar.png";
+import instarIcon from "../assets/images/social/instar.svg";
+import facebookIcon from "../assets/images/social/facebook.svg";
+import xIcon from "../assets/images/social/x.svg";
+import discordIcon from "../assets/images/social/discord.svg";
+import youtubeIcon from "../assets/images/social/youtube.svg";
 
 import AiServices from "../components/mypage/AiServices";
 import Albums from "../components/mypage/Albums";
@@ -52,19 +56,19 @@ const MyPage = () => {
           </p>
           <div className="mypage__social-icons">
             <button className="social-icon">
-              <img src={demoSocial} alt="social" />
+              <img src={instarIcon} alt="social" />
             </button>
             <button className="social-icon">
-              <img src={demoSocial} alt="social" />
+              <img src={facebookIcon} alt="social" />
             </button>
             <button className="social-icon">
-              <img src={demoSocial} alt="social" />
+              <img src={xIcon} alt="social" />
             </button>
             <button className="social-icon">
-              <img src={demoSocial} alt="social" />
+              <img src={discordIcon} alt="social" />
             </button>
             <button className="social-icon">
-              <img src={demoSocial} alt="social" />
+              <img src={youtubeIcon} alt="social" />
             </button>
           </div>
           <div className="mypage__exp">

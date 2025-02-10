@@ -65,48 +65,48 @@ const Create = () => {
             )}
             {pageNumber === 0 && (
                 <LyricLab handler={setLyricData}>
-                    <ButtonWrap>
+                    <div className="button-wrap">
                         <span></span>
                         <div className="button-wrap__right">
-                            <ButtonWrap.Button title="skip" />
-                            <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                            <Button title="skip" />
+                            <Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
                         </div>
-                    </ButtonWrap>
+                    </div>
                 </LyricLab>
             )}
             {pageNumber === 1 && (
                 <MelodyMaker handler={setMelodyData} tempo={tempo} setTempo={setTempo}>
-                    <ButtonWrap>
-                        <ButtonWrap.Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
+                    <div className="button-wrap">
+                        <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
                         <div className="button-wrap__right">
-                            <ButtonWrap.Button title="skip" />
-                            <ButtonWrap.Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
+                            <Button title="skip" />
+                            <Button title="next" handler={() => setPageNumber((prev) => prev + 1)} />
                         </div>
-                    </ButtonWrap>
+                    </div>
                 </MelodyMaker>
             )}
             {pageNumber === 2 && (
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
-                    <ButtonWrap>
-                        <ButtonWrap.Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
+                    <div className="button-wrap">
+                        <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
                         <div className="button-wrap__right">
-                            <ButtonWrap.Button title="skip" />
-                            <ButtonWrap.Button
+                            <Button title="skip" />
+                            <Button
                                 title="next"
                                 disabled={!albumCover}
                                 handler={() => setPageNumber((prev) => prev + 1)}
                             />
                         </div>
-                    </ButtonWrap>
+                    </div>
                 </AlbumCoverSudio>
             )}
             {pageNumber === 3 && (
                 <Finalize albumCover={albumCover}>
                     <CheckList setCheckList={setCheckList}></CheckList>
-                    <ButtonWrap>
-                        <ButtonWrap.Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
-                        <ButtonWrap.Button title="upload" disabled={!checkList} handler={() => alert('음악생성.')} />
-                    </ButtonWrap>
+                    <div className="button-wrap">
+                        <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
+                        <Button title="upload" disabled={!checkList} handler={() => alert('음악생성.')} />
+                    </div>
                 </Finalize>
             )}
         </div>
@@ -225,11 +225,7 @@ const CheckList = ({ setCheckList }) => {
     );
 };
 
-const ButtonWrap = ({ children }) => {
-    return <div className="button-wrap">{children}</div>;
-};
-
-ButtonWrap.Button = ({ title, handler, disabled }) => {
+const Button = ({ title, handler, disabled }) => {
     return (
         <button className={title} disabled={disabled} onClick={handler}>
             {title}

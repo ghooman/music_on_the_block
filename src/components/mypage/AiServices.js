@@ -17,7 +17,7 @@ const AiServices = () => {
   };
   return (
     <>
-      <div className="mypage__services">
+      <div className="ai__services">
         {[
           "AI Lyric & Songwriting",
           "AI Singing Evaluation",
@@ -25,7 +25,7 @@ const AiServices = () => {
         ].map((aiService) => (
           <button
             key={aiService}
-            className={`mypage__service-btn ${
+            className={`ai__service-btn ${
               selectedAiService === aiService ? "active" : ""
             }`}
             onClick={() => handleAiServiceClick(aiService)}
@@ -35,11 +35,11 @@ const AiServices = () => {
         ))}
       </div>
 
-      <div className="mypage__chart">
+      <div className="ai__chart">
         <img src={demoChart} alt="chart" />
       </div>
 
-      <section className="mypage__ai-status">
+      <section className="ai__ai-status">
         <p className="ai-status__title">AI Service Status</p>
         <div className="ai-status__menu">
           <button className="ai-status__menu-item active">All</button>
@@ -88,7 +88,7 @@ const AiServices = () => {
         </div>
       </section>
 
-      <section className="mypage__period">
+      <section className="ai__period">
         <p className="period__title">AI Work Trends by Period</p>
         <div className="period__menu">
           <Filter

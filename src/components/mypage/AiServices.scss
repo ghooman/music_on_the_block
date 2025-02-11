@@ -1,10 +1,10 @@
-.mypage__services {
+.ai__services {
   margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 40px;
-  .mypage__service-btn {
+  .ai__service-btn {
     color: var(--Text-music-title, #f1f1f1);
     font-family: Orbitron600;
     font-size: 16px;
@@ -21,7 +21,7 @@
     background: var(--primary-100, #cf0);
   }
 }
-.mypage__chart {
+.ai__chart {
   width: 700px;
   margin: 0 auto;
   margin-top: 40px;
@@ -30,7 +30,7 @@
     width: 100%;
   }
 }
-.mypage__ai-status {
+.ai__ai-status {
   margin-top: 100px;
   .ai-status__title {
     margin-bottom: 24px;
@@ -141,7 +141,7 @@
     }
   }
 }
-.mypage__period {
+.ai__period {
   margin-bottom: 20px;
   .period__title {
     color: var(--primary-base, #cf0);
@@ -178,6 +178,30 @@
       font-style: normal;
       line-height: 100%; /* 14px */
       margin-right: 12px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .ai__chart {
+    width: 100%;
+  }
+  .ai__ai-status {
+    .ai-status__info {
+      display: flex;
+      flex-direction: column;
+      .ai-status__chart {
+        width: 100%;
+      }
+    }
+    .ai-status__detail {
+      width: 100%;
+    }
+  }
+  .ai__period {
+    .period__chart {
+      img {
+        width: 100%;
+      }
     }
   }
 }

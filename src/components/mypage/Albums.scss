@@ -163,3 +163,12 @@
     }
   }
 }
+@media screen and (max-width: 768px) {
+  .albums .albums__list .albums__body {
+    flex-direction: column;
+  }
+  .albums-table {
+    min-width: 768px;
+    overflow: auto;
+  }
+}

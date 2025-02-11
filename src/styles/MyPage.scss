@@ -164,3 +164,20 @@
     }
   }
 }
+@media screen and (max-width: 768px) {
+  .mypage {
+    .mypage__profile {
+      width: 100%;
+      .mypage__profile-info {
+        width: 100%;
+        height: auto;
+        .mypage__exp {
+          flex-direction: column;
+        }
+      }
+    }
+    .mypage__nav {
+      overflow: auto;
+    }
+  }
+}

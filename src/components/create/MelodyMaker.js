@@ -37,7 +37,6 @@ const instrumentPreset = {
 };
 
 const MelodyMaker = ({ handler, value, children, tempo, setTempo }) => {
-
     return (
         <div className="create__melody-maker">
             <SubBanner>

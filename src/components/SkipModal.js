@@ -1,4 +1,5 @@
 import ModalWrap from '../components/ModalWrap';
+import ExpandedButton from './create/ExpandedButton';
 
 import lightBulb from '../assets/images/icon/lightbulb.svg';
 
@@ -20,12 +21,14 @@ const SkipModal = ({ setSkipModal, handler }) => {
                     You can always revisit this step later if needed.
                 </div>
                 <div className="skip-modal__button-wrap">
-                    <button className="skip-modal__button go-back" onClick={() => setSkipModal(false)}>
+                    {/* <button className="skip-modal__button go-back" onClick={() => setSkipModal(false)}>
                         Go Back
                     </button>
                     <button className="skip-modal__button yes-continue" onClick={handler}>
                         Yes, Continue
-                    </button>
+                    </button> */}
+                    <Buttons title="Go Back" handler={() => setSkipModal(false)} />
+                    <Buttons title="Yes, Continue" handler={handler} />
                 </div>
             </div>
         </ModalWrap>
@@ -33,3 +36,32 @@ const SkipModal = ({ setSkipModal, handler }) => {
 };
 
 export default SkipModal;
+
+const Buttons = ({ title, handler }) => {
+    let buttonColor;
+    let color;
+    let style;
+    switch (title) {
+        case 'Go Back':
+            buttonColor = '#383838';
+            color = '#f1f1f1';
+            break;
+        case 'Yes, Continue':
+            style = { flex: 1 };
+            buttonColor = '#cf0';
+            color = '#1a1a1a';
+            break;
+        default:
+    }
+
+    return (
+        <ExpandedButton
+            title={title}
+            borderRadius={12}
+            buttonColor={buttonColor}
+            color={color}
+            style={{ padding: '8px 10px', fontFamily: 'orbitron600', ...style }}
+            onClick={handler}
+        />
+    );
+};

@@ -1,4 +1,5 @@
 import ModalWrap from './ModalWrap';
+import ExpandedButton from '../components/create/ExpandedButton';
 
 import logoIcon from '../assets/images/header/logo.svg';
 
@@ -20,9 +21,17 @@ const CreateCompleteModal = ({ setCreateCompleteModal }) => {
                     </p>
                 </div>
                 <p className="create-complete__text">Successfully uploaded to the album!</p>
-                <button className="create-complete__button" onClick={() => navigate('/')}>
+                {/* <button className="create-complete__button" onClick={() => navigate('/')}>
                     OK
-                </button>
+                </button> */}
+                <ExpandedButton
+                    title="OK"
+                    buttonColor="#cf0"
+                    color="#1a1a1a"
+                    borderRadius={12}
+                    onClick={() => navigate('/')}
+                    style={{ height: 48, width: '100%', fontFamily: 'orbitron600' }}
+                />
             </div>
         </ModalWrap>
     );

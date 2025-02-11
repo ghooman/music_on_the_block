@@ -148,7 +148,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
         getRangerElement: () => rangeRef.current,
         values: tempo,
         min: 60,
-        max: 250,
+        max: 160,
         stepSize: 1,
         onChange: (instance) => {
             setTempo(instance.sortedValues);

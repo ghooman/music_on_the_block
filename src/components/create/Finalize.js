@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import AudioPlayer from 'react-h5-audio-player';
+
+import ExpandedButton from './ExpandedButton';
 
 import dummy_ai_artist from '../../assets/images/mypage/demo-user.png';
 
 import dummy_music from '../../assets/music/song01.mp3';
 
-import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import './Finalize.scss';
 
@@ -47,7 +49,18 @@ const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
                 <div className="music-info__image" style={{ backgroundImage: `url(${albumCover.image})` }}>
                     <div className="music-info__image__feel-box">
                         {albumCover?.feel.map((item) => (
-                            <div className="music-info__image__feel-item">{item}</div>
+                            // <div className="music-info__image__feel-item">{item}</div>
+                            <ExpandedButton
+                                title={item}
+                                buttonColor="#00ffb3"
+                                color="#1a1a1a"
+                                borderRadius="12px 4px 12px 12px"
+                                style={{
+                                    fontFamily: 'Inter400',
+                                    fontSize: 14,
+                                    padding: '4px 12px',
+                                }}
+                            />
                         ))}
                     </div>
                 </div>

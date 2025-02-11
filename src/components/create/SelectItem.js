@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react';
 import { useRanger, Ranger } from '@tanstack/react-ranger';
 
+import ExpandedButton from './ExpandedButton';
+
 import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
-import ExpandedButton from './ExpandedButton';
 
 export const SelectItemWrap = ({ children, dropdown }) => {
     const [visible, setVisible] = useState(!dropdown);
@@ -116,17 +117,9 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
                             />
                         </label>
                     )}
-                    {/* <button className="tag-input-comment-button" onClick={addItem}>
+                    <ExpandedButton className="tag-input-comment-button" onClick={addItem}>
                         Add
-                    </button> */}
-                    <ExpandedButton
-                        title="Add"
-                        buttonColor="#cf0"
-                        borderRadius={12}
-                        color="#1a1a1a"
-                        style={{ width: 120, height: 30, fontFamily: 'orbitron600', fontSize: 14 }}
-                        onClick={addItem}
-                    />
+                    </ExpandedButton>
                 </div>
             </div>
             <div className="tag-selected">

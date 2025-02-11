@@ -21,17 +21,9 @@ const CreateCompleteModal = ({ setCreateCompleteModal }) => {
                     </p>
                 </div>
                 <p className="create-complete__text">Successfully uploaded to the album!</p>
-                {/* <button className="create-complete__button" onClick={() => navigate('/')}>
+                <ExpandedButton className="create-complete__button" onClick={() => navigate('/')}>
                     OK
-                </button> */}
-                <ExpandedButton
-                    title="OK"
-                    buttonColor="#cf0"
-                    color="#1a1a1a"
-                    borderRadius={12}
-                    onClick={() => navigate('/')}
-                    style={{ height: 48, width: '100%', fontFamily: 'orbitron600' }}
-                />
+                </ExpandedButton>
             </div>
         </ModalWrap>
     );

@@ -1,18 +1,32 @@
+import { useLayoutEffect, useRef } from 'react';
+
 import './ExpandedButton.scss';
 
-const ExpandedButton = ({ title, borderRadius, buttonColor, color, style, onClick, disabled }) => {
+const ExpandedButton = ({ children, className, style, onClick, disabled }) => {
+    let buttonRef = useRef(null);
+    let spanRef = useRef(null);
+
+    useLayoutEffect(() => {
+        let bgColor = window.getComputedStyle(buttonRef.current).backgroundColor;
+        let borderColor = window.getComputedStyle(buttonRef.current).borderColor;
+
+        if (disabled) {
+            spanRef.current.style.borderColor = borderColor;
+        } else {
+            spanRef.current.style.borderColor = bgColor;
+        }
+    }, [disabled]);
+
     return (
         <button
-            className={`composition__expanded-button`}
-            onClick={onClick}
+            ref={buttonRef}
+            className={`${className} composition__expanded-buttons`}
+            style={style}
             disabled={disabled}
-            style={{ borderColor: buttonColor, borderRadius, ...style }}
+            onClick={onClick}
         >
-            {title}
-            {/** 여기 타이틀 안 넣으면 크기 잡기가 어려워요 */}
-            <div className={`expanded-button`} style={{ backgroundColor: buttonColor, color }}>
-                {title}
-            </div>
+            {children}
+            <span ref={spanRef} className="composition__expanded-buttons-after"></span>
         </button>
     );
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
 
+import ExpandedButton from '../components/create/ExpandedButton';
 import LyricLab from '../components/create/LyricLab';
 import MelodyMaker from '../components/create/MelodyMaker';
 import DescriptionBanner from '../components/create/DescriptionBanner';
@@ -9,8 +10,6 @@ import Finalize from '../components/create/Finalize';
 import GetStarted from '../components/create/GetStarted';
 import CreateCompleteModal from '../components/CreateCompleteModal';
 import SkipModal from '../components/SkipModal';
-
-import ExpandedButton from '../components/create/ExpandedButton';
 
 import '../styles/Create.scss';
 
@@ -89,13 +88,17 @@ const Create = () => {
                 <LyricLab handler={setLyricData} value={lylicData}>
                     <div className="button-wrap">
                         <div className="button-wrap__left">
-                            <Button title="skip" handler={() => setSkip('lyric')} />
+                            <ExpandedButton className="skip" onClick={() => setSkip('lyric')}>
+                                Skip
+                            </ExpandedButton>
                         </div>
-                        <Button
-                            title="next"
+                        <ExpandedButton
+                            className="next"
+                            onClick={() => setPageNumber((prev) => prev + 1)}
                             disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
-                            handler={() => setPageNumber((prev) => prev + 1)}
-                        />
+                        >
+                            Next
+                        </ExpandedButton>
                     </div>
                 </LyricLab>
             )}
@@ -103,14 +106,20 @@ const Create = () => {
                 <MelodyMaker handler={setMelodyData} value={melodyData} tempo={tempo} setTempo={setTempo}>
                     <div className="button-wrap">
                         <div className="button-wrap__left">
-                            <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
-                            <Button title="skip" handler={() => setSkip('melody')} />
+                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev + -1)}>
+                                Back
+                            </ExpandedButton>
+                            <ExpandedButton className="skip" onClick={() => setSkip('melody')}>
+                                Skip
+                            </ExpandedButton>
                         </div>
-                        <Button
-                            title="next"
+                        <ExpandedButton
+                            className="next"
+                            onClick={() => setPageNumber((prev) => prev + 1)}
                             disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
-                            handler={() => setPageNumber((prev) => prev + 1)}
-                        />
+                        >
+                            Next
+                        </ExpandedButton>
                     </div>
                 </MelodyMaker>
             )}
@@ -118,9 +127,17 @@ const Create = () => {
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
                     <div className="button-wrap">
                         <div className="button-wrap__left">
-                            <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
+                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev - 1)}>
+                                Back
+                            </ExpandedButton>
                         </div>
-                        <Button title="next" disabled={!albumCover} handler={() => setPageNumber((prev) => prev + 1)} />
+                        <ExpandedButton
+                            className="next"
+                            onClick={() => setPageNumber((prev) => prev + 1)}
+                            disabled={!albumCover}
+                        >
+                            Next
+                        </ExpandedButton>
                     </div>
                 </AlbumCoverSudio>
             )}
@@ -134,8 +151,14 @@ const Create = () => {
                     setCheckList={setCheckList}
                 >
                     <div className="button-wrap">
-                        <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
-                        <Button title="upload" disabled={!checkList} handler={() => setCreateCompleteModal(true)} />
+                        <ExpandedButton onClick={() => setPageNumber((prev) => prev - 1)}>Back</ExpandedButton>
+                        <ExpandedButton
+                            className="next"
+                            disabled={!checkList}
+                            onClick={() => setCreateCompleteModal(true)}
+                        >
+                            Upload
+                        </ExpandedButton>
                     </div>
                 </Finalize>
             )}
@@ -194,15 +217,7 @@ const SelectedItem = ({ title, value, multiple }) => {
                                 </span>
                             );
                         } else {
-                            return (
-                                <ExpandedButton
-                                    title={item}
-                                    buttonColor="#00FFb3"
-                                    borderRadius="12px 4px 12px 12px"
-                                    color="#1a1a1a"
-                                    style={{ height: 24, fontFamily: 'Inter400', fontSize: 14, padding: '0px 8px' }}
-                                />
-                            );
+                            return <ExpandedButton className="values multiple">{item}</ExpandedButton>;
                         }
                     })
                 ) : (
@@ -210,53 +225,5 @@ const SelectedItem = ({ title, value, multiple }) => {
                 )}
             </div>
         </div>
-    );
-};
-
-const Button = ({ title, handler, disabled = false }) => {
-    let style;
-    let buttonColor;
-    let color;
-    switch (title) {
-        case 'next':
-        case 'upload':
-            buttonColor = '#cf0';
-            color = '#000';
-            break;
-        case 'skip':
-            buttonColor = '#6458ff';
-            color = '#f1f1f1';
-            break;
-        case 'back':
-            buttonColor = '#383838';
-            color = '#f1f1f1';
-            break;
-        default:
-    }
-
-    if (disabled) {
-        buttonColor = '#2C3A00';
-        color = '#1f1f1f';
-    }
-
-    return (
-        // <button className={title} disabled={disabled} onClick={handler}>
-        //     {title}
-        // </button>
-
-        <ExpandedButton
-            title={title}
-            borderRadius={12}
-            buttonColor={buttonColor}
-            color={color}
-            onClick={handler}
-            disabled={disabled}
-            style={{
-                ...style,
-                fontFamily: 'orbitron600',
-                height: 40,
-                minWidth: 140,
-            }}
-        />
     );
 };

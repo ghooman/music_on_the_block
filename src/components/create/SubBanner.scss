@@ -43,14 +43,14 @@
         letter-spacing: 0.48px;
         z-index: 3;
     }
-    // .sub-banner__buttons {
-    //     border-radius: 12px;
-    //     color: var(--Text-dark-title, #1a1a1a);
-    //     font-family: Orbitron600;
-    //     letter-spacing: 0.48px;
-    //     background: var(--secondary-base, #00ffb3);
-    //     padding: 8px 10px;
-    //     width: fit-content;
-    //     z-index: 3;
-    // }
+    .sub-banner__buttons {
+        border-radius: 12px;
+        color: var(--Text-dark-title, #1a1a1a);
+        font-family: Orbitron600;
+        letter-spacing: 0.48px;
+        background: var(--secondary-base, #00ffb3);
+        padding: 8px 10px;
+        width: fit-content;
+        z-index: 3;
+    }
 }

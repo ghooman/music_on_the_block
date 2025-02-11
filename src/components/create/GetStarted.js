@@ -33,14 +33,9 @@ const GetStarted = ({ handler }) => {
                     <p className="create__get-started--features-item ">93%</p>
                 </div>
             </div>
-            <ExpandedButton
-                title="Create"
-                buttonColor="#cf0"
-                borderRadius={12}
-                color="#1a1a1a"
-                style={{ float: 'right', fontFamily: 'orbitron600', padding: '8px 10px' }}
-                onClick={handler}
-            />
+            <ExpandedButton className="create__get-started--button" onClick={handler}>
+                Create
+            </ExpandedButton>
         </div>
     );
 };

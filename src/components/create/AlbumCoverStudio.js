@@ -2,6 +2,7 @@ import { SelectItem, SelectItemWrap } from './SelectItem';
 import { useEffect, useState } from 'react';
 
 import SubBanner from './SubBanner';
+import ExpandedButton from './ExpandedButton';
 
 import creatingIcon from '../../assets/images/icon/creating.svg';
 import demoImage from '../../assets/images/intro/intro-demo-img.png';
@@ -17,7 +18,6 @@ import demoImage9 from '../../assets/images/demo/album06.svg';
 import subBg3 from '../../assets/images/create/subbanner-bg3.png';
 
 import './AlbumCoverStudio.scss';
-import ExpandedButton from './ExpandedButton';
 
 const colorPreset = {
     '#FF4550': ['#FF4550'],
@@ -152,37 +152,13 @@ const CoverCreate = ({ coverCreate, setAlbumCover }) => {
                     <>
                         <div className="creating-select__feel-box">
                             {selectImage?.feel.map((item) => (
-                                // <div className="creating-select__feel-item">{item}</div>
-                                <ExpandedButton
-                                    title={item}
-                                    buttonColor="#00ffb3"
-                                    color="#1a1a1a"
-                                    borderRadius="12px 4px 12px 12px"
-                                    style={{
-                                        fontFamily: 'Inter400',
-                                        fontSize: 14,
-                                        padding: '4px 12px',
-                                    }}
-                                />
+                                <ExpandedButton className="creating-select__feel-item">{item}</ExpandedButton>
                             ))}
                         </div>
-                        {/* <button className="creating-select__confirm" onClick={() => setAlbumCover(selectImage)}>
+
+                        <ExpandedButton className="creating-select__confirm" onClick={() => setAlbumCover(selectImage)}>
                             Confirm
-                        </button> */}
-                        <ExpandedButton
-                            title="Confirm"
-                            buttonColor="#cf0"
-                            color="#1a1a1a"
-                            borderRadius={12}
-                            onClick={() => setAlbumCover(selectImage)}
-                            style={{
-                                position: 'absolute',
-                                bottom: 24,
-                                right: 24,
-                                fontFamily: 'orbitron600',
-                                padding: '4px 10px',
-                            }}
-                        />
+                        </ExpandedButton>
                     </>
                 )}
                 {!selectImage?.isCreated && (

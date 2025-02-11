@@ -30,16 +30,8 @@ SubBanner.SubMessage = ({ text }) => {
 
 SubBanner.Button = ({ title, handler }) => {
     return (
-        // <button className="sub-banner__buttons" onClick={handler}>
-        //     {title}
-        // </button>
-        <ExpandedButton
-            title={title}
-            color="#1a1a1a"
-            buttonColor="#00ffb3"
-            borderRadius={12}
-            style={{ padding: '8px 10px', zIndex: 3, fontFamily: 'orbitron600', width: 'fit-content' }}
-            onClick={handler}
-        ></ExpandedButton>
+        <ExpandedButton className="sub-banner__buttons" onClick={handler}>
+            {title}
+        </ExpandedButton>
     );
 };

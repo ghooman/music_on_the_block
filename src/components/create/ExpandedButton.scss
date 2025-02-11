@@ -1,0 +1,18 @@
+.composition__expanded-button {
+    position: relative;
+    border: 1px solid;
+    color: transparent;
+    .expanded-button {
+        position: absolute;
+        border-radius: inherit;
+        text-transform: capitalize;
+        width: calc(100% + 2px);
+        height: 100%;
+        top: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        &:active {
+            top: 0px;
+        }
+    }
+}

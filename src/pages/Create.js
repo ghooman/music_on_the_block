@@ -6,11 +6,13 @@ import MelodyMaker from '../components/create/MelodyMaker';
 import DescriptionBanner from '../components/create/DescriptionBanner';
 import AlbumCoverSudio from '../components/create/AlbumCoverStudio';
 import Finalize from '../components/create/Finalize';
+import GetStarted from '../components/create/GetStarted';
+import CreateCompleteModal from '../components/CreateCompleteModal';
 import SkipModal from '../components/SkipModal';
 
+import ExpandedButton from '../components/create/ExpandedButton';
+
 import '../styles/Create.scss';
-import CreateCompleteModal from '../components/CreateCompleteModal';
-import GetStarted from '../components/create/GetStarted';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(-1);
@@ -85,48 +87,40 @@ const Create = () => {
             )}
             {pageNumber === 0 && (
                 <LyricLab handler={setLyricData} value={lylicData}>
-                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
-                        <span></span>
-                        <div className="button-wrap__right">
+                        <div className="button-wrap__left">
                             <Button title="skip" handler={() => setSkip('lyric')} />
-                            <Button
-                                title="next"
-                                disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
-                                handler={() => setPageNumber((prev) => prev + 1)}
-                            />
                         </div>
+                        <Button
+                            title="next"
+                            disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
+                            handler={() => setPageNumber((prev) => prev + 1)}
+                        />
                     </div>
                 </LyricLab>
             )}
             {pageNumber === 1 && (
                 <MelodyMaker handler={setMelodyData} value={melodyData} tempo={tempo} setTempo={setTempo}>
-                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
-                        <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
-                        {/* <div className="button-wrap__right"> */}
-                        <Button title="skip" handler={() => setSkip('melody')} />
+                        <div className="button-wrap__left">
+                            <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
+                            <Button title="skip" handler={() => setSkip('melody')} />
+                        </div>
                         <Button
                             title="next"
                             disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
                             handler={() => setPageNumber((prev) => prev + 1)}
                         />
-                        {/* </div> */}
                     </div>
                 </MelodyMaker>
             )}
             {pageNumber === 2 && (
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
-                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
-                        <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
-                        <div className="button-wrap__right">
-                            <Button
-                                title="next"
-                                disabled={!albumCover}
-                                handler={() => setPageNumber((prev) => prev + 1)}
-                            />
+                        <div className="button-wrap__left">
+                            <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
                         </div>
+                        <Button title="next" disabled={!albumCover} handler={() => setPageNumber((prev) => prev + 1)} />
                     </div>
                 </AlbumCoverSudio>
             )}
@@ -138,7 +132,6 @@ const Create = () => {
                     skipLyric={skipLyric}
                     skipMelody={skipMelody}
                 >
-                    {/** children은 버튼만 정의 함. */}
                     <CheckList setCheckList={setCheckList}></CheckList>
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
@@ -193,11 +186,25 @@ const SelectedItem = ({ title, value, multiple }) => {
             <p className="item-title">{title}</p>
             <div className="item-value">
                 {value?.length > 0 ? (
-                    value.map((item) => (
-                        <span className={`values ${multiple ? 'multiple' : ''} `} key={item}>
-                            {item}
-                        </span>
-                    ))
+                    value.map((item) => {
+                        if (!multiple) {
+                            return (
+                                <span className={`values`} key={item}>
+                                    {item}
+                                </span>
+                            );
+                        } else {
+                            return (
+                                <ExpandedButton
+                                    title={item}
+                                    buttonColor="#00FFb3"
+                                    borderRadius="12px 4px 12px 12px"
+                                    color="#1a1a1a"
+                                    style={{ height: 24, fontFamily: 'Inter400', fontSize: 14, padding: '0px 8px' }}
+                                />
+                            );
+                        }
+                    })
                 ) : (
                     <p className="values">-</p>
                 )}
@@ -260,9 +267,39 @@ const CheckList = ({ setCheckList }) => {
 };
 
 const Button = ({ title, handler, disabled }) => {
+    let buttonColor;
+    let color;
+    switch (title) {
+        case 'next':
+            buttonColor = '#cf0';
+            color = '#000';
+            break;
+        case 'skip':
+            buttonColor = '#6458ff';
+            color = '#f1f1f1';
+            break;
+        case 'back':
+            buttonColor = '#383838';
+            color = '#f1f1f1';
+            break;
+        default:
+    }
+
     return (
-        <button className={title} disabled={disabled} onClick={handler}>
-            {title}
-        </button>
+        // <button className={title} disabled={disabled} onClick={handler}>
+        //     {title}
+        // </button>
+        <ExpandedButton
+            title={title}
+            borderRadius={12}
+            buttonColor={buttonColor}
+            color={color}
+            onClick={handler}
+            style={{
+                fontFamily: 'orbitron600',
+                height: 40,
+                minWidth: 140,
+            }}
+        />
     );
 };

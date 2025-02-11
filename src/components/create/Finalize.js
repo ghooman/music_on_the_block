@@ -1,5 +1,7 @@
 import dummy_ai_artist from '../../assets/images/mypage/demo-user.png';
 
+import dummy_music from '../../assets/music/song01.mp3';
+
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import './Finalize.scss';
@@ -46,7 +48,7 @@ const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
                         ))}
                     </div>
                 </div>
-                {!skipMelody && <AudioPlayer />}
+                {!skipMelody && <AudioPlayer src={dummy_music} />}
             </div>
             <ul className="music-info__data">
                 {datas.map((item) => (

@@ -74,11 +74,11 @@ const MyPage = () => {
           </div>
           <div className="mypage__exp">
             <div className="mypage__exp-box">
-              <span className="exp-box__neon">EXP*</span>
+              <span className="exp-box__neon">EXP</span>
               <span className="exp-box__value">52,104</span>
             </div>
             <div className="mypage__exp-box">
-              <span className="exp-box__neon">MOB*</span>
+              <span className="exp-box__neon">MOB</span>
               <span className="exp-box__value">2,104</span>
             </div>
           </div>

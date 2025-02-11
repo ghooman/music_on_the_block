@@ -115,6 +115,16 @@
             font-style: normal;
             line-height: normal;
             letter-spacing: 0.48px;
+            position: relative;
+            &::after {
+              position: absolute;
+              content: "";
+              width: 5px;
+              height: 5px;
+              top: 0;
+              background-color: #cf0;
+              border-radius: 100%;
+            }
           }
           .exp-box__value {
             color: var(--secondary-400, #007e56);

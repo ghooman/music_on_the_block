@@ -41,6 +41,9 @@
         font-size: 14px;
         font-style: normal;
         line-height: normal;
+        &:first-child {
+          width: 40px;
+        }
         .td-content {
           display: flex;
           justify-content: center;

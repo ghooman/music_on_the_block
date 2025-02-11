@@ -124,7 +124,8 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
                         buttonColor="#cf0"
                         borderRadius={12}
                         color="#1a1a1a"
-                        style={{ width: 120, height: 30, fontFamily: 'orbitron600' }}
+                        style={{ width: 120, height: 30, fontFamily: 'orbitron600', fontSize: 14 }}
+                        onClick={addItem}
                     />
                 </div>
             </div>

@@ -2,6 +2,11 @@
     position: relative;
     border: 1px solid;
     color: transparent;
+    &:active {
+        .expanded-button {
+            top: 0px;
+        }
+    }
     .expanded-button {
         position: absolute;
         border-radius: inherit;
@@ -11,8 +16,8 @@
         top: -3px;
         left: 50%;
         transform: translateX(-50%);
-        &:active {
-            top: 0px;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

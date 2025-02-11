@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import dummy_ai_artist from '../../assets/images/mypage/demo-user.png';
 
 import dummy_music from '../../assets/music/song01.mp3';
@@ -6,11 +8,12 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import './Finalize.scss';
 
-const Finalize = ({ children, albumCover, skipLyric, skipMelody }) => {
+const Finalize = ({ children, albumCover, skipLyric, skipMelody, setCheckList }) => {
     return (
         <div className="craete__finalizes">
             <MusicInfo albumCover={albumCover} skipMelody={skipMelody}></MusicInfo>
             <CreatedLyrics skipLyric={skipLyric}></CreatedLyrics>
+            <CheckList setCheckList={setCheckList}></CheckList>
             {children}
         </div>
     );
@@ -100,6 +103,59 @@ const CreatedLyrics = ({ skipLyric }) => {
                     </div>
                 ))}
             </div>
+        </div>
+    );
+};
+
+const CheckList = ({ setCheckList }) => {
+    const [checks, setChecks] = useState([false, false, false, false]);
+
+    const chekkkk = [
+        {
+            title: 'Is your work finalized?',
+            desc: 'Are the lyrics, melody, or both finalized and ready for the next step?',
+        },
+        {
+            title: 'Does your work align with your vision?',
+            desc: 'Does the tone, mood, and overall content match what you envisioned?',
+        },
+        {
+            title: 'Have you reviewed all key details?',
+            desc: 'Make sure to double-check tags, settings, and content accuracy.',
+        },
+        {
+            title: 'Are you ready to save or upload your work?',
+            desc: 'Choose to save your work as a draft or upload it to the community.',
+        },
+    ];
+
+    useEffect(() => {
+        setCheckList(checks.every((item) => item));
+    }, [checks, setCheckList]);
+
+    return (
+        <div className="check-list">
+            <p className="check-list__title">Final Checklist</p>
+            {chekkkk.map((item, index) => (
+                <label className="check-list__items" key={`check-list-index${index}`}>
+                    <input
+                        checked={checks[index]}
+                        onChange={() =>
+                            setChecks((prev) => {
+                                let copy = [...prev];
+                                copy[index] = !copy[index];
+                                return copy;
+                            })
+                        }
+                        type="checkbox"
+                    ></input>
+                    <span className="check"></span>
+                    <div>
+                        <p className="check-list__items--title">{item.title}</p>
+                        <span className="check-list__items--desc">{item.desc}</span>
+                    </div>
+                </label>
+            ))}
         </div>
     );
 };

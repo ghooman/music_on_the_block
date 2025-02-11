@@ -131,8 +131,8 @@ const Create = () => {
                     melodyData={melodyData}
                     skipLyric={skipLyric}
                     skipMelody={skipMelody}
+                    setCheckList={setCheckList}
                 >
-                    <CheckList setCheckList={setCheckList}></CheckList>
                     <div className="button-wrap">
                         <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
                         <Button title="upload" disabled={!checkList} handler={() => setCreateCompleteModal(true)} />
@@ -213,64 +213,13 @@ const SelectedItem = ({ title, value, multiple }) => {
     );
 };
 
-const CheckList = ({ setCheckList }) => {
-    const [checks, setChecks] = useState([false, false, false, false]);
-
-    const chekkkk = [
-        {
-            title: 'Is your work finalized?',
-            desc: 'Are the lyrics, melody, or both finalized and ready for the next step?',
-        },
-        {
-            title: 'Does your work align with your vision?',
-            desc: 'Does the tone, mood, and overall content match what you envisioned?',
-        },
-        {
-            title: 'Have you reviewed all key details?',
-            desc: 'Make sure to double-check tags, settings, and content accuracy.',
-        },
-        {
-            title: 'Are you ready to save or upload your work?',
-            desc: 'Choose to save your work as a draft or upload it to the community.',
-        },
-    ];
-
-    useEffect(() => {
-        setCheckList(checks.every((item) => item));
-    }, [checks, setCheckList]);
-
-    return (
-        <div className="check-list">
-            <p className="check-list__title">Final Checklist</p>
-            {chekkkk.map((item, index) => (
-                <label className="check-list__items" key={`check-list-index${index}`}>
-                    <input
-                        checked={checks[index]}
-                        onChange={() =>
-                            setChecks((prev) => {
-                                let copy = [...prev];
-                                copy[index] = !copy[index];
-                                return copy;
-                            })
-                        }
-                        type="checkbox"
-                    ></input>
-                    <span className="check"></span>
-                    <div>
-                        <p className="check-list__items--title">{item.title}</p>
-                        <span className="check-list__items--desc">{item.desc}</span>
-                    </div>
-                </label>
-            ))}
-        </div>
-    );
-};
-
-const Button = ({ title, handler, disabled }) => {
+const Button = ({ title, handler, disabled = false }) => {
+    let style;
     let buttonColor;
     let color;
     switch (title) {
         case 'next':
+        case 'upload':
             buttonColor = '#cf0';
             color = '#000';
             break;
@@ -285,17 +234,25 @@ const Button = ({ title, handler, disabled }) => {
         default:
     }
 
+    if (disabled) {
+        buttonColor = '#2C3A00';
+        color = '#1f1f1f';
+    }
+
     return (
         // <button className={title} disabled={disabled} onClick={handler}>
         //     {title}
         // </button>
+
         <ExpandedButton
             title={title}
             borderRadius={12}
             buttonColor={buttonColor}
             color={color}
             onClick={handler}
+            disabled={disabled}
             style={{
+                ...style,
                 fontFamily: 'orbitron600',
                 height: 40,
                 minWidth: 140,

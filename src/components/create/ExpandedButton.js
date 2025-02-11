@@ -1,16 +1,17 @@
 import './ExpandedButton.scss';
 
-const ExpandedButton = ({ title, borderRadius, buttonColor, color, style, onClick }) => {
+const ExpandedButton = ({ title, borderRadius, buttonColor, color, style, onClick, disabled }) => {
     return (
-        <button className={`composition__expanded-button`} style={{ ...style, borderColor: buttonColor, borderRadius }}>
+        <button
+            className={`composition__expanded-button`}
+            onClick={onClick}
+            disabled={disabled}
+            style={{ borderColor: buttonColor, borderRadius, ...style }}
+        >
             {title} {/** 여기 타이틀 안 넣으면 크기 잡기가 어려워요 */}
-            <button
-                onClick={onClick}
-                className={`expanded-button`}
-                style={{ backgroundColor: buttonColor, color, font: 'inherit' }}
-            >
+            <div className={`expanded-button`} style={{ backgroundColor: buttonColor, color, font: 'inherit' }}>
                 {title}
-            </button>
+            </div>
         </button>
     );
 };

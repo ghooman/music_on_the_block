@@ -9,12 +9,31 @@ const AiServices = () => {
   const [selectedAiService, setSelectedAiService] = useState(
     "AI Lyric & Songwriting"
   );
+  const [aiServiceStatus, setAiServiceStatus] = useState("All");
 
   const [openModal, setOpenModal] = useState(false);
 
   const handleAiServiceClick = (aiService) => {
     setSelectedAiService(aiService);
   };
+
+  const AiServiceList = [
+    "All",
+    "AI Singing Evaluation",
+    "AI Lyric & Songwriting",
+    "AI Cover Creation",
+  ];
+
+  const AiServiceTypeList = ["Lyric", "Songwriting", "Sing", "Link"];
+
+  const SortByList = [
+    "Latest",
+    "Oldest",
+    "Most Liked",
+    "Most Commented",
+    "Low Likes",
+    "Most Comments",
+  ];
   return (
     <>
       <div className="ai__services">
@@ -42,10 +61,19 @@ const AiServices = () => {
       <section className="ai__ai-status">
         <p className="ai-status__title">AI Service Status</p>
         <div className="ai-status__menu">
-          <button className="ai-status__menu-item active">All</button>
-          <button className="ai-status__menu-item">Lyric</button>
-          <button className="ai-status__menu-item">Songwritiy</button>
-          <button className="ai-status__menu-item">Lyric & Songwritiy</button>
+          {["All", "Lyric", "Songwriting", "Lyric & Songwriting"].map(
+            (status) => (
+              <button
+                key={status}
+                className={`ai-status__menu-item ${
+                  aiServiceStatus === status ? "active" : ""
+                }`}
+                onClick={() => setAiServiceStatus(status)}
+              >
+                {status}
+              </button>
+            )
+          )}
         </div>
 
         <div className="ai-status__info">

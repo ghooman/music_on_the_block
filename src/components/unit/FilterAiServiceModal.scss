@@ -1,0 +1,29 @@
+.filter-ai-service-modal {
+  width: 100%;
+  h3 {
+    color: var(--Dark-Color-08, var(--Color-08, #d9d9d9));
+    font-family: Inter700;
+    font-size: 14px;
+    font-style: normal;
+    line-height: normal;
+    margin: 16px 0;
+  }
+  ul {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; // 자동 줄바꿈 추가
+    gap: 8px; // 요소 간격 조정
+    margin-bottom: 16px;
+    li {
+      white-space: nowrap;
+      height: 32px;
+      padding: 6px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 20px;
+      border: 1px solid var(--Color-04, #383838);
+      background: var(--Color-03, #222);
+    }
+  }
+}

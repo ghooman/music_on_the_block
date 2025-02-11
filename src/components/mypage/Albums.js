@@ -1,5 +1,5 @@
 import "./Albums.scss";
-
+import { useState } from "react";
 import heartIcon from "../../assets/images/icon/heart.svg";
 import moreIcon from "../../assets/images/icon/more.svg";
 import playIcon from "../../assets/images/icon/play.svg";
@@ -9,13 +9,56 @@ import demoUser from "../../assets/images/mypage/demo-user.png";
 
 import Filter from "../unit/Filter";
 import AlbumsTable from "../unit/AlbumsTable";
+import FilterAiServiceModal from "../unit/FilterAiServiceModal";
 const Albums = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [modalList, setModalList] = useState([]);
+
+  const AiServiceList = [
+    "All",
+    "AI Singing Evaluation",
+    "AI Lyric & Songwriting",
+    "AI Cover Creation",
+  ];
+
+  const AiServiceTypeList = ["Lyric", "Songwriting", "Sing", "Link"];
+
+  const SortByList = [
+    "Latest",
+    "Oldest",
+    "Most Liked",
+    "Most Commented",
+    "Low Likes",
+    "Most Comments",
+  ];
+  // 첫 번째 필터 클릭 이벤트 (AI 서비스 리스트 + 타입 리스트만 전달)
+  const handleFilterClick = () => {
+    setModalList([
+      { title: "AI Service List", items: AiServiceList },
+      { title: "AI Service Type List", items: AiServiceTypeList },
+    ]);
+    setOpenModal(true);
+  };
+
+  // 두 번째 필터 클릭 이벤트 (AI 서비스 리스트 + 타입 리스트 + 정렬 리스트 전달)
+  const handleAlbumsFilterClick = () => {
+    setModalList([
+      { title: "AI Service List", items: AiServiceList },
+      { title: "AI Service Type List", items: AiServiceTypeList },
+      { title: "Sort By List", items: SortByList },
+    ]);
+    setOpenModal(true);
+  };
+
   return (
     <div className="albums">
       <section className="albums__list">
         <div className="albums__header">
           <h1 className="albums__title">Top Albums</h1>
-          <Filter list={["AI Lyric + Songwriting"]} />
+          <Filter
+            list={["AI Lyric + Songwriting"]}
+            clickEvent={handleFilterClick}
+          />
         </div>
         <div className="albums__body">
           <div className="albums__item">
@@ -149,10 +192,16 @@ const Albums = () => {
           />
         </div>
         <div className="my-albums__filter">
-          <Filter />
+          <Filter clickEvent={handleAlbumsFilterClick} />
           <AlbumsTable />
         </div>
       </section>
+      {openModal && (
+        <FilterAiServiceModal
+          list={modalList}
+          onClose={() => setOpenModal(false)}
+        />
+      )}
     </div>
   );
 };

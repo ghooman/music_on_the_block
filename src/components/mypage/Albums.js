@@ -6,7 +6,7 @@ import playIcon from "../../assets/images/icon/play.svg";
 import commentIcon from "../../assets/images/icon/comment.svg";
 import demoAlbum from "../../assets/images/mypage/demo-album.png";
 import demoUser from "../../assets/images/mypage/demo-user.png";
-
+import viewAllBackground from "../../assets/images/mypage/view-all-button.png";
 import Filter from "../unit/Filter";
 import AlbumsTable from "../unit/AlbumsTable";
 import FilterAiServiceModal from "../unit/FilterAiServiceModal";
@@ -182,7 +182,9 @@ const Albums = () => {
       <section className="albums__my-albums">
         <div className="my-albums__header">
           <p className="my-albums__title">My Albums</p>
-          <button className="my-albums__more-btn"> View All </button>
+          <button className="my-albums__more-btn">
+            <img src={viewAllBackground} alt="view all" />
+          </button>
         </div>
         <div className="my-albums__input">
           <input

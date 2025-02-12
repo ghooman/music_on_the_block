@@ -135,17 +135,11 @@
         }
       }
       .my-albums__more-btn {
-        width: 160px;
-        height: 40px;
-        background-image: (url("../../assets/images/mypage/button-bg.svg"));
-        fill: var(--mob_main, #cf0);
-        color: var(--black, #000);
-        text-align: center;
-        font-family: "TT Octosquares Trl";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
+        width: 100px;
+        height: 28px;
+        img {
+          object-fit: cover;
+        }
       }
     }
     .my-albums__input {

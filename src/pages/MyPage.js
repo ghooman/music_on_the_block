@@ -99,7 +99,12 @@ const MyPage = () => {
             className={`mypage__nav-item ${
               selectedService === service ? "active" : ""
             }`}
-            onClick={() => handleServiceClick(service)}
+            onClick={
+              service === "Tournaments"
+                ? undefined
+                : () => handleServiceClick(service)
+            }
+            disabled={service === "Tournaments"}
           >
             {service}
           </button>

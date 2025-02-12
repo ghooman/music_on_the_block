@@ -24,6 +24,11 @@
         font-size: 14px;
         font-style: normal;
         line-height: normal;
+        white-space: nowrap;
+        padding-right: 16px;
+        &:last-child {
+          padding-right: 0;
+        }
       }
     }
   }

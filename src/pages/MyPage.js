@@ -29,6 +29,7 @@ const MyPage = () => {
         <div className="mypage__profile-bg">
           <img src={demoBg} alt="profile-bg" />
         </div>
+        <div className="mypage__profile-overlay"> </div>
         <div className="mypage__profile-info">
           <div className="mypage__profile-edit-box">
             <div className="mypage__profile-img">

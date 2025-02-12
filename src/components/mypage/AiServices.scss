@@ -15,6 +15,7 @@
     background: var(--Color-04, #383838);
     height: 52px;
     padding: 8px 10px;
+    white-space: nowrap;
   }
   .active {
     color: var(--Text-dark-title, #1a1a1a);
@@ -72,6 +73,7 @@
       line-height: 100%; /* 14px */
       letter-spacing: 0.42px;
       padding: 8px 12px;
+      white-space: nowrap;
     }
     .active {
       padding: 8px 12px;
@@ -182,10 +184,21 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .ai__services {
+    flex-direction: column;
+    gap: 16px;
+    .ai__service-btn {
+      width: 100%;
+    }
+  }
   .ai__chart {
     width: 100%;
   }
   .ai__ai-status {
+    .ai-status__menu {
+      width: 100%;
+      overflow: auto;
+    }
     .ai-status__info {
       display: flex;
       flex-direction: column;

@@ -157,6 +157,7 @@
       font-style: normal;
       line-height: 100%; /* 14px */
       letter-spacing: 0.42px;
+      white-space: nowrap;
     }
     .active {
       color: var(--Text-dark-title, #1a1a1a);
@@ -171,6 +172,13 @@
       .mypage__profile-info {
         width: 100%;
         height: auto;
+        .mypage__profile-edit-box {
+          .mypage__profile-info-box {
+            .mypage__username {
+              font-size: 24px;
+            }
+          }
+        }
         .mypage__exp {
           flex-direction: column;
         }
@@ -178,6 +186,9 @@
     }
     .mypage__nav {
       overflow: auto;
+      .mypage__nav-item {
+        font-size: 12px;
+      }
     }
   }
 }

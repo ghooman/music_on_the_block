@@ -1,0 +1,413 @@
+
+
+
+
+
+
+
+
+
+
+
+
+.album-detail{
+  .album-detail__title{
+    margin-bottom: 50px;
+    dt{
+      color:#CF0;
+      font-family: Orbitron600;
+      font-size: 30px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.9px;
+    }
+    dd{
+      color:#F1F1F1;
+      font-family: Inter400;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.72px;
+    }
+  }//album-detail__title--END--
+  .album-detail__song-detail{
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #222;
+    .album-detail__song-detail__title{
+      color:#CF0;
+      font-family: Orbitron400;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.72px;
+      margin-bottom: 16px;
+      position: relative;
+      display: inline-block;
+      &::after{
+        content: '';
+        position: absolute;
+        top:-4px;
+        right: -8px;
+        width: 4px;
+        height: 4px;
+        border-radius: 100%;
+        background: #CF0;
+      }
+    }//album-detail__song-detail__title--END--
+    .album-detail__song-detail__bot{
+      display: flex;
+      gap: 16px;
+      .album-detail__song-detail__left{
+        width: 420px;
+        flex-shrink: 0;
+        .album-detail__song-detail__left__img{
+          width: 100%;
+          height: 420px;
+          border-radius: 24px;
+          background: var(--Color-03, #222);
+          padding: 10px;
+          img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+          }
+        }//album-detail__song-detail__left__img--END--
+        .album-detail__song-detail__left__info{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 10px;
+          .album-detail__song-detail__left__info__number{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            button{
+              display: flex;
+              align-items: center;
+              color:#AAA;
+              gap: 6px;
+              font-family: Inter400;
+              font-size: 12px;
+              font-style: normal;
+              line-height: 100%; /* 12px */
+              letter-spacing: 0.36px;
+            }
+          }//album-detail__song-detail__left__info__number--END--
+        }//album-detail__song-detail__left__info--END--
+      }//album-detail__song-detail__left--END--
+      .album-detail__song-detail__right{
+        flex: 1;
+        flex-shrink: 0;
+        .album-detail__song-detail__right__title{
+          color:#F1F1F1;
+          font-family: Orbitron500;
+          font-size: 20px;
+          font-style: normal;
+          line-height: 100%; /* 20px */
+          margin-bottom: 24px;
+        }//album-detail__song-detail__right__title--END--
+        .album-detail__song-detail__right__type{
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          .album-detail__song-detail__right__type__item{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--Text-dark-title, #1A1A1A);
+            font-family: Inter400;
+            font-size: 14px;
+            font-style: normal;
+            line-height: normal;
+            border-radius: 12px 4px 12px 12px;
+            background:#00FFB3;
+            border: 1px solid #00FFB3;
+            height: 24px;
+            padding: 0 12px;
+            position: relative;
+            &::before{
+              content: '';
+              display: block;
+              position: absolute;
+              bottom: -5px;
+              left: -1px;
+              width: 100%;
+              height: 24px;
+              border-bottom: 1px solid #00FFB3;
+              border-left: 1px solid #00FFB3;
+              border-right: 1px solid #00FFB3;
+              border-radius: 12px 12px 12px;
+            }
+          }//album-detail__song-detail__right__type__item--END--
+        }//album-detail__song-detail__right__type--END--
+        .album-detail__song-detail__right__info-box{
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-top: 20px;
+          dl{
+            display: flex;
+            align-items: center;
+            border: 1px solid #222;
+            border-radius: 6px;
+            min-height: 44px;
+            overflow: hidden;
+            &.artist{
+              dd{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+                width: 100%;
+              }
+            }
+            dt{
+              min-height: 44px;
+              height: 100%;
+              min-width: 140px;
+              background: #222;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              &::after{
+                content: '';
+                position: absolute;
+                top:0;
+                right: -12px;
+                display: block;
+                width: 12px;
+                height: 44px;
+                border-right: 1px solid var(--Color-03, #222);
+                background: var(--Color-02, #1A1A1A);
+              }
+            }
+            dd{
+              padding: 8px 12px 8px 24px;
+              color: var(--Text-music-sub, #AAA);
+              font-family: Inter400;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: 100%; /* 14px */
+              display: flex;
+              align-items: center;
+              display: flex;
+              flex-direction: column;
+              span{
+                color: var(--Text-music-sub, #AAA);
+                gap: 4px;
+                font-family: Inter400;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 100%; /* 14px */
+              }
+              .user{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                img{
+                  width: 24px;
+                  height: 24px;
+                  overflow: hidden;
+                  border-radius: 100%;
+                }
+              }
+              .see-more-btn{
+                color:#AAA;
+                font-family: Inter400;
+                font-size: 14px;
+                font-style: normal;
+                line-height: 100%; /* 14px */
+                letter-spacing: 0.42px;
+                transition: 0.3s;
+                &:hover{
+                  color:#CF0;
+                }
+              }
+            }
+          }
+        }//album-detail__song-detail__right__info-box--END--
+      }//album-detail__song-detail__right--END--
+    }//album-detail__song-detail__bot--END--
+  }//album-detail__song-detail--END--
+
+
+  .album-detail__rank-table{
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    padding: 16px;
+    margin-top: 16px;
+    .album-detail__rank-table__title{
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: baseline;
+      dt{
+        color:#CF0;
+        font-family: Orbitron400;
+        font-size: 24px;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 0.72px;
+        margin-bottom: 16px;
+        position: relative;
+        display: inline-block;
+        &::after{
+          content: '';
+          position: absolute;
+          top:-4px;
+          right: -8px;
+          width: 4px;
+          height: 4px;
+          border-radius: 100%;
+          background: #CF0;
+        }
+      }
+      dd{
+        color:#CF0;
+        font-family: Orbitron400;
+        font-size: 14px;
+        font-style: normal;
+        line-height: normal;
+        margin-bottom: 16px;
+        position: relative;
+        display: inline-block;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        padding:4px 8px 8px;
+        border-radius: 10px 2px 10px 10px;
+        border: 1px solid var(--primary-200, #A9D400);
+        &::after{
+          content: '';
+          position: absolute;
+          top:2px;
+          right:2px;
+          width: 4px;
+          height: 4px;
+          border-radius: 100%;
+          background: #CF0;
+        }
+      }
+    }//album-detail__rank-table__title--END--
+    .table-container{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #222;
+      tr{
+        transition: 0.3s;
+        &:hover{
+          background: #333;
+        }
+      }
+      .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #111;
+        color: #ddd;
+        font-size: 16px;
+        thead{
+          background: linear-gradient(0deg, rgba(199, 240, 100, 0.20) 0%, rgba(114, 138, 58, 0.00) 20%);
+          tr{
+            th{
+              text-align: center;
+              color: var(--primary-200, #A9D400);
+              text-align: center;
+              font-family: Orbitron400;
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+            }
+          }
+        }
+        td{
+          color: var(--Text-music-sub, #AAA);
+          text-align: center;
+          font-family: Inter400;
+          font-size: 14px;
+          font-style: normal;
+          line-height: normal;
+        }
+      }
+      
+      .custom-table th {
+        color: #aaff00;
+        text-align: left;
+        padding: 10px;
+        border-bottom: 2px solid #333;
+      }
+      
+      .custom-table td {
+        padding: 12px;
+        border-bottom: 1px solid #333;
+      }
+      
+
+      
+      .heart {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url("../assets/images/album/love-icon.svg") no-repeat center;
+        background-size: contain;
+      }
+      
+      .heart.liked {
+        background: url("../assets/images/album/love-icon-on.svg") no-repeat center;
+        background-size: contain;
+      }
+      
+      .details-btn {
+        background: #222;
+        color: #aaa;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100px;
+        font-family: Inter500;
+        font-size: 12px;
+        font-style: normal;
+        line-height: 100%; /* 12px */
+        letter-spacing: 0.36px;
+        &:hover{
+          background: #00ff99;
+          color: #000;
+        }
+      }
+      
+      .details-btn.active {
+        background: #00ff99;
+        color: #000;
+      }
+      
+      .details-btn.disabled {
+        background: #333;
+        color: #555;
+        cursor: not-allowed;
+      }
+  
+    }//table-container--END--
+
+
+  }//album-detail__rank-table--END--
+
+  
+
+  
+}//album-detail--END--
+
+
+
+

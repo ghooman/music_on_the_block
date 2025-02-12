@@ -33,6 +33,7 @@ import { FreeMode, Navigation, Thumbs, Pagination } from 'swiper/modules';
 
 function Album() {
 
+  const [activeTab, setActiveTab] = useState("AI Lyric & Songwriting");
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -287,7 +288,7 @@ function Album() {
           </div>
           <Link 
             className='album__header__cover-info__btn'
-            to=''
+            to='/album-detail'
           >See More</Link>
         </div>
         <MyAudioPlayer
@@ -423,7 +424,22 @@ function Album() {
         </Swiper>
       </section>
 
+
       <section className="album__content-list">
+        <article className="album__content-list__tab">
+          <button
+            className={`album__content-list__tab__item ${activeTab === "AI Lyric & Songwriting" ? "active" : ""}`}
+            onClick={() => setActiveTab("AI Lyric & Songwriting")}
+          >
+            AI Lyric & Songwriting
+          </button>
+          <button
+            className={`album__content-list__tab__item ${activeTab === "AI Singing Evaluation" ? "active" : ""}`}
+            onClick={() => setActiveTab("AI Singing Evaluation")}
+          >
+            AI Singing Evaluation
+          </button>
+        </article>
         <p className="album__content-list__title">AI Lyric & Songwriting</p>
         <article className="album__content-list__list">
           {tracks.slice(9).map((track, index) => (

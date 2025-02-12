@@ -26,9 +26,11 @@
     background: #1A1A1A;
     padding: 16px 32px;
     transition: 0.6s;
+    overflow: hidden;
     &.active{
       .album__header__album-cover__img{
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        background-size: cover;
         animation: rotate-disc 3s 0.6s linear infinite;
         @keyframes rotate-disc {
           from {
@@ -36,6 +38,19 @@
           }
           to {
             transform: rotate(360deg);
+          }
+        }
+      }
+      .album__header__album-cover{
+        &::after{
+          animation: rotate-disc2 3s 0.6s linear infinite;
+          @keyframes rotate-disc2 {
+            from {
+              transform:translate(-50%,-50%) rotate(0deg);
+            }
+            to {
+              transform:translate(-50%,-50%) rotate(360deg);
+            }
           }
         }
       }
@@ -50,14 +65,28 @@
       position: relative;
       .album__header__album-cover__img{
         border-radius: 100%;
-        border: 1px solid #CF0;
+        border: 1px solid #222;
         background-position: center;
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 160%;
         width: 60px;
         height: 60px;
         flex-shrink: 0;
+        position: relative;
+        z-index: 1;
       }//album__header__album-cover__img--END--
+      &::after{
+        content: '';
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background: url('../assets/images/album/album-bg.png') center no-repeat;
+        background-size: cover;
+        z-index: -2;
+      }
       .album__header__title{
         position: absolute;
         top: 0;
@@ -108,9 +137,15 @@
   .rhap_main{
     flex-direction: column-reverse;
     gap: 8px;
+    .rhap_time{
+      color:#AAA !important;
+    }
+    .rhap_download-progress{
+      background: transparent !important;
+    }
   }
   .rhap_container{
-    background: #1A1A1A;
+    background: transparent;
   }//.rhap_container--END--
   .rhap_additional-controls{
     .rhap_repeat-button{
@@ -157,7 +192,60 @@
   // 오디오 라이브러리 ==============END===============
 
   .album__content-list{
-    
+    .album__content-list__tab{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      .album__content-list__tab__item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px 4px 12px 12px;
+        background: var(--Color-03, #222);
+        height: 30px;
+        padding: 0 12px;
+        gap: 8px;
+        transition: 0.3s;
+        &::before{
+          content: '';
+          display: block;
+          width: 10px;
+          height: 10px;
+          background: url('../assets/images/album/album-tab_icon01.svg') center no-repeat;
+          background-size:cover;
+          transition: 0.3s;
+        }
+        &:hover{
+          background: #CF0;
+          color: #222;
+          &::before{
+            background: url('../assets/images/album/album-tab_icon01-on.svg') center no-repeat;
+          }
+        }
+        &:nth-child(2){
+          &::before{
+            background: url('../assets/images/album/album-tab_icon02.svg') center no-repeat;
+          }
+          &:hover{
+            &::before{
+              background: url('../assets/images/album/album-tab_icon02-on.svg') center no-repeat;
+            }
+          }
+        }
+        &.active{
+          background: #CF0;
+          color: #222;
+          &::before{
+            background: url('../assets/images/album/album-tab_icon01-on.svg') center no-repeat;
+          }
+          &:nth-child(2){
+            &::before{
+              background: url('../assets/images/album/album-tab_icon02-on.svg') center no-repeat;
+            }
+          }
+        }
+      }//album__content-list__tab__item--END--
+    }//album__content-list__tab--END--
     .album__content-list__title{
       color: var(--primary-base, #CF0);
       font-family: Orbitron400;

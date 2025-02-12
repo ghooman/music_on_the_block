@@ -14,6 +14,7 @@ import {
 import Album from "./pages/Album";
 import Create from "./pages/Create";
 import MyPage from "./pages/MyPage";
+import AlbumDetail from "./pages/AlbumDetail";
 
 function Layout({ children }) {
   return (
@@ -51,6 +52,14 @@ function App() {
           element={
             <Layout>
               <MyPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/album-detail"
+          element={
+            <Layout>
+              <AlbumDetail/>
             </Layout>
           }
         />

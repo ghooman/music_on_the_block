@@ -58,7 +58,9 @@ const Menu = ({active}) => {
       <div className={`menu ${active ? 'active' : ''}`}>
         <div className="menu__cover">
           <dl className="menu__box">
-            <dt className="menu__box__title">My Pg</dt>
+            <Link 
+              to='/MyPage'
+              className="menu__box__title">My Pg</Link>
             <dd>
               <div className="menu__box__my-page">
                 <div className="menu__box__my-page__level">
@@ -138,7 +140,7 @@ const Menu = ({active}) => {
                 {/* 일반 아이템 - Albums */}
                 <div className={`menu__box__gnb-list__item ${activeSingle === "album" ? "active" : ""}`}>
                   <Link
-                    to='' 
+                    to='/album'
                     className="menu__box__gnb-list__item__btn" 
                     onClick={() => handleSingleActive("album")}
                   >

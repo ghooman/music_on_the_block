@@ -12,6 +12,14 @@
         position: absolute;
         top: 0;
         z-index: 2;
+
+        &.left {
+            left: 24px;
+        }
+
+        &.right {
+            right: 24px;
+        }
     }
     .sub-banner__title {
         color: #00ffb3;

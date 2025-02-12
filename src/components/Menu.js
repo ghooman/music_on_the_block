@@ -3,19 +3,19 @@ import "./Menu.scss";
 import { Link } from "react-router-dom";
 
 // 이미지
-import levelIcon from '../assets/images/menu/level-icon.svg';
-import userImg from '../assets/images/intro/intro-demo-img2.png';
-import copyIcon from '../assets/images/menu/content-copy-icon.svg';
+import levelIcon from "../assets/images/menu/level-icon.svg";
+import userImg from "../assets/images/intro/intro-demo-img2.png";
+import copyIcon from "../assets/images/menu/content-copy-icon.svg";
 
-const Menu = ({active}) => {
+const Menu = ({ active }) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
 
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = (menuName) => {
-    setActiveMenus((prev) => 
-      prev.includes(menuName) ? [] : [menuName] // 하나만 활성화 (중복 X)
+    setActiveMenus(
+      (prev) => (prev.includes(menuName) ? [] : [menuName]) // 하나만 활성화 (중복 X)
     );
     setActiveSingle(null); // 일반 아이템(activeSingle) 초기화
     setActiveSubItem(null); // 하위 메뉴 초기화
@@ -33,9 +33,6 @@ const Menu = ({active}) => {
     setActiveSubItem(subItemName);
   };
 
-
-
-
   // const [isScrolled, setIsScrolled] = useState(false);
 
   // useEffect(() => {
@@ -50,12 +47,11 @@ const Menu = ({active}) => {
   //   window.addEventListener("scroll", handleScroll);
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
-  
 
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
-      <div className={`menu ${active ? 'active' : ''}`}>
+      <div className={`menu ${active ? "active" : ""}`}>
         <div className="menu__cover">
           <dl className="menu__box">
             <Link 
@@ -72,7 +68,8 @@ const Menu = ({active}) => {
                 </div>
                 <div className="menu__box__my-page__info">
                   <div className="menu__box__my-page__info__top">
-                    <p className="menu__box__my-page__info__top__img"
+                    <p
+                      className="menu__box__my-page__info__top__img"
                       style={{ backgroundImage: `url(${userImg})` }}
                     ></p>
                     <dl className="menu__box__my-page__info__top__txt">
@@ -87,10 +84,12 @@ const Menu = ({active}) => {
                   </div>
                   <div className="menu__box__my-page__info__bottom">
                     <div className="menu__box__my-page__info__bottom__box">
-                      <p>100</p><span>MOB</span>
+                      <p>100</p>
+                      <span>MOB</span>
                     </div>
                     <div className="menu__box__my-page__info__bottom__box">
-                      <p>45,345</p><span>EXP</span>
+                      <p>45,345</p>
+                      <span>EXP</span>
                     </div>
                   </div>
                 </div>
@@ -109,36 +108,40 @@ const Menu = ({active}) => {
                     activeMenus.includes("ai-services") ? "active" : ""
                   }`}
                 >
-                  <button 
+                  <button
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSlideToggle("ai-services")}
                   >
                     <p className="icon"></p>AI Services
                   </button>
                   <ul className="menu__box__gnb-list__item__list">
-                    <li 
+                    <li
                       className={activeSubItem === "ai-lyric" ? "active" : ""}
                       onClick={() => handleSubItemClick("ai-lyric")}
                     >
-                      <Link to=''>AI Lyric & Songwriting</Link>
+                      <Link to="">AI Lyric & Songwriting</Link>
                     </li>
-                    <li 
+                    <li
                       className={activeSubItem === "ai-singing" ? "active" : ""}
                       onClick={() => handleSubItemClick("ai-singing")}
                     >
-                      <Link to=''>AI Singing Evaluation</Link>
+                      <Link to="">AI Singing Evaluation</Link>
                     </li>
-                    <li 
+                    <li
                       className={activeSubItem === "ai-cover" ? "active" : ""}
                       onClick={() => handleSubItemClick("ai-cover")}
                     >
-                      <Link to=''>AI Cover Creation</Link>
+                      <Link to="">AI Cover Creation</Link>
                     </li>
                   </ul>
                 </div>
 
                 {/* 일반 아이템 - Albums */}
-                <div className={`menu__box__gnb-list__item ${activeSingle === "album" ? "active" : ""}`}>
+                <div
+                  className={`menu__box__gnb-list__item ${
+                    activeSingle === "album" ? "active" : ""
+                  }`}
+                >
                   <Link
                     to='/album'
                     className="menu__box__gnb-list__item__btn" 
@@ -149,10 +152,14 @@ const Menu = ({active}) => {
                 </div>
 
                 {/* 일반 아이템 - Shop */}
-                <div className={`menu__box__gnb-list__item shop ${activeSingle === "shop" ? "active" : ""}`}>
-                  <Link 
-                    to=''
-                    className="menu__box__gnb-list__item__btn" 
+                <div
+                  className={`menu__box__gnb-list__item shop ${
+                    activeSingle === "shop" ? "active" : ""
+                  }`}
+                >
+                  <Link
+                    to=""
+                    className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("shop")}
                   >
                     <p className="icon"></p>Shop
@@ -165,24 +172,24 @@ const Menu = ({active}) => {
                     activeMenus.includes("earn") ? "active" : ""
                   }`}
                 >
-                  <button 
+                  <button
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSlideToggle("earn")}
                   >
                     <p className="icon"></p>Earn
                   </button>
                   <ul className="menu__box__gnb-list__item__list">
-                    <li 
+                    <li
                       className={activeSubItem === "staking" ? "active" : ""}
                       onClick={() => handleSubItemClick("staking")}
                     >
-                      <Link to=''>Staking</Link>
+                      <Link to="">Staking</Link>
                     </li>
-                    <li 
+                    <li
                       className={activeSubItem === "governance" ? "active" : ""}
                       onClick={() => handleSubItemClick("governance")}
                     >
-                      <Link to=''>Governance</Link>
+                      <Link to="">Governance</Link>
                     </li>
                   </ul>
                 </div>
@@ -195,10 +202,14 @@ const Menu = ({active}) => {
             <dd>
               <div className="menu__box__gnb-list">
                 {/* 일반 아이템 - tournaments */}
-                <div className={`menu__box__gnb-list__item tournaments ${activeSingle === "tournaments" ? "active" : ""}`}>
+                <div
+                  className={`menu__box__gnb-list__item tournaments ${
+                    activeSingle === "tournaments" ? "active" : ""
+                  }`}
+                >
                   <Link
-                    to=''
-                    className="menu__box__gnb-list__item__btn" 
+                    to=""
+                    className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("tournaments")}
                   >
                     <p className="icon"></p>tournaments
@@ -213,10 +224,14 @@ const Menu = ({active}) => {
             <dd>
               <div className="menu__box__gnb-list">
                 {/* 일반 아이템 - Artists */}
-                <div className={`menu__box__gnb-list__item artists ${activeSingle === "artists" ? "active" : ""}`}>
+                <div
+                  className={`menu__box__gnb-list__item artists ${
+                    activeSingle === "artists" ? "active" : ""
+                  }`}
+                >
                   <Link
-                    to=''
-                    className="menu__box__gnb-list__item__btn" 
+                    to=""
+                    className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("artists")}
                   >
                     <p className="icon"></p>Artists
@@ -224,16 +239,19 @@ const Menu = ({active}) => {
                 </div>
 
                 {/* 일반 아이템 - Rewards & Payments */}
-                <div className={`menu__box__gnb-list__item rewards ${activeSingle === "rewards" ? "active" : ""}`}>
+                <div
+                  className={`menu__box__gnb-list__item rewards ${
+                    activeSingle === "rewards" ? "active" : ""
+                  }`}
+                >
                   <Link
-                    to=''
-                    className="menu__box__gnb-list__item__btn" 
+                    to=""
+                    className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("rewards")}
                   >
                     <p className="icon"></p>Rewards & Payments
                   </Link>
                 </div>
-
               </div>
             </dd>
           </dl>
@@ -243,10 +261,14 @@ const Menu = ({active}) => {
             <dd>
               <div className="menu__box__gnb-list">
                 {/* 일반 아이템 - My Page */}
-                <div className={`menu__box__gnb-list__item my-page ${activeSingle === "my-page" ? "active" : ""}`}>
+                <div
+                  className={`menu__box__gnb-list__item my-page ${
+                    activeSingle === "my-page" ? "active" : ""
+                  }`}
+                >
                   <Link
-                    to=''
-                    className="menu__box__gnb-list__item__btn" 
+                    to="/account-setting"
+                    className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("my-page")}
                   >
                     <p className="icon"></p>My Page
@@ -254,16 +276,19 @@ const Menu = ({active}) => {
                 </div>
 
                 {/* 일반 아이템 - My Favorites */}
-                <div className={`menu__box__gnb-list__item my-favorite ${activeSingle === "my-favorite" ? "active" : ""}`}>
+                <div
+                  className={`menu__box__gnb-list__item my-favorite ${
+                    activeSingle === "my-favorite" ? "active" : ""
+                  }`}
+                >
                   <Link
-                    to=''
-                    className="menu__box__gnb-list__item__btn" 
-                    onClick={() => handleSingleActive("my-favorite")}
+                    to="/my-page"
+                    className="menu__box__gnb-list__item__btn"
+                    onClick={() => handleSingleActive("my-favorites")}
                   >
                     <p className="icon"></p>My Favorites
                   </Link>
                 </div>
-
               </div>
             </dd>
           </dl>
@@ -278,40 +303,39 @@ const Menu = ({active}) => {
                     activeMenus.includes("Language") ? "active" : ""
                   }`}
                 >
-                  <button 
+                  <button
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSlideToggle("Language")}
                   >
                     <p className="icon"></p>Language
                   </button>
                   <ul className="menu__box__gnb-list__item__list">
-                    <li 
+                    <li
                       className={activeSubItem === "english" ? "active" : ""}
                       onClick={() => handleSubItemClick("english")}
                     >
-                      <Link to=''>English</Link>
+                      <Link to="">English</Link>
                     </li>
-                    <li 
+                    <li
                       className={activeSubItem === "korea" ? "active" : ""}
                       onClick={() => handleSubItemClick("korea")}
                     >
-                      <Link to=''>한국어</Link>
+                      <Link to="">한국어</Link>
                     </li>
-                    <li 
+                    <li
                       className={activeSubItem === "japan" ? "active" : ""}
                       onClick={() => handleSubItemClick("japan")}
                     >
-                      <Link to=''>日本語</Link>
+                      <Link to="">日本語</Link>
                     </li>
-                    <li 
+                    <li
                       className={activeSubItem === "china" ? "active" : ""}
                       onClick={() => handleSubItemClick("china")}
                     >
-                      <Link to=''>中国人</Link>
+                      <Link to="">中国人</Link>
                     </li>
                   </ul>
                 </div>
-
               </div>
             </dd>
           </dl>

@@ -92,6 +92,7 @@
         }
         .tag-preset {
             display: flex;
+            flex-wrap: wrap;
             gap: 12px;
         }
         .tag-input-box {
@@ -103,6 +104,11 @@
             border-radius: 12px;
             border: 1px solid #383838;
             background-color: #0b0b0c;
+            transition: 0.3s all;
+            resize: none;
+            &:focus {
+                border-color: #cf0;
+            }
         }
         .tag-input-comment-button-wrap {
             position: absolute;
@@ -136,6 +142,7 @@
 
         .tag-selected {
             display: flex;
+            flex-wrap: wrap;
             gap: 16px;
         }
         .tag-button {
@@ -253,6 +260,18 @@
                     left: 50%;
                     transform: translateX(-50%) rotate(90deg);
                 }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .create__select-components {
+        .tag-select {
+            .tag-title__block {
+                align-items: flex-start;
+                gap: 8px;
+                flex-direction: column;
             }
         }
     }

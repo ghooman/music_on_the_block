@@ -3,18 +3,40 @@ import "./AiServices.scss";
 import demoChart from "../../assets/images/mypage/demo-chart.png";
 import demoChart2 from "../../assets/images/mypage/demo-chart2.png";
 import demoChart3 from "../../assets/images/mypage/demo-chart3.png";
-
+import FilterDateModal from "../../components/unit/FilterDateModal";
+import Filter from "../unit/Filter";
 const AiServices = () => {
   const [selectedAiService, setSelectedAiService] = useState(
     "AI Lyric & Songwriting"
   );
+  const [aiServiceStatus, setAiServiceStatus] = useState("All");
+
+  const [openModal, setOpenModal] = useState(false);
 
   const handleAiServiceClick = (aiService) => {
     setSelectedAiService(aiService);
   };
+
+  const AiServiceList = [
+    "All",
+    "AI Singing Evaluation",
+    "AI Lyric & Songwriting",
+    "AI Cover Creation",
+  ];
+
+  const AiServiceTypeList = ["Lyric", "Songwriting", "Sing", "Link"];
+
+  const SortByList = [
+    "Latest",
+    "Oldest",
+    "Most Likes",
+    "Most Comments",
+    "Low Likes",
+    "Low Comments",
+  ];
   return (
     <>
-      <div className="mypage__services">
+      <div className="ai__services">
         {[
           "AI Lyric & Songwriting",
           "AI Singing Evaluation",
@@ -22,7 +44,7 @@ const AiServices = () => {
         ].map((aiService) => (
           <button
             key={aiService}
-            className={`mypage__service-btn ${
+            className={`ai__service-btn ${
               selectedAiService === aiService ? "active" : ""
             }`}
             onClick={() => handleAiServiceClick(aiService)}
@@ -32,17 +54,26 @@ const AiServices = () => {
         ))}
       </div>
 
-      <div className="mypage__chart">
+      <div className="ai__chart">
         <img src={demoChart} alt="chart" />
       </div>
 
-      <section className="mypage__ai-status">
+      <section className="ai__ai-status">
         <p className="ai-status__title">AI Service Status</p>
         <div className="ai-status__menu">
-          <button className="ai-status__menu-item active">All</button>
-          <button className="ai-status__menu-item">Lyric</button>
-          <button className="ai-status__menu-item">Songwritiy</button>
-          <button className="ai-status__menu-item">Lyric & Songwritiy</button>
+          {["All", "Lyric", "Songwriting", "Lyric & Songwriting"].map(
+            (status) => (
+              <button
+                key={status}
+                className={`ai-status__menu-item ${
+                  aiServiceStatus === status ? "active" : ""
+                }`}
+                onClick={() => setAiServiceStatus(status)}
+              >
+                {status}
+              </button>
+            )
+          )}
         </div>
 
         <div className="ai-status__info">
@@ -85,17 +116,19 @@ const AiServices = () => {
         </div>
       </section>
 
-      <section className="mypage__period">
+      <section className="ai__period">
         <p className="period__title">AI Work Trends by Period</p>
         <div className="period__menu">
-          <button className="period__menu-item">Filter</button>
-          <button className="period__menu-item">Month</button>
-          <button className="period__menu-item">5</button>
+          <Filter
+            list={["All", "Lyric", "Latest"]}
+            clickEvent={() => setOpenModal(true)}
+          />
         </div>
         <div className="period__chart">
           <img src={demoChart3} alt="chart" />
         </div>
       </section>
+      {openModal && <FilterDateModal setOpenModal={setOpenModal} />}
     </>
   );
 };

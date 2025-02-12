@@ -4,7 +4,7 @@ import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
 
 const AlbumsTable = () => {
   return (
-    <table className="my-albums__table">
+    <table className="albums-table">
       <thead>
         <tr>
           <th>#</th>
@@ -26,10 +26,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -40,10 +44,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -54,10 +62,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -68,10 +80,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -82,10 +98,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -96,10 +116,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -110,10 +134,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -124,10 +152,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -138,10 +170,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -152,10 +188,14 @@ const AlbumsTable = () => {
           <td>Songname</td>
           <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
           <td>
-            <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            <div className="td-content">
+              <img src={halfHeartIcon} alt="like-heart-icon"></img>
+            </div>
           </td>
           <td>
-            <button className="my-albums__detail-btn">Detail</button>
+            <div className="td-content">
+              <button className="albums-table__detail-btn">Detail</button>
+            </div>
           </td>
         </tr>
       </tbody>

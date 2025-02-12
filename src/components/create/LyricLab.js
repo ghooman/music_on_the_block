@@ -4,9 +4,7 @@ import { useState } from 'react';
 import SubBanner from './SubBanner';
 import { SelectItem, SelectItemWrap, SelectItemStory } from './SelectItem';
 
-import subBg1 from '../../assets/images/create/subbanner-bg1.png';
 import subBg2 from '../../assets/images/create/subbanner-bg2.png';
-import subBg3 from '../../assets/images/create/subbanner-bg3.png';
 
 import './LyricLab.scss';
 
@@ -37,52 +35,41 @@ const stylisticPreset = {
     Soft: ['Soft'],
 };
 
-const LyricLab = ({ handler, children }) => {
-    const [lyric, setLyric] = useState({
-        lyric_tag: [],
-        lyric_genre: [],
-        lyric_style: [],
-        lyric_stylistic: [],
-    });
-
-    useEffect(() => {
-        handler(lyric);
-    }, [lyric, handler]);
-
+const LyricLab = ({ handler, children, value }) => {
     return (
         <div className="create__lyric-lab">
             <SelectItemWrap>
                 <SelectItem
                     mainTitle="Selet a Tags"
                     subTitle="Popular Tags"
-                    setter={setLyric}
+                    setter={handler}
                     objKey="lyric_tag"
-                    selected={lyric?.lyric_tag}
+                    selected={value?.lyric_tag}
                     preset={tagPreset}
                     multiple
                 />
                 <SelectItem
                     mainTitle="Select a Genre"
                     subTitle="Popular Genre"
-                    setter={setLyric}
+                    setter={handler}
                     objKey="lyric_genre"
-                    selected={lyric?.lyric_genre}
+                    selected={value?.lyric_genre}
                     preset={genrePreset}
                 />
                 <SelectItem
                     mainTitle="Select a Style"
                     subTitle="Popular Style"
-                    setter={setLyric}
+                    setter={handler}
                     objKey="lyric_style"
-                    selected={lyric?.lyric_style}
+                    selected={value?.lyric_style}
                     preset={stylePreset}
                 />
                 <SelectItem
                     mainTitle="Select a Stylistic"
                     subTitle="Popular Stylistic"
-                    setter={setLyric}
+                    setter={handler}
                     objKey="lyric_stylistic"
-                    selected={lyric?.lyric_stylistic}
+                    selected={value?.lyric_stylistic}
                     preset={stylisticPreset}
                 />
                 <SelectItemStory />

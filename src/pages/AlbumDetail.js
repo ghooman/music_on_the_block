@@ -33,7 +33,49 @@ import { FreeMode, Navigation, Thumbs, Pagination } from 'swiper/modules';
 
 
 function AlbumDetail() {
-  
+  const dummyData = [
+    {
+      id: 30,
+      userName: "User A",
+      description: "he dances through his masks<br />like breathing - Yolkhead",
+      date: "Sat, 04 Nov 2023 14:40:00 UTC+0",
+      liked: true,
+      buttonClass: "details-btn",
+    },
+    {
+      id: 31,
+      userName: "User B",
+      description: "he dances through his masks<br />like breathing - Yolkhead",
+      date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
+      liked: false,
+      buttonClass: "details-btn active",
+    },
+    {
+      id: 32,
+      userName: "User C",
+      description: "he dances through his masks",
+      date: "Sat, 04 Nov 2023 15:00:00 UTC+0",
+      liked: false,
+      buttonClass: "details-btn disabled",
+    },
+    {
+      id: 33,
+      userName: "User D",
+      description: "moving forward without looking back - PoetX",
+      date: "Sat, 04 Nov 2023 15:10:00 UTC+0",
+      liked: true,
+      buttonClass: "details-btn",
+    },
+    {
+      id: 34,
+      userName: "User E",
+      description: "shadows whisper in the moonlight - Anonymous",
+      date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
+      liked: false,
+      buttonClass: "details-btn active",
+    },
+  ];
+
   return (
     <>
       <div className="album-detail">
@@ -140,30 +182,20 @@ function AlbumDetail() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>30</td>
-                  <td>User name</td>
-                  <td>he dances through his masks<br />like breathing - Yolkhead</td>
-                  <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                  <td><span className="heart liked"></span></td>
-                  <td><button className="details-btn">Details</button></td>
-                </tr>
-                <tr>
-                  <td>31</td>
-                  <td>User name</td>
-                  <td>he dances through his masks<br />like breathing - Yolkhead</td>
-                  <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                  <td><span className="heart"></span></td>
-                  <td><button className="details-btn active">Details</button></td>
-                </tr>
-                <tr>
-                  <td>32</td>
-                  <td>User name</td>
-                  <td>he dances through his masks</td>
-                  <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                  <td><span className="heart"></span></td>
-                  <td><button className="details-btn disabled">Details</button></td>
-                </tr>
+                {dummyData.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.userName}</td>
+                    <td dangerouslySetInnerHTML={{ __html: item.description }}></td>
+                    <td>{item.date}</td>
+                    <td>
+                      <span className={`heart ${item.liked ? "liked" : ""}`}></span>
+                    </td>
+                    <td>
+                      <button className={item.buttonClass}>Details</button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

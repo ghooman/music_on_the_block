@@ -14,6 +14,7 @@ import {
 import Album from "./pages/Album";
 import Create from "./pages/Create";
 import MyPage from "./pages/MyPage";
+import AccountSetting from "./pages/AccountSetting";
 import AlbumDetail from "./pages/AlbumDetail";
 
 function Layout({ children }) {
@@ -48,10 +49,18 @@ function App() {
           }
         />
         <Route
-          path="/MyPage"
+          path="/my-page"
           element={
             <Layout>
               <MyPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/account-setting"
+          element={
+            <Layout>
+              <AccountSetting />
             </Layout>
           }
         />

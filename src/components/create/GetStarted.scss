@@ -1,0 +1,57 @@
+.create__get-started {
+    padding: 100px;
+    background-image: url('../../assets/images/create/bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 12px;
+    .create__get-started--title {
+        color: #cf0;
+        font-family: orbitron700;
+        font-size: 40px;
+        letter-spacing: 1.2px;
+        margin-bottom: 40px;
+    }
+    .create__get-started--subtitle {
+        color: #aaa;
+        font-family: orbitron600;
+        font-size: 32px;
+        letter-spacing: 0.96px;
+        margin-bottom: 40px;
+    }
+
+    .create__get-started--features {
+        margin-bottom: 40px;
+        &.sequence {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .create__get-started--features-title {
+        color: #f1f1f1;
+        font-family: orbitron600;
+        font-size: 18px;
+        letter-spacing: 0.54px;
+        margin-bottom: 8px;
+    }
+    .create__get-started--features-items {
+        display: flex;
+        justify-content: space-between;
+    }
+    .create__get-started--features-item {
+        color: #aaa;
+        font-family: Inter500;
+        font-size: 14px;
+        letter-spacing: 0.42px;
+    }
+    .create__get-started--button {
+        color: #1a1a1a;
+        font-family: orbitron600;
+        letter-spacing: 0.48px;
+        padding: 8px 10px;
+        border-radius: 12px;
+        background-color: #cf0;
+        float: right;
+    }
+}

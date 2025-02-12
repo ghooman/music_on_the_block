@@ -1,11 +1,14 @@
+import dummy_ai_artist from '../../assets/images/mypage/demo-user.png';
+
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 import './Finalize.scss';
 
-const Finalize = ({ children, albumCover }) => {
+const Finalize = ({ children, albumCover, skipLyric, skipMelody }) => {
     return (
         <div className="craete__finalizes">
-            <MusicInfo albumCover={albumCover}></MusicInfo>
-            <CreatedLyrics></CreatedLyrics>
-
+            <MusicInfo albumCover={albumCover} skipMelody={skipMelody}></MusicInfo>
+            <CreatedLyrics skipLyric={skipLyric}></CreatedLyrics>
             {children}
         </div>
     );
@@ -13,10 +16,18 @@ const Finalize = ({ children, albumCover }) => {
 
 export default Finalize;
 
-const MusicInfo = ({ albumCover }) => {
+const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
     const datas = [
         { title: 'Title', value: 'Winter Serenity' },
-        { title: 'AI Artist', value: 'Winter Serenity' },
+        {
+            title: 'AI Artist',
+            value: (
+                <>
+                    <img src={dummy_ai_artist} alt="artist" /> Yolkhaed
+                </>
+            ),
+            color: 'white',
+        },
         { title: 'Ai Service', value: 'AI Lyric & Songwriting' },
         { title: 'Genre', value: 'Lyric' },
         { title: 'Style', value: 'POP' },
@@ -27,18 +38,23 @@ const MusicInfo = ({ albumCover }) => {
 
     return (
         <div className="music-info">
-            <div className="music-info__image" style={{ backgroundImage: `url(${albumCover.image})` }}>
-                <div className="music-info__image__feel-box">
-                    {albumCover?.feel.map((item) => (
-                        <div className="music-info__image__feel-item">{item}</div>
-                    ))}
+            <div style={{ width: '100%' }}>
+                <div className="music-info__image" style={{ backgroundImage: `url(${albumCover.image})` }}>
+                    <div className="music-info__image__feel-box">
+                        {albumCover?.feel.map((item) => (
+                            <div className="music-info__image__feel-item">{item}</div>
+                        ))}
+                    </div>
                 </div>
+                {!skipMelody && <AudioPlayer />}
             </div>
             <ul className="music-info__data">
                 {datas.map((item) => (
                     <li className="music-info__data--item">
                         <div className="music-info__data--item-title">{item.title}</div>
-                        <div className="music-info__data--item-value">{item.value}</div>
+                        <div className="music-info__data--item-value" style={{ color: item.color }}>
+                            {item.value}
+                        </div>
                     </li>
                 ))}
             </ul>
@@ -46,7 +62,7 @@ const MusicInfo = ({ albumCover }) => {
     );
 };
 
-const CreatedLyrics = () => {
+const CreatedLyrics = ({ skipLyric }) => {
     const lyrics = [
         {
             part: 'Verse1',
@@ -69,6 +85,7 @@ const CreatedLyrics = () => {
             lyric: 'it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search',
         },
     ];
+    if (skipLyric) return null;
 
     return (
         <div className="created-lyrics">

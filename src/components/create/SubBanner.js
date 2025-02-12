@@ -7,11 +7,11 @@ const SubBanner = ({ children }) => {
 export default SubBanner;
 
 SubBanner.RightImages = ({ src }) => {
-    return <img className="create__sub-banner-bg" src={src} alt="" />;
+    return <img className="create__sub-banner-bg right" src={src} alt="" />;
 };
 
 SubBanner.LeftImages = ({ src }) => {
-    return <img className="create__sub-banner-bg" src={src} alt="" />;
+    return <img className="create__sub-banner-bg left" src={src} alt="" />;
 };
 
 SubBanner.Title = ({ text }) => {

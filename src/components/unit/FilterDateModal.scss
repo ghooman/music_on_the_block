@@ -1,0 +1,123 @@
+.filter-date-modal {
+  .filter-date-box,
+  .filter-count-box {
+    p {
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Orbitron400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.42px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--Color-04, #383838);
+    }
+
+    div {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      .custom-radio {
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        border-radius: 10px 2px 10px 10px;
+        border: 1px solid var(--Color-04, #383838);
+
+        // 기본 라디오 버튼 숨김
+        input {
+          display: none;
+        }
+
+        // 체크 마크가 들어갈 원
+        .radio-checkmark {
+          width: 20px;
+          height: 20px;
+          border: 1px solid #3f3f3f;
+          border-radius: 50%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 8px;
+          position: relative;
+          font-size: 14px;
+          color: transparent; // 기본 상태에서는 투명
+          font-weight: bold;
+        }
+
+        // 선택되었을 때 스타일 변경
+        &.active {
+          color: #cf0;
+          display: flex;
+          padding: 8px;
+          justify-content: center;
+          align-items: center;
+          gap: 4px;
+          border-radius: 10px 2px 10px 10px;
+          border: 1px solid var(--primary-base, #cf0);
+          .radio-checkmark {
+            background: #cf0;
+            color: #a6ff00; // 체크 마크 색상
+            border-color: #a6ff00;
+
+            &::after {
+              content: "v"; // 체크 마크 추가
+              font-size: 18px;
+              font-weight: bold;
+              color: #333;
+            }
+          }
+        }
+        &:hover {
+          border-color: #a6ff00;
+          color: #a6ff00;
+        }
+      }
+    }
+  }
+  .filter-footer {
+    display: flex;
+    gap: 24px;
+    .filter-footer__apply-btn {
+      width: 253px;
+      height: 40px;
+      border-radius: 12px;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-base, #cf0);
+      display: flex;
+      color: var(--Text-dark-title, #1a1a1a);
+      font-family: Orbitron600;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.48px;
+      .filter-footer__apply-btn__count {
+        display: flex;
+        text-align: center;
+        margin-left: 4px;
+        height: 24px;
+        padding: 4px 9px;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 10px 6px 10px 10px;
+        background: var(--black, #000);
+      }
+    }
+    .filter-footer__reset-btn {
+      display: flex;
+      height: 48px;
+      padding: 8px 10px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 75px;
+      height: 45px;
+      border-radius: 12px;
+      border: 1px solid var(--Color-04, #383838);
+      background: var(--Color-03, #222);
+    }
+  }
+}

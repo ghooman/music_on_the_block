@@ -1,4 +1,4 @@
-.filter-ai-service-modal {
+.filter-ai-service-modal__content {
   width: 100%;
   h3 {
     color: var(--Dark-Color-08, var(--Color-08, #d9d9d9));
@@ -8,13 +8,13 @@
     line-height: normal;
     margin: 16px 0;
   }
-  ul {
+  .filter-ai-service-modal__list {
     width: 100%;
     display: flex;
     flex-wrap: wrap; // 자동 줄바꿈 추가
     gap: 8px; // 요소 간격 조정
     margin-bottom: 16px;
-    li {
+    button {
       white-space: nowrap;
       height: 32px;
       padding: 6px 14px;
@@ -25,5 +25,39 @@
       border: 1px solid var(--Color-04, #383838);
       background: var(--Color-03, #222);
     }
+  }
+}
+.filter-ai-service-modal__footer {
+  display: flex;
+  button {
+    display: flex;
+  }
+  .btn-reset {
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid var(--Color-04, #383838);
+    margin-right: 10px;
+  }
+  .btn-view {
+    align-items: flex-start;
+    justify-content: center;
+    width: 210px;
+    height: 48px;
+    padding: 14px 20px;
+    gap: 8px;
+    border-radius: 4px;
+    background: #cf0;
+    color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 125% */
   }
 }

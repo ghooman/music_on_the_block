@@ -29,10 +29,10 @@ const AiServices = () => {
   const SortByList = [
     "Latest",
     "Oldest",
-    "Most Liked",
-    "Most Commented",
-    "Low Likes",
+    "Most Likes",
     "Most Comments",
+    "Low Likes",
+    "Low Comments",
   ];
   return (
     <>

@@ -85,6 +85,7 @@
   .ai-status__info {
     display: flex;
     justify-content: space-between;
+    gap: 16px;
     .ai-status__chart {
       width: 50%;
       img {

@@ -157,6 +157,9 @@ const AccountSetting = () => {
                 type="text"
                 className="user-info__input"
                 placeholder="Introduction"
+                value={intro}
+                onChange={(e) => setIntro(e.target.value)}
+                maxLength={150}
               />
               <button className="user-info__edit-btn">Change</button>
             </div>

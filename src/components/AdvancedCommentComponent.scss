@@ -1,83 +1,18 @@
-// 🎨 다크 테마 변수 설정
-$primary-color: #ff0072;
-$background-dark: #121212;
-$background-dark-alt: #1e1e1e;
-$text-color: #ffffff;
-$border-color: #333;
 
-// ✅ 댓글 전체 박스 (배경 어둡게)
-.r-c-s-comment-box {
-  background-color: $background-dark !important;
-  padding: 15px !important;
-  border-radius: 10px !important;
-  border: 1px solid $border-color !important;
-}
 
-// ✅ 댓글 입력창 (배경 어둡게, 글씨 흰색)
-.r-c-s-input {
-  background-color: $background-dark-alt !important;
-  border: 2px solid $border-color !important;
-  border-radius: 10px !important;
-  padding: 10px !important;
-  font-size: 16px !important;
-  color: $text-color !important;
-}
-
-// ✅ 댓글 텍스트 (글씨 흰색)
-.r-c-s-comment-text {
-  color: $text-color !important;
-}
-
-// ✅ 등록 버튼 (어두운 버튼, 포인트 컬러)
-.r-c-s-submit-btn {
-  background-color: $primary-color !important;
-  color: white !important;
-  font-weight: bold !important;
-  padding: 10px 20px !important;
-  border-radius: 5px !important;
-  border: none !important;
-  transition: 0.3s;
-
-  &:hover {
-    background-color: lighten($primary-color, 10%) !important;
-  }
-}
-
-// ✅ 취소 버튼 (어두운 배경)
-.r-c-s-cancel-btn {
-  background-color: #444 !important;
-  color: white !important;
-  padding: 10px 20px !important;
-  border-radius: 5px !important;
-  border: none !important;
-  transition: 0.3s;
-
-  &:hover {
-    background-color: lighten(#444, 10%) !important;
-  }
-}
-
-// ✅ 대댓글 입력창 (배경 어둡게, 글씨 흰색)
-.r-c-s-reply-input {
-  background-color: $background-dark-alt !important;
-  border-bottom: 2px solid $primary-color !important;
-  padding: 5px !important;
-  font-size: 14px !important;
-  color: $text-color !important;
-}
-
-// ✅ 사용자 프로필 이미지 (포인트 컬러 테두리)
-.r-c-s-avatar {
-  border: 2px solid $primary-color !important;
-  border-radius: 50% !important;
-}
-
-// ✅ 구분선 (어둡게)
-.r-c-s-divider {
-  border: 0.5px solid $border-color !important;
-}
-
-// ✅ 타임스탬프 (연한 회색)
-.r-c-s-timestamp {
-  color: lighten($text-color, 30%) !important;
-}
+.advanced-input{
+  .advanced-form{
+    background-color: transparent;
+    .advanced-border{
+      border: 1px solid #888;
+    }
+    .rdw-option-wrapper{
+      border: 1px solid transparent;
+      background-color: #777;
+    }//rdw-option-wrapper--END--
+    .rdw-editor-toolbar{
+      background: transparent;
+      border: 1px solid transparent;
+    }//rdw-editor-toolbar--END--
+  }//.advanced-form--END--
+}//advanced-input--END--

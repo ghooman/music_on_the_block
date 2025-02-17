@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { useRanger, Ranger } from '@tanstack/react-ranger';
 
+import ExpandedButton from './ExpandedButton';
+
 import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
@@ -115,9 +117,9 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
                             />
                         </label>
                     )}
-                    <button className="tag-input-comment-button" onClick={addItem}>
+                    <ExpandedButton className="tag-input-comment-button" onClick={addItem}>
                         Add
-                    </button>
+                    </ExpandedButton>
                 </div>
             </div>
             <div className="tag-selected">
@@ -139,7 +141,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
         getRangerElement: () => rangeRef.current,
         values: tempo,
         min: 60,
-        max: 250,
+        max: 160,
         stepSize: 1,
         onChange: (instance) => {
             setTempo(instance.sortedValues);

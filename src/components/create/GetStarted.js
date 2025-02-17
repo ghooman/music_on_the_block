@@ -1,3 +1,5 @@
+import ExpandedButton from './ExpandedButton';
+
 import './GetStarted.scss';
 
 const GetStarted = ({ handler }) => {
@@ -31,9 +33,9 @@ const GetStarted = ({ handler }) => {
                     <p className="create__get-started--features-item ">93%</p>
                 </div>
             </div>
-            <button className="create__get-started--button" onClick={handler}>
+            <ExpandedButton className="create__get-started--button" onClick={handler}>
                 Create
-            </button>
+            </ExpandedButton>
         </div>
     );
 };

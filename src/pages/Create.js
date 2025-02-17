@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
 
+import ExpandedButton from '../components/create/ExpandedButton';
 import LyricLab from '../components/create/LyricLab';
 import MelodyMaker from '../components/create/MelodyMaker';
 import DescriptionBanner from '../components/create/DescriptionBanner';
 import AlbumCoverSudio from '../components/create/AlbumCoverStudio';
 import Finalize from '../components/create/Finalize';
+import GetStarted from '../components/create/GetStarted';
+import CreateCompleteModal from '../components/CreateCompleteModal';
 import SkipModal from '../components/SkipModal';
 
 import '../styles/Create.scss';
-import CreateCompleteModal from '../components/CreateCompleteModal';
-import GetStarted from '../components/create/GetStarted';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(-1);
@@ -85,48 +86,58 @@ const Create = () => {
             )}
             {pageNumber === 0 && (
                 <LyricLab handler={setLyricData} value={lylicData}>
-                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
-                        <span></span>
-                        <div className="button-wrap__right">
-                            <Button title="skip" handler={() => setSkip('lyric')} />
-                            <Button
-                                title="next"
-                                disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
-                                handler={() => setPageNumber((prev) => prev + 1)}
-                            />
+                        <div className="button-wrap__left">
+                            <ExpandedButton className="skip" onClick={() => setSkip('lyric')}>
+                                Skip
+                            </ExpandedButton>
                         </div>
+                        <ExpandedButton
+                            className="next"
+                            onClick={() => setPageNumber((prev) => prev + 1)}
+                            disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
+                        >
+                            Next
+                        </ExpandedButton>
                     </div>
                 </LyricLab>
             )}
             {pageNumber === 1 && (
                 <MelodyMaker handler={setMelodyData} value={melodyData} tempo={tempo} setTempo={setTempo}>
-                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
-                        <Button title="back" handler={() => setPageNumber((prev) => prev + -1)} />
-                        {/* <div className="button-wrap__right"> */}
-                        <Button title="skip" handler={() => setSkip('melody')} />
-                        <Button
-                            title="next"
+                        <div className="button-wrap__left">
+                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev + -1)}>
+                                Back
+                            </ExpandedButton>
+                            <ExpandedButton className="skip" onClick={() => setSkip('melody')}>
+                                Skip
+                            </ExpandedButton>
+                        </div>
+                        <ExpandedButton
+                            className="next"
+                            onClick={() => setPageNumber((prev) => prev + 1)}
                             disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
-                            handler={() => setPageNumber((prev) => prev + 1)}
-                        />
-                        {/* </div> */}
+                        >
+                            Next
+                        </ExpandedButton>
                     </div>
                 </MelodyMaker>
             )}
             {pageNumber === 2 && (
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
-                    {/** children은 버튼만 정의 함. */}
                     <div className="button-wrap">
-                        <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
-                        <div className="button-wrap__right">
-                            <Button
-                                title="next"
-                                disabled={!albumCover}
-                                handler={() => setPageNumber((prev) => prev + 1)}
-                            />
+                        <div className="button-wrap__left">
+                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev - 1)}>
+                                Back
+                            </ExpandedButton>
                         </div>
+                        <ExpandedButton
+                            className="next"
+                            onClick={() => setPageNumber((prev) => prev + 1)}
+                            disabled={!albumCover}
+                        >
+                            Next
+                        </ExpandedButton>
                     </div>
                 </AlbumCoverSudio>
             )}
@@ -137,12 +148,17 @@ const Create = () => {
                     melodyData={melodyData}
                     skipLyric={skipLyric}
                     skipMelody={skipMelody}
+                    setCheckList={setCheckList}
                 >
-                    {/** children은 버튼만 정의 함. */}
-                    <CheckList setCheckList={setCheckList}></CheckList>
                     <div className="button-wrap">
-                        <Button title="back" handler={() => setPageNumber((prev) => prev - 1)} />
-                        <Button title="upload" disabled={!checkList} handler={() => setCreateCompleteModal(true)} />
+                        <ExpandedButton onClick={() => setPageNumber((prev) => prev - 1)}>Back</ExpandedButton>
+                        <ExpandedButton
+                            className="next"
+                            disabled={!checkList}
+                            onClick={() => setCreateCompleteModal(true)}
+                        >
+                            Upload
+                        </ExpandedButton>
                     </div>
                 </Finalize>
             )}
@@ -193,76 +209,21 @@ const SelectedItem = ({ title, value, multiple }) => {
             <p className="item-title">{title}</p>
             <div className="item-value">
                 {value?.length > 0 ? (
-                    value.map((item) => (
-                        <span className={`values ${multiple ? 'multiple' : ''} `} key={item}>
-                            {item}
-                        </span>
-                    ))
+                    value.map((item) => {
+                        if (!multiple) {
+                            return (
+                                <span className={`values`} key={item}>
+                                    {item}
+                                </span>
+                            );
+                        } else {
+                            return <ExpandedButton className="values multiple">{item}</ExpandedButton>;
+                        }
+                    })
                 ) : (
                     <p className="values">-</p>
                 )}
             </div>
         </div>
-    );
-};
-
-const CheckList = ({ setCheckList }) => {
-    const [checks, setChecks] = useState([false, false, false, false]);
-
-    const chekkkk = [
-        {
-            title: 'Is your work finalized?',
-            desc: 'Are the lyrics, melody, or both finalized and ready for the next step?',
-        },
-        {
-            title: 'Does your work align with your vision?',
-            desc: 'Does the tone, mood, and overall content match what you envisioned?',
-        },
-        {
-            title: 'Have you reviewed all key details?',
-            desc: 'Make sure to double-check tags, settings, and content accuracy.',
-        },
-        {
-            title: 'Are you ready to save or upload your work?',
-            desc: 'Choose to save your work as a draft or upload it to the community.',
-        },
-    ];
-
-    useEffect(() => {
-        setCheckList(checks.every((item) => item));
-    }, [checks, setCheckList]);
-
-    return (
-        <div className="check-list">
-            <p className="check-list__title">Final Checklist</p>
-            {chekkkk.map((item, index) => (
-                <label className="check-list__items" key={`check-list-index${index}`}>
-                    <input
-                        checked={checks[index]}
-                        onChange={() =>
-                            setChecks((prev) => {
-                                let copy = [...prev];
-                                copy[index] = !copy[index];
-                                return copy;
-                            })
-                        }
-                        type="checkbox"
-                    ></input>
-                    <span className="check"></span>
-                    <div>
-                        <p className="check-list__items--title">{item.title}</p>
-                        <span className="check-list__items--desc">{item.desc}</span>
-                    </div>
-                </label>
-            ))}
-        </div>
-    );
-};
-
-const Button = ({ title, handler, disabled }) => {
-    return (
-        <button className={title} disabled={disabled} onClick={handler}>
-            {title}
-        </button>
     );
 };

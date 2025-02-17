@@ -1,4 +1,5 @@
 import ModalWrap from '../components/ModalWrap';
+import ExpandedButton from './create/ExpandedButton';
 
 import lightBulb from '../assets/images/icon/lightbulb.svg';
 
@@ -20,12 +21,12 @@ const SkipModal = ({ setSkipModal, handler }) => {
                     You can always revisit this step later if needed.
                 </div>
                 <div className="skip-modal__button-wrap">
-                    <button className="skip-modal__button go-back" onClick={() => setSkipModal(false)}>
+                    <ExpandedButton className="skip-modal__button go-back" onClick={() => setSkipModal(false)}>
                         Go Back
-                    </button>
-                    <button className="skip-modal__button yes-continue" onClick={handler}>
+                    </ExpandedButton>
+                    <ExpandedButton className="skip-modal__button yes-continue" onClick={handler}>
                         Yes, Continue
-                    </button>
+                    </ExpandedButton>
                 </div>
             </div>
         </ModalWrap>

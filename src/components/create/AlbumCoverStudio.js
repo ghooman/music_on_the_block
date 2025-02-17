@@ -2,6 +2,7 @@ import { SelectItem, SelectItemWrap } from './SelectItem';
 import { useEffect, useState } from 'react';
 
 import SubBanner from './SubBanner';
+import ExpandedButton from './ExpandedButton';
 
 import creatingIcon from '../../assets/images/icon/creating.svg';
 import demoImage from '../../assets/images/intro/intro-demo-img.png';
@@ -121,7 +122,7 @@ const CoverCreate = ({ coverCreate, setAlbumCover }) => {
             setSelectImage(null);
             setAlbumCover(null);
         }
-    }, [coverCreate]);
+    }, [coverCreate, setSelectImage, setAlbumCover]);
 
     console.log(selectImage?.progress);
 
@@ -151,12 +152,13 @@ const CoverCreate = ({ coverCreate, setAlbumCover }) => {
                     <>
                         <div className="creating-select__feel-box">
                             {selectImage?.feel.map((item) => (
-                                <div className="creating-select__feel-item">{item}</div>
+                                <ExpandedButton className="creating-select__feel-item">{item}</ExpandedButton>
                             ))}
                         </div>
-                        <button className="creating-select__confirm" onClick={() => setAlbumCover(selectImage)}>
+
+                        <ExpandedButton className="creating-select__confirm" onClick={() => setAlbumCover(selectImage)}>
                             Confirm
-                        </button>
+                        </ExpandedButton>
                     </>
                 )}
                 {!selectImage?.isCreated && (

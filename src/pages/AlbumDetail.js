@@ -30,6 +30,7 @@ import track2 from "../assets/music/nisoft_song.mp3";
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination } from 'swiper/modules';
+import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 
 
 function AlbumDetail() {
@@ -48,7 +49,7 @@ function AlbumDetail() {
       description: "he dances through his masks<br />like breathing - Yolkhead",
       date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
       liked: false,
-      buttonClass: "details-btn active",
+      buttonClass: "details-btn ",
     },
     {
       id: 32,
@@ -72,7 +73,7 @@ function AlbumDetail() {
       description: "shadows whisper in the moonlight - Anonymous",
       date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
       liked: false,
-      buttonClass: "details-btn active",
+      buttonClass: "details-btn ",
     },
   ];
 
@@ -199,6 +200,11 @@ function AlbumDetail() {
               </tbody>
             </table>
           </div>
+
+          <button className="album-detail__filter-btn">
+            Filter
+          </button>
+          <AdvancedCommentComponent/>
         </section>
       </div>
     </>

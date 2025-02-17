@@ -154,15 +154,15 @@
             display: flex;
             align-items: center;
             &.presets {
-                border: 1px solid #565656;
-                color: #565656;
+                border: 1px solid #aaa;
+                color: #aaa;
                 gap: 4px;
                 &:hover,
                 &.enable {
-                    border: 1px solid #a9d400;
-                    color: #a9d400;
+                    border: 1px solid #cf0;
+                    color: #cf0;
                     &::after {
-                        background-color: #a9d400;
+                        background-color: #cf0;
                     }
                 }
 
@@ -174,7 +174,7 @@
                     top: 2px;
                     right: 2px;
                     border-radius: 100%;
-                    background-color: #565656;
+                    background-color: #aaa;
                 }
             }
 

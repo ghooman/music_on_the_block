@@ -2,7 +2,7 @@
     * {
         box-sizing: border-box;
     }
-    padding: 30px;
+
     .title {
         color: #cf0;
         font-family: Orbitron400;
@@ -150,13 +150,18 @@
         justify-content: space-between;
         gap: 24px;
 
-        .button-wrap__right {
+        .button-wrap__left {
+            width: 100%;
             display: flex;
+            justify-content: space-between;
             gap: 24px;
-            float: right;
+            &:has(button:only-child) button {
+                margin-left: auto;
+            }
         }
 
         button {
+            position: relative;
             color: var(--Text-music-title, #f1f1f1);
             font-family: Orbitron600;
             font-size: 16px;
@@ -165,14 +170,12 @@
             min-width: 140px;
             height: 40px;
             text-transform: capitalize;
+            z-index: 2;
 
             &.next,
             &.upload {
-                background: #cf0;
+                background-color: #cf0;
                 color: #1a1a1a;
-                &:active {
-                    background-color: #a9d400;
-                }
             }
             &.skip {
                 background: #6458ff;
@@ -183,12 +186,12 @@
                 background-color: #383838;
             }
 
-            &:disabled {
-                cursor: not-allowed;
-                border: 1px solid #2c3a00;
-                background-color: #000;
-                color: #565656;
-            }
+            // &:disabled {
+            //     cursor: not-allowed;
+            //     border: 1px solid #2c3a00;
+            //     background-color: #000;
+            //     color: #565656;
+            // }
         }
     }
 
@@ -285,6 +288,19 @@
             justify-content: space-between;
             .progress__arrow {
                 display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .music_create {
+        .button-wrap {
+            flex-direction: column-reverse;
+            .button-wrap__left {
+                button {
+                    width: 100%;
+                }
             }
         }
     }

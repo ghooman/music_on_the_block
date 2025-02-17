@@ -55,7 +55,7 @@ const Menu = ({ active }) => {
         <div className="menu__cover">
           <dl className="menu__box">
             <Link 
-              to='/MyPage'
+              to='/my-page'
               className="menu__box__title">My Pg</Link>
             <dd>
               <div className="menu__box__my-page">

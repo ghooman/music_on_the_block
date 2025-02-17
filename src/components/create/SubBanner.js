@@ -1,3 +1,5 @@
+import ExpandedButton from './ExpandedButton';
+
 import './SubBanner.scss';
 
 const SubBanner = ({ children }) => {
@@ -28,8 +30,8 @@ SubBanner.SubMessage = ({ text }) => {
 
 SubBanner.Button = ({ title, handler }) => {
     return (
-        <button className="sub-banner__buttons" onClick={handler}>
+        <ExpandedButton className="sub-banner__buttons" onClick={handler}>
             {title}
-        </button>
+        </ExpandedButton>
     );
 };

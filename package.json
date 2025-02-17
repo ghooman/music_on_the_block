@@ -4,18 +4,21 @@
   "private": true,
   "dependencies": {
     "@dschoon/react-waves": "^4.0.3",
+    "@tanstack/react-ranger": "^0.0.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
     "react-audio-visualize": "^1.2.0",
+    "react-comments-section": "^3.2.0",
     "react-dom": "^18.2.0",
+    "react-h5-audio-player": "^3.10.0-rc.1",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "react-voice-visualizer": "^2.0.4",
     "sass": "^1.66.1",
-    "swiper": "^11.2.1",
+    "swiper": "^11.2.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -42,6 +45,4 @@
       "last 1 safari version"
     ]
   }
-  
 }
-

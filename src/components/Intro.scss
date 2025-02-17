@@ -511,6 +511,7 @@
         padding: 16px;
         border-radius: 18px;
         .intro__slide-mobile__tab-list__item{
+          position: relative;
           dt{
             color: #EDEDED;
             font-family: Inter600;
@@ -545,7 +546,7 @@
           .play-btn{
             position: absolute;
             right: 16px;
-            top:-34px;
+            top:66px;
             color: #CF0;
             cursor: pointer;
           }//play-bt--END--

@@ -174,3 +174,14 @@ img {
 ::-webkit-scrollbar-button:end:increment {
   width: 5px;
 }
+
+
+
+
+
+.inner{
+  width: 100%;
+  max-width: calc(960px + 16px);
+  margin: 0 auto;
+  padding: 88px 16px 100px;
+}

@@ -18,15 +18,49 @@
 
 
 .menu{
-  width: 280px;
-  height: 100%;
+  // width: 280px;
+  // height:100%;
+  height:calc(100% - 116px);
   position: fixed;
   top:100px;
-  left: 16px;
+  left: -300px;
   border-radius: 18px;
   border: 2px solid #222;
   background:#0B0B0C;
-  padding: 24px 16px;
+  overflow: hidden;
+  width: 280px;
+  transition: 0.3s;
+  opacity: 0;
+  z-index: 10;
+  // animation: menuLeft 0.4s ease-in-out forwards;
+  // animation-delay: 1.3s;
+  // @keyframes menuLeft {
+  //   0%{
+  //     opacity: 0;
+  //     left: -300px;
+  //   }
+  //   100%{
+  //     opacity: 1;
+  //     left: 16px;
+  //   }
+  // }
+  &.active{
+    left: 16px;
+    opacity: 1;
+  }
+  // &.fixed{
+  //   top:16px;
+  //   height:calc(100% - 30px);
+  // }
+  .menu__cover{
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    overflow-y: scroll;
+    width: calc(100% + 15px);
+  }
   .menu__box{
     display: flex;
     flex-direction: column;
@@ -182,10 +216,178 @@
         }
       }//menu__box__log-out-btn--END--
     }//dd--END--
+
+
+    .menu__box__gnb-list{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      .menu__box__gnb-list__item{
+        width: 100%;
+        &.active{
+          .icon{
+            background: url('../assets/images/menu/ai-services-icon-on.svg') center no-repeat;
+          }
+          .menu__box__gnb-list__item__btn{
+            background:#678300;
+            color: #121A00;
+          }
+        }
+        // 탭 클릭했을때 효과
+        &.slide-tab{
+          &.earn{
+            &.active{
+              .menu__box__gnb-list__item__list{
+                height: 98px;
+              }//menu__box__gnb-list__item__list--END--
+            }
+          }
+          &.active{
+            .menu__box__gnb-list__item__btn{
+              background:#678300;
+              color: #121A00;
+              &::after{
+                background: url('../assets/images/menu/arrow_up.svg') center no-repeat;
+                transform: translate(0,-50%) rotate(180deg);
+              }
+            }
+            .menu__box__gnb-list__item__list{
+              height: 142px;
+              padding: 8px 0;
+              border: 1px solid #678300;
+            }//menu__box__gnb-list__item__list--END--
+          }
+          .menu__box__gnb-list__item__btn{
+            &::after{
+              content: '';
+              position: absolute;
+              right: 16px;
+              top:50%;
+              transform: translate(0,-50%) rotate(0deg);
+              width: 24px;
+              height: 24px;
+              background: url('../assets/images/menu/arrow_drop_down.svg') center no-repeat;
+              background-size: cover;
+              transition: 0.3s;
+            }
+            &:hover{
+              &::after{
+                background: url('../assets/images/menu/arrow_up.svg') center no-repeat;
+              }
+            }
+          }//menu__box__gnb-list__item__btn--END--
+        }//slide-tab--END--
+        .menu__box__gnb-list__item__btn{
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          width: 100%;
+          height: 42px;
+          border-radius: 4px;
+          transition: 0.3s;
+          color:#AAA;
+          font-family: Orbitron400;
+          font-size: 12px;
+          font-style: normal;
+          line-height: 100%; /* 12px */
+          padding:0 16px;
+          position: relative;
+          &:hover{
+            background:#678300;
+            color: #121A00;
+            .icon{
+              background: url('../assets/images/menu/ai-services-icon-on.svg') center no-repeat;
+            }
+          }
+          .icon{
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            background: url('../assets/images/menu/ai-services-icon.svg') center no-repeat;
+            background-size: cover;
+            transition: 0.2s;
+          }
+        }//menu__box__gnb-list__item__btn--END--
+        &.album{
+          .menu__box__gnb-list__item__btn{
+            .icon{
+              background: url('../assets/images/menu/albums-icon.svg') center no-repeat;
+            }
+          }//menu__box__gnb-list__item__btn--END--
+          &.active,&:hover{
+            .icon{
+              background: url('../assets/images/menu/albums-icon-on.svg') center no-repeat;
+            }
+          }
+        }//album--END--
+        &.shop{
+          .menu__box__gnb-list__item__btn{
+            .icon{
+              background: url('../assets/images/menu/shop-icon.svg') center no-repeat;
+            }
+          }//menu__box__gnb-list__item__btn--END--
+          &.active,&:hover{
+            .icon{
+              background: url('../assets/images/menu/shop-icon-on.svg') center no-repeat;
+            }
+          }
+        }//shop--END--
+        &.earn{
+          .menu__box__gnb-list__item__btn{
+            .icon{
+              background: url('../assets/images/menu/earn-icon.svg') center no-repeat;
+            }
+          }//menu__box__gnb-list__item__btn--END--
+          &.active,&:hover{
+            .icon{
+              background: url('../assets/images/menu/earn-icon-on.svg') center no-repeat;
+            }
+          }
+        }//earn--END--
+        .menu__box__gnb-list__item__list{
+          border-radius: 12px 4px 12px 12px;
+          background: #CF0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 8px;
+          height: 0;
+          overflow: hidden;
+          transition: 0.3s;
+          li{
+            &.active{
+              a{
+                background: #A9D400;
+              }
+            }
+            a{
+              display: block;
+              display: flex;
+              align-items: center;
+              padding: 0 16px;
+              height: 36px;
+              width: 100%;
+              color:#1A1A1A;
+              font-family: Orbitron400;
+              font-size: 12px;
+              font-style: normal;
+              line-height: 100%; /* 12px */
+              transition: 0.3s;
+              &:hover{
+                background: #A9D400;
+              }
+            }//a--END--
+          }//li--END--
+        }//menu__box__gnb-list__item__list--END--
+      }//menu__box__gnb-list__item--END--
+    }//menu__box__gnb-list--END--
+
+
+
   }//menu__box--END--
   
   
 }//menu--END--
-
 
 

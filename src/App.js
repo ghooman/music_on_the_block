@@ -12,21 +12,21 @@ import {
   // useNavigate,
 } from "react-router-dom";
 import Album from "./pages/Album";
-
+import Create from "./pages/Create";
+import MyPage from "./pages/MyPage";
+import AccountSetting from "./pages/AccountSetting";
+import AlbumDetail from "./pages/AlbumDetail";
 
 function Layout({ children }) {
   return (
     <div>
       <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      {children}
+      <div className="inner">{children}</div>
     </div>
   );
 }
 
-
-
 function App() {
-
   return (
     <div className="App">
       <title>MUSIC ON THE BLOCK</title>
@@ -34,7 +34,43 @@ function App() {
         <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
         <Route
           path="/Album"
-          element={<Layout/>}
+          element={
+            <Layout>
+              <Album />
+            </Layout>
+          }
+        />
+        <Route
+          path="/Create"
+          element={
+            <Layout>
+              <Create />
+            </Layout>
+          }
+        />
+        <Route
+          path="/my-page"
+          element={
+            <Layout>
+              <MyPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/account-setting"
+          element={
+            <Layout>
+              <AccountSetting />
+            </Layout>
+          }
+        />
+        <Route
+          path="/album-detail"
+          element={
+            <Layout>
+              <AlbumDetail/>
+            </Layout>
+          }
         />
       </Routes>
     </div>

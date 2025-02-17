@@ -1,0 +1,214 @@
+.mypage {
+  //   background-color: #242424;
+  //   width: 964px;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  .mypage__profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 600px;
+    .mypage__profile-bg {
+      width: 100%;
+      background-color: #333;
+      border-radius: 50px;
+      img {
+        width: 100%;
+      }
+    }
+    .mypage__profile-overlay {
+      position: absolute;
+      width: 700px;
+      height: 310px;
+      top: 280px;
+      border-radius: 12px;
+      border: 1px solid var(--primary-base, #cf0);
+    }
+    .mypage__profile-info {
+      position: absolute;
+      top: 280px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: cent er;
+      width: 700px;
+      height: 300px;
+      border-radius: 12px;
+      border: 1px solid var(--primary-base, #cf0);
+      background: #0b0b0c;
+      .mypage__profile-edit-box {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 8px;
+        .mypage__profile-img {
+          margin-right: 12px;
+        }
+        .mypage__profile-info-box {
+          .mypage__username {
+            color: #fff;
+            font-family: Orbitron400;
+            font-size: 40px;
+            font-style: normal;
+            line-height: 100%; /* 40px */
+            letter-spacing: 1.2px;
+          }
+          .mypage__stats {
+            .stats__info {
+              display: flex;
+              align-items: center;
+              img {
+                margin-right: 8px;
+              }
+              span {
+                color: var(--Text-music-title, #f1f1f1);
+                font-family: Orbitron400;
+                font-size: 16px;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: 0.48px;
+                margin-right: 4px;
+              }
+              .neon {
+                color: var(--primary-base, #cf0);
+              }
+            }
+          }
+        }
+        .mypage__profile-edit {
+          margin-left: auto;
+          margin-bottom: auto;
+        }
+      }
+      .mypage__bio {
+        color: var(--Text-music-sub, #aaa);
+        font-family: Inter400;
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 0.48px;
+        margin-bottom: 8px;
+      }
+      .mypage__social-icons {
+        width: 100%;
+        .social-icon {
+          width: 40px;
+          height: 40px;
+          background-color: #171717;
+          border-radius: 50%;
+          margin-right: 16px;
+          img {
+            margin: 0 auto;
+            object-fit: cover;
+          }
+        }
+      }
+      .mypage__exp {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 8px;
+        .mypage__exp-box {
+          display: flex;
+          padding: 16px 12px 12px 12px;
+          justify-content: space-between;
+          align-items: flex-start;
+          flex: 1 0 0;
+          border-radius: 12px;
+          border: 1px solid var(--primary-200, #a9d400);
+          background: var(--Dark-Color-01, #0b0b0c);
+          .exp-box__neon {
+            color: var(--primary-base, #cf0);
+            font-family: Orbitron400;
+            font-size: 16px;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: 0.48px;
+            position: relative;
+            &::after {
+              position: absolute;
+              content: "";
+              width: 5px;
+              height: 5px;
+              top: 0;
+              background-color: #cf0;
+              border-radius: 100%;
+            }
+          }
+          .exp-box__value {
+            color: var(--secondary-400, #007e56);
+            text-align: right;
+            font-family: Orbitron400;
+            font-size: 18px;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: 0.54px;
+          }
+        }
+      }
+    }
+  }
+  .mypage__nav {
+    display: flex;
+    margin: 40px auto;
+    .mypage__nav-item {
+      margin-right: 12px;
+      display: flex;
+      padding: 8px 12px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 12px 4px 12px 12px;
+      background: var(--Color-03, #222);
+      color: var(--Text-music-sub, #aaa);
+      font-family: Orbitron500;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 100%; /* 14px */
+      letter-spacing: 0.42px;
+      white-space: nowrap;
+    }
+    .active {
+      color: var(--Text-dark-title, #1a1a1a);
+      background: var(--primary-base, #cf0);
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .mypage {
+    .mypage__profile {
+      width: 100%;
+      height: 580px;
+      .mypage__profile-overlay {
+        width: 100%;
+        top: 180px;
+        min-height: 390px;
+      }
+      .mypage__profile-info {
+        width: 100%;
+        top: 180px;
+        min-height: 380px;
+        height: auto;
+
+        .mypage__profile-edit-box {
+          .mypage__profile-info-box {
+            .mypage__username {
+              font-size: 24px;
+            }
+          }
+        }
+        .mypage__exp {
+          flex-direction: column;
+        }
+      }
+    }
+    .mypage__nav {
+      overflow: auto;
+      .mypage__nav-item {
+        font-size: 12px;
+      }
+    }
+  }
+}

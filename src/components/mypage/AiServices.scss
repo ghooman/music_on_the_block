@@ -45,9 +45,10 @@
     &::after {
       position: absolute;
       content: "";
-      width: 5px;
-      height: 5px;
-      top: 0;
+      width: 4px;
+      height: 4px;
+      top: -2px;
+      left: -4px;
       background-color: #cf0;
       border-radius: 100%;
     }
@@ -158,9 +159,10 @@
     &::after {
       position: absolute;
       content: "";
-      width: 5px;
-      height: 5px;
-      top: 0;
+      width: 4px;
+      height: 4px;
+      top: -2px;
+      left: -4px;
       background-color: #cf0;
       border-radius: 100%;
     }
@@ -188,6 +190,7 @@
   .ai__services {
     flex-direction: column;
     gap: 16px;
+    margin-top: 0px;
     .ai__service-btn {
       width: 100%;
     }
@@ -209,6 +212,19 @@
     }
     .ai-status__detail {
       width: 100%;
+    .ai-status__detail-box{
+      .ai-status__detail-item{
+        .detail-item__title{
+          font-size: 12px;
+          max-width: 100px;
+          text-align: center;
+        }
+        .detail-item__value{
+          font-size: 12px;
+        }
+      }
+    }
+
     }
   }
   .ai__period {

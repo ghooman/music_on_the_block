@@ -23,13 +23,15 @@ import loveIcon from '../assets/images/album/love-icon.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
+import defaultCoverImg from '../assets/images/header/logo.svg';
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 
 
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination } from 'swiper/modules';
+import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
+
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 
 
@@ -77,6 +79,162 @@ function AlbumDetail() {
     },
   ];
 
+
+
+
+  const [tracks, setTracks] = useState([
+    {
+      id: 1,
+      title: 'he dances through his masks like breathing - Yolkhead',
+      src: track1,
+      cover: coverImg,
+      duration: null,
+    },
+    {
+      id: 2,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg2,
+      duration: null,
+    },
+    {
+      id: 3,
+      title: 'Touch The Sky - Simon Doty',
+      src: track2,
+      cover: coverImg3,
+      duration: null,
+    },
+    {
+      id: 4,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg4,
+      duration: null,
+    },
+    {
+      id: 5,
+      title: 'he dances through his masks like breathing - Yolkhead',
+      src: track2,
+      cover: coverImg5,
+      duration: null,
+    },
+    {
+      id: 6,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg6,
+      duration: null,
+    },
+    {
+      id: 7,
+      title: 'Touch The Sky - Simon Doty',
+      src: track2,
+      cover: coverImg7,
+      duration: null,
+    },
+    {
+      id: 8,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg8,
+      duration: null,
+    },
+    {
+      id: 9,
+      title: 'Touch The Sky - Simon Doty',
+      src: track2,
+      cover: coverImg9,
+      duration: null,
+    },
+
+    {
+      id: 10,
+      title: 'he dances through his masks like breathing - Yolkhead',
+      src: track1,
+      cover: coverImg9,
+      duration: null,
+    },
+    {
+      id: 11,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg8,
+      duration: null,
+    },
+    {
+      id: 12,
+      title: 'Touch The Sky - Simon Doty',
+      src: track2,
+      cover: coverImg7,
+      duration: null,
+    },
+    {
+      id: 13,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg4,
+      duration: null,
+    },
+    {
+      id: 14,
+      title: 'he dances through his masks like breathing - Yolkhead',
+      src: track2,
+      cover: coverImg5,
+      duration: null,
+    },
+    {
+      id: 15,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg6,
+      duration: null,
+    },
+    {
+      id: 16,
+      title: 'Touch The Sky - Simon Doty',
+      src: track2,
+      cover: coverImg7,
+      duration: null,
+    },
+    {
+      id: 17,
+      title: 'Touch The Sky - Simon Doty',
+      src: track1,
+      cover: coverImg8,
+      duration: null,
+    },
+    {
+      id: 18,
+      title: 'Touch The Sky - Simon Doty',
+      src: track2,
+      cover: coverImg9,
+      duration: null,
+    },
+  ]);
+  const swiperOptions = {
+    loop: true,
+    slidesPerView: 3,
+    spaceBetween: 8,
+    initialSlide: 2,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    navigation: true,
+    modules: [Pagination, Navigation, Autoplay],
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      680: {
+        slidesPerView: 2,
+      },
+      930: {
+        slidesPerView: 3,
+      },
+    },
+  };
+  
   return (
     <>
       <div className="album-detail">
@@ -206,6 +364,120 @@ function AlbumDetail() {
           </button>
           <AdvancedCommentComponent/>
         </section>
+
+        <section className="album-detail__slide">
+          <dl className="album-detail__slide__title">
+            <dt>Recommended Music Source</dt>
+            <dd>
+              Discover music tracks tailored to your preferences. Based on mood, genre, and user recommendations, these songs are perfectly matched to your current selection
+            </dd>
+          </dl>
+          <div className="album-detail__slide__swiper">
+            <Swiper {...swiperOptions} className="album-detail-slide" >
+              {tracks.slice(0, 9).map((track, index) => (
+                <SwiperSlide>
+                  <button
+                    key={track.id}
+                    className={`album__content-list__list__item`}
+                  >
+                    <div className="album__content-list__list__item__left">
+                      <p
+                        className="album__content-list__list__item__left__img"
+                        style={{ backgroundImage: `url(${track.cover})` }}
+                      >
+                      </p>
+                      <span className="time">
+                        2:11
+                      </span>
+                      {/* <span className="time">
+                        {selectedTrackIndex === index
+                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
+                          : formatTime(track.duration)}
+                      </span> */}
+                    </div>
+                    <div className="album__content-list__list__item__right">
+                      <p className="album__content-list__list__item__right__title">
+                        {track.title}
+                      </p>
+                      <div className="album__content-list__list__item__right__love-play">
+                        <p className="love"><img src={loveIcon}/>145</p>
+                        <p className="play"><img src={playIcon}/>145</p>
+                      </div>
+                      <div className="album__content-list__list__item__right__user">
+                        <p className="album__content-list__list__item__right__user__info">
+                          <img src={defaultCoverImg}/>Yolkhead
+                        </p>
+                        <button className="album__content-list__list__item__right__user__btn">
+                          유저정보
+                        </button>
+                      </div>
+                    </div>
+                  </button>
+                </SwiperSlide>
+              ))}
+
+            </Swiper>
+          </div>
+        </section>
+
+
+
+        <section className="album-detail__slide">
+          <dl className="album-detail__slide__title">
+            <dt>Content liked by other users</dt>
+            <dd>
+            Expand your music journey with tracks loved by users who appreciated this sound. Find hidden gems and connect with similar musical tastes.
+            </dd>
+          </dl>
+          <div className="album-detail__slide__swiper">
+            <Swiper {...swiperOptions} className="album-detail-slide" >
+              {tracks.slice(0, 9).map((track, index) => (
+                <SwiperSlide>
+                  <button
+                    key={track.id}
+                    className={`album__content-list__list__item`}
+                  >
+                    <div className="album__content-list__list__item__left">
+                      <p
+                        className="album__content-list__list__item__left__img"
+                        style={{ backgroundImage: `url(${track.cover})` }}
+                      >
+                      </p>
+                      <span className="time">
+                        2:11
+                      </span>
+                      {/* <span className="time">
+                        {selectedTrackIndex === index
+                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
+                          : formatTime(track.duration)}
+                      </span> */}
+                    </div>
+                    <div className="album__content-list__list__item__right">
+                      <p className="album__content-list__list__item__right__title">
+                        {track.title}
+                      </p>
+                      <div className="album__content-list__list__item__right__love-play">
+                        <p className="love"><img src={loveIcon}/>145</p>
+                        <p className="play"><img src={playIcon}/>145</p>
+                      </div>
+                      <div className="album__content-list__list__item__right__user">
+                        <p className="album__content-list__list__item__right__user__info">
+                          <img src={defaultCoverImg}/>Yolkhead
+                        </p>
+                        <button className="album__content-list__list__item__right__user__btn">
+                          유저정보
+                        </button>
+                      </div>
+                    </div>
+                  </button>
+                </SwiperSlide>
+              ))}
+
+            </Swiper>
+          </div>
+        </section>
+
+
       </div>
     </>
   );

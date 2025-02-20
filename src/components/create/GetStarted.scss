@@ -38,6 +38,7 @@
     .create__get-started--features-items {
         display: flex;
         justify-content: space-between;
+        gap: 16px;
     }
     .create__get-started--features-item {
         color: #aaa;
@@ -61,5 +62,21 @@
         padding: 8px 24px;
         color: #000;
         font-family: orbitron600;
+    }
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .create__get-started{
+        padding: 32px 32px 64px;
+        margin-top: 32px;
+        .create__get-started--title{
+            font-size: 28px;
+        }
+        .create__get-started--subtitle{
+            font-size: 18px;
+        }
+
     }
 }

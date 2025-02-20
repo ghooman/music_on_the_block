@@ -227,12 +227,8 @@ function Album() {
 
   // 선택된 트랙의 정보 또는 기본 정보를 설정
   const selectedTrack = selectedTrackIndex !== null ? tracks[selectedTrackIndex] : null;
-  const albumTitle = selectedTrack ? selectedTrack.title : '';
+  const albumTitle = selectedTrack ? selectedTrack.title : 'Select an Album';
   const albumCover = selectedTrack ? selectedTrack.cover : defaultCoverImg;
-
-
-
-
 
 
 
@@ -353,6 +349,7 @@ function Album() {
       </section>
 
       <section className="album__slide">
+        <p className="album__slide__title">Hit Music List</p>
         <Swiper
           ref={swiperRef}
           loop={true}

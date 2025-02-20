@@ -29,7 +29,7 @@ const MyPage = () => {
         <div className="mypage__profile-bg">
           <img src={demoBg} alt="profile-bg" />
         </div>
-        <div className="mypage__profile-overlay"> </div>
+        {/* <div className="mypage__profile-overlay"> </div> */}
         <div className="mypage__profile-info">
           <div className="mypage__profile-edit-box">
             <div className="mypage__profile-img">
@@ -92,7 +92,7 @@ const MyPage = () => {
           "Albums",
           "My Favorites",
           "Rewards & Payments",
-          "Tournaments",
+          // "Tournaments",
         ].map((service) => (
           <button
             key={service}
@@ -104,7 +104,7 @@ const MyPage = () => {
                 ? undefined
                 : () => handleServiceClick(service)
             }
-            disabled={service === "Tournaments"}
+            // disabled={service === "Tournaments"}
           >
             {service}
           </button>

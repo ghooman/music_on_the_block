@@ -15,47 +15,49 @@ const Reward = () => {
         <div className="section__filter">
           <Filter list={["All", "Latest"]} />
         </div>
-        <table className="section__table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Type</th>
-              <th>Prize</th>
-              <th>Date</th>
-              <th>Source</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Likes Received</td>
-              <td>150 MOB</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>AI Lyric & Songwriting</td>
-              <td className="pending">Pending</td>
-              <td>
-                <div className="td-content">
-                  <button className="table-button">Details</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Likes Received</td>
-              <td>150 MOB</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>AI Lyric & Songwriting</td>
-              <td className="completed">Completed</td>
-              <td>
-                <div className="td-content">
-                  <button className="table-button">Details</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="section__table">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Prize</th>
+                <th>Date</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Likes Received</td>
+                <td>150 MOB</td>
+                <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+                <td>AI Lyric & Songwriting</td>
+                <td className="pending">Pending</td>
+                <td>
+                  <div className="td-content">
+                    <button className="table-button">Details</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Likes Received</td>
+                <td>150 MOB</td>
+                <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+                <td>AI Lyric & Songwriting</td>
+                <td className="completed">Completed</td>
+                <td>
+                  <div className="td-content">
+                    <button className="table-button">Details</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
       <section className="payment__section">
         <div className="section__header">
@@ -67,47 +69,49 @@ const Reward = () => {
         <div className="section__filter">
           <Filter list={["All", "Latest"]} />
         </div>
-        <table className="section__table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Type</th>
-              <th>Prize</th>
-              <th>Date</th>
-              <th>Source</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Likes Received</td>
-              <td>150 MOB</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>AI Lyric & Songwriting</td>
-              <td className="pending">Pending</td>
-              <td>
-                <div className="td-content">
-                  <button className="table-button">Details</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>Likes Received</td>
-              <td>150 MOB</td>
-              <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-              <td>AI Lyric & Songwriting</td>
-              <td className="completed">Completed</td>
-              <td>
-                <div className="td-content">
-                  <button className="table-button">Details</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="section__table">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Prize</th>
+                <th>Date</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Likes Received</td>
+                <td>150 MOB</td>
+                <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+                <td>AI Lyric & Songwriting</td>
+                <td className="pending">Pending</td>
+                <td>
+                  <div className="td-content">
+                    <button className="table-button">Details</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Likes Received</td>
+                <td>150 MOB</td>
+                <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
+                <td>AI Lyric & Songwriting</td>
+                <td className="completed">Completed</td>
+                <td>
+                  <div className="td-content">
+                    <button className="table-button">Details</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
   );

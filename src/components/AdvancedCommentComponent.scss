@@ -3,16 +3,102 @@
 .advanced-input{
   .advanced-form{
     background-color: transparent;
+    .rdw-editor-main{
+      overflow: auto;
+    }
+    .rdw-block-wrapper{
+      display: none;
+    }
+    .postBtn{
+      margin-left:  auto !important;
+      background: #CF0 !important;
+      border: 0;
+      color: #121212;
+      transition: 0.3s;
+      &:hover{
+        
+      }
+    }
+
     .advanced-border{
       border: 1px solid #888;
+      background: #121212;
     }
     .rdw-option-wrapper{
       border: 1px solid transparent;
       background-color: #777;
+      transition: 0.3s;
+      &:hover,&.rdw-option-active{
+        background: #CF0;
+        border: 1px solid #CF0;
+      }
     }//rdw-option-wrapper--END--
     .rdw-editor-toolbar{
       background: transparent;
       border: 1px solid transparent;
     }//rdw-editor-toolbar--END--
   }//.advanced-form--END--
+
 }//advanced-input--END--
+.react-responsive-modal-modal{
+  background: #121212 !important;
+  border: 1px solid #777 !important;
+  border-radius: 4px;
+}
+
+.comment-title{
+  color: #CF0;
+  font-family: Orbitron400;
+  font-size: 24px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.72px;
+  margin-bottom: 16px;
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  &::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background: #CF0;
+}
+}
+.rdw-colorpicker-wrapper,
+.rdw-link-wrapper,
+.rdw-emoji-wrapper,
+.rdw-image-wrapper{
+  display: none;
+}
+.szh-menu{
+  background: #121212;
+  border: 1px solid #888;
+  padding: 0 !important;
+  overflow: hidden;
+  li{
+    color: #fff !important;
+    background: transparent !important;
+    transition: 0.3s;
+    padding: 8px 12px !important;
+    &:hover{
+      background: #CF0 !important;
+      color: #121212 !important;
+      div{
+        color: #121212 !important;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+

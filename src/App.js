@@ -16,12 +16,14 @@ import Create from "./pages/Create";
 import MyPage from "./pages/MyPage";
 import AccountSetting from "./pages/AccountSetting";
 import AlbumDetail from "./pages/AlbumDetail";
+import Footer from "./components/Footer";
 
 function Layout({ children }) {
   return (
     <div>
       <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      <div className="inner">{children}</div>
+        <div className="inner">{children}</div>
+      <Footer/>
     </div>
   );
 }

@@ -1,0 +1,177 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.intro-logo{
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #121212;
+  z-index: 10;
+  animation: fadeOut 0.5s ease-out 2.4s forwards;
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    99% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+      display: none;
+    }
+  }
+  img{
+    width: 120px;
+    height: 120px;
+    &.logo{
+      opacity: 0;
+      animation: logo2 0.6s ease-in-out forwards;
+      animation-delay: 0.5s;
+      transform: translate(100px,0);
+      @keyframes logo2 {
+        0%{
+          opacity: 0;
+          transform: translate(30px,0);
+        }
+        100%{
+          opacity: 1;
+          transform: translate(0,0);
+        }
+
+      }
+    }
+  }
+  .text-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .text-wrap{
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    animation: fadeOut2 0.5s ease-out 2.2s forwards;
+    @keyframes fadeOut2 {
+      0% {
+        opacity: 1;
+      }
+      99% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+  }
+
+
+  svg{
+    text {
+      font-family: Orbitron600;
+      font-size: 46px;
+      fill:transparent;
+      stroke-dasharray: 326px;
+      animation: stroke 0.8s linear;
+      animation-fill-mode: forwards;
+      &:nth-child(1) {
+        animation-delay: 0s;
+      }
+      &:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      &:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      &:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+      &:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+      &:nth-child(7) {
+        animation-delay: 0.6s;
+      }
+      &:nth-child(8) {
+        animation-delay: 0.7s;
+      }
+    }
+    &:last-child{
+      text{
+        &:nth-child(1) {
+          animation-delay: 0.7s;
+        }
+        &:nth-child(2) {
+          animation-delay: 0.8s;
+        }
+        &:nth-child(3) {
+          animation-delay: 0.9s;
+        }
+        &:nth-child(4) {
+          animation-delay: 1.0s;
+        }
+        &:nth-child(5) {
+          animation-delay: 1.1s;
+        }
+        &:nth-child(6) {
+          animation-delay: 1.2s;
+        }
+        &:nth-child(7) {
+          animation-delay: 1.3s;
+        }
+        &:nth-child(8) {
+          animation-delay: 1.35s;
+        }
+      }
+    }
+  }//svg--END--
+
+@keyframes stroke {
+    0%   {
+        stroke:rgb(255, 234, 0);
+        stroke-width: 1px;
+        stroke-dashoffset: 300px;
+    }
+    50% {
+        fill: transparent;
+        stroke-width: 0.5px;
+      }
+    85% {
+        stroke:#CF0;
+        stroke-dashoffset: 0px;
+        stroke-width: 0px;
+    }
+    100% {
+        fill: #CF0;
+        stroke-dashoffset: 0px;
+    }
+  }
+}//intro-logo--END--
+
+
+
+
+@media screen and (max-width: 768px) {
+  .intro-logo{
+    transform: scale(0.7);
+  }
+}

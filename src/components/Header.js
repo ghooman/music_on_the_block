@@ -43,7 +43,7 @@ const Header = ({ setIsLoggedIn }) => {
               <img src={mainLogo} className="logo" />
               <div className="text-box">
                 <div className="text-wrap">
-                  <svg width={300} height={30} viewBox="0 0 300 30">
+                  <svg width={220} height={30} viewBox="0 0 220 30">
                     <text x="0" y="90%">
                       M
                     </text>
@@ -66,7 +66,7 @@ const Header = ({ setIsLoggedIn }) => {
                       N
                     </text>
                   </svg>
-                  <svg width={300} height={30} viewBox="0 0 300 30">
+                  <svg width={220} height={30} viewBox="0 0 220 30">
                     <text x="0" y="60%">
                       T
                     </text>

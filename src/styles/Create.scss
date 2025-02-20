@@ -17,7 +17,8 @@
             content: '';
             width: 5px;
             height: 5px;
-            top: 0;
+            top: -2px;
+            left: -4px;
             background-color: #cf0;
             border-radius: 100%;
         }
@@ -27,6 +28,7 @@
     .progress {
         display: flex;
         align-items: center;
+        
         .progress__item {
             display: flex;
             flex-direction: column;
@@ -227,6 +229,7 @@
             position: relative;
             transition: 0.3s all;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         input:checked + .check {
@@ -275,6 +278,12 @@
 @media screen and (max-width: 768px) {
     .music_create {
         .selected-wrap {
+            flex-direction: column-reverse;
+            .button-wrap__left {
+                button {
+                    width: 100%;
+                }
+            }
             .wrap-content {
                 grid-template-columns: repeat(2, 1fr);
                 .selected-item {
@@ -286,22 +295,66 @@
         }
         .progress {
             justify-content: space-between;
+            gap: 16px;
+            .progress__text{
+                font-size: 12px;
+            }
             .progress__arrow {
                 display: none;
             }
         }
+        
     }
-}
-
-@media screen and (max-width: 768px) {
-    .music_create {
-        .button-wrap {
-            flex-direction: column-reverse;
-            .button-wrap__left {
-                button {
-                    width: 100%;
+    .create__description-banner{
+        .desc-banner__strong{
+            font-size: 28px;
+            line-height: 1.2;
+        }
+        .desc-banner__notice{
+            font-size: 14px;
+        }
+        .desc-banner__tip-box{
+            flex-direction: column;
+            align-items: start;
+        }
+    }
+    .create__select-components{
+        .tag-select{
+            .tag-input-box{
+                position: static;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                &.two{
+                    flex-direction: column;
+                    .tag-input-comment-button{
+                        // margin-left: 0;
+                    }
+                }
+                .tag-input-comment-button-wrap{
+                    position: static;
+                    transform: translate(0);
+                    // margin: 16px 0 8px auto;
+                    .tag-input-comment-button{
+                        margin-left: auto;
+                        width: 80px;
+                    }
                 }
             }
         }
     }
+    .music_create{
+        .button-wrap{
+            flex-direction: column;
+        }
+        .check-list__items--title{
+            font-size: 14px;
+        }
+        .check-list__items--desc{
+            font-size: 12px;
+            line-height: 1;
+        }
+    }
 }
+
+

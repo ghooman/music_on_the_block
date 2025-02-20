@@ -196,6 +196,8 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      width: 100%;
+      overflow: auto;
       .album__content-list__tab__item{
         display: flex;
         align-items: center;
@@ -206,6 +208,7 @@
         padding: 0 12px;
         gap: 8px;
         transition: 0.3s;
+        white-space:nowrap;
         &::before{
           content: '';
           display: block;
@@ -418,6 +421,26 @@
 
   .album__slide{
     padding: 50px 16px;
+    .album__slide__title{
+      color: #CF0;
+      font-family: Orbitron400;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+      margin: 32px 0 0;
+      position: relative;
+      display: inline-block;
+      &::after{
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: 0px;
+        width: 4px;
+        height: 4px;
+        background: #CF0;
+        border-radius: 100%;
+      }
+    }
     .swiper-music-list{
       height: 500px;
       padding: 40px 160px 40px 0;
@@ -636,4 +659,79 @@
 
 
 
+@media screen and (max-width: 980px) {
+  .album{
+    padding-top: 136px;
+    .album__header{
+      width: calc(100% - 32px);
+      top: 96px;
+      &.scrolled{
+        top: 96px;
+      }
+    }
+    .album__content-list{
+      .album__content-list__list{
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+  .album__slide{
+    position: relative;
+    height: 646px;
+    width: 100%;
+    overflow: hidden;
+    .swiper-music-list{
+      width: 860px;
+      padding: 40px 176px 40px 0 !important;
+      position: absolute;
+      left: 50%;
+      // top: 0;
+      transform: translate(-50%,0%);
+    }
+  }
+}
 
+@media screen and (max-width: 768px) {
+  .album{
+    .album__header{
+      padding: 16px;
+      gap: 0;
+      .album__header__album-cover{
+        position: static;
+        &::after{
+          display: none;
+        }
+        .album__header__album-cover__img{
+          display: none;
+        }
+        .album__header__title{
+          top: 16px;
+          left: 16px;
+        }
+      }
+      .album__header__cover-info{
+        left: 16px;
+        right: auto;
+        top: 60px;
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+    
+    
+    .rhap_container{
+      margin-top: 60px;
+    }
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .album{
+    .album__content-list{
+      .album__content-list__list{
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  }
+}

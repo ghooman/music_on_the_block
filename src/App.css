@@ -185,3 +185,9 @@ img {
   margin: 0 auto;
   padding: 88px 16px 100px;
 }
+
+@media screen and (max-width: 768px) {
+  .inner{
+    padding: 100px 16px 100px;
+  }
+}

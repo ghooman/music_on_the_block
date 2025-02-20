@@ -40,6 +40,7 @@ import audioUrl from "../assets/music/song01.mp3";
 // import { VoiceVisualizer } from 'react-voice-visualizer';
 import { useVoiceVisualizer, VoiceVisualizer } from "react-voice-visualizer";
 import MusicList from "./MusicList";
+import IntroLogo from "./IntroLogo";
 
 const Intro = ({ setIsLoggedIn }) => {
   const audioRef = useRef(null);
@@ -139,182 +140,225 @@ const Intro = ({ setIsLoggedIn }) => {
   //   }
   // };
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 2350); // 2.4초 후 실행
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, []);
+
+
+  
+
   return (
     <>
-      <div className="intro">
-        <div className="intro__inner">
-          <section className="intro__number">
-            <dl className="intro__number__title">
-              <dt>Number of users</dt>
-              <dd>110</dd>
-            </dl>
-            <dl className="intro__number__title">
-              <dt>Number of songs</dt>
-              <dd>127</dd>
-            </dl>
-            <dl className="intro__number__title">
-              <dt>Transition</dt>
-              <dd>159</dd>
-            </dl>
-          </section>
-
-          <section className="intro__slide-pc">
-            <article className="intro__slide-pc__left">
-              {/* <div className="intro__slide-pc__left__item">
-                <p className="intro__slide-pc__left__img">
-                  <img src={albumImg01}/>
-                </p>
-                <dl className="intro__slide-pc__left__title">
-                  <dt>he dances through his masks like breathing - Yolkhead </dt>
-                  <dd>
-                    Daft Punk
-                    <span>– 13 songs, 2013</span>
-                  </dd>
-                </dl>
-                <div className="intro__slide-pc__left__sound">
-                  사운드
-                </div>
-              </div> */}
-
-              {items.map(
-                (item, index) =>
-                  index === activeIndex && (
-                    <div
-                      key={index}
-                      className={`intro__slide-pc__left__item ${animationClass}`}
-                    >
-                      <p className="intro__slide-pc__left__img">
-                        <img
-                          src={item.img}
-                          alt={`${item.albumTitle} album cover`}
-                        />
-                      </p>
-                      <dl className="intro__slide-pc__left__title">
-                        <dt>{item.albumTitle}</dt>
-                        <dd>
-                          {item.artist}
-                          <span>– {item.info}</span>
-                        </dd>
-                      </dl>
-                      <div className="intro__slide-pc__left__sound">
-                        <MusicList />
+      <IntroLogo/>
+      {isVisible &&
+        <div className="intro">
+          <div className="intro__inner">
+            <section className="intro__number">
+              <dl className="intro__number__title">
+                <dt>Number of users</dt>
+                <dd><Counter targetNumber={110} /></dd>
+              </dl>
+              <dl className="intro__number__title">
+                <dt>Number of songs</dt>
+                <dd><Counter targetNumber={127} /></dd>
+              </dl>
+              <dl className="intro__number__title">
+                <dt>Transition</dt>
+                <dd><Counter targetNumber={159} /></dd>
+              </dl>
+            </section>
+  
+            <section className="intro__slide-pc">
+              <article className="intro__slide-pc__left">
+                {/* <div className="intro__slide-pc__left__item">
+                  <p className="intro__slide-pc__left__img">
+                    <img src={albumImg01}/>
+                  </p>
+                  <dl className="intro__slide-pc__left__title">
+                    <dt>he dances through his masks like breathing - Yolkhead </dt>
+                    <dd>
+                      Daft Punk
+                      <span>– 13 songs, 2013</span>
+                    </dd>
+                  </dl>
+                  <div className="intro__slide-pc__left__sound">
+                    사운드
+                  </div>
+                </div> */}
+  
+                {items.map(
+                  (item, index) =>
+                    index === activeIndex && (
+                      <div
+                        key={index}
+                        className={`intro__slide-pc__left__item ${animationClass}`}
+                      >
+                        <p className="intro__slide-pc__left__img">
+                          <img
+                            src={item.img}
+                            alt={`${item.albumTitle} album cover`}
+                          />
+                        </p>
+                        <dl className="intro__slide-pc__left__title">
+                          <dt>{item.albumTitle}</dt>
+                          <dd>
+                            {item.artist}
+                            <span>– {item.info}</span>
+                          </dd>
+                        </dl>
+                        <div className="intro__slide-pc__left__sound">
+                          <MusicList />
+                        </div>
                       </div>
-                    </div>
-                  )
-              )}
-            </article>
-            <article className="intro__slide-pc__right">
-              <Swiper
-                direction={"vertical"}
-                slidesPerView={3}
-                spaceBetween={16}
-                // centeredSlides={true}
-                loop={true}
-                // pagination={{
-                //   clickable: true,
-                // }}
-                // modules={[Pagination]}
-
-                // autoplay={{
-                //   delay: 5000,
-                //   disableOnInteraction: false,
-                //   pauseOnMouseEnter: true, // 마우스 오버 시 자동 재생 멈춤
-                //   enabled: true,
-                // }}
-                // modules={[Autoplay]}
-                onSlideChange={handleSlideChange}
-                className="intro-swiper"
-                speed={1000}
-              >
-                {items.map((item, index) => (
-                  // <SwiperSlide key={index}>
-                  //   <Link to="/dd">{item.tabTitle}</Link>
-                  // </SwiperSlide>
-                  <SwiperSlide key={item.tabTitle}>
-                    <Link to="/create">{item.tabTitle}</Link>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </article>
-          </section>
-
-          <section className="intro__slide-mobile">
-            <button className="intro__slide-mobile__create-btn">CREATE</button>
-            <vid className="intro__slide-mobile__tab">
-              <Link className="intro__slide-mobile__tab__item active" to="/ai">
-                AI Lyric & <br />
-                Songwriting
+                    )
+                )}
+              </article>
+              <article className="intro__slide-pc__right">
+                <Swiper
+                  direction={"vertical"}
+                  slidesPerView={3}
+                  spaceBetween={16}
+                  // centeredSlides={true}
+                  loop={true}
+                  // pagination={{
+                  //   clickable: true,
+                  // }}
+                  // modules={[Pagination]}
+  
+                  // autoplay={{
+                  //   delay: 5000,
+                  //   disableOnInteraction: false,
+                  //   pauseOnMouseEnter: true, // 마우스 오버 시 자동 재생 멈춤
+                  //   enabled: true,
+                  // }}
+                  // modules={[Autoplay]}
+                  onSlideChange={handleSlideChange}
+                  className="intro-swiper"
+                  speed={1000}
+                >
+                  {items.map((item, index) => (
+                    // <SwiperSlide key={index}>
+                    //   <Link to="/dd">{item.tabTitle}</Link>
+                    // </SwiperSlide>
+                    <SwiperSlide key={item.tabTitle}>
+                      <Link to="/create">{item.tabTitle}</Link>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </article>
+            </section>
+  
+            <section className="intro__slide-mobile">
+              <button className="intro__slide-mobile__create-btn">CREATE</button>
+              <vid className="intro__slide-mobile__tab">
+                <Link className="intro__slide-mobile__tab__item active" to="/ai">
+                  AI Lyric & <br />
+                  Songwriting
+                </Link>
+                <Link className="intro__slide-mobile__tab__item">
+                  AI Cover
+                  <br /> Creation
+                </Link>
+                <Link className="intro__slide-mobile__tab__item">
+                  AI Singing <br />
+                  Evaluation
+                </Link>
+              </vid>
+              <ul className="intro__slide-mobile__tab-list">
+                <li className="intro__slide-mobile__tab-list__item">
+                  <dl className="intro__slide-mobile__tab-list__item__title">
+                    <dt>he dances through his masks like breathing - Yolkhead</dt>
+                    <dd>
+                      Daft Punk
+                      <span>– 13 songs, 2024</span>
+                    </dd>
+                  </dl>
+                  <MusicList />
+                </li>
+              </ul>
+            </section>
+  
+            <section className="intro__album">
+              <ul className="intro__album__list">
+                <li className="intro__album__list__item">
+                  <img src={albumImg01} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg02} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg03} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg01} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg02} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg03} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg01} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg02} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg03} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg01} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg02} />
+                </li>
+                <li className="intro__album__list__item">
+                  <img src={albumImg03} />
+                </li>
+              </ul>
+              <Link to="/album" className="intro__album__btn">
+                ALBUM
               </Link>
-              <Link className="intro__slide-mobile__tab__item">
-                AI Cover
-                <br /> Creation
-              </Link>
-              <Link className="intro__slide-mobile__tab__item">
-                AI Singing <br />
-                Evaluation
-              </Link>
-            </vid>
-            <ul className="intro__slide-mobile__tab-list">
-              <li className="intro__slide-mobile__tab-list__item">
-                <dl className="intro__slide-mobile__tab-list__item__title">
-                  <dt>he dances through his masks like breathing - Yolkhead</dt>
-                  <dd>
-                    Daft Punk
-                    <span>– 13 songs, 2024</span>
-                  </dd>
-                </dl>
-                <MusicList />
-              </li>
-            </ul>
-          </section>
-
-          <section className="intro__album">
-            <ul className="intro__album__list">
-              <li className="intro__album__list__item">
-                <img src={albumImg01} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg02} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg03} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg01} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg02} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg03} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg01} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg02} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg03} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg01} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg02} />
-              </li>
-              <li className="intro__album__list__item">
-                <img src={albumImg03} />
-              </li>
-            </ul>
-            <Link to="/album" className="intro__album__btn">
-              ALBUM
-            </Link>
-          </section>
+            </section>
+          </div>
         </div>
-      </div>
+      }
+
     </>
   );
 };
 
 export default Intro;
+
+
+const Counter = ({ targetNumber }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1000; // 애니메이션 지속 시간 (2초)
+    const interval = 10; // 업데이트 간격 (20ms)
+    const step = targetNumber / (duration / interval);
+
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= targetNumber) {
+        setCount(targetNumber);
+        clearInterval(timer);
+      } else {
+        setCount(Math.ceil(start));
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [targetNumber]);
+
+  return <>{count.toLocaleString()}</>;
+};

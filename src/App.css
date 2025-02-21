@@ -100,8 +100,8 @@ body {
   text-decoration: none;
   color: #fff;
   box-sizing: border-box;
-  font-size: 16px;
-  font-family: 'Pretendard600';
+  font-size: 14px;
+  font-family: 'Orbitron500';
 }
 *:focus {
   outline: 0;
@@ -134,7 +134,7 @@ input {
   border-radius: 4px;
   border: 1px solid var(--Color-05, #565656);
   color: #fff;
-  font-family: Pretendard600;
+  font-family: 'Orbitron600';
   font-size: 12px;
   font-style: normal;
   line-height: normal;

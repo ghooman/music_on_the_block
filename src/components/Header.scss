@@ -55,6 +55,8 @@
   -webkit-appearence: none;
   -webkit-tap-highlight-color: transparent;
   svg {
+    will-change: transform;
+    backface-visibility: hidden;
       width: 64px;
       height: 48px;
       top: -6px;
@@ -157,6 +159,8 @@
         stroke-dasharray: 326px;
         animation: stroke 1s linear;
         animation-fill-mode: forwards;
+        // stroke:#CF0;
+
         &:nth-child(1) {
           animation-delay: 0s;
         }
@@ -232,6 +236,8 @@
             stroke-dashoffset: 0px;
         }
     }
+
+  
 
   }//h1--END--
 

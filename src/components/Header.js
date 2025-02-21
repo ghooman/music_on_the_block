@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 // import LogoHansung from "../assets/images/";
 import Album from "../pages/Album";
+import PreparingModal from './PreparingModal';
 
 //이미지
 import mainLogo from "../assets/images/header/logo.svg";
@@ -18,10 +19,11 @@ import Menu from "./Menu";
 import MyPage from "../pages/MyPage";
 
 const Header = ({ setIsLoggedIn }) => {
+  const [isPreparingModal, setPreparingModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
-    setIsActive(!isActive);
+    setIsActive((prev) => !prev);
   };
 
   return (
@@ -99,7 +101,14 @@ const Header = ({ setIsLoggedIn }) => {
         </div>
       </div>
 
-      <Menu active={isActive} />
+      <Menu 
+        active={isActive} 
+        setActive={setIsActive}
+        setPreparingModal={setPreparingModal}
+      />
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
 
       {/* <Routes>
         <Route path="/" element={<Album />} />

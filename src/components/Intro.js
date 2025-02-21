@@ -33,7 +33,9 @@ import albumImg01 from "../assets/images/intro/intro-demo-img.png";
 import albumImg02 from "../assets/images/intro/intro-demo-img2.png";
 import albumImg03 from "../assets/images/intro/intro-demo-img3.png";
 import audioUrl from "../assets/music/song01.mp3";
-
+import track1 from "../assets/music/song01.mp3";
+import track2 from "../assets/music/nisoft_song.mp3";
+import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
 // import AudioVisualizer from "./AudioVisualizer";
 // import VisualizeAudio from "./VisualizeAudio";
 
@@ -41,12 +43,13 @@ import audioUrl from "../assets/music/song01.mp3";
 import { useVoiceVisualizer, VoiceVisualizer } from "react-voice-visualizer";
 import MusicList from "./MusicList";
 import IntroLogo from "./IntroLogo";
+import PreparingModal from "./PreparingModal";
 
 const Intro = ({ setIsLoggedIn }) => {
   const audioRef = useRef(null);
 
   const [mediaRecorder, setMediaRecorder] = useState(true);
-
+  const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0); // 현재 활성화된 슬라이드 인덱스
   const [animationClass, setAnimationClass] = useState(""); // 애니메이션 클래스 관리
 
@@ -88,6 +91,7 @@ const Intro = ({ setIsLoggedIn }) => {
 
   const items = [
     {
+      id:1,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "13 songs, 2024",
@@ -95,6 +99,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg01,
     },
     {
+      id:2,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "14 songs, 2025",
@@ -102,6 +107,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg02,
     },
     {
+      id:3,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "15 songs, 2026",
@@ -109,6 +115,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg03,
     },
     {
+      id:4,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "13 songs, 2024",
@@ -116,6 +123,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg01,
     },
     {
+      id:5,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "14 songs, 2025",
@@ -123,6 +131,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg02,
     },
     {
+      id:6,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "15 songs, 2026",
@@ -243,11 +252,19 @@ const Intro = ({ setIsLoggedIn }) => {
                   speed={1000}
                 >
                   {items.map((item, index) => (
-                    // <SwiperSlide key={index}>
-                    //   <Link to="/dd">{item.tabTitle}</Link>
-                    // </SwiperSlide>
                     <SwiperSlide key={item.tabTitle}>
-                      <Link to="/create">{item.tabTitle}</Link>
+                      <Link 
+                        // to="/create"
+                        to={item.tabTitle === "AI Lyric & Songwriting" ? "/create" : "#"}
+                        onClick={(e) => {
+                          if (item.tabTitle !== "AI Lyric & Songwriting") {
+                            e.preventDefault(); // 기본 링크 이동 막기
+                            setPreparingModal(true); // 프리페어링 모달 열기
+                          }
+                        }}
+                      >
+                        {item.tabTitle}
+                      </Link>
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -255,21 +272,30 @@ const Intro = ({ setIsLoggedIn }) => {
             </section>
   
             <section className="intro__slide-mobile">
-              <button className="intro__slide-mobile__create-btn">CREATE</button>
-              <vid className="intro__slide-mobile__tab">
-                <Link className="intro__slide-mobile__tab__item active" to="/ai">
+              <Link 
+                to='/create'
+                className="intro__slide-mobile__create-btn"
+              >CREATE</Link>
+              <div className="intro__slide-mobile__tab">
+                <Link className="intro__slide-mobile__tab__item active">
                   AI Lyric & <br />
                   Songwriting
                 </Link>
-                <Link className="intro__slide-mobile__tab__item">
+                <Link 
+                  className="intro__slide-mobile__tab__item"
+                  onClick={()=>setPreparingModal(true)}
+                >
                   AI Cover
                   <br /> Creation
                 </Link>
-                <Link className="intro__slide-mobile__tab__item">
+                <Link 
+                  className="intro__slide-mobile__tab__item"
+                  onClick={()=>setPreparingModal(true)}
+                >
                   AI Singing <br />
                   Evaluation
                 </Link>
-              </vid>
+              </div>
               <ul className="intro__slide-mobile__tab-list">
                 <li className="intro__slide-mobile__tab-list__item">
                   <dl className="intro__slide-mobile__tab-list__item__title">
@@ -330,7 +356,9 @@ const Intro = ({ setIsLoggedIn }) => {
           </div>
         </div>
       }
-
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </>
   );
 };

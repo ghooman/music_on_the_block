@@ -32,6 +32,7 @@
     100% {
       opacity: 0;
       display: none;
+      z-index: -100;
     }
   }
   img{
@@ -83,6 +84,8 @@
 
 
   svg{
+      will-change: transform;
+      backface-visibility: hidden;
     text {
       font-family: Orbitron600;
       font-size: 46px;

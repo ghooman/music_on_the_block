@@ -29,6 +29,11 @@ function Layout({ children }) {
 }
 
 function App() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return (
     <div className="App">
       <title>MUSIC ON THE BLOCK</title>

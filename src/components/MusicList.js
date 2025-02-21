@@ -2,11 +2,12 @@ import React, { createRef, Component } from "react";
 import ReactWaves from "@dschoon/react-waves";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
+import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
 
 class MusicList extends Component {
   initialTracks = {
     tracks: [
-      { source: track1, title: "Zimt" },
+      { source: track3, title: "Zimt" },
       { source: track2, title: "Ingwer" },
     ],
   };
@@ -18,7 +19,7 @@ class MusicList extends Component {
       playing: false,
       mediaElt: null,
       tracks: [
-        { source: track1, title: "Zimt" },
+        { source: track3, title: "Zimt" },
         { source: track2, title: "Ingwer" },
       ],
       track: this.initialTracks.tracks[0],

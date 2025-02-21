@@ -10,6 +10,7 @@ import viewAllBackground from "../../assets/images/mypage/view-all-button.png";
 import Filter from "../unit/Filter";
 import AlbumsTable from "../unit/AlbumsTable";
 import FilterAiServiceModal from "../unit/FilterAiServiceModal";
+
 const Albums = () => {
   const [openModal, setOpenModal] = useState(false);
   const [modalList, setModalList] = useState([]);

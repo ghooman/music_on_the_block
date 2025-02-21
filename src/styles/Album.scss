@@ -166,6 +166,9 @@
   }
   .rhap_main-controls{
     margin-top: -26px;
+    button{
+      font-family: auto;
+    }
   }
   .rhap_progress-filled{
     background:#CF0 !important;
@@ -693,6 +696,7 @@
 
 @media screen and (max-width: 768px) {
   .album{
+    padding-top: 180px;
     .album__header{
       padding: 16px;
       gap: 0;
@@ -707,6 +711,7 @@
         .album__header__title{
           top: 16px;
           left: 16px;
+          width: calc(100% - 32px);
         }
       }
       .album__header__cover-info{

@@ -24,6 +24,7 @@ import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
+import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
 
 
 //스와이프
@@ -63,7 +64,7 @@ function Album() {
     {
       id: 2,
       title: 'Touch The Sky - Simon Doty',
-      src: track1,
+      src: track3,
       cover: coverImg2,
       duration: null,
     },
@@ -91,28 +92,28 @@ function Album() {
     {
       id: 6,
       title: 'Touch The Sky - Simon Doty',
-      src: track1,
+      src: track3,
       cover: coverImg6,
       duration: null,
     },
     {
       id: 7,
       title: 'Touch The Sky - Simon Doty',
-      src: track2,
+      src: track1,
       cover: coverImg7,
       duration: null,
     },
     {
       id: 8,
       title: 'Touch The Sky - Simon Doty',
-      src: track1,
+      src: track2,
       cover: coverImg8,
       duration: null,
     },
     {
       id: 9,
       title: 'Touch The Sky - Simon Doty',
-      src: track2,
+      src: track3,
       cover: coverImg9,
       duration: null,
     },
@@ -127,14 +128,14 @@ function Album() {
     {
       id: 11,
       title: 'Touch The Sky - Simon Doty',
-      src: track1,
+      src: track2,
       cover: coverImg8,
       duration: null,
     },
     {
       id: 12,
       title: 'Touch The Sky - Simon Doty',
-      src: track2,
+      src: track3,
       cover: coverImg7,
       duration: null,
     },
@@ -155,7 +156,7 @@ function Album() {
     {
       id: 15,
       title: 'Touch The Sky - Simon Doty',
-      src: track1,
+      src: track3,
       cover: coverImg6,
       duration: null,
     },
@@ -176,7 +177,7 @@ function Album() {
     {
       id: 18,
       title: 'Touch The Sky - Simon Doty',
-      src: track2,
+      src: track3,
       cover: coverImg9,
       duration: null,
     },

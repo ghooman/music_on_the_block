@@ -7,7 +7,7 @@ import levelIcon from "../assets/images/menu/level-icon.svg";
 import userImg from "../assets/images/intro/intro-demo-img2.png";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
 
-const Menu = ({ active }) => {
+const Menu = ({ active,setActive,setPreparingModal }) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
@@ -26,11 +26,20 @@ const Menu = ({ active }) => {
     setActiveSingle(activeSingle === menuName ? null : menuName);
     setActiveMenus([]); // 슬라이드 탭들 비활성화
     setActiveSubItem(null); // 하위 메뉴 초기화
+    setActive(false);
+    if (menuName !== "album" && menuName !== "my-page") {
+      setPreparingModal(true);
+    }    
   };
 
   // 하위 메뉴 아이템 클릭 시 활성화 (슬라이드 탭 안의 <li>)
   const handleSubItemClick = (subItemName) => {
     setActiveSubItem(subItemName);
+    setActive(false);
+  };
+
+  const closeMenu = () => {
+    setActive(false);
   };
 
   // const [isScrolled, setIsScrolled] = useState(false);
@@ -56,6 +65,7 @@ const Menu = ({ active }) => {
           <dl className="menu__box">
             <Link 
               to='/my-page'
+              onClick={() => handleSingleActive("my-page")}
               className="menu__box__title">My Pg</Link>
             <dd>
               <div className="menu__box__my-page">
@@ -119,17 +129,20 @@ const Menu = ({ active }) => {
                       className={activeSubItem === "ai-lyric" ? "active" : ""}
                       onClick={() => handleSubItemClick("ai-lyric")}
                     >
-                      <Link to="">AI Lyric & Songwriting</Link>
+                      <Link to="/create">AI Lyric & Songwriting</Link>
                     </li>
                     <li
                       className={activeSubItem === "ai-singing" ? "active" : ""}
-                      onClick={() => handleSubItemClick("ai-singing")}
+                      // onClick={() => handleSubItemClick("ai-singing")}
+                      onClick={()=>setPreparingModal(true)}
                     >
-                      <Link to="">AI Singing Evaluation</Link>
+                      <Link to=""
+                      >AI Singing Evaluation</Link>
                     </li>
                     <li
                       className={activeSubItem === "ai-cover" ? "active" : ""}
-                      onClick={() => handleSubItemClick("ai-cover")}
+                      // onClick={() => handleSubItemClick("ai-cover")}
+                      onClick={()=>setPreparingModal(true)}
                     >
                       <Link to="">AI Cover Creation</Link>
                     </li>
@@ -181,13 +194,15 @@ const Menu = ({ active }) => {
                   <ul className="menu__box__gnb-list__item__list">
                     <li
                       className={activeSubItem === "staking" ? "active" : ""}
-                      onClick={() => handleSubItemClick("staking")}
+                      // onClick={() => handleSubItemClick("staking")}
+                      onClick={()=>setPreparingModal(true)}
                     >
                       <Link to="">Staking</Link>
                     </li>
                     <li
                       className={activeSubItem === "governance" ? "active" : ""}
-                      onClick={() => handleSubItemClick("governance")}
+                      // onClick={() => handleSubItemClick("governance")}
+                      onClick={()=>setPreparingModal(true)}
                     >
                       <Link to="">Governance</Link>
                     </li>

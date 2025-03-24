@@ -359,9 +359,9 @@ function AlbumDetail() {
             </table>
           </div>
 
-          <button className="album-detail__filter-btn">
+          {/* <button className="album-detail__filter-btn">
             Filter
-          </button>
+          </button> */}
           <AdvancedCommentComponent/>
         </section>
 

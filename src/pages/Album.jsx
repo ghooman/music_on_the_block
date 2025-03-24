@@ -29,7 +29,7 @@ import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
 
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination } from 'swiper/modules';
+import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
 
 
 function Album() {
@@ -362,7 +362,11 @@ function Album() {
           pagination={{
             clickable: true,
           }}
-          modules={[Pagination]}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          modules={[Pagination,Autoplay]}
           className="swiper-music-list"
           onSlideChange={(swiper) => handleSlideChange(swiper)}
         >

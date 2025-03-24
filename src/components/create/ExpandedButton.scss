@@ -2,6 +2,13 @@
     position: relative;
     z-index: 2;
     box-sizing: border-box;
+    transition: 0.2s;
+    &:hover {
+        transform: translateY(4px);
+        .composition__expanded-buttons-after {
+            transform: translateY(-4px);
+        }
+    }
     &:disabled {
         color: #565656 !important;
         background-color: #000 !important;
@@ -10,6 +17,7 @@
 
     .composition__expanded-buttons-after {
         box-sizing: border-box;
+        transition: 0.2s;
         content: '';
         position: absolute;
         width: 100%;

@@ -5,16 +5,14 @@ import ExpandedButton from './ExpandedButton';
 
 import dummy_ai_artist from '../../assets/images/mypage/demo-user.png';
 
-import dummy_music from '../../assets/music/song01.mp3';
-
 import 'react-h5-audio-player/lib/styles.css';
 import './Finalize.scss';
 
-const Finalize = ({ children, albumCover, skipLyric, skipMelody, setCheckList }) => {
+const Finalize = ({ children, generatedMusic, skipLyric, skipMelody, setCheckList, generatedLyric }) => {
     return (
         <div className="craete__finalizes">
-            <MusicInfo albumCover={albumCover} skipMelody={skipMelody}></MusicInfo>
-            <CreatedLyrics skipLyric={skipLyric}></CreatedLyrics>
+            <MusicInfo generatedMusic={generatedMusic} skipMelody={skipMelody}></MusicInfo>
+            <CreatedLyrics skipLyric={skipLyric} generatedLyric={generatedLyric}></CreatedLyrics>
             <CheckList setCheckList={setCheckList}></CheckList>
             {children}
         </div>
@@ -23,7 +21,7 @@ const Finalize = ({ children, albumCover, skipLyric, skipMelody, setCheckList })
 
 export default Finalize;
 
-const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
+const MusicInfo = ({ generatedMusic, skipMelody }) => {
     const datas = [
         { title: 'Title', value: 'Winter Serenity' },
         {
@@ -46,14 +44,18 @@ const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
     return (
         <div className="music-info">
             <div style={{ width: '100%' }}>
-                <div className="music-info__image" style={{ backgroundImage: `url(${albumCover.image})` }}>
-                    <div className="music-info__image__feel-box">
+                <div className="music-info__image" style={{ backgroundImage: `url(${generatedMusic?.image_file})` }}>
+                    {/* <div className="music-info__image__feel-box">
                         {albumCover?.feel.map((item) => (
                             <ExpandedButton className="music-info__image__feel-item">{item}</ExpandedButton>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
-                {!skipMelody && <AudioPlayer src={dummy_music} />}
+                {/* {!skipMelody && <AudioPlayer src={generatedMusic?.audio_file} />} */}
+                {!skipMelody && <AudioPlayer src={generatedMusic?.audio_file} />}
+                {/* <AudioPlayer
+                    src={generatedMusic?.audio_file}
+                /> */}
             </div>
             <ul className="music-info__data">
                 {datas.map((item) => (
@@ -69,41 +71,20 @@ const MusicInfo = ({ albumCover, skipLyric, skipMelody }) => {
     );
 };
 
-const CreatedLyrics = ({ skipLyric }) => {
-    const lyrics = [
-        {
-            part: 'Verse1',
-            lyric: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s',
-        },
-        {
-            part: 'Chorus',
-            lyric: 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.',
-        },
-        {
-            part: 'Verse2',
-            lyric: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look",
-        },
-        {
-            part: 'Bridge',
-            lyric: 'All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. ',
-        },
-        {
-            part: 'Outro',
-            lyric: 'it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search',
-        },
-    ];
+const CreatedLyrics = ({ skipLyric, generatedLyric }) => {
     if (skipLyric) return null;
 
     return (
         <div className="created-lyrics">
             <p className="created-lyrics__title">AI-Generated</p>
             <div className="created-lyrics__items">
-                {lyrics.map((item, index) => (
+                {/* {lyrics.map((item, index) => (
                     <div className="created-lyrics__item">
                         <p className="created-lyrics__item--part">{item.part}</p>
                         <span className="created-lyrics__item--lyric">{item.lyric}</span>
                     </div>
-                ))}
+                ))} */}
+                <pre style={{ backgroundColor: 'transparent' }}>{generatedLyric}</pre>
             </div>
         </div>
     );

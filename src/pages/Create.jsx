@@ -12,6 +12,7 @@ import CreateCompleteModal from '../components/CreateCompleteModal';
 import SkipModal from '../components/SkipModal';
 
 import '../styles/Create.scss';
+import GeneratedMusic from '../components/create/GeneratedMusic';
 
 const Create = () => {
     const [pageNumber, setPageNumber] = useState(-1);
@@ -21,14 +22,22 @@ const Create = () => {
         lyric_style: [],
         lyric_stylistic: [],
     });
+    const [lyricStory, setLyricStory] = useState('');
+
     const [melodyData, setMelodyData] = useState({
         melody_tag: [],
         melody_genre: [],
         melody_style: [],
         melody_instrument: [],
     });
+    const [melodyStory, setMelodyStory] = useState('');
+
+    const [generatedLyric, setGeneratedLyric] = useState('');
+    const [generatedMusic, setGeneratedMusic] = useState({});
+
+    const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
+
     const [tempo, setTempo] = useState([90]);
-    const [albumCover, setAlbumCover] = useState(null);
     const [checkList, setCheckList] = useState(false);
 
     const [skipLyric, setSkipLyric] = useState(false);
@@ -58,7 +67,7 @@ const Create = () => {
             <Title />
             <Progress pageNumber={pageNumber} />
             <DescriptionBanner pageNumber={pageNumber} />
-            {pageNumber !== 3 && (
+            {pageNumber !== 2 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyric Lab">
                         <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
@@ -85,45 +94,36 @@ const Create = () => {
                 </div>
             )}
             {pageNumber === 0 && (
-                <LyricLab handler={setLyricData} value={lylicData}>
-                    <div className="button-wrap">
-                        <div className="button-wrap__left">
-                            <ExpandedButton className="skip" onClick={() => setSkip('lyric')}>
-                                Skip
-                            </ExpandedButton>
-                        </div>
-                        <ExpandedButton
-                            className="next"
-                            onClick={() => setPageNumber((prev) => prev + 1)}
-                            disabled={!Object.values(lylicData)?.every((value) => value.length > 0)}
-                        >
-                            Next
-                        </ExpandedButton>
-                    </div>
-                </LyricLab>
+                <LyricLab
+                    lylicData={lylicData}
+                    setLyricData={setLyricData}
+                    lyricStory={lyricStory}
+                    setLyricStory={setLyricStory}
+                    setLy
+                    generatedLyric={generatedLyric}
+                    setGeneratedLyric={setGeneratedLyric}
+                    onSkip={() => setSkip('lyric')}
+                    setPageNumber={setPageNumber}
+                ></LyricLab>
             )}
             {pageNumber === 1 && (
-                <MelodyMaker handler={setMelodyData} value={melodyData} tempo={tempo} setTempo={setTempo}>
-                    <div className="button-wrap">
-                        <div className="button-wrap__left">
-                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev + -1)}>
-                                Back
-                            </ExpandedButton>
-                            <ExpandedButton className="skip" onClick={() => setSkip('melody')}>
-                                Skip
-                            </ExpandedButton>
-                        </div>
-                        <ExpandedButton
-                            className="next"
-                            onClick={() => setPageNumber((prev) => prev + 1)}
-                            disabled={!Object.values(melodyData)?.every((value) => value.length > 0)}
-                        >
-                            Next
-                        </ExpandedButton>
-                    </div>
-                </MelodyMaker>
+                <MelodyMaker
+                    melodyData={melodyData}
+                    setMelodyData={setMelodyData}
+                    melodyStory={melodyStory}
+                    setMelodyStory={setMelodyStory}
+                    tempo={tempo}
+                    setTempo={setTempo}
+                    generatedLyric={generatedLyric}
+                    generatedMusic={generatedMusic}
+                    setGeneratedMusic={setGeneratedMusic}
+                    generatedMusicResult={generatedMusicResult}
+                    setGeneratedMusicResult={setGeneratedMusicResult}
+                    onSkip={() => setSkip('melody')}
+                    setPageNumber={setPageNumber}
+                ></MelodyMaker>
             )}
-            {pageNumber === 2 && (
+            {/* {pageNumber === 2 && (
                 <AlbumCoverSudio setAlbumCover={setAlbumCover}>
                     <div className="button-wrap">
                         <div className="button-wrap__left">
@@ -140,10 +140,11 @@ const Create = () => {
                         </ExpandedButton>
                     </div>
                 </AlbumCoverSudio>
-            )}
-            {pageNumber === 3 && (
+            )} */}
+            {pageNumber === 2 && (
                 <Finalize
-                    albumCover={albumCover}
+                    generatedMusic={generatedMusic}
+                    generatedLyric={generatedLyric}
                     lylicData={lylicData}
                     melodyData={melodyData}
                     skipLyric={skipLyric}
@@ -151,7 +152,9 @@ const Create = () => {
                     setCheckList={setCheckList}
                 >
                     <div className="button-wrap">
-                        <ExpandedButton onClick={() => setPageNumber((prev) => prev - 1)}>Back</ExpandedButton>
+                        <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev - 1)}>
+                            Back
+                        </ExpandedButton>
                         <ExpandedButton
                             className="next"
                             disabled={!checkList}

@@ -8,6 +8,9 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.8.4",
+    "jspdf": "^3.0.1",
+    "openai": "^4.89.0",
     "react": "^18.2.0",
     "react-audio-visualize": "^1.2.0",
     "react-comments-section": "^3.2.0",
@@ -19,6 +22,7 @@
     "react-voice-visualizer": "^2.0.4",
     "sass": "^1.66.1",
     "swiper": "^11.2.2",
+    "thirdweb": "^5.93.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

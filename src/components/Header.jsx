@@ -17,8 +17,11 @@ import PreparingModal from './PreparingModal';
 import mainLogo from "../assets/images/header/logo.svg";
 import Menu from "./Menu";
 import MyPage from "../pages/MyPage";
+import SignInModal from "./SignInModal";
 
 const Header = ({ setIsLoggedIn }) => {
+  const [isSignInModal, setSignInModal] = useState(false);
+  const [login, setLogin] = useState(false);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
@@ -105,11 +108,21 @@ const Header = ({ setIsLoggedIn }) => {
         active={isActive} 
         setActive={setIsActive}
         setPreparingModal={setPreparingModal}
+        setSignInModal={setSignInModal}
+        setLogin={setLogin}
+        login={login}
       />
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}
-
+      {isSignInModal &&
+        <SignInModal
+          setSignInModal={setSignInModal}
+          setLogin={setLogin}
+          login={login}
+        />
+      }
+      
       {/* <Routes>
         <Route path="/" element={<Album />} />
       </Routes> */}

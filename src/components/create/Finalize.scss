@@ -134,47 +134,34 @@
         font-size: 20px;
     }
     //////////////////////////////////////////////
-    .rhap_container {
-        background-color: transparent;
 
-        .rhap_play-pause-button {
+    .rhap_container{
+        margin-top: 16px;
+        background: #CF0;
+        border: 1px solid #CF0;
+        border-radius: 2px;
+        *{
+            color: #000;
+        }
+    }
+    .rhap_main-controls{
+        button{
+            font-family: math !important;
+        }
+    }
+    .rhap_volume-container{
+        &>div{
             position: relative;
-            top: -4px;
-            svg {
-                transform: scale(1.8);
-            }
+            top: 7px;
         }
-        .rhap_controls-section {
-            flex-direction: column;
-        }
-        .rhap_additional-controls {
-            display: none;
-        }
-        .rhap_volume-controls {
-            width: 100%;
-            max-width: 450px;
-        }
-        .rhap_volume-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-        }
-        .rhap_progress-indicator {
-            width: 10px;
-            background-color: #cf0;
-        }
-        .rhap_volume-button {
-            position: relative;
-            top: -3px;
-        }
-        .rhap_volume-indicator {
-            width: 8px;
-            height: 16px;
-            top: -6px;
-            background-color: #dddddd;
-            opacity: 1;
-            box-shadow: -4px 0px 4px 0px rgba(53, 54, 51, 0.6);
-        }
+    }
+    .rhap_progress-indicator{
+        background: #000 !important;
+        width: 10px;
+    }
+    .rhap_volume-indicator{
+        background: #000;
+        width: 8px;
     }
 }
 

@@ -1,0 +1,30 @@
+.sign-modal {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .sign-modal__item {
+      border-radius: 4px;
+      background: #383838;
+      transition: 0.3s;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 48px;
+      img{
+        width: 20px;
+        height: 20px;
+        object-fit: cover;
+      }
+      &:hover {
+        border: 1px solid var(--Purple-01, #CF0);
+      }
+      // &:nth-child(3) {
+      //   justify-content: unset;
+      // }
+    } //sign-modal__item--END--
+  } //sign-modal--END--
+  

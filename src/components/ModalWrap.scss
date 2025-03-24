@@ -15,14 +15,14 @@
     width: 100%;
     background-color: #222;
     border-radius: 4px;
-    border: 1px solid var(--Color-05, #565656);
+    border: 1px solid var(--Color-05, #222);
     background: var(--Color-02, #1a1a1a);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.4);
     .modal-header {
       padding: 17px;
       text-align: center;
       position: relative;
-      border-bottom: 1px solid var(--Color-04, #383838);
+      border-bottom: 1px solid var(--Color-04, #222);
     }
     .modal-close {
       position: absolute;

@@ -1,2 +1,91 @@
 .create__melody-maker {
 }
+
+
+.music-response{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.music-response-item{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    // padding:0 0px 16px 0px;
+    border-radius: 2px;
+    border: 2px solid #2d2d2d;
+    &.active{
+        border: 2px solid #CF0;
+        // background: #;
+        // background: #3c3c3c;
+    }
+    img{
+        width: 100%;
+        max-height: 340px;
+        object-fit: cover;
+    }
+    .music-info{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+        padding: 16px;
+        h3{
+            font-size: 14px;
+            // padding: 16px 0 0 0;
+            color: #CF0;
+        }
+        .rhap_container{
+            background: #CF0;
+            border: 1px solid #CF0;
+            border-radius: 2px;
+            *{
+                color: #000;
+            }
+        }
+        .rhap_main-controls{
+            button{
+                font-family: math !important;
+            }
+        }
+        .rhap_volume-container{
+            &>div{
+                position: relative;
+                top: 7px;
+            }
+        }
+        .rhap_progress-indicator{
+            background: #000 !important;
+            width: 10px;
+        }
+        .rhap_volume-indicator{
+            background: #000;
+            width: 8px;
+        }
+    }//music-info--END--
+}//music-response-item--END--
+
+
+.selected-tag-list{
+    pre{
+        background: transparent;
+        line-height: 1.4;
+    }
+}//selected-tag-list--END--
+
+.lyrics-box{
+    padding: 16px 0;
+    background: transparent;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .music-response{
+        flex-direction: column;
+    }//music-response--END--
+}

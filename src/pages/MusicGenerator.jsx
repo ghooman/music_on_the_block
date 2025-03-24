@@ -67,12 +67,16 @@ const MusicGenerator = () => {
     setResponseData(null);
     console.log("handleSubmit 보내는 데이터", formData);
     try {
-      const res = await axios.post("/v1/music", formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키를 추가하세요.
-        },
-      });
+      const res = await axios.post(
+        "https://api.topmediai.com/v1/music",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키를 추가하세요.
+          },
+        }
+      );
       setResponseData(res.data);
       console.log("handleSubmit", res.data);
     } catch (err) {

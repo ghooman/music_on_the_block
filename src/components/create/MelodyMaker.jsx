@@ -14,7 +14,7 @@ import subBg1 from "../../assets/images/create/subbanner-bg1.png";
 import subBg2 from "../../assets/images/create/subbanner-bg2.png";
 
 import "./MelodyMaker.scss";
-import AudioPlayer from 'react-h5-audio-player';
+import AudioPlayer from "react-h5-audio-player";
 import CreateLoading from "../CreateLoading";
 
 const tagPreset = {
@@ -85,12 +85,16 @@ const MelodyMaker = ({
   const musicGenerate = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("/v1/music", formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키를 추가하세요.
-        },
-      });
+      const res = await axios.post(
+        "https://api.topmediai.com/v1/music",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키를 추가하세요.
+          },
+        }
+      );
       setGeneratedMusicResult(res.data.data);
       console.log("handleSubmit", res.data.data);
     } catch (err) {
@@ -157,9 +161,7 @@ const MelodyMaker = ({
               </span>
             </div>
             <div className="selected-tag-list__tags">
-              <pre>
-                {promptPreview}
-              </pre>
+              <pre>{promptPreview}</pre>
             </div>
           </div>
         </SelectItemWrap>
@@ -193,7 +195,7 @@ const MelodyMaker = ({
             {loading ? "Loading" : "Generate"}
           </ExpandedButton>
         </div>
-        {loading && <CreateLoading textTrue/>}
+        {loading && <CreateLoading textTrue />}
       </div>
     );
   else if (generatedMusicResult)
@@ -203,11 +205,13 @@ const MelodyMaker = ({
         <div className="music-response">
           {generatedMusicResult &&
             generatedMusicResult.map((item) => (
-                <div
-                  className={`music-response-item ${item.item_uuid === selectMusic?.item_uuid ? "active" : ""}`}
-                  key={item.item_uuid}
-                  onClick={() => setSelectMusic(item)}
-                >
+              <div
+                className={`music-response-item ${
+                  item.item_uuid === selectMusic?.item_uuid ? "active" : ""
+                }`}
+                key={item.item_uuid}
+                onClick={() => setSelectMusic(item)}
+              >
                 <img src={item.image_file} alt={item.title} />
                 <div className="music-info">
                   <h3>{item.title}</h3>
@@ -218,16 +222,12 @@ const MelodyMaker = ({
                     <source src={item.audio_file} type="audio/mpeg" />
                     Your browser does not support the audio element.
                   </audio> */}
-                  <AudioPlayer
-                    src={item.audio_file}
-                  />
+                  <AudioPlayer src={item.audio_file} />
                 </div>
               </div>
             ))}
         </div>
-        <pre className="lyrics-box" >
-          {generatedMusicResult?.[0]?.lyric}
-        </pre>
+        <pre className="lyrics-box">{generatedMusicResult?.[0]?.lyric}</pre>
         {/* <pre>{JSON.stringify(generatedResult, null, 2)}</pre> */}
         <div className="button-wrap">
           <div className="button-wrap__left">
@@ -247,7 +247,7 @@ const MelodyMaker = ({
             onClick={() => {
               setGeneratedMusic(selectMusic);
               setPageNumber((prev) => prev + 1);
-              window.scrollTo({ top: 0, behavior: "smooth" }); 
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             disabled={!selectMusic}
           >

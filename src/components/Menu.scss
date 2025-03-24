@@ -104,6 +104,21 @@
       }
     }//menu__box__title--END--
     dd{
+      .menu__box__login-btn{
+        width: 100%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--Text-dark-title, #1A1A1A);
+        font-family: Orbitron600;
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        border-radius: 12px;
+        background: var(--secondary-base, #00FFB3);
+        position: relative;
+      }//menu__box__login-btn--END--
       .menu__box__my-page{
         width: 100%;
         display: flex;

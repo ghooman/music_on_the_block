@@ -27,7 +27,17 @@
         background-color: #cf0;
         color: #1a1a1a;
         font-family: orbitron600;
-        letter-spacing: 0.48px;
+        border-radius: 12px;
+    }
+    a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        width: 100%;
+        background-color: #cf0;
+        color: #1a1a1a;
+        font-family: orbitron600;
         border-radius: 12px;
     }
 }

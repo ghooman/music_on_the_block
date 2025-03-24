@@ -6,8 +6,16 @@ import { Link } from "react-router-dom";
 import levelIcon from "../assets/images/menu/level-icon.svg";
 import userImg from "../assets/images/intro/intro-demo-img2.png";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
+import { WalletConnect } from "./WalletConnect";
 
-const Menu = ({ active,setActive,setPreparingModal }) => {
+const Menu = ({
+  active,
+  setActive,
+  setPreparingModal,
+  login,
+  setSignInModal,
+  setLogin,
+}) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
@@ -29,7 +37,7 @@ const Menu = ({ active,setActive,setPreparingModal }) => {
     setActive(false);
     if (menuName !== "album" && menuName !== "my-page") {
       setPreparingModal(true);
-    }    
+    }
   };
 
   // 하위 메뉴 아이템 클릭 시 활성화 (슬라이드 탭 안의 <li>)
@@ -63,48 +71,69 @@ const Menu = ({ active,setActive,setPreparingModal }) => {
       <div className={`menu ${active ? "active" : ""}`}>
         <div className="menu__cover">
           <dl className="menu__box">
-            <Link 
-              to='/my-page'
+            <Link
+              to="/my-page"
               onClick={() => handleSingleActive("my-page")}
-              className="menu__box__title">My Pg</Link>
+              className="menu__box__title"
+            >
+              My Pg
+            </Link>
             <dd>
-              <div className="menu__box__my-page">
-                <div className="menu__box__my-page__level">
-                  <p className="menu__box__my-page__level__img">
-                    <img src={levelIcon} alt="level icon" />
-                  </p>
-                  <p className="number">10</p>
-                  <p className="level">Level</p>
-                </div>
-                <div className="menu__box__my-page__info">
-                  <div className="menu__box__my-page__info__top">
-                    <p
-                      className="menu__box__my-page__info__top__img"
-                      style={{ backgroundImage: `url(${userImg})` }}
-                    ></p>
-                    <dl className="menu__box__my-page__info__top__txt">
-                      <dt>
-                        0xF2D...45
-                        <button>
-                          <img src={copyIcon} alt="copy icon" />
-                        </button>
-                      </dt>
-                      <dd>Yolkhead_12142</dd>
-                    </dl>
-                  </div>
-                  <div className="menu__box__my-page__info__bottom">
-                    <div className="menu__box__my-page__info__bottom__box">
-                      <p>100</p>
-                      <span>MOB</span>
+              {!login && (
+                <button
+                  className="menu__box__login-btn"
+                  onClick={() => setSignInModal(true)}
+                >
+                  Log In
+                </button>
+              )}
+              <WalletConnect />
+              {login && (
+                <>
+                  <div className="menu__box__my-page">
+                    <div className="menu__box__my-page__level">
+                      <p className="menu__box__my-page__level__img">
+                        <img src={levelIcon} alt="level icon" />
+                      </p>
+                      <p className="number">10</p>
+                      <p className="level">Level</p>
                     </div>
-                    <div className="menu__box__my-page__info__bottom__box">
-                      <p>45,345</p>
-                      <span>EXP</span>
+                    <div className="menu__box__my-page__info">
+                      <div className="menu__box__my-page__info__top">
+                        <p
+                          className="menu__box__my-page__info__top__img"
+                          style={{ backgroundImage: `url(${userImg})` }}
+                        ></p>
+                        <dl className="menu__box__my-page__info__top__txt">
+                          <dt>
+                            0xF2D...45
+                            <button>
+                              <img src={copyIcon} alt="copy icon" />
+                            </button>
+                          </dt>
+                          <dd>Yolkhead_12142</dd>
+                        </dl>
+                      </div>
+                      <div className="menu__box__my-page__info__bottom">
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>100</p>
+                          <span>MOB</span>
+                        </div>
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>45,345</p>
+                          <span>EXP</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <button className="menu__box__log-out-btn">Log Out</button>
+                  <button
+                    className="menu__box__log-out-btn"
+                    onClick={() => setLogin(false)}
+                  >
+                    Log Out
+                  </button>
+                </>
+              )}
             </dd>
           </dl>
 
@@ -134,15 +163,14 @@ const Menu = ({ active,setActive,setPreparingModal }) => {
                     <li
                       className={activeSubItem === "ai-singing" ? "active" : ""}
                       // onClick={() => handleSubItemClick("ai-singing")}
-                      onClick={()=>setPreparingModal(true)}
+                      onClick={() => setPreparingModal(true)}
                     >
-                      <Link to=""
-                      >AI Singing Evaluation</Link>
+                      <Link to="">AI Singing Evaluation</Link>
                     </li>
                     <li
                       className={activeSubItem === "ai-cover" ? "active" : ""}
                       // onClick={() => handleSubItemClick("ai-cover")}
-                      onClick={()=>setPreparingModal(true)}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <Link to="">AI Cover Creation</Link>
                     </li>
@@ -156,8 +184,8 @@ const Menu = ({ active,setActive,setPreparingModal }) => {
                   }`}
                 >
                   <Link
-                    to='/album'
-                    className="menu__box__gnb-list__item__btn" 
+                    to="/album"
+                    className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("album")}
                   >
                     <p className="icon"></p>Albums
@@ -195,14 +223,14 @@ const Menu = ({ active,setActive,setPreparingModal }) => {
                     <li
                       className={activeSubItem === "staking" ? "active" : ""}
                       // onClick={() => handleSubItemClick("staking")}
-                      onClick={()=>setPreparingModal(true)}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <Link to="">Staking</Link>
                     </li>
                     <li
                       className={activeSubItem === "governance" ? "active" : ""}
                       // onClick={() => handleSubItemClick("governance")}
-                      onClick={()=>setPreparingModal(true)}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <Link to="">Governance</Link>
                     </li>

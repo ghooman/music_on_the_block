@@ -28,7 +28,7 @@
     .progress {
         display: flex;
         align-items: center;
-        
+
         .progress__item {
             display: flex;
             flex-direction: column;
@@ -92,7 +92,7 @@
     }
 
     .selected-wrap {
-        padding: 12px;
+        padding: 16px;
         border-radius: 18px;
         border: 1px solid #222;
         .wrap-title {
@@ -296,46 +296,45 @@
         .progress {
             justify-content: space-between;
             gap: 16px;
-            .progress__text{
+            .progress__text {
                 font-size: 12px;
             }
             .progress__arrow {
                 display: none;
             }
         }
-        
     }
-    .create__description-banner{
-        .desc-banner__strong{
+    .create__description-banner {
+        .desc-banner__strong {
             font-size: 28px;
             line-height: 1.2;
         }
-        .desc-banner__notice{
+        .desc-banner__notice {
             font-size: 14px;
         }
-        .desc-banner__tip-box{
+        .desc-banner__tip-box {
             flex-direction: column;
             align-items: start;
         }
     }
-    .create__select-components{
-        .tag-select{
-            .tag-input-box{
+    .create__select-components {
+        .tag-select {
+            .tag-input-box {
                 position: static;
                 display: flex;
                 align-items: center;
                 gap: 16px;
-                &.two{
+                &.two {
                     flex-direction: column;
-                    .tag-input-comment-button{
+                    .tag-input-comment-button {
                         // margin-left: 0;
                     }
                 }
-                .tag-input-comment-button-wrap{
+                .tag-input-comment-button-wrap {
                     position: static;
                     transform: translate(0);
                     // margin: 16px 0 8px auto;
-                    .tag-input-comment-button{
+                    .tag-input-comment-button {
                         margin-left: auto;
                         width: 80px;
                     }
@@ -343,18 +342,16 @@
             }
         }
     }
-    .music_create{
-        .button-wrap{
+    .music_create {
+        .button-wrap {
             flex-direction: column;
         }
-        .check-list__items--title{
+        .check-list__items--title {
             font-size: 14px;
         }
-        .check-list__items--desc{
+        .check-list__items--desc {
             font-size: 12px;
             line-height: 1;
         }
     }
 }
-
-

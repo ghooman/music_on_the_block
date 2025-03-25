@@ -31,20 +31,28 @@ import MyPage from "../pages/MyPage";
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
+import PreparingModal from "./PreparingModal";
 
 const Footer = ({ setIsLoggedIn }) => {
   
   const [transactions, setTransactions] = useState([]);
+  const [isPreparingModal, setPreparingModal] = useState(false);
 
   useEffect(() => {
     // 더미 데이터 설정
     const dummyData = [
-      { id: 1, coin: "baseCoin", hash: "0xeC9123456789b354", method: "Transfer", block: "#57,773,712", coinLogo: baseCoin,},
-      { id: 2, coin: "polygonCoin", hash: "0xaB1234567890cdef", method: "Transfer", block: "#57,773,713", coinLogo: polygonCoin, },
-      { id: 3, coin: "opBNBCoin", hash: "0xcdE987654321abcd", method: "Transfer", block: "#57,773,714", coinLogo: opBNBCoin, },
-      { id: 4, coin: "baseCoin", hash: "0xffA567890123bcde", method: "Transfer", block: "#57,773,715", coinLogo: baseCoin, },
-      { id: 5, coin: "polygonCoin", hash: "0x123abcdef9876543", method: "Transfer", block: "#57,773,716", coinLogo: polygonCoin, },
-      { id: 6, coin: "opBNBCoin", hash: "0x7fA0123456bc789d", method: "Transfer", block: "#57,773,717", coinLogo: opBNBCoin, },
+      // { id: 1, coin: "baseCoin", hash: "0xeC9123456789b354", method: "Transfer", block: "#57,773,712", coinLogo: baseCoin,},
+      // { id: 2, coin: "polygonCoin", hash: "0xaB1234567890cdef", method: "Transfer", block: "#57,773,713", coinLogo: polygonCoin, },
+      // { id: 3, coin: "opBNBCoin", hash: "0xcdE987654321abcd", method: "Transfer", block: "#57,773,714", coinLogo: opBNBCoin, },
+      // { id: 4, coin: "baseCoin", hash: "0xffA567890123bcde", method: "Transfer", block: "#57,773,715", coinLogo: baseCoin, },
+      // { id: 5, coin: "polygonCoin", hash: "0x123abcdef9876543", method: "Transfer", block: "#57,773,716", coinLogo: polygonCoin, },
+      // { id: 6, coin: "opBNBCoin", hash: "0x7fA0123456bc789d", method: "Transfer", block: "#57,773,717", coinLogo: opBNBCoin, },
+      { id: 1, coin: "polygonCoin", hash: "0xeC9123456789b354", method: "Transfer", block: "#57,773,712", coinLogo: polygonCoin,},
+      { id: 2, coin: "polygonCoin", hash: "0xaB1234567890cdef", method: "Transfer", block: "#18,542,124", coinLogo: polygonCoin, },
+      { id: 3, coin: "polygonCoin", hash: "0xcdE987654321abcd", method: "Transfer", block: "#65,845,542", coinLogo: polygonCoin, },
+      { id: 4, coin: "polygonCoin", hash: "0xffA567890123bcde", method: "Transfer", block: "#48,383,545", coinLogo: polygonCoin, },
+      { id: 5, coin: "polygonCoin", hash: "0x123abcdef9876543", method: "Transfer", block: "#65,124,356", coinLogo: polygonCoin, },
+      { id: 6, coin: "polygonCoin", hash: "0x7fA0123456bc789d", method: "Transfer", block: "#17,125,458", coinLogo: polygonCoin, },
     ];
     setTransactions(dummyData);
   }, []);
@@ -70,7 +78,9 @@ const Footer = ({ setIsLoggedIn }) => {
           <section className="footer__top">
             <article className="footer__top__left">
               <img className="footer__top__left__logo" src={logo}/>
-              <ul className="footer__top__left__sns">
+              <ul className="footer__top__left__sns"
+                onClick={()=>setPreparingModal(true)}
+              >
                 <li>
                   <Link>
                     <img src={sns01}/>
@@ -124,20 +134,50 @@ const Footer = ({ setIsLoggedIn }) => {
               <div className="footer__top__right__menu">
                 <dl>
                   <dt>AI Service</dt>
-                  <dd><Link>AI Singing Evaluation</Link></dd>
-                  <dd><Link>AI Lyric & Songwriting</Link></dd>
-                  <dd><Link>AI Cover Creation</Link></dd>
+                  <dd>
+                    <Link
+                      to='/create'
+                    >AI Lyric & Songwriting</Link>
+                  </dd>
+                  <dd>
+                    <Link
+                      onClick={()=>setPreparingModal(true)}
+                    >AI Singing Evaluation</Link>
+                  </dd>
+                  <dd>
+                    <Link
+                      onClick={()=>setPreparingModal(true)}
+                    >AI Cover Creation</Link>
+                  </dd>
                 </dl>
                 <dl>
-                  <dt>Albums</dt>
+                  <dt>Album</dt>
+                  <dd>
+                    <Link
+                      to="/album"
+                    >Album</Link>
+                  </dd>
                 </dl>
                 <dl>
                   <dt>Shop</dt>
+                  <dd>
+                    <Link
+                      onClick={()=>setPreparingModal(true)}
+                    >Shop</Link>
+                  </dd>
                 </dl>
                 <dl>
                   <dt>Earn</dt>
-                  <dd><Link>Staking</Link></dd>
-                  <dd><Link>Governance</Link></dd>
+                  <dd>
+                    <Link
+                      onClick={()=>setPreparingModal(true)}
+                    >Staking</Link>
+                  </dd>
+                  <dd>
+                    <Link
+                      onClick={()=>setPreparingModal(true)}
+                    >Governance</Link>
+                  </dd>
                 </dl>
 
               </div>
@@ -213,6 +253,9 @@ const Footer = ({ setIsLoggedIn }) => {
           </section>
         </div>
       </div>
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </>
   );
 };

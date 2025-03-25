@@ -137,11 +137,11 @@ export const SelectItem = ({
 
       <div className="tag-title__block">
         <h3 className="tag-title">{mainTitle}</h3>
-        <p className="tag-title__notice">
+        {/* <p className="tag-title__notice">
           {multiple
             ? "You can enter up to 5 keywords"
             : " You can select only one option"}
-        </p>
+        </p> */}
       </div>
       <h4 className="tag-sub-title">{subTitle}</h4>
       <div className="tag-preset">
@@ -292,7 +292,7 @@ export const SelectItemStory = ({ value, setter }) => {
     <div className="tag-select">
       <div className="tag-title__block">
         <h3 className="tag-title">Your Story</h3>
-        <p className="tag-title__notice">You can enter up to 100 words</p>
+        {/* <p className="tag-title__notice">You can enter up to 100 words</p> */}
       </div>
       <textarea
         className="tag-input"

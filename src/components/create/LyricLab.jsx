@@ -45,6 +45,8 @@ const client = new OpenAI({
 });
 
 const LyricLab = ({
+  selectedLanguage,
+  setSelectedLanguage,
   setLyricData,
   lylicData,
   generatedLyric,
@@ -62,7 +64,7 @@ const LyricLab = ({
   const [loading, setLoading] = useState(false);
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
   const [mode, setMode] = useState("read");
-  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+
   const instructions = `// system-prompt-example.txt
 
   You are a professional songwriter and lyricist. 
@@ -242,10 +244,19 @@ const LyricLab = ({
             </ExpandedButton>
           </div>
           <ExpandedButton
-            className="next"
-            onClick={() => callGPT4oResponses()}
+            // className="next"
+            // lylicData 에 값이 하나라도있으면 disabled를 해제한다.
+            className={
+              !Object.values(lylicData)?.every((values) => values.length > 0) ||
+              loading
+                ? "next"
+                : "next enable"
+            }
+            onClick={() => {
+              callGPT4oResponses();
+            }}
             disabled={
-              // !Object.values(lylicData)?.every((values) => values.length > 0) ||
+              !Object.values(lylicData)?.every((values) => values.length > 0) ||
               loading
             }
           >

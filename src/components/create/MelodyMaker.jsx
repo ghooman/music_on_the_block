@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import SubBanner from "./SubBanner";
@@ -60,6 +60,8 @@ const MelodyMaker = ({
   SelectedWrap,
   SelectedItem,
   isMelodyPage,
+  selectedLanguage,
+  setSelectedLanguage,
 }) => {
   const { melody_tag, melody_genre, melody_style, melody_instrument } =
     melodyData || {};
@@ -67,6 +69,7 @@ const MelodyMaker = ({
   const [loading, setLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
   const promptPreview = `
+      Language: ${selectedLanguage},
       Tags : ${melody_tag ? melody_tag.join(", ") : ""}
       Genre : ${melody_genre?.[0] ? melody_genre?.[0] : ""}
       Style : ${melody_style?.[0] ? melody_style?.[0] : ""}
@@ -85,6 +88,7 @@ const MelodyMaker = ({
   console.log("노래 생성 데이터", formData.prompt);
   console.log("노래 생성 데이터 길이", formData.prompt.length);
 
+  // 기존 코드: 노래 생성 요청
   const musicGenerate = async () => {
     try {
       setLoading(true);
@@ -94,8 +98,9 @@ const MelodyMaker = ({
         {
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키를 추가하세요.
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
           },
+          withCredentials: true, // Access-Control-Allow-Credentials가 true인 경우 추가
         }
       );
       setGeneratedMusicResult(res.data.data);
@@ -107,7 +112,6 @@ const MelodyMaker = ({
       setLoading(false);
     }
   };
-  
   useEffect(() => {
     if (generatedMusicResult) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -123,7 +127,10 @@ const MelodyMaker = ({
           <SubBanner.Message text="Quickly import shared details from the Lyric Section, such as Tags, Genre, and Style. Save time by reusing your inputs!"></SubBanner.Message>
           <SubBanner.Button title="Load Details"></SubBanner.Button>
         </SubBanner>
-        <SelectItemWrap>
+        <SelectItemWrap
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+        >
           <SelectItem
             mainTitle="Select a Tags"
             subTitle="Popular Tags"
@@ -161,10 +168,10 @@ const MelodyMaker = ({
           <SelectItemStory value={melodyStory} setter={setMelodyStory} />
           <div className="selected-tag-list">
             <div className="selected-tag-list__title">
-              <h3>Selected Tags (max_length : 150)</h3>
+              <h3>Selected Tags (max_length : 200)</h3>
               <span>
                 current length :
-                <span style={{ color: promptPreview?.length > 150 && "red" }}>
+                <span style={{ color: promptPreview?.length > 200 && "red" }}>
                   {promptPreview?.length}
                 </span>
               </span>
@@ -181,9 +188,13 @@ const MelodyMaker = ({
           <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections."></SubBanner.SubMessage>
         </SubBanner>
 
-        {isMelodyPage  && (
+        {isMelodyPage && (
           <SelectedWrap title="Melody Maker">
-            <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
+            <SelectedItem
+              title="Tags"
+              value={melodyData?.melody_tag}
+              multiple
+            />
             <SelectedItem title="Genre" value={melodyData?.melody_genre} />
             <SelectedItem title="Style" value={melodyData?.melody_style} />
             <SelectedItem
@@ -217,7 +228,7 @@ const MelodyMaker = ({
             onClick={() => musicGenerate()}
             disabled={
               // !Object.values(melodyData)?.every((values) => values.length > 0) ||
-              loading || promptPreview.length > 150
+              loading || promptPreview.length > 200
             }
           >
             {loading ? "Loading" : "Generate"}

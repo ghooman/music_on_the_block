@@ -33,6 +33,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
 
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
+import ShareModal from "../components/ShareModal";
 
 
 function AlbumDetail() {
@@ -235,6 +236,13 @@ function AlbumDetail() {
     },
   };
   
+  const [isActive, setIsActive] = useState(false);
+  const [isShareModal, setShareModal] = useState(false);
+
+  const handleClick = () => {
+    setIsActive(prev => !prev);
+  };
+
   return (
     <>
       <div className="album-detail">
@@ -246,18 +254,63 @@ function AlbumDetail() {
           <p className="album-detail__song-detail__title">Song Detail</p>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
-              <p className="album-detail__song-detail__left__img">
+            <div 
+              className={`album-detail__song-detail__left__img ${isActive ? "active" : ""}`} 
+              onClick={handleClick}
+            >
                 <img src={coverImg}/>
-              </p>
+                <div className="album-detail__song-detail__left__img__txt">
+                  <pre>
+                    In the quiet of the night  
+                    When the stars are shining bright  
+                    I hear the whisper of your name  
+                    Like a soft and gentle flame  
+                    <br/>
+                    <br/>
+                    Every memory comes alive  
+                    In the corners of my mind  
+                    Though you're far, you're still so near  
+                    In my heart, you're always here  
+                    <br/>
+                    <br/>
+                    In the quiet of the night  
+                    When the stars are shining bright  
+                    I hear the whisper of your name  
+                    Like a soft and gentle flame  
+                    <br/>
+                    <br/>
+                    Every memory comes alive  
+                    In the corners of my mind  
+                    Though you're far, you're still so near  
+                    In my heart, you're always here  
+                    <br/>
+                    <br/>
+                    In the quiet of the night  
+                    When the stars are shining bright  
+                    I hear the whisper of your name  
+                    Like a soft and gentle flame  
+                    <br/>
+                    <br/>
+                    Every memory comes alive  
+                    In the corners of my mind  
+                    Though you're far, you're still so near  
+                    In my heart, you're always here  
+                  </pre>
+                </div>
+              </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
                   <button className="love"><img src={loveIcon}/>145</button>
-                  <button className="play"><img src={playIcon}/>125K</button>
+                  {/* <button className="play"><img src={playIcon}/>125K</button> */}
                   <button className="play"><img src={commentIcon}/>125K</button>
+                  <button 
+                    className="album-detail__song-detail__left__info__share-btn"
+                    onClick={()=>setShareModal(true)}
+                  >
+                    <img src={shareIcon}/>
+                  </button>
                 </div>
-                <button className="album-detail__song-detail__left__info__share-btn">
-                  <img src={shareIcon}/>
-                </button>
+                <button className="play"><img src={playIcon}/>125K</button>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -476,9 +529,13 @@ function AlbumDetail() {
             </Swiper>
           </div>
         </section>
-
-
       </div>
+      {isShareModal && 
+        <ShareModal
+          setShareModal={setShareModal}
+        />
+      }
+      
     </>
   );
 }

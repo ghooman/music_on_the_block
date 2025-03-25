@@ -53,6 +53,10 @@ const LyricLab = ({
   setPageNumber,
   lyricStory,
   setLyricStory,
+  melodyData,
+  tempo,  
+  SelectedWrap,
+  SelectedItem
 }) => {
   const [loading, setLoading] = useState(false);
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
@@ -200,6 +204,37 @@ const LyricLab = ({
           <SubBanner.Message text="You can choose to skip any step and still create a meaningful result. Complete both steps for a full song (lyrics + composition), or focus on just one to highlight your strengths." />
           <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
         </SubBanner>
+
+
+
+        <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <SelectedWrap title="Lyric Lab">
+    <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
+    <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+    <SelectedItem title="Style" value={lylicData?.lyric_style} />
+    <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+  </SelectedWrap>
+  <SelectedWrap title="Melody Maker">
+    <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
+    <SelectedItem title="Genre" value={melodyData?.melody_genre} />
+    <SelectedItem title="Style" value={melodyData?.melody_style} />
+    <SelectedItem
+      title={
+        <>
+          Musical
+          <br />
+          Instrument
+        </>
+      }
+      value={melodyData?.melody_instrument}
+    />
+    <SelectedItem title="Tempo" value={tempo} />
+  </SelectedWrap>
+</div>
+        {/* =========================================================================== */}
+        {/* =================================== 넥스트 버튼 ======================================== */}
+        {/* =========================================================================== */}
+
         <div className="button-wrap">
           <div className="button-wrap__left">
             <ExpandedButton className="skip" onClick={onSkip}>

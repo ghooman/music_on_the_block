@@ -29,6 +29,18 @@ export const SelectItemWrap = ({ children, dropdown }) => {
           </div>
         )}
       </div>
+
+      <div className="tag-select language-select">
+        <div className="tag-title__block">
+          <h3 className="tag-title">Language</h3>
+        </div>
+        <h4 className="tag-sub-title">Language Tags</h4>
+        <div className="tag-preset">
+          <button className="tag-button presets ">KOR</button>
+          <button className="tag-button presets enable">ENG</button>
+        </div>
+      </div>
+
       {visible ? children : null}
     </div>
   );
@@ -87,6 +99,23 @@ export const SelectItem = ({
 
   return (
     <div className="tag-select">
+      {/* <div className="tag-title__block">
+        <h3 className="tag-title">Language</h3>
+      </div>
+      <h4 className="tag-sub-title">Language Tags</h4>
+      <div className="tag-preset">
+        <button
+          className="tag-button presets enable"
+        >
+          KOR
+        </button>
+        <button
+          className="tag-button presets"
+        >
+          ENG
+        </button>
+      </div> */}
+
       <div className="tag-title__block">
         <h3 className="tag-title">{mainTitle}</h3>
         <p className="tag-title__notice">

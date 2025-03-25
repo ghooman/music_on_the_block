@@ -67,7 +67,7 @@ const Create = () => {
             <Title />
             <Progress pageNumber={pageNumber} />
             <DescriptionBanner pageNumber={pageNumber} />
-            {pageNumber !== 2 && (
+            {/* {pageNumber !== 2 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyric Lab">
                         <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
@@ -92,7 +92,7 @@ const Create = () => {
                         <SelectedItem title="Tempo" value={tempo} />
                     </SelectedWrap>
                 </div>
-            )}
+            )} */}
             {pageNumber === 0 && (
                 <LyricLab
                     lylicData={lylicData}
@@ -104,6 +104,10 @@ const Create = () => {
                     setGeneratedLyric={setGeneratedLyric}
                     onSkip={() => setSkip('lyric')}
                     setPageNumber={setPageNumber}
+                    melodyData={melodyData}
+                    tempo={tempo}   
+                    SelectedWrap={SelectedWrap}
+                    SelectedItem={SelectedItem}
                 ></LyricLab>
             )}
             {pageNumber === 1 && (
@@ -141,6 +145,8 @@ const Create = () => {
                     </div>
                 </AlbumCoverSudio>
             )} */}
+            
+            
             {pageNumber === 2 && (
                 <Finalize
                     generatedMusic={generatedMusic}
@@ -165,6 +171,7 @@ const Create = () => {
                     </div>
                 </Finalize>
             )}
+            
             {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
             {createCompleteModal && <CreateCompleteModal setCreateCompleteModal={setCreateCompleteModal} />}
         </div>

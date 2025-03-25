@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 
 import SubBanner from "./SubBanner";
@@ -104,6 +104,12 @@ const MelodyMaker = ({
       setLoading(false);
     }
   };
+  
+  useEffect(() => {
+    if (generatedMusicResult) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [generatedMusicResult]);
 
   if (!generatedMusicResult)
     return (

@@ -54,6 +54,14 @@ const Footer = ({ setIsLoggedIn }) => {
     return `${hash.slice(0, 5)}...${hash.slice(-4)}`;
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState("English");
+
+  const handleSelect = (lang) => {
+    setSelectedLang(lang);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div className="footer">
@@ -96,8 +104,19 @@ const Footer = ({ setIsLoggedIn }) => {
               </ul>
               <div className="footer__top__left__language">
                 <p className="footer__top__left__language__title">Language</p>
-                <div className="footer__top__left__language__select-box">
-                  <p className="footer__top__left__language__select-box__title">English</p>
+                <div
+                  className={`footer__top__left__language__select-box ${isOpen ? "active" : ""}`}
+                >
+                  <p
+                    className="footer__top__left__language__select-box__title"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
+                    {selectedLang}
+                  </p>
+                  <ul className="footer__top__left__language__select-box__list">
+                    <li onClick={() => handleSelect("English")}>English</li>
+                    <li onClick={() => handleSelect("Korea")}>Korea</li>
+                  </ul>
                 </div>
               </div>
             </article>
@@ -120,9 +139,7 @@ const Footer = ({ setIsLoggedIn }) => {
                   <dd><Link>Staking</Link></dd>
                   <dd><Link>Governance</Link></dd>
                 </dl>
-                <dl>
-                  <dt>Tournaments</dt>
-                </dl>
+
               </div>
             </article>
           </section>

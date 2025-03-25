@@ -390,7 +390,7 @@ function AlbumDetail() {
                     </p>
                     <Link 
                       className="see-more-btn"
-                      to='/'
+                      to='/my-page'
                     >See More</Link>
                   </dd>
                 </dl>

@@ -368,6 +368,7 @@ function Album() {
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           modules={[Pagination,Autoplay]}
           className="swiper-music-list"

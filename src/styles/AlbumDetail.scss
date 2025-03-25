@@ -12,7 +12,7 @@
 
 .album-detail{
   .album-detail__title{
-    margin-bottom: 50px;
+    margin-bottom: 32px;
     dt{
       color:#CF0;
       font-family: Orbitron600;
@@ -712,6 +712,11 @@
 
 @media screen and (max-width: 768px) {
   .album-detail{
+    .album-detail__title{
+      dt{
+        font-size: 24px;
+      }
+    }
     .album-detail__song-detail{
       .album-detail__song-detail__bot{
         flex-direction: column;

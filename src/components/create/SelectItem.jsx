@@ -294,7 +294,7 @@ export const SelectItemStory = ({ value, setter }) => {
         <h3 className="tag-title">Your Story</h3>
         {/* <p className="tag-title__notice">You can enter up to 100 words</p> */}
       </div>
-      <textarea
+      <input
         className="tag-input"
         value={value}
         onChange={(e) => setter(e.target.value)}

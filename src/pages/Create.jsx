@@ -62,6 +62,10 @@ const Create = () => {
 
     if (pageNumber === -1) return <GetStarted handler={() => setPageNumber(0)} />;
 
+    const isLyricPage = pageNumber === 0;
+    const isMelodyPage = pageNumber === 1;
+
+
     return (
         <div className="music_create">
             <Title />
@@ -108,6 +112,7 @@ const Create = () => {
                     tempo={tempo}   
                     SelectedWrap={SelectedWrap}
                     SelectedItem={SelectedItem}
+                    isLyricPage={isLyricPage}
                 ></LyricLab>
             )}
             {pageNumber === 1 && (
@@ -125,6 +130,9 @@ const Create = () => {
                     setGeneratedMusicResult={setGeneratedMusicResult}
                     onSkip={() => setSkip('melody')}
                     setPageNumber={setPageNumber}
+                    SelectedWrap={SelectedWrap}
+                    SelectedItem={SelectedItem}
+                    isMelodyPage={isMelodyPage}
                 ></MelodyMaker>
             )}
             {/* {pageNumber === 2 && (
@@ -205,9 +213,16 @@ const Progress = ({ pageNumber }) => {
 };
 
 const SelectedWrap = ({ children, title }) => {
+    const [isActive, setIsActive] = useState(false);
+
+    const handleToggle = () => {
+        setIsActive((prev) => !prev);
+    };
     return (
-        <div className="selected-wrap">
-            <h2 className="wrap-title">{title}</h2>
+        <div className={`selected-wrap ${isActive ? 'active' : ''}`}>
+            <h2 className="wrap-title"
+                onClick={handleToggle}
+            >{title}</h2>
             <div className="wrap-content">{children}</div>
         </div>
     );

@@ -243,6 +243,22 @@ function AlbumDetail() {
     setIsActive(prev => !prev);
   };
 
+  const commentRef = useRef(null);
+
+  const handleScrollToComment = () => {
+    if (commentRef.current) {
+      const offset = -100;
+      const top = commentRef.current.getBoundingClientRect().top + window.scrollY + offset;
+  
+      window.scrollTo({
+        top,
+        behavior: 'smooth',
+      });
+    }
+  };
+  
+
+
   return (
     <>
       <div className="album-detail">
@@ -302,7 +318,9 @@ function AlbumDetail() {
                 <div className="album-detail__song-detail__left__info__number">
                   <button className="love"><img src={loveIcon}/>145</button>
                   {/* <button className="play"><img src={playIcon}/>125K</button> */}
-                  <button className="play"><img src={commentIcon}/>125K</button>
+                  <button className="comment"
+                    onClick={handleScrollToComment}
+                  ><img src={commentIcon}/>125K</button>
                   <button 
                     className="album-detail__song-detail__left__info__share-btn"
                     onClick={()=>setShareModal(true)}
@@ -310,7 +328,7 @@ function AlbumDetail() {
                     <img src={shareIcon}/>
                   </button>
                 </div>
-                <button className="play"><img src={playIcon}/>125K</button>
+                <p className="play"><img src={playIcon}/>125K</p>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -415,7 +433,9 @@ function AlbumDetail() {
           {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
-          <AdvancedCommentComponent/>
+          <div ref={commentRef}>
+            <AdvancedCommentComponent />
+          </div>
         </section>
 
         <section className="album-detail__slide">

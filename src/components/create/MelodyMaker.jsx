@@ -57,6 +57,9 @@ const MelodyMaker = ({
   setGeneratedMusic,
   setPageNumber,
   onSkip,
+  SelectedWrap,
+  SelectedItem,
+  isMelodyPage,
 }) => {
   const { melody_tag, melody_genre, melody_style, melody_instrument } =
     melodyData || {};
@@ -177,6 +180,25 @@ const MelodyMaker = ({
           <SubBanner.Message text="You can choose to skip any step and still create a meaningful result. Complete both steps for a full song (lyrics + composition), or focus on just one to highlight your strengths."></SubBanner.Message>
           <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections."></SubBanner.SubMessage>
         </SubBanner>
+
+        {isMelodyPage  && (
+          <SelectedWrap title="Melody Maker">
+            <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
+            <SelectedItem title="Genre" value={melodyData?.melody_genre} />
+            <SelectedItem title="Style" value={melodyData?.melody_style} />
+            <SelectedItem
+              title={
+                <>
+                  Musical
+                  <br />
+                  Instrument
+                </>
+              }
+              value={melodyData?.melody_instrument}
+            />
+            <SelectedItem title="Tempo" value={tempo} />
+          </SelectedWrap>
+        )}
         <div className="button-wrap">
           <div className="button-wrap__left">
             <ExpandedButton

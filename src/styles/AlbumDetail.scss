@@ -118,6 +118,16 @@
           align-items: center;
           justify-content: space-between;
           margin-top: 10px;
+          .play{
+            display: flex;
+            align-items: center;
+            color:#AAA;
+            gap: 6px;
+            font-family: Inter400;
+            font-size: 12px;
+            font-style: normal;
+            line-height: 100%; /* 12px */
+          }
           .album-detail__song-detail__left__info__number{
             display: flex;
             align-items: center;
@@ -132,7 +142,6 @@
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
-              letter-spacing: 0.36px;
             }
           }//album-detail__song-detail__left__info__number--END--
         }//album-detail__song-detail__left__info--END--

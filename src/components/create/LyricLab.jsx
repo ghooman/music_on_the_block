@@ -56,7 +56,8 @@ const LyricLab = ({
   melodyData,
   tempo,  
   SelectedWrap,
-  SelectedItem
+  SelectedItem,
+  isLyricPage
 }) => {
   const [loading, setLoading] = useState(false);
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
@@ -208,29 +209,15 @@ const LyricLab = ({
 
 
         <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-  <SelectedWrap title="Lyric Lab">
-    <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-    <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-    <SelectedItem title="Style" value={lylicData?.lyric_style} />
-    <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
-  </SelectedWrap>
-  <SelectedWrap title="Melody Maker">
-    <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
-    <SelectedItem title="Genre" value={melodyData?.melody_genre} />
-    <SelectedItem title="Style" value={melodyData?.melody_style} />
-    <SelectedItem
-      title={
-        <>
-          Musical
-          <br />
-          Instrument
-        </>
-      }
-      value={melodyData?.melody_instrument}
-    />
-    <SelectedItem title="Tempo" value={tempo} />
-  </SelectedWrap>
-</div>
+        {isLyricPage  && (
+          <SelectedWrap title="Lyric Lab">
+            <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
+            <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+            <SelectedItem title="Style" value={lylicData?.lyric_style} />
+            <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+          </SelectedWrap>
+          )}
+        </div>
         {/* =========================================================================== */}
         {/* =================================== 넥스트 버튼 ======================================== */}
         {/* =========================================================================== */}

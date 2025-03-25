@@ -79,15 +79,17 @@ const Menu = ({
               My Pg
             </Link>
             <dd>
-              {!login && (
+              {/* {!login && (
                 <button
                   className="menu__box__login-btn"
                   onClick={() => setSignInModal(true)}
                 >
                   Log In
                 </button>
-              )}
-              <WalletConnect />
+              )} */}
+              <WalletConnect 
+                setLogin={setLogin}
+              />
               {login && (
                 <>
                   <div className="menu__box__my-page">
@@ -126,12 +128,12 @@ const Menu = ({
                       </div>
                     </div>
                   </div>
-                  <button
+                  {/* <button
                     className="menu__box__log-out-btn"
                     onClick={() => setLogin(false)}
                   >
                     Log Out
-                  </button>
+                  </button> */}
                 </>
               )}
             </dd>

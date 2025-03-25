@@ -65,6 +65,27 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    .tw-connected-wallet{
+      width: 100%;
+      border: 1px solid #00FFB3;
+      margin-bottom: 16px;
+      span{
+        font-size: 12px !important;
+      }
+    }
+    .tw-connect-wallet{
+      width: 100% ;
+      width: 100%;
+      height: 40px;
+      color: var(--Text-dark-title, #1A1A1A);
+      font-family: Orbitron600;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      border-radius: 12px;
+      background: var(--secondary-base, #00FFB3);
+      position: relative;
+    }//tw-connect-wallet--END--
     &:nth-child(1){
       .menu__box__title{
         color:#00FFB3;

@@ -112,7 +112,23 @@ const LyricLab = ({
    */
 
   const generatedLyricsRef = useRef(null);
+  // 버튼 활성화 조건 계산
+  // 각 배열에 대해 길이 체크 후 값이 있는지 확인
+  const isAnyFieldFilled =
+    (lylicData?.lyric_tag && lylicData.lyric_tag.length > 0) ||
+    (lylicData?.lyric_genre &&
+      lylicData.lyric_genre.length > 0 &&
+      lylicData.lyric_genre[0].trim() !== "") ||
+    (lylicData?.lyric_style &&
+      lylicData.lyric_style.length > 0 &&
+      lylicData.lyric_style[0].trim() !== "") ||
+    (lylicData?.lyric_stylistic &&
+      lylicData.lyric_stylistic.length > 0 &&
+      lylicData.lyric_stylistic[0].trim() !== "") ||
+    (lyricStory && lyricStory.trim() !== "");
 
+  console.log("lylicData", lylicData);
+  // 지피티4o API 호출 함수
   async function callGPT4oResponses() {
     try {
       setLoading(true);
@@ -244,21 +260,11 @@ const LyricLab = ({
             </ExpandedButton>
           </div>
           <ExpandedButton
-            // className="next"
-            // lylicData 에 값이 하나라도있으면 disabled를 해제한다.
-            className={
-              !Object.values(lylicData)?.every((values) => values.length > 0) ||
-              loading
-                ? "next"
-                : "next enable"
-            }
+            className={!isAnyFieldFilled || loading ? "next" : "next enable"}
             onClick={() => {
               callGPT4oResponses();
             }}
-            disabled={
-              !Object.values(lylicData)?.every((values) => values.length > 0) ||
-              loading
-            }
+            disabled={!isAnyFieldFilled || loading}
           >
             {loading ? "Loading" : "Generate"}
           </ExpandedButton>

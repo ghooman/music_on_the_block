@@ -68,6 +68,21 @@ const MelodyMaker = ({
 
   const [loading, setLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
+
+  // 각 필드에 값이 있는지 확인하는 변수
+  const isAnyFieldFilled =
+    (melody_tag && melody_tag.length > 0) ||
+    (melody_genre &&
+      melody_genre.length > 0 &&
+      melody_genre[0].trim() !== "") ||
+    (melody_style &&
+      melody_style.length > 0 &&
+      melody_style[0].trim() !== "") ||
+    (melody_instrument &&
+      melody_instrument.length > 0 &&
+      melody_instrument[0].trim() !== "") ||
+    (melodyStory && melodyStory.trim() !== "");
+
   const promptPreview = `
       Language: ${selectedLanguage},
       Tags : ${melody_tag ? melody_tag.join(", ") : ""}
@@ -223,12 +238,14 @@ const MelodyMaker = ({
             </ExpandedButton>
           </div>
           <ExpandedButton
-            className="next"
-            // onClick={() => setPageNumber((prev) => prev + 1)}
+            className={
+              loading || promptPreview.length > 200 || !isAnyFieldFilled
+                ? "next"
+                : "next enable"
+            }
             onClick={() => musicGenerate()}
             disabled={
-              // !Object.values(melodyData)?.every((values) => values.length > 0) ||
-              loading || promptPreview.length > 200
+              loading || promptPreview.length > 200 || !isAnyFieldFilled
             }
           >
             {loading ? "Loading" : "Generate"}

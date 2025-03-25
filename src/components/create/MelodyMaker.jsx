@@ -108,11 +108,13 @@ const MelodyMaker = ({
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://api.topmediai.com/v1/music",
+        "https://muble.xyz/api/music/album/",
         formData,
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE3NDI5NzM0NjQsImVtYWlsIjpudWxsLCJ3YWxsZXRfYWRkcmVzcyI6InRlc3QiLCJvcmlnX2lhdCI6MTc0Mjg4NzA2NH0.J978P8exvriXBls8yULTwzlPQD8PiXYbNIFu3hrhOqw", // 테스트용 토큰
             "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
           },
           withCredentials: true, // Access-Control-Allow-Credentials가 true인 경우 추가

@@ -7,7 +7,12 @@ import cancelIcon from "../../assets/images/icon/cancel.svg";
 
 import "./SelectItem.scss";
 
-export const SelectItemWrap = ({ children, dropdown }) => {
+export const SelectItemWrap = ({
+  children,
+  dropdown,
+  selectedLanguage,
+  setSelectedLanguage,
+}) => {
   const [visible, setVisible] = useState(!dropdown);
 
   return (
@@ -36,8 +41,22 @@ export const SelectItemWrap = ({ children, dropdown }) => {
         </div>
         <h4 className="tag-sub-title">Language Tags</h4>
         <div className="tag-preset">
-          <button className="tag-button presets ">KOR</button>
-          <button className="tag-button presets enable">ENG</button>
+          <button
+            className={`tag-button presets ${
+              selectedLanguage === "KOR" ? "enable" : ""
+            }`}
+            onClick={() => setSelectedLanguage("KOR")}
+          >
+            KOR
+          </button>
+          <button
+            className={`tag-button presets ${
+              selectedLanguage === "ENG" ? "enable" : ""
+            }`}
+            onClick={() => setSelectedLanguage("ENG")}
+          >
+            ENG
+          </button>
         </div>
       </div>
 
@@ -118,11 +137,11 @@ export const SelectItem = ({
 
       <div className="tag-title__block">
         <h3 className="tag-title">{mainTitle}</h3>
-        <p className="tag-title__notice">
+        {/* <p className="tag-title__notice">
           {multiple
             ? "You can enter up to 5 keywords"
             : " You can select only one option"}
-        </p>
+        </p> */}
       </div>
       <h4 className="tag-sub-title">{subTitle}</h4>
       <div className="tag-preset">
@@ -273,9 +292,9 @@ export const SelectItemStory = ({ value, setter }) => {
     <div className="tag-select">
       <div className="tag-title__block">
         <h3 className="tag-title">Your Story</h3>
-        <p className="tag-title__notice">You can enter up to 100 words</p>
+        {/* <p className="tag-title__notice">You can enter up to 100 words</p> */}
       </div>
-      <textarea
+      <input
         className="tag-input"
         value={value}
         onChange={(e) => setter(e.target.value)}

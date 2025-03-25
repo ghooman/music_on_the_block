@@ -45,6 +45,8 @@ const client = new OpenAI({
 });
 
 const LyricLab = ({
+  selectedLanguage,
+  setSelectedLanguage,
   setLyricData,
   lylicData,
   generatedLyric,
@@ -54,14 +56,15 @@ const LyricLab = ({
   lyricStory,
   setLyricStory,
   melodyData,
-  tempo,  
+  tempo,
   SelectedWrap,
   SelectedItem,
-  isLyricPage
+  isLyricPage,
 }) => {
   const [loading, setLoading] = useState(false);
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
   const [mode, setMode] = useState("read");
+
   const instructions = `// system-prompt-example.txt
 
   You are a professional songwriter and lyricist. 
@@ -109,14 +112,31 @@ const LyricLab = ({
    */
 
   const generatedLyricsRef = useRef(null);
+  // 버튼 활성화 조건 계산
+  // 각 배열에 대해 길이 체크 후 값이 있는지 확인
+  const isAnyFieldFilled =
+    (lylicData?.lyric_tag && lylicData.lyric_tag.length > 0) ||
+    (lylicData?.lyric_genre &&
+      lylicData.lyric_genre.length > 0 &&
+      lylicData.lyric_genre[0].trim() !== "") ||
+    (lylicData?.lyric_style &&
+      lylicData.lyric_style.length > 0 &&
+      lylicData.lyric_style[0].trim() !== "") ||
+    (lylicData?.lyric_stylistic &&
+      lylicData.lyric_stylistic.length > 0 &&
+      lylicData.lyric_stylistic[0].trim() !== "") ||
+    (lyricStory && lyricStory.trim() !== "");
 
+  console.log("lylicData", lylicData);
+  // 지피티4o API 호출 함수
   async function callGPT4oResponses() {
     try {
       setLoading(true);
       const response = await client.responses.create({
         model: "gpt-4o-mini",
         instructions,
-        input: `느낌:${lylicData?.lyric_tag.join(",")},
+        input: `출력원하는언어:${selectedLanguage},
+        느낌:${lylicData?.lyric_tag.join(",")},
                  장르:${lylicData?.lyric_genre[0]},
                  스타일:${lylicData?.lyric_style[0]},
                  양식:${lylicData?.lyric_stylistic[0]},
@@ -163,7 +183,10 @@ const LyricLab = ({
   if (!createdLyrics)
     return (
       <div className="create__lyric-lab">
-        <SelectItemWrap>
+        <SelectItemWrap
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+        >
           <SelectItem
             mainTitle="Selet a Tags"
             subTitle="Popular Tags"
@@ -206,16 +229,24 @@ const LyricLab = ({
           <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
         </SubBanner>
 
-
-
-        <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {isLyricPage  && (
-          <SelectedWrap title="Lyric Lab">
-            <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-            <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-            <SelectedItem title="Style" value={lylicData?.lyric_style} />
-            <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
-          </SelectedWrap>
+        <div
+          className="mb40"
+          style={{ display: "flex", flexDirection: "column", gap: 16 }}
+        >
+          {isLyricPage && (
+            <SelectedWrap title="Lyric Lab">
+              <SelectedItem
+                title="Tags"
+                value={lylicData?.lyric_tag}
+                multiple
+              />
+              <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+              <SelectedItem title="Style" value={lylicData?.lyric_style} />
+              <SelectedItem
+                title="Stylistic"
+                value={lylicData?.lyric_stylistic}
+              />
+            </SelectedWrap>
           )}
         </div>
         {/* =========================================================================== */}
@@ -229,12 +260,11 @@ const LyricLab = ({
             </ExpandedButton>
           </div>
           <ExpandedButton
-            className="next"
-            onClick={() => callGPT4oResponses()}
-            disabled={
-              // !Object.values(lylicData)?.every((values) => values.length > 0) ||
-              loading
-            }
+            className={!isAnyFieldFilled || loading ? "next" : "next enable"}
+            onClick={() => {
+              callGPT4oResponses();
+            }}
+            disabled={!isAnyFieldFilled || loading}
           >
             {loading ? "Loading" : "Generate"}
           </ExpandedButton>

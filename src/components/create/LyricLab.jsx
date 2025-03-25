@@ -54,14 +54,15 @@ const LyricLab = ({
   lyricStory,
   setLyricStory,
   melodyData,
-  tempo,  
+  tempo,
   SelectedWrap,
   SelectedItem,
-  isLyricPage
+  isLyricPage,
 }) => {
   const [loading, setLoading] = useState(false);
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
   const [mode, setMode] = useState("read");
+  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
   const instructions = `// system-prompt-example.txt
 
   You are a professional songwriter and lyricist. 
@@ -116,7 +117,8 @@ const LyricLab = ({
       const response = await client.responses.create({
         model: "gpt-4o-mini",
         instructions,
-        input: `느낌:${lylicData?.lyric_tag.join(",")},
+        input: `출력원하는언어:${selectedLanguage},
+        느낌:${lylicData?.lyric_tag.join(",")},
                  장르:${lylicData?.lyric_genre[0]},
                  스타일:${lylicData?.lyric_style[0]},
                  양식:${lylicData?.lyric_stylistic[0]},
@@ -163,7 +165,10 @@ const LyricLab = ({
   if (!createdLyrics)
     return (
       <div className="create__lyric-lab">
-        <SelectItemWrap>
+        <SelectItemWrap
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+        >
           <SelectItem
             mainTitle="Selet a Tags"
             subTitle="Popular Tags"
@@ -206,16 +211,24 @@ const LyricLab = ({
           <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
         </SubBanner>
 
-
-
-        <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {isLyricPage  && (
-          <SelectedWrap title="Lyric Lab">
-            <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-            <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-            <SelectedItem title="Style" value={lylicData?.lyric_style} />
-            <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
-          </SelectedWrap>
+        <div
+          className="mb40"
+          style={{ display: "flex", flexDirection: "column", gap: 16 }}
+        >
+          {isLyricPage && (
+            <SelectedWrap title="Lyric Lab">
+              <SelectedItem
+                title="Tags"
+                value={lylicData?.lyric_tag}
+                multiple
+              />
+              <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+              <SelectedItem title="Style" value={lylicData?.lyric_style} />
+              <SelectedItem
+                title="Stylistic"
+                value={lylicData?.lyric_stylistic}
+              />
+            </SelectedWrap>
           )}
         </div>
         {/* =========================================================================== */}

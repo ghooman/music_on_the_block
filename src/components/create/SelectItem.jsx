@@ -7,7 +7,12 @@ import cancelIcon from "../../assets/images/icon/cancel.svg";
 
 import "./SelectItem.scss";
 
-export const SelectItemWrap = ({ children, dropdown }) => {
+export const SelectItemWrap = ({
+  children,
+  dropdown,
+  selectedLanguage,
+  setSelectedLanguage,
+}) => {
   const [visible, setVisible] = useState(!dropdown);
 
   return (
@@ -36,8 +41,22 @@ export const SelectItemWrap = ({ children, dropdown }) => {
         </div>
         <h4 className="tag-sub-title">Language Tags</h4>
         <div className="tag-preset">
-          <button className="tag-button presets ">KOR</button>
-          <button className="tag-button presets enable">ENG</button>
+          <button
+            className={`tag-button presets ${
+              selectedLanguage === "KOR" ? "enable" : ""
+            }`}
+            onClick={() => setSelectedLanguage("KOR")}
+          >
+            KOR
+          </button>
+          <button
+            className={`tag-button presets ${
+              selectedLanguage === "ENG" ? "enable" : ""
+            }`}
+            onClick={() => setSelectedLanguage("ENG")}
+          >
+            ENG
+          </button>
         </div>
       </div>
 

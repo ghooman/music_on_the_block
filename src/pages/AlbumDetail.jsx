@@ -19,7 +19,8 @@ import coverImg6 from '../assets/images/demo/album03.svg';
 import coverImg7 from '../assets/images/demo/album04.svg';
 import coverImg8 from '../assets/images/demo/album05.svg';
 import coverImg9 from '../assets/images/demo/album06.svg';
-import loveIcon from '../assets/images/album/love-icon.svg';
+import loveIcon from '../assets/images/like-icon/like-icon.svg';
+import lovedIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
@@ -238,10 +239,15 @@ function AlbumDetail() {
   
   const [isActive, setIsActive] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
+  const [loved, setLoved] = useState(false);
 
   const handleClick = () => {
     setIsActive(prev => !prev);
   };
+  const handleToggleLove = () => {
+    setLoved(prev => !prev);
+  };
+
 
   const commentRef = useRef(null);
 
@@ -316,7 +322,10 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
-                  <button className="love"><img src={loveIcon}/>145</button>
+                <button className="love" onClick={handleToggleLove}>
+                  <img src={loved ? lovedIcon : loveIcon} alt="love" />
+                  {loved ? 146 : 145}
+                </button>
                   {/* <button className="play"><img src={playIcon}/>125K</button> */}
                   <button className="comment"
                     onClick={handleScrollToComment}

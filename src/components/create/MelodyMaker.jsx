@@ -91,17 +91,34 @@ const MelodyMaker = ({
       Instrument : ${melody_instrument?.[0] ? melody_instrument?.[0] : ""}
       Story : ${melodyStory}
       `;
-
   const formData = {
-    is_auto: 0,
-    prompt: promptPreview,
+    title: "title",
+    ai_service: "",
+    ai_service_type: "",
     lyrics: generatedLyric,
-    title: "제목",
-    instrumental: 0,
+    genre: melody_genre?.[0] ? melody_genre?.[0] : "",
+    style: melody_style?.[0] ? melody_style?.[0] : "",
+    language: selectedLanguage,
+    mood: "",
+    musical_instrument: "",
+    story: melodyStory,
+    tags: melody_tag ? melody_tag.join(", ") : "",
+    specific_lyrics: "",
+    image: "",
+    tempo: 0,
+    color_palette: "",
+    song_length: "",
   };
+  // const formData = {
+  //   is_auto: 0,
+  //   prompt: promptPreview,
+  //   lyrics: generatedLyric,
+  //   title: "제목",
+  //   instrumental: 0,
+  // };
   console.log("formData", formData);
-  console.log("노래 생성 데이터", formData.prompt);
-  console.log("노래 생성 데이터 길이", formData.prompt.length);
+  // console.log("노래 생성 데이터", formData.prompt);
+  // console.log("노래 생성 데이터 길이", formData.prompt.length);
 
   // 기존 코드: 노래 생성 요청
   const musicGenerate = async () => {
@@ -117,16 +134,16 @@ const MelodyMaker = ({
               "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE3NDI5NzM0NjQsImVtYWlsIjpudWxsLCJ3YWxsZXRfYWRkcmVzcyI6InRlc3QiLCJvcmlnX2lhdCI6MTc0Mjg4NzA2NH0.J978P8exvriXBls8yULTwzlPQD8PiXYbNIFu3hrhOqw", // 테스트용 토큰
             "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
           },
-          withCredentials: true, // Access-Control-Allow-Credentials가 true인 경우 추가
+          // withCredentials: true, // Access-Control-Allow-Credentials가 true인 경우 추가
         }
       );
-      setGeneratedMusicResult(res.data.data);
-      console.log("handleSubmit", res.data.data);
+      setGeneratedMusicResult(res.data);
+      console.log("handleSubmit", res);
     } catch (err) {
       alert("에러 발생");
-      console.log("handleSubmit", err.message);
+      console.log("handleSubmit error", err.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   useEffect(() => {
@@ -254,64 +271,6 @@ const MelodyMaker = ({
           </ExpandedButton>
         </div>
         {loading && <CreateLoading textTrue />}
-      </div>
-    );
-  else if (generatedMusicResult)
-    return (
-      <div className="response">
-        <h2>MUSIC</h2>
-        <div className="music-response">
-          {generatedMusicResult &&
-            generatedMusicResult.map((item) => (
-              <div
-                className={`music-response-item ${
-                  item.item_uuid === selectMusic?.item_uuid ? "active" : ""
-                }`}
-                key={item.item_uuid}
-                onClick={() => setSelectMusic(item)}
-              >
-                <img src={item.image_file} alt={item.title} />
-                <div className="music-info">
-                  <h3>{item.title}</h3>
-                  {/* <p>
-                      <strong>Tags:</strong> {item.tag}
-                  </p> */}
-                  {/* <audio controls>
-                    <source src={item.audio_file} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                  </audio> */}
-                  <AudioPlayer src={item.audio_file} />
-                </div>
-              </div>
-            ))}
-        </div>
-        <pre className="lyrics-box">{generatedMusicResult?.[0]?.lyric}</pre>
-        {/* <pre>{JSON.stringify(generatedResult, null, 2)}</pre> */}
-        <div className="button-wrap">
-          <div className="button-wrap__left">
-            <ExpandedButton
-              className="back"
-              onClick={() => setPageNumber((prev) => prev + -1)}
-            >
-              Back
-            </ExpandedButton>
-            {/* <ExpandedButton className="skip" onClick={onSkip}>
-                            Skip
-                        </ExpandedButton> */}
-          </div>
-          <ExpandedButton
-            className="next"
-            // onClick={() => setPageNumber((prev) => prev + 1)}
-            onClick={() => {
-              setGeneratedMusic(selectMusic);
-              setPageNumber((prev) => prev + 1);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            disabled={!selectMusic}
-          >
-            Select
-          </ExpandedButton>
-        </div>
       </div>
     );
 };

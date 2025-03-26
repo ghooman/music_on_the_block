@@ -17,13 +17,13 @@ import MyPage from "./pages/MyPage";
 import AccountSetting from "./pages/AccountSetting";
 import AlbumDetail from "./pages/AlbumDetail";
 import Footer from "./components/Footer";
-
+import SignUp from "./pages/SignUp";
 function Layout({ children }) {
   return (
     <div>
       <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-        <div className="inner">{children}</div>
-      <Footer/>
+      <div className="inner">{children}</div>
+      <Footer />
     </div>
   );
 }
@@ -75,7 +75,15 @@ function App() {
           path="/album-detail"
           element={
             <Layout>
-              <AlbumDetail/>
+              <AlbumDetail />
+            </Layout>
+          }
+        />
+        <Route
+          path="/sign-up"
+          element={
+            <Layout>
+              <SignUp />
             </Layout>
           }
         />

@@ -182,12 +182,17 @@
                     &:hover{
                         margin-top: 0;
                         &::before{
-                            top: 0;
+                            top: -1px;
                         }
                     }
                 }
             }//input-box__cover--END--
         }//input-box--END--
+        textarea{
+            padding: 10px 12px;
+            resize: none;
+            height: 60px;
+        }
     }//sing-up__setting--END--
 
     .sing-up__page-btn{
@@ -232,7 +237,7 @@
             &:hover{
                 margin-top: 0;
                 &::before{
-                    top: 0;
+                    top: -1px;
                 }
             }
             &.sing-up__page-btn__next{

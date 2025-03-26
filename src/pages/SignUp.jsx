@@ -325,7 +325,7 @@ const handleAllCheck = () => {
             />
           </div>
         </div>
-        <div className="input-box">
+        {/* <div className="input-box">
           <p className="input-box__title">Date of Birth<span>*</span></p>
           <div className="input-box__cover">
             <CustomDatePicker defaultDate={date1} onDateChange={setDate1} />
@@ -346,7 +346,7 @@ const handleAllCheck = () => {
             <button className="btn">Add</button>
           </div>
           <p className="err-txt">This username is already taken. Please try another.</p>
-        </div>
+        </div> */}
       </div>
 
       <div className="check-list">

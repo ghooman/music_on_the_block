@@ -8,7 +8,7 @@ import userImg from "../assets/images/intro/intro-demo-img2.png";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
 import { AuthContext } from "../contexts/AuthContext";
 import { WalletConnect } from "./WalletConnect";
-
+import { useUserDetail } from "../hooks/useUserDetail";
 const Menu = ({
   active,
   setActive,
@@ -33,6 +33,7 @@ const Menu = ({
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
+  const { data, isLoading, error } = useUserDetail();
 
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = (menuName) => {

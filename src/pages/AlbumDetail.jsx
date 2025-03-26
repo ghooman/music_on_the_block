@@ -19,7 +19,8 @@ import coverImg6 from '../assets/images/demo/album03.svg';
 import coverImg7 from '../assets/images/demo/album04.svg';
 import coverImg8 from '../assets/images/demo/album05.svg';
 import coverImg9 from '../assets/images/demo/album06.svg';
-import loveIcon from '../assets/images/album/love-icon.svg';
+import loveIcon from '../assets/images/like-icon/like-icon.svg';
+import lovedIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
@@ -33,6 +34,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
 
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
+import ShareModal from "../components/ShareModal";
 
 
 function AlbumDetail() {
@@ -235,6 +237,34 @@ function AlbumDetail() {
     },
   };
   
+  const [isActive, setIsActive] = useState(false);
+  const [isShareModal, setShareModal] = useState(false);
+  const [loved, setLoved] = useState(false);
+
+  const handleClick = () => {
+    setIsActive(prev => !prev);
+  };
+  const handleToggleLove = () => {
+    setLoved(prev => !prev);
+  };
+
+
+  const commentRef = useRef(null);
+
+  const handleScrollToComment = () => {
+    if (commentRef.current) {
+      const offset = -100;
+      const top = commentRef.current.getBoundingClientRect().top + window.scrollY + offset;
+  
+      window.scrollTo({
+        top,
+        behavior: 'smooth',
+      });
+    }
+  };
+  
+
+
   return (
     <>
       <div className="album-detail">
@@ -246,18 +276,68 @@ function AlbumDetail() {
           <p className="album-detail__song-detail__title">Song Detail</p>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
-              <p className="album-detail__song-detail__left__img">
+            <div 
+              className={`album-detail__song-detail__left__img ${isActive ? "active" : ""}`} 
+              onClick={handleClick}
+            >
                 <img src={coverImg}/>
-              </p>
+                <div className="album-detail__song-detail__left__img__txt">
+                  <pre>
+                    In the quiet of the night  
+                    When the stars are shining bright  
+                    I hear the whisper of your name  
+                    Like a soft and gentle flame  
+                    <br/>
+                    <br/>
+                    Every memory comes alive  
+                    In the corners of my mind  
+                    Though you're far, you're still so near  
+                    In my heart, you're always here  
+                    <br/>
+                    <br/>
+                    In the quiet of the night  
+                    When the stars are shining bright  
+                    I hear the whisper of your name  
+                    Like a soft and gentle flame  
+                    <br/>
+                    <br/>
+                    Every memory comes alive  
+                    In the corners of my mind  
+                    Though you're far, you're still so near  
+                    In my heart, you're always here  
+                    <br/>
+                    <br/>
+                    In the quiet of the night  
+                    When the stars are shining bright  
+                    I hear the whisper of your name  
+                    Like a soft and gentle flame  
+                    <br/>
+                    <br/>
+                    Every memory comes alive  
+                    In the corners of my mind  
+                    Though you're far, you're still so near  
+                    In my heart, you're always here  
+                  </pre>
+                </div>
+              </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
-                  <button className="love"><img src={loveIcon}/>145</button>
-                  <button className="play"><img src={playIcon}/>125K</button>
-                  <button className="play"><img src={commentIcon}/>125K</button>
-                </div>
-                <button className="album-detail__song-detail__left__info__share-btn">
-                  <img src={shareIcon}/>
+                <button className="love" onClick={handleToggleLove}>
+                  <img src={loved ? lovedIcon : loveIcon} alt="love" />
+                  {loved ? 146 : 145}
                 </button>
+                  {/* <button className="play"><img src={playIcon}/>125K</button> */}
+                  <button className="comment"
+                    onClick={handleScrollToComment}
+                  ><img src={commentIcon}/>125K</button>
+                  <button 
+                    className="album-detail__song-detail__left__info__share-btn"
+                    onClick={()=>setShareModal(true)}
+                  >
+                    <img src={shareIcon}/>
+                  </button>
+                </div>
+                <p className="play"><img src={playIcon}/>125K</p>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -310,7 +390,7 @@ function AlbumDetail() {
                     </p>
                     <Link 
                       className="see-more-btn"
-                      to='/'
+                      to='/my-page'
                     >See More</Link>
                   </dd>
                 </dl>
@@ -362,7 +442,9 @@ function AlbumDetail() {
           {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
-          <AdvancedCommentComponent/>
+          <div ref={commentRef}>
+            <AdvancedCommentComponent />
+          </div>
         </section>
 
         <section className="album-detail__slide">
@@ -476,9 +558,13 @@ function AlbumDetail() {
             </Swiper>
           </div>
         </section>
-
-
       </div>
+      {isShareModal && 
+        <ShareModal
+          setShareModal={setShareModal}
+        />
+      }
+      
     </>
   );
 }

@@ -92,24 +92,54 @@
     }
 
     .selected-wrap {
-        padding: 16px;
+        // padding: 16px;
         border-radius: 18px;
         border: 1px solid #222;
+        height: 56px;
+        transition: 0.3s;
+        overflow: hidden;
+        &.active{
+            height: 416px;
+            .wrap-title {
+                &::before{
+                    border: 1px solid #fff;
+                    background: url('../assets/images/arrow_drop_down2.svg') center no-repeat;                    
+                    transform:translate(0,-50%) rotate(180deg);
+                }
+            }
+        }
         .wrap-title {
+            padding: 16px;
             color: var(--primary-base, #cf0);
             font-family: Orbitron400;
             font-size: 18px;
-            letter-spacing: 0.54px;
             margin-bottom: 12px;
+            cursor: pointer;
+            position: relative;
+            &::before{
+                content: '';
+                width: 24px;
+                height: 24px;
+                border: 1px solid #cf0;
+                position: absolute;
+                top: 50%;
+                right: 16px;
+                transform: translate(0,-50%);
+                transition: 0.3s;
+                background: url('../assets/images/arrow_drop_down.svg') center no-repeat;
+                background-size: contain;
+            }
         }
         .wrap-content {
-            // display: flex;
-            // gap: 16px 16px;
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+            padding: 0 16px;
             // flex-wrap: wrap;
             // align-items: center;
-            display: grid;
-            gap: 16px;
-            grid-template-columns: repeat(4, 1fr);
+            // display: grid;
+            // gap: 16px;
+            // grid-template-columns: repeat(4, 1fr);
         }
     }
 
@@ -151,7 +181,7 @@
         display: flex;
         justify-content: space-between;
         gap: 24px;
-
+        margin-top: 16px;
         .button-wrap__left {
             width: 100%;
             display: flex;

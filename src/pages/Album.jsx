@@ -334,9 +334,12 @@ function Album() {
                   <p className="album__content-list__list__item__right__user__info">
                     <img src={defaultCoverImg}/>Yolkhead
                   </p>
-                  <button className="album__content-list__list__item__right__user__btn">
+                  <Link 
+                    className="album__content-list__list__item__right__user__btn"
+                    to='/album-detail'
+                  >
                     유저정보
-                  </button>
+                  </Link>
                 </div>
               </div>
             </button>
@@ -365,6 +368,7 @@ function Album() {
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           modules={[Pagination,Autoplay]}
           className="swiper-music-list"

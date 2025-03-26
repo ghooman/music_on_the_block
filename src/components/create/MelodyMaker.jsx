@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import SubBanner from "./SubBanner";
@@ -57,13 +57,34 @@ const MelodyMaker = ({
   setGeneratedMusic,
   setPageNumber,
   onSkip,
+  SelectedWrap,
+  SelectedItem,
+  isMelodyPage,
+  selectedLanguage,
+  setSelectedLanguage,
 }) => {
   const { melody_tag, melody_genre, melody_style, melody_instrument } =
     melodyData || {};
 
   const [loading, setLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
+
+  // 각 필드에 값이 있는지 확인하는 변수
+  const isAnyFieldFilled =
+    (melody_tag && melody_tag.length > 0) ||
+    (melody_genre &&
+      melody_genre.length > 0 &&
+      melody_genre[0].trim() !== "") ||
+    (melody_style &&
+      melody_style.length > 0 &&
+      melody_style[0].trim() !== "") ||
+    (melody_instrument &&
+      melody_instrument.length > 0 &&
+      melody_instrument[0].trim() !== "") ||
+    (melodyStory && melodyStory.trim() !== "");
+
   const promptPreview = `
+      Language: ${selectedLanguage},
       Tags : ${melody_tag ? melody_tag.join(", ") : ""}
       Genre : ${melody_genre?.[0] ? melody_genre?.[0] : ""}
       Style : ${melody_style?.[0] ? melody_style?.[0] : ""}
@@ -82,17 +103,21 @@ const MelodyMaker = ({
   console.log("노래 생성 데이터", formData.prompt);
   console.log("노래 생성 데이터 길이", formData.prompt.length);
 
+  // 기존 코드: 노래 생성 요청
   const musicGenerate = async () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "https://api.topmediai.com/v1/music",
+        "https://muble.xyz/api/music/album/",
         formData,
         {
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키를 추가하세요.
+            Authorization:
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE3NDI5NzM0NjQsImVtYWlsIjpudWxsLCJ3YWxsZXRfYWRkcmVzcyI6InRlc3QiLCJvcmlnX2lhdCI6MTc0Mjg4NzA2NH0.J978P8exvriXBls8yULTwzlPQD8PiXYbNIFu3hrhOqw", // 테스트용 토큰
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
           },
+          withCredentials: true, // Access-Control-Allow-Credentials가 true인 경우 추가
         }
       );
       setGeneratedMusicResult(res.data.data);
@@ -104,6 +129,11 @@ const MelodyMaker = ({
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (generatedMusicResult) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [generatedMusicResult]);
 
   if (!generatedMusicResult)
     return (
@@ -114,7 +144,10 @@ const MelodyMaker = ({
           <SubBanner.Message text="Quickly import shared details from the Lyric Section, such as Tags, Genre, and Style. Save time by reusing your inputs!"></SubBanner.Message>
           <SubBanner.Button title="Load Details"></SubBanner.Button>
         </SubBanner>
-        <SelectItemWrap>
+        <SelectItemWrap
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+        >
           <SelectItem
             mainTitle="Select a Tags"
             subTitle="Popular Tags"
@@ -152,10 +185,10 @@ const MelodyMaker = ({
           <SelectItemStory value={melodyStory} setter={setMelodyStory} />
           <div className="selected-tag-list">
             <div className="selected-tag-list__title">
-              <h3>Selected Tags (max_length : 150)</h3>
+              <h3>Selected Tags (max_length : 200)</h3>
               <span>
                 current length :
-                <span style={{ color: promptPreview?.length > 150 && "red" }}>
+                <span style={{ color: promptPreview?.length > 200 && "red" }}>
                   {promptPreview?.length}
                 </span>
               </span>
@@ -171,6 +204,29 @@ const MelodyMaker = ({
           <SubBanner.Message text="You can choose to skip any step and still create a meaningful result. Complete both steps for a full song (lyrics + composition), or focus on just one to highlight your strengths."></SubBanner.Message>
           <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections."></SubBanner.SubMessage>
         </SubBanner>
+
+        {isMelodyPage && (
+          <SelectedWrap title="Melody Maker">
+            <SelectedItem
+              title="Tags"
+              value={melodyData?.melody_tag}
+              multiple
+            />
+            <SelectedItem title="Genre" value={melodyData?.melody_genre} />
+            <SelectedItem title="Style" value={melodyData?.melody_style} />
+            <SelectedItem
+              title={
+                <>
+                  Musical
+                  <br />
+                  Instrument
+                </>
+              }
+              value={melodyData?.melody_instrument}
+            />
+            <SelectedItem title="Tempo" value={tempo} />
+          </SelectedWrap>
+        )}
         <div className="button-wrap">
           <div className="button-wrap__left">
             <ExpandedButton
@@ -184,12 +240,14 @@ const MelodyMaker = ({
             </ExpandedButton>
           </div>
           <ExpandedButton
-            className="next"
-            // onClick={() => setPageNumber((prev) => prev + 1)}
+            className={
+              loading || promptPreview.length > 200 || !isAnyFieldFilled
+                ? "next"
+                : "next enable"
+            }
             onClick={() => musicGenerate()}
             disabled={
-              // !Object.values(melodyData)?.every((values) => values.length > 0) ||
-              loading || promptPreview.length > 150
+              loading || promptPreview.length > 200 || !isAnyFieldFilled
             }
           >
             {loading ? "Loading" : "Generate"}

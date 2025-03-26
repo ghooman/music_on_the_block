@@ -33,6 +33,5 @@ export const useUserDetail = () => {
       }
     }
   }, [query.isLoading, query.data, navigate]);
-
   return query;
 };

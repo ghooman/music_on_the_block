@@ -51,7 +51,7 @@ export const WalletConnect = ({ onConnect }) => {
         gasless: false,
       }}
       onDisconnect={() => {
-        localStorage.removeItem("wallet_status");
+        localStorage.removeItem("walletAddress");
       }}
     />
   );

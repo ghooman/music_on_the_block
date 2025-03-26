@@ -99,7 +99,7 @@ const MelodyMaker = ({
     title: "제목",
     instrumental: 0,
   };
-
+  console.log("formData", formData);
   console.log("노래 생성 데이터", formData.prompt);
   console.log("노래 생성 데이터 길이", formData.prompt.length);
 

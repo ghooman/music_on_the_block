@@ -35,7 +35,11 @@ const Menu = ({
     setActiveMenus([]); // 슬라이드 탭들 비활성화
     setActiveSubItem(null); // 하위 메뉴 초기화
     setActive(false);
-    if (menuName !== "album" && menuName !== "my-page") {
+    if (
+      menuName !== "album" &&
+      menuName !== "my-page" &&
+      menuName !== "my-favorites"
+    ) {
       setPreparingModal(true);
     }
   };
@@ -87,9 +91,7 @@ const Menu = ({
                   Log In
                 </button>
               )} */}
-              <WalletConnect 
-                setLogin={setLogin}
-              />
+              <WalletConnect setLogin={setLogin} />
               {login && (
                 <>
                   <div className="menu__box__my-page">
@@ -323,7 +325,7 @@ const Menu = ({
                 {/* 일반 아이템 - My Favorites */}
                 <div
                   className={`menu__box__gnb-list__item my-favorite ${
-                    activeSingle === "my-favorite" ? "active" : ""
+                    activeSingle === "my-favorites" ? "active" : ""
                   }`}
                 >
                   <Link

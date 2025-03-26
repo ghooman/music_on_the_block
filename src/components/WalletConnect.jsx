@@ -1,7 +1,7 @@
+// src/components/WalletConnect.jsx
 import { useEffect } from "react";
 import { createThirdwebClient } from "thirdweb";
 import { polygon } from "thirdweb/chains";
-// import { ConnectButton } from "thirdweb/react";
 import {
   ConnectButton,
   useActiveWallet,
@@ -9,7 +9,7 @@ import {
 } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 
-export const WalletConnect = ({ setLogin }) => {
+export const WalletConnect = ({ onConnect }) => {
   const client = createThirdwebClient({
     clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID,
   });
@@ -25,16 +25,21 @@ export const WalletConnect = ({ setLogin }) => {
   ];
 
   const walletStatus = useActiveWalletConnectionStatus();
-  console.log("walletStatus", walletStatus);
+  const activeWallet = useActiveWallet();
 
-  const emailAddress = useActiveWallet();
-  console.log("emailAddress", emailAddress && Object.keys(emailAddress));
-  console.log("emailAddress", emailAddress?.getAccount);
-
-  // 연결 상태 감지해서 로그인 상태 전달
+  // 로그인 성공 시 지갑 주소 전달
   useEffect(() => {
-    setLogin(walletStatus === "connected");
-  }, [walletStatus, setLogin]);
+    if (
+      walletStatus === "connected" &&
+      activeWallet &&
+      activeWallet.getAccount
+    ) {
+      const walletAddress = activeWallet.getAccount();
+      onConnect(true, walletAddress);
+    } else {
+      onConnect(false, null);
+    }
+  }, [walletStatus, activeWallet, onConnect]);
 
   return (
     <ConnectButton
@@ -46,7 +51,7 @@ export const WalletConnect = ({ setLogin }) => {
         gasless: false,
       }}
       onDisconnect={() => {
-        sessionStorage.removeItem("wallet_status");
+        localStorage.removeItem("wallet_status");
       }}
     />
   );

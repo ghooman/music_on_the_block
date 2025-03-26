@@ -325,21 +325,29 @@ const handleAllCheck = () => {
             />
           </div>
         </div>
-        {/* <div className="input-box">
-          <p className="input-box__title">Date of Birth<span>*</span></p>
-          <div className="input-box__cover">
-            <CustomDatePicker defaultDate={date1} onDateChange={setDate1} />
-          </div>
-          <p className="err-txt">Invalid date format. Please select a valid date.</p>
-        </div>
         <div className="input-box">
-          <p className="input-box__title">Email</p>
+          <p className="input-box__title">Email<span>*</span></p>
           <div className="input-box__cover">
             <input placeholder="Enter the email"/>
           </div>
           <p className="err-txt">This email is already registered. Please try another.</p>
         </div>
         <div className="input-box">
+          <p className="input-box__title">Wallet Address<span>*</span></p>
+          <div className="input-box__cover">
+            <input />
+          </div>
+          <p className="err-txt">This Wallet is already registered. Please try another.</p>
+        </div>
+        {/* <div className="input-box">
+          <p className="input-box__title">Date of Birth<span>*</span></p>
+          <div className="input-box__cover">
+            <CustomDatePicker defaultDate={date1} onDateChange={setDate1} />
+          </div>
+          <p className="err-txt">Invalid date format. Please select a valid date.</p>
+        </div> */}
+
+        {/* <div className="input-box">
           <p className="input-box__title">Recommended User</p>
           <div className="input-box__cover">
             <input placeholder="User Name"/>
@@ -347,6 +355,7 @@ const handleAllCheck = () => {
           </div>
           <p className="err-txt">This username is already taken. Please try another.</p>
         </div> */}
+
       </div>
 
       <div className="check-list">

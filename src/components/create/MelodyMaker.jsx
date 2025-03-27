@@ -110,16 +110,8 @@ const MelodyMaker = ({
     color_palette: "",
     song_length: "",
   };
-  // const formData = {
-  //   is_auto: 0,
-  //   prompt: promptPreview,
-  //   lyrics: generatedLyric,
-  //   title: "제목",
-  //   instrumental: 0,
-  // };
+
   console.log("formData", formData);
-  // console.log("노래 생성 데이터", formData.prompt);
-  // console.log("노래 생성 데이터 길이", formData.prompt.length);
 
   // 기존 코드: 노래 생성 요청
   const musicGenerate = async () => {

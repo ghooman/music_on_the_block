@@ -12,7 +12,6 @@ import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
 
 import "../styles/Create.scss";
-import GeneratedMusic from "../components/create/GeneratedMusic";
 
 const Create = () => {
   const [pageNumber, setPageNumber] = useState(-1);

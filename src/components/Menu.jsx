@@ -34,7 +34,6 @@ const Menu = ({
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
-  console.log("userData", userData);
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = (menuName) => {
     setActiveMenus(

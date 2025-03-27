@@ -1,5 +1,5 @@
 import "../styles/AlbumDetail.scss";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   BrowserRouter,
   Link,
@@ -8,8 +8,8 @@ import {
   Routes,
   useLocation,
   useParams,
-  // useNavigate,
 } from "react-router-dom";
+import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import coverImg from "../assets/images/intro/intro-demo-img.png";
 import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
@@ -41,9 +41,12 @@ import {
 
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
+import { AuthContext } from "../contexts/AuthContext";
 
 function AlbumDetail() {
-  const { id } = useParams();
+  const serverApi = process.env.REACT_APP_SERVER_API;
+  const { id, walletAddress } = useParams();
+  const { token } = useContext(AuthContext);
   const dummyData = [
     {
       id: 30,
@@ -267,6 +270,26 @@ function AlbumDetail() {
       });
     }
   };
+  // 앨범 관련 상태
+  const [album, setAlbum] = useState(null);
+  // 앨범 상세 정보 가져오기
+  useEffect(() => {
+    const fetchAlbumDetail = async () => {
+      try {
+        const response = await axios.get(`${serverApi}/api/music/${id}`, {
+          params: {
+            wallet_address: walletAddress,
+          },
+        });
+
+        console.log("앨범 상세 정보:", response.data);
+        setAlbum(response.data);
+      } catch (error) {
+        console.error("앨범 상세 정보 가져오기 에러:", error);
+      }
+    };
+    fetchAlbumDetail();
+  }, [id, walletAddress, token, serverApi]);
 
   return (
     <>
@@ -277,6 +300,8 @@ function AlbumDetail() {
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
+          {/* 음악 재생 */}
+          <audio src={album?.music_url || track1} controls></audio>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
               <div
@@ -285,35 +310,9 @@ function AlbumDetail() {
                 }`}
                 onClick={handleClick}
               >
-                <img src={coverImg} />
+                <img src={album?.image || coverImg} />
                 <div className="album-detail__song-detail__left__img__txt">
-                  <pre>
-                    In the quiet of the night When the stars are shining bright
-                    I hear the whisper of your name Like a soft and gentle flame
-                    <br />
-                    <br />
-                    Every memory comes alive In the corners of my mind Though
-                    you're far, you're still so near In my heart, you're always
-                    here
-                    <br />
-                    <br />
-                    In the quiet of the night When the stars are shining bright
-                    I hear the whisper of your name Like a soft and gentle flame
-                    <br />
-                    <br />
-                    Every memory comes alive In the corners of my mind Though
-                    you're far, you're still so near In my heart, you're always
-                    here
-                    <br />
-                    <br />
-                    In the quiet of the night When the stars are shining bright
-                    I hear the whisper of your name Like a soft and gentle flame
-                    <br />
-                    <br />
-                    Every memory comes alive In the corners of my mind Though
-                    you're far, you're still so near In my heart, you're always
-                    here
-                  </pre>
+                  <pre>{album?.lyrics}</pre>
                 </div>
               </div>
               <div className="album-detail__song-detail__left__info">

@@ -69,6 +69,26 @@ const Menu = ({
     setActive(false);
   };
 
+  // userData.wallet_address가 존재하면 앞 5글자와 뒤 4글자만 표시합니다.
+  const truncatedAddress = userData?.wallet_address
+    ? `${userData.wallet_address.slice(0, 5)}...${userData.wallet_address.slice(
+        -4
+      )}`
+    : "No wallet";
+  // copy 버튼 클릭 시 전체 wallet address를 클립보드에 복사
+  const copyAddress = () => {
+    if (userData?.wallet_address) {
+      navigator.clipboard
+        .writeText(userData.wallet_address)
+        .then(() => {
+          alert("지갑 주소가 복사되었습니다.");
+        })
+        .catch((err) => {
+          console.error("복사에 실패하였습니다: ", err);
+        });
+    }
+  };
+
   // const [isScrolled, setIsScrolled] = useState(false);
 
   // useEffect(() => {
@@ -125,8 +145,8 @@ const Menu = ({
                         ></p>
                         <dl className="menu__box__my-page__info__top__txt">
                           <dt>
-                            {userData?.walletAddress || "No wallet"}
-                            <button>
+                            {truncatedAddress}
+                            <button onClick={copyAddress}>
                               <img src={copyIcon} alt="copy icon" />
                             </button>
                           </dt>

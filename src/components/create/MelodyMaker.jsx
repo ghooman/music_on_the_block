@@ -131,8 +131,7 @@ const MelodyMaker = ({
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE3NDI5NzM0NjQsImVtYWlsIjpudWxsLCJ3YWxsZXRfYWRkcmVzcyI6InRlc3QiLCJvcmlnX2lhdCI6MTc0Mjg4NzA2NH0.J978P8exvriXBls8yULTwzlPQD8PiXYbNIFu3hrhOqw", // 테스트용 토큰
+            Authorization: `Bearer ${token}`,
             "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
           },
         }
@@ -143,7 +142,7 @@ const MelodyMaker = ({
       alert("에러 발생");
       console.log("handleSubmit error", err.message);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
   useEffect(() => {

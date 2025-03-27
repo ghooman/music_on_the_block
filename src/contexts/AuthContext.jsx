@@ -9,7 +9,11 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [walletAddress, setWalletAddress] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // isRegistered 상태 추가 (회원가입 완료 여부)
+  const [isRegistered, setIsRegistered] = useState(false);
+
   console.log("walletAddress:", walletAddress);
+
   // 로그인 상태와 지갑 주소가 업데이트되면 토큰 발급 API 호출
   useEffect(() => {
     if (isLoggedIn && walletAddress) {
@@ -28,7 +32,26 @@ export const AuthProvider = ({ children }) => {
       };
       getToken();
     }
-  }, [isLoggedIn, walletAddress]);
+  }, [isLoggedIn, walletAddress, serverApi]);
+
+  // 토큰이 있으면 현재 사용자 정보를 가져와 회원가입 완료 여부를 확인
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(`${serverApi}/api/user/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          // 응답이 성공하면 회원가입 완료된 것으로 판단
+          setIsRegistered(true);
+        } catch (error) {
+          // 에러가 발생하면 회원가입이 완료되지 않은 상태로 처리
+          setIsRegistered(false);
+        }
+      }
+    };
+    fetchUser();
+  }, [token, serverApi]);
 
   return (
     <AuthContext.Provider
@@ -39,6 +62,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         walletAddress,
         setWalletAddress,
+        isRegistered,
+        setIsRegistered,
       }}
     >
       {children}

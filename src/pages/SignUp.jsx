@@ -207,6 +207,7 @@
 // pages/SignUp.js
 import "../styles/SignUp.scss";
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import profileImg from "../assets/images/progile-img.svg";
 import popImg from "../assets/images/sing-up/POP-img.png";
 import randbImg from "../assets/images/sing-up/R&B-img.png";
@@ -643,7 +644,7 @@ const PreferredGenre = ({ onBack, onNext }) => {
 };
 
 function SignUp() {
-  const { token, walletAddress } = useContext(AuthContext);
+  const { token, walletAddress, isRegistered } = useContext(AuthContext);
   const [step, setStep] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -651,6 +652,14 @@ function SignUp() {
     email: "",
     introduction: "",
   });
+  const navigate = useNavigate();
+
+  // 회원가입 완료된 사용자는 SignUp 페이지에 접근할 수 없도록 함
+  useEffect(() => {
+    if (token && isRegistered) {
+      navigate("/main");
+    }
+  }, [token, isRegistered, navigate]);
 
   const handleNext = () => {
     if (step === 1) {

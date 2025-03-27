@@ -33,8 +33,8 @@ const Menu = ({
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
-  const { data, isLoading, error } = useUserDetail();
-  console.log("userData", data);
+  const { data: userData, isLoading, error } = useUserDetail();
+  console.log("userData", userData);
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = (menuName) => {
     setActiveMenus(

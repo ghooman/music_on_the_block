@@ -140,7 +140,11 @@ const Menu = ({
                       <div className="menu__box__my-page__info__top">
                         <p
                           className="menu__box__my-page__info__top__img"
-                          style={{ backgroundImage: `url(${userImg})` }}
+                          style={{
+                            backgroundImage: `url(${
+                              userData?.profile || userImg
+                            })`,
+                          }}
                         ></p>
                         <dl className="menu__box__my-page__info__top__txt">
                           <dt>

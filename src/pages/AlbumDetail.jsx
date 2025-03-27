@@ -1,5 +1,5 @@
 import "../styles/AlbumDetail.scss";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   BrowserRouter,
   Link,
@@ -7,37 +7,46 @@ import {
   Router,
   Routes,
   useLocation,
-  // useNavigate,
-} from 'react-router-dom';
-import MyAudioPlayer from '../components/MyAudioPlayer';
-import coverImg from '../assets/images/intro/intro-demo-img.png';
-import coverImg2 from '../assets/images/intro/intro-demo-img2.png';
-import coverImg3 from '../assets/images/intro/intro-demo-img3.png';
-import coverImg4 from '../assets/images/demo/album01.svg';
-import coverImg5 from '../assets/images/demo/album02.svg';
-import coverImg6 from '../assets/images/demo/album03.svg';
-import coverImg7 from '../assets/images/demo/album04.svg';
-import coverImg8 from '../assets/images/demo/album05.svg';
-import coverImg9 from '../assets/images/demo/album06.svg';
-import loveIcon from '../assets/images/like-icon/like-icon.svg';
-import lovedIcon from '../assets/images/like-icon/like-icon-on.svg';
-import playIcon from '../assets/images/album/play-icon.svg';
-import commentIcon from '../assets/images/album/chat-icon.svg';
-import shareIcon from '../assets/images/album/share-icon.svg';
-import defaultCoverImg from '../assets/images/header/logo.svg';
+  useParams,
+} from "react-router-dom";
+import axios from "axios";
+import MyAudioPlayer from "../components/MyAudioPlayer";
+import coverImg from "../assets/images/intro/intro-demo-img.png";
+import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
+import coverImg3 from "../assets/images/intro/intro-demo-img3.png";
+import coverImg4 from "../assets/images/demo/album01.svg";
+import coverImg5 from "../assets/images/demo/album02.svg";
+import coverImg6 from "../assets/images/demo/album03.svg";
+import coverImg7 from "../assets/images/demo/album04.svg";
+import coverImg8 from "../assets/images/demo/album05.svg";
+import coverImg9 from "../assets/images/demo/album06.svg";
+import loveIcon from "../assets/images/like-icon/like-icon.svg";
+import lovedIcon from "../assets/images/like-icon/like-icon-on.svg";
+import playIcon from "../assets/images/album/play-icon.svg";
+import commentIcon from "../assets/images/album/chat-icon.svg";
+import shareIcon from "../assets/images/album/share-icon.svg";
+import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 
-
 //스와이프
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  FreeMode,
+  Navigation,
+  Thumbs,
+  Pagination,
+  Autoplay,
+} from "swiper/modules";
 
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
-
+import { AuthContext } from "../contexts/AuthContext";
 
 function AlbumDetail() {
+  const serverApi = process.env.REACT_APP_SERVER_API;
+  const { id, walletAddress } = useParams();
+  const { token } = useContext(AuthContext);
   const dummyData = [
     {
       id: 30,
@@ -81,69 +90,66 @@ function AlbumDetail() {
     },
   ];
 
-
-
-
   const [tracks, setTracks] = useState([
     {
       id: 1,
-      title: 'he dances through his masks like breathing - Yolkhead',
+      title: "he dances through his masks like breathing - Yolkhead",
       src: track1,
       cover: coverImg,
       duration: null,
     },
     {
       id: 2,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg2,
       duration: null,
     },
     {
       id: 3,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track2,
       cover: coverImg3,
       duration: null,
     },
     {
       id: 4,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg4,
       duration: null,
     },
     {
       id: 5,
-      title: 'he dances through his masks like breathing - Yolkhead',
+      title: "he dances through his masks like breathing - Yolkhead",
       src: track2,
       cover: coverImg5,
       duration: null,
     },
     {
       id: 6,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg6,
       duration: null,
     },
     {
       id: 7,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track2,
       cover: coverImg7,
       duration: null,
     },
     {
       id: 8,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg8,
       duration: null,
     },
     {
       id: 9,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track2,
       cover: coverImg9,
       duration: null,
@@ -151,63 +157,63 @@ function AlbumDetail() {
 
     {
       id: 10,
-      title: 'he dances through his masks like breathing - Yolkhead',
+      title: "he dances through his masks like breathing - Yolkhead",
       src: track1,
       cover: coverImg9,
       duration: null,
     },
     {
       id: 11,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg8,
       duration: null,
     },
     {
       id: 12,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track2,
       cover: coverImg7,
       duration: null,
     },
     {
       id: 13,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg4,
       duration: null,
     },
     {
       id: 14,
-      title: 'he dances through his masks like breathing - Yolkhead',
+      title: "he dances through his masks like breathing - Yolkhead",
       src: track2,
       cover: coverImg5,
       duration: null,
     },
     {
       id: 15,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg6,
       duration: null,
     },
     {
       id: 16,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track2,
       cover: coverImg7,
       duration: null,
     },
     {
       id: 17,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track1,
       cover: coverImg8,
       duration: null,
     },
     {
       id: 18,
-      title: 'Touch The Sky - Simon Doty',
+      title: "Touch The Sky - Simon Doty",
       src: track2,
       cover: coverImg9,
       duration: null,
@@ -236,34 +242,54 @@ function AlbumDetail() {
       },
     },
   };
-  
+
   const [isActive, setIsActive] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
   const [loved, setLoved] = useState(false);
 
   const handleClick = () => {
-    setIsActive(prev => !prev);
+    setIsActive((prev) => !prev);
   };
   const handleToggleLove = () => {
-    setLoved(prev => !prev);
+    setLoved((prev) => !prev);
   };
-
 
   const commentRef = useRef(null);
 
   const handleScrollToComment = () => {
     if (commentRef.current) {
       const offset = -100;
-      const top = commentRef.current.getBoundingClientRect().top + window.scrollY + offset;
-  
+      const top =
+        commentRef.current.getBoundingClientRect().top +
+        window.scrollY +
+        offset;
+
       window.scrollTo({
         top,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   };
-  
+  // 앨범 관련 상태
+  const [album, setAlbum] = useState(null);
+  // 앨범 상세 정보 가져오기
+  useEffect(() => {
+    const fetchAlbumDetail = async () => {
+      try {
+        const response = await axios.get(`${serverApi}/api/music/${id}`, {
+          params: {
+            wallet_address: walletAddress,
+          },
+        });
 
+        console.log("앨범 상세 정보:", response.data);
+        setAlbum(response.data);
+      } catch (error) {
+        console.error("앨범 상세 정보 가져오기 에러:", error);
+      }
+    };
+    fetchAlbumDetail();
+  }, [id, walletAddress, token, serverApi]);
 
   return (
     <>
@@ -274,70 +300,43 @@ function AlbumDetail() {
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
+          {/* 음악 재생 */}
+          <audio src={album?.music_url || track1} controls></audio>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
-            <div 
-              className={`album-detail__song-detail__left__img ${isActive ? "active" : ""}`} 
-              onClick={handleClick}
-            >
-                <img src={coverImg}/>
+              <div
+                className={`album-detail__song-detail__left__img ${
+                  isActive ? "active" : ""
+                }`}
+                onClick={handleClick}
+              >
+                <img src={album?.image || coverImg} />
                 <div className="album-detail__song-detail__left__img__txt">
-                  <pre>
-                    In the quiet of the night  
-                    When the stars are shining bright  
-                    I hear the whisper of your name  
-                    Like a soft and gentle flame  
-                    <br/>
-                    <br/>
-                    Every memory comes alive  
-                    In the corners of my mind  
-                    Though you're far, you're still so near  
-                    In my heart, you're always here  
-                    <br/>
-                    <br/>
-                    In the quiet of the night  
-                    When the stars are shining bright  
-                    I hear the whisper of your name  
-                    Like a soft and gentle flame  
-                    <br/>
-                    <br/>
-                    Every memory comes alive  
-                    In the corners of my mind  
-                    Though you're far, you're still so near  
-                    In my heart, you're always here  
-                    <br/>
-                    <br/>
-                    In the quiet of the night  
-                    When the stars are shining bright  
-                    I hear the whisper of your name  
-                    Like a soft and gentle flame  
-                    <br/>
-                    <br/>
-                    Every memory comes alive  
-                    In the corners of my mind  
-                    Though you're far, you're still so near  
-                    In my heart, you're always here  
-                  </pre>
+                  <pre>{album?.lyrics}</pre>
                 </div>
               </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
-                <button className="love" onClick={handleToggleLove}>
-                  <img src={loved ? lovedIcon : loveIcon} alt="love" />
-                  {loved ? 146 : 145}
-                </button>
+                  <button className="love" onClick={handleToggleLove}>
+                    <img src={loved ? lovedIcon : loveIcon} alt="love" />
+                    {loved ? 146 : 145}
+                  </button>
                   {/* <button className="play"><img src={playIcon}/>125K</button> */}
-                  <button className="comment"
-                    onClick={handleScrollToComment}
-                  ><img src={commentIcon}/>125K</button>
-                  <button 
+                  <button className="comment" onClick={handleScrollToComment}>
+                    <img src={commentIcon} />
+                    125K
+                  </button>
+                  <button
                     className="album-detail__song-detail__left__info__share-btn"
-                    onClick={()=>setShareModal(true)}
+                    onClick={() => setShareModal(true)}
                   >
-                    <img src={shareIcon}/>
+                    <img src={shareIcon} />
                   </button>
                 </div>
-                <p className="play"><img src={playIcon}/>125K</p>
+                <p className="play">
+                  <img src={playIcon} />
+                  125K
+                </p>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -386,27 +385,23 @@ function AlbumDetail() {
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={coverImg2}/>Yolkhead
+                      <img src={coverImg2} />
+                      Yolkhead
                     </p>
-                    <Link 
-                      className="see-more-btn"
-                      to='/my-page'
-                    >See More</Link>
+                    <Link className="see-more-btn" to="/my-page">
+                      See More
+                    </Link>
                   </dd>
                 </dl>
               </div>
             </div>
           </div>
         </section>
-        
+
         <section className="album-detail__rank-table">
           <dl className="album-detail__rank-table__title">
-            <dt>
-              Albums Leaderboard Rank
-            </dt>
-            <dd>
-              Most Likes
-            </dd>
+            <dt>Albums Leaderboard Rank</dt>
+            <dd>Most Likes</dd>
           </dl>
           <div className="table-container">
             <table className="custom-table">
@@ -425,10 +420,14 @@ function AlbumDetail() {
                   <tr key={item.id}>
                     <td>{item.id}</td>
                     <td>{item.userName}</td>
-                    <td dangerouslySetInnerHTML={{ __html: item.description }}></td>
+                    <td
+                      dangerouslySetInnerHTML={{ __html: item.description }}
+                    ></td>
                     <td>{item.date}</td>
                     <td>
-                      <span className={`heart ${item.liked ? "liked" : ""}`}></span>
+                      <span
+                        className={`heart ${item.liked ? "liked" : ""}`}
+                      ></span>
                     </td>
                     <td>
                       <button className={item.buttonClass}>Details</button>
@@ -451,11 +450,13 @@ function AlbumDetail() {
           <dl className="album-detail__slide__title">
             <dt>Recommended Music Source</dt>
             <dd>
-              Discover music tracks tailored to your preferences. Based on mood, genre, and user recommendations, these songs are perfectly matched to your current selection
+              Discover music tracks tailored to your preferences. Based on mood,
+              genre, and user recommendations, these songs are perfectly matched
+              to your current selection
             </dd>
           </dl>
           <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="album-detail-slide" >
+            <Swiper {...swiperOptions} className="album-detail-slide">
               {tracks.slice(0, 9).map((track, index) => (
                 <SwiperSlide>
                   <button
@@ -466,11 +467,8 @@ function AlbumDetail() {
                       <p
                         className="album__content-list__list__item__left__img"
                         style={{ backgroundImage: `url(${track.cover})` }}
-                      >
-                      </p>
-                      <span className="time">
-                        2:11
-                      </span>
+                      ></p>
+                      <span className="time">2:11</span>
                       {/* <span className="time">
                         {selectedTrackIndex === index
                           ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
@@ -482,12 +480,19 @@ function AlbumDetail() {
                         {track.title}
                       </p>
                       <div className="album__content-list__list__item__right__love-play">
-                        <p className="love"><img src={loveIcon}/>145</p>
-                        <p className="play"><img src={playIcon}/>145</p>
+                        <p className="love">
+                          <img src={loveIcon} />
+                          145
+                        </p>
+                        <p className="play">
+                          <img src={playIcon} />
+                          145
+                        </p>
                       </div>
                       <div className="album__content-list__list__item__right__user">
                         <p className="album__content-list__list__item__right__user__info">
-                          <img src={defaultCoverImg}/>Yolkhead
+                          <img src={defaultCoverImg} />
+                          Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
                           유저정보
@@ -497,22 +502,21 @@ function AlbumDetail() {
                   </button>
                 </SwiperSlide>
               ))}
-
             </Swiper>
           </div>
         </section>
-
-
 
         <section className="album-detail__slide">
           <dl className="album-detail__slide__title">
             <dt>Content liked by other users</dt>
             <dd>
-            Expand your music journey with tracks loved by users who appreciated this sound. Find hidden gems and connect with similar musical tastes.
+              Expand your music journey with tracks loved by users who
+              appreciated this sound. Find hidden gems and connect with similar
+              musical tastes.
             </dd>
           </dl>
           <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="album-detail-slide" >
+            <Swiper {...swiperOptions} className="album-detail-slide">
               {tracks.slice(0, 9).map((track, index) => (
                 <SwiperSlide>
                   <button
@@ -523,11 +527,8 @@ function AlbumDetail() {
                       <p
                         className="album__content-list__list__item__left__img"
                         style={{ backgroundImage: `url(${track.cover})` }}
-                      >
-                      </p>
-                      <span className="time">
-                        2:11
-                      </span>
+                      ></p>
+                      <span className="time">2:11</span>
                       {/* <span className="time">
                         {selectedTrackIndex === index
                           ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
@@ -539,12 +540,19 @@ function AlbumDetail() {
                         {track.title}
                       </p>
                       <div className="album__content-list__list__item__right__love-play">
-                        <p className="love"><img src={loveIcon}/>145</p>
-                        <p className="play"><img src={playIcon}/>145</p>
+                        <p className="love">
+                          <img src={loveIcon} />
+                          145
+                        </p>
+                        <p className="play">
+                          <img src={playIcon} />
+                          145
+                        </p>
                       </div>
                       <div className="album__content-list__list__item__right__user">
                         <p className="album__content-list__list__item__right__user__info">
-                          <img src={defaultCoverImg}/>Yolkhead
+                          <img src={defaultCoverImg} />
+                          Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
                           유저정보
@@ -554,17 +562,11 @@ function AlbumDetail() {
                   </button>
                 </SwiperSlide>
               ))}
-
             </Swiper>
           </div>
         </section>
       </div>
-      {isShareModal && 
-        <ShareModal
-          setShareModal={setShareModal}
-        />
-      }
-      
+      {isShareModal && <ShareModal setShareModal={setShareModal} />}
     </>
   );
 }

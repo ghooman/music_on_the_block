@@ -203,6 +203,7 @@ const LyricLab = ({
             objKey="lyric_genre"
             selected={lylicData?.lyric_genre}
             preset={genrePreset}
+            multiple
           />
           <SelectItem
             mainTitle="Select a Style"
@@ -211,6 +212,7 @@ const LyricLab = ({
             objKey="lyric_style"
             selected={lylicData?.lyric_style}
             preset={stylePreset}
+            multiple
           />
           <SelectItem
             mainTitle="Select a Stylistic"
@@ -219,6 +221,7 @@ const LyricLab = ({
             objKey="lyric_stylistic"
             selected={lylicData?.lyric_stylistic}
             preset={stylisticPreset}
+            multiple
           />
           <SelectItemStory value={lyricStory} setter={setLyricStory} />
         </SelectItemWrap>

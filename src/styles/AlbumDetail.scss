@@ -697,6 +697,15 @@
 
 
 
+@media screen and (max-width: 1600px) {
+  .album{
+    .album__header{
+      &.scrolled{
+        top: 86px;
+      }
+    }
+  }
+}
 
 @media screen and (max-width: 930px) {
   .album-detail{

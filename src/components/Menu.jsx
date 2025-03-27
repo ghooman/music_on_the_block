@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import "./Menu.scss";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import "./Menu.scss";
 
 // 이미지
 import levelIcon from "../assets/images/menu/level-icon.svg";
 import userImg from "../assets/images/intro/intro-demo-img2.png";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
+import { AuthContext } from "../contexts/AuthContext";
 import { WalletConnect } from "./WalletConnect";
-
+import { useUserDetail } from "../hooks/useUserDetail";
 const Menu = ({
   active,
   setActive,
@@ -20,6 +21,20 @@ const Menu = ({
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
 
+  // AuthContext에서 전역 인증 상태 업데이트 함수 가져오기
+  const { isLoggedIn, setIsLoggedIn, setWalletAddress } =
+    useContext(AuthContext);
+
+  // WalletConnect에서 전달받은 콜백 함수
+  const handleWalletConnect = (loggedIn, walletAddress) => {
+    setIsLoggedIn(loggedIn);
+    if (loggedIn && walletAddress) {
+      setWalletAddress(walletAddress);
+      // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
+    }
+  };
+  const { data: userData, isLoading, error } = useUserDetail();
+  console.log("userData", userData);
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = (menuName) => {
     setActiveMenus(
@@ -35,7 +50,11 @@ const Menu = ({
     setActiveMenus([]); // 슬라이드 탭들 비활성화
     setActiveSubItem(null); // 하위 메뉴 초기화
     setActive(false);
-    if (menuName !== "album" && menuName !== "my-page") {
+    if (
+      menuName !== "album" &&
+      menuName !== "my-page" &&
+      menuName !== "my-favorites"
+    ) {
       setPreparingModal(true);
     }
   };
@@ -48,6 +67,26 @@ const Menu = ({
 
   const closeMenu = () => {
     setActive(false);
+  };
+
+  // userData.wallet_address가 존재하면 앞 5글자와 뒤 4글자만 표시합니다.
+  const truncatedAddress = userData?.wallet_address
+    ? `${userData.wallet_address.slice(0, 5)}...${userData.wallet_address.slice(
+        -4
+      )}`
+    : "No wallet";
+  // copy 버튼 클릭 시 전체 wallet address를 클립보드에 복사
+  const copyAddress = () => {
+    if (userData?.wallet_address) {
+      navigator.clipboard
+        .writeText(userData.wallet_address)
+        .then(() => {
+          alert("지갑 주소가 복사되었습니다.");
+        })
+        .catch((err) => {
+          console.error("복사에 실패하였습니다: ", err);
+        });
+    }
   };
 
   // const [isScrolled, setIsScrolled] = useState(false);
@@ -87,8 +126,8 @@ const Menu = ({
                   Log In
                 </button>
               )} */}
-              <WalletConnect setLogin={setLogin} />
-              {login && (
+              <WalletConnect onConnect={handleWalletConnect} />
+              {isLoggedIn && (
                 <>
                   <div className="menu__box__my-page">
                     <div className="menu__box__my-page__level">
@@ -106,12 +145,12 @@ const Menu = ({
                         ></p>
                         <dl className="menu__box__my-page__info__top__txt">
                           <dt>
-                            0xF2D...45
-                            <button>
+                            {truncatedAddress}
+                            <button onClick={copyAddress}>
                               <img src={copyIcon} alt="copy icon" />
                             </button>
                           </dt>
-                          <dd>Yolkhead_12142</dd>
+                          <dd>{userData?.name || "No Sign up"}</dd>
                         </dl>
                       </div>
                       <div className="menu__box__my-page__info__bottom">
@@ -321,7 +360,7 @@ const Menu = ({
                 {/* 일반 아이템 - My Favorites */}
                 <div
                   className={`menu__box__gnb-list__item my-favorite ${
-                    activeSingle === "my-favorite" ? "active" : ""
+                    activeSingle === "my-favorites" ? "active" : ""
                   }`}
                 >
                   <Link

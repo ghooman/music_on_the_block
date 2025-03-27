@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const useUserDetail = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
+  console.log("token", token);
   const navigate = useNavigate();
 
   const query = useQuery(

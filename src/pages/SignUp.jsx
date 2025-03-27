@@ -204,6 +204,7 @@
 
 // export default SingUp;
 
+// pages/SignUp.js
 import "../styles/SignUp.scss";
 import React, { useState, useEffect, useContext } from "react";
 import profileImg from "../assets/images/progile-img.svg";
@@ -216,22 +217,22 @@ import jazzImg from "../assets/images/sing-up/JAZZ-img.png";
 import SingUpCompleteModal from "../components/SingUpCompleteModal";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
+
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-const AIDetailedSettings = ({ onNext }) => {
+const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { walletAddress, token } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [artistName, setArtistName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [email, setEmail] = useState("");
-  const [date1, setDate1] = useState(null);
   const [passName, setPassName] = useState(false);
   const [passEmail, setPassEmail] = useState(false);
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
 
   const maxLength = 150;
 
@@ -281,10 +282,20 @@ const AIDetailedSettings = ({ onNext }) => {
       setIntroduction(e.target.value);
     }
   };
-  // 닉네임 중복체크
+
+  // 닉네임 중복체크 전 양식 검사 (특수문자 미허용, 최대 10글자)
   const handleCheckName = async () => {
-    setNameError(false);
+    setNameErrorMessage("");
     setPassName(false);
+    // 이름 포맷 검사: 영문, 숫자, 한글, 공백만 허용하며 1~10글자
+    const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
+    if (!nameRegex.test(artistName)) {
+      setNameErrorMessage(
+        "이름은 특수문자를 사용할 수 없으며 최대 10글자까지 입력 가능합니다."
+      );
+      return;
+    }
+    // 중복체크 API 호출
     try {
       const response = await axios.get(
         `${serverApi}/api/user/name/check?name=${artistName}`,
@@ -298,7 +309,9 @@ const AIDetailedSettings = ({ onNext }) => {
       setPassName(true);
     } catch (error) {
       console.error("닉네임 중복체크 에러:", error);
-      setNameError(true);
+      setNameErrorMessage(
+        "이미 사용 중인 이름입니다. 다른 이름을 입력해주세요."
+      );
     }
   };
 
@@ -310,18 +323,19 @@ const AIDetailedSettings = ({ onNext }) => {
   // 이메일 입력 핸들러
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    setEmailError(false);
+    setEmailErrorMessage("");
     setPassEmail(false);
   };
 
-  // 체크 버튼 클릭 핸들러 (이메일 형식 검사 후 중복체크)
+  // 체크 버튼 클릭 핸들러 (이메일 양식 검사 후 중복체크)
   const handleCheckEmail = async () => {
+    setEmailErrorMessage("");
+    setPassEmail(false);
     // 이메일 형식 검사
     if (!validateEmailFormat(email)) {
-      setEmailError(true);
+      setEmailErrorMessage("이메일 형식이 올바르지 않습니다.");
       return;
     }
-
     // 중복체크 API 호출
     try {
       const response = await axios.get(
@@ -336,9 +350,14 @@ const AIDetailedSettings = ({ onNext }) => {
       setPassEmail(true);
     } catch (error) {
       console.error("이메일 중복체크 에러:", error);
-      setEmailError(true);
+      setEmailErrorMessage(
+        "이미 등록된 이메일입니다. 다른 이메일을 입력해주세요."
+      );
     }
   };
+
+  // Next 버튼 활성화 조건: 이름, 이메일 중복체크 통과 및 모든 체크박스 선택
+  const isNextEnabled = passName && passEmail && allChecked;
 
   return (
     <div className="sing-up__setting">
@@ -365,68 +384,140 @@ const AIDetailedSettings = ({ onNext }) => {
         </div>
         <div className="input-box">
           <p className="input-box__title">
-            Artist Name<span>*</span>
+            Artist Name <span>*</span>
           </p>
           <div className="input-box__cover">
             <input
               placeholder="Please enter your Artist Name here."
-              value={artistName}
-              onChange={(e) => setArtistName(e.target.value)}
+              value={formData.artistName}
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  artistName: e.target.value,
+                });
+                setNameErrorMessage("");
+                setPassName(false);
+              }}
             />
             <button
               className="btn"
-              onClick={() => {
-                handleCheckName();
+              onClick={async () => {
+                // handleCheckName 함수 내에서 formData.artistName 사용
+                setNameErrorMessage("");
+                setPassName(false);
+                const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
+                if (!nameRegex.test(formData.artistName)) {
+                  setNameErrorMessage(
+                    "이름은 특수문자를 사용할 수 없으며 최대 10글자까지 입력 가능합니다."
+                  );
+                  return;
+                }
+                try {
+                  const response = await axios.get(
+                    `${serverApi}/api/user/name/check?name=${formData.artistName}`,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    }
+                  );
+                  console.log(response);
+                  setPassName(true);
+                } catch (error) {
+                  console.error("닉네임 중복체크 에러:", error);
+                  setNameErrorMessage(
+                    "이미 사용 중인 이름입니다. 다른 이름을 입력해주세요."
+                  );
+                }
               }}
             >
               check
             </button>
           </div>
           {passName && <p className="pass-txt">This username is available.</p>}
-          {nameError && (
-            <p className="err-txt">
-              This username is already taken. Please try another.
-            </p>
-          )}
+          {nameErrorMessage && <p className="err-txt">{nameErrorMessage}</p>}
         </div>
         <div className="input-box">
           <p className="input-box__title two-content">
             Introduction{" "}
             <strong>
-              Characters: {introduction.length}/{maxLength}
+              Characters: {formData.introduction.length}/{maxLength}
             </strong>
           </p>
           <div className="input-box__cover">
             <textarea
               placeholder="Introduction"
-              value={introduction}
-              onChange={handleChange}
+              value={formData.introduction}
+              onChange={(e) => {
+                if (e.target.value.length <= maxLength) {
+                  setFormData({
+                    ...formData,
+                    introduction: e.target.value,
+                  });
+                }
+              }}
             />
           </div>
         </div>
         <div className="input-box">
           <p className="input-box__title">
-            Email<span>*</span>
+            Email <span>*</span>
           </p>
           <div className="input-box__cover">
             <input
               placeholder="Enter the email"
-              value={email}
-              onChange={handleEmailChange}
+              value={formData.email}
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  email: e.target.value,
+                });
+                setEmailErrorMessage("");
+                setPassEmail(false);
+              }}
             />
-            <button className="btn" onClick={handleCheckEmail}>
+            <button
+              className="btn"
+              onClick={async () => {
+                setEmailErrorMessage("");
+                setPassEmail(false);
+                const validateEmailFormat = (email) => {
+                  return /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/.test(
+                    email
+                  );
+                };
+                if (!validateEmailFormat(formData.email)) {
+                  setEmailErrorMessage("이메일 형식이 올바르지 않습니다.");
+                  return;
+                }
+                try {
+                  const response = await axios.get(
+                    `${serverApi}/api/user/email/check?email=${formData.email}`,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    }
+                  );
+                  console.log(response);
+                  setPassEmail(true);
+                } catch (error) {
+                  console.error("이메일 중복체크 에러:", error);
+                  setEmailErrorMessage(
+                    "이미 등록된 이메일입니다. 다른 이메일을 입력해주세요."
+                  );
+                }
+              }}
+            >
               check
             </button>
           </div>
-          {emailError && (
-            <p className="err-txt">
-              This email is already registered. Please try another.
-            </p>
-          )}
+          {passEmail && <p className="pass-txt">This email is available.</p>}
+          {emailErrorMessage && <p className="err-txt">{emailErrorMessage}</p>}
         </div>
         <div className="input-box">
           <p className="input-box__title">
-            Wallet Address<span>*</span>
+            Wallet Address <span>*</span>
           </p>
           <div className="input-box__cover">
             <input value={walletAddress?.address} readOnly />
@@ -471,8 +562,11 @@ const AIDetailedSettings = ({ onNext }) => {
 
       <div className="sing-up__page-btn">
         <button
-          className="sing-up__page-btn__next"
+          className={`sing-up__page-btn__next ${
+            !(passName && passEmail && checks.every(Boolean)) ? "disabled" : ""
+          }`}
           onClick={() => {
+            if (!(passName && passEmail && checks.every(Boolean))) return;
             scrollToTop();
             onNext();
           }}
@@ -549,28 +643,74 @@ const PreferredGenre = ({ onBack, onNext }) => {
 };
 
 function SignUp() {
+  const { token, walletAddress } = useContext(AuthContext);
   const [step, setStep] = useState(1);
   const [showModal, setShowModal] = useState(false);
-  const [singUpCompleteModal, setSingUpCompleteModal] = useState(false);
+  const [formData, setFormData] = useState({
+    artistName: "",
+    email: "",
+    introduction: "",
+  });
 
   const handleNext = () => {
     if (step === 1) {
       setStep(2);
     } else {
+      handleSignUp();
+    }
+  };
+
+  const handleSignUp = async () => {
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("file", "");
+      formDataToSend.append(
+        "payload",
+        JSON.stringify({
+          name: formData.artistName,
+          email: formData.email,
+          introduce: formData.introduction,
+          wallet_address: walletAddress?.address,
+        })
+      );
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_API}/api/user/`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("handleSignUp", response);
+      console.log("보내는 데이터", formData, walletAddress?.address, token);
       setShowModal(true);
+    } catch (error) {
+      console.error("회원가입 에러:", error);
+      console.log("보내는 데이터", formData, walletAddress?.address, token);
     }
   };
 
   return (
     <div className="sing-up">
-      <p className="sing-up__title">Sign Up</p>
       {step === 1 ? (
-        <AIDetailedSettings onNext={handleNext} />
+        <AIDetailedSettings
+          formData={formData}
+          setFormData={setFormData}
+          onNext={handleNext}
+        />
       ) : (
-        <PreferredGenre onBack={() => setStep(1)} onNext={handleNext} />
+        <PreferredGenre
+          formData={formData}
+          setFormData={setFormData}
+          onBack={() => setStep(1)}
+          onNext={handleNext}
+        />
       )}
       {showModal && (
-        <SingUpCompleteModal setSingUpCompleteModal={setSingUpCompleteModal} />
+        <SingUpCompleteModal setSingUpCompleteModal={setShowModal} />
       )}
     </div>
   );

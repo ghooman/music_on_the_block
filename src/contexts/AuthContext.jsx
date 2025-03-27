@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [walletAddress, setWalletAddress] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  console.log("walletAddress:", walletAddress);
   // 로그인 상태와 지갑 주소가 업데이트되면 토큰 발급 API 호출
   useEffect(() => {
     if (isLoggedIn && walletAddress) {

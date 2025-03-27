@@ -110,32 +110,20 @@ const MelodyMaker = ({
     color_palette: "",
     song_length: "",
   };
-  // const formData = {
-  //   is_auto: 0,
-  //   prompt: promptPreview,
-  //   lyrics: generatedLyric,
-  //   title: "제목",
-  //   instrumental: 0,
-  // };
+
   console.log("formData", formData);
-  // console.log("노래 생성 데이터", formData.prompt);
-  // console.log("노래 생성 데이터 길이", formData.prompt.length);
 
   // 기존 코드: 노래 생성 요청
   const musicGenerate = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(
-        "https://muble.xyz/api/music/album/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
-          },
-        }
-      );
+      const res = await axios.post(`${serverApi}api/music/album/`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
+        },
+      });
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
     } catch (err) {

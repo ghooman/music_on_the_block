@@ -1,212 +1,7 @@
-// import "../styles/SingUp.scss";
-// import React, { useState, useEffect, useRef } from 'react';
-// import {
-//   BrowserRouter,
-//   Link,
-//   Route,
-//   Router,
-//   Routes,
-//   useLocation,
-//   // useNavigate,
-// } from 'react-router-dom';
-// import MyAudioPlayer from '../components/MyAudioPlayer';
-// import profileImg from '../assets/images/progile-img.svg';
-// import popImg from '../assets/images/sing-up/POP-img.png';
-
-// import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
-
-// //스와이프
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
-// import DatePicker from "react-datepicker";
-// import 'react-datepicker/dist/react-datepicker.css';
-// import CustomDatePicker from "../components/CustomDatePicker";
-// // import { en } from 'date-fns/locale';
-// function SingUp() {
-
-//   const [selectedImage, setSelectedImage] = useState(null);
-//   const [date1, setDate1] = useState(null);
-
-//   const handleImageUpload = (event) => {
-//     const file = event.target.files[0];
-//     if (file && file.size <= 3 * 1024 * 1024) { // 3MB 제한
-//       const reader = new FileReader();
-//       reader.onload = (e) => {
-//         setSelectedImage(e.target.result);
-//       };
-//       reader.readAsDataURL(file);
-//     } else {
-//       alert("파일 크기가 3MB를 초과했습니다.");
-//     }
-//   };
-
-//   const [introduction, setIntroduction] = useState(""); // 입력된 텍스트 상태
-//   const maxLength = 150; // 최대 글자 수
-
-//   const handleChange = (e) => {
-//     if (e.target.value.length <= maxLength) {
-//       setIntroduction(e.target.value);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <div className="sing-up">
-//         <p className="sing-up__title">Sing Up</p>
-//         <div className="sing-up__setting">
-//           <p className="sing-up__setting__title">AI detailed settings</p>
-//           <div className="sing-up__setting__box">
-//             {/* <div className="sing-up__setting__box__profile">
-//               <p className="sing-up__setting__box__title">Artist Profile</p>
-//               <p className="sing-up__setting__box__profile__txt">40px X 40px, 3MB or less</p>
-//             </div> */}
-//             <div className="sing-up__setting__box__profile">
-//               <p className="sing-up__setting__box__title">Artist Profile</p>
-//               <div className="profile-image-container">
-//                 <label htmlFor="profile-upload" className="profile-upload-label">
-//                   <img
-//                     src={selectedImage || profileImg}
-//                     alt="Profile"
-//                     className="profile-image"
-//                   />
-//                   <input
-//                     type="file"
-//                     id="profile-upload"
-//                     accept="image/*"
-//                     onChange={handleImageUpload}
-//                     className="profile-input"
-//                   />
-//                 </label>
-//               </div>
-//               <p className="sing-up__setting__box__profile__txt">40px X 40px, 3MB or less</p>
-//             </div>
-
-//             <div className="input-box">
-//               <p className="input-box__title">Artist Name<span>*</span></p>
-//               <div className="input-box__cover">
-//                 <input placeholder="Please enter your Artist Name here."/>
-//                 <button className="btn">check</button>
-//               </div>
-//               <p className="err-txt">
-//                 This username is already taken. Please try another.
-//               </p>
-//             </div>
-
-//             <div className="input-box">
-//               <p className="input-box__title two-content">
-//                 Introduction <strong>Characters: {introduction.length}/{maxLength}</strong>
-//               </p>
-//               <div className="input-box__cover">
-//                 <textarea
-//                   placeholder="Introduction"
-//                   value={introduction}
-//                   onChange={handleChange}
-//                 />
-//               </div>
-//               {/* <p className="err-txt">
-//                 Your bio must be 150 characters or less. Please shorten your introduction.
-//               </p> */}
-//             </div>
-
-//             <div className="input-box">
-//               <p className="input-box__title">Date of Birth<span>*</span></p>
-//               <div className="input-box__cover">
-//                 <CustomDatePicker defaultDate={date1} onDateChange={setDate1} />
-//               </div>
-//               <p className="err-txt">
-//                 This username is already taken. Please try another.
-//               </p>
-//             </div>
-
-//             <div className="input-box">
-//               <p className="input-box__title">Email</p>
-//               <div className="input-box__cover">
-//                 <input placeholder="Enter the email"/>
-//               </div>
-//               <p className="err-txt">
-//                 This email is already registered. Please try another.
-//               </p>
-//             </div>
-
-//             <div className="input-box">
-//               <p className="input-box__title">Recommended User</p>
-//               <div className="input-box__cover">
-//                 <input placeholder="User Name"/>
-//                 <button className="btn">Add</button>
-//               </div>
-//               <p className="err-txt">
-//                 This username is already taken. Please try another
-//               </p>
-//             </div>
-
-//           </div>
-//         </div>
-
-//         <div className="sing-up__setting">
-//           <dl className="sing-up__setting__banner">
-//             <dt>Preferred Genre</dt>
-//             <dd>
-//               We collect users’ music tastes to strengthen the personalized recommendation function. After signing up, we provide customized recommended songs & AI services.
-//             </dd>
-//           </dl>
-//           <div className="sing-up__setting__genre">
-//             <button className="sing-up__setting__genre__item">
-//               <p className="sing-up__setting__genre__item__title">
-//                 POP
-//               </p>
-//               <img src={popImg}/>
-//             </button>
-//             <button className="sing-up__setting__genre__item">
-//               <p className="sing-up__setting__genre__item__title">
-//                 R&B
-//               </p>
-//               <img src={popImg}/>
-//             </button>
-//             <button className="sing-up__setting__genre__item">
-//               <p className="sing-up__setting__genre__item__title">
-//                 ROCK
-//               </p>
-//               <img src={popImg}/>
-//             </button>
-//             <button className="sing-up__setting__genre__item">
-//               <p className="sing-up__setting__genre__item__title">
-//                 EDM
-//               </p>
-//               <img src={popImg}/>
-//             </button>
-//             <button className="sing-up__setting__genre__item">
-//               <p className="sing-up__setting__genre__item__title">
-//                 BALLAD
-//               </p>
-//               <img src={popImg}/>
-//             </button>
-//             <button className="sing-up__setting__genre__item">
-//               <p className="sing-up__setting__genre__item__title">
-//                 JAZZ
-//               </p>
-//               <img src={popImg}/>
-//             </button>
-//           </div>
-//         </div>
-
-//         <div className="sing-up__page-btn">
-//           <button className="sing-up__page-btn__prev">
-//             Back
-//           </button>
-//           <button className="sing-up__page-btn__next">
-//             Next
-//           </button>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default SingUp;
-
 // pages/SignUp.js
 import "../styles/SignUp.scss";
 import React, { useState, useEffect, useContext } from "react";
+import { useQueryClient } from "react-query"; //
 import { useNavigate } from "react-router-dom";
 import profileImg from "../assets/images/progile-img.svg";
 import popImg from "../assets/images/sing-up/POP-img.png";
@@ -223,13 +18,16 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
+const AIDetailedSettings = ({
+  onNext,
+  formData,
+  setFormData,
+  selectedImageFile,
+  setSelectedImageFile,
+}) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { walletAddress, token } = useContext(AuthContext);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [artistName, setArtistName] = useState("");
-  const [introduction, setIntroduction] = useState("");
-  const [email, setEmail] = useState("");
+  const [selectedImagePreview, setSelectedImagePreview] = useState(null);
   const [passName, setPassName] = useState(false);
   const [passEmail, setPassEmail] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState("");
@@ -240,13 +38,14 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.size <= 3 * 1024 * 1024) {
+      setSelectedImageFile(file); // 파일 객체를 상태에 저장합니다.
       const reader = new FileReader();
       reader.onload = (e) => {
-        setSelectedImage(e.target.result);
+        setSelectedImagePreview(e.target.result); // 미리보기용 data URL
       };
       reader.readAsDataURL(file);
     } else {
-      alert("파일 크기가 3MB를 초과했습니다.");
+      alert("file size exceeds 3MB.");
     }
   };
 
@@ -278,88 +77,6 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
     setCheckList(checks.every((item) => item));
   }, [checks, setCheckList]);
 
-  const handleChange = (e) => {
-    if (e.target.value.length <= maxLength) {
-      setIntroduction(e.target.value);
-    }
-  };
-
-  // 닉네임 중복체크 전 양식 검사 (특수문자 미허용, 최대 10글자)
-  const handleCheckName = async () => {
-    setNameErrorMessage("");
-    setPassName(false);
-    // 이름 포맷 검사: 영문, 숫자, 한글, 공백만 허용하며 1~10글자
-    const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
-    if (!nameRegex.test(artistName)) {
-      setNameErrorMessage(
-        "이름은 특수문자를 사용할 수 없으며 최대 10글자까지 입력 가능합니다."
-      );
-      return;
-    }
-    // 중복체크 API 호출
-    try {
-      const response = await axios.get(
-        `${serverApi}/api/user/name/check?name=${artistName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response);
-      setPassName(true);
-    } catch (error) {
-      console.error("닉네임 중복체크 에러:", error);
-      setNameErrorMessage(
-        "이미 사용 중인 이름입니다. 다른 이름을 입력해주세요."
-      );
-    }
-  };
-
-  // 이메일 형식 검사 함수
-  const validateEmailFormat = (email) => {
-    return /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/.test(email);
-  };
-
-  // 이메일 입력 핸들러
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setEmailErrorMessage("");
-    setPassEmail(false);
-  };
-
-  // 체크 버튼 클릭 핸들러 (이메일 양식 검사 후 중복체크)
-  const handleCheckEmail = async () => {
-    setEmailErrorMessage("");
-    setPassEmail(false);
-    // 이메일 형식 검사
-    if (!validateEmailFormat(email)) {
-      setEmailErrorMessage("이메일 형식이 올바르지 않습니다.");
-      return;
-    }
-    // 중복체크 API 호출
-    try {
-      const response = await axios.get(
-        `${serverApi}/api/user/email/check?email=${email}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response);
-      setPassEmail(true);
-    } catch (error) {
-      console.error("이메일 중복체크 에러:", error);
-      setEmailErrorMessage(
-        "이미 등록된 이메일입니다. 다른 이메일을 입력해주세요."
-      );
-    }
-  };
-
-  // Next 버튼 활성화 조건: 이름, 이메일 중복체크 통과 및 모든 체크박스 선택
-  const isNextEnabled = passName && passEmail && allChecked;
-
   return (
     <div className="sing-up__setting">
       <p className="sing-up__setting__title">AI detailed settings</p>
@@ -369,7 +86,7 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
           <div className="profile-image-container">
             <label htmlFor="profile-upload" className="profile-upload-label">
               <img
-                src={selectedImage || profileImg}
+                src={selectedImagePreview || profileImg}
                 alt="Profile"
                 className="profile-image"
               />
@@ -403,13 +120,12 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
             <button
               className="btn"
               onClick={async () => {
-                // handleCheckName 함수 내에서 formData.artistName 사용
                 setNameErrorMessage("");
                 setPassName(false);
                 const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
                 if (!nameRegex.test(formData.artistName)) {
                   setNameErrorMessage(
-                    "이름은 특수문자를 사용할 수 없으며 최대 10글자까지 입력 가능합니다."
+                    "Special characters are not allowed in the name, and it must be no more than 10 characters"
                   );
                   return;
                 }
@@ -425,9 +141,9 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
                   console.log(response);
                   setPassName(true);
                 } catch (error) {
-                  console.error("닉네임 중복체크 에러:", error);
+                  console.error("name error:", error);
                   setNameErrorMessage(
-                    "이미 사용 중인 이름입니다. 다른 이름을 입력해주세요."
+                    "This name is already in use. Please choose a different one."
                   );
                 }
               }}
@@ -488,7 +204,7 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
                   );
                 };
                 if (!validateEmailFormat(formData.email)) {
-                  setEmailErrorMessage("이메일 형식이 올바르지 않습니다.");
+                  setEmailErrorMessage("The email format is invalid.");
                   return;
                 }
                 try {
@@ -503,9 +219,9 @@ const AIDetailedSettings = ({ onNext, formData, setFormData }) => {
                   console.log(response);
                   setPassEmail(true);
                 } catch (error) {
-                  console.error("이메일 중복체크 에러:", error);
+                  console.error("email error", error);
                   setEmailErrorMessage(
-                    "이미 등록된 이메일입니다. 다른 이메일을 입력해주세요."
+                    "This email is already registered. Please enter a different email address."
                   );
                 }
               }}
@@ -652,8 +368,9 @@ function SignUp() {
     email: "",
     introduction: "",
   });
+  const [selectedImageFile, setSelectedImageFile] = useState(null); // 이미지 파일 객체를 저장할 상태
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient(); // queryClient 생성
   // 회원가입 완료된 사용자는 SignUp 페이지에 접근할 수 없도록 함
   useEffect(() => {
     if (!token) {
@@ -683,7 +400,9 @@ function SignUp() {
     console.log("walletAddrString:", walletAddrString);
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("file", "");
+      if (selectedImageFile) {
+        formDataToSend.append("file", selectedImageFile);
+      }
       const payload = {
         name: formData.artistName,
         email: formData.email,
@@ -704,8 +423,12 @@ function SignUp() {
       );
       console.log("handleSignUp", response);
       console.log("보내는 데이터", formData, walletAddrString, token);
+      console.log("image", selectedImageFile);
       setShowModal(true);
+      // 회원가입 성공 후, 사용자 정보 캐시를 갱신합니다.
+      queryClient.invalidateQueries("userDetail");
     } catch (error) {
+      console.log("image", selectedImageFile);
       console.error("회원가입 에러:", error);
       console.log("보내는 데이터", formData, walletAddress?.address, token);
     }
@@ -718,6 +441,8 @@ function SignUp() {
           formData={formData}
           setFormData={setFormData}
           onNext={handleNext}
+          selectedImageFile={selectedImageFile}
+          setSelectedImageFile={setSelectedImageFile}
         />
       ) : (
         <PreferredGenre

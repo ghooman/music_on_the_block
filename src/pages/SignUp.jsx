@@ -656,8 +656,8 @@ function SignUp() {
 
   // 회원가입 완료된 사용자는 SignUp 페이지에 접근할 수 없도록 함
   useEffect(() => {
-    if (token && isRegistered) {
-      navigate("/main");
+    if (!token || isRegistered) {
+      navigate("/");
     }
   }, [token, isRegistered, navigate]);
 
@@ -670,31 +670,34 @@ function SignUp() {
   };
 
   const handleSignUp = async () => {
+    const walletAddrString =
+      walletAddress && walletAddress.address
+        ? String(walletAddress.address)
+        : "";
+    console.log("walletAddrString:", walletAddrString);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("file", "");
-      formDataToSend.append(
-        "payload",
-        JSON.stringify({
-          name: formData.artistName,
-          email: formData.email,
-          introduce: formData.introduction,
-          wallet_address: walletAddress?.address,
-        })
-      );
+      const payload = {
+        name: formData.artistName,
+        email: formData.email,
+        introduce: formData.introduction,
+        wallet_address: walletAddrString,
+      };
+      console.log("payload:", JSON.stringify(payload));
+      formDataToSend.append("payload", JSON.stringify(payload));
 
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_API}/api/user/`,
         formDataToSend,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
       console.log("handleSignUp", response);
-      console.log("보내는 데이터", formData, walletAddress?.address, token);
+      console.log("보내는 데이터", formData, walletAddrString, token);
       setShowModal(true);
     } catch (error) {
       console.error("회원가입 에러:", error);

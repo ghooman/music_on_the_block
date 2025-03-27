@@ -125,12 +125,12 @@ const Menu = ({
                         ></p>
                         <dl className="menu__box__my-page__info__top__txt">
                           <dt>
-                            0xF2D...45
+                            {userData?.walletAddress || "No wallet"}
                             <button>
                               <img src={copyIcon} alt="copy icon" />
                             </button>
                           </dt>
-                          <dd>Yolkhead_12142</dd>
+                          <dd>{userData?.name || "No Sign up"}</dd>
                         </dl>
                       </div>
                       <div className="menu__box__my-page__info__bottom">

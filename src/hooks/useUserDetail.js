@@ -25,7 +25,6 @@ export const useUserDetail = () => {
       enabled: !!token, // 토큰이 있을 때만 실행
     }
   );
-
   useEffect(() => {
     if (!query.isLoading && query.data) {
       // 사용자 정보에서 name이 없으면 sign-up 페이지로 이동

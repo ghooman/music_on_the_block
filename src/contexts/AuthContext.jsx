@@ -39,19 +39,19 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       if (token) {
         try {
-          const response = await axios.get(`${serverApi}/api/user/me`, {
+          const response = await axios.get(`${serverApi}/api/user`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          // 응답이 성공하면 회원가입 완료된 것으로 판단
-          setIsRegistered(true);
+          if (response.data.name) {
+            setIsRegistered(true);
+          }
         } catch (error) {
-          // 에러가 발생하면 회원가입이 완료되지 않은 상태로 처리
-          setIsRegistered(false);
+          console.log("로그인 에러");
         }
       }
     };
     fetchUser();
-  }, [token, serverApi]);
+  }, [token, serverApi, walletAddress]);
 
   return (
     <AuthContext.Provider

@@ -75,7 +75,7 @@ function App() {
               }
             />
             <Route
-              path="/album-detail"
+              path="/album-detail/:id"
               element={
                 <Layout>
                   <AlbumDetail />

@@ -1,5 +1,5 @@
 // src/contexts/AuthContext.jsx
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 export const AuthContext = createContext(null);
@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [walletAddress, setWalletAddress] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // isRegistered 상태 추가 (회원가입 완료 여부)
   const [isRegistered, setIsRegistered] = useState(false);
 
   console.log("walletAddress:", walletAddress);
@@ -20,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       const getToken = async () => {
         try {
           const response = await axios.post(
-            `${serverApi}/api/token?wallet_address=${walletAddress}`
+            `${serverApi}/api/token?wallet_address=${walletAddress?.address}`
           );
           const receivedToken = response.data.token;
           setToken(receivedToken);
@@ -51,7 +50,18 @@ export const AuthProvider = ({ children }) => {
       }
     };
     fetchUser();
-  }, [token, serverApi, walletAddress]);
+  }, [token, serverApi]);
+
+  // 로그아웃 함수: 모든 인증 관련 상태를 초기화합니다.
+  const logout = useCallback(() => {
+    setToken(null);
+    setWalletAddress(null);
+    setIsLoggedIn(false);
+    setIsRegistered(false);
+    localStorage.removeItem("auth_token");
+  }, []);
+
+  console.log("walletAddress:", walletAddress);
 
   return (
     <AuthContext.Provider
@@ -64,6 +74,7 @@ export const AuthProvider = ({ children }) => {
         setWalletAddress,
         isRegistered,
         setIsRegistered,
+        logout, // 로그아웃 함수 추가
       }}
     >
       {children}

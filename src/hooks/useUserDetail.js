@@ -7,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export const useUserDetail = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;
-  const { token } = useContext(AuthContext);
-  console.log("token", token);
+  const { walletAddress, isLoggedIn, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const query = useQuery(
@@ -19,6 +18,7 @@ export const useUserDetail = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("userDetail:", response.data);
       return response.data;
     },
     {
@@ -26,12 +26,14 @@ export const useUserDetail = () => {
     }
   );
   useEffect(() => {
-    if (!query.isLoading && query.data) {
-      // 사용자 정보에서 name이 없으면 sign-up 페이지로 이동
-      if (!query.data.name || query.data.name.trim() === "") {
-        navigate("/sign-up");
+    if (walletAddress && isLoggedIn) {
+      if (!query.isLoading && query.data) {
+        // 사용자 정보에서 name이 없으면 sign-up 페이지로 이동
+        if (!query.data.name || query.data.name.trim() === "") {
+          navigate("/sign-up");
+        }
       }
     }
-  }, [query.isLoading, query.data, navigate]);
+  }, [walletAddress, isLoggedIn, query.isLoading, query.data, navigate]);
   return query;
 };

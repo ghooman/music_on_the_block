@@ -1,5 +1,5 @@
 // src/components/WalletConnect.jsx
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { createThirdwebClient } from "thirdweb";
 import { polygon } from "thirdweb/chains";
 import {
@@ -8,11 +8,16 @@ import {
   useActiveWalletConnectionStatus,
 } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { AuthContext } from "../contexts/AuthContext";
+import { useQueryClient } from "react-query";
 
 export const WalletConnect = ({ onConnect }) => {
   const client = createThirdwebClient({
     clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID,
   });
+
+  const { logout } = useContext(AuthContext);
+  const queryClient = useQueryClient(); // React Query의 queryClient 사용
 
   const wallets = [
     inAppWallet({
@@ -52,6 +57,8 @@ export const WalletConnect = ({ onConnect }) => {
       }}
       onDisconnect={() => {
         localStorage.removeItem("walletAddress");
+        logout(); // AuthContext의 상태 초기화
+        queryClient.resetQueries("userDetail"); // React Query 캐시 초기화
       }}
     />
   );

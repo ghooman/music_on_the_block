@@ -656,7 +656,13 @@ function SignUp() {
 
   // 회원가입 완료된 사용자는 SignUp 페이지에 접근할 수 없도록 함
   useEffect(() => {
-    if (!token || isRegistered) {
+    if (!token) {
+      console.log("토큰이 없습니다. 메인 페이지로 이동합니다.");
+      navigate("/");
+    } else if (isRegistered) {
+      console.log(
+        "이미 회원가입이 완료된 사용자입니다. 메인 페이지로 이동합니다."
+      );
       navigate("/");
     }
   }, [token, isRegistered, navigate]);

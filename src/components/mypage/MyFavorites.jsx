@@ -13,7 +13,7 @@ const MyFavorites = () => {
       <div className="my-favorites__header">
         <h1 className="my-favorites__title">My Favorites</h1>
         <button className="my-favorites__view-all">
-          <img src={viewAllBackground} alt="view all" />
+          View All
         </button>
       </div>
       <input

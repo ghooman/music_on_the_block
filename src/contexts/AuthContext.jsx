@@ -11,8 +11,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
 
-  console.log("walletAddress:", walletAddress);
-
   // 로그인 상태와 지갑 주소가 업데이트되면 토큰 발급 API 호출
   useEffect(() => {
     if (isLoggedIn && walletAddress) {
@@ -60,8 +58,6 @@ export const AuthProvider = ({ children }) => {
     setIsRegistered(false);
     localStorage.removeItem("auth_token");
   }, []);
-
-  console.log("walletAddress:", walletAddress);
 
   return (
     <AuthContext.Provider

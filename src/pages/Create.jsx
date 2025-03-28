@@ -12,7 +12,6 @@ import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
 
 import "../styles/Create.scss";
-import GeneratedMusic from "../components/create/GeneratedMusic";
 
 const Create = () => {
   const [pageNumber, setPageNumber] = useState(-1);
@@ -155,7 +154,7 @@ const Create = () => {
                         </ExpandedButton>
                     </div>
                 </AlbumCoverSudio>
-            )} */}
+            )}
 
       {pageNumber === 2 && (
         <Finalize
@@ -183,7 +182,7 @@ const Create = () => {
             </ExpandedButton>
           </div>
         </Finalize>
-      )}
+      )} */}
 
       {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
       {createCompleteModal && (
@@ -203,8 +202,8 @@ const Progress = ({ pageNumber }) => {
   const pages = [
     "Lyric Lab",
     "Melody Maker",
-    "Alubum Cover Studio",
-    "Preview & Finalize",
+    // "Alubum Cover Studio",
+    // "Preview & Finalize",
   ];
 
   return (

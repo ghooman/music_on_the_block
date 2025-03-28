@@ -56,10 +56,7 @@ const MyPage = () => {
             </Link>
           </div>
           <p className="mypage__bio">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            {userData?.introduce || "No introduction"}
           </p>
           <div className="mypage__social-icons">
             <button className="social-icon">

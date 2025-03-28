@@ -154,7 +154,7 @@ const Create = () => {
                         </ExpandedButton>
                     </div>
                 </AlbumCoverSudio>
-            )} */}
+            )}
 
       {pageNumber === 2 && (
         <Finalize
@@ -182,7 +182,7 @@ const Create = () => {
             </ExpandedButton>
           </div>
         </Finalize>
-      )}
+      )} */}
 
       {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
       {createCompleteModal && (

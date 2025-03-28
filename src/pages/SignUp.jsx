@@ -453,7 +453,11 @@ function SignUp() {
         />
       )}
       {showModal && (
-        <SingUpCompleteModal setSingUpCompleteModal={setShowModal} />
+        <SingUpCompleteModal
+          setShowModal={setShowModal}
+          message={"Congratulations on signing up!"}
+          link={"/"}
+        />
       )}
     </div>
   );

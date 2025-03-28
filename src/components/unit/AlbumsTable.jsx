@@ -25,7 +25,6 @@ const AlbumsTable = () => {
     };
     fetchAlbums();
   }, [serverApi, token]);
-
   return (
     <div className="albums-table">
       <table>
@@ -73,7 +72,9 @@ const AlbumsTable = () => {
           )}
         </tbody>
       </table>
-      {!albums && <NoneContent message={"No albums created"} height={300} />}
+      {albums?.length === 0 && (
+        <NoneContent message={"No albums created"} height={300} />
+      )}
     </div>
   );
 };

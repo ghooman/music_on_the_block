@@ -32,8 +32,8 @@ const AlbumsTable = () => {
           <tr>
             <th>#</th>
             <th>Artist</th>
-            <th>AI Service</th>
-            <th>AI Service Type</th>
+            {/* <th>AI Service</th>
+            <th>AI Service Type</th> */}
             <th>Song Title</th>
             <th>Date</th>
             <th>Like</th>
@@ -63,8 +63,8 @@ const AlbumsTable = () => {
             <tr key={album.id}>
               <td>{index + 1}</td>
               <td>{album.name}</td>
-              <td>{album.ai_service}</td>
-              <td>{album.ai_service_type}</td>
+              {/* <td>{album.ai_service}</td>
+              <td>{album.ai_service_type}</td> */}
               <td>{album.title}</td>
               <td>{album.create_dt}</td>
               <td>

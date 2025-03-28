@@ -72,6 +72,7 @@ const MelodyMaker = ({
 
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
+    (title && title.trim() !== "") ||
     (melody_tag && melody_tag.length > 0) ||
     (melody_genre &&
       melody_genre.length > 0 &&
@@ -152,6 +153,13 @@ const MelodyMaker = ({
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
         >
+          <p className="title__text">Title</p>
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <SelectItem
             mainTitle="Select a Tags"
             subTitle="Popular Tags"
@@ -239,7 +247,12 @@ const MelodyMaker = ({
             >
               Back
             </ExpandedButton>
-            <ExpandedButton className="skip" onClick={onSkip}>
+            {/* 임시 위치 ui상 style none으로 */}
+            <ExpandedButton
+              className="skip"
+              onClick={onSkip}
+              style={{ display: "none" }}
+            >
               Skip
             </ExpandedButton>
           </div>

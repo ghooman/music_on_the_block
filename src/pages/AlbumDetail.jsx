@@ -294,6 +294,9 @@ function AlbumDetail() {
     };
     fetchAlbumDetail();
   }, [id, walletAddress, token, serverApi]);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
   // album 객체에 tags 문자열이 존재하는지 확인합니다.
   const tagString = album?.tags;
   // tags 문자열이 존재하면, 쉼표로 구분된 배열로 변환 후 불필요한 공백을 제거합니다.
@@ -407,7 +410,28 @@ function AlbumDetail() {
 
         <section className="album-detail__audio">
           {/* <audio src={album?.music_url || track1} controls/> */}
-          <AudioPlayer src={album?.music_url || track1} />
+          <AudioPlayer
+            src={album?.music_url || track1}
+            onPlay={() => {
+              console.log("PLAY!");
+              setIsPlaying(true);
+            }}
+            onPause={() => {
+              console.log("PAUSE!");
+              setIsPlaying(false);
+            }}
+            onEnded={() => {
+              console.log("ENDED!");
+              setIsPlaying(false);
+            }}
+          />
+          <p
+            className={`album-detail__audio__cover ${
+              isPlaying ? "playing" : "paused"
+            }`}
+          >
+            <img src={album?.image || coverImg} alt="album cover" />
+          </p>
         </section>
 
         <section className="album-detail__rank-table">

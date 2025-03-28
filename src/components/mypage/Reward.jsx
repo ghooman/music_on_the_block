@@ -9,7 +9,7 @@ const Reward = () => {
         <div className="section__header">
           <h2 className="header-title">Reward Type</h2>
           <button className="header-button">
-            <img src={viewAllBackground} alt="view all" />
+            View All
           </button>
         </div>
         <div className="section__filter">
@@ -63,7 +63,7 @@ const Reward = () => {
         <div className="section__header">
           <h2 className="header-title">Payment Type</h2>
           <button className="header-button">
-            <img src={viewAllBackground} alt="view all" />
+            View All
           </button>
         </div>
         <div className="section__filter">

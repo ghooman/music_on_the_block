@@ -20,6 +20,7 @@ import coverImg6 from "../assets/images/demo/album03.svg";
 import coverImg7 from "../assets/images/demo/album04.svg";
 import coverImg8 from "../assets/images/demo/album05.svg";
 import coverImg9 from "../assets/images/demo/album06.svg";
+import demoImg from "../assets/images/intro/intro-demo-img4.png";
 import loveIcon from "../assets/images/like-icon/like-icon.svg";
 import lovedIcon from "../assets/images/like-icon/like-icon-on.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
@@ -310,7 +311,7 @@ function AlbumDetail() {
                 }`}
                 onClick={handleClick}
               >
-                <img src={album?.image || coverImg} />
+                <img src={album?.image || demoImg} />
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>

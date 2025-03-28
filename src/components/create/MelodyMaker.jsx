@@ -68,7 +68,7 @@ const MelodyMaker = ({
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [selectMusic, setSelectMusic] = useState(null);
+  const [title, setTitle] = useState("");
 
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
@@ -93,7 +93,7 @@ const MelodyMaker = ({
       Story : ${melodyStory}
       `;
   const formData = {
-    title: "title",
+    title: title,
     ai_service: "",
     ai_service_type: "",
     lyrics: generatedLyric,

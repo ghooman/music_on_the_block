@@ -44,7 +44,8 @@ const Create = () => {
 
   const [skip, setSkip] = useState("");
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [confirmLanguage, setConfirmLanguage] = useState(false);
   const skipHandler = () => {
     if (skip === "lyric") {
       setSkipLyric(true);
@@ -113,6 +114,8 @@ const Create = () => {
           isLyricPage={isLyricPage}
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
+          confirmLanguage={confirmLanguage}
+          setConfirmLanguage={setConfirmLanguage}
         ></LyricLab>
       )}
       {pageNumber === 1 && (
@@ -135,6 +138,8 @@ const Create = () => {
           isMelodyPage={isMelodyPage}
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
+          confirmLanguage={confirmLanguage}
+          setConfirmLanguage={setConfirmLanguage}
         ></MelodyMaker>
       )}
       {/* {pageNumber === 2 && (

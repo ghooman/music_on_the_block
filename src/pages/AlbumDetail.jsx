@@ -341,7 +341,7 @@ function AlbumDetail() {
             </div>
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
-                he dances through his masks like breathing - Yolkhead
+                {album?.title}
               </p>
               <div className="album-detail__song-detail__right__type">
                 <div className="album-detail__song-detail__right__type__item">

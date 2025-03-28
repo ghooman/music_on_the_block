@@ -46,6 +46,7 @@ import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
 
+import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id, walletAddress } = useParams();
@@ -383,8 +384,8 @@ function AlbumDetail() {
                 <dl>
                   <dt>Creation Data</dt>
                   <dd>
-                    Sat, 04 Nov 2023 14:40:00 UTC+0
-                    <span>Sat, 04 Nov 2023 14:40:00 UTC+0</span>
+                    {formatUtcTime(album?.create_dt) || "-"}
+                    <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl className="artist">
@@ -392,7 +393,7 @@ function AlbumDetail() {
                   <dd>
                     <p className="user">
                       <img src={coverImg2} />
-                      Yolkhead
+                      {album?.name || "-"}
                     </p>
                     <Link className="see-more-btn" to="/my-page">
                       See More

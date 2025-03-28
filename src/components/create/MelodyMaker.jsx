@@ -117,7 +117,7 @@ const MelodyMaker = ({
   const musicGenerate = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(`${serverApi}api/music/album/`, formData, {
+      const res = await axios.post(`${serverApi}/api/music/album/`, formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -128,7 +128,7 @@ const MelodyMaker = ({
       console.log("handleSubmit", res);
     } catch (err) {
       alert("에러 발생");
-      console.log("handleSubmit error", err.message);
+      console.log("handleSubmit error", err);
     } finally {
       setLoading(false);
     }

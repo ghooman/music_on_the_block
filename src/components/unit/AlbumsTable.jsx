@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
+import NoneContent from "../../components/NoneContent";
 const AlbumsTable = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -24,7 +25,6 @@ const AlbumsTable = () => {
     };
     fetchAlbums();
   }, [serverApi, token]);
-
   return (
     <div className="albums-table">
       <table>
@@ -32,8 +32,8 @@ const AlbumsTable = () => {
           <tr>
             <th>#</th>
             <th>Artist</th>
-            <th>AI Service</th>
-            <th>AI Service Type</th>
+            {/* <th>AI Service</th>
+            <th>AI Service Type</th> */}
             <th>Song Title</th>
             <th>Date</th>
             <th>Like</th>
@@ -41,51 +41,40 @@ const AlbumsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {/* <tr>
-            <td>1</td>
-            <td>Yolkhead</td>
-            <td>AI Lyric & Songwriting</td>
-            <td>Lyric</td>
-            <td>Songname</td>
-            <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-            <td>
-              <div className="td-content">
-                <img src={halfHeartIcon} alt="like-heart-icon"></img>
-              </div>
-            </td>
-            <td>
-              <div className="td-content">
-                <button className="albums-table__detail-btn">Detail</button>
-              </div>
-            </td>
-          </tr> */}
-          {albums?.map((album, index) => (
-            <tr key={album.id}>
-              <td>{index + 1}</td>
-              <td>{album.name}</td>
-              <td>{album.ai_service}</td>
-              <td>{album.ai_service_type}</td>
-              <td>{album.title}</td>
-              <td>{album.create_dt}</td>
-              <td>
-                <div className="td-content">
-                  <img src={halfHeartIcon} alt="like-heart-icon"></img>
-                </div>
-              </td>
-              <td>
-                <div className="td-content">
-                  <button
-                    className="albums-table__detail-btn"
-                    onClick={() => navigator(`/album-detail/${album.id}`)}
-                  >
-                    Detail
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+          {albums && albums.length > 0 && (
+            <>
+              {albums?.map((album, index) => (
+                <tr key={album.id}>
+                  <td>{index + 1}</td>
+                  <td>{album.name}</td>
+                  {/* <td>{album.ai_service}</td>
+              <td>{album.ai_service_type}</td> */}
+                  <td>{album.title}</td>
+                  <td>{album.create_dt}</td>
+                  <td>
+                    <div className="td-content">
+                      <img src={halfHeartIcon} alt="like-heart-icon"></img>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="td-content">
+                      <button
+                        className="albums-table__detail-btn"
+                        onClick={() => navigator(`/album-detail/${album.id}`)}
+                      >
+                        Detail
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </>
+          )}
         </tbody>
       </table>
+      {albums?.length === 0 && (
+        <NoneContent message={"No albums created"} height={300} />
+      )}
     </div>
   );
 };

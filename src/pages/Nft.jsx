@@ -1,5 +1,5 @@
 import ContentWrap from '../components/nft/ContentWrap';
-import { NftItemWraps, NftItem } from '../components/nft/NftItem';
+import { NftItemWraps, NftCollectionItemWraps } from '../components/nft/NftItem';
 import Search from '../components/nft/Search';
 
 const Nft = () => {
@@ -7,7 +7,8 @@ const Nft = () => {
         <div>
             <ContentWrap title="TOP NFTs" link="1">
                 <Search />
-                <NftItemWraps data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
+                <NftItemWraps data={[1, 2]} />
+                <NftCollectionItemWraps data={[1, 2, 34]} />
             </ContentWrap>
         </div>
     );

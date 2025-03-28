@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
+import AudioPlayer from "react-h5-audio-player";
+
 import coverImg from "../assets/images/intro/intro-demo-img.png";
 import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
 import coverImg3 from "../assets/images/intro/intro-demo-img3.png";
@@ -20,6 +22,7 @@ import coverImg6 from "../assets/images/demo/album03.svg";
 import coverImg7 from "../assets/images/demo/album04.svg";
 import coverImg8 from "../assets/images/demo/album05.svg";
 import coverImg9 from "../assets/images/demo/album06.svg";
+import demoImg from "../assets/images/intro/intro-demo-img4.png";
 import loveIcon from "../assets/images/like-icon/like-icon.svg";
 import lovedIcon from "../assets/images/like-icon/like-icon-on.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
@@ -43,6 +46,7 @@ import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
 
+import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id, walletAddress } = useParams();
@@ -291,6 +295,18 @@ function AlbumDetail() {
     fetchAlbumDetail();
   }, [id, walletAddress, token, serverApi]);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // album 객체에 tags 문자열이 존재하는지 확인합니다.
+  const tagString = album?.tags;
+  // tags 문자열이 존재하면, 쉼표로 구분된 배열로 변환 후 불필요한 공백을 제거합니다.
+  const tagArray = tagString
+    ? tagString
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
+
   return (
     <>
       <div className="album-detail">
@@ -300,8 +316,6 @@ function AlbumDetail() {
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
-          {/* 음악 재생 */}
-          <audio src={album?.music_url || track1} controls></audio>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
               <div
@@ -310,7 +324,7 @@ function AlbumDetail() {
                 }`}
                 onClick={handleClick}
               >
-                <img src={album?.image || coverImg} />
+                <img src={album?.image || demoImg} />
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
@@ -326,17 +340,17 @@ function AlbumDetail() {
                     <img src={commentIcon} />
                     125K
                   </button>
-                  <button
-                    className="album-detail__song-detail__left__info__share-btn"
-                    onClick={() => setShareModal(true)}
-                  >
-                    <img src={shareIcon} />
-                  </button>
+                  <p className="play">
+                    <img src={playIcon} />
+                    125K
+                  </p>
                 </div>
-                <p className="play">
-                  <img src={playIcon} />
-                  125K
-                </p>
+                <button
+                  className="album-detail__song-detail__left__info__share-btn"
+                  onClick={() => setShareModal(true)}
+                >
+                  <img src={shareIcon} />
+                </button>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -344,41 +358,37 @@ function AlbumDetail() {
                 {album?.title}
               </p>
               <div className="album-detail__song-detail__right__type">
-                <div className="album-detail__song-detail__right__type__item">
-                  Moon
-                </div>
-                <div className="album-detail__song-detail__right__type__item">
-                  Lover
-                </div>
-                <div className="album-detail__song-detail__right__type__item">
-                  Mystery
-                </div>
-                <div className="album-detail__song-detail__right__type__item">
-                  Serenity
-                </div>
+                {tagArray.map((type, index) => (
+                  <div
+                    key={index}
+                    className="album-detail__song-detail__right__type__item"
+                  >
+                    {type}
+                  </div>
+                ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Story</dt>
-                  <dd>A love story about two people overcoming challenges</dd>
+                  <dd>{album?.story || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Genre</dt>
-                  <dd>POP</dd>
+                  <dd>{album?.genre || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Style</dt>
-                  <dd>Passion</dd>
+                  <dd>{album?.style || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Stylistic</dt>
-                  <dd>emotioal stylistic</dd>
+                  <dd>{album?.Stylistic || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Creation Data</dt>
                   <dd>
-                    Sat, 04 Nov 2023 14:40:00 UTC+0
-                    <span>Sat, 04 Nov 2023 14:40:00 UTC+0</span>
+                    {formatUtcTime(album?.create_dt) || "-"}
+                    <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl className="artist">
@@ -386,7 +396,7 @@ function AlbumDetail() {
                   <dd>
                     <p className="user">
                       <img src={coverImg2} />
-                      Yolkhead
+                      {album?.name || "-"}
                     </p>
                     <Link className="see-more-btn" to="/my-page">
                       See More
@@ -396,6 +406,32 @@ function AlbumDetail() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="album-detail__audio">
+          {/* <audio src={album?.music_url || track1} controls/> */}
+          <AudioPlayer
+            src={album?.music_url || track1}
+            onPlay={() => {
+              console.log("PLAY!");
+              setIsPlaying(true);
+            }}
+            onPause={() => {
+              console.log("PAUSE!");
+              setIsPlaying(false);
+            }}
+            onEnded={() => {
+              console.log("ENDED!");
+              setIsPlaying(false);
+            }}
+          />
+          <p
+            className={`album-detail__audio__cover ${
+              isPlaying ? "playing" : "paused"
+            }`}
+          >
+            <img src={album?.image || coverImg} alt="album cover" />
+          </p>
         </section>
 
         <section className="album-detail__rank-table">

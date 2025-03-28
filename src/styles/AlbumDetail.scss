@@ -91,6 +91,8 @@
             overflow: auto;
 
             pre{
+              width: 100%;
+              height: 100%;
               position: relative;
               z-index: 1;
               background: transparent;
@@ -286,6 +288,100 @@
     }//album-detail__song-detail__bot--END--
   }//album-detail__song-detail--END--
 
+  .album-detail__audio{
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    padding: 16px;
+    margin-top: 16px;
+    position: relative;
+    overflow: hidden;
+    .album-detail__audio__cover{
+      content: '';
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      top:50%;
+      left: 0%;
+      transform: translate(-20%,-50%);
+      background: url('../assets/images/album/album-bg.png') center no-repeat;
+      background-size: cover;
+      z-index: 0;
+      img{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 70px;
+        height: 70px;
+        border-radius: 100%;
+        overflow: hidden;
+      }
+      animation: rotateCover 4s linear infinite;
+      animation-play-state: paused; /* 기본값은 정지 */
+      &.playing {
+        animation-play-state: running; /* 재생 시 회전 시작 */
+      }
+      @keyframes rotateCover {
+        0% {
+          transform:translate(-20%,-50%) rotate(0deg);
+        }
+        100% {
+          transform:translate(-20%,-50%) rotate(360deg);
+        }
+      }
+    }//album-detail__audio__cover--END--
+    .rhap_container{
+      // margin-top: 16px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      position: relative;
+      z-index: 1;
+      .rhap_time.rhap_current-time{
+        min-width: 58px;
+      }
+      *{
+          color: #fff;
+          margin-top: 0;
+      }
+    }
+  .rhap_main-controls{
+    button{
+        font-family: math !important;
+        font-size: 30px;
+        svg{
+          font-size: 30px;
+        }
+        &:nth-child(2){
+          position: relative;
+          top: 10px !important;
+          display: block !important;
+        }
+        &.rhap_button-clear{
+          &.rhap_main-controls-button{
+            position: relative;
+            top:8px;
+            display: none;
+          }
+        }
+    }
+  }
+  .rhap_volume-container{
+    &>div{
+        position: relative;
+        top: 7px;
+    }
+  }
+  .rhap_progress-indicator{
+    background: #A9D400 !important;
+    width: 10px;
+  }
+  .rhap_volume-indicator{
+    background: #A9D400;
+    width: 8px;
+  }
+
+  }//album-detail__audio--END--
 
   .album-detail__rank-table{
     border-radius: 12px;

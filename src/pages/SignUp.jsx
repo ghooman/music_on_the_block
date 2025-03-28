@@ -373,8 +373,8 @@ function SignUp() {
   const queryClient = useQueryClient(); // queryClient 생성
   // 회원가입 완료된 사용자는 SignUp 페이지에 접근할 수 없도록 함
   useEffect(() => {
-    if (!token) {
-      console.log("토큰이 없습니다. 메인 페이지로 이동합니다.");
+    if (!walletAddress) {
+      console.log("지갑주소가 없습니다. 메인 페이지로 이동합니다.");
       navigate("/");
     } else if (isRegistered) {
       console.log(
@@ -382,7 +382,7 @@ function SignUp() {
       );
       navigate("/");
     }
-  }, [token, isRegistered, navigate]);
+  }, [walletAddress, isRegistered, navigate]);
 
   const handleNext = () => {
     if (step === 1) {
@@ -453,7 +453,11 @@ function SignUp() {
         />
       )}
       {showModal && (
-        <SingUpCompleteModal setSingUpCompleteModal={setShowModal} />
+        <SingUpCompleteModal
+          setShowModal={setShowModal}
+          message={"Congratulations on signing up!"}
+          link={"/"}
+        />
       )}
     </div>
   );

@@ -91,7 +91,7 @@ const Intro = ({ setIsLoggedIn }) => {
 
   const items = [
     {
-      id:1,
+      id: 1,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "13 songs, 2024",
@@ -99,7 +99,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg01,
     },
     {
-      id:2,
+      id: 2,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "14 songs, 2025",
@@ -107,7 +107,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg02,
     },
     {
-      id:3,
+      id: 3,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "15 songs, 2026",
@@ -115,7 +115,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg03,
     },
     {
-      id:4,
+      id: 4,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "13 songs, 2024",
@@ -123,7 +123,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg01,
     },
     {
-      id:5,
+      id: 5,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "14 songs, 2025",
@@ -131,7 +131,7 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg02,
     },
     {
-      id:6,
+      id: 6,
       albumTitle: "he dances through his masks like breathing - Yolkhead",
       artist: "Daft Punk",
       info: "15 songs, 2026",
@@ -159,30 +159,33 @@ const Intro = ({ setIsLoggedIn }) => {
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
   }, []);
 
-
-  
-
   return (
     <>
-      <IntroLogo/>
-      {isVisible &&
+      <IntroLogo />
+      {isVisible && (
         <div className="intro">
           <div className="intro__inner">
             <section className="intro__number">
               <dl className="intro__number__title">
                 <dt>Number of users</dt>
-                <dd><Counter targetNumber={110} /></dd>
+                <dd>
+                  <Counter targetNumber={110} />
+                </dd>
               </dl>
               <dl className="intro__number__title">
                 <dt>Number of songs</dt>
-                <dd><Counter targetNumber={127} /></dd>
+                <dd>
+                  <Counter targetNumber={127} />
+                </dd>
               </dl>
               <dl className="intro__number__title">
                 <dt>Transition</dt>
-                <dd><Counter targetNumber={159} /></dd>
+                <dd>
+                  <Counter targetNumber={159} />
+                </dd>
               </dl>
             </section>
-  
+
             <section className="intro__slide-pc">
               <article className="intro__slide-pc__left">
                 {/* <div className="intro__slide-pc__left__item">
@@ -200,7 +203,7 @@ const Intro = ({ setIsLoggedIn }) => {
                     사운드
                   </div>
                 </div> */}
-  
+
                 {items.map(
                   (item, index) =>
                     index === activeIndex && (
@@ -239,7 +242,7 @@ const Intro = ({ setIsLoggedIn }) => {
                   //   clickable: true,
                   // }}
                   // modules={[Pagination]}
-  
+
                   // autoplay={{
                   //   delay: 5000,
                   //   disableOnInteraction: false,
@@ -253,9 +256,13 @@ const Intro = ({ setIsLoggedIn }) => {
                 >
                   {items.map((item, index) => (
                     <SwiperSlide key={item.tabTitle}>
-                      <Link 
+                      <Link
                         // to="/create"
-                        to={item.tabTitle === "AI Lyric & Songwriting" ? "/create" : "#"}
+                        to={
+                          item.tabTitle === "AI Lyric & Songwriting"
+                            ? "/create"
+                            : "#"
+                        }
                         onClick={(e) => {
                           if (item.tabTitle !== "AI Lyric & Songwriting") {
                             e.preventDefault(); // 기본 링크 이동 막기
@@ -270,27 +277,26 @@ const Intro = ({ setIsLoggedIn }) => {
                 </Swiper>
               </article>
             </section>
-  
+
             <section className="intro__slide-mobile">
-              <Link 
-                to='/create'
-                className="intro__slide-mobile__create-btn"
-              >CREATE</Link>
+              <Link to="/create" className="intro__slide-mobile__create-btn">
+                CREATE
+              </Link>
               <div className="intro__slide-mobile__tab">
                 <Link className="intro__slide-mobile__tab__item active">
                   AI Lyric & <br />
                   Songwriting
                 </Link>
-                <Link 
+                <Link
                   className="intro__slide-mobile__tab__item"
-                  onClick={()=>setPreparingModal(true)}
+                  onClick={() => setPreparingModal(true)}
                 >
                   AI Cover
                   <br /> Creation
                 </Link>
-                <Link 
+                <Link
                   className="intro__slide-mobile__tab__item"
-                  onClick={()=>setPreparingModal(true)}
+                  onClick={() => setPreparingModal(true)}
                 >
                   AI Singing <br />
                   Evaluation
@@ -299,7 +305,9 @@ const Intro = ({ setIsLoggedIn }) => {
               <ul className="intro__slide-mobile__tab-list">
                 <li className="intro__slide-mobile__tab-list__item">
                   <dl className="intro__slide-mobile__tab-list__item__title">
-                    <dt>he dances through his masks like breathing - Yolkhead</dt>
+                    <dt>
+                      he dances through his masks like breathing - Yolkhead
+                    </dt>
                     <dd>
                       Daft Punk
                       <span>– 13 songs, 2024</span>
@@ -309,7 +317,7 @@ const Intro = ({ setIsLoggedIn }) => {
                 </li>
               </ul>
             </section>
-  
+
             <section className="intro__album">
               <ul className="intro__album__list">
                 <li className="intro__album__list__item">
@@ -355,7 +363,7 @@ const Intro = ({ setIsLoggedIn }) => {
             </section>
           </div>
         </div>
-      }
+      )}
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}
@@ -364,7 +372,6 @@ const Intro = ({ setIsLoggedIn }) => {
 };
 
 export default Intro;
-
 
 const Counter = ({ targetNumber }) => {
   const [count, setCount] = useState(0);

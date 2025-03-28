@@ -184,7 +184,7 @@ const Albums = () => {
         <div className="my-albums__header">
           <p className="my-albums__title">My Albums</p>
           <button className="my-albums__more-btn">
-            <img src={viewAllBackground} alt="view all" />
+            View All
           </button>
         </div>
         <div className="my-albums__input">

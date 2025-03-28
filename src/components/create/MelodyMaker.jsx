@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 import SubBanner from "./SubBanner";
@@ -16,7 +16,7 @@ import subBg2 from "../../assets/images/create/subbanner-bg2.png";
 import "./MelodyMaker.scss";
 import AudioPlayer from "react-h5-audio-player";
 import CreateLoading from "../CreateLoading";
-
+import { AuthContext } from "../../contexts/AuthContext";
 const tagPreset = {
   Love: ["passionate", "romantic", "tender", "endearing", "devoted"],
   Trable: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
@@ -65,9 +65,10 @@ const MelodyMaker = ({
 }) => {
   const { melody_tag, melody_genre, melody_style, melody_instrument } =
     melodyData || {};
-
+  const serverApi = process.env.REACT_APP_SERVER_API;
+  const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [selectMusic, setSelectMusic] = useState(null);
+  const [title, setTitle] = useState("");
 
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
@@ -92,7 +93,7 @@ const MelodyMaker = ({
       Story : ${melodyStory}
       `;
   const formData = {
-    title: "title",
+    title: title,
     ai_service: "",
     ai_service_type: "",
     lyrics: generatedLyric,
@@ -109,41 +110,27 @@ const MelodyMaker = ({
     color_palette: "",
     song_length: "",
   };
-  // const formData = {
-  //   is_auto: 0,
-  //   prompt: promptPreview,
-  //   lyrics: generatedLyric,
-  //   title: "제목",
-  //   instrumental: 0,
-  // };
+
   console.log("formData", formData);
-  // console.log("노래 생성 데이터", formData.prompt);
-  // console.log("노래 생성 데이터 길이", formData.prompt.length);
 
   // 기존 코드: 노래 생성 요청
   const musicGenerate = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(
-        "https://muble.xyz/api/music/album/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE3NDI5NzM0NjQsImVtYWlsIjpudWxsLCJ3YWxsZXRfYWRkcmVzcyI6InRlc3QiLCJvcmlnX2lhdCI6MTc0Mjg4NzA2NH0.J978P8exvriXBls8yULTwzlPQD8PiXYbNIFu3hrhOqw", // 테스트용 토큰
-            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
-          },
-          // withCredentials: true, // Access-Control-Allow-Credentials가 true인 경우 추가
-        }
-      );
+      const res = await axios.post(`${serverApi}/api/music/album/`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
+        },
+      });
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
     } catch (err) {
       alert("에러 발생");
-      console.log("handleSubmit error", err.message);
+      console.log("handleSubmit error", err);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
   useEffect(() => {

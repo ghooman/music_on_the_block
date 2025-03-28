@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 // import LogoHansung from "../assets/images/";
 import Album from "../pages/Album";
-import PreparingModal from './PreparingModal';
+import PreparingModal from "./PreparingModal";
 
 //이미지
 import mainLogo from "../assets/images/header/logo.svg";
@@ -104,8 +104,8 @@ const Header = ({ setIsLoggedIn }) => {
         </div>
       </div>
 
-      <Menu 
-        active={isActive} 
+      <Menu
+        active={isActive}
         setActive={setIsActive}
         setPreparingModal={setPreparingModal}
         setSignInModal={setSignInModal}
@@ -115,14 +115,14 @@ const Header = ({ setIsLoggedIn }) => {
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}
-      {isSignInModal &&
+      {isSignInModal && (
         <SignInModal
           setSignInModal={setSignInModal}
           setLogin={setLogin}
           login={login}
         />
-      }
-      
+      )}
+
       {/* <Routes>
         <Route path="/" element={<Album />} />
       </Routes> */}

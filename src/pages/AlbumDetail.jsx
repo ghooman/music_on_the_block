@@ -330,14 +330,14 @@ function AlbumDetail() {
                   <button className="comment"
                     onClick={handleScrollToComment}
                   ><img src={commentIcon}/>125K</button>
-                  <button 
-                    className="album-detail__song-detail__left__info__share-btn"
-                    onClick={()=>setShareModal(true)}
-                  >
-                    <img src={shareIcon}/>
-                  </button>
+                  <p className="play"><img src={playIcon}/>125K</p>
                 </div>
-                <p className="play"><img src={playIcon}/>125K</p>
+                <button 
+                  className="album-detail__song-detail__left__info__share-btn"
+                  onClick={()=>setShareModal(true)}
+                >
+                  <img src={shareIcon}/>
+                </button>
               </div>
             </div>
             <div className="album-detail__song-detail__right">

@@ -10,7 +10,7 @@ const MyAudioPlayer = ({ track, onTimeUpdate, onClickPrevious, onClickNext }) =>
     return (
         <AudioPlayer
             key={track?.id}
-            src={track?.src}
+            src={track?.music_url}
             autoPlay={true}
             loop={true}
             showSkipControls={true}

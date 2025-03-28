@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
-import AudioPlayer from 'react-h5-audio-player';
+import AudioPlayer from "react-h5-audio-player";
 
 import coverImg from "../assets/images/intro/intro-demo-img.png";
 import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
@@ -293,6 +293,15 @@ function AlbumDetail() {
     };
     fetchAlbumDetail();
   }, [id, walletAddress, token, serverApi]);
+  // album 객체에 tags 문자열이 존재하는지 확인합니다.
+  const tagString = album?.tags;
+  // tags 문자열이 존재하면, 쉼표로 구분된 배열로 변환 후 불필요한 공백을 제거합니다.
+  const tagArray = tagString
+    ? tagString
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
 
   return (
     <>
@@ -323,16 +332,20 @@ function AlbumDetail() {
                     {loved ? 146 : 145}
                   </button>
                   {/* <button className="play"><img src={playIcon}/>125K</button> */}
-                  <button className="comment"
-                    onClick={handleScrollToComment}
-                  ><img src={commentIcon}/>125K</button>
-                  <p className="play"><img src={playIcon}/>125K</p>
+                  <button className="comment" onClick={handleScrollToComment}>
+                    <img src={commentIcon} />
+                    125K
+                  </button>
+                  <p className="play">
+                    <img src={playIcon} />
+                    125K
+                  </p>
                 </div>
-                <button 
+                <button
                   className="album-detail__song-detail__left__info__share-btn"
-                  onClick={()=>setShareModal(true)}
+                  onClick={() => setShareModal(true)}
                 >
-                  <img src={shareIcon}/>
+                  <img src={shareIcon} />
                 </button>
               </div>
             </div>
@@ -341,35 +354,31 @@ function AlbumDetail() {
                 {album?.title}
               </p>
               <div className="album-detail__song-detail__right__type">
-                <div className="album-detail__song-detail__right__type__item">
-                  Moon
-                </div>
-                <div className="album-detail__song-detail__right__type__item">
-                  Lover
-                </div>
-                <div className="album-detail__song-detail__right__type__item">
-                  Mystery
-                </div>
-                <div className="album-detail__song-detail__right__type__item">
-                  Serenity
-                </div>
+                {tagArray.map((type, index) => (
+                  <div
+                    key={index}
+                    className="album-detail__song-detail__right__type__item"
+                  >
+                    {type}
+                  </div>
+                ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Story</dt>
-                  <dd>A love story about two people overcoming challenges</dd>
+                  <dd>{album?.story || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Genre</dt>
-                  <dd>POP</dd>
+                  <dd>{album?.genre || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Style</dt>
-                  <dd>Passion</dd>
+                  <dd>{album?.style || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Stylistic</dt>
-                  <dd>emotioal stylistic</dd>
+                  <dd>{album?.Stylistic || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Creation Data</dt>
@@ -397,7 +406,7 @@ function AlbumDetail() {
 
         <section className="album-detail__audio">
           {/* <audio src={album?.music_url || track1} controls/> */}
-          <AudioPlayer src={album?.music_url || track1}/>
+          <AudioPlayer src={album?.music_url || track1} />
         </section>
 
         <section className="album-detail__rank-table">

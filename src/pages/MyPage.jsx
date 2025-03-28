@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "../styles/MyPage.scss";
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
@@ -15,7 +15,12 @@ import AiServices from "../components/mypage/AiServices";
 import Albums from "../components/mypage/Albums";
 import MyFavorites from "../components/mypage/MyFavorites";
 import Reward from "../components/mypage/Reward";
+
+import { AuthContext } from "../contexts/AuthContext";
+import { useUserDetail } from "../hooks/useUserDetail";
 const MyPage = () => {
+  const { data: userData } = useUserDetail();
+  console.log("userData:", userData);
   const [selectedService, setSelectedService] = useState("AI Services");
 
   const handleServiceClick = (service) => {
@@ -36,7 +41,7 @@ const MyPage = () => {
               <img src={demoUser} alt="profile-img" />
             </div>
             <div className="mypage__profile-info-box">
-              <p className="mypage__username">UserName</p>
+              <p className="mypage__username">{userData?.name}</p>
               <div className="mypage__stats">
                 <div className="stats__info">
                   <img src={demoFlag} alt="flag" />

@@ -18,6 +18,7 @@ import mainLogo from "../assets/images/header/logo.svg";
 import Menu from "./Menu";
 import MyPage from "../pages/MyPage";
 import SignInModal from "./SignInModal";
+import CreateLoading from "./CreateLoading";
 
 const Header = ({ setIsLoggedIn }) => {
   const [isSignInModal, setSignInModal] = useState(false);
@@ -126,6 +127,34 @@ const Header = ({ setIsLoggedIn }) => {
       {/* <Routes>
         <Route path="/" element={<Album />} />
       </Routes> */}
+
+      {/* <div className="alarm__modal">
+        <div className="alarm__modal__item">
+          <button className="alarm__modal__item__closed">
+
+          </button>
+          <p className="alarm__modal__item__title">ALARM1</p>
+          <p className="alarm__modal__item__txt">
+            AI song is currently being generated
+          </p>
+          <div class="middle2">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+            <div class="bar bar4"></div>
+            <div class="bar bar5"></div>
+            <div class="bar bar6"></div>
+            <div class="bar bar7"></div>
+            <div class="bar bar8"></div>
+          </div>
+        </div>
+        <div className="alarm__modal__item">
+          <p className="alarm__modal__item__title">ALARM</p>
+          
+        </div>
+        
+      </div> */}
+
     </>
   );
 };

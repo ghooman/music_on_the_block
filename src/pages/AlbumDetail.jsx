@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
+import AudioPlayer from 'react-h5-audio-player';
+
 import coverImg from "../assets/images/intro/intro-demo-img.png";
 import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
 import coverImg3 from "../assets/images/intro/intro-demo-img3.png";
@@ -301,8 +303,6 @@ function AlbumDetail() {
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
-          {/* 음악 재생 */}
-          <audio src={album?.music_url || track1} controls></audio>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
               <div
@@ -323,21 +323,17 @@ function AlbumDetail() {
                     {loved ? 146 : 145}
                   </button>
                   {/* <button className="play"><img src={playIcon}/>125K</button> */}
-                  <button className="comment" onClick={handleScrollToComment}>
-                    <img src={commentIcon} />
-                    125K
-                  </button>
-                  <button
-                    className="album-detail__song-detail__left__info__share-btn"
-                    onClick={() => setShareModal(true)}
-                  >
-                    <img src={shareIcon} />
-                  </button>
+                  <button className="comment"
+                    onClick={handleScrollToComment}
+                  ><img src={commentIcon}/>125K</button>
+                  <p className="play"><img src={playIcon}/>125K</p>
                 </div>
-                <p className="play">
-                  <img src={playIcon} />
-                  125K
-                </p>
+                <button 
+                  className="album-detail__song-detail__left__info__share-btn"
+                  onClick={()=>setShareModal(true)}
+                >
+                  <img src={shareIcon}/>
+                </button>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -397,6 +393,11 @@ function AlbumDetail() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="album-detail__audio">
+          {/* <audio src={album?.music_url || track1} controls/> */}
+          <AudioPlayer src={album?.music_url || track1}/>
         </section>
 
         <section className="album-detail__rank-table">

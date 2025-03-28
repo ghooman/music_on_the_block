@@ -91,6 +91,8 @@
             overflow: auto;
 
             pre{
+              width: 100%;
+              height: 100%;
               position: relative;
               z-index: 1;
               background: transparent;
@@ -286,6 +288,58 @@
     }//album-detail__song-detail__bot--END--
   }//album-detail__song-detail--END--
 
+  .album-detail__audio{
+    border-radius: 12px;
+    border: 1px solid var(--Color-03, #222);
+    padding: 16px;
+    margin-top: 16px;
+    .rhap_container{
+      margin-top: 16px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      *{
+          color: #fff;
+          margin-top: 0;
+      }
+    }
+  .rhap_main-controls{
+    button{
+        font-family: math !important;
+        font-size: 30px;
+        svg{
+          font-size: 30px;
+        }
+        &:nth-child(2){
+          position: relative;
+          top: 10px !important;
+          display: block !important;
+        }
+        &.rhap_button-clear{
+          &.rhap_main-controls-button{
+            position: relative;
+            top:8px;
+            display: none;
+          }
+        }
+    }
+  }
+  .rhap_volume-container{
+    &>div{
+        position: relative;
+        top: 7px;
+    }
+  }
+  .rhap_progress-indicator{
+    background: #A9D400 !important;
+    width: 10px;
+  }
+  .rhap_volume-indicator{
+    background: #A9D400;
+    width: 8px;
+  }
+
+  }//album-detail__audio--END--
 
   .album-detail__rank-table{
     border-radius: 12px;

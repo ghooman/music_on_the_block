@@ -38,7 +38,7 @@ const MyPage = () => {
         <div className="mypage__profile-info">
           <div className="mypage__profile-edit-box">
             <div className="mypage__profile-img">
-              <img src={demoUser} alt="profile-img" />
+              <img src={userData?.profile || demoUser} alt="profile-img" />
             </div>
             <div className="mypage__profile-info-box">
               <p className="mypage__username">{userData?.name}</p>

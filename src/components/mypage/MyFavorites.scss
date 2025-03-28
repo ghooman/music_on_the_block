@@ -32,6 +32,37 @@
         border-radius: 100%;
       }
     }
+    .my-favorites__view-all{
+      width: 100px;
+      height: 30px;
+      background: #cf0;
+      position: relative;
+      top: 0;
+      transition: 0.2s;
+      color: var(--Text-dark-title, #1A1A1A);
+      font-family: Orbitron600;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      border-radius: 12px;
+      &::before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: calc(100% - 2px);
+        transition: 0.2s;
+        border-radius: 12px;
+        height: 29px;
+        border: 1px solid #cf0;
+      }
+      &:hover{
+        top: 4px;
+        &::before{
+          top: 0;
+        }
+      }
+    }//my-favorites__view-all--END--
   }
   .my-favorites__search {
     display: flex;

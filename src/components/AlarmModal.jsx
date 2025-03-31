@@ -6,14 +6,14 @@ import closeIcon from "../assets/images/close.svg";
 
 // 환경변수를 통해 웹소켓 URL을 관리하도록 함 (환경변수 미설정 시 기본값 사용)
 const WS_URL = "wss://muble.xyz/ws/album_status/";
-
 // 재연결 시도 간격 (밀리초)
 const RECONNECT_INTERVAL = 3000;
 
 const AlarmModal = () => {
-  const [loading, setLoading] = useState(true);
-  const [albumPk, setAlbumPk] = useState(null); // pk를 저장하는 상태 변수
-  const [isClosed, setIsClosed] = useState(false);
+  // 처음에는 모달이 숨겨져 있다가 웹소켓 연결 시 또는 상태 업데이트 시 표시하도록 함
+  const [isClosed, setIsClosed] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [albumPk, setAlbumPk] = useState(null);
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
 
@@ -25,21 +25,28 @@ const AlarmModal = () => {
     socket.onopen = () => {
       console.log("웹 소켓 연결됨");
       setError(null);
+      setLoading(true);
+      setIsClosed(false);
     };
 
     socket.onmessage = (e) => {
       try {
         const data = JSON.parse(e.data);
         console.log("웹소켓", data);
-        // 메시지 형식 및 상태 값 검증
         if (data && data.status) {
           if (data.status === "complt") {
+            // 생성 완료 시점: 로딩 해제 및 pk 저장, 모달을 다시 열어 완료 메시지 표시
             setLoading(false);
-            setAlbumPk(data.pk); // data의 pk 값을 저장
+            setAlbumPk(data.pk);
+            setIsClosed(false);
+          } else if (data.status === "processing") {
+            // 생성 진행 중일 때: 모달이 열려있도록 처리
+            setLoading(true);
+            setIsClosed(false);
           } else if (data.status === "error") {
             setError("Song generation failed.");
+            setIsClosed(false);
           } else {
-            // 추가 상태 (예: 'processing' 등) 처리 가능
             console.log("현재 상태:", data.status);
           }
         } else {
@@ -53,11 +60,11 @@ const AlarmModal = () => {
     socket.onerror = (err) => {
       console.error("웹 소켓 에러 발생:", err);
       setError("웹 소켓 에러 발생. 다시 연결 시도 중입니다.");
+      setIsClosed(false);
     };
 
     socket.onclose = (e) => {
       console.error("웹 소켓 연결 끊김:", e);
-      // 의도치 않은 종료일 경우 재연결 시도
       if (!e.wasClean) {
         setTimeout(() => {
           console.log("웹 소켓 재연결 시도...");
@@ -82,10 +89,11 @@ const AlarmModal = () => {
   };
 
   const handleOverlayClick = () => {
+    // 오버레이 클릭 시 모달을 열어주는 처리 (완료 알람이 사라지지 않도록 함)
     setIsClosed(false);
   };
 
-  console.log("현재 상태:", loading, error, albumPk);
+  console.log("현재 상태:", { loading, error, albumPk, isClosed });
   return (
     <>
       <div className={`alarm__modal ${isClosed ? "active" : ""}`}>

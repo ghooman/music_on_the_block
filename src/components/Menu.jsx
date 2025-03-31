@@ -233,6 +233,20 @@ const Menu = ({
                     <p className="icon"></p>Albums
                   </Link>
                 </div>
+                {/* 일반 아이템 - NFT MarketPlace */}
+                <div
+                  className={`menu__box__gnb-list__item ${
+                    activeSingle === "nft" ? "active" : ""
+                  }`}
+                >
+                  <Link
+                    to="/nft"
+                    className="menu__box__gnb-list__item__btn"
+                    onClick={() => handleSingleActive("nft")}
+                  >
+                    <p className="icon"></p>NFT Market Place
+                  </Link>
+                </div>
 
                 {/* 일반 아이템 - Shop */}
                 <div

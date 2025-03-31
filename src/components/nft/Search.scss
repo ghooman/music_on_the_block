@@ -1,0 +1,19 @@
+.nft-component-search {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #383838;
+    background-color: #0b0b0c;
+    width: 100%;
+    display: flex;
+
+    .search__input {
+        all: unset;
+        flex: 1;
+        outline: none;
+        // border: none;
+    }
+    .search__button {
+        width: 24px;
+        height: 24px;
+    }
+}

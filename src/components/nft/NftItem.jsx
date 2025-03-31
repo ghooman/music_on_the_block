@@ -1,22 +1,27 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './NftItem.scss';
 
-export const NftItemWraps = ({ data }) => {
+export const NftItemList = ({ data }) => {
     return (
         <div className="nft-item-wrap">
-            {data.map(() => (
-                <NftItem />
+            {data.map((item, index) => (
+                <React.Fragment key={index}>
+                    <NftItem />
+                </React.Fragment>
             ))}
         </div>
     );
 };
 
-export const NftCollectionItemWraps = ({ data }) => {
+export const CollectionItemList = ({ data }) => {
     return (
         <div className="nft-item-collection-wrap">
-            {data.map((item) => (
-                <CollectionItem />
+            {data.map((item, index) => (
+                <React.Fragment key={index}>
+                    <CollectionItem />
+                </React.Fragment>
             ))}
         </div>
     );
@@ -25,7 +30,7 @@ export const NftCollectionItemWraps = ({ data }) => {
 const NftItem = () => {
     return (
         <Link className="nft-item">
-            <Images />
+            <Images music />
             <Desc desc="" />
             <Title title="" />
             <div className="nft-item__prices col">
@@ -54,13 +59,17 @@ export const CollectionItem = () => {
 // Compositions
 //===========
 
-const Images = () => {
+const Images = ({ music }) => {
     return (
         <div className="nft-item__images">
             {/* <img alt="nft images" /> */}
-            <div className="nft-item__images--type"></div>
-            <div className="nft-item__images--genre"></div>
-            <div className="nft-item__images--running-time"></div>
+            {music && (
+                <>
+                    <div className="nft-item__images--type"></div>
+                    <div className="nft-item__images--genre"></div>
+                    <div className="nft-item__images--running-time"></div>
+                </>
+            )}
         </div>
     );
 };

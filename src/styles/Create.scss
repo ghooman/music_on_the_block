@@ -98,13 +98,13 @@
         height: 56px;
         transition: 0.3s;
         overflow: hidden;
-        &.active{
+        &.active {
             height: 416px;
             .wrap-title {
-                &::before{
+                &::before {
                     border: 1px solid #fff;
-                    background: url('../assets/images/arrow_drop_down2.svg') center no-repeat;                    
-                    transform:translate(0,-50%) rotate(180deg);
+                    background: url('../assets/images/arrow_drop_down2.svg') center no-repeat;
+                    transform: translate(0, -50%) rotate(180deg);
                 }
             }
         }
@@ -116,7 +116,7 @@
             margin-bottom: 12px;
             cursor: pointer;
             position: relative;
-            &::before{
+            &::before {
                 content: '';
                 width: 24px;
                 height: 24px;
@@ -124,7 +124,7 @@
                 position: absolute;
                 top: 50%;
                 right: 16px;
-                transform: translate(0,-50%);
+                transform: translate(0, -50%);
                 transition: 0.3s;
                 background: url('../assets/images/arrow_drop_down.svg') center no-repeat;
                 background-size: contain;
@@ -329,9 +329,9 @@
             .progress__text {
                 font-size: 12px;
             }
-            .progress__arrow {
-                display: none;
-            }
+            // .progress__arrow {
+            //     display: none;
+            // }
         }
     }
     .create__description-banner {

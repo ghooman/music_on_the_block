@@ -1,2 +1,37 @@
 .nft {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .nft__exchange {
+        padding: 50px 140px;
+    }
+    .nft__exchange--title {
+        color: #cf0;
+        font-family: Orbitron700;
+        font-size: 32px;
+        letter-spacing: 0.96px;
+        margin-bottom: 40px;
+    }
+    .nft__exchange--desc {
+        color: #f1f1f1;
+        text-shadow: 0px 4px 0px rgba(0, 0, 0, 0.6);
+        font-family: Orbitron400;
+        font-size: 20px;
+        letter-spacing: 0.6px;
+        margin-bottom: 24px;
+    }
+    .nft__exchange--button {
+        float: right;
+        color: #1a1a1a;
+        font-family: Orbitron600;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        width: 102px;
+        height: 40px;
+        border-radius: 12px;
+        background: var(--primary-base, #cf0);
+    }
 }

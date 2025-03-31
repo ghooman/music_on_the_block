@@ -142,7 +142,6 @@ const MelodyMaker = ({
     }
   }, [generatedMusicResult]);
 
-  // if (!generatedMusicResult)
   return (
     <div className="create__melody-maker">
       <SubBanner>

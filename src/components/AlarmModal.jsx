@@ -4,14 +4,34 @@ import { Link } from "react-router-dom";
 import "./AlarmModal.scss";
 import closeIcon from "../assets/images/close.svg";
 
+// 환경변수를 통해 웹소켓 URL을 관리하도록 함 (환경변수 미설정 시 기본값 사용)
 const WS_URL = "wss://muble.xyz/ws/album_status/";
+const albumIdStorageKey = "generatedAlbumId";
+// 재연결 시도 간격 (밀리초)
 const RECONNECT_INTERVAL = 3000;
 
+// localStorage에서 유효한 앨범 id를 가져오는 함수
+const getStoredAlbumId = () => {
+  const item = localStorage.getItem(albumIdStorageKey);
+  if (!item) return null;
+  try {
+    const data = JSON.parse(item);
+    // 만료 시각 검사
+    if (data.expires < Date.now()) {
+      localStorage.removeItem(albumIdStorageKey);
+      return null;
+    }
+    return data.id;
+  } catch (e) {
+    localStorage.removeItem(albumIdStorageKey);
+    return null;
+  }
+};
+
 const AlarmModal = () => {
-  // alarmData에 서버에서 전달받은 데이터가 저장되고,
-  // showAlarm은 모달 표시 여부를 제어합니다.
-  const [alarmData, setAlarmData] = useState(null);
-  const [showAlarm, setShowAlarm] = useState(false);
+  const [albumPk, setAlbumPk] = useState(null); // 소켓에서 온 pk를 저장하는 상태 변수
+  const [storedAlbumId, setStoredAlbumId] = useState(getStoredAlbumId());
+  const [isClosed, setIsClosed] = useState(false);
   const socketRef = useRef(null);
 
   // 웹소켓 연결 및 이벤트 핸들러 등록 함수
@@ -27,9 +47,18 @@ const AlarmModal = () => {
       try {
         const data = JSON.parse(e.data);
         console.log("웹소켓", data);
+        // 메시지 형식 및 상태 값 검증
         if (data && data.status) {
-          // 새 데이터가 들어오면 alarmData를 업데이트
-          setAlarmData(data);
+          if (data.status === "complt") {
+            setAlbumPk(data.pk); // 소켓에서 받은 pk 저장
+            // 완료 상태이면 localStorage의 id를 삭제합니다.
+            localStorage.removeItem(albumIdStorageKey);
+            setStoredAlbumId(null);
+          } else if (data.status === "error") {
+          } else {
+            // 다른 상태 처리 (필요 시 추가)
+            console.log("현재 상태:", data.status);
+          }
         } else {
           console.warn("예상치 못한 메시지 형식:", e.data);
         }
@@ -40,14 +69,11 @@ const AlarmModal = () => {
 
     socket.onerror = (err) => {
       console.error("웹 소켓 에러 발생:", err);
-      setAlarmData({
-        status: "error",
-        message: "웹 소켓 에러 발생. 다시 연결 시도 중입니다.",
-      });
     };
 
     socket.onclose = (e) => {
       console.error("웹 소켓 연결 끊김:", e);
+      // 의도치 않은 종료일 경우 재연결 시도
       if (!e.wasClean) {
         setTimeout(() => {
           console.log("웹 소켓 재연결 시도...");
@@ -57,7 +83,9 @@ const AlarmModal = () => {
     };
   };
 
+  // 컴포넌트 마운트 시 웹소켓 연결 및 storedAlbumId 업데이트
   useEffect(() => {
+    setStoredAlbumId(getStoredAlbumId());
     connectWebSocket();
     return () => {
       if (socketRef.current) {
@@ -66,42 +94,34 @@ const AlarmModal = () => {
     };
   }, []);
 
-  // alarmData가 업데이트되면 모달을 표시하도록 showAlarm 상태를 true로 전환
-  useEffect(() => {
-    if (alarmData !== null) {
-      setShowAlarm(true);
-    }
-  }, [alarmData]);
-
-  // 사용자가 모달을 닫으면 데이터를 초기화하여 모달이 사라집니다.
   const handleClose = () => {
-    setShowAlarm(false);
-    setAlarmData(null);
+    setIsClosed(true);
   };
 
-  // 모달은 showAlarm이 true일 때만 렌더링합니다.
-  if (!showAlarm || !alarmData) {
-    return null;
-  }
+  const handleOverlayClick = () => {
+    setIsClosed(false);
+  };
+
+  // localStorage에 저장된 id가 없고 소켓에서 받은 albumPk도 없으면 모달을 렌더링하지 않음
+  if (!storedAlbumId && !albumPk) return null;
+  console.log("isClosed", isClosed);
+  console.log("storedAlbumId", storedAlbumId);
+  console.log("albumPk", albumPk);
 
   return (
     <>
-      <div className="alarm__modal active">
+      <div className={`alarm__modal ${isClosed ? "active" : ""}`}>
         <div className="alarm__modal__item">
           <button className="alarm__modal__item__closed" onClick={handleClose}>
             <img src={closeIcon} alt="닫기" />
           </button>
           <p className="alarm__modal__item__title">ALARM</p>
           <p className="alarm__modal__item__txt">
-            {alarmData.status === "complt"
+            {albumPk
               ? "Song generation completed!"
-              : alarmData.status === "processing"
-              ? "AI song is currently being generated"
-              : alarmData.status === "error"
-              ? alarmData.message
-              : "알 수 없는 상태"}
+              : "AI song is currently being generated"}
           </p>
-          {alarmData.status === "processing" && (
+          {!albumPk && (
             <div className="middle2">
               <div className="bar bar1"></div>
               <div className="bar bar2"></div>
@@ -113,17 +133,21 @@ const AlarmModal = () => {
               <div className="bar bar8"></div>
             </div>
           )}
-          {alarmData.status === "complt" && alarmData.pk && (
+          {albumPk && (
             <Link
               className="alarm__modal__item__link"
-              to={`/album-detail/${alarmData.pk}`}
+              to={`/album-detail/${albumPk}`}
+              onClick={() => setAlbumPk(null)}
             >
               My Song Link
             </Link>
           )}
         </div>
       </div>
-      <div className="alarm__modal__arr active" onClick={handleClose}></div>
+      <div
+        className={`alarm__modal__arr ${isClosed ? "active" : ""}`}
+        onClick={handleOverlayClick}
+      ></div>
     </>
   );
 };

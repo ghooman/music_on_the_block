@@ -1,3 +1,4 @@
+import React from "react"
 import { Link } from 'react-router-dom';
 import nft01 from '../../assets/images/nft/nft01.png';
 import nft02 from '../../assets/images/nft/nft02.png';
@@ -11,7 +12,9 @@ import collection01 from '../../assets/images/nft/collection01.png';
 import collection02 from '../../assets/images/nft/collection02.png';
 import collection03 from '../../assets/images/nft/collection03.png';
 import collection04 from '../../assets/images/nft/collection04.png';
-
+import lyricIcon from '../../assets/images/icon/Lyric-Icon.svg';
+import compositionIcon from '../../assets/images/icon/Composition-Icon.svg';
+import songIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import './NftItem.scss';
 
 const nftData = [
@@ -22,7 +25,7 @@ const nftData = [
         title: "Melodic Dreams #001",
         price: "0.23",
         quantity: "10/100",
-        type: "Music",
+        type: "Lyric",
         genre: "Pop",
         duration: "3:45"
     },
@@ -33,7 +36,7 @@ const nftData = [
         title: "Nature Rhythm #002",
         price: "0.45",
         quantity: "5/50",
-        type: "Music",
+        type: "Composition",
         genre: "Ambient",
         duration: "4:20"
     },
@@ -44,7 +47,7 @@ const nftData = [
         title: "Urban Beats #003",
         price: "0.32",
         quantity: "15/150",
-        type: "Music",
+        type: "Song",
         genre: "Electronic",
         duration: "3:15"
     },
@@ -55,9 +58,53 @@ const nftData = [
         title: "Digital Symphony #004",
         price: "0.28",
         quantity: "20/200",
-        type: "Music",
+        type: "Lyric",
         genre: "Classical",
         duration: "5:30"
+    },
+    {
+        id: 5,
+        image: nft05,
+        desc: "Jazz Fusion - Modern meets traditional",
+        title: "Jazz Fusion #005",
+        price: "0.35",
+        quantity: "8/80",
+        type: "Composition",
+        genre: "Jazz",
+        duration: "4:15"
+    },
+    {
+        id: 6,
+        image: nft06,
+        desc: "Rock Revolution - Power of sound",
+        title: "Rock Revolution #006",
+        price: "0.42",
+        quantity: "12/120",
+        type: "Song",
+        genre: "Rock",
+        duration: "3:50"
+    },
+    {
+        id: 7,
+        image: nft07,
+        desc: "Hip Hop Vibes - Street beats",
+        title: "Hip Hop Vibes #007",
+        price: "0.38",
+        quantity: "15/150",
+        type: "Lyric",
+        genre: "Hip Hop",
+        duration: "3:30"
+    },
+    {
+        id: 8,
+        image: nft08,
+        desc: "EDM Energy - Electronic dance music",
+        title: "EDM Energy #008",
+        price: "0.25",
+        quantity: "10/100",
+        type: "Composition",
+        genre: "EDM",
+        duration: "4:00"
     }
 ];
 
@@ -85,24 +132,68 @@ const collectionData = [
         username: "AudioArtist",
         highestPrice: "0.95",
         totalItems: "150"
+    },
+    {
+        id: 4,
+        image: collection04,
+        title: "Digital Beats",
+        username: "SoundDesigner",
+        highestPrice: "0.75",
+        totalItems: "120"
+    },
+    {
+        id: 5,
+        image: collection01,
+        title: "Melodic Masters",
+        username: "MusicMaster",
+        highestPrice: "0.85",
+        totalItems: "100"
+    },
+    {
+        id: 6,
+        image: collection02,
+        title: "Rhythm Raiders",
+        username: "BeatMaker",
+        highestPrice: "0.65",
+        totalItems: "75"
+    },
+    {
+        id: 7,
+        image: collection03,
+        title: "Sound Pioneers",
+        username: "AudioArtist",
+        highestPrice: "0.95",
+        totalItems: "150"
+    },
+    {
+        id: 8,
+        image: collection04,
+        title: "Digital Beats",
+        username: "SoundDesigner",
+        highestPrice: "0.75",
+        totalItems: "120"
     }
 ];
 
-export const NftItemWraps = ({ data }) => {
+export const NftItemList = ({ data }) => {
     return (
         <div className="nft-item-wrap">
-            {nftData.map((item) => (
-                <NftItem key={item.id} item={item} />
+            {data.map((item, index) => (
+                <React.Fragment key={index}>
+                    <NftItem item={nftData[item - 1]} />
+                </React.Fragment>
             ))}
         </div>
     );
 };
 
-export const NftCollectionItemWraps = ({ data }) => {
+export const CollectionItemList = ({ data }) => {
     return (
         <div className="nft-item-collection-wrap">
-            {collectionData.map((item) => (
-                <CollectionItem key={item.id} item={item} />
+            {data.map((item, index) => (
+                <React.Fragment key={index}>
+                    <CollectionItem item={collectionData[item - 1]} />
+                </React.Fragment>
             ))}
         </div>
     );
@@ -111,7 +202,7 @@ export const NftCollectionItemWraps = ({ data }) => {
 const NftItem = ({ item }) => {
     return (
         <Link className="nft-item">
-            <Images item={item} />
+            <Images music item={item} />
             <Desc desc={item.desc} />
             <Title title={item.title} />
             <div className="nft-item__prices col">
@@ -125,7 +216,7 @@ const NftItem = ({ item }) => {
 export const CollectionItem = ({ item }) => {
     return (
         <Link className="nft-item">
-            <Images item={item} isCollection={true} />
+            <Images item={item} />
             <CollectionTitle title={item.title} />
             <Username username={item.username} />
             <div className="nft-item__prices raw">
@@ -140,13 +231,28 @@ export const CollectionItem = ({ item }) => {
 // Compositions
 //===========
 
-const Images = ({ item, isCollection }) => {
+const Images = ({ music, item }) => {
+    const getTypeIcon = (type) => {
+        switch(type) {
+            case "Lyric":
+                return lyricIcon;
+            case "Composition":
+                return compositionIcon;
+            case "Song":
+                return songIcon;
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className="nft-item__images">
-            <img src={item.image} alt={isCollection ? item.title : item.desc} />
-            {!isCollection && (
+            <img src={item.image} alt={item.title || item.desc} />
+            {music && (
                 <>
-                    <div className="nft-item__images--type">{item.type}</div>
+                    <div className="nft-item__images--type">
+                        <img src={getTypeIcon(item.type)} alt={item.type} />
+                    </div>
                     <div className="nft-item__images--genre">{item.genre}</div>
                     <div className="nft-item__images--running-time">{item.duration}</div>
                 </>

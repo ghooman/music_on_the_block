@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import './ExpandedButton.scss';
 
@@ -7,14 +7,15 @@ const ExpandedButton = ({ children, className, style, onClick, disabled }) => {
     let spanRef = useRef(null);
 
     useLayoutEffect(() => {
-        let bgColor = window.getComputedStyle(buttonRef.current).backgroundColor;
-        let borderColor = window.getComputedStyle(buttonRef.current).borderColor;
+        const updateBorderColor = () => {
+            if (!buttonRef.current || !spanRef.current) return;
 
-        if (disabled) {
-            spanRef.current.style.borderColor = borderColor;
-        } else {
-            spanRef.current.style.borderColor = bgColor;
-        }
+            const bgColor = window.getComputedStyle(buttonRef.current).backgroundColor;
+            const borderColor = window.getComputedStyle(buttonRef.current).borderColor;
+
+            spanRef.current.style.borderColor = disabled ? borderColor : bgColor;
+        };
+        setTimeout(updateBorderColor, 0);
     }, [disabled]);
 
     return (

@@ -5,9 +5,28 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 
     .nft-pagination-content {
         display: flex;
         gap: 10px;
+    }
+    .nft-pagination-content__page {
+        color: #f1f1f1;
+        text-align: center;
+        font-family: Inter500;
+        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        &.enable {
+            color: #1a1a1a;
+            background: var(--primary-100, #cf0);
+        }
+
+        &.prev-next {
+            border: 1px solid #565656;
+            background-color: #383838;
+        }
     }
 }

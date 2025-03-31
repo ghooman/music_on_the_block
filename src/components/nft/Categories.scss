@@ -1,0 +1,34 @@
+.nft-component-categories {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+
+    .nft-component-categories__item {
+        padding: 8px 12px;
+        display: flex;
+        gap: 8px;
+        border-radius: 12px 4px 12px 12px;
+        background-color: #222;
+        color: #aaa;
+        font-family: Orbitron500;
+        font-size: 14px;
+        font-style: normal;
+
+        &.selected {
+            color: #1a1a1a;
+            background-color: #cf0;
+        }
+    }
+
+    .nft-component-categories__item--icon {
+        width: 14px;
+        height: 14px;
+        object-fit: cover;
+    }
+    .nft-component-categories__item--text {
+        color: #1a1a1a;
+        font-family: Orbitron500;
+        font-size: 14px;
+        letter-spacing: 0.42px;
+    }
+}

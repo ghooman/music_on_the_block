@@ -173,14 +173,14 @@ function Album() {
           <div className="album__header__cover-info__love-play">
             <p className="love">
               <img src={loveIcon} />
-              {tracks?.is_like || 0}
+              {selectedTrack?.is_like || 0}
             </p>
             <p className="play">
               <img src={playIcon} />
-              {tracks?.is_like || 0}
+              {selectedTrack?.is_like || 0}
             </p>
             <p>|</p>
-            <p className="name">{tracks?.name || "unKnown"}</p>
+            <p className="name">{selectedTrack?.name || "unKnown"}</p>
           </div>
           <Link className="album__header__cover-info__btn" to="/album-detail">
             See More
@@ -232,17 +232,17 @@ function Album() {
                 <div className="album__content-list__list__item__right__love-play">
                   <p className="love">
                     <img src={loveIcon} />
-                    {tracks?.is_like || 0}
+                    {track?.is_like || 0}
                   </p>
                   <p className="play">
                     <img src={playIcon} />
-                    {tracks?.is_like || 0}
+                    {track?.is_like || 0}
                   </p>
                 </div>
                 <div className="album__content-list__list__item__right__user">
                   <p className="album__content-list__list__item__right__user__info">
                     <img src={defaultCoverImg} />
-                    {tracks?.name || "unKnown"}
+                    {track?.name || "unKnown"}
                   </p>
                   <Link
                     className="album__content-list__list__item__right__user__btn"
@@ -312,17 +312,17 @@ function Album() {
                 <div className="swiper-music-list__item__right__love-play">
                   <p className="love">
                     <img src={loveIcon} />
-                    {tracks?.is_like || 0}
+                    {track?.is_like || 0}
                   </p>
                   <p className="play">
                     <img src={playIcon} />
-                    {tracks?.is_like || 0}
+                    {track?.is_like || 0}
                   </p>
                 </div>
                 <div className="swiper-music-list__item__right__user">
                   <p className="swiper-music-list__item__right__user__info">
                     <img src={defaultCoverImg} />
-                    {tracks?.name || "unKnown"}
+                    {track?.name || "unKnown"}
                   </p>
                   <button className="swiper-music-list__item__right__user__btn">
                     유저정보

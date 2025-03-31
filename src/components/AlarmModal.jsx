@@ -12,6 +12,7 @@ const RECONNECT_INTERVAL = 3000;
 
 const AlarmModal = () => {
   const [loading, setLoading] = useState(true);
+  const [albumPk, setAlbumPk] = useState(null); // pk를 저장하는 상태 변수
   const [isClosed, setIsClosed] = useState(false);
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
@@ -34,6 +35,7 @@ const AlarmModal = () => {
         if (data && data.status) {
           if (data.status === "complt") {
             setLoading(false);
+            setAlbumPk(data.pk); // data의 pk 값을 저장
           } else if (data.status === "error") {
             setError("Song generation failed.");
           } else {
@@ -83,7 +85,7 @@ const AlarmModal = () => {
     setIsClosed(false);
   };
 
-  console.log("현재 상태:", loading, error);
+  console.log("현재 상태:", loading, error, albumPk);
   return (
     <>
       <div className={`alarm__modal ${isClosed ? "active" : ""}`}>
@@ -111,9 +113,14 @@ const AlarmModal = () => {
               <div className="bar bar8"></div>
             </div>
           ) : (
-            <Link className="alarm__modal__item__link" to="/">
-              My Song Link
-            </Link>
+            albumPk && (
+              <Link
+                className="alarm__modal__item__link"
+                to={`/album-detail/${albumPk}`}
+              >
+                My Song Link
+              </Link>
+            )
           )}
         </div>
       </div>

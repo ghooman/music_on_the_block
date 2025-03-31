@@ -1,5 +1,5 @@
 import "../styles/MyPage.scss";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
@@ -16,7 +16,6 @@ import Albums from "../components/mypage/Albums";
 import MyFavorites from "../components/mypage/MyFavorites";
 import Reward from "../components/mypage/Reward";
 
-import { AuthContext } from "../contexts/AuthContext";
 import { useUserDetail } from "../hooks/useUserDetail";
 const MyPage = () => {
   const { data: userData } = useUserDetail();

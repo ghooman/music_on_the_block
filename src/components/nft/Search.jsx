@@ -2,7 +2,7 @@ import searchIcon from '../../assets/images/icon/search.svg';
 
 import './Search.scss';
 
-const Search = ({ placeholder }) => {
+const Search = ({ placeholder = 'Search' }) => {
     return (
         <div className="nft-component-search">
             <input className="search__input" type="text" placeholder={placeholder} />

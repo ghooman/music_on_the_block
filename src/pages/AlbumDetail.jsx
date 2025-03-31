@@ -328,6 +328,9 @@ function AlbumDetail() {
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
+                <button className="album-detail__song-detail__left__img__lyric-btn">
+                  Lyric
+                </button>
               </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
@@ -435,6 +438,9 @@ function AlbumDetail() {
         </section>
 
         <section className="album-detail__rank-table">
+          <div ref={commentRef}>
+            <AdvancedCommentComponent />
+          </div>
           <dl className="album-detail__rank-table__title">
             <dt>Albums Leaderboard Rank</dt>
             <dd>Most Likes</dd>
@@ -477,9 +483,7 @@ function AlbumDetail() {
           {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
-          <div ref={commentRef}>
-            <AdvancedCommentComponent />
-          </div>
+
         </section>
 
         <section className="album-detail__slide">

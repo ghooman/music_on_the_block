@@ -89,7 +89,14 @@
             color: #a9d400;
             font-family: Inter400;
             font-size: 14px;
-            letter-spacing: 0.42px;
+            display: flex;
+            align-items: center;
+            span{
+                font-size: 12px;
+                font-family: Inter400;
+                margin-left: 4px;
+                color: red;
+            }
         }
         .tag-preset {
             display: flex;

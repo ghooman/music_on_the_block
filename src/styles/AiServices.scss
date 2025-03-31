@@ -1,0 +1,52 @@
+.preparing-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  &__content {
+    background: #1A1A1A;
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid #222;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+
+    h2 {
+      color: #CF0;
+      font-family: Orbitron600;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: #F1F1F1;
+      font-family: Inter400;
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    button {
+      background: #CF0;
+      color: #1A1A1A;
+      border: none;
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-family: Inter500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background: #A9D400;
+      }
+    }
+  }
+} 

@@ -1,17 +1,39 @@
 import ContentWrap from '../components/nft/ContentWrap';
-import { NftItemWraps, NftCollectionItemWraps } from '../components/nft/NftItem';
+import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
+import Pagination from '../components/nft/Pagination';
 import Search from '../components/nft/Search';
+
+import '../styles/Nft.scss';
 
 const Nft = () => {
     return (
-        <div>
-            <ContentWrap title="TOP NFTs" link="1">
-                <Search />
-                <NftItemWraps data={[1, 2]} />
-                <NftCollectionItemWraps data={[1, 2, 34]} />
+        <div className="nft">
+            <NftExchange />
+            <Search />
+            <ContentWrap title="TOP NFTs" link="/nft">
+                <NftItemList data={[1, 2, 3, 4]} />
             </ContentWrap>
+            <ContentWrap title="Popular Collection" link="/nft">
+                <CollectionItemList data={[1, 2, 3]} />
+            </ContentWrap>
+            <ContentWrap title="Popular Genre"></ContentWrap>
+            <ContentWrap title="Data"></ContentWrap>
         </div>
     );
 };
 
 export default Nft;
+
+const NftExchange = () => {
+    return (
+        <div className="nft__exchange">
+            <h1 className="nft__exchange--title">NFT Exchange</h1>
+            <p className="nft__exchange--desc">
+                Your music, nowe as an NFT
+                <br />
+                Connect AI-generated creations with the world
+            </p>
+            <button className="nft__exchange--button">Mint NFT</button>
+        </div>
+    );
+};

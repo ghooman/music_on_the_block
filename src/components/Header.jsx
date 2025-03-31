@@ -126,6 +126,10 @@ const Header = ({ setIsLoggedIn }) => {
         />
       )}
 
+      {/* <Routes>
+        <Route path="/" element={<Album />} />
+      </Routes> */}
+
       <AlarmModal />
     </>
   );

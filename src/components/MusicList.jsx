@@ -16,15 +16,16 @@ class MusicList extends Component {
     super(props);
     this.audioRef = createRef();
     this.state = {
-      playing: false,
+      playing: props.initialState?.playing || false,
       mediaElt: null,
       tracks: [
         { source: track3, title: "Zimt" },
         { source: track2, title: "Ingwer" },
       ],
       track: this.initialTracks.tracks[0],
-      currentTime: "0:00",
-      duration: "0:00",
+      currentTime: props.initialState?.currentTime || "0:00",
+      duration: props.initialState?.duration || "0:00",
+      isLoaded: props.initialState?.isLoaded || false
     };
   }
 
@@ -33,7 +34,29 @@ class MusicList extends Component {
     if (mediaElement) {
       mediaElement.addEventListener("timeupdate", this.updateTime);
       mediaElement.addEventListener("loadedmetadata", this.updateDuration);
-      this.setState({ mediaElt: mediaElement });
+      mediaElement.addEventListener("canplaythrough", () => {
+        this.setState({ mediaElt: mediaElement, isLoaded: true }, () => {
+          this.props.onStateChange?.({ isLoaded: true });
+        });
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // mediaElt가 이전 상태에서 null이었다가 현재 상태에서 존재하는 경우
+    if (!prevState.mediaElt && this.state.mediaElt) {
+      const mediaElement = this.audioRef.current;
+      if (mediaElement) {
+        // 이전 재생 시간 복원
+        if (this.state.currentTime !== "0:00") {
+          const [mins, secs] = this.state.currentTime.split(":").map(Number);
+          mediaElement.currentTime = mins * 60 + secs;
+        }
+        // 이전 재생 상태 복원
+        if (this.state.playing) {
+          mediaElement.play();
+        }
+      }
     }
   }
 
@@ -42,15 +65,18 @@ class MusicList extends Component {
     if (mediaElement) {
       mediaElement.removeEventListener("timeupdate", this.updateTime);
       mediaElement.removeEventListener("loadedmetadata", this.updateDuration);
+      mediaElement.removeEventListener("canplaythrough", () => {});
     }
-    this.setState({ mediaElt: null }); // Clean up mediaElt reference
+    this.setState({ mediaElt: null, isLoaded: false });
   }
 
   updateTime = () => {
     const mediaElement = this.audioRef.current;
     if (mediaElement) {
       const currentTime = this.formatTime(mediaElement.currentTime);
-      this.setState({ currentTime });
+      this.setState({ currentTime }, () => {
+        this.props.onStateChange?.({ currentTime });
+      });
     }
   };
 
@@ -58,7 +84,9 @@ class MusicList extends Component {
     const mediaElement = this.audioRef.current;
     if (mediaElement) {
       const duration = this.formatTime(mediaElement.duration);
-      this.setState({ duration });
+      this.setState({ duration }, () => {
+        this.props.onStateChange?.({ duration });
+      });
     }
   };
 
@@ -76,21 +104,25 @@ class MusicList extends Component {
       } else {
         mediaElt.play();
       }
-      this.setState({ playing: !playing });
+      this.setState({ playing: !playing }, () => {
+        this.props.onStateChange?.({ playing: !playing });
+      });
     }
   };
 
   handlePositionChange = (time) => {
     const mediaElement = this.audioRef.current;
     if (mediaElement) {
-      mediaElement.currentTime = time; // Update the playback position
+      mediaElement.currentTime = time;
       const currentTime = this.formatTime(time);
-      this.setState({ currentTime });
+      this.setState({ currentTime }, () => {
+        this.props.onStateChange?.({ currentTime });
+      });
     }
   };
 
   render() {
-    const { playing, currentTime, duration, track, mediaElt } = this.state;
+    const { playing, currentTime, duration, track, mediaElt, isLoaded } = this.state;
 
     return (
       <>
@@ -100,28 +132,30 @@ class MusicList extends Component {
         >
           {!playing ? "▶" : "■"}
         </div>
-        {mediaElt && (
-          <ReactWaves
-            audioFile={track.source}
-            className={"react-waves"}
-            options={{
-              barWidth: 2,
-              barHeight: 0,
-              barGap: 5,
-              backend: "MediaElement",
-              normalize: true,
-              cursorWidth: 3,
-              mediaType: "audio",
-              hideScrollbar: true,
-              responsive: true,
-              progressColor: "#CF0",
-              waveColor: "#E9EFF4",
-            }}
-            zoom={1}
-            playing={playing}
-            mediaElt={mediaElt} 
-            onPositionChange={this.handlePositionChange} 
-          />
+        {isLoaded && mediaElt && (
+          <div style={{ width: "100%" }}>
+            <ReactWaves
+              audioFile={track.source}
+              className={"react-waves"}
+              options={{
+                barWidth: 2,
+                barHeight: 0,
+                barGap: 3,
+                backend: "MediaElement",
+                normalize: true,
+                cursorWidth: 3,
+                mediaType: "audio",
+                hideScrollbar: true,
+                responsive: true,
+                progressColor: "#CF0",
+                waveColor: "#E9EFF4",
+              }}
+              zoom={1}
+              playing={playing}
+              mediaElt={mediaElt} 
+              onPositionChange={this.handlePositionChange} 
+            />
+          </div>
         )}
         <audio
           ref={this.audioRef}

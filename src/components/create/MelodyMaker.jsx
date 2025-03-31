@@ -49,6 +49,13 @@ const storeAlbumId = (id) => {
   localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, expires }));
 };
 
+// localStorage에 앨범 id와 만료 시각을 저장하는 함수 (15분)
+const albumIdStorageKey = "generatedAlbumId";
+const storeAlbumId = (id) => {
+  const expires = Date.now() + 15 * 60 * 1000; // 15분 후
+  localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, expires }));
+};
+
 const MelodyMaker = ({
   melodyData,
   setMelodyData,
@@ -93,10 +100,11 @@ const MelodyMaker = ({
   const promptPreview = `
       Language: ${selectedLanguage},
       Tags : ${melody_tag ? melody_tag.join(", ") : ""}
-      Genre : ${melody_genre?.[0] ? melody_genre?.[0] : ""}
-      Style : ${melody_style?.[0] ? melody_style?.[0] : ""}
-      Instrument : ${melody_instrument?.[0] ? melody_instrument?.[0] : ""}
+      Genre : ${melody_genre ? melody_genre?.join(", ") : ""}
+      Style : ${melody_style ? melody_style?.join(", ") : ""}
+      Instrument : ${melody_instrument ? melody_instrument?.join(", ") : ""}
       Story : ${melodyStory}
+      Tempo : ${tempo}
       `;
   const formData = {
     title: title,
@@ -148,6 +156,7 @@ const MelodyMaker = ({
     }
   }, [generatedMusicResult]);
 
+  // if (!generatedMusicResult)
   return (
     <div className="create__melody-maker">
       <SubBanner>
@@ -191,6 +200,8 @@ const MelodyMaker = ({
           objKey="melody_style"
           selected={melodyData?.melody_style}
           preset={stylePreset}
+          multiple
+          add
         />
         <SelectItem
           mainTitle="Select a Musical Instrument"
@@ -199,6 +210,8 @@ const MelodyMaker = ({
           objKey="melody_instrument"
           selected={melodyData?.melody_instrument}
           preset={instrumentPreset}
+          multiple
+          add
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemStory value={melodyStory} setter={setMelodyStory} />
@@ -246,10 +259,11 @@ const MelodyMaker = ({
         <div className="button-wrap__left">
           <ExpandedButton
             className="back"
-            onClick={() => setPageNumber((prev) => prev - 1)}
+            onClick={() => setPageNumber((prev) => prev + -1)}
           >
             Back
           </ExpandedButton>
+          {/* 임시 위치 ui상 style none으로 */}
           <ExpandedButton
             className="skip"
             onClick={onSkip}
@@ -264,7 +278,7 @@ const MelodyMaker = ({
               ? "next"
               : "next enable"
           }
-          onClick={musicGenerate}
+          onClick={() => musicGenerate()}
           disabled={loading || promptPreview.length > 200 || !isAnyFieldFilled}
         >
           {loading ? "Loading" : "Generate"}

@@ -49,13 +49,6 @@ const storeAlbumId = (id) => {
   localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, expires }));
 };
 
-// localStorage에 앨범 id와 만료 시각을 저장하는 함수 (15분)
-const albumIdStorageKey = "generatedAlbumId";
-const storeAlbumId = (id) => {
-  const expires = Date.now() + 15 * 60 * 1000; // 15분 후
-  localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, expires }));
-};
-
 const MelodyMaker = ({
   melodyData,
   setMelodyData,

@@ -51,8 +51,10 @@ const Menu = ({
     setActive(false);
     if (
       menuName !== "album" &&
+      menuName !== "nft" &&
       menuName !== "my-page" &&
-      menuName !== "my-favorites"
+      menuName !== "my-favorites" &&
+      menuName !== "earn"
     ) {
       setPreparingModal(true);
     }
@@ -249,7 +251,7 @@ const Menu = ({
                 </div>
 
                 {/* 일반 아이템 - Shop */}
-                <div
+                {/* <div
                   className={`menu__box__gnb-list__item shop ${
                     activeSingle === "shop" ? "active" : ""
                   }`}
@@ -261,10 +263,25 @@ const Menu = ({
                   >
                     <p className="icon"></p>Shop
                   </Link>
+                </div> */}
+
+                <div
+                  className={`menu__box__gnb-list__item shop ${
+                    activeSingle === "earn" ? "active" : ""
+                  }`}
+                >
+                  <Link
+                    to="https://www.naver.com/"
+                    target="_b"
+                    className="menu__box__gnb-list__item__btn"
+                    onClick={() => handleSingleActive("earn")}
+                  >
+                    <p className="icon"></p>Earn
+                  </Link>
                 </div>
 
                 {/* Earn - 슬라이드 탭 */}
-                <div
+                {/* <div
                   className={`menu__box__gnb-list__item earn slide-tab ${
                     activeMenus.includes("earn") ? "active" : ""
                   }`}
@@ -291,38 +308,15 @@ const Menu = ({
                       <Link to="">Governance</Link>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
             </dd>
           </dl>
 
-          <dl className="menu__box">
-            <dt className="menu__box__title">EVENT</dt>
-            <dd>
-              <div className="menu__box__gnb-list">
-                {/* 일반 아이템 - tournaments */}
-                <div
-                  className={`menu__box__gnb-list__item tournaments ${
-                    activeSingle === "tournaments" ? "active" : ""
-                  }`}
-                >
-                  <Link
-                    to=""
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive("tournaments")}
-                  >
-                    <p className="icon"></p>tournaments
-                  </Link>
-                </div>
-              </div>
-            </dd>
-          </dl>
-
-          <dl className="menu__box">
+          {/* <dl className="menu__box">
             <dt className="menu__box__title">LIBRARY</dt>
             <dd>
               <div className="menu__box__gnb-list">
-                {/* 일반 아이템 - Artists */}
                 <div
                   className={`menu__box__gnb-list__item artists ${
                     activeSingle === "artists" ? "active" : ""
@@ -336,8 +330,6 @@ const Menu = ({
                     <p className="icon"></p>Artists
                   </Link>
                 </div>
-
-                {/* 일반 아이템 - Rewards & Payments */}
                 <div
                   className={`menu__box__gnb-list__item rewards ${
                     activeSingle === "rewards" ? "active" : ""
@@ -353,7 +345,7 @@ const Menu = ({
                 </div>
               </div>
             </dd>
-          </dl>
+          </dl> */}
 
           <dl className="menu__box">
             <dt className="menu__box__title">MY LIBRARY</dt>
@@ -392,11 +384,10 @@ const Menu = ({
             </dd>
           </dl>
 
-          <dl className="menu__box">
+          {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>
             <dd>
               <div className="menu__box__gnb-list">
-                {/* AI Services - 슬라이드 탭 */}
                 <div
                   className={`menu__box__gnb-list__item Language slide-tab ${
                     activeMenus.includes("Language") ? "active" : ""
@@ -437,7 +428,7 @@ const Menu = ({
                 </div>
               </div>
             </dd>
-          </dl>
+          </dl> */}
         </div>
       </div>
     </>

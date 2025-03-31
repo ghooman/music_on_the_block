@@ -22,15 +22,15 @@ const GetStarted = ({ handler }) => {
             <div className="create__get-started--features sequence">
                 <div>
                     <h3 className="create__get-started--features-title">Cost</h3>
-                    <p className="create__get-started--features-item">100 MOB</p>
+                    <p className="create__get-started--features-item">-- MOB</p>
                 </div>
                 <div>
                     <h3 className="create__get-started--features-title">Used</h3>
-                    <p className="create__get-started--features-item">20,000</p>
+                    <p className="create__get-started--features-item">--</p>
                 </div>
                 <div>
                     <h3 className="create__get-started--features-title">Precision</h3>
-                    <p className="create__get-started--features-item ">93%</p>
+                    <p className="create__get-started--features-item ">--%</p>
                 </div>
             </div>
             <ExpandedButton className="create__get-started--button" onClick={handler}>

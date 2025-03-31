@@ -360,7 +360,8 @@ const PreferredGenre = ({ onBack, onNext }) => {
 };
 
 function SignUp() {
-  const { token, walletAddress, isRegistered } = useContext(AuthContext);
+  const { token, walletAddress, isRegistered, setIsRegistered } =
+    useContext(AuthContext);
   const [step, setStep] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -456,6 +457,7 @@ function SignUp() {
         <SingUpCompleteModal
           setShowModal={setShowModal}
           message={"Congratulations on signing up!"}
+          setIsRegistered={setIsRegistered}
           link={"/"}
         />
       )}

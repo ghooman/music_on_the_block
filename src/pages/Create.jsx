@@ -16,6 +16,7 @@ import "../styles/Create.scss";
 
 const Create = () => {
   const { walletAddress, isRegistered } = useContext(AuthContext);
+  console.log("isRegistered", isRegistered);
   const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(-1);
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사

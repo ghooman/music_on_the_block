@@ -324,7 +324,15 @@ function AlbumDetail() {
                 }`}
                 onClick={handleClick}
               >
-                <img src={album?.image || demoImg} />
+                {album ? (
+                  <img src={album.image || demoImg} alt="앨범 이미지" />
+                ) : (
+                  <div
+                    style={{
+                      backgroundColor: "black",
+                    }}
+                  />
+                )}
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
@@ -398,7 +406,7 @@ function AlbumDetail() {
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={coverImg2} />
+                      <img src={album?.user_profile || coverImg2} />
                       {album?.name || "-"}
                     </p>
                     <Link className="see-more-btn" to="/my-page">
@@ -412,7 +420,6 @@ function AlbumDetail() {
         </section>
 
         <section className="album-detail__audio">
-          {/* <audio src={album?.music_url || track1} controls/> */}
           <AudioPlayer
             src={album?.music_url || track1}
             onPlay={() => {
@@ -479,11 +486,9 @@ function AlbumDetail() {
               </tbody>
             </table>
           </div>
-
           {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
-
         </section>
 
         <section className="album-detail__slide">
@@ -509,11 +514,6 @@ function AlbumDetail() {
                         style={{ backgroundImage: `url(${track.cover})` }}
                       ></p>
                       <span className="time">2:11</span>
-                      {/* <span className="time">
-                        {selectedTrackIndex === index
-                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                          : formatTime(track.duration)}
-                      </span> */}
                     </div>
                     <div className="album__content-list__list__item__right">
                       <p className="album__content-list__list__item__right__title">

@@ -9,6 +9,7 @@ import MyPage from "./pages/MyPage";
 import AccountSetting from "./pages/AccountSetting";
 import AlbumDetail from "./pages/AlbumDetail";
 import SignUp from "./pages/SignUp";
+import Nft from "./pages/Nft";
 import Header from "./components/Header";
 import Intro from "./components/Intro";
 import Footer from "./components/Footer";
@@ -90,6 +91,14 @@ function App() {
               element={
                 <Layout>
                   <SignUp />
+                </Layout>
+              }
+            />
+            <Route
+              path="/nft"
+              element={
+                <Layout>
+                  <Nft/>
                 </Layout>
               }
             />

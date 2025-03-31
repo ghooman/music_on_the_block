@@ -6,9 +6,8 @@ const Nft = () => {
     return (
         <div>
             <ContentWrap title="TOP NFTs" link="1">
-                <Search />
-                <NftItemWraps data={[1, 2]} />
-                <NftCollectionItemWraps data={[1, 2, 34]} />
+                <Search />  
+
             </ContentWrap>
         </div>
     );

@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+// pages/Create.js
+import { useEffect, useState, useContext } from "react";
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import ExpandedButton from "../components/create/ExpandedButton";
 import LyricLab from "../components/create/LyricLab";
 import MelodyMaker from "../components/create/MelodyMaker";
@@ -10,11 +12,19 @@ import Finalize from "../components/create/Finalize";
 import GetStarted from "../components/create/GetStarted";
 import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
-
 import "../styles/Create.scss";
 
 const Create = () => {
+  const { walletAddress, isRegistered } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(-1);
+  // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
+  useEffect(() => {
+    if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
+      // 조건에 맞지 않으면 메인 페이지로 이동
+      navigate("/");
+    }
+  }, [pageNumber, walletAddress, isRegistered, navigate]);
   const [lylicData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],

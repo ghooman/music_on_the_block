@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
           );
           const receivedToken = response.data.token;
           setToken(receivedToken);
-          console.log("receivedToken:", receivedToken);
+          // console.log("receivedToken:", receivedToken);
           localStorage.setItem("auth_token", receivedToken);
         } catch (error) {
           console.error("토큰 발급 에러:", error);

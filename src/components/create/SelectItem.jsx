@@ -143,7 +143,11 @@ export const SelectItem = ({
             : " You can select only one option"}
         </p> */}
       </div>
-      <h4 className="tag-sub-title">{subTitle}</h4>
+      <h4 className="tag-sub-title">{subTitle}
+        {subTitle === "Popular Genre" && (
+          <span className="tag-sub-title__txt">Only one can be selected</span>
+        )}
+      </h4>
       <div className="tag-preset">
         {preset &&
           Object.entries(preset).map(([key, value], index) => (

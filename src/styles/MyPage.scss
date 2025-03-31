@@ -39,8 +39,8 @@
       border-radius: 12px;
       border: 1px solid #cf0;
       background: #0b0b0c;
-      &::after{
-        content: '';
+      &::after {
+        content: "";
         position: absolute;
         width: 100%;
         height: 40px;
@@ -59,6 +59,13 @@
         margin-bottom: 8px;
         .mypage__profile-img {
           margin-right: 12px;
+          width: 100px;
+          height: 100px;
+          img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+          }
         }
         .mypage__profile-info-box {
           .mypage__username {
@@ -196,12 +203,11 @@
   }
 }
 @media screen and (max-width: 768px) {
-  
   .mypage {
     .mypage__profile {
       width: 100%;
       // height: 580px;
-      .mypage__profile-bg{
+      .mypage__profile-bg {
         width: calc(100% + 32px);
       }
       .mypage__profile-overlay {
@@ -215,7 +221,7 @@
         // min-height: 380px;
         height: auto;
         margin-top: -20px;
-        &::after{
+        &::after {
           width: 100%;
         }
         .mypage__profile-edit-box {

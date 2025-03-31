@@ -5,15 +5,21 @@ import demoChart2 from "../../assets/images/mypage/demo-chart2.png";
 import demoChart3 from "../../assets/images/mypage/demo-chart3.png";
 import FilterDateModal from "../../components/unit/FilterDateModal";
 import Filter from "../unit/Filter";
+import PreparingModal from "../PreparingModal";
+
 const AiServices = () => {
   const [selectedAiService, setSelectedAiService] = useState(
     "AI Lyric & Songwriting"
   );
   const [aiServiceStatus, setAiServiceStatus] = useState("All");
-
   const [openModal, setOpenModal] = useState(false);
+  const [showPreparingModal, setShowPreparingModal] = useState(false);
 
   const handleAiServiceClick = (aiService) => {
+    if (aiService === "AI Singing Evaluation" || aiService === "AI Cover Creation") {
+      setShowPreparingModal(true);
+      return;
+    }
     setSelectedAiService(aiService);
   };
 
@@ -34,6 +40,7 @@ const AiServices = () => {
     "Low Likes",
     "Low Comments",
   ];
+
   return (
     <>
       <div className="ai__services">
@@ -129,7 +136,12 @@ const AiServices = () => {
         </div>
       </section>
       {openModal && <FilterDateModal setOpenModal={setOpenModal} />}
+
+      {showPreparingModal && (
+        <PreparingModal setPreparingModal={setShowPreparingModal} />
+      )}
     </>
   );
 };
+
 export default AiServices;

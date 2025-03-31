@@ -321,6 +321,91 @@ const AccountSetting = () => {
         accept="image/*"
         onChange={handleImageSelect}
       />
+      {/* <section className="account-setting__social">
+        <div className="social__header">
+          <p className="social__title">Link Your Social Profiles</p>
+        </div>
+        <div className="social__item">
+          <p className="social__item-title">Instagram</p>
+          <div className="social__input-box">
+            <input
+              type="text"
+              className="social__input"
+              placeholder="Please enter the URL"
+            />
+            <button className="social__edit-btn">Change</button>
+          </div>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
+        </div>
+        <div className="social__item">
+          <p className="social__item-title">Instagram</p>
+          <div className="social__input-box">
+            <input
+              type="text"
+              className="social__input"
+              placeholder="Please enter the URL"
+            />
+            <button className="social__edit-btn">Change</button>
+          </div>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
+        </div>
+        <div className="social__item">
+          <p className="social__item-title">Instagram</p>
+          <div className="social__input-box">
+            <input
+              type="text"
+              className="social__input"
+              placeholder="Please enter the URL"
+            />
+            <button className="social__edit-btn">Change</button>
+          </div>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
+        </div>
+        <div className="social__item">
+          <p className="social__item-title">Instagram</p>
+          <div className="social__input-box">
+            <input
+              type="text"
+              className="social__input"
+              placeholder="Please enter the URL"
+            />
+            <button className="social__edit-btn">Change</button>
+          </div>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
+        </div>
+        <div className="social__item">
+          <p className="social__item-title">Instagram</p>
+          <div className="social__input-box">
+            <input
+              type="text"
+              className="social__input"
+              placeholder="Please enter the URL"
+            />
+            <button className="social__edit-btn">Change</button>
+          </div>
+          {errorMessages.socials.map((err, idx) => (
+            <span key={idx} className="social__error">
+              {err}
+            </span>
+          ))}
+        </div>
+      </section> */}
     </div>
   );
 };

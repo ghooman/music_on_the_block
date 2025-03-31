@@ -1,3 +1,4 @@
+// pages/MyPage.js
 import "../styles/MyPage.scss";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,13 +18,21 @@ import MyFavorites from "../components/mypage/MyFavorites";
 import Reward from "../components/mypage/Reward";
 
 import { useUserDetail } from "../hooks/useUserDetail";
+import PreparingModal from "../components/PreparingModal";
+
 const MyPage = () => {
   const { data: userData } = useUserDetail();
-  console.log("userData:", userData);
   const [selectedService, setSelectedService] = useState("AI Services");
+  const [isPreparingModal, setPreparingModal] = useState(false);
 
   const handleServiceClick = (service) => {
-    setSelectedService(service);
+    if (service === "AI Services" || service === "Albums") {
+      setSelectedService(service);
+      setPreparingModal(false);
+    } else {
+      // 선택된 서비스는 유지하고 프리페어링 모달만 표시
+      setPreparingModal(true);
+    }
   };
 
   return (
@@ -33,7 +42,6 @@ const MyPage = () => {
         <div className="mypage__profile-bg">
           <img src={demoBg} alt="profile-bg" />
         </div>
-        {/* <div className="mypage__profile-overlay"> </div> */}
         <div className="mypage__profile-info">
           <div className="mypage__profile-edit-box">
             <div className="mypage__profile-img">
@@ -88,33 +96,26 @@ const MyPage = () => {
       </div>
 
       <nav className="mypage__nav">
-        {[
-          "AI Services",
-          "Albums",
-          "My Favorites",
-          "Rewards & Payments",
-          // "Tournaments",
-        ].map((service) => (
-          <button
-            key={service}
-            className={`mypage__nav-item ${
-              selectedService === service ? "active" : ""
-            }`}
-            onClick={
-              service === "Tournaments"
-                ? undefined
-                : () => handleServiceClick(service)
-            }
-            // disabled={service === "Tournaments"}
-          >
-            {service}
-          </button>
-        ))}
+        {["AI Services", "Albums", "My Favorites", "Rewards & Payments"].map(
+          (service) => (
+            <button
+              key={service}
+              className={`mypage__nav-item ${
+                selectedService === service ? "active" : ""
+              }`}
+              onClick={() => handleServiceClick(service)}
+            >
+              {service}
+            </button>
+          )
+        )}
       </nav>
+
       {selectedService === "AI Services" && <AiServices />}
       {selectedService === "Albums" && <Albums />}
-      {selectedService === "My Favorites" && <MyFavorites />}
-      {selectedService === "Rewards & Payments" && <Reward />}
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </div>
   );
 };

@@ -1,14 +1,6 @@
 import "../styles/AlbumDetail.scss";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import AudioPlayer from "react-h5-audio-player";
@@ -31,7 +23,7 @@ import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
-
+import NoneContent from "../components/NoneContent";
 //스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -446,7 +438,7 @@ function AlbumDetail() {
 
         <section className="album-detail__rank-table">
           <div ref={commentRef}>
-            <AdvancedCommentComponent />
+            <AdvancedCommentComponent id={id} />
           </div>
           <dl className="album-detail__rank-table__title">
             <dt>Albums Leaderboard Rank</dt>

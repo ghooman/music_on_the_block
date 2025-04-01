@@ -2,6 +2,8 @@ import ContentWrap from '../components/nft/ContentWrap';
 import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
 import Pagination from '../components/nft/Pagination';
 import Search from '../components/nft/Search';
+import nftBanner from '../assets/images/nft/nft-banner.png';
+
 
 import '../styles/Nft.scss';
 

@@ -1,0 +1,54 @@
+.nft-component-inforow {
+    display: grid;
+    width: 100%;
+
+    gap: 12px;
+
+    &.row4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    &.row3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .nft-component-inforow-item {
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid #222;
+        .nft-component-inforow-item__title {
+            color: #f1f1f1;
+            font-family: Inter500;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            padding: 8px 12px;
+            text-align: center;
+            border-bottom: 12px solid #1a1a1a;
+            background-color: #222;
+        }
+        .nft-component-inforow-item__value {
+            text-align: center;
+            padding: 8px 12px;
+        }
+    }
+
+    .item-value {
+        color: #cf0;
+        font-family: Inter600;
+        font-size: 14px;
+    }
+    .item-user {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .nft-component-inforow {
+        &.row4 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        &.row3 {
+        }
+    }
+}

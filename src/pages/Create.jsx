@@ -24,7 +24,8 @@ const Create = () => {
       // 조건에 맞지 않으면 메인 페이지로 이동
       navigate("/");
     }
-  }, [pageNumber, walletAddress, isRegistered, navigate]);
+  }, [pageNumber, walletAddress, isRegistered]);
+
   const [lylicData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],

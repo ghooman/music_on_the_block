@@ -40,6 +40,17 @@
     }
     .item-user {
         display: flex;
+        gap: 10px;
+        justify-content: center;
+        color: #f1f1f1;
+        font-family: Inter400;
+        font-size: 14px;
+        letter-spacing: 0.42px;
+        img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+        }
     }
 }
 
@@ -49,6 +60,7 @@
             grid-template-columns: repeat(2, 1fr);
         }
         &.row3 {
+            grid-template-columns: repeat(1, 1fr);
         }
     }
 }

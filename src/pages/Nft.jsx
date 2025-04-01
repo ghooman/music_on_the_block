@@ -1,9 +1,10 @@
 import React from "react";
 import ContentWrap from '../components/nft/ContentWrap';
-import { NftItemList, CollectionItemList, NftSwiper,GraphItem } from '../components/nft/NftItem';
 import Search from '../components/nft/Search';
-import nftBanner from '../assets/images/nft/nft-banner.png';
+
+import { NftItemList, CollectionItemList,NftSwiper,GraphItem } from '../components/nft/NftItem';
 import { InfoRowWrap } from '../components/nft/InfoRow';
+
 import '../styles/Nft.scss';
 
 const Nft = () => {

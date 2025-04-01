@@ -77,7 +77,6 @@
         color: #f1f1f1;
         font-family: Inter400;
         font-size: 12px;
-        
     }
 
     .nft-item__images--running-time {
@@ -158,7 +157,7 @@
         text-align: center;
         font-family: Inter400;
         font-size: 10px;
-        margin-bottom: 4px
+        margin-bottom: 4px;
     }
 
     .nft-item__prices--price-value {
@@ -296,3 +295,12 @@
         height: 100%;
     }
 }//nft-item__graph--END--
+
+@media screen and (max-width: 768px) {
+    .nft-item-wrap {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .nft-item-collection-wrap {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -45,158 +45,158 @@ const nftData = [
     {
         id: 1,
         image: nft01,
-        desc: "Melodic Dreams - A fusion of sound and emotion",
-        title: "Melodic Dreams #001",
-        price: "0.23",
-        quantity: "10/100",
-        type: "Lyric",
-        genre: "Pop",
-        duration: "3:45"
+        desc: 'Melodic Dreams - A fusion of sound and emotion',
+        title: 'Melodic Dreams #001',
+        price: '0.23',
+        quantity: '10/100',
+        type: 'Lyric',
+        genre: 'Pop',
+        duration: '3:45',
     },
     {
         id: 2,
         image: nft02,
-        desc: "Rhythm of Nature - Organic beats and harmonies",
-        title: "Nature Rhythm #002",
-        price: "0.45",
-        quantity: "5/50",
-        type: "Composition",
-        genre: "Ambient",
-        duration: "4:20"
+        desc: 'Rhythm of Nature - Organic beats and harmonies',
+        title: 'Nature Rhythm #002',
+        price: '0.45',
+        quantity: '5/50',
+        type: 'Composition',
+        genre: 'Ambient',
+        duration: '4:20',
     },
     {
         id: 3,
         image: nft03,
-        desc: "Urban Pulse - City sounds reimagined",
-        title: "Urban Beats #003",
-        price: "0.32",
-        quantity: "15/150",
-        type: "Song",
-        genre: "Electronic",
-        duration: "3:15"
+        desc: 'Urban Pulse - City sounds reimagined',
+        title: 'Urban Beats #003',
+        price: '0.32',
+        quantity: '15/150',
+        type: 'Song',
+        genre: 'Electronic',
+        duration: '3:15',
     },
     {
         id: 4,
         image: nft04,
-        desc: "Digital Symphony - Future of music",
-        title: "Digital Symphony #004",
-        price: "0.28",
-        quantity: "20/200",
-        type: "Lyric",
-        genre: "Classical",
-        duration: "5:30"
+        desc: 'Digital Symphony - Future of music',
+        title: 'Digital Symphony #004',
+        price: '0.28',
+        quantity: '20/200',
+        type: 'Lyric',
+        genre: 'Classical',
+        duration: '5:30',
     },
     {
         id: 5,
         image: nft05,
-        desc: "Jazz Fusion - Modern meets traditional",
-        title: "Jazz Fusion #005",
-        price: "0.35",
-        quantity: "8/80",
-        type: "Composition",
-        genre: "Jazz",
-        duration: "4:15"
+        desc: 'Jazz Fusion - Modern meets traditional',
+        title: 'Jazz Fusion #005',
+        price: '0.35',
+        quantity: '8/80',
+        type: 'Composition',
+        genre: 'Jazz',
+        duration: '4:15',
     },
     {
         id: 6,
         image: nft06,
-        desc: "Rock Revolution - Power of sound",
-        title: "Rock Revolution #006",
-        price: "0.42",
-        quantity: "12/120",
-        type: "Song",
-        genre: "Rock",
-        duration: "3:50"
+        desc: 'Rock Revolution - Power of sound',
+        title: 'Rock Revolution #006',
+        price: '0.42',
+        quantity: '12/120',
+        type: 'Song',
+        genre: 'Rock',
+        duration: '3:50',
     },
     {
         id: 7,
         image: nft07,
-        desc: "Hip Hop Vibes - Street beats",
-        title: "Hip Hop Vibes #007",
-        price: "0.38",
-        quantity: "15/150",
-        type: "Lyric",
-        genre: "Hip Hop",
-        duration: "3:30"
+        desc: 'Hip Hop Vibes - Street beats',
+        title: 'Hip Hop Vibes #007',
+        price: '0.38',
+        quantity: '15/150',
+        type: 'Lyric',
+        genre: 'Hip Hop',
+        duration: '3:30',
     },
     {
         id: 8,
         image: nft08,
-        desc: "EDM Energy - Electronic dance music",
-        title: "EDM Energy #008",
-        price: "0.25",
-        quantity: "10/100",
-        type: "Composition",
-        genre: "EDM",
-        duration: "4:00"
-    }
+        desc: 'EDM Energy - Electronic dance music',
+        title: 'EDM Energy #008',
+        price: '0.25',
+        quantity: '10/100',
+        type: 'Composition',
+        genre: 'EDM',
+        duration: '4:00',
+    },
 ];
 
 const collectionData = [
     {
         id: 1,
         image: collection01,
-        title: "Melodic Masters",
-        username: "MusicMaster",
-        highestPrice: "0.85",
-        totalItems: "100"
+        title: 'Melodic Masters',
+        username: 'MusicMaster',
+        highestPrice: '0.85',
+        totalItems: '100',
     },
     {
         id: 2,
         image: collection02,
-        title: "Rhythm Raiders",
-        username: "BeatMaker",
-        highestPrice: "0.65",
-        totalItems: "75"
+        title: 'Rhythm Raiders',
+        username: 'BeatMaker',
+        highestPrice: '0.65',
+        totalItems: '75',
     },
     {
         id: 3,
         image: collection03,
-        title: "Sound Pioneers",
-        username: "AudioArtist",
-        highestPrice: "0.95",
-        totalItems: "150"
+        title: 'Sound Pioneers',
+        username: 'AudioArtist',
+        highestPrice: '0.95',
+        totalItems: '150',
     },
     {
         id: 4,
         image: collection04,
-        title: "Digital Beats",
-        username: "SoundDesigner",
-        highestPrice: "0.75",
-        totalItems: "120"
+        title: 'Digital Beats',
+        username: 'SoundDesigner',
+        highestPrice: '0.75',
+        totalItems: '120',
     },
     {
         id: 5,
         image: collection01,
-        title: "Melodic Masters",
-        username: "MusicMaster",
-        highestPrice: "0.85",
-        totalItems: "100"
+        title: 'Melodic Masters',
+        username: 'MusicMaster',
+        highestPrice: '0.85',
+        totalItems: '100',
     },
     {
         id: 6,
         image: collection02,
-        title: "Rhythm Raiders",
-        username: "BeatMaker",
-        highestPrice: "0.65",
-        totalItems: "75"
+        title: 'Rhythm Raiders',
+        username: 'BeatMaker',
+        highestPrice: '0.65',
+        totalItems: '75',
     },
     {
         id: 7,
         image: collection03,
-        title: "Sound Pioneers",
-        username: "AudioArtist",
-        highestPrice: "0.95",
-        totalItems: "150"
+        title: 'Sound Pioneers',
+        username: 'AudioArtist',
+        highestPrice: '0.95',
+        totalItems: '150',
     },
     {
         id: 8,
         image: collection04,
-        title: "Digital Beats",
-        username: "SoundDesigner",
-        highestPrice: "0.75",
-        totalItems: "120"
-    }
+        title: 'Digital Beats',
+        username: 'SoundDesigner',
+        highestPrice: '0.75',
+        totalItems: '120',
+    },
 ];
 
 export const NftItemList = ({ data }) => {
@@ -257,12 +257,12 @@ export const CollectionItem = ({ item }) => {
 
 const Images = ({ music, item }) => {
     const getTypeIcon = (type) => {
-        switch(type) {
-            case "Lyric":
+        switch (type) {
+            case 'Lyric':
                 return lyricIcon;
-            case "Composition":
+            case 'Composition':
                 return compositionIcon;
-            case "Song":
+            case 'Song':
                 return songIcon;
             default:
                 return null;

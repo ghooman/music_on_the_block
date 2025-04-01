@@ -14,13 +14,13 @@ import Album from '../pages/Album';
 import PreparingModal from './PreparingModal';
 
 //이미지
-import mainLogo from "../assets/images/header/logo.svg";
-import closeIcon from "../assets/images/close.svg";
-import Menu from "./Menu";
-import MyPage from "../pages/MyPage";
-import SignInModal from "./SignInModal";
-import CreateLoading from "./CreateLoading";
-import AlarmModal from "./AlarmModal";
+import mainLogo from '../assets/images/header/logo.svg';
+import closeIcon from '../assets/images/close.svg';
+import Menu from './Menu';
+import MyPage from '../pages/MyPage';
+import SignInModal from './SignInModal';
+import CreateLoading from './CreateLoading';
+import AlarmModal from './AlarmModal';
 
 const Header = ({ setIsLoggedIn }) => {
     const [isSignInModal, setSignInModal] = useState(false);
@@ -119,9 +119,9 @@ const Header = ({ setIsLoggedIn }) => {
         <Route path="/" element={<Album />} />
       </Routes> */}
 
-      <AlarmModal />
-    </>
-  );
+            <AlarmModal />
+        </>
+    );
 };
 
 export default Header;

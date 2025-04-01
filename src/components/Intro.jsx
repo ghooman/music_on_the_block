@@ -29,7 +29,7 @@ import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 
 //이미지
-import albumImg01 from "../assets/images/intro/intro-demo-img.png";
+import albumImg01 from "../assets/images/intro/mob-album-cover.png";
 import albumImg02 from "../assets/images/intro/intro-demo-img2.png";
 import albumImg03 from "../assets/images/intro/intro-demo-img3.png";
 import audioUrl from "../assets/music/song01.mp3";
@@ -92,32 +92,32 @@ const Intro = ({ setIsLoggedIn }) => {
   const items = [
     {
       id: 1,
-      albumTitle: "1Music on the Block",
-      artist: "Nakil Kim",
-      info: "13 songs, 2025",
+      albumTitle: "Music on the Block",
+      artist: "MOB",
+      info:null,
       tabTitle: "AI Singing Evaluation",
       img: albumImg01,
     },
     {
       id: 2,
       albumTitle: "Music on the Block",
-      artist: "Nakil Kim",
+      artist: "MOB",
       info: "14 songs, 2025",
       tabTitle: "AI Lyric & Songwriting",
-      img: albumImg02,
+      img: albumImg01,
     },
     {
       id: 3,
       albumTitle: "Music on the Block",
-      artist: "Nakil Kim3",
+      artist: "MOB",
       info: "15 songs, 2026",
       tabTitle: "AI Cover Creation",
-      img: albumImg03,
+      img: albumImg01,
     },
     {
       id: 4,
       albumTitle: "Music on the Block",
-      artist: "Nakil Kim",
+      artist: "MOB",
       info: "13 songs, 2024",
       tabTitle: "AI Singing Evaluation",
       img: albumImg01,
@@ -125,18 +125,18 @@ const Intro = ({ setIsLoggedIn }) => {
     {
       id: 5,
       albumTitle: "Music on the Block",
-      artist: "Nakil Kim",
+      artist: "MOB",
       info: "14 songs, 2025",
       tabTitle: "AI Lyric & Songwriting",
-      img: albumImg02,
+      img: albumImg01,
     },
     {
       id: 6,
       albumTitle: "Music on the Block",
-      artist: "Nakil Kim",
+      artist: "MOB",
       info: "15 songs, 2026",
       tabTitle: "AI Cover Creation",
-      img: albumImg03,
+      img: albumImg01,
     },
   ];
 
@@ -221,7 +221,7 @@ const Intro = ({ setIsLoggedIn }) => {
                           <dt>{item.albumTitle}</dt>
                           <dd>
                             {item.artist}
-                            <span>– {item.info}</span>
+                            {/* <span>{item.info}</span> */}
                           </dd>
                         </dl>
                         <div className="intro__slide-pc__left__sound">

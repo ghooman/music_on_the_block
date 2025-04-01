@@ -24,9 +24,18 @@
             background: var(--primary-100, #cf0);
         }
 
-        &.prev-next {
-            border: 1px solid #565656;
-            background-color: #383838;
+        &.prev,
+        &.next {
+            cursor: pointer;
+        }
+
+        &.prev {
+            background: url('../../assets/images/album/prev-btn.svg') center no-repeat;
+            // border: 1px solid #565656;
+            // background-color: #383838;
+        }
+        &.next {
+            background: url('../../assets/images/album/next-btn.svg') center no-repeat;
         }
     }
 }

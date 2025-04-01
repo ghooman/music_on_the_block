@@ -1,7 +1,8 @@
+import React from "react";
 import ContentWrap from '../components/nft/ContentWrap';
 import Search from '../components/nft/Search';
 
-import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
+import { NftItemList, CollectionItemList,NftSwiper,GraphItem } from '../components/nft/NftItem';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 
 import '../styles/Nft.scss';
@@ -17,14 +18,17 @@ const Nft = () => {
             <ContentWrap title="Popular Collection" link="/nft">
                 <CollectionItemList data={[1, 2, 3]} />
             </ContentWrap>
-            <ContentWrap title="Popular Genre"></ContentWrap>
+            <ContentWrap title="Popular Genre">
+                <NftSwiper />
+            </ContentWrap>
             <ContentWrap title="Data">
                 <InfoRowWrap row={4}>
-                    <InfoRowWrap.ValueItem title="Total Volume" value="14,300" />
-                    <InfoRowWrap.ValueItem title="Average Price" value="105" />
-                    <InfoRowWrap.ValueItem title="Number of NFTs Issued" value="3,500" />
-                    <InfoRowWrap.ValueItem title="Highest Deal Today" value="4,343" />
+                    <InfoRowWrap.ValueItem title="Total Volume" value="16,145" />
+                    <InfoRowWrap.ValueItem title="Total Volume" value="240" />
+                    <InfoRowWrap.ValueItem title="Total Volume" value="3,224" />
+                    <InfoRowWrap.ValueItem title="Total Volume" value="4,359" />
                 </InfoRowWrap>
+                <GraphItem />
             </ContentWrap>
         </div>
     );

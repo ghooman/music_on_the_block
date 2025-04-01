@@ -1,0 +1,71 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 40px 0;
+
+  li {
+    cursor: pointer;
+    border-radius: 4px;
+    background: #222;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    border: 1px solid #222;
+    &.active {
+      border: 1px solid #8e5eed;
+      background: #ccb3ff;
+      p {
+        color: #222;
+      }
+    }
+    &:hover {
+      border-radius: 4px;
+      border: 1px solid #8e5eed;
+      background: #ccb3ff;
+      p {
+        color: #222;
+      }
+    }
+    &.pagination__one,
+    &.pagination__prev,
+    &.pagination__next,
+    &.pagination__last {
+      font-size: 0;
+    }
+    &.pagination__one {
+      background: url("../assets/images/pagination/pagination-one-icon.svg")
+        #222 center no-repeat;
+      background-size: 12px;
+    }
+    &.pagination__prev {
+      background: url("../assets/images/pagination/pagination-prev-icon.svg")
+        #222 center no-repeat !important;
+      background-size: 24px !important;
+    }
+    &.pagination__next {
+      background: url("../assets/images/pagination/pagination-next-icon.svg")
+        #222 center no-repeat;
+      background-size: 24px !important;
+    }
+    &.pagination__last {
+      background: url("../assets/images/pagination/pagination-last-icon.svg")
+        #222 center no-repeat !important;
+      background-size: 12px;
+    }
+    p {
+      color: #fff;
+      text-align: center;
+      font-family: Pretendard600;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 100%; /* 14px */
+    }
+  }
+} //pagination--END--

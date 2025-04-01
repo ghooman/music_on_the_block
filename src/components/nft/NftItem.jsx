@@ -215,7 +215,7 @@ const NftItem = ({ item }) => {
 
 export const CollectionItem = ({ item }) => {
     return (
-        <Link className="nft-item">
+        <Link className="nft-item" to="/nft/collection/detail">
             <Images item={item} />
             <CollectionTitle title={item.title} />
             <Username username={item.username} />

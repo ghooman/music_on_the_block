@@ -276,7 +276,7 @@ const Menu = ({
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("earn")}
                   >
-                    <p className="icon"></p>Earn
+                    <p className="icon"></p>Eco System
                   </Link>
                 </div>
 

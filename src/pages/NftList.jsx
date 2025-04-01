@@ -17,6 +17,7 @@ const NftList = () => {
             {selectCategory === 'NFT item' && <NftItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />}
             {selectCategory === 'Collection' && <CollectionItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />}
             <Pagination />
+
         </ContentWrap>
     );
 };

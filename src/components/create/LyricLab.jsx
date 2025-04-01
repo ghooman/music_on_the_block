@@ -259,9 +259,9 @@ const LyricLab = ({
 
         <div className="button-wrap">
           <div className="button-wrap__left">
-            <ExpandedButton className="skip" onClick={onSkip}>
+            {/* <ExpandedButton className="skip" onClick={onSkip}>
               Skip
-            </ExpandedButton>
+            </ExpandedButton> */}
           </div>
           <ExpandedButton
             className={!isAnyFieldFilled || loading ? "next" : "next enable"}

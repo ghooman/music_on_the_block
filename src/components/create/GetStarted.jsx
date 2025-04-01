@@ -4,7 +4,14 @@ import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 const GetStarted = ({ handler }) => {
-  const { isRegistered } = useContext(AuthContext);
+  const { isRegistered, setIsLoggedIn, setWalletAddress } =
+    useContext(AuthContext);
+  const handleWalletConnect = (loggedIn, walletAddress) => {
+    setIsLoggedIn(loggedIn);
+    if (loggedIn && walletAddress) {
+      setWalletAddress(walletAddress);
+    }
+  };
   return (
     <div className="create__get-started">
       <h1 className="create__get-started--title">
@@ -39,9 +46,16 @@ const GetStarted = ({ handler }) => {
           <p className="create__get-started--features-item ">--%</p>
         </div>
       </div>
-      <ExpandedButton className="create__get-started--button" onClick={handler}>
-        Create
-      </ExpandedButton>
+      {isRegistered ? (
+        <ExpandedButton
+          className="create__get-started--button"
+          onClick={handler}
+        >
+          Create
+        </ExpandedButton>
+      ) : (
+        <WalletConnect onConnect={handleWalletConnect} />
+      )}
     </div>
   );
 };

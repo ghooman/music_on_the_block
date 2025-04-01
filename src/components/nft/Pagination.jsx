@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Pagination.scss';
 
-const Pagination = ({ totalCount = 100, slice = 5, onClick, page = 0 }) => {
+const Pagination = ({ totalCount = 3, slice = 5, onClick, page = 0 }) => {
     const [pages, setPages] = useState([]);
 
     useEffect(() => {

@@ -110,7 +110,7 @@
       .react-waves{
         margin: 0 !important;
         padding: 0 !important;
-        width: 100% !important;
+        width: 300px !important;
         .waveform {
           width: 100%;
           margin: 0;
@@ -118,11 +118,14 @@
           .wave{
             margin: 0 !important;
             padding: 0 !important;
-            width: 100% !important;
+            // width: 100% !important;
             wave{
               margin: 0 !important;
               padding: 0 !important;
               height: 28px !important;
+            }
+            canvas{
+              // width: 100% !important;
             }
           }
         }

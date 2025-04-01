@@ -1,7 +1,6 @@
 import "./MelodyMaker.scss";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
 import SubBanner from "./SubBanner";
 import {
   SelectItem,
@@ -13,7 +12,6 @@ import ExpandedButton from "./ExpandedButton";
 import CompleteModal from "./../SingUpCompleteModal";
 import subBg1 from "../../assets/images/create/subbanner-bg1.png";
 import subBg2 from "../../assets/images/create/subbanner-bg2.png";
-
 import CreateLoading from "../CreateLoading";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -42,6 +40,13 @@ const instrumentPreset = {
   Piano: ["Piano"],
   Drums: ["Drums"],
   Bass: ["Bass"],
+};
+
+// localStorage에 앨범 id와 만료 시각을 저장하는 함수 (15분)
+const albumIdStorageKey = "generatedAlbumId";
+const storeAlbumId = (id) => {
+  const expires = Date.now() + 15 * 60 * 1000; // 15분 후
+  localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, expires }));
 };
 
 const MelodyMaker = ({
@@ -88,10 +93,11 @@ const MelodyMaker = ({
   const promptPreview = `
       Language: ${selectedLanguage},
       Tags : ${melody_tag ? melody_tag.join(", ") : ""}
-      Genre : ${melody_genre?.[0] ? melody_genre?.[0] : ""}
-      Style : ${melody_style?.[0] ? melody_style?.[0] : ""}
-      Instrument : ${melody_instrument?.[0] ? melody_instrument?.[0] : ""}
+      Genre : ${melody_genre ? melody_genre?.join(", ") : ""}
+      Style : ${melody_style ? melody_style?.join(", ") : ""}
+      Instrument : ${melody_instrument ? melody_instrument?.join(", ") : ""}
       Story : ${melodyStory}
+      Tempo : ${tempo}
       `;
   const formData = {
     title: title,
@@ -112,9 +118,7 @@ const MelodyMaker = ({
     song_length: "",
   };
 
-  console.log("formData", formData);
-
-  // 기존 코드: 노래 생성 요청
+  // 노래 생성 요청 함수 수정
   const musicGenerate = async () => {
     try {
       setLoading(true);
@@ -125,17 +129,20 @@ const MelodyMaker = ({
           "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
         },
       });
+      // 서버로부터 받은 앨범 고유 id를 localStorage에 저장 (15분 만료)
+      storeAlbumId(res.data.id);
       setShowModal(true);
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
+      console.log("storeAlbumId", res.data.id);
     } catch (err) {
       alert("에러 발생");
       console.log("handleSubmit error", err);
     } finally {
       setLoading(false);
-      setLoading(false);
     }
   };
+
   useEffect(() => {
     if (generatedMusicResult) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -186,6 +193,8 @@ const MelodyMaker = ({
           objKey="melody_style"
           selected={melodyData?.melody_style}
           preset={stylePreset}
+          multiple
+          add
         />
         <SelectItem
           mainTitle="Select a Musical Instrument"
@@ -194,6 +203,8 @@ const MelodyMaker = ({
           objKey="melody_instrument"
           selected={melodyData?.melody_instrument}
           preset={instrumentPreset}
+          multiple
+          add
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemStory value={melodyStory} setter={setMelodyStory} />

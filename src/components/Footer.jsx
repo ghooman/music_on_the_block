@@ -106,13 +106,13 @@ const Footer = ({ setIsLoggedIn }) => {
                     <img src={sns05}/>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link>
                     <img src={sns06}/>
                   </Link>
-                </li>
+                </li> */}
               </ul>
-              <div className="footer__top__left__language">
+              {/* <div className="footer__top__left__language">
                 <p className="footer__top__left__language__title">Language</p>
                 <div
                   className={`footer__top__left__language__select-box ${isOpen ? "active" : ""}`}
@@ -128,7 +128,7 @@ const Footer = ({ setIsLoggedIn }) => {
                     <li onClick={() => handleSelect("Korea")}>Korea</li>
                   </ul>
                 </div>
-              </div>
+              </div> */}
             </article>
             <article className="footer__top__right">
               <div className="footer__top__right__menu">

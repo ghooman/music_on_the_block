@@ -1,14 +1,6 @@
 import "../styles/AlbumDetail.scss";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import AudioPlayer from "react-h5-audio-player";
@@ -31,7 +23,7 @@ import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
-
+import NoneContent from "../components/NoneContent";
 //스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -324,10 +316,21 @@ function AlbumDetail() {
                 }`}
                 onClick={handleClick}
               >
-                <img src={album?.image || demoImg} />
+                {album ? (
+                  <img src={album.image || demoImg} alt="앨범 이미지" />
+                ) : (
+                  <div
+                    style={{
+                      backgroundColor: "black",
+                    }}
+                  />
+                )}
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
+                <button className="album-detail__song-detail__left__img__lyric-btn">
+                  Lyric
+                </button>
               </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
@@ -395,7 +398,7 @@ function AlbumDetail() {
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={coverImg2} />
+                      <img src={album?.user_profile || coverImg2} />
                       {album?.name || "-"}
                     </p>
                     <Link className="see-more-btn" to="/my-page">
@@ -409,7 +412,6 @@ function AlbumDetail() {
         </section>
 
         <section className="album-detail__audio">
-          {/* <audio src={album?.music_url || track1} controls/> */}
           <AudioPlayer
             src={album?.music_url || track1}
             onPlay={() => {
@@ -435,6 +437,9 @@ function AlbumDetail() {
         </section>
 
         <section className="album-detail__rank-table">
+          <div ref={commentRef}>
+            <AdvancedCommentComponent id={id} />
+          </div>
           <dl className="album-detail__rank-table__title">
             <dt>Albums Leaderboard Rank</dt>
             <dd>Most Likes</dd>
@@ -473,13 +478,9 @@ function AlbumDetail() {
               </tbody>
             </table>
           </div>
-
           {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
-          <div ref={commentRef}>
-            <AdvancedCommentComponent />
-          </div>
         </section>
 
         <section className="album-detail__slide">
@@ -505,11 +506,6 @@ function AlbumDetail() {
                         style={{ backgroundImage: `url(${track.cover})` }}
                       ></p>
                       <span className="time">2:11</span>
-                      {/* <span className="time">
-                        {selectedTrackIndex === index
-                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                          : formatTime(track.duration)}
-                      </span> */}
                     </div>
                     <div className="album__content-list__list__item__right">
                       <p className="album__content-list__list__item__right__title">

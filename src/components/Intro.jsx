@@ -50,7 +50,7 @@ const Intro = ({ setIsLoggedIn }) => {
 
   const [mediaRecorder, setMediaRecorder] = useState(true);
   const [isPreparingModal, setPreparingModal] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0); // 현재 활성화된 슬라이드 인덱스
+  const [activeIndex, setActiveIndex] = useState(2); // id가 3인 아이템부터 시작
   const [animationClass, setAnimationClass] = useState(""); // 애니메이션 클래스 관리
 
   const timeoutRef = useRef(null); // 타이머 추적용 ref 추가
@@ -92,48 +92,48 @@ const Intro = ({ setIsLoggedIn }) => {
   const items = [
     {
       id: 1,
-      albumTitle: "he dances through his masks like breathing - Yolkhead",
-      artist: "Daft Punk",
-      info: "13 songs, 2024",
+      albumTitle: "1Music on the Block",
+      artist: "Nakil Kim",
+      info: "13 songs, 2025",
       tabTitle: "AI Singing Evaluation",
       img: albumImg01,
     },
     {
       id: 2,
-      albumTitle: "he dances through his masks like breathing - Yolkhead",
-      artist: "Daft Punk",
+      albumTitle: "Music on the Block",
+      artist: "Nakil Kim",
       info: "14 songs, 2025",
       tabTitle: "AI Lyric & Songwriting",
       img: albumImg02,
     },
     {
       id: 3,
-      albumTitle: "he dances through his masks like breathing - Yolkhead",
-      artist: "Daft Punk",
+      albumTitle: "Music on the Block",
+      artist: "Nakil Kim3",
       info: "15 songs, 2026",
       tabTitle: "AI Cover Creation",
       img: albumImg03,
     },
     {
       id: 4,
-      albumTitle: "he dances through his masks like breathing - Yolkhead",
-      artist: "Daft Punk",
+      albumTitle: "Music on the Block",
+      artist: "Nakil Kim",
       info: "13 songs, 2024",
       tabTitle: "AI Singing Evaluation",
       img: albumImg01,
     },
     {
       id: 5,
-      albumTitle: "he dances through his masks like breathing - Yolkhead",
-      artist: "Daft Punk",
+      albumTitle: "Music on the Block",
+      artist: "Nakil Kim",
       info: "14 songs, 2025",
       tabTitle: "AI Lyric & Songwriting",
       img: albumImg02,
     },
     {
       id: 6,
-      albumTitle: "he dances through his masks like breathing - Yolkhead",
-      artist: "Daft Punk",
+      albumTitle: "Music on the Block",
+      artist: "Nakil Kim",
       info: "15 songs, 2026",
       tabTitle: "AI Cover Creation",
       img: albumImg03,
@@ -255,7 +255,7 @@ const Intro = ({ setIsLoggedIn }) => {
                   speed={1000}
                 >
                   {items.map((item, index) => (
-                    <SwiperSlide key={item.tabTitle}>
+                    <SwiperSlide key={item.id}>
                       <Link
                         // to="/create"
                         to={

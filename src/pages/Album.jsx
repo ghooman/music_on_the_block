@@ -241,7 +241,7 @@ function Album() {
                 </div>
                 <div className="album__content-list__list__item__right__user">
                   <p className="album__content-list__list__item__right__user__info">
-                    <img src={defaultCoverImg} />
+                    <img src={track?.user_profile || defaultCoverImg} />
                     {track?.name || "unKnown"}
                   </p>
                   <Link
@@ -321,7 +321,7 @@ function Album() {
                 </div>
                 <div className="swiper-music-list__item__right__user">
                   <p className="swiper-music-list__item__right__user__info">
-                    <img src={defaultCoverImg} />
+                    <img src={track?.user_profile || defaultCoverImg} />
                     {track?.name || "unKnown"}
                   </p>
                   <button className="swiper-music-list__item__right__user__btn">
@@ -415,7 +415,7 @@ function Album() {
                 </div>
                 <div className="album__content-list__list__item__right__user">
                   <p className="album__content-list__list__item__right__user__info">
-                    <img src={defaultCoverImg} />
+                    <img src={track?.user_profile || defaultCoverImg} />
                     {tracks?.name || "unKnown"}
                   </p>
                   <button className="album__content-list__list__item__right__user__btn">

@@ -6,15 +6,32 @@ import closeIcon from "../assets/images/close.svg";
 
 // 환경변수를 통해 웹소켓 URL을 관리하도록 함 (환경변수 미설정 시 기본값 사용)
 const WS_URL = "wss://muble.xyz/ws/album_status/";
-
+const albumIdStorageKey = "generatedAlbumId";
 // 재연결 시도 간격 (밀리초)
 const RECONNECT_INTERVAL = 3000;
 
+// localStorage에서 유효한 앨범 id를 가져오는 함수
+const getStoredAlbumId = () => {
+  const item = localStorage.getItem(albumIdStorageKey);
+  if (!item) return null;
+  try {
+    const data = JSON.parse(item);
+    // 만료 시각 검사
+    if (data.expires < Date.now()) {
+      localStorage.removeItem(albumIdStorageKey);
+      return null;
+    }
+    return data.id;
+  } catch (e) {
+    localStorage.removeItem(albumIdStorageKey);
+    return null;
+  }
+};
+
 const AlarmModal = () => {
-  const [loading, setLoading] = useState(true);
-  const [albumPk, setAlbumPk] = useState(null); // pk를 저장하는 상태 변수
+  const [albumPk, setAlbumPk] = useState(null); // 소켓에서 온 pk를 저장하는 상태 변수
+  const [storedAlbumId, setStoredAlbumId] = useState(getStoredAlbumId());
   const [isClosed, setIsClosed] = useState(false);
-  const [error, setError] = useState(null);
   const socketRef = useRef(null);
 
   // 웹소켓 연결 및 이벤트 핸들러 등록 함수
@@ -24,7 +41,6 @@ const AlarmModal = () => {
 
     socket.onopen = () => {
       console.log("웹 소켓 연결됨");
-      setError(null);
     };
 
     socket.onmessage = (e) => {
@@ -34,12 +50,13 @@ const AlarmModal = () => {
         // 메시지 형식 및 상태 값 검증
         if (data && data.status) {
           if (data.status === "complt") {
-            setLoading(false);
-            setAlbumPk(data.pk); // data의 pk 값을 저장
+            setAlbumPk(data.pk); // 소켓에서 받은 pk 저장
+            // 완료 상태이면 localStorage의 id를 삭제합니다.
+            localStorage.removeItem(albumIdStorageKey);
+            setStoredAlbumId(null);
           } else if (data.status === "error") {
-            setError("Song generation failed.");
           } else {
-            // 추가 상태 (예: 'processing' 등) 처리 가능
+            // 다른 상태 처리 (필요 시 추가)
             console.log("현재 상태:", data.status);
           }
         } else {
@@ -52,7 +69,6 @@ const AlarmModal = () => {
 
     socket.onerror = (err) => {
       console.error("웹 소켓 에러 발생:", err);
-      setError("웹 소켓 에러 발생. 다시 연결 시도 중입니다.");
     };
 
     socket.onclose = (e) => {
@@ -67,9 +83,10 @@ const AlarmModal = () => {
     };
   };
 
+  // 컴포넌트 마운트 시 웹소켓 연결 및 storedAlbumId 업데이트
   useEffect(() => {
+    setStoredAlbumId(getStoredAlbumId());
     connectWebSocket();
-    // 컴포넌트 언마운트 시 소켓 연결 해제
     return () => {
       if (socketRef.current) {
         socketRef.current.close();
@@ -85,7 +102,12 @@ const AlarmModal = () => {
     setIsClosed(false);
   };
 
-  console.log("현재 상태:", loading, error, albumPk);
+  // localStorage에 저장된 id가 없고 소켓에서 받은 albumPk도 없으면 모달을 렌더링하지 않음
+  if (!storedAlbumId && !albumPk) return null;
+  console.log("isClosed", isClosed);
+  console.log("storedAlbumId", storedAlbumId);
+  console.log("albumPk", albumPk);
+
   return (
     <>
       <div className={`alarm__modal ${isClosed ? "active" : ""}`}>
@@ -95,13 +117,11 @@ const AlarmModal = () => {
           </button>
           <p className="alarm__modal__item__title">ALARM</p>
           <p className="alarm__modal__item__txt">
-            {error
-              ? error
-              : loading
-              ? "AI song is currently being generated"
-              : "Song generation completed!"}
+            {albumPk
+              ? "Song generation completed!"
+              : "AI song is currently being generated"}
           </p>
-          {loading ? (
+          {!albumPk && (
             <div className="middle2">
               <div className="bar bar1"></div>
               <div className="bar bar2"></div>
@@ -112,15 +132,15 @@ const AlarmModal = () => {
               <div className="bar bar7"></div>
               <div className="bar bar8"></div>
             </div>
-          ) : (
-            albumPk && (
-              <Link
-                className="alarm__modal__item__link"
-                to={`/album-detail/${albumPk}`}
-              >
-                My Song Link
-              </Link>
-            )
+          )}
+          {albumPk && (
+            <Link
+              className="alarm__modal__item__link"
+              to={`/album-detail/${albumPk}`}
+              onClick={() => setAlbumPk(null)}
+            >
+              My Song Link
+            </Link>
           )}
         </div>
       </div>

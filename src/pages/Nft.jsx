@@ -1,9 +1,8 @@
 import ContentWrap from '../components/nft/ContentWrap';
-import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
-import Pagination from '../components/nft/Pagination';
 import Search from '../components/nft/Search';
-import nftBanner from '../assets/images/nft/nft-banner.png';
 
+import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
+import { InfoRowWrap } from '../components/nft/InfoRow';
 
 import '../styles/Nft.scss';
 
@@ -19,7 +18,14 @@ const Nft = () => {
                 <CollectionItemList data={[1, 2, 3]} />
             </ContentWrap>
             <ContentWrap title="Popular Genre"></ContentWrap>
-            <ContentWrap title="Data"></ContentWrap>
+            <ContentWrap title="Data">
+                <InfoRowWrap row={4}>
+                    <InfoRowWrap.ValueItem title="Total Volume" value="14,300" />
+                    <InfoRowWrap.ValueItem title="Average Price" value="105" />
+                    <InfoRowWrap.ValueItem title="Number of NFTs Issued" value="3,500" />
+                    <InfoRowWrap.ValueItem title="Highest Deal Today" value="4,343" />
+                </InfoRowWrap>
+            </ContentWrap>
         </div>
     );
 };

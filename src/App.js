@@ -18,20 +18,21 @@ import Intro from './components/Intro';
 import Footer from './components/Footer';
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
+import CollectionDetail from './pages/CollectionDetail';
 function Layout({ children }) {
-  return (
-    <div>
-      <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      <div className="inner">{children}</div>
-      <Footer />
-    </div>
-  );
+    return (
+        <div>
+            <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
+            <div className="inner">{children}</div>
+            <Footer />
+        </div>
+    );
 }
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { pathname } = useLocation();
+    const { pathname } = useLocation();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -104,6 +105,14 @@ function App() {
                             element={
                                 <Layout>
                                     <NftList />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="nft/collection/detail"
+                            element={
+                                <Layout>
+                                    <CollectionDetail />
                                 </Layout>
                             }
                         />

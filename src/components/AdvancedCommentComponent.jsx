@@ -68,13 +68,13 @@ const AdvancedCommentComponent = ({ id }) => {
       ],
     },
   ]);
-
+  console.log("userData", userData);
   return (
     <div>
       <CommentSection
         currentUser={{
           currentUserId: userData?.id,
-          currentUserImg: userData?.profile,
+          currentUserImg: userData?.profile || userImg3,
           currentUserFullName: userData?.name, // 로그인 안했을때 .. 추가해야됨
         }}
         advancedInput={true}

@@ -20,7 +20,7 @@ import sns03 from "../assets/images/footer/sns-you.svg";
 import sns04 from "../assets/images/footer/sns04.svg";
 import sns05 from "../assets/images/footer/sns05.svg";
 import sns06 from "../assets/images/footer/sns06.svg";
-import musicTokenIcon from "../assets/images/footer/music-token-icon.svg";
+import musicTokenIcon from "../assets/images/icon/mob-icon01.svg";
 import baseCoin from "../assets/images/coin/base-coin-icon.svg";
 import polygonCoin from "../assets/images/coin/polygon-coin-icon.svg";
 import opBNBCoin from "../assets/images/coin/opBNB-coin-icon.svg";

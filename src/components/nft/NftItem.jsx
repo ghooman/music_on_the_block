@@ -8,6 +8,9 @@ import {
     Pagination,
     Autoplay,
 } from "swiper/modules";
+import graph1Img01 from '../../assets/images/nft/praph-img01.png';
+import graph1Img02 from '../../assets/images/nft/graph02-img.png';
+
 import nft01 from '../../assets/images/nft/nft01.png';
 import nft02 from '../../assets/images/nft/nft02.png';
 import nft03 from '../../assets/images/nft/nft03.png';
@@ -35,6 +38,7 @@ import coverImg6 from "../../assets/images/demo/album03.svg";
 import coverImg7 from "../../assets/images/demo/album04.svg";
 import coverImg8 from "../../assets/images/demo/album05.svg";
 import coverImg9 from "../../assets/images/demo/album06.svg";
+
 import './NftItem.scss';
 
 const nftData = [
@@ -306,13 +310,17 @@ const PriceItems = ({ title, value }) => {
     );
 };
 
-// 스와이프 옵션
+
+// 스와이프 컴포넌트
+export const NftSwiper = () => {
+    // 스와이프 옵션
 const swiperOptions = {
     loop: true,
-    slidesPerView: 3,
-    spaceBetween: 8,
+    slidesPerView: 5,
+    spaceBetween: 16,
     initialSlide: 2,
     grabCursor: true,
+    centeredSlides: true,
     pagination: {
         clickable: true,
     },
@@ -326,7 +334,7 @@ const swiperOptions = {
             slidesPerView: 2,
         },
         930: {
-            slidesPerView: 3,
+            slidesPerView: 5,
         },
     },
 };
@@ -335,103 +343,91 @@ const swiperOptions = {
 const tracks = [
     {
         id: 1,
-        title: "he dances through his masks like breathing - Yolkhead",
+        title: "POP",
         cover: coverImg,
         duration: null,
     },
     {
         id: 2,
-        title: "Touch The Sky - Simon Doty",
+        title: "CLASSICAL",
         cover: coverImg2,
         duration: null,
     },
     {
         id: 3,
-        title: "Touch The Sky - Simon Doty",
+        title: "GENRE",
         cover: coverImg3,
         duration: null,
     },
     {
         id: 4,
-        title: "Touch The Sky - Simon Doty",
+        title: "JAZZ",
         cover: coverImg4,
         duration: null,
     },
     {
         id: 5,
-        title: "he dances through his masks like breathing - Yolkhead",
+        title: "ROCK",
         cover: coverImg5,
         duration: null,
     },
     {
         id: 6,
-        title: "Touch The Sky - Simon Doty",
+        title: "DANCE",
         cover: coverImg6,
         duration: null,
     },
     {
         id: 7,
-        title: "Touch The Sky - Simon Doty",
+        title: "VOCAL",
         cover: coverImg7,
         duration: null,
     },
     {
         id: 8,
-        title: "Touch The Sky - Simon Doty",
+        title: "K-POP",
         cover: coverImg8,
         duration: null,
     },
     {
         id: 9,
-        title: "Touch The Sky - Simon Doty",
+        title: "Z-POP",
         cover: coverImg9,
         duration: null,
     }
 ];
 
-// 스와이프 컴포넌트
-export const NftSwiper = () => {
+
     return (
-        <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="album-detail-slide">
+        <div className="nft-slider__swiper">
+            <Swiper {...swiperOptions} className="nft-slider">
                 {tracks.map((track, index) => (
                     <SwiperSlide key={track.id}>
-                        <button className="album__content-list__list__item">
-                            <div className="album__content-list__list__item__left">
-                                <p
-                                    className="album__content-list__list__item__left__img"
-                                    style={{ backgroundImage: `url(${track.cover})` }}
-                                ></p>
-                                <span className="time">2:11</span>
-                            </div>
-                            <div className="album__content-list__list__item__right">
-                                <p className="album__content-list__list__item__right__title">
-                                    {track.title}
-                                </p>
-                                <div className="album__content-list__list__item__right__love-play">
-                                    <p className="love">
-                                        <img src={loveIcon} alt="like" />
-                                        145
-                                    </p>
-                                    <p className="play">
-                                        <img src={playIcon} alt="play" />
-                                        145
-                                    </p>
-                                </div>
-                                <div className="album__content-list__list__item__right__user">
-                                    <p className="album__content-list__list__item__right__user__info">
-                                        <img src={defaultCoverImg} alt="user" />
-                                        Yolkhead
-                                    </p>
-                                    <button className="album__content-list__list__item__right__user__btn">
-                                        유저정보
-                                    </button>
-                                </div>
-                            </div>
+                        <button className="nft-slider__item">
+                            <p className="nft-slider__item__title">{track.title}</p>
+                            <img src={track.cover} alt="user" />
                         </button>
                     </SwiperSlide>
                 ))}
             </Swiper>
+        </div>
+    );
+};
+
+
+
+
+export const GraphItem = ({  }) => {
+    return (
+        <div className="nft-item__graph">
+            <div className="nft-item__graph--img">
+                <p className="nft-item__graph--img__title">Transaction Volume</p>
+                <img src={graph1Img01}  />
+            </div>
+            <div className="nft-item__graph--img">
+                <p className="nft-item__graph--img__title">NFT Issuance</p>
+                <img src={graph1Img02}  />
+            </div>
         </div>
     );
 };

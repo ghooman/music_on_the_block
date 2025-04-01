@@ -1,6 +1,6 @@
 import React from "react";
 import ContentWrap from '../components/nft/ContentWrap';
-import { NftItemList, CollectionItemList, NftSwiper } from '../components/nft/NftItem';
+import { NftItemList, CollectionItemList, NftSwiper,GraphItem } from '../components/nft/NftItem';
 import Search from '../components/nft/Search';
 import nftBanner from '../assets/images/nft/nft-banner.png';
 import { InfoRowWrap } from '../components/nft/InfoRow';
@@ -27,6 +27,7 @@ const Nft = () => {
                     <InfoRowWrap.ValueItem title="Total Volume" value="3,224" />
                     <InfoRowWrap.ValueItem title="Total Volume" value="4,359" />
                 </InfoRowWrap>
+                <GraphItem />
             </ContentWrap>
         </div>
     );

@@ -85,12 +85,15 @@
         bottom: 8px;
         left: 8px;
         background-color: #222;
-        padding: 8px;
+        padding: 0px 10px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 12px;
         color: #f1f1f1;
         font-family: Inter400;
         font-size: 12px;
-        letter-spacing: 0.36px;
     }
 
     .nft-item__desc {

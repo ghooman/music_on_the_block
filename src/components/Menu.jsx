@@ -347,42 +347,44 @@ const Menu = ({
             </dd>
           </dl> */}
 
-          <dl className="menu__box">
-            <dt className="menu__box__title">MY LIBRARY</dt>
-            <dd>
-              <div className="menu__box__gnb-list">
-                {/* 일반 아이템 - My Page */}
-                <div
-                  className={`menu__box__gnb-list__item my-page ${
-                    activeSingle === "my-page" ? "active" : ""
-                  }`}
-                >
-                  <Link
-                    to="/account-setting"
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive("my-page")}
+          {isLoggedIn && (
+            <dl className="menu__box">
+              <dt className="menu__box__title">MY LIBRARY</dt>
+              <dd>
+                <div className="menu__box__gnb-list">
+                  {/* 일반 아이템 - My Page */}
+                  <div
+                    className={`menu__box__gnb-list__item my-page ${
+                      activeSingle === "my-page" ? "active" : ""
+                    }`}
                   >
-                    <p className="icon"></p>My Page
-                  </Link>
-                </div>
+                    <Link
+                      to="/account-setting"
+                      className="menu__box__gnb-list__item__btn"
+                      onClick={() => handleSingleActive("my-page")}
+                    >
+                      <p className="icon"></p>My Page
+                    </Link>
+                  </div>
 
-                {/* 일반 아이템 - My Favorites */}
-                <div
-                  className={`menu__box__gnb-list__item my-favorite ${
-                    activeSingle === "my-favorites" ? "active" : ""
-                  }`}
-                >
-                  <Link
-                    to="/my-page"
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive("my-favorites")}
+                  {/* 일반 아이템 - My Favorites */}
+                  <div
+                    className={`menu__box__gnb-list__item my-favorite ${
+                      activeSingle === "my-favorites" ? "active" : ""
+                    }`}
                   >
-                    <p className="icon"></p>My Favorites
-                  </Link>
+                    <Link
+                      to="/my-page?category=AI%20Services"
+                      className="menu__box__gnb-list__item__btn"
+                      onClick={() => handleSingleActive("my-favorites")}
+                    >
+                      <p className="icon"></p>My Favorites
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </dd>
-          </dl>
+              </dd>
+            </dl>
+          )}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

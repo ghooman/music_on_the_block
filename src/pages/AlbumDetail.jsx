@@ -39,10 +39,12 @@ import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
 
 import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
+
+import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
-  const { id, walletAddress } = useParams();
-  const { token } = useContext(AuthContext);
+  const { id } = useParams();
+  const { token, walletAddress } = useContext(AuthContext);
   const dummyData = [
     {
       id: 30,
@@ -241,13 +243,9 @@ function AlbumDetail() {
 
   const [isActive, setIsActive] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
-  const [loved, setLoved] = useState(false);
 
   const handleClick = () => {
     setIsActive((prev) => !prev);
-  };
-  const handleToggleLove = () => {
-    setLoved((prev) => !prev);
   };
 
   const commentRef = useRef(null);
@@ -269,24 +267,24 @@ function AlbumDetail() {
   // 앨범 관련 상태
   const [album, setAlbum] = useState(null);
   // 앨범 상세 정보 가져오기
-  useEffect(() => {
-    const fetchAlbumDetail = async () => {
-      try {
-        const response = await axios.get(
-          `${serverApi}/api/music/${id}?wallet_address=${walletAddress}`,
-          {
-            params: {
-              wallet_address: walletAddress,
-            },
-          }
-        );
+  const fetchAlbumDetail = async () => {
+    try {
+      const response = await axios.get(
+        `${serverApi}/api/music/${id}?wallet_address=${walletAddress.address}`,
+        {
+          params: {
+            wallet_address: walletAddress.address,
+          },
+        }
+      );
 
-        console.log("앨범 상세 정보:", response.data);
-        setAlbum(response.data);
-      } catch (error) {
-        console.error("앨범 상세 정보 가져오기 에러:", error);
-      }
-    };
+      console.log("앨범 상세 정보:", response.data);
+      setAlbum(response.data);
+    } catch (error) {
+      console.error("앨범 상세 정보 가져오기 에러:", error);
+    }
+  };
+  useEffect(() => {
     fetchAlbumDetail();
   }, [id, walletAddress, token, serverApi]);
 
@@ -301,6 +299,21 @@ function AlbumDetail() {
         .map((t) => t.trim())
         .filter(Boolean)
     : [];
+
+  // 좋아요 , 좋아요 취소 버튼 클릭
+  const handleLike = async () => {
+    console.log("id", id);
+    try {
+      if (album?.is_like) {
+        await cancelLikeAlbum(id, token);
+      } else {
+        await likeAlbum(id, token);
+      }
+      fetchAlbumDetail();
+    } catch (error) {
+      console.error("좋아요 에러:", error);
+    }
+  };
 
   return (
     <>
@@ -337,7 +350,7 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
-                  <button className="love" onClick={handleToggleLove}>
+                  <button className="love" onClick={handleLike}>
                     <img
                       src={album?.is_like ? halfHeartIcon : loveIcon}
                       alt="love Icon"

@@ -14,6 +14,7 @@ import coverImg7 from "../assets/images/demo/album04.svg";
 import coverImg8 from "../assets/images/demo/album05.svg";
 import coverImg9 from "../assets/images/demo/album06.svg";
 import loveIcon from "../assets/images/album/love-icon.svg";
+import halfHeartIcon from "../assets/images/icon/half-heart.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
@@ -183,7 +184,10 @@ function Album() {
         <div className="album__header__cover-info">
           <div className="album__header__cover-info__love-play">
             <p className="love" onClick={() => handleLikeClick(selectedTrack)}>
-              <img src={loveIcon} />
+              <img
+                src={selectedTrack?.is_like ? halfHeartIcon : loveIcon}
+                alt="like-heart-icon"
+              />
               {selectedTrack?.like || 0}
             </p>
             <p className="play">
@@ -242,7 +246,7 @@ function Album() {
                 </p>
                 <div className="album__content-list__list__item__right__love-play">
                   <p className="love">
-                    <img src={loveIcon} />
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
                     {track?.like || 0}
                   </p>
                   <p className="play">
@@ -321,25 +325,8 @@ function Album() {
                   {track.title}
                 </p>
                 <div className="swiper-music-list__item__right__love-play">
-                  <p
-                    className="love"
-                    onClick={async () => {
-                      try {
-                        if (track.like) {
-                          await cancelLikeAlbum(track.id, token);
-                        } else {
-                          await likeAlbum(track.id, token);
-                        }
-                        const res = await axios.get(
-                          `${serverApi}/api/music/all/list`
-                        );
-                        setTracks(res.data.data_list);
-                      } catch (e) {
-                        console.error(e);
-                      }
-                    }}
-                  >
-                    <img src={loveIcon} />
+                  <p className="love" onClick={() => handleLikeClick(track)}>
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
                     {track?.like || 0}
                   </p>
                   <p className="play">
@@ -433,7 +420,7 @@ function Album() {
                 </p>
                 <div className="album__content-list__list__item__right__love-play">
                   <p className="love">
-                    <img src={loveIcon} />
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
                     {track?.like || 0}
                   </p>
                   <p className="play">

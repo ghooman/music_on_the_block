@@ -5,9 +5,9 @@
 
     .nft-item__graph--img {
         flex: 1;
-        background: #222;
-        border-radius: 12px;
-        padding: 16px;
+        // background: #222;
+        // border-radius: 12px;
+        // padding: 16px;
 
         .nft-item__graph--img__title {
             color: #f1f1f1;
@@ -23,3 +23,12 @@
         }
     }
 } 
+
+
+
+
+@media screen and (max-width: 768px) {
+    .nft-item__graph {
+        flex-direction: column;
+    }
+}

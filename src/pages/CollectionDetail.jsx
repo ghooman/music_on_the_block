@@ -14,6 +14,8 @@ import dummy_collectionImage from '../assets/images/nft/collection01.png';
 import dummy_userImage from '../assets/images/account/demo-user1.png';
 
 import '../styles/CollectionDetail.scss';
+import { NftGraph } from '../components/nft/NftGraph';
+import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
 
 const CollectionDetail = () => {
     const [selectCategory, setSelectCategory] = useState('Overview');
@@ -87,7 +89,42 @@ CollectionInfo.StatsItem = ({ title, value, suffix }) => {
 const Overview = () => {
     return (
         <>
-            <ContentWrap title="Graph List"></ContentWrap>
+            <ContentWrap title="Overview">
+                <NftOverview title="Detail">
+                    <NftOverviewItem 
+                        title="NFT Items" 
+                        value="1,573" 
+                    />
+                    <NftOverviewItem 
+                        title="Number of Transactions" 
+                        value="125" 
+                    />
+                    <NftOverviewItem 
+                        title="Total Volume" 
+                        value="342,453" 
+                    />
+                    <NftOverviewItem 
+                        title="Average Price" 
+                        value="100 MOB" 
+                    />
+                    <NftOverviewItem 
+                        title="Highest Price" 
+                        value="100 MOB" 
+                    />
+                    <NftOverviewItem 
+                        title="Lowest Price" 
+                        value="100 MOB" 
+                    />
+                    <NftOverviewItem 
+                        title="Recent Transaction Date" 
+                        value="Sat, 04 Nov 2023 14:40:00 UTC+9" 
+                        isLong
+                    />
+                </NftOverview>
+            </ContentWrap>
+            <ContentWrap title="Graph List">
+                <NftGraph/>
+            </ContentWrap>
             <ContentWrap title="Top NFTs in this Collection">
                 <NftItemList data={[1, 2, 3, 4]} />
             </ContentWrap>

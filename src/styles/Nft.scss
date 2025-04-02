@@ -25,21 +25,52 @@
     }
     .nft__exchange--button {
         float: right;
-        color: #1a1a1a;
+        width: 100px;
+        height: 30px;
+        background: #cf0;
+        position: relative;
+        top: 0;
+        transition: 0.2s;
+        color: var(--Text-dark-title, #1A1A1A);
         font-family: Orbitron600;
         font-size: 16px;
         font-style: normal;
         line-height: normal;
-        width: 102px;
-        height: 40px;
         border-radius: 12px;
-        background: var(--primary-base, #cf0);
-        transition: 0.3s;
+        &::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: calc(100% - 2px);
+            transition: 0.2s;
+            border-radius: 12px;
+            height: 29px;
+            border: 1px solid #cf0;
+        }
+        &:hover{
+            top: 4px;
+            &::before{
+                top: 0;
+            }
+        }
     }
 
-
-
-
-
-    
 }
+
+
+
+
+@media screen and (max-width: 768px) {
+    .nft{
+        .nft__exchange{
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+

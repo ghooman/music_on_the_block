@@ -115,6 +115,16 @@ const Overview = () => {
                         title="Lowest Price" 
                         value="100 MOB" 
                     />
+                    {/* <NftOverviewItem 
+                        title="Lowest Price" 
+                        value="100 MOB" 
+                        isTwo
+                    />
+                    <NftOverviewItem 
+                        title="Lowest Price" 
+                        value="100 MOB" 
+                        isTwo
+                    /> */}
                     <NftOverviewItem 
                         title="Recent Transaction Date" 
                         value="Sat, 04 Nov 2023 14:40:00 UTC+9" 

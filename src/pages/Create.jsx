@@ -24,7 +24,8 @@ const Create = () => {
       // 조건에 맞지 않으면 메인 페이지로 이동
       navigate("/");
     }
-  }, [pageNumber, walletAddress, isRegistered, navigate]);
+  }, [pageNumber, walletAddress, isRegistered]);
+
   const [lylicData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],
@@ -42,7 +43,6 @@ const Create = () => {
   const [melodyStory, setMelodyStory] = useState("");
 
   const [generatedLyric, setGeneratedLyric] = useState("");
-  const [generatedMusic, setGeneratedMusic] = useState({});
 
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
 
@@ -111,7 +111,6 @@ const Create = () => {
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
-          setLy
           generatedLyric={generatedLyric}
           setGeneratedLyric={setGeneratedLyric}
           onSkip={() => setSkip("lyric")}
@@ -134,8 +133,6 @@ const Create = () => {
           tempo={tempo}
           setTempo={setTempo}
           generatedLyric={generatedLyric}
-          generatedMusic={generatedMusic}
-          setGeneratedMusic={setGeneratedMusic}
           generatedMusicResult={generatedMusicResult}
           setGeneratedMusicResult={setGeneratedMusicResult}
           onSkip={() => setSkip("melody")}

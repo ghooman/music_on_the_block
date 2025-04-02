@@ -5,18 +5,26 @@ import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import halfHeartIcon from "../../assets/images/icon/half-heart.svg";
 import NoneContent from "../../components/NoneContent";
+import Pagination from "../Pagination";
 const AlbumsTable = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigator = useNavigate();
+  const [page, setPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const viewCount = 10;
   // 앨범 목록 가져오기
   const [albums, setAlbums] = useState([]);
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        const response = await axios.get(`${serverApi}/api/music/my/list`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${serverApi}/api/music/my/list?page=${page + 1}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setTotalCount(response.data.total_cnt);
         setAlbums(response.data.data_list);
         console.log("앨범 목록:", response.data);
       } catch (error) {
@@ -24,7 +32,7 @@ const AlbumsTable = () => {
       }
     };
     fetchAlbums();
-  }, [serverApi, token]);
+  }, [serverApi, token, page]);
   return (
     <div className="albums-table">
       <table>
@@ -72,6 +80,12 @@ const AlbumsTable = () => {
           )}
         </tbody>
       </table>
+      <Pagination
+        page={page}
+        setPage={(page) => setPage(page)}
+        totalCount={totalCount}
+        viewCount={viewCount}
+      />
       {albums?.length === 0 && (
         <NoneContent message={"No albums created"} height={300} />
       )}

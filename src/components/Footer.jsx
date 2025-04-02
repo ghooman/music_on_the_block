@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Footer.scss";
 import {
   BrowserRouter,
@@ -29,12 +29,17 @@ import Menu from "./Menu";
 import MyPage from "../pages/MyPage";
 
 //스와이프
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  FreeMode,
+  Navigation,
+  Thumbs,
+  Pagination,
+  Autoplay,
+} from "swiper/modules";
 import PreparingModal from "./PreparingModal";
 
 const Footer = ({ setIsLoggedIn }) => {
-  
   const [transactions, setTransactions] = useState([]);
   const [isPreparingModal, setPreparingModal] = useState(false);
 
@@ -47,12 +52,54 @@ const Footer = ({ setIsLoggedIn }) => {
       // { id: 4, coin: "baseCoin", hash: "0xffA567890123bcde", method: "Transfer", block: "#57,773,715", coinLogo: baseCoin, },
       // { id: 5, coin: "polygonCoin", hash: "0x123abcdef9876543", method: "Transfer", block: "#57,773,716", coinLogo: polygonCoin, },
       // { id: 6, coin: "opBNBCoin", hash: "0x7fA0123456bc789d", method: "Transfer", block: "#57,773,717", coinLogo: opBNBCoin, },
-      { id: 1, coin: "polygonCoin", hash: "0xeC9123456789b354", method: "Transfer", block: "#57,773,712", coinLogo: polygonCoin,},
-      { id: 2, coin: "polygonCoin", hash: "0xaB1234567890cdef", method: "Transfer", block: "#18,542,124", coinLogo: polygonCoin, },
-      { id: 3, coin: "polygonCoin", hash: "0xcdE987654321abcd", method: "Transfer", block: "#65,845,542", coinLogo: polygonCoin, },
-      { id: 4, coin: "polygonCoin", hash: "0xffA567890123bcde", method: "Transfer", block: "#48,383,545", coinLogo: polygonCoin, },
-      { id: 5, coin: "polygonCoin", hash: "0x123abcdef9876543", method: "Transfer", block: "#65,124,356", coinLogo: polygonCoin, },
-      { id: 6, coin: "polygonCoin", hash: "0x7fA0123456bc789d", method: "Transfer", block: "#17,125,458", coinLogo: polygonCoin, },
+      {
+        id: 1,
+        coin: "polygonCoin",
+        hash: "0xeC9123456789b354",
+        method: "Transfer",
+        block: "#57,773,712",
+        coinLogo: polygonCoin,
+      },
+      {
+        id: 2,
+        coin: "polygonCoin",
+        hash: "0xaB1234567890cdef",
+        method: "Transfer",
+        block: "#18,542,124",
+        coinLogo: polygonCoin,
+      },
+      {
+        id: 3,
+        coin: "polygonCoin",
+        hash: "0xcdE987654321abcd",
+        method: "Transfer",
+        block: "#65,845,542",
+        coinLogo: polygonCoin,
+      },
+      {
+        id: 4,
+        coin: "polygonCoin",
+        hash: "0xffA567890123bcde",
+        method: "Transfer",
+        block: "#48,383,545",
+        coinLogo: polygonCoin,
+      },
+      {
+        id: 5,
+        coin: "polygonCoin",
+        hash: "0x123abcdef9876543",
+        method: "Transfer",
+        block: "#65,124,356",
+        coinLogo: polygonCoin,
+      },
+      {
+        id: 6,
+        coin: "polygonCoin",
+        hash: "0x7fA0123456bc789d",
+        method: "Transfer",
+        block: "#17,125,458",
+        coinLogo: polygonCoin,
+      },
     ];
     setTransactions(dummyData);
   }, []);
@@ -77,33 +124,34 @@ const Footer = ({ setIsLoggedIn }) => {
         <div className="footer__inner">
           <section className="footer__top">
             <article className="footer__top__left">
-              <img className="footer__top__left__logo" src={logo}/>
-              <ul className="footer__top__left__sns"
-                onClick={()=>setPreparingModal(true)}
+              <img className="footer__top__left__logo" src={logo} />
+              <ul
+                className="footer__top__left__sns"
+                onClick={() => setPreparingModal(true)}
               >
                 <li>
                   <Link>
-                    <img src={sns01}/>
+                    <img src={sns01} />
                   </Link>
                 </li>
                 <li>
                   <Link>
-                    <img src={sns02}/>
+                    <img src={sns02} />
                   </Link>
                 </li>
                 <li>
                   <Link>
-                    <img src={sns03}/>
+                    <img src={sns03} />
                   </Link>
                 </li>
                 <li>
                   <Link>
-                    <img src={sns04}/>
+                    <img src={sns04} />
                   </Link>
                 </li>
                 <li>
                   <Link>
-                    <img src={sns05}/>
+                    <img src={sns05} />
                   </Link>
                 </li>
                 {/* <li>
@@ -135,51 +183,37 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>AI Service</dt>
                   <dd>
-                    <Link
-                      to='/create'
-                    >AI Lyric & Songwriting</Link>
+                    <Link to="/create">AI Lyric & Songwriting</Link>
                   </dd>
                   <dd>
-                    <Link
-                      onClick={()=>setPreparingModal(true)}
-                    >AI Singing Evaluation</Link>
+                    <Link onClick={() => setPreparingModal(true)}>
+                      AI Singing Evaluation
+                    </Link>
                   </dd>
                   <dd>
-                    <Link
-                      onClick={()=>setPreparingModal(true)}
-                    >AI Cover Creation</Link>
+                    <Link onClick={() => setPreparingModal(true)}>
+                      AI Cover Creation
+                    </Link>
                   </dd>
                 </dl>
                 <dl>
                   <dt>Album</dt>
                   <dd>
-                    <Link
-                      to="/album"
-                    >Album</Link>
+                    <Link to="/album">Album</Link>
                   </dd>
                 </dl>
                 <dl>
                   <dt>Shop</dt>
                   <dd>
-                    <Link
-                      onClick={()=>setPreparingModal(true)}
-                    >Shop</Link>
+                    <Link onClick={() => setPreparingModal(true)}>Shop</Link>
                   </dd>
                 </dl>
                 <dl>
                   <dt>Earn</dt>
                   <dd>
-                    <Link
-                      onClick={()=>setPreparingModal(true)}
-                    >Staking</Link>
-                  </dd>
-                  <dd>
-                    <Link
-                      onClick={()=>setPreparingModal(true)}
-                    >Governance</Link>
+                    <Link onClick={() => setPreparingModal(true)}>Earn</Link>
                   </dd>
                 </dl>
-
               </div>
             </article>
           </section>
@@ -187,10 +221,10 @@ const Footer = ({ setIsLoggedIn }) => {
             <article className="footer__bottom__left">
               <div className="footer__bottom__left__music-token">
                 <div className="footer__bottom__left__music-token__txt">
-                  <img src={musicTokenIcon} className="token-logo"/>
+                  <img src={musicTokenIcon} className="token-logo" />
                   <dl>
                     <dt>MOB</dt>
-                    <dd>Music on the  block Token</dd>
+                    <dd>Music on the block Token</dd>
                   </dl>
                 </div>
                 <dl className="footer__bottom__left__music-token__number">
@@ -213,7 +247,7 @@ const Footer = ({ setIsLoggedIn }) => {
             </article>
             <article className="footer__bottom__right">
               <Swiper
-                direction="vertical"//세로 옵션
+                direction="vertical" //세로 옵션
                 loop={true}
                 slidesPerView={3}
                 // centeredSlides={true}
@@ -224,15 +258,18 @@ const Footer = ({ setIsLoggedIn }) => {
                 //   clickable: true,
                 // }}
                 autoplay={{
-                  delay: 1200, 
+                  delay: 1200,
                   disableOnInteraction: false, // 유저가 터치해도 자동 재생 유지
                 }}
                 navigation={false}
-                modules={[Pagination,Navigation,Autoplay]}
+                modules={[Pagination, Navigation, Autoplay]}
                 className="footer__bottom__slide"
               >
                 {transactions.map((item) => (
-                  <SwiperSlide key={item.id} className="footer__bottom__slide__item">
+                  <SwiperSlide
+                    key={item.id}
+                    className="footer__bottom__slide__item"
+                  >
                     <div className="footer__bottom__slide__item__left">
                       <div className="footer__bottom__slide__item__left__hash">
                         <img src={item.coinLogo} alt={item.coin} />
@@ -245,7 +282,9 @@ const Footer = ({ setIsLoggedIn }) => {
                         </dl>
                       </div>
                     </div>
-                    <div className="footer__bottom__slide__item__right">{item.block}</div>
+                    <div className="footer__bottom__slide__item__right">
+                      {item.block}
+                    </div>
                   </SwiperSlide>
                 ))}
               </Swiper>

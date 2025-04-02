@@ -255,7 +255,7 @@ const Intro = ({ setIsLoggedIn }) => {
                   speed={1000}
                 >
                   {items.map((item, index) => (
-                    <SwiperSlide key={item.tabTitle}>
+                    <SwiperSlide key={item.id}>
                       <Link
                         // to="/create"
                         to={

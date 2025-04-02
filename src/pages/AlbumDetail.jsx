@@ -1,14 +1,6 @@
 import "../styles/AlbumDetail.scss";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import AudioPlayer from "react-h5-audio-player";
@@ -24,14 +16,14 @@ import coverImg8 from "../assets/images/demo/album05.svg";
 import coverImg9 from "../assets/images/demo/album06.svg";
 import demoImg from "../assets/images/intro/intro-demo-img4.png";
 import loveIcon from "../assets/images/like-icon/like-icon.svg";
-import lovedIcon from "../assets/images/like-icon/like-icon-on.svg";
+import halfHeartIcon from "../assets/images/like-icon/like-icon-on.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
 import commentIcon from "../assets/images/album/chat-icon.svg";
 import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
-
+import NoneContent from "../components/NoneContent";
 //스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -47,10 +39,12 @@ import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
 
 import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
+
+import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
-  const { id, walletAddress } = useParams();
-  const { token } = useContext(AuthContext);
+  const { id } = useParams();
+  const { token, walletAddress } = useContext(AuthContext);
   const dummyData = [
     {
       id: 30,
@@ -249,13 +243,9 @@ function AlbumDetail() {
 
   const [isActive, setIsActive] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
-  const [loved, setLoved] = useState(false);
 
   const handleClick = () => {
     setIsActive((prev) => !prev);
-  };
-  const handleToggleLove = () => {
-    setLoved((prev) => !prev);
   };
 
   const commentRef = useRef(null);
@@ -277,21 +267,24 @@ function AlbumDetail() {
   // 앨범 관련 상태
   const [album, setAlbum] = useState(null);
   // 앨범 상세 정보 가져오기
-  useEffect(() => {
-    const fetchAlbumDetail = async () => {
-      try {
-        const response = await axios.get(`${serverApi}/api/music/${id}`, {
+  const fetchAlbumDetail = async () => {
+    try {
+      const response = await axios.get(
+        `${serverApi}/api/music/${id}?wallet_address=${walletAddress.address}`,
+        {
           params: {
-            wallet_address: walletAddress,
+            wallet_address: walletAddress.address,
           },
-        });
+        }
+      );
 
-        console.log("앨범 상세 정보:", response.data);
-        setAlbum(response.data);
-      } catch (error) {
-        console.error("앨범 상세 정보 가져오기 에러:", error);
-      }
-    };
+      console.log("앨범 상세 정보:", response.data);
+      setAlbum(response.data);
+    } catch (error) {
+      console.error("앨범 상세 정보 가져오기 에러:", error);
+    }
+  };
+  useEffect(() => {
     fetchAlbumDetail();
   }, [id, walletAddress, token, serverApi]);
 
@@ -306,6 +299,21 @@ function AlbumDetail() {
         .map((t) => t.trim())
         .filter(Boolean)
     : [];
+
+  // 좋아요 , 좋아요 취소 버튼 클릭
+  const handleLike = async () => {
+    console.log("id", id);
+    try {
+      if (album?.is_like) {
+        await cancelLikeAlbum(id, token);
+      } else {
+        await likeAlbum(id, token);
+      }
+      fetchAlbumDetail();
+    } catch (error) {
+      console.error("좋아요 에러:", error);
+    }
+  };
 
   return (
     <>
@@ -324,7 +332,15 @@ function AlbumDetail() {
                 }`}
                 onClick={handleClick}
               >
-                <img src={album?.image || demoImg} />
+                {album ? (
+                  <img src={album?.image || demoImg} alt="앨범 이미지" />
+                ) : (
+                  <div
+                    style={{
+                      backgroundColor: "black",
+                    }}
+                  />
+                )}
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
@@ -334,18 +350,20 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
-                  <button className="love" onClick={handleToggleLove}>
-                    <img src={loved ? lovedIcon : loveIcon} alt="love" />
-                    {loved ? 146 : 145}
+                  <button className="love" onClick={handleLike}>
+                    <img
+                      src={album?.is_like ? halfHeartIcon : loveIcon}
+                      alt="love Icon"
+                    />
+                    {album?.like || 0}
                   </button>
-                  {/* <button className="play"><img src={playIcon}/>125K</button> */}
                   <button className="comment" onClick={handleScrollToComment}>
                     <img src={commentIcon} />
-                    125K
+                    {album?.comment_cnt || 0}
                   </button>
                   <p className="play">
                     <img src={playIcon} />
-                    125K
+                    {album?.play_cnt || 0}
                   </p>
                 </div>
                 <button
@@ -398,7 +416,7 @@ function AlbumDetail() {
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={coverImg2} />
+                      <img src={album?.user_profile || coverImg2} />
                       {album?.name || "-"}
                     </p>
                     <Link className="see-more-btn" to="/my-page">
@@ -412,7 +430,6 @@ function AlbumDetail() {
         </section>
 
         <section className="album-detail__audio">
-          {/* <audio src={album?.music_url || track1} controls/> */}
           <AudioPlayer
             src={album?.music_url || track1}
             onPlay={() => {
@@ -439,7 +456,7 @@ function AlbumDetail() {
 
         <section className="album-detail__rank-table">
           <div ref={commentRef}>
-            <AdvancedCommentComponent />
+            <AdvancedCommentComponent id={id} />
           </div>
           <dl className="album-detail__rank-table__title">
             <dt>Albums Leaderboard Rank</dt>
@@ -479,11 +496,9 @@ function AlbumDetail() {
               </tbody>
             </table>
           </div>
-
           {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
-
         </section>
 
         <section className="album-detail__slide">
@@ -509,11 +524,6 @@ function AlbumDetail() {
                         style={{ backgroundImage: `url(${track.cover})` }}
                       ></p>
                       <span className="time">2:11</span>
-                      {/* <span className="time">
-                        {selectedTrackIndex === index
-                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                          : formatTime(track.duration)}
-                      </span> */}
                     </div>
                     <div className="album__content-list__list__item__right">
                       <p className="album__content-list__list__item__right__title">

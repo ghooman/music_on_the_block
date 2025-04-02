@@ -320,7 +320,7 @@ function AlbumDetail() {
                 onClick={handleClick}
               >
                 {album ? (
-                  <img src={album.image || demoImg} alt="앨범 이미지" />
+                  <img src={album?.image || demoImg} alt="앨범 이미지" />
                 ) : (
                   <div
                     style={{
@@ -339,18 +339,18 @@ function AlbumDetail() {
                 <div className="album-detail__song-detail__left__info__number">
                   <button className="love" onClick={handleToggleLove}>
                     <img
-                      src={album.is_like ? halfHeartIcon : loveIcon}
+                      src={album?.is_like ? halfHeartIcon : loveIcon}
                       alt="love Icon"
                     />
                     {album?.like || 0}
                   </button>
                   <button className="comment" onClick={handleScrollToComment}>
                     <img src={commentIcon} />
-                    125K
+                    {album?.comment_cnt || 0}
                   </button>
                   <p className="play">
                     <img src={playIcon} />
-                    125K
+                    {album?.play_cnt || 0}
                   </p>
                 </div>
                 <button

@@ -10,18 +10,17 @@ const albumIdStorageKey = "generatedAlbumId";
 // 재연결 시도 간격 (밀리초)
 const RECONNECT_INTERVAL = 3000;
 
-// localStorage에서 유효한 앨범 id를 가져오는 함수
-const getStoredAlbumId = () => {
+//  getStoredAlbumData 함수 (id와 title 반환)
+const getStoredAlbumData = () => {
   const item = localStorage.getItem(albumIdStorageKey);
   if (!item) return null;
   try {
     const data = JSON.parse(item);
-    // 만료 시각 검사
     if (data.expires < Date.now()) {
       localStorage.removeItem(albumIdStorageKey);
       return null;
     }
-    return data.id;
+    return { id: data.id, title: data.title };
   } catch (e) {
     localStorage.removeItem(albumIdStorageKey);
     return null;
@@ -31,7 +30,7 @@ const getStoredAlbumId = () => {
 const AlarmModal = () => {
   const location = useLocation();
   const [albumPk, setAlbumPk] = useState(null); // 소켓에서 온 pk를 저장하는 상태 변수
-  const [storedAlbumId, setStoredAlbumId] = useState(getStoredAlbumId());
+  const [storedAlbumData, setStoredAlbumData] = useState(getStoredAlbumData());
   const [isClosed, setIsClosed] = useState(false);
   const socketRef = useRef(null);
 
@@ -54,7 +53,7 @@ const AlarmModal = () => {
             setAlbumPk(data.pk); // 소켓에서 받은 pk 저장
             // 완료 상태이면 localStorage의 id를 삭제합니다.
             localStorage.removeItem(albumIdStorageKey);
-            setStoredAlbumId(null);
+            setStoredAlbumData(null);
           } else if (data.status === "error") {
           } else {
             // 다른 상태 처리 (필요 시 추가)
@@ -84,9 +83,9 @@ const AlarmModal = () => {
     };
   };
 
-  // 컴포넌트 마운트 시 웹소켓 연결 및 storedAlbumId 업데이트
+  // 컴포넌트 마운트 시 웹소켓 연결 및 storedAlbumData 업데이트
   useEffect(() => {
-    setStoredAlbumId(getStoredAlbumId());
+    setStoredAlbumData(getStoredAlbumData());
     connectWebSocket();
     return () => {
       if (socketRef.current) {
@@ -104,9 +103,9 @@ const AlarmModal = () => {
   };
 
   // localStorage에 저장된 id가 없고 소켓에서 받은 albumPk도 없으면 모달을 렌더링하지 않음
-  if (!storedAlbumId && !albumPk) return null;
+  if (!storedAlbumData && !albumPk) return null;
   console.log("isClosed", isClosed);
-  console.log("storedAlbumId", storedAlbumId);
+  console.log("storedAlbumData", storedAlbumData);
   console.log("albumPk", albumPk);
 
   return (
@@ -116,7 +115,9 @@ const AlarmModal = () => {
           <button className="alarm__modal__item__closed" onClick={handleClose}>
             <img src={closeIcon} alt="닫기" />
           </button>
-          <p className="alarm__modal__item__title">ALARM</p>
+          <p className="alarm__modal__item__title">
+            {storedAlbumData?.title || "AI Song Generation"}
+          </p>
           <p className="alarm__modal__item__txt">
             {albumPk
               ? "Song generation completed!"

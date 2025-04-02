@@ -43,11 +43,14 @@ const instrumentPreset = {
   Bass: ["Bass"],
 };
 
-// localStorage에 앨범 id와 만료 시각을 저장하는 함수 (15분)
+// localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분)
 const albumIdStorageKey = "generatedAlbumId";
-const storeAlbumId = (id) => {
+const storeAlbumId = (id, title) => {
   const expires = Date.now() + 15 * 60 * 1000; // 15분 후
-  localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, expires }));
+  localStorage.setItem(
+    albumIdStorageKey,
+    JSON.stringify({ id, title, expires })
+  );
 };
 
 const MelodyMaker = ({
@@ -130,12 +133,11 @@ const MelodyMaker = ({
           "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
         },
       });
-      // 서버로부터 받은 앨범 고유 id를 localStorage에 저장 (15분 만료)
-      storeAlbumId(res.data.id);
+      storeAlbumId(res.data.id, res.data.title);
       // setShowModal(true);
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
-      console.log("storeAlbumId", res.data.id);
+      console.log("storeAlbumId", res.data.id, res.data.title);
       navigate(`/my-page?category=Albums`);
     } catch (err) {
       alert("에러 발생");

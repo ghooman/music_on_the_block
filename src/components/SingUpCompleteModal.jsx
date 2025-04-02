@@ -1,10 +1,9 @@
 import ModalWrap from "./ModalWrap";
-import ExpandedButton from "../components/create/ExpandedButton";
 
 import logoIcon from "../assets/images/header/logo.svg";
 
 import "./CreateCompleteModal.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SingUpCompleteModal = ({
   setShowModal,
@@ -12,8 +11,6 @@ const SingUpCompleteModal = ({
   link,
   setIsRegistered,
 }) => {
-  const navigate = useNavigate();
-
   return (
     <ModalWrap onClose={setShowModal} title="Congratulations">
       <div className="modal__create-complete">

@@ -43,7 +43,6 @@ const Create = () => {
   const [melodyStory, setMelodyStory] = useState("");
 
   const [generatedLyric, setGeneratedLyric] = useState("");
-  const [generatedMusic, setGeneratedMusic] = useState({});
 
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
 
@@ -134,8 +133,6 @@ const Create = () => {
           tempo={tempo}
           setTempo={setTempo}
           generatedLyric={generatedLyric}
-          generatedMusic={generatedMusic}
-          setGeneratedMusic={setGeneratedMusic}
           generatedMusicResult={generatedMusicResult}
           setGeneratedMusicResult={setGeneratedMusicResult}
           onSkip={() => setSkip("melody")}

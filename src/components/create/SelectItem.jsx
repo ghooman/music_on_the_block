@@ -12,8 +12,18 @@ export const SelectItemWrap = ({
   dropdown,
   selectedLanguage,
   setSelectedLanguage,
+  currentStep,
 }) => {
   const [visible, setVisible] = useState(!dropdown);
+
+  // 언어 변경 함수
+  const handleLanguage = (lang) => {
+    if (currentStep === "isMelodyPage") {
+      return;
+    } else {
+      setSelectedLanguage(lang);
+    }
+  };
 
   return (
     <div className="create__select-components">
@@ -45,7 +55,8 @@ export const SelectItemWrap = ({
             className={`tag-button presets ${
               selectedLanguage === "KOR" ? "enable" : ""
             }`}
-            onClick={() => setSelectedLanguage("KOR")}
+            // onClick={() => setSelectedLanguage("KOR")}
+            onClick={() => handleLanguage("KOR")}
           >
             KOR
           </button>
@@ -53,7 +64,8 @@ export const SelectItemWrap = ({
             className={`tag-button presets ${
               selectedLanguage === "ENG" ? "enable" : ""
             }`}
-            onClick={() => setSelectedLanguage("ENG")}
+            // onClick={() => setSelectedLanguage("ENG")}
+            onClick={() => handleLanguage("ENG")}
           >
             ENG
           </button>

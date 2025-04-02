@@ -161,6 +161,7 @@ const MelodyMaker = ({
       <SelectItemWrap
         selectedLanguage={selectedLanguage}
         setSelectedLanguage={setSelectedLanguage}
+        currentStep={"isMelodyPage"}
       >
         <p className="title__text">Title</p>
         <input

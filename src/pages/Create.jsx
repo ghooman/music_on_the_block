@@ -112,7 +112,6 @@ const Create = () => {
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
-          setLy
           generatedLyric={generatedLyric}
           setGeneratedLyric={setGeneratedLyric}
           onSkip={() => setSkip("lyric")}

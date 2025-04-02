@@ -1,5 +1,6 @@
 import "./MelodyMaker.scss";
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SubBanner from "./SubBanner";
 import {
@@ -59,7 +60,6 @@ const MelodyMaker = ({
   generatedLyric,
   generatedMusicResult,
   setGeneratedMusicResult,
-  setGeneratedMusic,
   setPageNumber,
   onSkip,
   SelectedWrap,
@@ -72,9 +72,10 @@ const MelodyMaker = ({
     melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
     (title && title.trim() !== "") ||
@@ -131,10 +132,11 @@ const MelodyMaker = ({
       });
       // 서버로부터 받은 앨범 고유 id를 localStorage에 저장 (15분 만료)
       storeAlbumId(res.data.id);
-      setShowModal(true);
+      // setShowModal(true);
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id);
+      navigate(`/my-page?category=Albums`);
     } catch (err) {
       alert("에러 발생");
       console.log("handleSubmit error", err);
@@ -161,6 +163,7 @@ const MelodyMaker = ({
       <SelectItemWrap
         selectedLanguage={selectedLanguage}
         setSelectedLanguage={setSelectedLanguage}
+        currentStep={"isMelodyPage"}
       >
         <p className="title__text">Title</p>
         <input
@@ -278,13 +281,13 @@ const MelodyMaker = ({
         </ExpandedButton>
       </div>
       {loading && <CreateLoading textTrue />}
-      {showModal && (
+      {/* {showModal && (
         <CompleteModal
           setShowModal={setShowModal}
           message="Your song is successfully created!"
           link={`/album-detail/${generatedMusicResult?.id}`}
         />
-      )}
+      )} */}
     </div>
   );
 };

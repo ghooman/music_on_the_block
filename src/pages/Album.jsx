@@ -1,14 +1,7 @@
 import "../styles/Album.scss";
-import React, { useState, useEffect, useRef } from "react";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  // useNavigate,
-} from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import coverImg from "../assets/images/intro/intro-demo-img.png";
 import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
@@ -21,6 +14,7 @@ import coverImg7 from "../assets/images/demo/album04.svg";
 import coverImg8 from "../assets/images/demo/album05.svg";
 import coverImg9 from "../assets/images/demo/album06.svg";
 import loveIcon from "../assets/images/album/love-icon.svg";
+import halfHeartIcon from "../assets/images/icon/half-heart.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
@@ -37,10 +31,12 @@ import {
   Autoplay,
 } from "swiper/modules";
 import axios from "axios";
-
-const serverApi = process.env.REACT_APP_SERVER_API;
+import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 
 function Album() {
+  const serverApi = process.env.REACT_APP_SERVER_API;
+  const { token, walletAddress } = useContext(AuthContext);
+
   const [activeTab, setActiveTab] = useState("AI Lyric & Songwriting");
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -62,28 +58,30 @@ function Album() {
   const [currentTime, setCurrentTime] = useState(0);
 
   const [tracks, setTracks] = useState([]);
-  useEffect(() => {
-    const getTracks = async () => {
-      try {
-        const res = await axios.get(`${serverApi}/api/music/all/list`);
+  const getTracks = async () => {
+    try {
+      const res = await axios.get(
+        `${serverApi}/api/music/all/list?wallet_address=${walletAddress?.address}`
+      );
 
-        const copy = [...res.data.data_list];
+      const copy = [...res.data.data_list];
 
-        copy.forEach((track, index) => {
-          const audio = new Audio(track.music_url);
-          audio.addEventListener("loadedmetadata", () => {
-            copy[index].duration = audio.duration;
-            setTracks([...copy]);
-          });
+      copy.forEach((track, index) => {
+        const audio = new Audio(track.music_url);
+        audio.addEventListener("loadedmetadata", () => {
+          copy[index].duration = audio.duration;
+          setTracks([...copy]);
         });
-        setTracks(res.data.data_list);
-        console.log("album", res.data.data_list);
-      } catch (e) {
-        console.error(e);
-      }
-    };
+      });
+      setTracks(res.data.data_list);
+      console.log("album", res.data.data_list);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  useEffect(() => {
     getTracks();
-  }, []);
+  }, [walletAddress]);
 
   const handleTrackClick = (index) => {
     setSelectedTrackIndex(index);
@@ -149,6 +147,20 @@ function Album() {
     });
   };
 
+  // 좋아요 버튼 클릭
+  const handleLikeClick = async (selectedTrack) => {
+    try {
+      if (selectedTrack?.is_like) {
+        await cancelLikeAlbum(selectedTrack?.id, token, walletAddress);
+      } else {
+        await likeAlbum(selectedTrack?.id, token, walletAddress);
+      }
+      getTracks();
+    } catch (e) {
+      console.error(e); // 에러 객체를 출력하도록 수정
+    }
+  };
+
   return (
     <div className="album">
       <div
@@ -171,13 +183,16 @@ function Album() {
         </div>
         <div className="album__header__cover-info">
           <div className="album__header__cover-info__love-play">
-            <p className="love">
-              <img src={loveIcon} />
-              {selectedTrack?.is_like || 0}
+            <p className="love" onClick={() => handleLikeClick(selectedTrack)}>
+              <img
+                src={selectedTrack?.is_like ? halfHeartIcon : loveIcon}
+                alt="like-heart-icon"
+              />
+              {selectedTrack?.like || 0}
             </p>
             <p className="play">
               <img src={playIcon} />
-              {selectedTrack?.is_like || 0}
+              {selectedTrack?.play_cnt || 0}
             </p>
             <p>|</p>
             <p className="name">{selectedTrack?.name || "unKnown"}</p>
@@ -231,12 +246,12 @@ function Album() {
                 </p>
                 <div className="album__content-list__list__item__right__love-play">
                   <p className="love">
-                    <img src={loveIcon} />
-                    {track?.is_like || 0}
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
+                    {track?.like || 0}
                   </p>
                   <p className="play">
                     <img src={playIcon} />
-                    {track?.is_like || 0}
+                    {track?.play_cnt || 0}
                   </p>
                 </div>
                 <div className="album__content-list__list__item__right__user">
@@ -288,7 +303,7 @@ function Album() {
               className={`swiper-music-list__item ${
                 selectedTrackIndex === index ? "active" : ""
               }`}
-              onClick={() => handleTrackClick(index)}
+              // onClick={() => handleTrackClick(index)}
             >
               <div className="swiper-music-list__item__left">
                 <div
@@ -310,13 +325,13 @@ function Album() {
                   {track.title}
                 </p>
                 <div className="swiper-music-list__item__right__love-play">
-                  <p className="love">
-                    <img src={loveIcon} />
-                    {track?.is_like || 0}
+                  <p className="love" onClick={() => handleLikeClick(track)}>
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
+                    {track?.like || 0}
                   </p>
                   <p className="play">
                     <img src={playIcon} />
-                    {track?.is_like || 0}
+                    {track?.play_cnt || 0}
                   </p>
                 </div>
                 <div className="swiper-music-list__item__right__user">
@@ -405,18 +420,18 @@ function Album() {
                 </p>
                 <div className="album__content-list__list__item__right__love-play">
                   <p className="love">
-                    <img src={loveIcon} />
-                    {tracks?.is_like || 0}
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
+                    {track?.like || 0}
                   </p>
                   <p className="play">
                     <img src={playIcon} />
-                    {tracks?.is_like || 0}
+                    {track?.play_cnt || 0}
                   </p>
                 </div>
                 <div className="album__content-list__list__item__right__user">
                   <p className="album__content-list__list__item__right__user__info">
                     <img src={track?.user_profile || defaultCoverImg} />
-                    {tracks?.name || "unKnown"}
+                    {track?.name || "unKnown"}
                   </p>
                   <button className="album__content-list__list__item__right__user__btn">
                     유저정보

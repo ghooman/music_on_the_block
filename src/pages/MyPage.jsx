@@ -1,7 +1,7 @@
 // pages/MyPage.js
 import "../styles/MyPage.scss";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
@@ -22,12 +22,28 @@ import PreparingModal from "../components/PreparingModal";
 
 const MyPage = () => {
   const { data: userData } = useUserDetail();
-  const [selectedService, setSelectedService] = useState("AI Services");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category");
+  const defaultService =
+    initialCategory === "Albums" || initialCategory === "AI Services"
+      ? initialCategory
+      : "AI Services";
+  const [selectedService, setSelectedService] = useState(defaultService);
   const [isPreparingModal, setPreparingModal] = useState(false);
+
+  useEffect(() => {
+    // URL 파라미터가 변경되었을 때 상태를 업데이트
+    const category = searchParams.get("category");
+    if (category === "Albums" || category === "AI Services") {
+      setSelectedService(category);
+    }
+  }, [searchParams]);
 
   const handleServiceClick = (service) => {
     if (service === "AI Services" || service === "Albums") {
       setSelectedService(service);
+      // URL의 쿼리 파라미터 업데이트
+      setSearchParams({ category: service });
       setPreparingModal(false);
     } else {
       // 선택된 서비스는 유지하고 프리페어링 모달만 표시

@@ -151,9 +151,9 @@ function Album() {
   const handleLikeClick = async (selectedTrack) => {
     try {
       if (selectedTrack?.is_like) {
-        await cancelLikeAlbum(selectedTrack?.id, token, walletAddress);
+        await cancelLikeAlbum(selectedTrack?.id, token);
       } else {
-        await likeAlbum(selectedTrack?.id, token, walletAddress);
+        await likeAlbum(selectedTrack?.id, token);
       }
       getTracks();
     } catch (e) {

@@ -4,13 +4,14 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import closeIcon from "../assets/images/close.svg";
 import { AuthContext } from "../contexts/AuthContext";
+
 // 환경변수를 통해 웹소켓 URL을 관리하도록 함 (환경변수 미설정 시 기본값 사용)
 const WS_URL = "wss://muble.xyz/ws/album_status/";
 const albumIdStorageKey = "generatedAlbumId";
 // 재연결 시도 간격 (밀리초)
 const RECONNECT_INTERVAL = 3000;
 
-//  getStoredAlbumData 함수 (id와 title 반환)
+// getStoredAlbumData 함수 (id와 title 반환)
 const getStoredAlbumData = () => {
   const item = localStorage.getItem(albumIdStorageKey);
   if (!item) return null;
@@ -58,8 +59,8 @@ const AlarmModal = () => {
             localStorage.removeItem(albumIdStorageKey);
             setStoredAlbumData(null);
           } else if (data.status === "error") {
+            // 에러 상태 처리 (필요 시 추가)
           } else {
-            // 다른 상태 처리 (필요 시 추가)
             console.log("현재 상태:", data.status);
           }
         } else {
@@ -79,7 +80,6 @@ const AlarmModal = () => {
       // 의도치 않은 종료일 경우 재연결 시도
       if (!e.wasClean) {
         setTimeout(() => {
-          // console.log("웹 소켓 재연결 시도...");
           connectWebSocket();
         }, RECONNECT_INTERVAL);
       }
@@ -105,13 +105,17 @@ const AlarmModal = () => {
     setIsClosed(false);
   };
 
-  // localStorage에 저장된 id가 없고 소켓에서 받은 albumPk도 없으면 모달을 렌더링하지 않음
-  if (!storedAlbumData && !albumPk) return null;
-  if (walletAddress?.address !== albumWalletAddress) return null;
+  // 수정된 조건: 로컬 스토리지에 앨범 데이터가 있거나, 소켓에서 완료 정보가 온 상태에서
+  // 현재 유저의 walletAddress와 소켓의 wallet_address가 일치하는 경우에만 모달을 렌더링
+  const shouldRenderModal =
+    storedAlbumData ||
+    (albumPk && walletAddress?.address === albumWalletAddress);
+  if (!shouldRenderModal) return null;
+
   console.log("isClosed", isClosed);
   console.log("storedAlbumData", storedAlbumData);
   console.log("albumPk", albumPk);
-  console.log("walletAddress", walletAddress.address);
+  console.log("walletAddress", walletAddress?.address);
   console.log("albumWalletAddress", albumWalletAddress);
 
   return (

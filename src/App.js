@@ -20,19 +20,19 @@ import Footer from "./components/Footer";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 function Layout({ children }) {
-  return (
-    <div>
-      <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      <div className="inner">{children}</div>
-      <Footer />
-    </div>
-  );
+    return (
+        <div>
+            <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
+            <div className="inner">{children}</div>
+            <Footer />
+        </div>
+    );
 }
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { pathname } = useLocation();
+    const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);

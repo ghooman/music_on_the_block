@@ -6,19 +6,24 @@ import Pagination from '../components/nft/Pagination';
 import Search from '../components/nft/Search';
 import FilterItems from '../components/nft/FilterItems';
 
+import '../styles/NftList.scss';
+
 const NftList = () => {
     const [selectCategory, setSelectCategory] = useState('NFT item');
 
     return (
-        <ContentWrap title="NFT list">
+        <div className="nft-list">
             <Categories categories={['NFT item', 'Collection']} value={selectCategory} onClick={setSelectCategory} />
-            <FilterItems />
-            <Search />
-            {selectCategory === 'NFT item' && <NftItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />}
-            {selectCategory === 'Collection' && <CollectionItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />}
-            <Pagination />
-
-        </ContentWrap>
+            <ContentWrap title={`NFT list (${selectCategory === 'NFT item' ? 'item' : 'Collection'})`}>
+                <ContentWrap.SubWrap gap={8}>
+                    <FilterItems />
+                    <Search />
+                </ContentWrap.SubWrap>
+                {selectCategory === 'NFT item' && <NftItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />}
+                {selectCategory === 'Collection' && <CollectionItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />}
+                <Pagination />
+            </ContentWrap>
+        </div>
     );
 };
 

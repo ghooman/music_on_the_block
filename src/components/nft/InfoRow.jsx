@@ -23,7 +23,10 @@ InfoRowWrap.ValueItem = ({ title, value }) => {
 InfoRowWrap.UserItem = ({ title, value }) => {
     return (
         <ItemWrap title={title}>
-            <div className="item-user">{value}</div>
+            <div className="item-user">
+                {value?.picture && <img src={value.picture} alt="pictures" />}
+                {value?.username}
+            </div>
         </ItemWrap>
     );
 };

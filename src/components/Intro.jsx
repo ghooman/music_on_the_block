@@ -154,7 +154,7 @@ const Intro = ({ setIsLoggedIn }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 2350); // 2.4초 후 실행
+    }, 1050); // 1.7초 후 실행
 
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
   }, []);

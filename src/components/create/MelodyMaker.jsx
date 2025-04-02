@@ -1,21 +1,32 @@
 import './MelodyMaker.scss';
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemStory } from './SelectItem';
+import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemInputOnly } from './SelectItem';
 import ExpandedButton from './ExpandedButton';
 import CompleteModal from './../SingUpCompleteModal';
 import subBg1 from '../../assets/images/create/subbanner-bg1.png';
 import subBg2 from '../../assets/images/create/subbanner-bg2.png';
-
 import CreateLoading from '../CreateLoading';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const tagPreset = {
-    Love: ['passionate', 'romantic', 'tender', 'endearing', 'devoted'],
-    Trable: ['chaotic', 'turbulent', 'unsettling', 'difficult', 'hectic'],
-    Winter: ['frosty', 'chilly', 'serene', 'crisp', 'snowy'],
+    Joyful: ['Joyful'],
+    Melancholic: ['Melancholic'],
+    Playful: ['Playful'],
+    Romantic: ['Romantic'],
+    Whimsical: ['Whimsical'],
+    Majestic: ['Majestic'],
+    Ethereal: ['Ethereal'],
+    Serene: ['Serene'],
+    Mysterious: ['Mysterious'],
+    Soothing: ['Soothing'],
+    Energetic: ['Energetic'],
+    Powerful: ['Powerful'],
+    Chill: ['Chill'],
+    Hypnotic: ['Hypnotic'],
+    Edgy: ['Edgy'],
 };
 
 const genrePreset = {
@@ -23,6 +34,11 @@ const genrePreset = {
     Ballad: ['Ballad'],
     'R&B': ['R&B'],
     Rock: ['Rock'],
+    EDM: ['EDM'],
+    Jazz: ['Jazz'],
+    Classic: ['Classic'],
+    HipHop: ['HipHop'],
+    Latin: ['Latin'],
 };
 
 const stylePreset = {
@@ -31,12 +47,35 @@ const stylePreset = {
     Excitement: ['Excitement'],
     Passionate: ['Passionate'],
 };
+const genderPreset = {
+    Male: ['Male'],
+    Female: ['Female'],
+    'Boy Group': ['Boy Group'],
+    'Girl Group': ['Girl Group'],
+};
+
+const agePreset = {
+    Infancy: ['Infancy'],
+    Child: ['Child'],
+    Teen: ['Teen'],
+    'Young Adult': ['Young Adult'],
+    MiddleAge: ['MiddleAge'],
+    OldAge: ['OldAge'],
+    Senior: ['Senior'],
+};
 
 const instrumentPreset = {
     Guitar: ['Guitar'],
     Piano: ['Piano'],
     Drums: ['Drums'],
     Bass: ['Bass'],
+};
+
+// localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분)
+const albumIdStorageKey = 'generatedAlbumId';
+const storeAlbumId = (id, title) => {
+    const expires = Date.now() + 15 * 60 * 1000; // 15분 후
+    localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, title, expires }));
 };
 
 const MelodyMaker = ({
@@ -49,7 +88,6 @@ const MelodyMaker = ({
     generatedLyric,
     generatedMusicResult,
     setGeneratedMusicResult,
-    setGeneratedMusic,
     setPageNumber,
     onSkip,
     SelectedWrap,
@@ -61,9 +99,10 @@ const MelodyMaker = ({
     const { melody_tag, melody_genre, melody_style, melody_instrument } = melodyData || {};
     const serverApi = process.env.REACT_APP_SERVER_API;
     const { token } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState('');
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
     // 각 필드에 값이 있는지 확인하는 변수
     const isAnyFieldFilled =
         (title && title.trim() !== '') ||
@@ -75,11 +114,11 @@ const MelodyMaker = ({
 
     const promptPreview = `
       Language: ${selectedLanguage},
-      Tags : ${melody_tag ? melody_tag.join(', ') : ''}
-      Genre : ${melody_genre ? melody_genre?.join(', ') : ''}
-      Style : ${melody_style ? melody_style?.join(', ') : ''}
-      Instrument : ${melody_instrument ? melody_instrument?.join(', ') : ''}
-      Story : ${melodyStory}
+      ${melody_tag ? 'Tags:' + melody_tag.join(', ') : ''}
+      ${melody_genre ? 'Genre:' + melody_genre?.join(', ') : ''}
+      ${melody_style ? 'Style:' + melody_style?.join(', ') : ''}
+      ${melody_instrument ? 'Instrument:' + melody_instrument?.join(', ') : ''}
+      ${melodyStory ? 'Story : ' + melodyStory : ''}
       Tempo : ${tempo}
       `;
     const formData = {
@@ -96,14 +135,12 @@ const MelodyMaker = ({
         tags: melody_tag ? melody_tag.join(', ') : '',
         specific_lyrics: '',
         image: '',
-        tempo: 0,
+        tempo: tempo,
         color_palette: '',
         song_length: '',
     };
 
-    console.log('formData', formData);
-
-    // 기존 코드: 노래 생성 요청
+    // 노래 생성 요청 함수 수정
     const musicGenerate = async () => {
         try {
             setLoading(true);
@@ -114,17 +151,20 @@ const MelodyMaker = ({
                     'x-api-key': 'f47d348dc08d492492a7a5d546d40f4a', // 필요한 경우 API 키 추가
                 },
             });
-            setShowModal(true);
+            storeAlbumId(res.data.id, res.data.title);
+            // setShowModal(true);
             setGeneratedMusicResult(res.data);
             console.log('handleSubmit', res);
+            console.log('storeAlbumId', res.data.id, res.data.title);
+            navigate(`/my-page?category=Albums`);
         } catch (err) {
             alert('에러 발생');
             console.log('handleSubmit error', err);
         } finally {
             setLoading(false);
-            setLoading(false);
         }
     };
+
     useEffect(() => {
         if (generatedMusicResult) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -138,11 +178,10 @@ const MelodyMaker = ({
                 <SubBanner.RightImages src={subBg1} />
                 <SubBanner.Title text="Load Lyric Lab Details"></SubBanner.Title>
                 <SubBanner.Message text="Quickly import shared details from the Lyric Section, such as Tags, Genre, and Style. Save time by reusing your inputs!"></SubBanner.Message>
-                <SubBanner.Button title="Load Details"></SubBanner.Button>
+                <SubBanner.Button title="Load Details" handler={() => alert('가사 보여주기!')}></SubBanner.Button>
             </SubBanner>
-            <SelectItemWrap selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage}>
-                <p className="title__text">Title</p>
-                <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <SelectItemWrap currentStep={'isMelodyPage'}>
+                <SelectItemInputOnly value={title} setter={setTitle} title="Title" />
                 <SelectItem
                     mainTitle="Select a Tags"
                     subTitle="Popular Tags"
@@ -151,6 +190,7 @@ const MelodyMaker = ({
                     selected={melodyData?.melody_tag}
                     preset={tagPreset}
                     multiple
+                    add
                 />
                 <SelectItem
                     mainTitle="Select a Genre"
@@ -161,6 +201,22 @@ const MelodyMaker = ({
                     preset={genrePreset}
                 />
                 <SelectItem
+                    mainTitle="Select a Member Type"
+                    subTitle="Popular Member Type"
+                    setter={setMelodyData}
+                    objKey="melody_voice"
+                    selected={melodyData?.melody_voice}
+                    preset={genderPreset}
+                />
+                <SelectItem
+                    mainTitle="Select a Voice Age"
+                    subTitle="Popular Voice Age"
+                    setter={setMelodyData}
+                    objKey="melody_age"
+                    selected={melodyData?.melody_age}
+                    preset={agePreset}
+                />
+                {/* <SelectItem
                     mainTitle="Select a Style"
                     subTitle="Popular Style"
                     setter={setMelodyData}
@@ -169,7 +225,7 @@ const MelodyMaker = ({
                     preset={stylePreset}
                     multiple
                     add
-                />
+                /> */}
                 <SelectItem
                     mainTitle="Select a Musical Instrument"
                     subTitle="Popular Musical Instrument"
@@ -181,7 +237,7 @@ const MelodyMaker = ({
                     add
                 />
                 <SelectItemTempo tempo={tempo} setTempo={setTempo} />
-                <SelectItemStory value={melodyStory} setter={setMelodyStory} />
+                <SelectItemInputOnly value={melodyStory} setter={setMelodyStory} title="Your Story" />
                 <div className="selected-tag-list">
                     <div className="selected-tag-list__title">
                         <h3>Selected Tags (max_length : 200)</h3>
@@ -239,13 +295,13 @@ const MelodyMaker = ({
                 </ExpandedButton>
             </div>
             {loading && <CreateLoading textTrue />}
-            {showModal && (
-                <CompleteModal
-                    setShowModal={setShowModal}
-                    message="Your song is successfully created!"
-                    link={`/album-detail/${generatedMusicResult?.id}`}
-                />
-            )}
+            {/* {showModal && (
+        <CompleteModal
+          setShowModal={setShowModal}
+          message="Your song is successfully created!"
+          link={`/album-detail/${generatedMusicResult?.id}`}
+        />
+      )} */}
         </div>
     );
 };

@@ -7,8 +7,17 @@ import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
 
-export const SelectItemWrap = ({ children, dropdown, selectedLanguage, setSelectedLanguage }) => {
+export const SelectItemWrap = ({ children, dropdown, selectedLanguage, setSelectedLanguage, currentStep }) => {
     const [visible, setVisible] = useState(!dropdown);
+
+    // 언어 변경 함수
+    const handleLanguage = (lang) => {
+        if (currentStep === 'isMelodyPage') {
+            return;
+        } else {
+            setSelectedLanguage(lang);
+        }
+    };
 
     return (
         <div className="create__select-components">
@@ -23,27 +32,30 @@ export const SelectItemWrap = ({ children, dropdown, selectedLanguage, setSelect
                     </div>
                 )}
             </div>
-
-            <div className="tag-select language-select">
-                <div className="tag-title__block">
-                    <h3 className="tag-title">Language</h3>
+            {selectedLanguage && setSelectedLanguage && (
+                <div className="tag-select language-select">
+                    <div className="tag-title__block">
+                        <h3 className="tag-title">Language</h3>
+                    </div>
+                    <h4 className="tag-sub-title">Language Tags</h4>
+                    <div className="tag-preset">
+                        <button
+                            className={`tag-button presets ${selectedLanguage === 'KOR' ? 'enable' : ''}`}
+                            // onClick={() => setSelectedLanguage("KOR")}
+                            onClick={() => handleLanguage('KOR')}
+                        >
+                            KOR
+                        </button>
+                        <button
+                            className={`tag-button presets ${selectedLanguage === 'ENG' ? 'enable' : ''}`}
+                            // onClick={() => setSelectedLanguage("ENG")}
+                            onClick={() => handleLanguage('ENG')}
+                        >
+                            ENG
+                        </button>
+                    </div>
                 </div>
-                <h4 className="tag-sub-title">Language Tags</h4>
-                <div className="tag-preset">
-                    <button
-                        className={`tag-button presets ${selectedLanguage === 'KOR' ? 'enable' : ''}`}
-                        onClick={() => setSelectedLanguage('KOR')}
-                    >
-                        KOR
-                    </button>
-                    <button
-                        className={`tag-button presets ${selectedLanguage === 'ENG' ? 'enable' : ''}`}
-                        onClick={() => setSelectedLanguage('ENG')}
-                    >
-                        ENG
-                    </button>
-                </div>
-            </div>
+            )}
 
             {visible ? children : null}
         </div>
@@ -106,23 +118,6 @@ export const SelectItem = ({ mainTitle, subTitle, preset, setter, objKey, select
 
     return (
         <div className="tag-select">
-            {/* <div className="tag-title__block">
-        <h3 className="tag-title">Language</h3>
-      </div>
-      <h4 className="tag-sub-title">Language Tags</h4>
-      <div className="tag-preset">
-        <button
-          className="tag-button presets enable"
-        >
-          KOR
-        </button>
-        <button
-          className="tag-button presets"
-        >
-          ENG
-        </button>
-      </div> */}
-
             <div className="tag-title__block">
                 <h3 className="tag-title">{mainTitle}</h3>
                 {/* <p className="tag-title__notice">
@@ -208,21 +203,28 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
             </div>
             <div
                 className={`tag-title__tempos ${
-                    tempo > 59 && tempo < 80 ? 'slow' : tempo > 80 && tempo < 120 ? 'medium' : tempo > 120 ? 'fast' : ''
+                    tempo >= 60 && tempo <= 80
+                        ? 'slow'
+                        : tempo > 80 && tempo <= 120
+                        ? 'medium'
+                        : tempo > 120
+                        ? 'fast'
+                        : ''
                 }`}
             >
-                {tempo > 59 && tempo < 80 && 'Slow : Calm and reflective (60-80 BPM)'}
-                {tempo > 80 && tempo < 120 && 'Medium: Balanced and versatile (81-120 BPM)'}
+                {tempo >= 60 && tempo <= 80 && 'Slow : Calm and reflective (60-80 BPM)'}
+                {tempo > 80 && tempo <= 120 && 'Medium: Balanced and versatile (81-120 BPM)'}
                 {tempo > 120 && 'Fast: Energetic and upbeat (121-160 BPM)'}
             </div>
             <div className="tag-select__range" ref={rangeRef}>
-                {rangesInstance?.getSteps().map(() => {
+                {rangesInstance?.getSteps().map((item, index) => {
                     return (
                         <div
                             className="tag-select__range--applicable"
                             style={{
                                 width: `${rangesInstance.getPercentageForValue(tempo)}%`,
                             }}
+                            key={index}
                         ></div>
                     );
                 })}
@@ -251,11 +253,11 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
     );
 };
 
-export const SelectItemStory = ({ value, setter }) => {
+export const SelectItemInputOnly = ({ value, setter, title }) => {
     return (
         <div className="tag-select">
             <div className="tag-title__block">
-                <h3 className="tag-title">Your Story</h3>
+                <h3 className="tag-title">{title}</h3>
                 {/* <p className="tag-title__notice">You can enter up to 100 words</p> */}
             </div>
             <input

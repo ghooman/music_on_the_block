@@ -2,13 +2,14 @@
 import "../styles/AccountSetting.scss";
 import { useState, useRef, useContext } from "react";
 import axios from "axios";
-
 import { useUserDetail } from "../hooks/useUserDetail";
 // 이미지
 import demoUser from "../assets/images/account/demo-user1.png";
 import editIcon1 from "../assets/images/icon/picture1.svg";
 import editIcon2 from "../assets/images/icon/picture2.svg";
 import { AuthContext } from "../contexts/AuthContext";
+import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
+
 const AccountSetting = () => {
   const { data: userData, refetch } = useUserDetail();
   const { token } = useContext(AuthContext);
@@ -16,6 +17,7 @@ const AccountSetting = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   const [profileImg, setProfileImg] = useState(userData?.profile || demoUser);
   const [selectedFile, setSelectedFile] = useState(null);
   const [bgImg, setBgImg] = useState("");
@@ -41,7 +43,7 @@ const AccountSetting = () => {
   // 파일 input 참조 (프로필 이미지 변경용)
   const fileInputRef = useRef(null);
 
-  // 유효성 검사 함수
+  // 기존 유효성 검사 함수 (필요시 활용)
   const validate = () => {
     let errors = {
       userName: [],
@@ -87,8 +89,78 @@ const AccountSetting = () => {
     }
   };
 
-  // 유저 정보 및 프로필 사진 변경 함수
-  const changeUserInfo = async () => {
+  // 업데이트 요청 전 닉네임, 이메일 변경 시 각각 형식 및 중복검사를 수행한 후
+  // 모두 통과하면 서버에 수정 요청을 보내는 함수입니다.
+  const updateUserInfo = async () => {
+    // 초기화
+    setErrorMessages({
+      userName: [],
+      nation: [],
+      email: [],
+      intro: [],
+      socials: [],
+    });
+
+    let valid = true;
+    const newErrors = {
+      userName: [],
+      nation: [],
+      email: [],
+      intro: [],
+      socials: [],
+    };
+
+    // 닉네임 수정 시 검사 (변경된 경우에만)
+    if (userName !== userData?.name) {
+      const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
+      if (!nameRegex.test(userName)) {
+        newErrors.userName.push(
+          "Invalid username format. Must be 1-10 characters with no special characters."
+        );
+        valid = false;
+      } else {
+        try {
+          const res = await checkArtistName(userName, token);
+          // API 응답에서 true는 사용 가능(생성 가능한 경우)를 의미합니다.
+          if (!res.data) {
+            newErrors.userName.push(
+              "This username is already taken. Please try another."
+            );
+            valid = false;
+          }
+        } catch (error) {
+          newErrors.userName.push("Error checking username.");
+          valid = false;
+        }
+      }
+    }
+
+    // 이메일 수정 시 검사 (변경된 경우에만)
+    if (email !== userData?.email) {
+      const emailRegex = /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/;
+      if (!emailRegex.test(email)) {
+        newErrors.email.push("Invalid email format.");
+        valid = false;
+      } else {
+        try {
+          const res = await checkEmail(email, token);
+          if (!res.data) {
+            newErrors.email.push(
+              "This email is already registered. Please try another."
+            );
+            valid = false;
+          }
+        } catch (error) {
+          newErrors.email.push("Error checking email.");
+          valid = false;
+        }
+      }
+    }
+
+    setErrorMessages(newErrors);
+    if (!valid) return;
+
+    // 수정 가능한 나머지 항목들은 별도의 검사 없이 진행합니다.
     try {
       const formData = new FormData();
       const payload = {
@@ -97,7 +169,6 @@ const AccountSetting = () => {
         introduce: intro,
         wallet_address: userData?.wallet_address,
       };
-
       formData.append("payload", JSON.stringify(payload));
 
       if (selectedFile) {
@@ -117,7 +188,7 @@ const AccountSetting = () => {
       refetch();
       scrollToTop();
     } catch (error) {
-      console.error(error);
+      console.error("회원정보 수정 에러:", error);
     }
   };
 
@@ -167,6 +238,7 @@ const AccountSetting = () => {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
+              {/* 기존 버튼은 그대로 두되, 최종 업데이트 시 검증됩니다 */}
               <button className="user-info__edit-btn" onClick={validate}>
                 Change(1 MOB)
               </button>
@@ -198,6 +270,7 @@ const AccountSetting = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {/* 이메일 변경 버튼도 개별적으로는 validate 함수를 호출(원래 코드) */}
               <button className="user-info__edit-btn">Change</button>
             </div>
             {errorMessages.email.map((err, idx) => (
@@ -309,7 +382,7 @@ const AccountSetting = () => {
         </div>
       </section>
       <section className="account-setting__submit">
-        <button className="submit-btn" onClick={changeUserInfo}>
+        <button className="submit-btn" onClick={updateUserInfo}>
           Update User Info
         </button>
       </section>

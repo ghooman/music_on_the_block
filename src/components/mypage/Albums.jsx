@@ -183,9 +183,7 @@ const Albums = () => {
       <section className="albums__my-albums">
         <div className="my-albums__header">
           <p className="my-albums__title">My Albums</p>
-          <button className="my-albums__more-btn">
-            View All
-          </button>
+          <button className="my-albums__more-btn">View All</button>
         </div>
         <div className="my-albums__input">
           <input

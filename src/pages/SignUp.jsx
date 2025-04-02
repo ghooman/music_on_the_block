@@ -1,7 +1,7 @@
 // pages/SignUp.js
 import "../styles/SignUp.scss";
 import React, { useState, useEffect, useContext } from "react";
-import { useQueryClient } from "react-query"; //
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import profileImg from "../assets/images/progile-img.svg";
 import popImg from "../assets/images/sing-up/POP-img.png";
@@ -13,6 +13,7 @@ import jazzImg from "../assets/images/sing-up/JAZZ-img.png";
 import SingUpCompleteModal from "../components/SingUpCompleteModal";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
+import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -25,23 +26,22 @@ const AIDetailedSettings = ({
   selectedImageFile,
   setSelectedImageFile,
 }) => {
-  const serverApi = process.env.REACT_APP_SERVER_API;
   const { walletAddress, token } = useContext(AuthContext);
   const [selectedImagePreview, setSelectedImagePreview] = useState(null);
   const [passName, setPassName] = useState(false);
   const [passEmail, setPassEmail] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-
   const maxLength = 150;
 
+  // 이미지 업로드 핸들러
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file && file.size <= 3 * 1024 * 1024) {
-      setSelectedImageFile(file); // 파일 객체를 상태에 저장합니다.
+      setSelectedImageFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
-        setSelectedImagePreview(e.target.result); // 미리보기용 data URL
+        setSelectedImagePreview(e.target.result);
       };
       reader.readAsDataURL(file);
     } else {
@@ -49,8 +49,70 @@ const AIDetailedSettings = ({
     }
   };
 
+  // 아티스트 이름 중복검사 처리
+  const handleArtistNameCheck = async () => {
+    setNameErrorMessage("");
+    setPassName(false);
+    const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
+    if (!nameRegex.test(formData.artistName)) {
+      setNameErrorMessage(
+        "Special characters are not allowed in the name, and it must be no more than 10 characters"
+      );
+      return;
+    }
+    try {
+      const response = await checkArtistName(formData.artistName, token);
+      console.log(response);
+      // 응답 값이 true이면 생성 가능(사용 가능)한 경우입니다.
+      if (response.data === true) {
+        setPassName(true);
+      } else {
+        setPassName(false);
+        setNameErrorMessage(
+          "This name is already in use. Please choose a different one."
+        );
+      }
+    } catch (error) {
+      console.error("name error:", error);
+      setNameErrorMessage(
+        "This name is already in use. Please choose a different one."
+      );
+    }
+  };
+
+  // 이메일 중복검사
+  const handleEmailCheck = async () => {
+    setEmailErrorMessage("");
+    setPassEmail(false);
+    const validateEmailFormat = (email) => {
+      return /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/.test(email);
+    };
+    if (!validateEmailFormat(formData.email)) {
+      setEmailErrorMessage("The email format is invalid.");
+      return;
+    }
+    try {
+      const response = await checkEmail(formData.email, token);
+      console.log(response);
+      // 응답 값이 true이면 생성 가능(사용 가능)한 경우입니다.
+      if (response.data === true) {
+        setPassEmail(true);
+      } else {
+        setPassEmail(false);
+        setEmailErrorMessage(
+          "This email is already registered. Please enter a different email address."
+        );
+      }
+    } catch (error) {
+      console.error("email error", error);
+      setEmailErrorMessage(
+        "This email is already registered. Please enter a different email address."
+      );
+    }
+  };
+
   const [checks, setChecks] = useState([false, false, false, false]);
-  const [checkList, setCheckList] = useState();
+  const [checkList, setCheckList] = useState(false);
 
   const chekkkk = [
     {
@@ -75,7 +137,7 @@ const AIDetailedSettings = ({
 
   useEffect(() => {
     setCheckList(checks.every((item) => item));
-  }, [checks, setCheckList]);
+  }, [checks]);
 
   return (
     <div className="sing-up__setting">
@@ -117,37 +179,7 @@ const AIDetailedSettings = ({
                 setPassName(false);
               }}
             />
-            <button
-              className="btn"
-              onClick={async () => {
-                setNameErrorMessage("");
-                setPassName(false);
-                const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
-                if (!nameRegex.test(formData.artistName)) {
-                  setNameErrorMessage(
-                    "Special characters are not allowed in the name, and it must be no more than 10 characters"
-                  );
-                  return;
-                }
-                try {
-                  const response = await axios.get(
-                    `${serverApi}/api/user/name/check?name=${formData.artistName}`,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                      },
-                    }
-                  );
-                  console.log(response);
-                  setPassName(true);
-                } catch (error) {
-                  console.error("name error:", error);
-                  setNameErrorMessage(
-                    "This name is already in use. Please choose a different one."
-                  );
-                }
-              }}
-            >
+            <button className="btn" onClick={handleArtistNameCheck}>
               check
             </button>
           </div>
@@ -193,39 +225,7 @@ const AIDetailedSettings = ({
                 setPassEmail(false);
               }}
             />
-            <button
-              className="btn"
-              onClick={async () => {
-                setEmailErrorMessage("");
-                setPassEmail(false);
-                const validateEmailFormat = (email) => {
-                  return /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/.test(
-                    email
-                  );
-                };
-                if (!validateEmailFormat(formData.email)) {
-                  setEmailErrorMessage("The email format is invalid.");
-                  return;
-                }
-                try {
-                  const response = await axios.get(
-                    `${serverApi}/api/user/email/check?email=${formData.email}`,
-                    {
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                      },
-                    }
-                  );
-                  console.log(response);
-                  setPassEmail(true);
-                } catch (error) {
-                  console.error("email error", error);
-                  setEmailErrorMessage(
-                    "This email is already registered. Please enter a different email address."
-                  );
-                }
-              }}
-            >
+            <button className="btn" onClick={handleEmailCheck}>
               check
             </button>
           </div>
@@ -267,7 +267,7 @@ const AIDetailedSettings = ({
                 })
               }
               type="checkbox"
-            ></input>
+            />
             <span className="check"></span>
             <div className="check-list__items__cover">
               <p className="check-list__items--title">{item.title}</p>
@@ -296,9 +296,7 @@ const AIDetailedSettings = ({
 };
 
 const PreferredGenre = ({ onBack, onNext }) => {
-  const [selectedGenre, setSelectedGenre] = useState(null); // 선택된 장르 상태
-
-  // 장르별 이미지 매핑
+  const [selectedGenre, setSelectedGenre] = useState(null);
   const genreImages = {
     POP: popImg,
     "R&B": randbImg,
@@ -309,8 +307,9 @@ const PreferredGenre = ({ onBack, onNext }) => {
   };
 
   const handleGenreClick = (genre) => {
-    setSelectedGenre(genre); // 선택한 장르 업데이트
+    setSelectedGenre(genre);
   };
+
   return (
     <div className="sing-up__setting">
       <dl className="sing-up__setting__banner">
@@ -360,7 +359,8 @@ const PreferredGenre = ({ onBack, onNext }) => {
 };
 
 function SignUp() {
-  const { token, walletAddress, isRegistered } = useContext(AuthContext);
+  const { token, walletAddress, isRegistered, setIsRegistered } =
+    useContext(AuthContext);
   const [step, setStep] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -368,10 +368,10 @@ function SignUp() {
     email: "",
     introduction: "",
   });
-  const [selectedImageFile, setSelectedImageFile] = useState(null); // 이미지 파일 객체를 저장할 상태
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
   const navigate = useNavigate();
-  const queryClient = useQueryClient(); // queryClient 생성
-  // 회원가입 완료된 사용자는 SignUp 페이지에 접근할 수 없도록 함
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (!walletAddress) {
       console.log("지갑주소가 없습니다. 메인 페이지로 이동합니다.");
@@ -397,7 +397,6 @@ function SignUp() {
       walletAddress && walletAddress.address
         ? String(walletAddress.address)
         : "";
-    console.log("walletAddrString:", walletAddrString);
     try {
       const formDataToSend = new FormData();
       if (selectedImageFile) {
@@ -409,7 +408,6 @@ function SignUp() {
         introduce: formData.introduction,
         wallet_address: walletAddrString,
       };
-      console.log("payload:", JSON.stringify(payload));
       formDataToSend.append("payload", JSON.stringify(payload));
 
       const response = await axios.post(
@@ -422,15 +420,10 @@ function SignUp() {
         }
       );
       console.log("handleSignUp", response);
-      console.log("보내는 데이터", formData, walletAddrString, token);
-      console.log("image", selectedImageFile);
       setShowModal(true);
-      // 회원가입 성공 후, 사용자 정보 캐시를 갱신합니다.
       queryClient.invalidateQueries("userDetail");
     } catch (error) {
-      console.log("image", selectedImageFile);
       console.error("회원가입 에러:", error);
-      console.log("보내는 데이터", formData, walletAddress?.address, token);
     }
   };
 
@@ -445,17 +438,13 @@ function SignUp() {
           setSelectedImageFile={setSelectedImageFile}
         />
       ) : (
-        <PreferredGenre
-          formData={formData}
-          setFormData={setFormData}
-          onBack={() => setStep(1)}
-          onNext={handleNext}
-        />
+        <PreferredGenre onBack={() => setStep(1)} onNext={handleNext} />
       )}
       {showModal && (
         <SingUpCompleteModal
           setShowModal={setShowModal}
           message={"Congratulations on signing up!"}
+          setIsRegistered={setIsRegistered}
           link={"/"}
         />
       )}

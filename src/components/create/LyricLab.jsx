@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 import jsPDF from 'jspdf';
 
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemWrap, SelectItemStory } from './SelectItem';
+import { SelectItem, SelectItemWrap, SelectItemInputOnly } from './SelectItem';
 
 import subBg2 from '../../assets/images/create/subbanner-bg2.png';
 
@@ -123,7 +123,7 @@ const LyricLab = ({
             lylicData.lyric_stylistic[0].trim() !== '') ||
         (lyricStory && lyricStory.trim() !== '');
 
-    console.log('lylicData', lylicData);
+    // console.log('lylicData', lylicData);
     // 지피티4o API 호출 함수
     async function callGPT4oResponses() {
         try {
@@ -152,7 +152,8 @@ const LyricLab = ({
     // 가사 생성완료 되었을 경우 스크롤 이동
     useEffect(() => {
         if (createdLyrics && generatedLyricsRef.current) {
-            generatedLyricsRef.current.scrollIntoView({ behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // generatedLyricsRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [createdLyrics]);
 
@@ -217,7 +218,7 @@ const LyricLab = ({
                         multiple
                         add
                     />
-                    <SelectItemStory value={lyricStory} setter={setLyricStory} />
+                    <SelectItemInputOnly value={lyricStory} setter={setLyricStory} title="Your Story" />
                 </SelectItemWrap>
                 <SubBanner>
                     <SubBanner.LeftImages src={subBg2} />
@@ -242,9 +243,9 @@ const LyricLab = ({
 
                 <div className="button-wrap">
                     <div className="button-wrap__left">
-                        <ExpandedButton className="skip" onClick={onSkip}>
-                            Skip
-                        </ExpandedButton>
+                        {/* <ExpandedButton className="skip" onClick={onSkip}>
+              Skip
+            </ExpandedButton> */}
                     </div>
                     <ExpandedButton
                         className={!isAnyFieldFilled || loading ? 'next' : 'next enable'}

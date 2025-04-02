@@ -18,6 +18,8 @@ import Intro from './components/Intro';
 import Footer from './components/Footer';
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import CollectionDetail from './pages/CollectionDetail';
 function Layout({ children }) {
     return (
@@ -64,7 +66,9 @@ function App() {
                             path="/my-page"
                             element={
                                 <Layout>
-                                    <MyPage />
+                                    <ProtectedRoute>
+                                        <MyPage />
+                                    </ProtectedRoute>
                                 </Layout>
                             }
                         />
@@ -72,7 +76,9 @@ function App() {
                             path="/account-setting"
                             element={
                                 <Layout>
-                                    <AccountSetting />
+                                    <ProtectedRoute>
+                                        <AccountSetting />
+                                    </ProtectedRoute>
                                 </Layout>
                             }
                         />

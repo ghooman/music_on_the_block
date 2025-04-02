@@ -267,11 +267,11 @@ function AlbumDetail() {
   const [album, setAlbum] = useState(null);
   // 앨범 상세 정보 가져오기
   const fetchAlbumDetail = async () => {
-    const url = walletAddress?.address
-      ? `${serverApi}/api/music/${id}?wallet_address=${walletAddress.address}`
-      : `${serverApi}/api/music/${id}`;
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(
+        `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
+      );
+
       console.log("앨범 상세 정보:", response.data);
       setAlbum(response.data);
     } catch (error) {

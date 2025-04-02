@@ -1,9 +1,9 @@
 // components/AlarmModal.js
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
 import "./AlarmModal.scss";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import closeIcon from "../assets/images/close.svg";
-
+import { AuthContext } from "../contexts/AuthContext";
 // 환경변수를 통해 웹소켓 URL을 관리하도록 함 (환경변수 미설정 시 기본값 사용)
 const WS_URL = "wss://muble.xyz/ws/album_status/";
 const albumIdStorageKey = "generatedAlbumId";
@@ -28,8 +28,10 @@ const getStoredAlbumData = () => {
 };
 
 const AlarmModal = () => {
+  const { walletAddress } = useContext(AuthContext);
   const location = useLocation();
   const [albumPk, setAlbumPk] = useState(null); // 소켓에서 온 pk를 저장하는 상태 변수
+  const [albumWalletAddress, setAlbumWalletAddress] = useState(null);
   const [storedAlbumData, setStoredAlbumData] = useState(getStoredAlbumData());
   const [isClosed, setIsClosed] = useState(false);
   const socketRef = useRef(null);
@@ -51,6 +53,7 @@ const AlarmModal = () => {
         if (data && data.status) {
           if (data.status === "complt") {
             setAlbumPk(data.pk); // 소켓에서 받은 pk 저장
+            setAlbumWalletAddress(data.wallet_address); // 소켓에서 받은 wallet_address 저장
             // 완료 상태이면 localStorage의 id를 삭제합니다.
             localStorage.removeItem(albumIdStorageKey);
             setStoredAlbumData(null);
@@ -104,9 +107,12 @@ const AlarmModal = () => {
 
   // localStorage에 저장된 id가 없고 소켓에서 받은 albumPk도 없으면 모달을 렌더링하지 않음
   if (!storedAlbumData && !albumPk) return null;
+  if (walletAddress?.address !== albumWalletAddress) return null;
   console.log("isClosed", isClosed);
   console.log("storedAlbumData", storedAlbumData);
   console.log("albumPk", albumPk);
+  console.log("walletAddress", walletAddress.address);
+  console.log("albumWalletAddress", albumWalletAddress);
 
   return (
     <>

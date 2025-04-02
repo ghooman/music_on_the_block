@@ -1,6 +1,6 @@
 // components/AlarmModal.js
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./AlarmModal.scss";
 import closeIcon from "../assets/images/close.svg";
 
@@ -29,6 +29,7 @@ const getStoredAlbumId = () => {
 };
 
 const AlarmModal = () => {
+  const location = useLocation();
   const [albumPk, setAlbumPk] = useState(null); // 소켓에서 온 pk를 저장하는 상태 변수
   const [storedAlbumId, setStoredAlbumId] = useState(getStoredAlbumId());
   const [isClosed, setIsClosed] = useState(false);
@@ -76,7 +77,7 @@ const AlarmModal = () => {
       // 의도치 않은 종료일 경우 재연결 시도
       if (!e.wasClean) {
         setTimeout(() => {
-          console.log("웹 소켓 재연결 시도...");
+          // console.log("웹 소켓 재연결 시도...");
           connectWebSocket();
         }, RECONNECT_INTERVAL);
       }
@@ -92,7 +93,7 @@ const AlarmModal = () => {
         socketRef.current.close();
       }
     };
-  }, []);
+  }, [location]);
 
   const handleClose = () => {
     setIsClosed(true);

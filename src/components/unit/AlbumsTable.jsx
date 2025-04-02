@@ -32,7 +32,7 @@ const AlbumsTable = () => {
       }
     };
     fetchAlbums();
-  }, [serverApi, token]);
+  }, [serverApi, token, page]);
   return (
     <div className="albums-table">
       <table>

@@ -23,7 +23,6 @@ import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
-import NoneContent from "../components/NoneContent";
 //스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import {

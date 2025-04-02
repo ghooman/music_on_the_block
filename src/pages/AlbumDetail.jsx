@@ -16,7 +16,7 @@ import coverImg8 from "../assets/images/demo/album05.svg";
 import coverImg9 from "../assets/images/demo/album06.svg";
 import demoImg from "../assets/images/intro/intro-demo-img4.png";
 import loveIcon from "../assets/images/like-icon/like-icon.svg";
-import lovedIcon from "../assets/images/like-icon/like-icon-on.svg";
+import halfHeartIcon from "../assets/images/like-icon/like-icon-on.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
 import commentIcon from "../assets/images/album/chat-icon.svg";
 import shareIcon from "../assets/images/album/share-icon.svg";
@@ -272,11 +272,14 @@ function AlbumDetail() {
   useEffect(() => {
     const fetchAlbumDetail = async () => {
       try {
-        const response = await axios.get(`${serverApi}/api/music/${id}`, {
-          params: {
-            wallet_address: walletAddress,
-          },
-        });
+        const response = await axios.get(
+          `${serverApi}/api/music/${id}?wallet_address=${walletAddress}`,
+          {
+            params: {
+              wallet_address: walletAddress,
+            },
+          }
+        );
 
         console.log("앨범 상세 정보:", response.data);
         setAlbum(response.data);
@@ -335,10 +338,12 @@ function AlbumDetail() {
               <div className="album-detail__song-detail__left__info">
                 <div className="album-detail__song-detail__left__info__number">
                   <button className="love" onClick={handleToggleLove}>
-                    <img src={loved ? lovedIcon : loveIcon} alt="love" />
-                    {loved ? 146 : 145}
+                    <img
+                      src={album.is_like ? halfHeartIcon : loveIcon}
+                      alt="love Icon"
+                    />
+                    {album?.like || 0}
                   </button>
-                  {/* <button className="play"><img src={playIcon}/>125K</button> */}
                   <button className="comment" onClick={handleScrollToComment}>
                     <img src={commentIcon} />
                     125K

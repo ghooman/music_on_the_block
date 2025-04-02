@@ -24,7 +24,7 @@ const AdvancedCommentComponent = ({ id }) => {
       const response = await axios.get(
         `${serverApi}/api/music/${id}/comment?page=${commentPage}`
       );
-      console.log("fetchCommentList", response.data);
+      // console.log("fetchCommentList", response.data);
       const transformedComments = response.data.data_list.map((item) => ({
         userId: item.id,
         comId: `${item.id}_${new Date(item.create_dt).getTime()}`,

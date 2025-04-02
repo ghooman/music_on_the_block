@@ -1,0 +1,153 @@
+.collection-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    .collection-detail-info-wrap {
+        padding-bottom: 14px;
+        border: 1px solid #cf0;
+        border-radius: 12px;
+    }
+    .collection-detail-info {
+        width: 100%;
+        padding: 16px;
+        border-bottom: 1px solid #cf0;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .collection-detail-info__data {
+        display: flex;
+        gap: 16px;
+    }
+    .collection-detail-info__data--texts {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .texts__title {
+            color: #fff;
+            font-family: Orbitron400;
+            font-size: 20px;
+            letter-spacing: 0.6px;
+        }
+        // 여기 그냥 컴포넌트로 뺄까봐요ㅋ
+        .texts__user {
+            display: flex;
+            align-items: center;
+            color: #f1f1f1;
+            font-family: Inter400;
+            font-size: 14px;
+            letter-spacing: 0.42px;
+            gap: 10px;
+            img {
+                width: 24px;
+                height: 24px;
+                object-fit: cover;
+            }
+        }
+        .texts__desc {
+            display: flex;
+            gap: 8px;
+        }
+        .texts__desc--title {
+            white-space: nowrap;
+            color: #f1f1f1;
+            font-family: Inter400;
+            font-size: 16px;
+            letter-spacing: 0.48px;
+        }
+        .texts__desc--text {
+            color: #aaa;
+            font-family: Inter400;
+            font-size: 16px;
+            letter-spacing: 0.48px;
+        }
+    }
+    .collection-detail-info__like {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #aaa;
+        font-family: Inter400;
+        font-size: 12px;
+        letter-spacing: 0.36px;
+    }
+    .collection-detail-info__data--image {
+        object-fit: cover;
+        max-width: 180px;
+        max-height: 180px;
+        border-radius: 12px;
+    }
+
+    //=======
+    .collection-detail-info__stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+
+        .stats__item {
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            border: 1px solid #cf0;
+            border-radius: 12px;
+        }
+        .stats__item--title {
+            color: #cf0;
+            font-family: Orbitron400;
+            font-size: 10px;
+            letter-spacing: 0.3px;
+        }
+        .stats__item--value {
+            display: flex;
+            justify-content: space-between;
+        }
+        .stats__item--value__text {
+            color: #007e56;
+            font-family: Orbitron600;
+            font-size: 14px;
+            letter-spacing: 0.42px;
+        }
+        .stats__item--value__suffix {
+            color: #a3a3a3;
+            font-family: Orbitron400;
+            font-size: 12px;
+            letter-spacing: 0.36px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .collection-detail {
+        .collection-detail-info__data--texts {
+            .texts__desc {
+                flex-direction: column;
+            }
+        }
+
+        .collection-detail-info__stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .collection-detail {
+        .collection-detail-info__data {
+            flex-direction: column;
+        }
+        .collection-detail-info__data--image {
+            order: 1;
+            width: 100%;
+            max-width: none;
+            max-height: none;
+            aspect-ratio: 1/1;
+        }
+        .collection-detail-info__data--texts {
+            order: 2;
+        }
+    }
+}

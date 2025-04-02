@@ -1,0 +1,37 @@
+.info-grid {
+    .info-grid__title {
+        color: var(--Text-title, #F1F1F1);
+        font-family: Inter600;
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .info-grid__content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+
+        .info-grid__content--item {
+            background: #222;
+            border-radius: 12px;
+            padding: 16px;
+
+            &.long {
+                grid-column: 1 / -1;
+            }
+
+            dt {
+                color: var(--Text-sub, #AAA);
+                font-family: Inter400;
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+
+            dd {
+                color: var(--Text-title, #F1F1F1);
+                font-family: Inter600;
+                font-size: 14px;
+            }
+        }
+    }
+} 

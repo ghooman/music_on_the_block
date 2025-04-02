@@ -1,6 +1,7 @@
 .nft-component-categories {
     width: 100%;
     display: flex;
+    overflow: auto;
     gap: 12px;
 
     .nft-component-categories__item {
@@ -13,7 +14,8 @@
         font-family: Orbitron500;
         font-size: 14px;
         font-style: normal;
-
+        float: left;
+        white-space: nowrap;
         &.selected {
             color: #1a1a1a;
             background-color: #cf0;
@@ -30,5 +32,6 @@
         font-family: Orbitron500;
         font-size: 14px;
         letter-spacing: 0.42px;
+        white-space: nowrap;
     }
 }

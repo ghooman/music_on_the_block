@@ -33,10 +33,10 @@
 
 .alarm__modal{
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0px;
   width: 320px;
-  height: 100vh;
+  height: auto;
   z-index: 10;
   padding: 16px;
   display: flex;
@@ -153,6 +153,26 @@
 
   }//alarm__modal__item--END--
 }//alarm__modal--END--
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  .alarm__modal{
+    width: 100%;
+    right: 0;
+    height: auto;
+    top: auto;
+    bottom: 0;
+    &.active{
+      right: -100%;
+    }
+    .alarm__modal__item{
+      width: 100%;
+    } 
+  }
+}
 
 
 

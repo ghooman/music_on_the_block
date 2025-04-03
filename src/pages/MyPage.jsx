@@ -67,9 +67,9 @@ const MyPage = () => {
               <p className="mypage__username">{userData?.name}</p>
               <div className="mypage__stats">
                 <div className="stats__info">
-                  <img src={demoFlag} alt="flag" />
-                  <span className="neon">Kor</span>
-                  <span>/ Level</span>
+                  {/* <img src={demoFlag} alt="flag" /> */}
+                  {/* <span className="neon">Kor</span> */}
+                  <span>Level</span>
                   <span className="neon">10</span>
                 </div>
               </div>
@@ -81,7 +81,7 @@ const MyPage = () => {
           <p className="mypage__bio">
             {userData?.introduce || "No introduction"}
           </p>
-          <div className="mypage__social-icons">
+          {/* <div className="mypage__social-icons">
             <button className="social-icon">
               <img src={instarIcon} alt="social" />
             </button>
@@ -97,10 +97,10 @@ const MyPage = () => {
             <button className="social-icon">
               <img src={youtubeIcon} alt="social" />
             </button>
-          </div>
+          </div> */}
           <div className="mypage__exp">
             <div className="mypage__exp-box">
-              <span className="exp-box__neon">EXP</span>
+              <span className="exp-box__neon">MIC</span>
               <span className="exp-box__value">52,104</span>
             </div>
             <div className="mypage__exp-box">

@@ -155,6 +155,9 @@
 
 @media screen and (max-width: 768px) {
   .intro-logo{
-    transform: scale(0.7);
+    .text-box{
+      transform: scale(0.7);
+
+    }
   }
 }

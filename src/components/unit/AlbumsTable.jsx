@@ -34,62 +34,65 @@ const AlbumsTable = () => {
     fetchAlbums();
   }, [serverApi, token, page]);
   return (
-    <div className="albums-table">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Artist</th>
-            {/* <th>AI Service</th>
-            <th>AI Service Type</th> */}
-            <th>Song Title</th>
-            <th>Date</th>
-            <th>Like</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {albums && albums.length > 0 && (
-            <>
-              {albums?.map((album, index) => (
-                <tr key={album.id}>
-                  <td>{index + 1}</td>
-                  <td>{album.name}</td>
-                  {/* <td>{album.ai_service}</td>
-              <td>{album.ai_service_type}</td> */}
-                  <td>{album.title}</td>
-                  <td>{album.create_dt}</td>
-                  <td>
-                    <div className="td-content">
-                      <img src={halfHeartIcon} alt="like-heart-icon"></img>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="td-content">
-                      <button
-                        className="albums-table__detail-btn"
-                        onClick={() => navigator(`/album-detail/${album.id}`)}
-                      >
-                        Detail
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </>
-          )}
-        </tbody>
-      </table>
-      <Pagination
-        page={page}
-        setPage={(page) => setPage(page)}
-        totalCount={totalCount}
-        viewCount={viewCount}
-      />
-      {albums?.length === 0 && (
-        <NoneContent message={"No albums created"} height={300} />
-      )}
-    </div>
+    <>
+      <div className="albums-table">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Artist</th>
+              {/* <th>AI Service</th>
+              <th>AI Service Type</th> */}
+              <th>Song Title</th>
+              <th>Date</th>
+              <th>Like</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {albums && albums.length > 0 && (
+              <>
+                {albums?.map((album, index) => (
+                  <tr key={album.id}>
+                    <td>{index + 1}</td>
+                    <td>{album.name}</td>
+                    {/* <td>{album.ai_service}</td>
+                <td>{album.ai_service_type}</td> */}
+                    <td>{album.title}</td>
+                    <td>{album.create_dt}</td>
+                    <td>
+                      <div className="td-content">
+                        <img src={halfHeartIcon} alt="like-heart-icon"></img>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="td-content">
+                        <button
+                          className="albums-table__detail-btn"
+                          onClick={() => navigator(`/album-detail/${album.id}`)}
+                        >
+                          Detail
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+        </table>
+        {albums?.length === 0 && (
+          <NoneContent message={"No albums created"} height={300} />
+        )}
+        <Pagination
+          page={page}
+          setPage={(page) => setPage(page)}
+          totalCount={totalCount}
+          viewCount={viewCount}
+        />
+      </div>
+    </>
+
   );
 };
 

@@ -203,15 +203,18 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Shop</dt>
+                  <dt>SNft Market Place</dt>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>Shop</Link>
+                    <Link onClick={() => setPreparingModal(true)}>Nft Market Place</Link>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Earn</dt>
+                  <dt>Eco System</dt>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>Earn</Link>
+                    <Link 
+                      to="https://eco.musicontheblock.com/"
+                      target="_blank"
+                    >Eco System</Link>
                   </dd>
                 </dl>
               </div>

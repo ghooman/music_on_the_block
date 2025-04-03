@@ -275,13 +275,13 @@ const AccountSetting = () => {
           </div>
         </div>
         <div className="details__item">
-          <p className="details__item-title">EXP</p>
+          <p className="details__item-title">MIC</p>
           <div className="details__input-box">
             <input
               type="text"
               className="details__input"
               placeholder="0"
-              value="0 EXP"
+              value="0 MIC"
             />
           </div>
         </div>

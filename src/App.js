@@ -19,6 +19,8 @@ import Footer from "./components/Footer";
 // 전역 상태
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CollectionDetail from "./pages/CollectionDetail";
+import NftItemDetail from "./pages/NftItemDetail";
 function Layout({ children }) {
     return (
         <div>
@@ -112,7 +114,24 @@ function App() {
                 </Layout>
               }
             />
+            <Route
+              path="nft/collection/detail"
+              element={
+                <Layout>
+                  <CollectionDetail/>
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/detail"
+              element={
+                <Layout>
+                  <NftItemDetail/>
+                </Layout>
+              }
+            />
           </Routes>
+          
         </div>
       </AuthProvider>
     </QueryClientProvider>

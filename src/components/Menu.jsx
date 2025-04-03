@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Menu.scss";
+import useWindowHeight from "../hooks/useWindowHeight";
 
 // 이미지
 import levelIcon from "../assets/images/menu/level-icon.svg";
@@ -20,6 +21,7 @@ const Menu = ({
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
+  const isBelowHeight = useWindowHeight(750);
 
   // AuthContext에서 전역 인증 상태 업데이트 함수 가져오기
   const { isLoggedIn, setIsLoggedIn, setWalletAddress } =
@@ -108,7 +110,7 @@ const Menu = ({
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
-      <div className={`menu ${active ? "active" : ""}`}>
+      <div className={`menu ${active ? "active" : ""} ${isBelowHeight ? "small-height" : ""}`}>
         <div className="menu__cover">
           <dl className="menu__box">
             <Link
@@ -165,7 +167,7 @@ const Menu = ({
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>45,345</p>
-                          <span>EXP</span>
+                          <span>MIC</span>
                         </div>
                       </div>
                     </div>

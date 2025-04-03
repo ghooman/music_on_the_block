@@ -11,6 +11,9 @@
 .album{
   padding-top: 124px;
   .album__header{
+    .album__header__mobile-detail-btn{
+      display: none;
+    }
     display: flex;
     align-items: center;
     gap: 16px;
@@ -102,6 +105,10 @@
       flex-direction: column;
       gap: 8px;
       z-index: 1;
+      img{
+        width: 16px;
+        height: 16px;
+      }
       .album__header__cover-info__love-play{
         display: flex;
         align-items: center;
@@ -119,6 +126,7 @@
         }
       }//album__header__cover-info__love-play--END--
       .album__header__cover-info__btn{
+        display: block;
         color: var(--Text-music-sub, #AAA);
         font-family: Inter400;
         font-size: 16px;
@@ -139,6 +147,7 @@
     gap: 8px;
     .rhap_time{
       color:#AAA !important;
+      width: 54px;
     }
     .rhap_download-progress{
       background: transparent !important;
@@ -349,6 +358,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            img{
+              width: 16px;
+              height: 16px;
+            }
             p{
               display: flex;
               align-items: center;
@@ -358,7 +371,12 @@
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
-              letter-spacing: 0.36px;
+              &:nth-child(2){
+                img{
+                  width: 14px;
+                  height: 14px;
+                }
+              }
             }
           }//album__content-list__list__item__right__love-play--END--
           .album__content-list__list__item__right__user{
@@ -599,6 +617,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            img{
+              width: 16px;
+              height: 16px;
+            }
             p{
               display: flex;
               align-items: center;
@@ -608,7 +630,12 @@
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
-              letter-spacing: 0.36px;
+              &:nth-child(2){
+                img{
+                  width: 14px;
+                  height: 14px;
+                }
+              }
             }
           }//swiper-music-list__item__right__love-play--END--
           .swiper-music-list__item__right__user{
@@ -697,9 +724,28 @@
 @media screen and (max-width: 768px) {
   .album{
     padding-top: 180px;
+    .rhap_main .rhap_time{
+      width: 58px;
+    }
+    .rhap_main-controls{
+      margin-top: -16px;
+      button{
+        height: 60px;
+      }
+    }
     .album__header{
       padding: 16px;
       gap: 0;
+      .album__header__mobile-detail-btn{
+        display: block !important;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 1;
+      }//album__header__mobile-detail-btn--END--
+      .album__header__cover-info__btn{
+        display: none !important;
+      }//album__header__cover-info__btn--END--
       .album__header__album-cover{
         position: static;
         &::after{

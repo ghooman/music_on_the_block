@@ -247,21 +247,15 @@ const LyricLab = ({
           className="mb40"
           style={{ display: "flex", flexDirection: "column", gap: 16 }}
         >
-          {isLyricPage && (
-            <SelectedWrap title="Lyric Lab">
-              <SelectedItem
-                title="Tags"
-                value={lylicData?.lyric_tag}
-                multiple
-              />
-              <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-              <SelectedItem title="Style" value={lylicData?.lyric_style} />
-              <SelectedItem
-                title="Stylistic"
-                value={lylicData?.lyric_stylistic}
-              />
-            </SelectedWrap>
-          )}
+          <SelectedWrap title="Lyric Lab">
+            <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
+            <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+            <SelectedItem title="Style" value={lylicData?.lyric_style} />
+            <SelectedItem
+              title="Stylistic"
+              value={lylicData?.lyric_stylistic}
+            />
+          </SelectedWrap>
         </div>
         {/* =========================================================================== */}
         {/* =================================== 넥스트 버튼 ======================================== */}

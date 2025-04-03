@@ -1,7 +1,8 @@
 // pages/MyPage.js
 import "../styles/MyPage.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import demoBg from "../assets/images/mypage/demo-bg.png";
 import demoUser from "../assets/images/mypage/demo-user.png";
 import demoFlag from "../assets/images/mypage/demo-flag.png";
@@ -22,6 +23,7 @@ import PreparingModal from "../components/PreparingModal";
 
 const MyPage = () => {
   const { data: userData } = useUserDetail();
+  const { token } = useContext(AuthContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get("category");
   const defaultService =
@@ -128,7 +130,7 @@ const MyPage = () => {
       </nav>
 
       {selectedService === "AI Services" && <AiServices />}
-      {selectedService === "Albums" && <Albums />}
+      {selectedService === "Albums" && <Albums token={token} />}
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}

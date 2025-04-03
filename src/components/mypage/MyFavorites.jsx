@@ -12,9 +12,7 @@ const MyFavorites = () => {
     <div className="my-favorites">
       <div className="my-favorites__header">
         <h1 className="my-favorites__title">My Favorites</h1>
-        <button className="my-favorites__view-all">
-          View All
-        </button>
+        <button className="my-favorites__view-all">View All</button>
       </div>
       <input
         className="my-favorites__search"

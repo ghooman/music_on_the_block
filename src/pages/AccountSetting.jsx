@@ -268,10 +268,11 @@ const AccountSetting = () => {
                 className="user-info__input"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                // onChange={(e) => setEmail(e.target.value)}
+                readOnly
               />
               {/* 이메일 변경 버튼도 개별적으로는 validate 함수를 호출(원래 코드) */}
-              <button className="user-info__edit-btn">Change</button>
+              {/* <button className="user-info__edit-btn">Change</button> */}
             </div>
             {errorMessages.email.map((err, idx) => (
               <span key={idx} className="user-info__error">

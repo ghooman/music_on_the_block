@@ -259,6 +259,26 @@
       }
     }
   }
+  .account-setting__submit {
+    display: flex;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 54px;
+    border-radius: 12px;
+    background: var(--primary-base, #cf0);
+    font-family: Orbitron600;
+    font-size: 18px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.54px;
+    margin-top: 40px;
+    button {
+      color: black;
+    }
+  }
   .account-setting__social {
     margin-bottom: 40px;
     display: flex;

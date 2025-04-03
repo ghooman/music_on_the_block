@@ -11,6 +11,7 @@ import "./LyricLab.scss";
 import ExpandedButton from "./ExpandedButton";
 import CreateLoading from "../CreateLoading";
 import { RemainCountButton } from "../unit/RemainCountButton";
+
 const tagPreset = {
   Love: ["passionate", "romantic", "tender", "endearing", "devoted"],
   Trable: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
@@ -18,10 +19,17 @@ const tagPreset = {
 };
 
 const genrePreset = {
+  "K-POP": ["POP"],
   POP: ["POP"],
   Ballad: ["Ballad"],
-  "R&B": ["R&B"],
+  "R&B / Soul": ["R&B / Soul"],
   Rock: ["Rock"],
+  "Hip-Hop / Rap": ["Hip-Hop / Rap"],
+  "Rock / Metal": ["Rock / Metal"],
+  "Folk/Blues/Country": ["Folk/Blues/Country"],
+  EDM: ["EDM"],
+  Classical: ["Classical"],
+  Reggae: ["Reggae"],
 };
 
 const stylePreset = {
@@ -36,6 +44,12 @@ const stylisticPreset = {
   Emotional: ["Emotional"],
   Bold: ["Bold"],
   Soft: ["Soft"],
+  Clear: ["Clear"],
+  Deep: ["Deep"],
+  Fun: ["Fun"],
+  Calm: ["Calm"],
+  Storytelling: ["Storytelling"],
+  Philosophical: ["Philosophical"],
 };
 
 // OpenAI 클라이언트 초기화
@@ -205,31 +219,12 @@ const LyricLab = ({
             <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
           </SubBanner>
           <SelectItem
-            mainTitle="Selet a Tags"
-            subTitle="Popular Tags"
-            setter={setLyricData}
-            objKey="lyric_tag"
-            selected={lylicData?.lyric_tag}
-            preset={tagPreset}
-            multiple
-          />
-          <SelectItem
             mainTitle="Select a Genre"
             subTitle="Popular Genre"
             setter={setLyricData}
             objKey="lyric_genre"
             selected={lylicData?.lyric_genre}
             preset={genrePreset}
-          />
-          <SelectItem
-            mainTitle="Select a Style"
-            subTitle="Popular Style"
-            setter={setLyricData}
-            objKey="lyric_style"
-            selected={lylicData?.lyric_style}
-            preset={stylePreset}
-            multiple
-            add
           />
           <SelectItem
             mainTitle="Select a Stylistic"

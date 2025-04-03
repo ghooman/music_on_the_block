@@ -7,6 +7,7 @@ import Pagination from '../components/nft/Pagination';
 import FilterItems from '../components/nft/FilterItems';
 import Search from '../components/nft/Search';
 import { InfoRowWrap } from '../components/nft/InfoRow';
+import CustomTable from '../components/CustomTable';
 
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
 import unLikeImage from '../assets/images/like-icon/like-icon.svg';
@@ -16,6 +17,42 @@ import dummy_userImage from '../assets/images/account/demo-user1.png';
 import '../styles/CollectionDetail.scss';
 import { NftGraph } from '../components/nft/NftGraph';
 import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
+
+const dummyData = [
+    {
+        number: 30,
+        type: "LYRIC",
+        item: "Item Name (123_1)",
+        username: "Yolkhead",
+        quantity: 100,
+        price: "100.000",
+        totalVolume: "100.000",
+        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9",
+        details: "Details"
+    },
+    {
+        number: 30,
+        type: "COMPOSITION",
+        item: "Item Name (123_1)",
+        username: "Yolkhead",
+        quantity: 100,
+        price: "100.000",
+        totalVolume: "100.000",
+        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9",
+        details: "Details"
+    },
+    {
+        number: 30,
+        type: "SONG",
+        item: "Item Name (123_1)",
+        username: "Yolkhead",
+        quantity: 100,
+        price: "100.000",
+        totalVolume: "100.000",
+        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9",
+        details: "Details"
+    }
+];
 
 const CollectionDetail = () => {
     const [selectCategory, setSelectCategory] = useState('Overview');
@@ -91,6 +128,16 @@ const Overview = () => {
         <>
             <ContentWrap title="Overview">
                 <NftOverview title="Detail">
+                    {/* <NftOverviewItem 
+                        title="two" 
+                        value="100 MOB" 
+                        isTwo
+                    />
+                    <NftOverviewItem 
+                        title="two" 
+                        value="100 MOB" 
+                        isTwo
+                    /> */}
                     <NftOverviewItem 
                         title="NFT Items" 
                         value="1,573" 
@@ -115,16 +162,6 @@ const Overview = () => {
                         title="Lowest Price" 
                         value="100 MOB" 
                     />
-                    {/* <NftOverviewItem 
-                        title="Lowest Price" 
-                        value="100 MOB" 
-                        isTwo
-                    />
-                    <NftOverviewItem 
-                        title="Lowest Price" 
-                        value="100 MOB" 
-                        isTwo
-                    /> */}
                     <NftOverviewItem 
                         title="Recent Transaction Date" 
                         value="Sat, 04 Nov 2023 14:40:00 UTC+9" 
@@ -175,6 +212,10 @@ const History = () => {
             <ContentWrap.SubWrap gap={8}>
                 <FilterItems />
                 <Search />
+                <CustomTable 
+                    data={dummyData} 
+                    headers={["#", "Type", "Item", "Username", "Quantity", "Price(MOB)", "Total Volume(MOB)", "Transaction Date", "Details"]}
+                />
             </ContentWrap.SubWrap>
             <Pagination />
         </ContentWrap>

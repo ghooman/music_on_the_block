@@ -1,9 +1,9 @@
 import React from 'react';
 import './NftOverview.scss';
 
-export const NftOverviewItem = ({ title, value, isLong }) => {
+export const NftOverviewItem = ({ title, value, isLong, isTwo }) => {
     return (
-        <dl className={`nft-overview__content--item ${isLong ? 'long' : ''}`}>
+        <dl className={`nft-overview__content--item ${isLong ? 'long' : ''} ${isTwo ? 'isTwo' : ''}`}>
             <dt>{title}</dt>
             <dd>{value}</dd>
         </dl>

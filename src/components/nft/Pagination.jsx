@@ -16,13 +16,13 @@ const Pagination = ({ totalCount = 3, slice = 5, onClick, page = 0 }) => {
     return (
         <div className="nft-pagination">
             <div className="nft-pagination-content">
-                <button className="nft-pagination-content__page prev-next">뒤</button>
+                <div className="nft-pagination-content__page prev"></div>
                 {pages.slice(Math.floor(page / 5) * 5, 5 + Math.floor(page / 5) * 5).map((item, index) => (
                     <button key={index} className={`nft-pagination-content__page ${page === index && 'enable'}`}>
                         {item}
                     </button>
                 ))}
-                <button className="nft-pagination-content__page prev-next">앞</button>
+                <div className="nft-pagination-content__page next"></div>
             </div>
         </div>
     );

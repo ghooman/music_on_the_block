@@ -213,7 +213,7 @@ const AccountSetting = () => {
             <span className="picture-box__desc">40px X 40px, 3MB or less</span>
           </div>
         </div>
-        <div className="account-setting__background-box">
+        {/* <div className="account-setting__background-box">
           <p className="background-box__title">Background Image</p>
           <div className="background-box__edit-box">
             <button className="background-box__edit-btn">
@@ -223,7 +223,7 @@ const AccountSetting = () => {
           <span className="background-box__desc">
             1920px X 400px, 30MB or less
           </span>
-        </div>
+        </div> */}
         <div className="account-setting__user-info">
           <div className="user-info__item">
             <p className="user-info__title">Artist Name</p>
@@ -268,10 +268,11 @@ const AccountSetting = () => {
                 className="user-info__input"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                // onChange={(e) => setEmail(e.target.value)}
+                readOnly
               />
               {/* 이메일 변경 버튼도 개별적으로는 validate 함수를 호출(원래 코드) */}
-              <button className="user-info__edit-btn">Change</button>
+              {/* <button className="user-info__edit-btn">Change</button> */}
             </div>
             {errorMessages.email.map((err, idx) => (
               <span key={idx} className="user-info__error">
@@ -348,13 +349,13 @@ const AccountSetting = () => {
           </div>
         </div>
         <div className="details__item">
-          <p className="details__item-title">EXP</p>
+          <p className="details__item-title">MIC</p>
           <div className="details__input-box">
             <input
               type="text"
               className="details__input"
               placeholder="0"
-              value="0 EXP"
+              value="0 MIC"
             />
           </div>
         </div>

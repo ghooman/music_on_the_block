@@ -127,30 +127,40 @@ const Footer = ({ setIsLoggedIn }) => {
               <img className="footer__top__left__logo" src={logo} />
               <ul
                 className="footer__top__left__sns"
-                onClick={() => setPreparingModal(true)}
               >
                 <li>
-                  <Link>
+                  <Link
+                    onClick={() => setPreparingModal(true)}
+                  >
                     <img src={sns01} />
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link
+                    to='https://discord.gg/7ptURuat'
+                    target="_blank"
+                  >
                     <img src={sns02} />
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link
+                    onClick={() => setPreparingModal(true)}
+                  >
                     <img src={sns03} />
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link
+                    onClick={() => setPreparingModal(true)}
+                  >
                     <img src={sns04} />
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link
+                    onClick={() => setPreparingModal(true)}
+                  >
                     <img src={sns05} />
                   </Link>
                 </li>
@@ -203,15 +213,18 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Shop</dt>
+                  <dt>SNft Market Place</dt>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>Shop</Link>
+                    <Link onClick={() => setPreparingModal(true)}>Nft Market Place</Link>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Earn</dt>
+                  <dt>Eco System</dt>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>Earn</Link>
+                    <Link 
+                      to="https://eco.musicontheblock.com/"
+                      target="_blank"
+                    >Eco System</Link>
                   </dd>
                 </dl>
               </div>

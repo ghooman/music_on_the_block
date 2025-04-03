@@ -9,7 +9,7 @@
     }
     .nft-overview__content{
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 16px;
         .nft-overview__content--item{
             display: flex;
@@ -20,13 +20,19 @@
             border-radius: 12px;
             border: 1px solid #00FFB3;
             height: 76px;
+            grid-column: span 2;
+
+            &.isTwo {
+                grid-column: span 3;
+            }
+
             dt{
                 color: #00FFB3;
                 text-align: center;
                 font-family: Orbitron400;
                 font-size: 16px;
                 font-style: normal;
-                line-height: 100%; /* 16px */
+                line-height: 100%;
             }
             dd{
                 color: var(--Text-music-title, #F1F1F1);
@@ -42,3 +48,27 @@
         }
     }
 }//"nft-overview--END--
+
+
+.nft-overview__content--item-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}//nft-overview__content--item-wrap--END--
+
+
+
+@media screen and (max-width: 768px) {
+    .nft-overview{
+        .nft-overview__content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            .nft-overview__content--item{
+                &.long{
+                    grid-column: none;
+                }
+            }
+        }
+    }
+}

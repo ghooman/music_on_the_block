@@ -213,7 +213,7 @@ const AccountSetting = () => {
             <span className="picture-box__desc">40px X 40px, 3MB or less</span>
           </div>
         </div>
-        <div className="account-setting__background-box">
+        {/* <div className="account-setting__background-box">
           <p className="background-box__title">Background Image</p>
           <div className="background-box__edit-box">
             <button className="background-box__edit-btn">
@@ -223,7 +223,7 @@ const AccountSetting = () => {
           <span className="background-box__desc">
             1920px X 400px, 30MB or less
           </span>
-        </div>
+        </div> */}
         <div className="account-setting__user-info">
           <div className="user-info__item">
             <p className="user-info__title">Artist Name</p>

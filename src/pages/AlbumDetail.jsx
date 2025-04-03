@@ -23,7 +23,6 @@ import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
-import NoneContent from "../components/NoneContent";
 //스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -270,12 +269,7 @@ function AlbumDetail() {
   const fetchAlbumDetail = async () => {
     try {
       const response = await axios.get(
-        `${serverApi}/api/music/${id}?wallet_address=${walletAddress.address}`,
-        {
-          params: {
-            wallet_address: walletAddress.address,
-          },
-        }
+        `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
       );
 
       console.log("앨범 상세 정보:", response.data);

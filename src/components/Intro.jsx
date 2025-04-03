@@ -1,26 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import "./Intro.scss";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Router,
-  Routes,
-  useLocation,
-  // useNavigate,
-} from "react-router-dom";
-// import LogoHansung from "../assets/images/";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 //스와이퍼
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  EffectFade,
-  Navigation,
-  Pagination,
-  Autoplay,
-  FreeMode,
-  Thumbs,
-} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
@@ -32,29 +16,35 @@ import "swiper/css/free-mode";
 import albumImg01 from "../assets/images/intro/mob-album-cover.png";
 import albumImg02 from "../assets/images/intro/intro-demo-img2.png";
 import albumImg03 from "../assets/images/intro/intro-demo-img3.png";
-import audioUrl from "../assets/music/song01.mp3";
-import track1 from "../assets/music/song01.mp3";
-import track2 from "../assets/music/nisoft_song.mp3";
-import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
-// import AudioVisualizer from "./AudioVisualizer";
-// import VisualizeAudio from "./VisualizeAudio";
 
-// import { VoiceVisualizer } from 'react-voice-visualizer';
-import { useVoiceVisualizer, VoiceVisualizer } from "react-voice-visualizer";
 import MusicList from "./MusicList";
 import IntroLogo from "./IntroLogo";
 import PreparingModal from "./PreparingModal";
 
+import { getTransaction } from "../api/Transaction";
+
 const Intro = ({ setIsLoggedIn }) => {
   const audioRef = useRef(null);
+  const { token } = useContext(AuthContext);
 
-  const [mediaRecorder, setMediaRecorder] = useState(true);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeIndex, setActiveIndex] = useState(2); // id가 3인 아이템부터 시작
   const [animationClass, setAnimationClass] = useState(""); // 애니메이션 클래스 관리
-
+  const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
   const timeoutRef = useRef(null); // 타이머 추적용 ref 추가
-
+  // 트랜잭션 가져오기
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await getTransaction(token);
+        setTransaction(response.data);
+        // console.log("트랜잭션 데이터:", response.data);
+      } catch (error) {
+        console.error("트랜잭션 가져오기 에러:", error);
+      }
+    };
+    fetchTransaction();
+  }, [token]);
   const handleSlideChange = (swiper) => {
     setAnimationClass("fade-out"); // 페이드아웃 애니메이션 적용
 
@@ -94,7 +84,7 @@ const Intro = ({ setIsLoggedIn }) => {
       id: 1,
       albumTitle: "Music on the Block",
       artist: "MOB",
-      info:null,
+      info: null,
       tabTitle: "AI Singing Evaluation",
       img: albumImg01,
     },
@@ -169,19 +159,19 @@ const Intro = ({ setIsLoggedIn }) => {
               <dl className="intro__number__title">
                 <dt>Number of users</dt>
                 <dd>
-                  <Counter targetNumber={110} />
+                  <Counter targetNumber={transaction?.number_of_users} />
                 </dd>
               </dl>
               <dl className="intro__number__title">
                 <dt>Number of songs</dt>
                 <dd>
-                  <Counter targetNumber={127} />
+                  <Counter targetNumber={transaction?.number_of_songs} />
                 </dd>
               </dl>
               <dl className="intro__number__title">
                 <dt>Transition</dt>
                 <dd>
-                  <Counter targetNumber={159} />
+                  <Counter targetNumber={transaction?.transaction} />
                 </dd>
               </dl>
             </section>

@@ -22,18 +22,12 @@ import track2 from "../assets/music/nisoft_song.mp3";
 import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
 import PreparingModal from "../components/PreparingModal";
 
-//스와이프
+// 스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Pagination,
-  Autoplay,
-} from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import axios from "axios";
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
-
+import { getHitMusicList } from "../api/HitMusicList";
 function Album() {
   const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -44,46 +38,65 @@ function Album() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY >= 88) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY >= 88);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  //노래플레이 자스
+  // getHitMusicList
+  const [hitMusicList, setHitMusicList] = useState([]);
+  useEffect(() => {
+    const handleGetMusicList = async () => {
+      try {
+        const res = await getHitMusicList(walletAddress);
+        setHitMusicList(res.data);
+        // console.log("hitMusicList", res.data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    handleGetMusicList();
+  }, [walletAddress]);
+  // 노래플레이 관련 상태
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
-
   const [tracks, setTracks] = useState([]);
+
   const getTracks = async () => {
     try {
       const res = await axios.get(
         `${serverApi}/api/music/all/list?wallet_address=${walletAddress?.address}`
       );
+      const fetchedTracks = res.data.data_list;
 
-      const copy = [...res.data.data_list];
-
-      copy.forEach((track, index) => {
+      // 트랙마다 오디오 정보를 불러와 duration 설정
+      fetchedTracks.forEach((track, index) => {
         const audio = new Audio(track.music_url);
         audio.addEventListener("loadedmetadata", () => {
-          copy[index].duration = audio.duration;
-          setTracks([...copy]);
+          fetchedTracks[index].duration = audio.duration;
+          setTracks([...fetchedTracks]);
         });
       });
-      setTracks(res.data.data_list);
-      console.log("album", res.data.data_list);
+      setTracks(fetchedTracks);
+      // console.log("album", fetchedTracks);
     } catch (e) {
       console.error(e);
     }
   };
+
   useEffect(() => {
-    getTracks();
+    if (walletAddress) {
+      getTracks();
+    }
   }, [walletAddress]);
+
+  // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
+  useEffect(() => {
+    if (tracks.length > 0 && selectedTrackIndex === null) {
+      setSelectedTrackIndex(0);
+    }
+  }, [tracks, selectedTrackIndex]);
 
   const handleTrackClick = (index) => {
     setSelectedTrackIndex(index);
@@ -117,13 +130,13 @@ function Album() {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  // 선택된 트랙의 정보 또는 기본 정보를 설정
+  // 선택된 트랙의 정보
   const selectedTrack =
     selectedTrackIndex !== null ? tracks[selectedTrackIndex] : null;
   const albumTitle = selectedTrack ? selectedTrack.title : "Select an Album";
   const albumCover = selectedTrack ? selectedTrack.cover : defaultCoverImg;
 
-  //스와이프
+  // 스와이프 관련 설정
   const swiperRef = useRef(null);
   const handleSlideChange = (swiper) => {
     const slides = swiper.slides;
@@ -131,35 +144,30 @@ function Album() {
     const totalSlides = slides.length;
 
     slides.forEach((slide, index) => {
-      // 모든 슬라이드에서 이전 커스텀 클래스 제거
       slide.classList.remove(
         "swiper-slide-next-next",
         "swiper-slide-prev-prev"
       );
 
-      // 다음-다음 슬라이드
       if (index === (activeIndex + 2) % totalSlides) {
         slide.classList.add("swiper-slide-next-next");
       }
-
-      // 이전-이전 슬라이드
       if (index === (activeIndex - 2 + totalSlides) % totalSlides) {
         slide.classList.add("swiper-slide-prev-prev");
       }
     });
   };
 
-  // 좋아요 버튼 클릭
-  const handleLikeClick = async (selectedTrack) => {
+  const handleLikeClick = async (track) => {
     try {
-      if (selectedTrack?.is_like) {
-        await cancelLikeAlbum(selectedTrack?.id, token);
+      if (track?.is_like) {
+        await cancelLikeAlbum(track?.id, token);
       } else {
-        await likeAlbum(selectedTrack?.id, token);
+        await likeAlbum(track?.id, token);
       }
       getTracks();
     } catch (e) {
-      console.error(e); // 에러 객체를 출력하도록 수정
+      console.error(e);
     }
   };
 
@@ -196,13 +204,16 @@ function Album() {
               {selectedTrack?.like || 0}
             </p>
             <p className="play">
-              <img src={playIcon} />
+              <img src={playIcon} alt="play-icon" />
               {selectedTrack?.play_cnt || 0}
             </p>
             <p>|</p>
             <p className="name">{selectedTrack?.name || "unKnown"}</p>
           </div>
-          <Link className="album__header__cover-info__btn" to="/album-detail">
+          <Link
+            className="album__header__cover-info__btn"
+            to={`/album-detail/${selectedTrack?.id}`}
+          >
             Detail
           </Link>
         </div>
@@ -275,12 +286,8 @@ function Album() {
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" to=""
-          onClick={() => {
-            setPreparingModal(true);
-          }}
-        >
-          See More
+        <Link className="album__content-list__see-more-btn" to="">
+          Detail
         </Link>
       </section>
 
@@ -306,7 +313,7 @@ function Album() {
           className="swiper-music-list"
           onSlideChange={(swiper) => handleSlideChange(swiper)}
         >
-          {tracks.map((track, index) => (
+          {hitMusicList.map((track, index) => (
             <SwiperSlide
               key={track.id}
               className={`swiper-music-list__item ${
@@ -450,12 +457,8 @@ function Album() {
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" to=""
-          onClick={() => {
-            setPreparingModal(true);
-          }}
-        >
-          See More
+        <Link className="album__content-list__see-more-btn" to="">
+          Detail
         </Link>
       </section>
       {isPreparingModal && (

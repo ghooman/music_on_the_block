@@ -24,10 +24,9 @@ const AdvancedCommentComponent = ({ id }) => {
       const response = await axios.get(
         `${serverApi}/api/music/${id}/comment?page=${commentPage}`
       );
-      // console.log("fetchCommentList", response.data);
       const transformedComments = response.data.data_list.map((item) => ({
-        userId: item.id,
-        comId: `${item.id}_${new Date(item.create_dt).getTime()}`,
+        userId: item.name,
+        comId: item.id,
         fullName: item.name,
         avatarUrl: userImg1,
         text: item.comment,
@@ -43,6 +42,8 @@ const AdvancedCommentComponent = ({ id }) => {
         })),
       }));
       setComments(transformedComments);
+      console.log("fetchCommentList res", response);
+      console.log("fetchCommentList", transformedComments);
     } catch (error) {
       console.error("코멘트 리스트 가져오기 에러:", error);
     }
@@ -73,7 +74,6 @@ const AdvancedCommentComponent = ({ id }) => {
   // 대댓글 작성 함수 (onReplyAction)
   const handleReplySubmit = async (replyData) => {
     console.log("replyData", replyData);
-
     try {
       const response = await axios.post(
         `${serverApi}/api/music/comment/${replyData.repliedToCommentId}/reply?comment=${replyData.text}`,
@@ -88,6 +88,25 @@ const AdvancedCommentComponent = ({ id }) => {
       console.error("대댓글 작성 에러:", error);
     }
   };
+
+  // 코멘트 수정 함수 (onEditAction)
+  const handleEditSubmit = async (editData) => {
+    try {
+      // 서버에 코멘트 수정 요청 (적절한 API 엔드포인트를 확인하여 수정)
+      const response = await axios.put(
+        `${serverApi}/api/music/comment/${editData.comId}?comment=${editData.text}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("handleEditSubmit", response.data);
+      fetchCommentList(); // 수정 후 최신 데이터 갱신
+    } catch (error) {
+      console.error("코멘트 수정 에러:", error);
+    }
+  };
+
   return (
     <div>
       <CommentSection
@@ -104,6 +123,9 @@ const AdvancedCommentComponent = ({ id }) => {
         }}
         onReplyAction={(replyData) => {
           handleReplySubmit(replyData);
+        }}
+        onEditAction={(editData) => {
+          handleEditSubmit(editData);
         }}
       />
     </div>

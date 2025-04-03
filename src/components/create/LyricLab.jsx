@@ -144,7 +144,16 @@ const LyricLab = ({
                 `,
       });
       console.log("GPT Responses API 응답:", response.output_text);
-      setCreatedLyrics(response.output_text);
+      if (
+        response.output_text.includes(
+          "이 요청에 대한 구체적인 정보가 부족합니다."
+        )
+      ) {
+        alert("Please fill in the blanks");
+        return;
+      } else {
+        setCreatedLyrics(response.output_text);
+      }
     } catch (error) {
       console.error("Responses API 호출 중 오류 발생:", error);
       throw error;

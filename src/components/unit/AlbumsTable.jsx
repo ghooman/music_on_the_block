@@ -84,15 +84,16 @@ const AlbumsTable = () => {
         {albums?.length === 0 && (
           <NoneContent message={"No albums created"} height={300} />
         )}
-        <Pagination
-          page={page}
-          setPage={(page) => setPage(page)}
-          totalCount={totalCount}
-          viewCount={viewCount}
-        />
+        {albums?.length > 0 && (
+          <Pagination
+            totalCount={totalCount}
+            viewCount={viewCount}
+            page={page}
+            setPage={setPage}
+          />
+        )}
       </div>
     </>
-
   );
 };
 

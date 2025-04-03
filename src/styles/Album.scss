@@ -408,6 +408,37 @@
             }//album__content-list__list__item__right__user__info--END--
             .album__content-list__list__item__right__user__btn{
               width: 100%;
+              height: 24px;
+              background: #cf0;
+              position: relative;
+              top: 0;
+              transition: 0.2s;
+              color: var(--Text-dark-title, #1A1A1A);
+              font-family: Orbitron600;
+              font-size: 12px;
+              font-style: normal;
+              line-height: normal;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              &::before{
+                  content: '';
+                  position: absolute;
+                  left: 0;
+                  top: 4px;
+                  width: calc(100% - 2px);
+                  transition: 0.2s;
+                  border-radius: 8px;
+                  height: 23px;
+                  border: 1px solid #cf0;
+              }
+              &:hover{
+                  top: 4px;
+                  &::before{
+                      top: 0;
+                  }
+              }
               // width: 24px;
               // height: 24px;
               // font-size: 0;

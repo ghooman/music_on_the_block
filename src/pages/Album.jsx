@@ -279,7 +279,7 @@ function Album() {
                     className="album__content-list__list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    유저정보
+                    Detail
                   </Link>
                 </div>
               </div>
@@ -450,7 +450,7 @@ function Album() {
                     {track?.name || "unKnown"}
                   </p>
                   <button className="album__content-list__list__item__right__user__btn">
-                    유저정보
+                    Detail
                   </button>
                 </div>
               </div>

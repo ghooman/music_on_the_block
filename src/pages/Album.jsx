@@ -23,16 +23,10 @@ import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
 
 // 스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Pagination,
-  Autoplay,
-} from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import axios from "axios";
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
-
+import { getHitMusicList } from "../api/HitMusicList";
 function Album() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token, walletAddress } = useContext(AuthContext);
@@ -48,7 +42,20 @@ function Album() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+  // getHitMusicList
+  const [hitMusicList, setHitMusicList] = useState([]);
+  useEffect(() => {
+    const handleGetMusicList = async () => {
+      try {
+        const res = await getHitMusicList(walletAddress);
+        setHitMusicList(res.data);
+        // console.log("hitMusicList", res.data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    handleGetMusicList();
+  }, [walletAddress]);
   // 노래플레이 관련 상태
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -70,7 +77,7 @@ function Album() {
         });
       });
       setTracks(fetchedTracks);
-      console.log("album", fetchedTracks);
+      // console.log("album", fetchedTracks);
     } catch (e) {
       console.error(e);
     }
@@ -301,7 +308,7 @@ function Album() {
           className="swiper-music-list"
           onSlideChange={(swiper) => handleSlideChange(swiper)}
         >
-          {tracks.map((track, index) => (
+          {hitMusicList.map((track, index) => (
             <SwiperSlide
               key={track.id}
               className={`swiper-music-list__item ${

@@ -80,25 +80,25 @@ const Albums = ({ token }) => {
         <div className="albums__body">
           {Object.values(myTopAlbumList).map((item, index) => (
             <div className="albums__item" key={index}>
-              <p className="albums__item-title">{item.title}</p>
+              <p className="albums__item-title">{item?.title}</p>
               <div className="albums__item-intro">
                 <div className="albums__item__img-box">
                   <img
                     className="albums__item__img"
-                    src={item.image || demoAlbum}
+                    src={item?.image || demoAlbum}
                     alt="album"
                   />
                 </div>
                 <div className="albums__item-desc">
-                  {/* <p className="albums__item-desc-text">{item.lyrics}</p> */}
+                  {/* <p className="albums__item-desc-text">{item?.lyrics}</p> */}
                   <div className="albums__item__icon-box">
                     <div className="albums__item__play-count">
                       <img src={heartIcon} alt="heart" />
-                      <span>{item.like}</span>
+                      <span>{item?.like}</span>
                     </div>
                     <div className="albums__item__play-count">
                       <img src={commentIcon} alt="comment" />
-                      <span>{item.comment_cnt}</span>
+                      <span>{item?.comment_cnt}</span>
                     </div>
                   </div>
                   <div className="albums__item__user-info">
@@ -107,7 +107,7 @@ const Albums = ({ token }) => {
                       src={item?.user_profile || demoUser}
                       alt="user"
                     />
-                    <span>{item.name || "Unknown"}</span>
+                    <span>{item?.name || "Unknown"}</span>
                     <button className="albums__item__more-btn">
                       <img src={moreIcon} alt="more" />
                     </button>

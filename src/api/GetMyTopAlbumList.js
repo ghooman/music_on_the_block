@@ -8,7 +8,6 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @returns {Promise} axios GET 요청 반환
  */
 export const GetMyTopAlbumList = async (token) => {
-  console.log("token1", token);
   return axios.get(`${serverApi}/api/music/my/top/list`, {
     headers: {
       Authorization: `Bearer ${token}`,

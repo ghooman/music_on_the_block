@@ -126,7 +126,7 @@
         }
       }//album__header__cover-info__love-play--END--
       .album__header__cover-info__btn{
-        display: block;
+        display: none;
         color: var(--Text-music-sub, #AAA);
         font-family: Inter400;
         font-size: 16px;
@@ -346,6 +346,7 @@
           flex-direction: column;
           gap: 8px;
           padding: 8px 0;
+          flex: 1;
           .album__content-list__list__item__right__title{
             color: var(--Text-music-title, #F1F1F1);
             font-family: Inter400;
@@ -356,8 +357,9 @@
           }//album__content-list__list__item__right__title--END--
           .album__content-list__list__item__right__love-play{
             display: flex;
-            align-items: center;
+            align-items: start;
             gap: 12px;
+            flex-direction: column;
             img{
               width: 16px;
               height: 16px;
@@ -381,8 +383,10 @@
           }//album__content-list__list__item__right__love-play--END--
           .album__content-list__list__item__right__user{
             display: flex;
-            align-items: center;
+            align-items: start;
             justify-content: space-between;
+            flex-direction: column;
+            gap: 16px;
             .album__content-list__list__item__right__user__info{
               display: flex;
               align-items: center;
@@ -403,11 +407,12 @@
               }
             }//album__content-list__list__item__right__user__info--END--
             .album__content-list__list__item__right__user__btn{
-              width: 24px;
-              height: 24px;
-              font-size: 0;
-              background: url('../assets/images/album/more-icon.svg') center no-repeat;
-              background-size: contain;
+              width: 100%;
+              // width: 24px;
+              // height: 24px;
+              // font-size: 0;
+              // background: url('../assets/images/album/more-icon.svg') center no-repeat;
+              // background-size: contain;
             }//album__content-list__list__item__right__user__btn--END--
           }//album__content-list__list__item__right__user--END--
         }//album__content-list__list__item__right--END-
@@ -737,7 +742,7 @@
       padding: 16px;
       gap: 0;
       .album__header__mobile-detail-btn{
-        display: block !important;
+        // display: block !important;
         position: absolute;
         top: 16px;
         right: 16px;

@@ -1,21 +1,21 @@
-import "./App.css";
+import './App.css';
 // 라이브러리
-import React, { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import React, { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 // 페이지
-import Album from "./pages/Album";
-import Create from "./pages/Create";
-import MyPage from "./pages/MyPage";
-import AccountSetting from "./pages/AccountSetting";
-import AlbumDetail from "./pages/AlbumDetail";
-import SignUp from "./pages/SignUp";
-import Nft from "./pages/Nft";
-import NftList from "./pages/NftList";
+import Album from './pages/Album';
+import Create from './pages/Create';
+import MyPage from './pages/MyPage';
+import AccountSetting from './pages/AccountSetting';
+import AlbumDetail from './pages/AlbumDetail';
+import SignUp from './pages/SignUp';
+import Nft from './pages/Nft';
+import NftList from './pages/NftList';
 // 컴포넌트
-import Header from "./components/Header";
-import Intro from "./components/Intro";
-import Footer from "./components/Footer";
+import Header from './components/Header';
+import Intro from './components/Intro';
+import Footer from './components/Footer';
 // 전역 상태
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";

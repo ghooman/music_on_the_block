@@ -54,7 +54,7 @@
       tbody {
         tr {
           td{
-            padding: 8px 12px;
+            padding: 10px 12px;
             color: var(--Text-music-sub, #AAA);
             text-align: center;
             font-family: Inter400;
@@ -73,6 +73,17 @@
             }
             &:last-child {
               padding-right: 24px;
+            }
+            .user-cell{
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 8px;
+              img{
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+              }
             }
           }
 

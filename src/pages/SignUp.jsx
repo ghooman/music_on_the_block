@@ -298,6 +298,7 @@ const AIDetailedSettings = ({
 const PreferredGenre = ({ onBack, onNext }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const genreImages = {
+    "K-POP": popImg,
     POP: popImg,
     "R&B": randbImg,
     ROCK: rockImg,

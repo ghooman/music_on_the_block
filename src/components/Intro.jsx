@@ -351,6 +351,15 @@ const Intro = ({ setIsLoggedIn }) => {
                 ALBUM
               </Link>
             </section>
+
+            <section className="intro__nft-market">
+                <Link 
+                  className="intro__nft-market__btn"
+                  to='/nft'
+                >
+                  NFT Marketplace
+                </Link>
+            </section>
           </div>
         </div>
       )}

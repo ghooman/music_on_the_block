@@ -49,7 +49,7 @@
   }
   .alarm__modal__item{
     width: 100%;
-    height: 120px;
+    // height: 120px;
     border-radius: 4px;
     border: 1px solid #CF0;
     padding: 16px;
@@ -75,6 +75,9 @@
       text-align: center;
       font-size: 12px;
       margin-top: 12px;
+      .err-txt{
+        color: red;
+      }
     }//alarm__modal__item__txt--END--
     .alarm__modal__item__link{
       width: 100%;
@@ -152,6 +155,15 @@
     }
 
   }//alarm__modal__item--END--
+
+
+  .alarm__modal__item__timer{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 14px;
+    color: #CF0;
+    margin-top: 12px;
+  }//alarm__modal__item__timer--END--
 }//alarm__modal--END--
 
 

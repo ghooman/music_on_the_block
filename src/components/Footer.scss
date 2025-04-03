@@ -431,8 +431,32 @@
                 position: absolute;
                 right: 0;
                 bottom: 8px;
+                
               }
             }
+          }
+          .footer__bottom__slide__item__left__hash{
+            dl{
+              dt{
+                p{
+                  font-size: 12px !important;
+                }
+                span{
+                  font-size: 12px !important;
+                }
+              }
+              dd{
+                font-size: 12px !important;
+              }
+            }
+
+          }
+          .footer__bottom__slide__item__right{
+            font-size: 10px !important;
+          }
+          .footer__bottom__slide__item__left__hash img{
+            width: 24px !important;
+            height: 24px !important;
           }
         }
       }

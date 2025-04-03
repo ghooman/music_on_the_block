@@ -58,6 +58,119 @@ const dummyData = [
 
 ];
 
+const dummyData2 = [
+    {
+        number: 30,
+        username: {
+            picture: dummy_userImage,
+            name: "Yolkhead"
+        },
+        quantity: "100.000",
+        price: "100.000",
+        totalVolume: "100,000",
+        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9"
+    },
+    {
+        number: 29,
+        username: {
+            picture: dummy_userImage,
+            name: "CryptoWhale"
+        },
+        quantity: "50.000",
+        price: "98.500",
+        totalVolume: "49,250",
+        transactionDate: "Sat, 04 Nov 2023 14:35:00 UTC+9"
+    },
+    {
+        number: 28,
+        username: {
+            picture: dummy_userImage,
+            name: "MusicLover"
+        },
+        quantity: "75.000",
+        price: "99.000",
+        totalVolume: "74,250",
+        transactionDate: "Sat, 04 Nov 2023 14:30:00 UTC+9"
+    },
+    {
+        number: 27,
+        username: {
+            picture: dummy_userImage,
+            name: "NFTKing"
+        },
+        quantity: "120.000",
+        price: "101.000",
+        totalVolume: "121,200",
+        transactionDate: "Sat, 04 Nov 2023 14:25:00 UTC+9"
+    },
+    {
+        number: 26,
+        username: {
+            picture: dummy_userImage,
+            name: "BlockMaster"
+        },
+        quantity: "85.000",
+        price: "97.500",
+        totalVolume: "82,875",
+        transactionDate: "Sat, 04 Nov 2023 14:20:00 UTC+9"
+    },
+    {
+        number: 25,
+        username: {
+            picture: dummy_userImage,
+            name: "SoundCollector"
+        },
+        quantity: "95.000",
+        price: "102.000",
+        totalVolume: "96,900",
+        transactionDate: "Sat, 04 Nov 2023 14:15:00 UTC+9"
+    },
+    {
+        number: 24,
+        username: {
+            picture: dummy_userImage,
+            name: "MelodyHunter"
+        },
+        quantity: "110.000",
+        price: "103.500",
+        totalVolume: "113,850",
+        transactionDate: "Sat, 04 Nov 2023 14:10:00 UTC+9"
+    },
+    {
+        number: 23,
+        username: {
+            picture: dummy_userImage,
+            name: "BeatMaker"
+        },
+        quantity: "65.000",
+        price: "98.000",
+        totalVolume: "63,700",
+        transactionDate: "Sat, 04 Nov 2023 14:05:00 UTC+9"
+    },
+    {
+        number: 22,
+        username: {
+            picture: dummy_userImage,
+            name: "RhythmTrader"
+        },
+        quantity: "130.000",
+        price: "104.000",
+        totalVolume: "135,200",
+        transactionDate: "Sat, 04 Nov 2023 14:00:00 UTC+9"
+    },
+    {
+        number: 21,
+        username: {
+            picture: dummy_userImage,
+            name: "SongMaster"
+        },
+        quantity: "70.000",
+        price: "99.500",
+        totalVolume: "69,650",
+        transactionDate: "Sat, 04 Nov 2023 13:55:00 UTC+9"
+    }
+];
+
 const NftItemDetail = () => {
     const [selectCategory, setSelectCategory] = useState('Track Information');
 
@@ -462,8 +575,8 @@ const History = () => {
                 <FilterItems />
                 <Search />
                 <CustomTable 
-                    data={dummyData} 
-                    headers={["#", " Username", "Quantity", "Price (MOB)", "Total Volume (MOB)", "Price(MOB)", "Total Volume(MOB)", "Transaction Date",]}
+                    data={dummyData2} 
+                    headers={["#", " Username", "Quantity", "Price (MOB)", "Total Volume (MOB)", "Transaction Date",]}
                 />
             </ContentWrap.SubWrap>
             <Pagination />

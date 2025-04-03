@@ -40,17 +40,28 @@ const CustomTable = ({ data, headers = DEFAULT_HEADERS }) => {
                 <tbody>
                     {data.map((item, rowIndex) => (
                         <tr key={rowIndex}>
-                            <td>{item.number}</td>
-                            <td>{renderCell(item, 'type')}</td>
-                            <td>{item.item}</td>
-                            <td>{item.username}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.price}</td>
-                            <td>{item.totalVolume}</td>
-                            <td>{item.transactionDate}</td>
-                            <td>
-                                <button className="details-btn">Details</button>
-                            </td>
+                            {item.number && <td>{item.number}</td>}
+                            {item.type && <td>{renderCell(item, 'type')}</td>}
+                            {item.item && <td>{item.item}</td>}
+                            {item.username && (
+                                <td>
+                                    {typeof item.username === 'object' ? (
+                                        <div className="user-cell">
+                                            <img src={item.username.picture} alt={item.username.name} />
+                                            <span>{item.username.name}</span>
+                                        </div>
+                                    ) : item.username}
+                                </td>
+                            )}
+                            {item.quantity && <td>{item.quantity}</td>}
+                            {item.price && <td>{item.price}</td>}
+                            {item.totalVolume && <td>{item.totalVolume}</td>}
+                            {item.transactionDate && <td>{item.transactionDate}</td>}
+                            {item.details && (
+                                <td>
+                                    <button className="details-btn">Details</button>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

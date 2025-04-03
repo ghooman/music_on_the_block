@@ -48,8 +48,17 @@ function Album() {
     const handleGetMusicList = async () => {
       try {
         const res = await getHitMusicList(walletAddress);
-        setHitMusicList(res.data);
-        // console.log("hitMusicList", res.data);
+        // 트랙마다 오디오 정보를 불러와 duration 설정
+        const fetchedTracks = res.data;
+        fetchedTracks.forEach((track, index) => {
+          const audio = new Audio(track.music_url);
+          audio.addEventListener("loadedmetadata", () => {
+            fetchedTracks[index].duration = audio.duration;
+            setHitMusicList([...fetchedTracks]);
+          });
+        });
+        setHitMusicList(fetchedTracks);
+        console.log("hitMusicList", res.data);
       } catch (e) {
         console.error(e);
       }
@@ -317,7 +326,7 @@ function Album() {
               className={`swiper-music-list__item ${
                 selectedTrackIndex === index ? "active" : ""
               }`}
-              // onClick={() => handleTrackClick(index)}
+              onClick={() => handleTrackClick(index)}
             >
               <div className="swiper-music-list__item__left">
                 <div
@@ -353,9 +362,12 @@ function Album() {
                     <img src={track?.user_profile || defaultCoverImg} />
                     {track?.name || "unKnown"}
                   </p>
-                  <button className="swiper-music-list__item__right__user__btn">
-                    유저정보
-                  </button>
+                  <Link
+                    className="swiper-music-list__item__right__user__btn"
+                    to={"/album-detail/" + track.id}
+                  >
+                    Detail
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>
@@ -447,9 +459,12 @@ function Album() {
                     <img src={track?.user_profile || defaultCoverImg} />
                     {track?.name || "unKnown"}
                   </p>
-                  <button className="album__content-list__list__item__right__user__btn">
+                  <Link
+                    className="album__content-list__list__item__right__user__btn"
+                    to={"/album-detail/" + track.id}
+                  >
                     Detail
-                  </button>
+                  </Link>
                 </div>
               </div>
             </button>

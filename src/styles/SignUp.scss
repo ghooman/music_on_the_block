@@ -96,6 +96,10 @@
       flex-direction: column;
       gap: 8px;
       padding: 8px 0;
+      .pass-txt{
+        font-size: 12px;
+        color: #00ffb3;
+      }
       .input-box__title {
         color: var(--primary-200, #a9d400);
         font-family: Inter400;
@@ -355,14 +359,14 @@
 
   .sing-up__setting__genre {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     .sing-up__setting__genre__item {
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
-      height: 300px;
+      height: 200px;
       position: relative;
       border: 1px solid transparent;
       border-radius: 4px;
@@ -394,7 +398,7 @@
         z-index: 1;
         color: var(--primary-base, #cf0);
         font-family: Orbitron700;
-        font-size: 40px;
+        font-size: 20px;
         font-style: normal;
         line-height: normal;
       }

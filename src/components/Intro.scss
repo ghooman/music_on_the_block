@@ -635,3 +635,23 @@
 
 
 
+@media screen and (max-width: 500px) {
+  .intro{
+    .intro__album{
+      .intro__album__btn::before{
+        width: 160px;
+        background-size: contain;
+      }
+    }
+    .intro__nft-market{
+      .intro__nft-market__btn{
+        &::before{
+          width: 300px;
+          background-size: contain;
+        }
+      }
+    }
+  }
+}
+
+

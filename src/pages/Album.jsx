@@ -77,7 +77,7 @@ function Album() {
         });
       });
       setTracks(fetchedTracks);
-      // console.log("album", fetchedTracks);
+      console.log("album", fetchedTracks);
     } catch (e) {
       console.error(e);
     }

@@ -91,21 +91,6 @@ const AlarmModal = () => {
     };
   };
 
-  useEffect(() => {
-    let timer;
-
-    // 성공 또는 실패하면 타이머 멈춤
-    if (!isError && !albumPk) {
-      timer = setInterval(() => {
-        setElapsedSeconds((prev) => prev + 1);
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isError, albumPk]);
-
   const formatTime = (sec) => {
     const minutes = String(Math.floor(sec / 60)).padStart(2, "0");
     const seconds = String(sec % 60).padStart(2, "0");
@@ -157,10 +142,10 @@ const AlarmModal = () => {
 
   // 수정된 조건: 로컬 스토리지에 앨범 데이터가 있거나, 소켓에서 완료 정보가 온 상태에서
   // 현재 유저의 walletAddress와 소켓의 wallet_address가 일치하는 경우에만 모달을 렌더링
-  const shouldRenderModal =
-    storedAlbumData ||
-    (albumPk && walletAddress?.address === albumWalletAddress);
-  if (!shouldRenderModal) return null;
+  // const shouldRenderModal =
+  //   storedAlbumData ||
+  //   (albumPk && walletAddress?.address === albumWalletAddress);
+  // if (!shouldRenderModal) return null;
 
   console.log("isClosed", isClosed);
   console.log("storedAlbumData", storedAlbumData);

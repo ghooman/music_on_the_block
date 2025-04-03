@@ -20,7 +20,6 @@ import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
-import PreparingModal from "../components/PreparingModal";
 
 // 스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -29,7 +28,6 @@ import axios from "axios";
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import { getHitMusicList } from "../api/HitMusicList";
 function Album() {
-  const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token, walletAddress } = useContext(AuthContext);
 
@@ -178,9 +176,6 @@ function Album() {
             ${selectedTrackIndex !== null ? "active" : ""} 
             ${isScrolled ? "scrolled" : ""}`}
       >
-        <Link className="album__header__mobile-detail-btn" to="/album-detail">
-          Detail
-        </Link>
         <div className="album__header__album-cover">
           <p
             className="album__header__album-cover__img"
@@ -391,14 +386,14 @@ function Album() {
           >
             AI Lyric & Songwriting
           </button>
-          {/* <button
+          <button
             className={`album__content-list__tab__item ${
               activeTab === "AI Singing Evaluation" ? "active" : ""
             }`}
             onClick={() => setActiveTab("AI Singing Evaluation")}
           >
             AI Singing Evaluation
-          </button> */}
+          </button>
         </article>
         <p className="album__content-list__title">AI Lyric & Songwriting</p>
         <article className="album__content-list__list">
@@ -461,9 +456,6 @@ function Album() {
           Detail
         </Link>
       </section>
-      {isPreparingModal && (
-        <PreparingModal setPreparingModal={setPreparingModal} />
-      )}
     </div>
   );
 }

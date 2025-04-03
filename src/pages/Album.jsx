@@ -208,7 +208,10 @@ function Album() {
               {selectedTrack?.play_cnt || 0}
             </p>
             <p>|</p>
-            <p className="name">{selectedTrack?.name || "unKnown"}</p>
+            <p className="name">
+              <img src={selectedTrack?.user_profile || defaultCoverImg} />
+              {selectedTrack?.name || "unKnown"}
+            </p>
           </div>
           <Link
             className="album__header__cover-info__btn"

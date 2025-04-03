@@ -91,20 +91,7 @@ const AlarmModal = () => {
     };
   };
 
-  useEffect(() => {
-    let timer;
 
-    // 성공 또는 실패하면 타이머 멈춤
-    if (!isError && !albumPk) {
-      timer = setInterval(() => {
-        setElapsedSeconds((prev) => prev + 1);
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isError, albumPk]);
 
   const formatTime = (sec) => {
     const minutes = String(Math.floor(sec / 60)).padStart(2, "0");
@@ -184,10 +171,10 @@ const AlarmModal = () => {
             }`}
           >
             {isError
-              ? "Music generation failed."
+              ? <span className="err-txt">Music generation failed.</span>
               : albumPk
               ? "Song generation completed!"
-              : "AI song is currently being generated"}
+              : "The generation process may take up to 5 minutes."}
           </p>
 
           {!albumPk && !isError && (

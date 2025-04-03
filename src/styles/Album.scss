@@ -674,8 +674,10 @@
           } //swiper-music-list__item__right__love-play--END--
           .swiper-music-list__item__right__user {
             display: flex;
-            align-items: center;
+            align-items:start;
             justify-content: space-between;
+            flex-direction: column;
+            gap: 16px;
             .swiper-music-list__item__right__user__info {
               display: flex;
               align-items: center;

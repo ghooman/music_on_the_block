@@ -623,9 +623,14 @@
     }
 
     .details-btn {
+      margin: 0 auto;
       background: #222;
       color: #aaa;
-      padding: 8px 12px;
+      padding: 0px 12px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -645,6 +650,10 @@
     .details-btn.active {
       background: #00ff99;
       color: #000;
+      transition: 0.3s;
+      &:hover{
+
+      }
     }
 
     .details-btn.disabled {

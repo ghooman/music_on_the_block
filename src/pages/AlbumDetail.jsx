@@ -288,7 +288,6 @@ function AlbumDetail() {
       <div className="album-detail">
         <dl className="album-detail__title">
           <dt>AI Lyrics & Songwriting</dt>
-          <dt>AI Lyrics & Songwriting</dt>
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
@@ -483,10 +482,11 @@ function AlbumDetail() {
                     <td>{item.like}</td>
                     <td>
                       <Link
-                        className={item.buttonClass}
+                        // className={item.buttonClass}
+                        className="details-btn active"
                         to={"/album-detail/" + item.id}
                       >
-                        Detail
+                        Details
                       </Link>
                     </td>
                   </tr>

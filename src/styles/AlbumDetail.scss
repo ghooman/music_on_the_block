@@ -151,6 +151,7 @@
             justify-content: center;
             gap: 10px;
             button{
+              width: 66px;
               display: flex;
               align-items: center;
               color:#AAA;
@@ -399,6 +400,37 @@
   }//album-detail__audio--END--
 
   .album-detail__rank-table{
+    .advanced-overlay{
+      gap: 8px !important;
+      .userImg{
+        padding-top: 16px;
+      }
+    }
+    .infoStyle{
+      margin-top: 12px !important;
+    }
+    .userLink{
+      .imgdefault{
+        top: 0 !important;
+        width: 16px !important;
+        height: 16px !important;
+      }
+    }
+    .replysection{
+      .advanced-overlay{
+        gap: 24px !important;
+        .userImg{
+          padding-top: 24px;
+        }
+      }
+    }
+    .replyBtn{//댓글 scss
+      margin: 8px 5px 0 0 !important;
+      width: 84px !important;
+      .replyIcon{
+        margin-right: 8px !important;
+      }
+    }//replyBtn--END--
     border-radius: 12px;
     border: 1px solid var(--Color-03, #222);
     padding: 16px;
@@ -803,7 +835,9 @@
   
 }//album-detail--END--
 
-
+.rhap_download-progress{
+  width: 100% !important;
+}//rhap_download-progress--END--
 
 
 

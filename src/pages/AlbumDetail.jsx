@@ -313,8 +313,8 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyric & Songwriting</dt>
-          <dd>lyric+Songwriting</dd>
+          <dt>AI Lyrics  b & Songwriting</dt>
+          <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>

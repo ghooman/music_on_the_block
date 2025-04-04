@@ -9,7 +9,7 @@ import PreparingModal from "../PreparingModal";
 
 const AiServices = () => {
   const [selectedAiService, setSelectedAiService] = useState(
-    "AI Lyric & Songwriting"
+    "AI Lyrics & Songwriting"
   );
   const [aiServiceStatus, setAiServiceStatus] = useState("All");
   const [openModal, setOpenModal] = useState(false);
@@ -26,7 +26,7 @@ const AiServices = () => {
   const AiServiceList = [
     "All",
     "AI Singing Evaluation",
-    "AI Lyric & Songwriting",
+    "AI Lyrics & Songwriting",
     "AI Cover Creation",
   ];
 
@@ -45,7 +45,7 @@ const AiServices = () => {
     <>
       <div className="ai__services">
         {[
-          "AI Lyric & Songwriting",
+          "AI Lyrics & Songwriting",
           "AI Singing Evaluation",
           "AI Cover Creation",
         ].map((aiService) => (

@@ -18,10 +18,10 @@ const Albums = ({ token }) => {
   const AiServiceList = [
     "All",
     "AI Singing Evaluation",
-    "AI Lyric & Songwriting",
+    "AI Lyrics & Songwriting",
     "AI Cover Creation",
   ];
-  const customTitles = ["Top Likes", "Top Comments", "Top Plays"];
+
   const AiServiceTypeList = ["Lyric", "Songwriting", "Sing", "Link"];
 
   const SortByList = [
@@ -80,7 +80,7 @@ const Albums = ({ token }) => {
         <div className="albums__body">
           {Object.values(myTopAlbumList).map((item, index) => (
             <div className="albums__item" key={index}>
-              <p className="albums__item-title">{customTitles[index]}</p>
+              <p className="albums__item-title">{item?.title}</p>
               <div className="albums__item-intro">
                 <div className="albums__item__img-box">
                   <img
@@ -90,6 +90,7 @@ const Albums = ({ token }) => {
                   />
                 </div>
                 <div className="albums__item-desc">
+                  {/* <p className="albums__item-desc-text">{item?.lyrics}</p> */}
                   <div className="albums__item__icon-box">
                     <div className="albums__item__play-count">
                       <img src={heartIcon} alt="heart" />

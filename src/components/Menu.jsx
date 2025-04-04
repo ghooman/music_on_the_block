@@ -7,6 +7,8 @@ import useWindowHeight from "../hooks/useWindowHeight";
 import levelIcon from "../assets/images/menu/level-icon.svg";
 import userImg from "../assets/images/intro/intro-demo-img2.png";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
+import micIcon from "../assets/images/icon/mic-icon.svg";
+import mobIcon from "../assets/images/icon/mob-icon.svg";
 import { AuthContext } from "../contexts/AuthContext";
 import { WalletConnect } from "./WalletConnect";
 import { useUserDetail } from "../hooks/useUserDetail";
@@ -163,11 +165,11 @@ const Menu = ({
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>100</p>
-                          <span>MOB</span>
+                          <span><img src={mobIcon} alt="mob icon" />MOB</span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>45,345</p>
-                          <span>MIC</span>
+                          <span><img src={micIcon} alt="mic icon" />MIC</span>
                         </div>
                       </div>
                     </div>
@@ -204,7 +206,7 @@ const Menu = ({
                       className={activeSubItem === "ai-lyric" ? "active" : ""}
                       onClick={() => handleSubItemClick("ai-lyric")}
                     >
-                      <Link to="/create">AI Lyric & Songwriting</Link>
+                      <Link to="/create">AI Lyrics & Songwriting</Link>
                     </li>
                     <li
                       className={activeSubItem === "ai-singing" ? "active" : ""}

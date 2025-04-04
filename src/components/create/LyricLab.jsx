@@ -26,14 +26,18 @@ const tagPreset = {
 };
 
 const genrePreset = {
-  "K-POP": ["POP"],
+  "K-POP": ["K-POP"],
   POP: ["POP"],
   Ballad: ["Ballad"],
-  "R&B / Soul": ["R&B / Soul"],
+  "R&B": ["R&B"],
+  Soul: ["Soul"],
+  "Hip-Hop": ["Hip-Hop"],
+  Rap: ["Rap"],
   Rock: ["Rock"],
-  "Hip-Hop / Rap": ["Hip-Hop / Rap"],
-  "Rock / Metal": ["Rock / Metal"],
-  "Folk/Blues/Country": ["Folk/Blues/Country"],
+  Metal: ["Metal"],
+  Folk: ["Folk"],
+  Blues: ["Blues"],
+  Country: ["Country"],
   EDM: ["EDM"],
   Classical: ["Classical"],
   Reggae: ["Reggae"],

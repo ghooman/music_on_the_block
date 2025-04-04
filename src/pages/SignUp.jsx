@@ -309,7 +309,7 @@ const PreferredGenre = ({
     "R&B": randbImg,
     "HIP-HOP": hipHopImg,
     ROCK: rockImg,
-    "FOLK BLUES COUNTRY": folkBluesImg,
+    COUNTRY: folkBluesImg,
     EDM: edmImg,
     CLASSICAL: classicalImg,
   };

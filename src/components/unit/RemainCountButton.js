@@ -6,7 +6,7 @@ export const RemainCountButton = ({ createPossibleCount }) => {
   return (
     <div className="create__get-started--left-count-box">
       <div className="create__get-started--left-count">
-        Today's Left: {createPossibleCount} / 5
+        Today's Left: {remainingCount} / 5
       </div>
     </div>
   );

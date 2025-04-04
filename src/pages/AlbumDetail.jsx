@@ -46,58 +46,19 @@ function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress } = useContext(AuthContext);
-  const dummyData = [
-    {
-      id: 30,
-      userName: "User A",
-      userProfile: demoImg,
-      like: 100,
-      description: "he dances through his masks like breathing",
-      date: "Sat, 04 Nov 2023 14:40:00 UTC+0",
-      liked: true,
-      buttonClass: "details-btn",
-    },
-    {
-      id: 31,
-      userName: "User B",
-      userProfile: demoImg,
-      like: 100,
-      description: "he dances through his masks like breathing ",
-      date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
-      liked: false,
-      buttonClass: "details-btn ",
-    },
-    {
-      id: 32,
-      userName: "User C",
-      userProfile: demoImg,
-      like: 17,
-      description: "he dances through his masks",
-      date: "Sat, 04 Nov 2023 15:00:00 UTC+0",
-      liked: false,
-      buttonClass: "details-btn disabled",
-    },
-    {
-      id: 33,
-      userName: "User D",
-      userProfile: demoImg,
-      like: 70,
-      description: "moving forward without looking back ",
-      date: "Sat, 04 Nov 2023 15:10:00 UTC+0",
-      liked: true,
-      buttonClass: "details-btn",
-    },
-    {
-      id: 34,
-      userName: "User E",
-      userProfile: demoImg,
-      like: 54,
-      description: "shadows whisper in the moonlight ",
-      date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
-      liked: false,
-      buttonClass: "details-btn ",
-    },
-  ];
+
+  // 리더보드 데이터
+  const [leaderBoardData, setLeaderBoardData] = useState([]);
+  console.log("leaderBoardData", leaderBoardData);
+  const getLeaderboardData = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/leader/board/rank`);
+      console.log("getLeaderboardData", res);
+      setLeaderBoardData(res.data);
+    } catch (error) {
+      console.log("getLeaderboardData error: ", error);
+    }
+  };
 
   const [tracks, setTracks] = useState([
     {
@@ -292,6 +253,7 @@ function AlbumDetail() {
   };
   useEffect(() => {
     fetchAlbumDetail();
+    getLeaderboardData();
   }, [id, walletAddress, token, serverApi]);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -325,7 +287,8 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyrics b & Songwriting</dt>
+          <dt>AI Lyrics & Songwriting</dt>
+          <dt>AI Lyrics & Songwriting</dt>
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
@@ -350,8 +313,8 @@ function AlbumDetail() {
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
-                <button className="album-detail__song-detail__left__img__lyric-btn">
-                  Lyric
+                <button className="album-detail__song-detail__left__img__lyrics-btn">
+                  Lyrics
                 </button>
               </div>
               <div className="album-detail__song-detail__left__info">
@@ -504,22 +467,27 @@ function AlbumDetail() {
                 </tr>
               </thead>
               <tbody>
-                {dummyData.map((item) => (
+                {leaderBoardData.map((item, index) => (
                   <tr key={item.id}>
                     <td>{item.id}</td>
                     <td className="user-info">
                       <p>
-                        <img src={item.userProfile} />
-                        {item.userName}
+                        <img src={item.user_profile} />
+                        {item.name}
                       </p>
                     </td>
                     <td>
-                      <p>{item.description}</p>
+                      <p>{item.title}</p>
                     </td>
-                    <td>{item.date}</td>
+                    <td>{item.create_dt}</td>
                     <td>{item.like}</td>
                     <td>
-                      <button className={item.buttonClass}>Details</button>
+                      <Link
+                        className={item.buttonClass}
+                        to={"/album-detail/" + item.id}
+                      >
+                        Detail
+                      </Link>
                     </td>
                   </tr>
                 ))}

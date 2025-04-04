@@ -1,10 +1,9 @@
+import { useEffect } from "react";
+import ModalWrap from "./ModalWrap";
 
-import { useEffect } from 'react';
-import ModalWrap from './ModalWrap';
+import "./LyricsModal.scss";
 
-import './LyricsModal.scss';
-
-const LyricsModal = ({ setLyricsModal }) => {
+const LyricsModal = ({ setShowLyricsModal, generatedLyric }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -16,23 +15,12 @@ const LyricsModal = ({ setLyricsModal }) => {
   return (
     <ModalWrap
       title="LYRICS"
-      onClose={() => setLyricsModal(false)}
+      onClose={() => setShowLyricsModal(false)}
       className="lyrics"
     >
-        <div className="lyrics__content">
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-        sakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdfsakldjklasjgklasjghjkasdf
-      </div>
+      <pre className="lyrics__content">
+        {generatedLyric || "No lyrics available"}
+      </pre>
     </ModalWrap>
   );
 };

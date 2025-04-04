@@ -16,17 +16,19 @@ import subBg2 from "../../assets/images/create/subbanner-bg2.png";
 import CreateLoading from "../CreateLoading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
+import LyricsModal from "../LyricsModal";
+
 const tagPreset = {
-  Love: ["passionate", "romantic", "tender", "endearing", "devoted"],
-  Moon: ["mysterious", "lunar", "ethereal", "celestial", "dreamy"],
-  Travel: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
-  Winter: ["frosty", "chilly", "serene", "crisp", "snowy"],
-  Cafe: ["cozy", "warm", "aromatic", "relaxing", "charming"],
-  School: ["academic", "scholarly", "nostalgic", "instructive", "educational"],
-  Space: ["vast", "infinite", "cosmic", "futuristic", "interstellar"],
-  Nature: ["lush", "verdant", "organic", "tranquil", "wild"],
-  Cat: ["playful", "graceful", "mischievous", "independent", "curious"],
-  Strawberry: ["sweet", "fresh", "juicy", "fruity", "vibrant"],
+  Love: ["Love"],
+  Moon: ["Moon"],
+  Travel: ["Travel"],
+  Winter: ["Winter"],
+  Cafe: ["Cafe"],
+  School: ["School"],
+  Space: ["Space"],
+  Nature: ["Nature"],
+  Cat: ["Cat"],
+  Strawberry: ["Strawberry"],
 };
 
 const genrePreset = {
@@ -82,6 +84,7 @@ const storeAlbumId = (id, title) => {
 
 const MelodyMaker = ({
   lylicData,
+  lyricStory,
   melodyData,
   setMelodyData,
   melodyStory,
@@ -112,6 +115,7 @@ const MelodyMaker = ({
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+  const [showLyricsModal, setShowLyricsModal] = useState(false);
   // const [showModal, setShowModal] = useState(false);
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
@@ -201,7 +205,10 @@ const MelodyMaker = ({
         <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
         <SubBanner.Button
           title="View Lyrics"
-          handler={() => alert("가사 보여주기!")}
+          // handler={() => alert("가사 보여주기!")}
+          handler={() => {
+            setShowLyricsModal(true);
+          }}
         ></SubBanner.Button>
       </SubBanner>
 
@@ -283,8 +290,13 @@ const MelodyMaker = ({
         <SelectedWrap title="Lyric Lab">
           <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-          <SelectedItem title="Style" value={lylicData?.lyric_style} />
           <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+          <div className="lyric-lab__selected-item">
+            <p className="lyric-lab__selected-item--title">Your Story</p>
+            <p className="lyric-lab__selected-item--text">
+              {lyricStory || "-"}
+            </p>
+          </div>
         </SelectedWrap>
       </div>
       {isMelodyPage && (
@@ -344,6 +356,12 @@ const MelodyMaker = ({
           link={`/album-detail/${generatedMusicResult?.id}`}
         />
       )} */}
+      {showLyricsModal && (
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+        />
+      )}
     </div>
   );
 };

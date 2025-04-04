@@ -114,8 +114,6 @@ const AiServices = () => {
                 <p className="detail-item__title">Last Used Date</p>
                 <p className="detail-item__value">
                   Sat, 04 Nov 2023 14:40:00 UTC+0
-                  <br />
-                  Sat, 04 Nov 2023 14:40:00 UTC+9
                 </p>
               </div>
             </div>

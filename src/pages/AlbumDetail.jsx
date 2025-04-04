@@ -472,14 +472,14 @@ function AlbumDetail() {
                     <td>{item.id}</td>
                     <td className="user-info">
                       <p>
-                        <img src={item.user_profile} />
+                        <img src={item.user_profile || defaultCoverImg} />
                         {item.name}
                       </p>
                     </td>
                     <td>
                       <p>{item.title}</p>
                     </td>
-                    <td>{item.create_dt}</td>
+                    <td>{formatLocalTime(item.create_dt)}</td>
                     <td>{item.like}</td>
                     <td>
                       <Link
@@ -614,7 +614,12 @@ function AlbumDetail() {
           </div>
         </section>
       </div>
-      {isShareModal && <ShareModal setShareModal={setShareModal} shareUrl={window.location.href}/>}
+      {isShareModal && (
+        <ShareModal
+          setShareModal={setShareModal}
+          shareUrl={window.location.href}
+        />
+      )}
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}

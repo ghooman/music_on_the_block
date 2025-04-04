@@ -17,16 +17,16 @@ import CreateLoading from "../CreateLoading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
 const tagPreset = {
-  Love: ["passionate", "romantic", "tender", "endearing", "devoted"],
-  Moon: ["mysterious", "lunar", "ethereal", "celestial", "dreamy"],
-  Travel: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
-  Winter: ["frosty", "chilly", "serene", "crisp", "snowy"],
-  Cafe: ["cozy", "warm", "aromatic", "relaxing", "charming"],
-  School: ["academic", "scholarly", "nostalgic", "instructive", "educational"],
-  Space: ["vast", "infinite", "cosmic", "futuristic", "interstellar"],
-  Nature: ["lush", "verdant", "organic", "tranquil", "wild"],
-  Cat: ["playful", "graceful", "mischievous", "independent", "curious"],
-  Strawberry: ["sweet", "fresh", "juicy", "fruity", "vibrant"],
+  Love: ["Love"],
+  Moon: ["Moon"],
+  Travel: ["Travel"],
+  Winter: ["Winter"],
+  Cafe: ["Cafe"],
+  School: ["School"],
+  Space: ["Space"],
+  Nature: ["Nature"],
+  Cat: ["Cat"],
+  Strawberry: ["Strawberry"],
 };
 
 const genrePreset = {

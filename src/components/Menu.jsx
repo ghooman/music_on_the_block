@@ -280,7 +280,7 @@ const Menu = ({
                   }`}
                 >
                   <Link
-                    to="https://www.naver.com/"
+                    to="https://eco.musicontheblock.com"
                     target="_b"
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("earn")}

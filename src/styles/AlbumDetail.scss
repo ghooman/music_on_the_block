@@ -91,7 +91,7 @@
             transition: 0.3s;
             opacity: 0;
             overflow: auto;
-
+            border-radius: 24px;
             pre{
               width: 100%;
               min-height: 100%;
@@ -575,9 +575,19 @@
           }
           &:nth-child(3){
             width: 340px;
-            overflow: hidden; // 너비를 넘어가면 안보이게
-            text-overflow: ellipsis; // 글자가 넘어가면 말줄임(...) 표시
-            white-space: nowrap;
+            p{
+              width: 300px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              color: #AAA;
+              text-align: center;
+              font-family: Inter400;
+              font-size: 14px;
+              font-style: normal;
+              line-height: normal;
+            }
+
           }
         }
       }

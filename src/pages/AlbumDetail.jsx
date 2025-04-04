@@ -455,7 +455,7 @@ function AlbumDetail() {
                   <dt>Creation Data</dt>
                   <dd>
                     {formatUtcTime(album?.create_dt) || "-"}
-                    <span>{formatLocalTime(album?.create_dt)}</span>
+                    {/* <span>{formatLocalTime(album?.create_dt)}</span> */}
                   </dd>
                 </dl>
                 <dl>
@@ -469,12 +469,12 @@ function AlbumDetail() {
                       <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
-                    <Link className="see-more-btn" 
+                    {/* <Link className="see-more-btn" 
                       // to="/my-page"
                       onClick={() => setPreparingModal(true)}
                     >
                       See More
-                    </Link>
+                    </Link> */}
                   </dd>
                 </dl>
               </div>
@@ -513,7 +513,7 @@ function AlbumDetail() {
                       </p>
                     </td>
                     <td>
-                      {item.description}
+                      <p>{item.description}</p>
                     </td>
                     <td>{item.date}</td>
                     <td>

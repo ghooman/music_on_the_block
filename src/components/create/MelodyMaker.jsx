@@ -82,6 +82,7 @@ const storeAlbumId = (id, title) => {
 
 const MelodyMaker = ({
   lylicData,
+  lyricStory,
   melodyData,
   setMelodyData,
   melodyStory,
@@ -283,8 +284,13 @@ const MelodyMaker = ({
         <SelectedWrap title="Lyric Lab">
           <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-          <SelectedItem title="Style" value={lylicData?.lyric_style} />
           <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+          <div className="lyric-lab__selected-item">
+            <p className="lyric-lab__selected-item--title">Your Story</p>
+            <p className="lyric-lab__selected-item--text">
+              {lyricStory || "-"}
+            </p>
+          </div>
         </SelectedWrap>
       </div>
       {isMelodyPage && (

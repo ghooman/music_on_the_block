@@ -273,7 +273,12 @@ const LyricLab = ({
               title="Stylistic"
               value={lylicData?.lyric_stylistic}
             />
-            <SelectedItem title="Style" value={lylicData?.lyric_style} />
+            <div className="lyric-lab__selected-item">
+              <p className="lyric-lab__selected-item--title">Your Story</p>
+              <p className="lyric-lab__selected-item--text">
+                {lyricStory || "-"}
+              </p>
+            </div>
           </SelectedWrap>
         </div>
         {/* =========================================================================== */}

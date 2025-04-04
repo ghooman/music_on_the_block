@@ -150,6 +150,7 @@ const Create = () => {
       {pageNumber === 1 && (
         <MelodyMaker
           lylicData={lylicData}
+          lyricStory={lyricStory}
           melodyData={melodyData}
           setMelodyData={setMelodyData}
           melodyStory={melodyStory}

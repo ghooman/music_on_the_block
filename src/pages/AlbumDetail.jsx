@@ -324,7 +324,7 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyrics  b & Songwriting</dt>
+          <dt>AI Lyrics b & Songwriting</dt>
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
@@ -454,8 +454,8 @@ function AlbumDetail() {
                 <dl>
                   <dt>Creation Data</dt>
                   <dd>
-                    {formatUtcTime(album?.create_dt) || "-"}
-                    {/* <span>{formatLocalTime(album?.create_dt)}</span> */}
+                    {/* {formatUtcTime(album?.create_dt) || "-"} */}
+                    <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl>
@@ -481,7 +481,6 @@ function AlbumDetail() {
             </div>
           </div>
         </section>
-
 
         <section className="album-detail__rank-table">
           <div ref={commentRef}>
@@ -509,16 +508,15 @@ function AlbumDetail() {
                     <td>{item.id}</td>
                     <td className="user-info">
                       <p>
-                        <img src={item.userProfile} />{item.userName}
+                        <img src={item.userProfile} />
+                        {item.userName}
                       </p>
                     </td>
                     <td>
                       <p>{item.description}</p>
                     </td>
                     <td>{item.date}</td>
-                    <td>
-                        {item.like}
-                    </td>
+                    <td>{item.like}</td>
                     <td>
                       <button className={item.buttonClass}>Details</button>
                     </td>

@@ -8,9 +8,8 @@ import "react-comments-section/dist/index.css"; // 기본 스타일
 import "./AdvancedCommentComponent.scss"; // 다크 테마 스타일 추가
 import { useUserDetail } from "../hooks/useUserDetail";
 import userImg1 from "../assets/images/demo/album01.svg";
-import userImg2 from "../assets/images/demo/album02.svg";
 import userImg3 from "../assets/images/demo/album04.svg";
-
+import defaultCoverImg from "../assets/images/header/logo.svg";
 const AdvancedCommentComponent = ({ id }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { data: userData } = useUserDetail();
@@ -28,14 +27,14 @@ const AdvancedCommentComponent = ({ id }) => {
         userId: item.name,
         comId: item.id,
         fullName: item.name,
-        avatarUrl: userImg1,
+        avatarUrl: defaultCoverImg,
         text: item.comment,
         timestamp: item.create_dt,
         replies: item.comment_list.map((reply) => ({
           userId: reply.id,
           comId: `${reply.id}_${new Date(reply.create_dt).getTime()}`,
           fullName: reply.name,
-          avatarUrl: userImg2,
+          avatarUrl: defaultCoverImg,
           text: reply.comment,
           timestamp: reply.create_dt,
           replies: [],
@@ -112,7 +111,7 @@ const AdvancedCommentComponent = ({ id }) => {
       <CommentSection
         currentUser={{
           currentUserId: userData?.id,
-          currentUserImg: userData?.profile || userImg3,
+          currentUserImg: userData?.profile || defaultCoverImg,
           currentUserFullName: userData?.name,
         }}
         advancedInput={true}

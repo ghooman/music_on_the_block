@@ -388,16 +388,32 @@ function AlbumDetail() {
                   <dd>{album?.story || "-"}</dd>
                 </dl>
                 <dl>
+                  <dt>Language</dt>
+                  <dd>{album?.language || "-"}</dd>
+                </dl>
+                <dl>
                   <dt>Genre</dt>
                   <dd>{album?.genre || "-"}</dd>
                 </dl>
                 <dl>
-                  <dt>Style</dt>
-                  <dd>{album?.style || "-"}</dd>
-                </dl>
-                <dl>
                   <dt>Stylistic</dt>
                   <dd>{album?.Stylistic || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Gender</dt>
+                  <dd>{album?.gender || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Age</dt>
+                  <dd>{album?.voice_age || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Musical Instrument</dt>
+                  <dd>{album?.musical_instrument || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Tempo</dt>
+                  <dd>{album?.tempo || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Creation Data</dt>
@@ -406,11 +422,15 @@ function AlbumDetail() {
                     <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
+                <dl>
+                  <dt>Song Length</dt>
+                  <dd>{album?.Stylistic || "-"}</dd>
+                </dl>
                 <dl className="artist">
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={album?.user_profile || coverImg2} />
+                      <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
                     <Link className="see-more-btn" to="/my-page">

@@ -55,6 +55,11 @@
     background-color: #cf0;
     float: right;
   }
+  .disabled {
+    opacity: 0.2;
+    color: #000;
+    cursor: not-allowed;
+  }
   .tw-connect-wallet {
     color: #1a1a1a;
     font-family: orbitron600;

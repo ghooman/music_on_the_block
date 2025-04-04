@@ -101,7 +101,7 @@ const CollectionInfo = () => {
                     <img className="collection-detail-info__data--image" src={dummy_collectionImage} alt="images" />
                 </div>
                 <div className="collection-detail-info__stats">
-                    <CollectionInfo.StatsItem title="Number of NFT Items" value={2} suffix="ITEMS" />
+                    <CollectionInfo.StatsItem title="NFT Items" value={2} suffix="ITEMS" />
                     <CollectionInfo.StatsItem title="Highest Price" value={10.39} suffix="MOB" />
                     <CollectionInfo.StatsItem title="Lowest Price" value={0.01} suffix="MOB" />
                     <CollectionInfo.StatsItem title="Total Volume" value={10 + ' MOB'} />

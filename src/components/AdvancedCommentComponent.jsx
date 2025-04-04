@@ -1,4 +1,3 @@
-// components/AdvancedCommentComponent.js
 import "../styles/AlbumDetail.scss";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
@@ -8,28 +7,26 @@ import "react-comments-section/dist/index.css"; // 기본 스타일
 import "./AdvancedCommentComponent.scss"; // 다크 테마 스타일 추가
 import { useUserDetail } from "../hooks/useUserDetail";
 import defaultCoverImg from "../assets/images/header/logo.svg";
+
 const AdvancedCommentComponent = ({ id }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { data: userData } = useUserDetail();
   const { token } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
-  const [commentPage, setCommentPage] = useState(1);
 
   // 코멘트 리스트를 서버에서 가져오고 라이브러리 형식에 맞게 변환하는 함수
   const fetchCommentList = async () => {
     try {
-      const response = await axios.get(
-        `${serverApi}/api/music/${id}/comment?page=${commentPage}`
-      );
+      const response = await axios.get(`${serverApi}/api/music/${id}/comment`);
       const transformedComments = response.data.map((item) => ({
-        userId: item.name,
+        userId: item.wallet_address, // wallet_address를 식별자로 사용
         comId: item.id,
         fullName: item.name,
         avatarUrl: item.profile || defaultCoverImg,
         text: item.comment,
         timestamp: item.create_dt,
         replies: item.comment_list.map((reply) => ({
-          userId: reply.id,
+          userId: reply.wallet_address, // 대댓글에서도 wallet_address 사용
           comId: `${reply.id}_${new Date(reply.create_dt).getTime()}`,
           fullName: reply.name,
           avatarUrl: reply.profile || defaultCoverImg,
@@ -46,10 +43,10 @@ const AdvancedCommentComponent = ({ id }) => {
     }
   };
 
-  // 최초 및 페이지 변경시 코멘트 리스트 갱신
+  // 최초 및 id, serverApi 변경시 코멘트 리스트 갱신
   useEffect(() => {
     fetchCommentList();
-  }, [id, serverApi, commentPage]);
+  }, [id, serverApi]);
 
   // 상위 댓글 작성 함수 (onSubmitAction)
   const handleCommentSubmit = async (commentData) => {
@@ -88,9 +85,9 @@ const AdvancedCommentComponent = ({ id }) => {
 
   // 코멘트 수정 함수 (onEditAction)
   const handleEditSubmit = async (editData) => {
+    console.log("editData", editData);
     try {
-      // 서버에 코멘트 수정 요청 (적절한 API 엔드포인트를 확인하여 수정)
-      const response = await axios.put(
+      const response = await axios.post(
         `${serverApi}/api/music/comment/${editData.comId}?comment=${editData.text}`,
         {},
         {
@@ -104,11 +101,28 @@ const AdvancedCommentComponent = ({ id }) => {
     }
   };
 
+  // 코멘트 삭제 함수 추가 (onDeleteAction)
+  const handleDeleteSubmit = async (deleteData) => {
+    console.log("deleteData", deleteData);
+    try {
+      const response = await axios.delete(
+        `${serverApi}/api/music/comment/${deleteData.comIdToDelete}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("handleDeleteSubmit", response.data);
+      fetchCommentList(); // 삭제 후 최신 데이터 갱신
+    } catch (error) {
+      console.error("코멘트 삭제 에러:", error);
+    }
+  };
+
   return (
     <div>
       <CommentSection
         currentUser={{
-          currentUserId: userData?.id,
+          currentUserId: userData?.wallet_address, // currentUser 식별자로 wallet_address 사용
           currentUserImg: userData?.profile || defaultCoverImg,
           currentUserFullName: userData?.name,
         }}
@@ -123,6 +137,9 @@ const AdvancedCommentComponent = ({ id }) => {
         }}
         onEditAction={(editData) => {
           handleEditSubmit(editData);
+        }}
+        onDeleteAction={(deleteData) => {
+          handleDeleteSubmit(deleteData);
         }}
       />
     </div>

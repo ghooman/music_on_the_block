@@ -5,7 +5,7 @@ import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
-const GetStarted = ({ handler }) => {
+const GetStarted = ({ handler, createPossibleCount }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
 
@@ -49,7 +49,7 @@ const GetStarted = ({ handler }) => {
           <p className="create__get-started--features-item ">--%</p>
         </div>
       </div>
-      <RemainCountButton remainingCount={1} />
+      <RemainCountButton createPossibleCount={createPossibleCount} />
 
       {isRegistered ? (
         <ExpandedButton

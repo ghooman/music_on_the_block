@@ -86,7 +86,7 @@ const Menu = ({
       navigator.clipboard
         .writeText(userData.wallet_address)
         .then(() => {
-          alert("지갑 주소가 복사되었습니다.");
+          alert("Wallet address has been copied.");
         })
         .catch((err) => {
           console.error("복사에 실패하였습니다: ", err);

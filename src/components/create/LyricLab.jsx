@@ -81,6 +81,7 @@ const LyricLab = ({
   SelectedWrap,
   SelectedItem,
   isLyricPage,
+  createPossibleCount,
 }) => {
   const [loading, setLoading] = useState(false);
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
@@ -217,7 +218,7 @@ const LyricLab = ({
   if (!createdLyrics)
     return (
       <div className="create__lyric-lab">
-        <RemainCountButton remainingCount={1} />
+        <RemainCountButton createPossibleCount={createPossibleCount} />
         <SelectItemWrap
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}

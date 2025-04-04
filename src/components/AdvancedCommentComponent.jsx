@@ -11,15 +11,14 @@ import defaultCoverImg from "../assets/images/header/logo.svg";
 const AdvancedCommentComponent = ({ id }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { data: userData } = useUserDetail();
-  const { token } = useContext(AuthContext);
+  const { token, walletAddress } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
-  const [commentPage, setCommentPage] = useState(1);
 
   // 코멘트 리스트를 서버에서 가져오고 라이브러리 형식에 맞게 변환하는 함수
   const fetchCommentList = async () => {
     try {
       const response = await axios.get(
-        `${serverApi}/api/music/${id}/comment?page=${commentPage}`
+        `${serverApi}/api/music/${id}/comment?wallet_address=${walletAddress?.address}`
       );
       const transformedComments = response.data.map((item) => ({
         userId: item.name,
@@ -49,7 +48,7 @@ const AdvancedCommentComponent = ({ id }) => {
   // 최초 및 페이지 변경시 코멘트 리스트 갱신
   useEffect(() => {
     fetchCommentList();
-  }, [id, serverApi, commentPage]);
+  }, [id, serverApi]);
 
   // 상위 댓글 작성 함수 (onSubmitAction)
   const handleCommentSubmit = async (commentData) => {

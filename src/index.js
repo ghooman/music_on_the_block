@@ -6,6 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import { ThirdwebProvider } from "thirdweb/react";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+if (process.env.NODE_ENV === "production") {
+  console.log = () => {};
+  console.error = () => {};
+}
+
 root.render(
   <React.StrictMode>
     <ThirdwebProvider>

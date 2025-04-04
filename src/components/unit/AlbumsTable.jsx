@@ -45,7 +45,7 @@ const AlbumsTable = () => {
               <th>AI Service Type</th> */}
               <th>Song Title</th>
               <th>Date</th>
-              <th>Like</th>
+              <th>Likes</th>
               <th>Details</th>
             </tr>
           </thead>

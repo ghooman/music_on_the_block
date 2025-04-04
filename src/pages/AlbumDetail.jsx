@@ -461,7 +461,7 @@ function AlbumDetail() {
                   <th>Artist</th>
                   <th>Song Title</th>
                   <th>Date</th>
-                  <th>Like</th>
+                  <th>Likes</th>
                   <th>Details</th>
                 </tr>
               </thead>

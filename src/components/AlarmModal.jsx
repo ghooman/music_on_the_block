@@ -66,7 +66,7 @@ const AlarmModal = () => {
             setStoredAlbumData(null);
           } else if (data.status === "fail") {
             setIsError(true);
-            setErrorMessage(data.message);
+            setErrorMessage(data.message.message);
           } else {
             console.log("현재 상태:", data.status);
           }

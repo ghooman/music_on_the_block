@@ -18,9 +18,9 @@ const LyricsModal = ({ setShowLyricsModal, generatedLyric }) => {
       onClose={() => setShowLyricsModal(false)}
       className="lyrics"
     >
-      <div className="lyrics__content">
+      <pre className="lyrics__content">
         {generatedLyric || "No lyrics available"}
-      </div>
+      </pre>
     </ModalWrap>
   );
 };

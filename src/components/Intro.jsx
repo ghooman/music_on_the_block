@@ -41,10 +41,10 @@ const Intro = ({ setIsLoggedIn }) => {
     };
 
     checkWindowHeight(); // 초기 체크
-    window.addEventListener('resize', checkWindowHeight);
+    window.addEventListener("resize", checkWindowHeight);
 
     return () => {
-      window.removeEventListener('resize', checkWindowHeight);
+      window.removeEventListener("resize", checkWindowHeight);
     };
   }, []);
 
@@ -152,7 +152,7 @@ const Intro = ({ setIsLoggedIn }) => {
     <>
       <IntroLogo />
       {isVisible && (
-        <div className={`intro ${isHighWindow ? 'high-window' : ''}`}>
+        <div className={`intro ${isHighWindow ? "high-window" : ""}`}>
           <div className="intro__inner">
             <section className="intro__number">
               <dl className="intro__number__title">
@@ -267,14 +267,13 @@ const Intro = ({ setIsLoggedIn }) => {
               </article>
             </section>
 
-
             <section className="intro__slide-mobile">
               <Link to="/create" className="intro__slide-mobile__create-btn">
                 CREATE
               </Link>
               <div className="intro__slide-mobile__tab">
                 <Link className="intro__slide-mobile__tab__item active">
-                  AI Lyric & <br />
+                  AI Lyrics & <br />
                   Songwriting
                 </Link>
                 <Link
@@ -309,9 +308,7 @@ const Intro = ({ setIsLoggedIn }) => {
             </section>
 
             <div className="intro__album-wrap">
-              <Link 
-              to="/album"
-              className="intro__album">
+              <Link to="/album" className="intro__album">
                 <ul className="intro__album__list">
                   <li className="intro__album__list__item">
                     <img src={albumImg01} />
@@ -350,19 +347,11 @@ const Intro = ({ setIsLoggedIn }) => {
                     <img src={albumImg03} />
                   </li>
                 </ul>
-                <p className="intro__album__btn">
-                  ALBUM
-                </p>
+                <p className="intro__album__btn">ALBUM</p>
               </Link>
 
-              <Link 
-              to='/nft'
-              className="intro__nft-market">
-                  <p 
-                    className="intro__nft-market__btn"
-                  >
-                    NFT Marketplace
-                  </p>
+              <Link to="/nft" className="intro__nft-market">
+                <p className="intro__nft-market__btn">NFT Marketplace</p>
               </Link>
             </div>
           </div>

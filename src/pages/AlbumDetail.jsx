@@ -40,6 +40,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
+import LyricsModal from "../components/LyricsModal";
 function AlbumDetail() {
   const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -286,7 +287,8 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyrics b & Songwriting</dt>
+          <dt>AI Lyrics & Songwriting</dt>
+          <dt>AI Lyrics & Songwriting</dt>
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
@@ -416,8 +418,8 @@ function AlbumDetail() {
                 <dl>
                   <dt>Creation Data</dt>
                   <dd>
-                    {formatUtcTime(album?.create_dt) || "-"}
-                    {/* <span>{formatLocalTime(album?.create_dt)}</span> */}
+                    {/* {formatUtcTime(album?.create_dt) || "-"} */}
+                    <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl>
@@ -612,7 +614,7 @@ function AlbumDetail() {
           </div>
         </section>
       </div>
-      {isShareModal && <ShareModal setShareModal={setShareModal} />}
+      {isShareModal && <ShareModal setShareModal={setShareModal} shareUrl={window.location.href}/>}
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}

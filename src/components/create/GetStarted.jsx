@@ -5,7 +5,7 @@ import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
-const GetStarted = ({ handler }) => {
+const GetStarted = ({ handler, createPossibleCount }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
 
@@ -26,7 +26,7 @@ const GetStarted = ({ handler }) => {
       <div className="create__get-started--features">
         <h3 className="create__get-started--features-title">Code Features</h3>
         <div className="create__get-started--features-items">
-          {["Lyric Generation", "Melody Composition", "Style Adaptation"].map(
+          {["Lyrics Generation", "Melody Composition", "Style Adaptation"].map(
             (item, index) => (
               <div className="create__get-started--features-item" key={index}>
                 {item}
@@ -49,7 +49,7 @@ const GetStarted = ({ handler }) => {
           <p className="create__get-started--features-item ">--%</p>
         </div>
       </div>
-      <RemainCountButton remainingCount={1} />
+      <RemainCountButton createPossibleCount={createPossibleCount} />
 
       {isRegistered ? (
         <ExpandedButton

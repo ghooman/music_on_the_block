@@ -16,7 +16,10 @@ const AiServices = () => {
   const [showPreparingModal, setShowPreparingModal] = useState(false);
 
   const handleAiServiceClick = (aiService) => {
-    if (aiService === "AI Singing Evaluation" || aiService === "AI Cover Creation") {
+    if (
+      aiService === "AI Singing Evaluation" ||
+      aiService === "AI Cover Creation"
+    ) {
       setShowPreparingModal(true);
       return;
     }
@@ -30,7 +33,7 @@ const AiServices = () => {
     "AI Cover Creation",
   ];
 
-  const AiServiceTypeList = ["Lyric", "Songwriting", "Sing", "Link"];
+  const AiServiceTypeList = ["Lyrics", "Songwriting", "Sing", "Link"];
 
   const SortByList = [
     "Latest",
@@ -68,7 +71,7 @@ const AiServices = () => {
       <section className="ai__ai-status">
         <p className="ai-status__title">AI Service Status</p>
         <div className="ai-status__menu">
-          {["All", "Lyric", "Songwriting", "Lyric & Songwriting"].map(
+          {["All", "Lyrics", "Songwriting", "Lyrics & Songwriting"].map(
             (status) => (
               <button
                 key={status}
@@ -125,7 +128,7 @@ const AiServices = () => {
         <p className="period__title">AI Work Trends by Period</p>
         <div className="period__menu">
           <Filter
-            list={["All", "Lyric", "Latest"]}
+            list={["All", "Lyrics", "Latest"]}
             clickEvent={() => setOpenModal(true)}
           />
         </div>

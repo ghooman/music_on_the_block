@@ -13,9 +13,9 @@ import GetStarted from "../components/create/GetStarted";
 import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
 import "../styles/Create.scss";
-
+import { getCreatePossibleCount } from "../api/getCreatePossibleCount";
 const Create = () => {
-  const { walletAddress, isRegistered } = useContext(AuthContext);
+  const { token, walletAddress, isRegistered } = useContext(AuthContext);
   const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(-1);
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
@@ -33,7 +33,6 @@ const Create = () => {
     lyric_stylistic: [],
   });
   const [lyricStory, setLyricStory] = useState("");
-
   const [melodyData, setMelodyData] = useState({
     melody_tag: [],
     melody_genre: [],
@@ -42,6 +41,21 @@ const Create = () => {
     melody_instrument: [],
     // melody_voice: [],
   });
+  // 남은 생성횟수 확인
+  const [createPossibleCount, setCreatePossibleCount] = useState(0);
+  useEffect(() => {
+    const fetchCreatePossibleCount = async () => {
+      try {
+        const response = await getCreatePossibleCount(token);
+        setCreatePossibleCount(response.data);
+      } catch (error) {
+        console.error("Error fetching create possible count:", error);
+      }
+    };
+
+    fetchCreatePossibleCount();
+  }, [token]);
+
   const [melodyStory, setMelodyStory] = useState("");
 
   const [generatedLyric, setGeneratedLyric] = useState("");
@@ -71,7 +85,13 @@ const Create = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pageNumber]);
 
-  if (pageNumber === -1) return <GetStarted handler={() => setPageNumber(0)} />;
+  if (pageNumber === -1)
+    return (
+      <GetStarted
+        handler={() => setPageNumber(0)}
+        createPossibleCount={createPossibleCount}
+      />
+    );
 
   const isLyricPage = pageNumber === 0;
   const isMelodyPage = pageNumber === 1;
@@ -83,7 +103,7 @@ const Create = () => {
       <DescriptionBanner pageNumber={pageNumber} />
       {/* {pageNumber !== 2 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                    <SelectedWrap title="Lyric Lab">
+                    <SelectedWrap title="Lyrics Lab">
                         <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
                         <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
                         <SelectedItem title="Style" value={lylicData?.lyric_style} />
@@ -124,6 +144,7 @@ const Create = () => {
           isLyricPage={isLyricPage}
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
+          createPossibleCount={createPossibleCount}
         ></LyricLab>
       )}
       {pageNumber === 1 && (
@@ -145,6 +166,7 @@ const Create = () => {
           isMelodyPage={isMelodyPage}
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
+          createPossibleCount={createPossibleCount}
         ></MelodyMaker>
       )}
       {/* {pageNumber === 2 && (
@@ -210,7 +232,7 @@ const Title = () => {
 
 const Progress = ({ pageNumber }) => {
   const pages = [
-    "Lyric Lab",
+    "Lyrics Lab",
     "Melody Maker",
     // "Alubum Cover Studio",
     // "Preview & Finalize",

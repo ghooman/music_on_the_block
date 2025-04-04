@@ -50,12 +50,11 @@ const genderPreset = {
 };
 
 const agePreset = {
-  "Infant (0~5)": ["Infant (0~5)"],
-  "Child (6~12)": ["Child (6~12)"],
-  "Teen (13~18)": ["Teen (13~18)"],
-  "Young Adult (19~29)": ["Young Adult (19~29)"],
-  "MiddleAge (30~49)": ["MiddleAge (30~49)"],
-  "Senior (50~)": ["Senior (50~)"],
+  "Child (0~12)": ["Child"],
+  "Teen (13~18)": ["Teen"],
+  "Young Adult (19~29)": ["Young Adult"],
+  "MiddleAge (30~49)": ["MiddleAge"],
+  "Senior (50~)": ["Senior"],
 };
 
 const instrumentPreset = {
@@ -99,6 +98,7 @@ const MelodyMaker = ({
   isMelodyPage,
   selectedLanguage,
   setSelectedLanguage,
+  createPossibleCount,
 }) => {
   const {
     melody_tag,
@@ -175,7 +175,7 @@ const MelodyMaker = ({
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      navigate(`/my-page?category=Albums`);
+      navigate(`/album`);
     } catch (err) {
       alert("에러 발생");
       console.log("handleSubmit error", err);
@@ -193,11 +193,11 @@ const MelodyMaker = ({
   // if (!generatedMusicResult)
   return (
     <div className="create__melody-maker">
-      <RemainCountButton remainingCount={1} />
+      <RemainCountButton createPossibleCount={createPossibleCount} />
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="View Lyric Lab Results"></SubBanner.Title>
-        <SubBanner.Message text="These lyrics were previously written by AI in Lyric Lab."></SubBanner.Message>
+        <SubBanner.Title text="View Lyrics Lab Results"></SubBanner.Title>
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab."></SubBanner.Message>
         <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
         <SubBanner.Button
           title="View Lyrics"
@@ -280,7 +280,7 @@ const MelodyMaker = ({
         className="mb40"
         style={{ display: "flex", flexDirection: "column", gap: 16 }}
       >
-        <SelectedWrap title="Lyric Lab">
+        <SelectedWrap title="Lyrics Lab">
           <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
           <SelectedItem title="Style" value={lylicData?.lyric_style} />

@@ -38,7 +38,7 @@ const AlarmModal = () => {
 
   const [isError, setIsError] = useState(false);
 
-  console.log("isError", isError);
+  // console.log("isError", isError);
 
   const socketRef = useRef(null);
 
@@ -90,8 +90,6 @@ const AlarmModal = () => {
       }
     };
   };
-
-
 
   const formatTime = (sec) => {
     const minutes = String(Math.floor(sec / 60)).padStart(2, "0");
@@ -149,11 +147,11 @@ const AlarmModal = () => {
     (albumPk && walletAddress?.address === albumWalletAddress);
   if (!shouldRenderModal) return null;
 
-  console.log("isClosed", isClosed);
-  console.log("storedAlbumData", storedAlbumData);
-  console.log("albumPk", albumPk);
-  console.log("walletAddress", walletAddress?.address);
-  console.log("albumWalletAddress", albumWalletAddress);
+  // console.log("isClosed", isClosed);
+  // console.log("storedAlbumData", storedAlbumData);
+  // console.log("albumPk", albumPk);
+  // console.log("walletAddress", walletAddress?.address);
+  // console.log("albumWalletAddress", albumWalletAddress);
 
   return (
     <>
@@ -170,11 +168,13 @@ const AlarmModal = () => {
               isError ? "alarm__modal__item__txt--error" : ""
             }`}
           >
-            {isError
-              ? <span className="err-txt">Music generation failed.</span>
-              : albumPk
-              ? "Song generation completed!"
-              : "The generation process may take up to 5 minutes."}
+            {isError ? (
+              <span className="err-txt">Music generation failed.</span>
+            ) : albumPk ? (
+              "Song generation completed!"
+            ) : (
+              "The generation process may take up to 5 minutes."
+            )}
           </p>
 
           {!albumPk && !isError && (

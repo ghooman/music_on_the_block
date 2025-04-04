@@ -88,6 +88,7 @@ export const SelectItem = ({
   multiple,
   add,
   color,
+  className,
 }) => {
   const [input, setInput] = useState("");
   const [selectedPreset, setSelectedPreset] = useState("");
@@ -143,7 +144,7 @@ export const SelectItem = ({
   };
 
   return (
-    <div className="tag-select">
+    <div className={`tag-select ${className}`}>
       <div className="tag-title__block">
         <h3 className="tag-title">{mainTitle}</h3>
         {/* <p className="tag-title__notice">

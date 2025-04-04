@@ -17,21 +17,16 @@ import CreateLoading from "../CreateLoading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
 const tagPreset = {
-  Joyful: ["Joyful"],
-  Melancholic: ["Melancholic"],
-  Playful: ["Playful"],
-  Romantic: ["Romantic"],
-  Whimsical: ["Whimsical"],
-  Majestic: ["Majestic"],
-  Ethereal: ["Ethereal"],
-  Serene: ["Serene"],
-  Mysterious: ["Mysterious"],
-  Soothing: ["Soothing"],
-  Energetic: ["Energetic"],
-  Powerful: ["Powerful"],
-  Chill: ["Chill"],
-  Hypnotic: ["Hypnotic"],
-  Edgy: ["Edgy"],
+  Love: ["passionate", "romantic", "tender", "endearing", "devoted"],
+  Moon: ["mysterious", "lunar", "ethereal", "celestial", "dreamy"],
+  Travel: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
+  Winter: ["frosty", "chilly", "serene", "crisp", "snowy"],
+  Cafe: ["cozy", "warm", "aromatic", "relaxing", "charming"],
+  School: ["academic", "scholarly", "nostalgic", "instructive", "educational"],
+  Space: ["vast", "infinite", "cosmic", "futuristic", "interstellar"],
+  Nature: ["lush", "verdant", "organic", "tranquil", "wild"],
+  Cat: ["playful", "graceful", "mischievous", "independent", "curious"],
+  Strawberry: ["sweet", "fresh", "juicy", "fruity", "vibrant"],
 };
 
 const genrePreset = {
@@ -105,8 +100,13 @@ const MelodyMaker = ({
   selectedLanguage,
   setSelectedLanguage,
 }) => {
-  const { melody_tag, melody_genre, melody_style, melody_instrument } =
-    melodyData || {};
+  const {
+    melody_tag,
+    melody_genre,
+    melody_gender,
+    melody_age,
+    melody_instrument,
+  } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -120,9 +120,10 @@ const MelodyMaker = ({
     (melody_genre &&
       melody_genre.length > 0 &&
       melody_genre[0].trim() !== "") ||
-    (melody_style &&
-      melody_style.length > 0 &&
-      melody_style[0].trim() !== "") ||
+    (melody_gender &&
+      melody_gender.length > 0 &&
+      melody_gender[0].trim() !== "") ||
+    (melody_age && melody_age.length > 0 && melody_age[0].trim() !== "") ||
     (melody_instrument &&
       melody_instrument.length > 0 &&
       melody_instrument[0].trim() !== "") ||
@@ -132,28 +133,30 @@ const MelodyMaker = ({
       Language: ${selectedLanguage},
       ${melody_tag ? "Tags:" + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre:" + melody_genre?.join(", ") : ""}
-      ${melody_style ? "Style:" + melody_style?.join(", ") : ""}
+      ${melody_gender ? "Gender" + melody_gender?.join(", ") : ""} 
+      ${melody_age ? "Age:" + melody_age?.join(", ") : ""}
       ${melody_instrument ? "Instrument:" + melody_instrument?.join(", ") : ""}
       ${melodyStory ? "Story : " + melodyStory : ""}
       Tempo : ${tempo}
       `;
   const formData = {
     title: title,
-    ai_service: "",
-    ai_service_type: "",
+    story: melodyStory,
+    language: selectedLanguage,
     lyrics: generatedLyric,
     genre: melody_genre?.[0] ? melody_genre?.[0] : "",
-    style: melody_style?.[0] ? melody_style?.[0] : "",
-    language: selectedLanguage,
-    mood: "",
-    musical_instrument: "",
-    story: melodyStory,
+    style: "",
+    gender: melody_gender?.[0] ? melody_gender?.[0] : "",
+    voice_age: melody_age?.[0] ? melody_age?.[0] : "",
+    musical_instrument: melody_instrument?.[0] ? melody_instrument?.[0] : "",
     tags: melody_tag ? melody_tag.join(", ") : "",
-    specific_lyrics: "",
     image: "",
-    tempo: tempo,
-    color_palette: "",
+    tempo: parseFloat(tempo),
     song_length: "",
+    mood: "",
+    ai_service: "",
+    ai_service_type: "",
+    mood: "",
   };
 
   // 노래 생성 요청 함수 수정
@@ -193,10 +196,11 @@ const MelodyMaker = ({
       <RemainCountButton remainingCount={1} />
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="Load Lyric Lab Details"></SubBanner.Title>
-        <SubBanner.Message text="Quickly import shared details from the Lyric Section, such as Tags, Genre, and Style. Save time by reusing your inputs!"></SubBanner.Message>
+        <SubBanner.Title text="View Lyric Lab Results"></SubBanner.Title>
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyric Lab."></SubBanner.Message>
+        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
         <SubBanner.Button
-          title="Load Details"
+          title="View Lyrics"
           handler={() => alert("가사 보여주기!")}
         ></SubBanner.Button>
       </SubBanner>
@@ -206,7 +210,15 @@ const MelodyMaker = ({
           <SubBanner.LeftImages src={subBg2} />
           <SubBanner.Title text="Select a Tags" />
           <SubBanner.Message text="Please select tags that can express the mood, emotion, and image of the song." />
-          <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
+          <SelectItem
+            subTitle="Popular Tags"
+            setter={setMelodyData}
+            objKey="melody_tag"
+            selected={melodyData?.melody_tag}
+            preset={tagPreset}
+            className="sub-banner__tags"
+            multiple
+          />
         </SubBanner>
         <SelectItemInputOnly value={title} setter={setTitle} title="Title" />
         <SelectItem
@@ -221,8 +233,8 @@ const MelodyMaker = ({
           mainTitle="Select a Gender"
           subTitle="Popular Gender"
           setter={setMelodyData}
-          objKey="melody_voice"
-          selected={melodyData?.melody_voice}
+          objKey="melody_gender"
+          selected={melodyData?.melody_gender}
           preset={genderPreset}
         />
         <SelectItem
@@ -279,7 +291,9 @@ const MelodyMaker = ({
         <SelectedWrap title="Melody Maker">
           <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
-          <SelectedItem title="Style" value={melodyData?.melody_style} />
+          <SelectedItem title="Gender" value={melodyData?.melody_gender} />
+          <SelectedItem title="Age" value={melodyData?.melody_age} />
+          <SelectedItem title="Story" value={melodyStory} />
           <SelectedItem
             title={
               <>

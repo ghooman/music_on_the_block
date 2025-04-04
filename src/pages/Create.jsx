@@ -37,10 +37,10 @@ const Create = () => {
   const [melodyData, setMelodyData] = useState({
     melody_tag: [],
     melody_genre: [],
-    melody_style: [],
-    melody_instrument: [],
-    melody_voice: [],
+    melody_gender: [],
     melody_age: [],
+    melody_instrument: [],
+    // melody_voice: [],
   });
   const [melodyStory, setMelodyStory] = useState("");
 

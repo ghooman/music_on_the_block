@@ -297,8 +297,12 @@ const AIDetailedSettings = ({
   );
 };
 
-const PreferredGenre = ({ onBack, onNext }) => {
-  const [selectedGenre, setSelectedGenre] = useState(null);
+const PreferredGenre = ({
+  onBack,
+  onNext,
+  selectedGenre,
+  setSelectedGenre,
+}) => {
   const genreImages = {
     "K-POP": kpopImg,
     POP: popImg,
@@ -373,6 +377,8 @@ function SignUp() {
     introduction: "",
   });
   const [selectedImageFile, setSelectedImageFile] = useState(null);
+  // 선택한 장르를 관리하는 상태 추가
+  const [selectedGenre, setSelectedGenre] = useState(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -406,11 +412,13 @@ function SignUp() {
       if (selectedImageFile) {
         formDataToSend.append("file", selectedImageFile);
       }
+      // 선택한 장르 정보를 payload에 포함
       const payload = {
         name: formData.artistName,
         email: formData.email,
         introduce: formData.introduction,
         wallet_address: walletAddrString,
+        genre: selectedGenre,
       };
       formDataToSend.append("payload", JSON.stringify(payload));
 
@@ -442,7 +450,12 @@ function SignUp() {
           setSelectedImageFile={setSelectedImageFile}
         />
       ) : (
-        <PreferredGenre onBack={() => setStep(1)} onNext={handleNext} />
+        <PreferredGenre
+          onBack={() => setStep(1)}
+          onNext={handleNext}
+          selectedGenre={selectedGenre}
+          setSelectedGenre={setSelectedGenre}
+        />
       )}
       {showModal && (
         <SingUpCompleteModal

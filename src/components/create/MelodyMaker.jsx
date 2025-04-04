@@ -52,11 +52,11 @@ const genderPreset = {
 };
 
 const agePreset = {
-  "Child (0~12)": ["Child"],
-  "Teen (13~18)": ["Teen"],
-  "Young Adult (19~29)": ["Young Adult"],
-  "MiddleAge (30~49)": ["MiddleAge"],
-  "Senior (50~)": ["Senior"],
+  "Child (0~12)": ["Child (0~12)"],
+  "Teen (13~18)": ["Teen (13~18)"],
+  "Young Adult (19~29)": ["Young Adult (19~29)"],
+  "MiddleAge (30~49)": ["MiddleAge (30~49)"],
+  "Senior (50~)": ["Senior (50~)"],
 };
 
 const instrumentPreset = {
@@ -305,7 +305,6 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
           <SelectedItem title="Gender" value={melodyData?.melody_gender} />
           <SelectedItem title="Age" value={melodyData?.melody_age} />
-          {/* <SelectedItem title="Story" value={melodyStory} /> */}
           <SelectedItem
             title={
               <>

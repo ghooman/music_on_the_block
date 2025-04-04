@@ -28,19 +28,19 @@ const tagPreset = {
 const genrePreset = {
   "K-POP": ["K-POP"],
   POP: ["POP"],
-  Ballad: ["Ballad"],
+  BALLAD: ["BALLAD"],
   "R&B": ["R&B"],
-  Soul: ["Soul"],
-  "Hip-Hop": ["Hip-Hop"],
-  Rap: ["Rap"],
-  Rock: ["Rock"],
-  Metal: ["Metal"],
-  Folk: ["Folk"],
-  Blues: ["Blues"],
-  Country: ["Country"],
+  SOUL: ["SOUL"],
+  "HIP-HOP": ["HIP-HOP"],
+  RAP: ["RAP"],
+  ROCK: ["ROCK"],
+  METAL: ["METAL"],
+  FOLK: ["FOLK"],
+  BLUES: ["BLUES"],
+  COUNTRY: ["COUNTRY"],
   EDM: ["EDM"],
-  Classical: ["Classical"],
-  Reggae: ["Reggae"],
+  CLASSICAL: ["CLASSICAL"],
+  REGGAE: ["REGGAE"],
 };
 
 const stylePreset = {
@@ -193,7 +193,6 @@ const LyricLab = ({
   }
 
   // 가사 생성완료 되었을 경우 스크롤 이동
-
 
   // 텍스트 파일(.txt) 다운로드 함수
   const downloadTxtFile = () => {

@@ -294,7 +294,8 @@ function Album() {
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" 
+        <Link
+          className="album__content-list__see-more-btn"
           // to=""
           onClick={() => setPreparingModal(true)}
         >
@@ -482,7 +483,8 @@ function Album() {
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" 
+        <Link
+          className="album__content-list__see-more-btn"
           // to=""
           onClick={() => setPreparingModal(true)}
         >

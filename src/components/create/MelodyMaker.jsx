@@ -48,15 +48,15 @@ const genderPreset = {
   "Female Solo": ["Female Solo"],
   "Male Group": ["Male Group"],
   "Female Group": ["Female Group"],
-  "Mixed Group": ["Mixed Group"],
+  "Mixed Gender Group": ["Mixed Gender Group"],
 };
 
 const agePreset = {
-  "Child (0~12)": ["Child"],
-  "Teen (13~18)": ["Teen"],
-  "Young Adult (19~29)": ["Young Adult"],
-  "MiddleAge (30~49)": ["MiddleAge"],
-  "Senior (50~)": ["Senior"],
+  "Child (0~12)": ["Child (0~12)"],
+  "Teen (13~18)": ["Teen (13~18)"],
+  "Young Adult (19~29)": ["Young Adult (19~29)"],
+  "MiddleAge (30~49)": ["MiddleAge (30~49)"],
+  "Senior (50~)": ["Senior (50~)"],
 };
 
 const instrumentPreset = {
@@ -138,7 +138,17 @@ const MelodyMaker = ({
       ${melody_tag ? "Tags:" + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre:" + melody_genre?.join(", ") : ""}
       ${melody_gender ? "Gender" + melody_gender?.join(", ") : ""} 
-      ${melody_age ? "Age:" + melody_age?.join(", ") : ""}
+      ${
+        melody_age
+          ? "Age:" +
+            melody_age
+              .map((age) => {
+                const match = age.match(/\(([^)]+)\)/);
+                return match ? match[1] : age;
+              })
+              .join(", ")
+          : ""
+      }
       ${melody_instrument ? "Instrument:" + melody_instrument?.join(", ") : ""}
       ${melodyStory ? "Story : " + melodyStory : ""}
       Tempo : ${tempo}
@@ -200,8 +210,8 @@ const MelodyMaker = ({
       <RemainCountButton createPossibleCount={createPossibleCount} />
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="View Lyric Lab Results"></SubBanner.Title>
-        <SubBanner.Message text="These lyrics were previously written by AI in Lyric Lab."></SubBanner.Message>
+        <SubBanner.Title text="View Lyrics Lab Results"></SubBanner.Title>
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab."></SubBanner.Message>
         <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
         <SubBanner.Button
           title="View Lyrics"
@@ -225,6 +235,7 @@ const MelodyMaker = ({
             preset={tagPreset}
             className="sub-banner__tags"
             multiple
+            add
           />
         </SubBanner>
         <SelectItemInputOnly value={title} setter={setTitle} title="Title" />
@@ -287,13 +298,13 @@ const MelodyMaker = ({
         className="mb40"
         style={{ display: "flex", flexDirection: "column", gap: 16 }}
       >
-        <SelectedWrap title="Lyric Lab">
+        <SelectedWrap title="Lyrics Lab">
           <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
           <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
-          <div className="lyric-lab__selected-item">
-            <p className="lyric-lab__selected-item--title">Your Story</p>
-            <p className="lyric-lab__selected-item--text">
+          <div className="lyrics-lab__selected-item">
+            <p className="lyrics-lab__selected-item--title">Your Story</p>
+            <p className="lyrics-lab__selected-item--text">
               {lyricStory || "-"}
             </p>
           </div>
@@ -305,7 +316,6 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
           <SelectedItem title="Gender" value={melodyData?.melody_gender} />
           <SelectedItem title="Age" value={melodyData?.melody_age} />
-          {/* <SelectedItem title="Story" value={melodyStory} /> */}
           <SelectedItem
             title={
               <>

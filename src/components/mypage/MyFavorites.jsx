@@ -19,7 +19,7 @@ const MyFavorites = () => {
         placeholder="Search by Artist name or song title..."
       />
       <div className="my-favorites__filter">
-        <Filter list={["All", "Lyric", "Latest"]} />
+        <Filter list={["All", "Lyrics", "Latest"]} />
       </div>
       <div className="my-favorites__table">
         <AlbumsTable />

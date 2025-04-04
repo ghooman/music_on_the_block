@@ -72,7 +72,7 @@ const Create = () => {
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
   const skipHandler = () => {
-    if (skip === "lyric") {
+    if (skip === "lyrics") {
       setSkipLyric(true);
     } else {
       setSkipMelody(true);
@@ -103,7 +103,7 @@ const Create = () => {
       <DescriptionBanner pageNumber={pageNumber} />
       {/* {pageNumber !== 2 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                    <SelectedWrap title="Lyric Lab">
+                    <SelectedWrap title="Lyrics Lab">
                         <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
                         <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
                         <SelectedItem title="Style" value={lylicData?.lyric_style} />
@@ -135,7 +135,7 @@ const Create = () => {
           setLyricStory={setLyricStory}
           generatedLyric={generatedLyric}
           setGeneratedLyric={setGeneratedLyric}
-          onSkip={() => setSkip("lyric")}
+          onSkip={() => setSkip("lyrics")}
           setPageNumber={setPageNumber}
           melodyData={melodyData}
           tempo={tempo}
@@ -233,7 +233,7 @@ const Title = () => {
 
 const Progress = ({ pageNumber }) => {
   const pages = [
-    "Lyric Lab",
+    "Lyrics Lab",
     "Melody Maker",
     // "Alubum Cover Studio",
     // "Preview & Finalize",

@@ -310,7 +310,12 @@ function AlbumDetail() {
                   />
                 )}
                 <div className="album-detail__song-detail__left__img__txt">
-                  <pre>{album?.lyrics}</pre>
+                  {/* <pre>{album?.lyrics}</pre> */}
+                  <pre>
+                    {album?.lyrics
+                      ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 앞에 줄바꿈 추가
+                    ?.trim()}
+                  </pre>
                   {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                 </div>
                 <button className="album-detail__song-detail__left__img__lyrics-btn">

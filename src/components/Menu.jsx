@@ -5,7 +5,7 @@ import useWindowHeight from "../hooks/useWindowHeight";
 
 // 이미지
 import levelIcon from "../assets/images/menu/level-icon.svg";
-import userImg from "../assets/images/intro/intro-demo-img2.png";
+import defaultCoverImg from "../assets/images/header/logo.svg";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
 import { AuthContext } from "../contexts/AuthContext";
 import { WalletConnect } from "./WalletConnect";
@@ -110,7 +110,11 @@ const Menu = ({
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
-      <div className={`menu ${active ? "active" : ""} ${isBelowHeight ? "small-height" : ""}`}>
+      <div
+        className={`menu ${active ? "active" : ""} ${
+          isBelowHeight ? "small-height" : ""
+        }`}
+      >
         <div className="menu__cover">
           <dl className="menu__box">
             <Link
@@ -146,7 +150,7 @@ const Menu = ({
                           className="menu__box__my-page__info__top__img"
                           style={{
                             backgroundImage: `url(${
-                              userData?.profile || userImg
+                              userData?.profile || defaultCoverImg
                             })`,
                           }}
                         ></p>

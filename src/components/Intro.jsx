@@ -31,7 +31,23 @@ const Intro = ({ setIsLoggedIn }) => {
   const [activeIndex, setActiveIndex] = useState(2); // id가 3인 아이템부터 시작
   const [animationClass, setAnimationClass] = useState(""); // 애니메이션 클래스 관리
   const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
+  const [isHighWindow, setIsHighWindow] = useState(false);
   const timeoutRef = useRef(null); // 타이머 추적용 ref 추가
+
+  // 윈도우 높이 체크
+  useEffect(() => {
+    const checkWindowHeight = () => {
+      setIsHighWindow(window.innerHeight <= 1000);
+    };
+
+    checkWindowHeight(); // 초기 체크
+    window.addEventListener('resize', checkWindowHeight);
+
+    return () => {
+      window.removeEventListener('resize', checkWindowHeight);
+    };
+  }, []);
+
   // 트랜잭션 가져오기
   useEffect(() => {
     const fetchTransaction = async () => {
@@ -45,6 +61,7 @@ const Intro = ({ setIsLoggedIn }) => {
     };
     fetchTransaction();
   }, [token]);
+
   const handleSlideChange = (swiper) => {
     setAnimationClass("fade-out"); // 페이드아웃 애니메이션 적용
 
@@ -70,15 +87,6 @@ const Intro = ({ setIsLoggedIn }) => {
     };
   }, []);
 
-  // const handleSlideChange = (swiper) => {
-  //   setAnimationClass("fade-out"); // 페이드아웃 애니메이션 적용
-
-  //   setTimeout(() => {
-  //     setActiveIndex(swiper.realIndex); // 현재 슬라이드 인덱스 업데이트
-  //     setAnimationClass("fade-in"); // 페이드인 애니메이션 적용
-  //   }, 800); // 애니메이션 시간과 동일하게 설정
-  // };
-
   const items = [
     {
       id: 1,
@@ -93,7 +101,7 @@ const Intro = ({ setIsLoggedIn }) => {
       albumTitle: "Music on the Block",
       artist: "MOB",
       info: "14 songs, 2025",
-      tabTitle: "AI Lyric & Songwriting",
+      tabTitle: "AI Lyrics & Songwriting",
       img: albumImg01,
     },
     {
@@ -117,7 +125,7 @@ const Intro = ({ setIsLoggedIn }) => {
       albumTitle: "Music on the Block",
       artist: "MOB",
       info: "14 songs, 2025",
-      tabTitle: "AI Lyric & Songwriting",
+      tabTitle: "AI Lyrics & Songwriting",
       img: albumImg01,
     },
     {
@@ -129,15 +137,6 @@ const Intro = ({ setIsLoggedIn }) => {
       img: albumImg01,
     },
   ];
-
-  // const handleAudioFileUpload = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     // 오디오 파일을 Blob으로 읽어서 시각화에 사용
-  //     const audioBlob = new Blob([file], { type: file.type });
-  //     recorderControls.setPreloadedAudioBlob(audioBlob);
-  //   }
-  // };
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -153,7 +152,7 @@ const Intro = ({ setIsLoggedIn }) => {
     <>
       <IntroLogo />
       {isVisible && (
-        <div className="intro">
+        <div className={`intro ${isHighWindow ? 'high-window' : ''}`}>
           <div className="intro__inner">
             <section className="intro__number">
               <dl className="intro__number__title">
@@ -249,12 +248,12 @@ const Intro = ({ setIsLoggedIn }) => {
                       <Link
                         // to="/create"
                         to={
-                          item.tabTitle === "AI Lyric & Songwriting"
+                          item.tabTitle === "AI Lyrics & Songwriting"
                             ? "/create"
                             : "#"
                         }
                         onClick={(e) => {
-                          if (item.tabTitle !== "AI Lyric & Songwriting") {
+                          if (item.tabTitle !== "AI Lyrics & Songwriting") {
                             e.preventDefault(); // 기본 링크 이동 막기
                             setPreparingModal(true); // 프리페어링 모달 열기
                           }
@@ -267,6 +266,7 @@ const Intro = ({ setIsLoggedIn }) => {
                 </Swiper>
               </article>
             </section>
+
 
             <section className="intro__slide-mobile">
               <Link to="/create" className="intro__slide-mobile__create-btn">
@@ -308,58 +308,63 @@ const Intro = ({ setIsLoggedIn }) => {
               </ul>
             </section>
 
-            <section className="intro__album">
-              <ul className="intro__album__list">
-                <li className="intro__album__list__item">
-                  <img src={albumImg01} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg02} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg03} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg01} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg02} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg03} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg01} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg02} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg03} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg01} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg02} />
-                </li>
-                <li className="intro__album__list__item">
-                  <img src={albumImg03} />
-                </li>
-              </ul>
-              <Link to="/album" className="intro__album__btn">
-                ALBUM
+            <div className="intro__album-wrap">
+              <Link 
+              to="/album"
+              className="intro__album">
+                <ul className="intro__album__list">
+                  <li className="intro__album__list__item">
+                    <img src={albumImg01} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg02} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg03} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg01} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg02} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg03} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg01} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg02} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg03} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg01} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg02} />
+                  </li>
+                  <li className="intro__album__list__item">
+                    <img src={albumImg03} />
+                  </li>
+                </ul>
+                <p className="intro__album__btn">
+                  ALBUM
+                </p>
               </Link>
-            </section>
 
-            <section className="intro__nft-market">
-                <Link 
-                  className="intro__nft-market__btn"
-                  to='/nft'
-                >
-                  NFT Marketplace
-                </Link>
-            </section>
+              <Link 
+              to='/nft'
+              className="intro__nft-market">
+                  <p 
+                    className="intro__nft-market__btn"
+                  >
+                    NFT Marketplace
+                  </p>
+              </Link>
+            </div>
           </div>
         </div>
       )}

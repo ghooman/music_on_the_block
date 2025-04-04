@@ -32,7 +32,7 @@ import {
   Pagination,
   Autoplay,
 } from "swiper/modules";
-
+import PreparingModal from "../components/PreparingModal";
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
@@ -41,6 +41,7 @@ import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 function AlbumDetail() {
+  const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress } = useContext(AuthContext);
@@ -48,7 +49,9 @@ function AlbumDetail() {
     {
       id: 30,
       userName: "User A",
-      description: "he dances through his masks<br />like breathing - Yolkhead",
+      userProfile: demoImg,
+      like: 100,
+      description: "he dances through his masks like breathing",
       date: "Sat, 04 Nov 2023 14:40:00 UTC+0",
       liked: true,
       buttonClass: "details-btn",
@@ -56,7 +59,9 @@ function AlbumDetail() {
     {
       id: 31,
       userName: "User B",
-      description: "he dances through his masks<br />like breathing - Yolkhead",
+      userProfile: demoImg,
+      like: 100,
+      description: "he dances through his masks like breathing ",
       date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
       liked: false,
       buttonClass: "details-btn ",
@@ -64,6 +69,8 @@ function AlbumDetail() {
     {
       id: 32,
       userName: "User C",
+      userProfile: demoImg,
+      like: 17,
       description: "he dances through his masks",
       date: "Sat, 04 Nov 2023 15:00:00 UTC+0",
       liked: false,
@@ -72,7 +79,9 @@ function AlbumDetail() {
     {
       id: 33,
       userName: "User D",
-      description: "moving forward without looking back - PoetX",
+      userProfile: demoImg,
+      like: 70,
+      description: "moving forward without looking back ",
       date: "Sat, 04 Nov 2023 15:10:00 UTC+0",
       liked: true,
       buttonClass: "details-btn",
@@ -80,7 +89,9 @@ function AlbumDetail() {
     {
       id: 34,
       userName: "User E",
-      description: "shadows whisper in the moonlight - Anonymous",
+      userProfile: demoImg,
+      like: 54,
+      description: "shadows whisper in the moonlight ",
       date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
       liked: false,
       buttonClass: "details-btn ",
@@ -313,8 +324,8 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyric & Songwriting</dt>
-          <dd>lyric+Songwriting</dd>
+          <dt>AI Lyrics  b & Songwriting</dt>
+          <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
@@ -367,7 +378,32 @@ function AlbumDetail() {
                   <img src={shareIcon} />
                 </button>
               </div>
+              <section className="album-detail__audio">
+                <AudioPlayer
+                  src={album?.music_url || track1}
+                  onPlay={() => {
+                    console.log("PLAY!");
+                    setIsPlaying(true);
+                  }}
+                  onPause={() => {
+                    console.log("PAUSE!");
+                    setIsPlaying(false);
+                  }}
+                  onEnded={() => {
+                    console.log("ENDED!");
+                    setIsPlaying(false);
+                  }}
+                />
+                <p
+                  className={`album-detail__audio__cover ${
+                    isPlaying ? "playing" : "paused"
+                  }`}
+                >
+                  <img src={album?.image || coverImg} alt="album cover" />
+                </p>
+              </section>
             </div>
+
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
                 {album?.title}
@@ -433,7 +469,10 @@ function AlbumDetail() {
                       <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
-                    <Link className="see-more-btn" to="/my-page">
+                    <Link className="see-more-btn" 
+                      // to="/my-page"
+                      onClick={() => setPreparingModal(true)}
+                    >
                       See More
                     </Link>
                   </dd>
@@ -443,30 +482,6 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section className="album-detail__audio">
-          <AudioPlayer
-            src={album?.music_url || track1}
-            onPlay={() => {
-              console.log("PLAY!");
-              setIsPlaying(true);
-            }}
-            onPause={() => {
-              console.log("PAUSE!");
-              setIsPlaying(false);
-            }}
-            onEnded={() => {
-              console.log("ENDED!");
-              setIsPlaying(false);
-            }}
-          />
-          <p
-            className={`album-detail__audio__cover ${
-              isPlaying ? "playing" : "paused"
-            }`}
-          >
-            <img src={album?.image || coverImg} alt="album cover" />
-          </p>
-        </section>
 
         <section className="album-detail__rank-table">
           <div ref={commentRef}>
@@ -492,15 +507,17 @@ function AlbumDetail() {
                 {dummyData.map((item) => (
                   <tr key={item.id}>
                     <td>{item.id}</td>
-                    <td>{item.userName}</td>
-                    <td
-                      dangerouslySetInnerHTML={{ __html: item.description }}
-                    ></td>
+                    <td className="user-info">
+                      <p>
+                        <img src={item.userProfile} />{item.userName}
+                      </p>
+                    </td>
+                    <td>
+                      {item.description}
+                    </td>
                     <td>{item.date}</td>
                     <td>
-                      <span
-                        className={`heart ${item.liked ? "liked" : ""}`}
-                      ></span>
+                        {item.like}
                     </td>
                     <td>
                       <button className={item.buttonClass}>Details</button>
@@ -559,7 +576,7 @@ function AlbumDetail() {
                           Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
-                          유저정보
+                          Details
                         </button>
                       </div>
                     </div>
@@ -619,7 +636,7 @@ function AlbumDetail() {
                           Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
-                          유저정보
+                          Details
                         </button>
                       </div>
                     </div>
@@ -631,6 +648,9 @@ function AlbumDetail() {
         </section>
       </div>
       {isShareModal && <ShareModal setShareModal={setShareModal} />}
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </>
   );
 }

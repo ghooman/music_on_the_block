@@ -293,7 +293,7 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
           <SelectedItem title="Gender" value={melodyData?.melody_gender} />
           <SelectedItem title="Age" value={melodyData?.melody_age} />
-          <SelectedItem title="Story" value={melodyStory} />
+          {/* <SelectedItem title="Story" value={melodyStory} /> */}
           <SelectedItem
             title={
               <>

@@ -147,11 +147,11 @@ const AlarmModal = () => {
     (albumPk && walletAddress?.address === albumWalletAddress);
   if (!shouldRenderModal) return null;
 
-  // console.log("isClosed", isClosed);
-  // console.log("storedAlbumData", storedAlbumData);
-  // console.log("albumPk", albumPk);
-  // console.log("walletAddress", walletAddress?.address);
-  // console.log("albumWalletAddress", albumWalletAddress);
+  console.log("isClosed", isClosed);
+  console.log("storedAlbumData", storedAlbumData);
+  console.log("albumPk", albumPk);
+  console.log("walletAddress", walletAddress?.address);
+  console.log("albumWalletAddress", albumWalletAddress);
 
   return (
     <>

@@ -34,7 +34,7 @@ const Reward = () => {
                 <td>Likes Received</td>
                 <td>150 MOB</td>
                 <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                <td>AI Lyric & Songwriting</td>
+                <td>AI Lyrics & Songwriting</td>
                 <td className="pending">Pending</td>
                 <td>
                   <div className="td-content">
@@ -47,7 +47,7 @@ const Reward = () => {
                 <td>Likes Received</td>
                 <td>150 MOB</td>
                 <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                <td>AI Lyric & Songwriting</td>
+                <td>AI Lyrics & Songwriting</td>
                 <td className="completed">Completed</td>
                 <td>
                   <div className="td-content">
@@ -88,7 +88,7 @@ const Reward = () => {
                 <td>Likes Received</td>
                 <td>150 MOB</td>
                 <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                <td>AI Lyric & Songwriting</td>
+                <td>AI Lyrics & Songwriting</td>
                 <td className="pending">Pending</td>
                 <td>
                   <div className="td-content">
@@ -101,7 +101,7 @@ const Reward = () => {
                 <td>Likes Received</td>
                 <td>150 MOB</td>
                 <td>Sat, 04 Nov 2023 14:40:00 UTC+0</td>
-                <td>AI Lyric & Songwriting</td>
+                <td>AI Lyrics & Songwriting</td>
                 <td className="completed">Completed</td>
                 <td>
                   <div className="td-content">

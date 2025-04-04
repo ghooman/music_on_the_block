@@ -300,7 +300,7 @@ const LyricLab = ({
           >
             {loading ? "Loading" : "Generate"}
           </ExpandedButton>
-          {loading && <CreateLoading />}
+          {loading && <CreateLoading textTrue2={true} />}
         </div>
       </div>
     );

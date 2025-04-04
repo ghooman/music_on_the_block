@@ -5,7 +5,7 @@ import loadingImg from "../assets/images/loading-img.gif";
 
 
 
-const CreateLoading = ({textTrue}) => {
+const CreateLoading = ({textTrue,textTrue2}) => {
 
   return (
     <>
@@ -22,6 +22,9 @@ const CreateLoading = ({textTrue}) => {
       <p className="middle__bg"></p>
       {textTrue &&
         <p className="middle__title">music generation takes at least 3 minutes</p>
+      }
+      {textTrue2 &&
+        <p className="middle__title">Lyrics in progress</p>
       }
       
     </>

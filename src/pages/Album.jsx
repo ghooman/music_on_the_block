@@ -287,7 +287,7 @@ function Album() {
                     className="album__content-list__list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    Detail
+                    Details
                   </Link>
                 </div>
               </div>
@@ -370,7 +370,7 @@ function Album() {
                     className="swiper-music-list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    Detail
+                    Details
                   </Link>
                 </div>
               </div>
@@ -475,7 +475,7 @@ function Album() {
                     className="album__content-list__list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    Detail
+                    Details
                   </Link>
                 </div>
               </div>

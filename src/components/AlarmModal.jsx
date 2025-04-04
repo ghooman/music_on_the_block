@@ -37,6 +37,7 @@ const AlarmModal = () => {
   const [isClosed, setIsClosed] = useState(false);
 
   const [isError, setIsError] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // console.log("isError", isError);
 
@@ -65,6 +66,7 @@ const AlarmModal = () => {
             setStoredAlbumData(null);
           } else if (data.status === "fail") {
             setIsError(true);
+            setErrorMessage(data.message);
           } else {
             console.log("현재 상태:", data.status);
           }
@@ -133,6 +135,7 @@ const AlarmModal = () => {
     setAlbumPk(null);
     setStoredAlbumData(null);
     setIsError(false);
+    setErrorMessage("");
     localStorage.removeItem(albumIdStorageKey);
   };
 
@@ -142,10 +145,10 @@ const AlarmModal = () => {
 
   // 수정된 조건: 로컬 스토리지에 앨범 데이터가 있거나, 소켓에서 완료 정보가 온 상태에서
   // 현재 유저의 walletAddress와 소켓의 wallet_address가 일치하는 경우에만 모달을 렌더링
-  // const shouldRenderModal =
-  //   storedAlbumData ||
-  //   (albumPk && walletAddress?.address === albumWalletAddress);
-  // if (!shouldRenderModal) return null;
+  const shouldRenderModal =
+    storedAlbumData ||
+    (albumPk && walletAddress?.address === albumWalletAddress);
+  if (!shouldRenderModal) return null;
 
   console.log("isClosed", isClosed);
   console.log("storedAlbumData", storedAlbumData);
@@ -169,7 +172,11 @@ const AlarmModal = () => {
             }`}
           >
             {isError ? (
-              <span className="err-txt">Music generation failed.</span>
+              <>
+                <span className="err-txt">Music generation failed.</span> <br />
+                <br />
+                <span className="err-txt">{errorMessage}</span>
+              </>
             ) : albumPk ? (
               "Song generation completed!"
             ) : (

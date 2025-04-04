@@ -48,15 +48,15 @@ const genderPreset = {
   "Female Solo": ["Female Solo"],
   "Male Group": ["Male Group"],
   "Female Group": ["Female Group"],
-  "Mixed Group": ["Mixed Group"],
+  "Mixed Gender Group": ["Mixed Gender Group"],
 };
 
 const agePreset = {
-  "Child (0~12)": ["Child"],
-  "Teen (13~18)": ["Teen"],
-  "Young Adult (19~29)": ["Young Adult"],
-  "MiddleAge (30~49)": ["MiddleAge"],
-  "Senior (50~)": ["Senior"],
+  "Child (0~12)": ["Child (0~12)"],
+  "Teen (13~18)": ["Teen (13~18)"],
+  "Young Adult (19~29)": ["Young Adult (19~29)"],
+  "MiddleAge (30~49)": ["MiddleAge (30~49)"],
+  "Senior (50~)": ["Senior (50~)"],
 };
 
 const instrumentPreset = {
@@ -138,7 +138,17 @@ const MelodyMaker = ({
       ${melody_tag ? "Tags:" + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre:" + melody_genre?.join(", ") : ""}
       ${melody_gender ? "Gender" + melody_gender?.join(", ") : ""} 
-      ${melody_age ? "Age:" + melody_age?.join(", ") : ""}
+      ${
+        melody_age
+          ? "Age:" +
+            melody_age
+              .map((age) => {
+                const match = age.match(/\(([^)]+)\)/);
+                return match ? match[1] : age;
+              })
+              .join(", ")
+          : ""
+      }
       ${melody_instrument ? "Instrument:" + melody_instrument?.join(", ") : ""}
       ${melodyStory ? "Story : " + melodyStory : ""}
       Tempo : ${tempo}
@@ -225,6 +235,7 @@ const MelodyMaker = ({
             preset={tagPreset}
             className="sub-banner__tags"
             multiple
+            add
           />
         </SubBanner>
         <SelectItemInputOnly value={title} setter={setTitle} title="Title" />
@@ -305,7 +316,6 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
           <SelectedItem title="Gender" value={melodyData?.melody_gender} />
           <SelectedItem title="Age" value={melodyData?.melody_age} />
-          {/* <SelectedItem title="Story" value={melodyStory} /> */}
           <SelectedItem
             title={
               <>

@@ -303,7 +303,7 @@ const MelodyMaker = ({
           <div className="selected-tag-list__title">
             <h3>Selected Tags (max_length : 200)</h3>
             <span>
-              current length :
+              current length :{" "}
               <span
                 style={{
                   color: promptPreview?.length > 200 ? "red" : "inherit",

@@ -53,8 +53,12 @@ const GetStarted = ({ handler, createPossibleCount }) => {
 
       {isRegistered ? (
         <ExpandedButton
-          className="create__get-started--button"
+          // className="create__get-started--button"
+          className={`create__get-started--button ${
+            createPossibleCount === 0 ? "disabled" : ""
+          }`}
           onClick={handler}
+          disabled={createPossibleCount === 0}
         >
           Create
         </ExpandedButton>

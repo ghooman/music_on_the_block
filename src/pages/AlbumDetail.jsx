@@ -384,8 +384,8 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
-                  <dt>Story</dt>
-                  <dd>{album?.story || "-"}</dd>
+                  <dt>Detail</dt>
+                  <dd>{album?.Detail || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Language</dt>
@@ -469,7 +469,7 @@ function AlbumDetail() {
               <tbody>
                 {leaderBoardData.map((item, index) => (
                   <tr key={item.id}>
-                    <td>{index+1}</td>
+                    <td>{index + 1}</td>
                     <td className="user-info">
                       <p>
                         <img src={item.user_profile || defaultCoverImg} />

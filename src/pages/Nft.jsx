@@ -24,9 +24,9 @@ const Nft = () => {
             <ContentWrap title="Data">
                 <InfoRowWrap row={4}>
                     <InfoRowWrap.ValueItem title="Total Volume" value="16,145" />
-                    <InfoRowWrap.ValueItem title="Total Volume" value="240" />
-                    <InfoRowWrap.ValueItem title="Total Volume" value="3,224" />
-                    <InfoRowWrap.ValueItem title="Total Volume" value="4,359" />
+                    <InfoRowWrap.ValueItem title="Average Price" value="240" />
+                    <InfoRowWrap.ValueItem title="Number of NFTs Issued" value="3,224" />
+                    <InfoRowWrap.ValueItem title="Highest Deal Today" value="4,359" />
                 </InfoRowWrap>
                 <NftGraph />
             </ContentWrap>

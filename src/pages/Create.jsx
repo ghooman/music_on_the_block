@@ -56,7 +56,7 @@ const Create = () => {
     fetchCreatePossibleCount();
   }, [token]);
 
-  const [melodyStory, setMelodyStory] = useState("");
+  const [melodyDetail, setMelodyDetail] = useState("");
 
   const [generatedLyric, setGeneratedLyric] = useState("");
 
@@ -153,8 +153,8 @@ const Create = () => {
           lyricStory={lyricStory}
           melodyData={melodyData}
           setMelodyData={setMelodyData}
-          melodyStory={melodyStory}
-          setMelodyStory={setMelodyStory}
+          melodyDetail={melodyDetail}
+          setMelodyDetail={setMelodyDetail}
           tempo={tempo}
           setTempo={setTempo}
           generatedLyric={generatedLyric}

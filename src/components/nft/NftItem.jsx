@@ -244,7 +244,7 @@ export const CollectionItem = ({ item }) => {
       <CollectionTitle title={item.title} />
       <Username username={item.username} />
       <div className="nft-item__prices raw">
-        <PriceItems title="Highest Price" value={`${item.highestPrice} MOB`} />
+        <PriceItems title="Lowest Price" value={`${item.highestPrice} MOB`} />
         <PriceItems title="Total NFT Items" value={item.totalItems} />
       </div>
     </Link>

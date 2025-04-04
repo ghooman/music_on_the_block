@@ -26,7 +26,7 @@ const GetStarted = ({ handler, createPossibleCount }) => {
       <div className="create__get-started--features">
         <h3 className="create__get-started--features-title">Code Features</h3>
         <div className="create__get-started--features-items">
-          {["Lyric Generation", "Melody Composition", "Style Adaptation"].map(
+          {["Lyrics Generation", "Melody Composition", "Style Adaptation"].map(
             (item, index) => (
               <div className="create__get-started--features-item" key={index}>
                 {item}

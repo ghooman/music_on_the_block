@@ -22,7 +22,7 @@ const Albums = ({ token }) => {
     "AI Cover Creation",
   ];
 
-  const AiServiceTypeList = ["Lyric", "Songwriting", "Sing", "Link"];
+  const AiServiceTypeList = ["Lyrics", "Songwriting", "Sing", "Link"];
 
   const SortByList = [
     "Latest",
@@ -73,7 +73,7 @@ const Albums = ({ token }) => {
         <div className="albums__header">
           <h1 className="albums__title">Top Albums</h1>
           <Filter
-            list={["AI Lyric + Songwriting"]}
+            list={["AI Lyrics + Songwriting"]}
             clickEvent={handleFilterClick}
           />
         </div>

@@ -200,8 +200,8 @@ const MelodyMaker = ({
       <RemainCountButton createPossibleCount={createPossibleCount} />
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="View Lyric Lab Results"></SubBanner.Title>
-        <SubBanner.Message text="These lyrics were previously written by AI in Lyric Lab."></SubBanner.Message>
+        <SubBanner.Title text="View Lyrics Lab Results"></SubBanner.Title>
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab."></SubBanner.Message>
         <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
         <SubBanner.Button
           title="View Lyrics"
@@ -287,13 +287,13 @@ const MelodyMaker = ({
         className="mb40"
         style={{ display: "flex", flexDirection: "column", gap: 16 }}
       >
-        <SelectedWrap title="Lyric Lab">
+        <SelectedWrap title="Lyrics Lab">
           <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
           <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
-          <div className="lyric-lab__selected-item">
-            <p className="lyric-lab__selected-item--title">Your Story</p>
-            <p className="lyric-lab__selected-item--text">
+          <div className="lyrics-lab__selected-item">
+            <p className="lyrics-lab__selected-item--title">Your Story</p>
+            <p className="lyrics-lab__selected-item--text">
               {lyricStory || "-"}
             </p>
           </div>

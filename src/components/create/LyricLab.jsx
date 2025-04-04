@@ -266,16 +266,16 @@ const LyricLab = ({
           className="mb40"
           style={{ display: "flex", flexDirection: "column", gap: 16 }}
         >
-          <SelectedWrap title="Lyric Lab">
+          <SelectedWrap title="Lyrics Lab">
             <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
             <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
             <SelectedItem
               title="Stylistic"
               value={lylicData?.lyric_stylistic}
             />
-            <div className="lyric-lab__selected-item">
-              <p className="lyric-lab__selected-item--title">Your Story</p>
-              <p className="lyric-lab__selected-item--text">
+            <div className="lyrics-lab__selected-item">
+              <p className="lyrics-lab__selected-item--title">Your Story</p>
+              <p className="lyrics-lab__selected-item--text">
                 {lyricStory || "-"}
               </p>
             </div>

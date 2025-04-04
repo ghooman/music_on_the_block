@@ -525,6 +525,7 @@
         color: #ddd;
         font-size: 16px;
         min-width: 690px;
+        // table-layout: fixed;
         thead{
           background: linear-gradient(0deg, rgba(199, 240, 100, 0.20) 0%, rgba(114, 138, 58, 0.00) 20%);
           tr{
@@ -569,15 +570,15 @@
           font-style: normal;
           line-height: normal;
           min-height: 60px;
-          // &:nth-child(3){
-          //   width: 340px;
-          //   display: -webkit-box;
-          //   -webkit-line-clamp: 2;
-          //   -webkit-box-orient: vertical;
-          //   overflow: hidden;
-          //   text-overflow: ellipsis;
-          //   word-break: break-word;
-          // }
+          &:nth-child(1){
+            width: 40px;
+          }
+          &:nth-child(3){
+            width: 340px;
+            overflow: hidden; // 너비를 넘어가면 안보이게
+            text-overflow: ellipsis; // 글자가 넘어가면 말줄임(...) 표시
+            white-space: nowrap;
+          }
         }
       }
       

@@ -51,7 +51,7 @@ function AlbumDetail() {
       userName: "User A",
       userProfile: demoImg,
       like: 100,
-      description: "he dances through his masks<br />like breathing - Yolkhead",
+      description: "he dances through his masks like breathing",
       date: "Sat, 04 Nov 2023 14:40:00 UTC+0",
       liked: true,
       buttonClass: "details-btn",
@@ -61,7 +61,7 @@ function AlbumDetail() {
       userName: "User B",
       userProfile: demoImg,
       like: 100,
-      description: "he dances through his masks<br />like breathing - Yolkhead",
+      description: "he dances through his masks like breathing ",
       date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
       liked: false,
       buttonClass: "details-btn ",
@@ -81,7 +81,7 @@ function AlbumDetail() {
       userName: "User D",
       userProfile: demoImg,
       like: 70,
-      description: "moving forward without looking back - PoetX",
+      description: "moving forward without looking back ",
       date: "Sat, 04 Nov 2023 15:10:00 UTC+0",
       liked: true,
       buttonClass: "details-btn",
@@ -91,7 +91,7 @@ function AlbumDetail() {
       userName: "User E",
       userProfile: demoImg,
       like: 54,
-      description: "shadows whisper in the moonlight - Anonymous",
+      description: "shadows whisper in the moonlight ",
       date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
       liked: false,
       buttonClass: "details-btn ",
@@ -512,9 +512,9 @@ function AlbumDetail() {
                         <img src={item.userProfile} />{item.userName}
                       </p>
                     </td>
-                    <td
-                      dangerouslySetInnerHTML={{ __html: item.description }}
-                    ></td>
+                    <td>
+                      {item.description}
+                    </td>
                     <td>{item.date}</td>
                     <td>
                         {item.like}

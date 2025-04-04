@@ -53,9 +53,9 @@ const genrePreset = {
 const genderPreset = {
   "Male Solo": ["Male Solo"],
   "Female Solo": ["Female Solo"],
-  // "Male Group": ["Male Group"],
-  // "Female Group": ["Female Group"],
-  // "Mixed Gender Group": ["Mixed Gender Group"],
+  "Male Group": ["Male Group"],
+  "Female Group": ["Female Group"],
+  "Mixed Gender Group": ["Mixed Gender Group"],
 };
 
 const agePreset = {

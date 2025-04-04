@@ -36,7 +36,7 @@ const AlarmModal = () => {
   const [storedAlbumData, setStoredAlbumData] = useState(getStoredAlbumData());
   const [isClosed, setIsClosed] = useState(false);
 
-  const [isError, setIsError] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   // console.log("isError", isError);
@@ -136,6 +136,7 @@ const AlarmModal = () => {
     setStoredAlbumData(null);
     setIsError(false);
     setErrorMessage("");
+    setElapsedSeconds(0);
     localStorage.removeItem(albumIdStorageKey);
   };
 
@@ -210,7 +211,10 @@ const AlarmModal = () => {
               <Link
                 className="alarm__modal__item__link"
                 to={`/album-detail/${albumPk}`}
-                onClick={() => setAlbumPk(null)}
+                onClick={() => {
+                  setAlbumPk(null);
+                  setElapsedSeconds(0);
+                }}
               >
                 My Song Link
               </Link>

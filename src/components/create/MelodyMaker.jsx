@@ -336,7 +336,7 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
           <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
           <div className="lyrics-lab__selected-item">
-            <p className="lyrics-lab__selected-item--title">ㅇ</p>
+            <p className="lyrics-lab__selected-item--title">Story</p>
             <p className="lyrics-lab__selected-item--text">
               {lyricStory || "-"}
             </p>

@@ -156,7 +156,7 @@ const Intro = ({ setIsLoggedIn }) => {
           <div className="intro__inner">
             <section className="intro__number">
               <dl className="intro__number__title">
-                <dt>Number of users</dt>
+                <dt>Number of Artists</dt>
                 <dd>
                   <Counter targetNumber={transaction?.number_of_users} />
                 </dd>
@@ -168,7 +168,7 @@ const Intro = ({ setIsLoggedIn }) => {
                 </dd>
               </dl>
               <dl className="intro__number__title">
-                <dt>Transition</dt>
+                <dt>Transitions</dt>
                 <dd>
                   <Counter targetNumber={transaction?.transaction} />
                 </dd>

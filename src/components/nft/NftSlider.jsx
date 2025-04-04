@@ -33,10 +33,10 @@ export const NftSlider = () => {
             0: {
                 slidesPerView: 1,
             },
-            680: {
-                slidesPerView: 2,
+            500: {
+                slidesPerView: 3,
             },
-            930: {
+            769: {
                 slidesPerView: 5,
             },
         },

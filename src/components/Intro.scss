@@ -11,13 +11,23 @@
   background-size: cover;
   width: 100%;
   min-height: 100vh;
-  overflow: hidden;
-  padding: 40px 16px;
-  
+  height: 100%;
+  // overflow: hidden;
+  &.high-window{
+    .intro__inner{
+      .intro__number{
+        min-height: auto;
+      }
+      .intro__album-wrap{
+      }
+    }  
+  }
   .intro__inner{
     width: 100%;
+    min-height: 100vh;
     height: 100%;
-    max-width: 960px;
+    max-width: 992px;
+    padding: 40px 16px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -28,8 +38,10 @@
   .intro__number{
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 16px;
+    min-height: 220px;
+    transition: 0.3s;
     .intro__number__title{
       display: flex;
       align-items: center;
@@ -101,10 +113,12 @@
   .intro__slide-pc{
     display: flex;
     width: 100%;
-    height: 500px;
+    height: 446px;
+    flex-shrink: 0;
     overflow: hidden;
     opacity: 1;
-    margin: 180px 0 60px;
+    // margin: 0px 0 40px;
+    margin: 40px 0;
     .intro__slide-pc__left{
       width: 300px;
       flex-shrink: 0;
@@ -324,7 +338,7 @@
       font-style: normal;
       font-weight: 700;
       line-height: 0%; /* 0px */
-      letter-spacing: 0.9px;
+      transition: 0.3s;
       &::before{
         content: '';
         position: absolute;
@@ -418,6 +432,7 @@
   }//intro__album--END--
 
   .intro__nft-market{
+    display: block;
     position: relative;
     width: 100%;
     height: 100px;
@@ -454,6 +469,10 @@
     }//intro__nft-market__btn--END--
   }
 
+  .intro__album-wrap{
+    display: block;
+    min-height: 220px;
+  }
 }//intro--END--
 
 
@@ -479,6 +498,7 @@
     }
     .intro__number{
       flex-direction: column;
+      
       .intro__number__title{
         min-height: auto;
         width: 100%;

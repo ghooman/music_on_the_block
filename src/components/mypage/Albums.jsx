@@ -18,7 +18,7 @@ const Albums = ({ token }) => {
   const AiServiceList = [
     "All",
     "AI Singing Evaluation",
-    "AI Lyric & Songwriting",
+    "AI Lyrics & Songwriting",
     "AI Cover Creation",
   ];
 

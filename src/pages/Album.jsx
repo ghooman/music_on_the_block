@@ -20,6 +20,7 @@ import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 import track3 from "../assets/music/MusicOnTheBlock_v1.mp3";
+import PreparingModal from "../components/PreparingModal";
 
 // 스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -30,8 +31,8 @@ import { getHitMusicList } from "../api/HitMusicList";
 function Album() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token, walletAddress } = useContext(AuthContext);
-
-  const [activeTab, setActiveTab] = useState("AI Lyric & Songwriting");
+  const [isPreparingModal, setPreparingModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("AI Lyrics & Songwriting");
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -293,7 +294,10 @@ function Album() {
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" to="">
+        <Link className="album__content-list__see-more-btn" 
+          // to=""
+          onClick={() => setPreparingModal(true)}
+        >
           See More
         </Link>
       </section>
@@ -395,22 +399,30 @@ function Album() {
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${
-              activeTab === "AI Lyric & Songwriting" ? "active" : ""
+              activeTab === "AI Lyrics & Songwriting" ? "active" : ""
             }`}
-            onClick={() => setActiveTab("AI Lyric & Songwriting")}
+            onClick={() => setActiveTab("AI Lyrics & Songwriting")}
           >
-            AI Lyric & Songwriting
+            AI Lyrics & Songwriting
           </button>
           <button
             className={`album__content-list__tab__item ${
               activeTab === "AI Singing Evaluation" ? "active" : ""
             }`}
-            onClick={() => setActiveTab("AI Singing Evaluation")}
+            onClick={() => setPreparingModal(true)}
           >
             AI Singing Evaluation
           </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === "AI Cover Creation" ? "active" : ""
+            }`}
+            onClick={() => setPreparingModal(true)}
+          >
+            AI Cover Creation
+          </button>
         </article>
-        <p className="album__content-list__title">AI Lyric & Songwriting</p>
+        <p className="album__content-list__title">AI Lyrics & Songwriting</p>
         <article className="album__content-list__list">
           {tracks.slice(0, 9).map((track, index) => (
             <button
@@ -470,10 +482,16 @@ function Album() {
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" to="">
+        <Link className="album__content-list__see-more-btn" 
+          // to=""
+          onClick={() => setPreparingModal(true)}
+        >
           See More
         </Link>
       </section>
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </div>
   );
 }

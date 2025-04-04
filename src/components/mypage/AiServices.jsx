@@ -9,7 +9,7 @@ import PreparingModal from "../PreparingModal";
 
 const AiServices = () => {
   const [selectedAiService, setSelectedAiService] = useState(
-    "AI Lyric & Songwriting"
+    "AI Lyrics & Songwriting"
   );
   const [aiServiceStatus, setAiServiceStatus] = useState("All");
   const [openModal, setOpenModal] = useState(false);
@@ -26,7 +26,7 @@ const AiServices = () => {
   const AiServiceList = [
     "All",
     "AI Singing Evaluation",
-    "AI Lyric & Songwriting",
+    "AI Lyrics & Songwriting",
     "AI Cover Creation",
   ];
 
@@ -45,7 +45,7 @@ const AiServices = () => {
     <>
       <div className="ai__services">
         {[
-          "AI Lyric & Songwriting",
+          "AI Lyrics & Songwriting",
           "AI Singing Evaluation",
           "AI Cover Creation",
         ].map((aiService) => (
@@ -114,8 +114,6 @@ const AiServices = () => {
                 <p className="detail-item__title">Last Used Date</p>
                 <p className="detail-item__value">
                   Sat, 04 Nov 2023 14:40:00 UTC+0
-                  <br />
-                  Sat, 04 Nov 2023 14:40:00 UTC+9
                 </p>
               </div>
             </div>

@@ -32,7 +32,7 @@ import {
   Pagination,
   Autoplay,
 } from "swiper/modules";
-
+import PreparingModal from "../components/PreparingModal";
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
@@ -41,51 +41,23 @@ import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 function AlbumDetail() {
+  const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress } = useContext(AuthContext);
-  const dummyData = [
-    {
-      id: 30,
-      userName: "User A",
-      description: "he dances through his masks<br />like breathing - Yolkhead",
-      date: "Sat, 04 Nov 2023 14:40:00 UTC+0",
-      liked: true,
-      buttonClass: "details-btn",
-    },
-    {
-      id: 31,
-      userName: "User B",
-      description: "he dances through his masks<br />like breathing - Yolkhead",
-      date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
-      liked: false,
-      buttonClass: "details-btn ",
-    },
-    {
-      id: 32,
-      userName: "User C",
-      description: "he dances through his masks",
-      date: "Sat, 04 Nov 2023 15:00:00 UTC+0",
-      liked: false,
-      buttonClass: "details-btn disabled",
-    },
-    {
-      id: 33,
-      userName: "User D",
-      description: "moving forward without looking back - PoetX",
-      date: "Sat, 04 Nov 2023 15:10:00 UTC+0",
-      liked: true,
-      buttonClass: "details-btn",
-    },
-    {
-      id: 34,
-      userName: "User E",
-      description: "shadows whisper in the moonlight - Anonymous",
-      date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
-      liked: false,
-      buttonClass: "details-btn ",
-    },
-  ];
+
+  // 리더보드 데이터
+  const [leaderBoardData, setLeaderBoardData] = useState([]);
+  console.log("leaderBoardData", leaderBoardData);
+  const getLeaderboardData = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/leader/board/rank`);
+      console.log("getLeaderboardData", res);
+      setLeaderBoardData(res.data);
+    } catch (error) {
+      console.log("getLeaderboardData error: ", error);
+    }
+  };
 
   const [tracks, setTracks] = useState([
     {
@@ -280,6 +252,7 @@ function AlbumDetail() {
   };
   useEffect(() => {
     fetchAlbumDetail();
+    getLeaderboardData();
   }, [id, walletAddress, token, serverApi]);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -313,8 +286,8 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyric & Songwriting</dt>
-          <dd>lyric+Songwriting</dd>
+          <dt>AI Lyrics b & Songwriting</dt>
+          <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
@@ -367,7 +340,32 @@ function AlbumDetail() {
                   <img src={shareIcon} />
                 </button>
               </div>
+              <section className="album-detail__audio">
+                <AudioPlayer
+                  src={album?.music_url || track1}
+                  onPlay={() => {
+                    console.log("PLAY!");
+                    setIsPlaying(true);
+                  }}
+                  onPause={() => {
+                    console.log("PAUSE!");
+                    setIsPlaying(false);
+                  }}
+                  onEnded={() => {
+                    console.log("ENDED!");
+                    setIsPlaying(false);
+                  }}
+                />
+                <p
+                  className={`album-detail__audio__cover ${
+                    isPlaying ? "playing" : "paused"
+                  }`}
+                >
+                  <img src={album?.image || coverImg} alt="album cover" />
+                </p>
+              </section>
             </div>
+
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
                 {album?.title}
@@ -388,64 +386,62 @@ function AlbumDetail() {
                   <dd>{album?.story || "-"}</dd>
                 </dl>
                 <dl>
-                  <dt>Genre</dt>
-                  <dd>{album?.genre || "-"}</dd>
+                  <dt>Language</dt>
+                  <dd>{album?.language || "-"}</dd>
                 </dl>
                 <dl>
-                  <dt>Style</dt>
-                  <dd>{album?.style || "-"}</dd>
+                  <dt>Genre</dt>
+                  <dd>{album?.genre || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Stylistic</dt>
                   <dd>{album?.Stylistic || "-"}</dd>
                 </dl>
                 <dl>
+                  <dt>Gender</dt>
+                  <dd>{album?.gender || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Age</dt>
+                  <dd>{album?.voice_age || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Musical Instrument</dt>
+                  <dd>{album?.musical_instrument || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Tempo</dt>
+                  <dd>{album?.tempo || "-"}</dd>
+                </dl>
+                <dl>
                   <dt>Creation Data</dt>
                   <dd>
                     {formatUtcTime(album?.create_dt) || "-"}
-                    <span>{formatLocalTime(album?.create_dt)}</span>
+                    {/* <span>{formatLocalTime(album?.create_dt)}</span> */}
                   </dd>
+                </dl>
+                <dl>
+                  <dt>Song Length</dt>
+                  <dd>{album?.Stylistic || "-"}</dd>
                 </dl>
                 <dl className="artist">
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={album?.user_profile || coverImg2} />
+                      <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
-                    <Link className="see-more-btn" to="/my-page">
+                    {/* <Link className="see-more-btn" 
+                      // to="/my-page"
+                      onClick={() => setPreparingModal(true)}
+                    >
                       See More
-                    </Link>
+                    </Link> */}
                   </dd>
                 </dl>
               </div>
             </div>
           </div>
-        </section>
-
-        <section className="album-detail__audio">
-          <AudioPlayer
-            src={album?.music_url || track1}
-            onPlay={() => {
-              console.log("PLAY!");
-              setIsPlaying(true);
-            }}
-            onPause={() => {
-              console.log("PAUSE!");
-              setIsPlaying(false);
-            }}
-            onEnded={() => {
-              console.log("ENDED!");
-              setIsPlaying(false);
-            }}
-          />
-          <p
-            className={`album-detail__audio__cover ${
-              isPlaying ? "playing" : "paused"
-            }`}
-          >
-            <img src={album?.image || coverImg} alt="album cover" />
-          </p>
         </section>
 
         <section className="album-detail__rank-table">
@@ -469,21 +465,27 @@ function AlbumDetail() {
                 </tr>
               </thead>
               <tbody>
-                {dummyData.map((item) => (
+                {leaderBoardData.map((item, index) => (
                   <tr key={item.id}>
                     <td>{item.id}</td>
-                    <td>{item.userName}</td>
-                    <td
-                      dangerouslySetInnerHTML={{ __html: item.description }}
-                    ></td>
-                    <td>{item.date}</td>
-                    <td>
-                      <span
-                        className={`heart ${item.liked ? "liked" : ""}`}
-                      ></span>
+                    <td className="user-info">
+                      <p>
+                        <img src={item.user_profile} />
+                        {item.name}
+                      </p>
                     </td>
                     <td>
-                      <button className={item.buttonClass}>Details</button>
+                      <p>{item.title}</p>
+                    </td>
+                    <td>{item.create_dt}</td>
+                    <td>{item.like}</td>
+                    <td>
+                      <Link
+                        className={item.buttonClass}
+                        to={"/album-detail/" + item.id}
+                      >
+                        Detail
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -539,7 +541,7 @@ function AlbumDetail() {
                           Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
-                          유저정보
+                          Details
                         </button>
                       </div>
                     </div>
@@ -599,7 +601,7 @@ function AlbumDetail() {
                           Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
-                          유저정보
+                          Details
                         </button>
                       </div>
                     </div>
@@ -611,6 +613,9 @@ function AlbumDetail() {
         </section>
       </div>
       {isShareModal && <ShareModal setShareModal={setShareModal} />}
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </>
   );
 }

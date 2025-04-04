@@ -38,7 +38,7 @@ const AlarmModal = () => {
 
   const [isError, setIsError] = useState(true);
 
-  console.log("isError", isError);
+  // console.log("isError", isError);
 
   const socketRef = useRef(null);
 

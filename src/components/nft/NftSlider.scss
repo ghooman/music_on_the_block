@@ -12,8 +12,8 @@
         transform: scale(0.8);
     }
     .swiper-slide-active{
-        width: 300px !important;
-        height: 170px !important;
+        // width: 300px !important;
+        // height: 170px !important;
         opacity: 1;
         transform: scale(1);
     }
@@ -94,3 +94,33 @@
         }
     }
 } 
+
+
+
+@media screen and (max-width: 768px) {
+    .nft-slider__swiper{
+        .nft-slider{
+            padding: 16px 40px 40px 0 !important;
+            .swiper-slide{
+                // width:300px !important;
+            }
+            .swiper-slide-active{
+                // width:  !important;
+            }
+        }
+    }
+    .nft-slider__swiper{
+        .nft-slider{
+            .swiper-button-next{
+                right: 20%;
+            }
+            .swiper-button-prev{
+                left: 20%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+}

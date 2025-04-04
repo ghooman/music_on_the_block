@@ -14,8 +14,15 @@ import { RemainCountButton } from "../unit/RemainCountButton";
 
 const tagPreset = {
   Love: ["passionate", "romantic", "tender", "endearing", "devoted"],
-  Trable: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
+  Moon: ["mysterious", "lunar", "ethereal", "celestial", "dreamy"],
+  Travel: ["chaotic", "turbulent", "unsettling", "difficult", "hectic"],
   Winter: ["frosty", "chilly", "serene", "crisp", "snowy"],
+  Cafe: ["cozy", "warm", "aromatic", "relaxing", "charming"],
+  School: ["academic", "scholarly", "nostalgic", "instructive", "educational"],
+  Space: ["vast", "infinite", "cosmic", "futuristic", "interstellar"],
+  Nature: ["lush", "verdant", "organic", "tranquil", "wild"],
+  Cat: ["playful", "graceful", "mischievous", "independent", "curious"],
+  Strawberry: ["sweet", "fresh", "juicy", "fruity", "vibrant"],
 };
 
 const genrePreset = {
@@ -83,7 +90,7 @@ const LyricLab = ({
 
   You are a professional songwriter and lyricist. 
   Your task is to create original song lyrics based on the user’s instructions. 
-  Output only the lyrics themselves without any additional text such as introductions, conclusions, or remarks like “Sure!” or “Hope you like it!”. 
+  Output only the lyrics themselves without any additional text such as introductions, conclusions, or remarks like “Sure!” or “Hope you like it!”.
   
   Follow these rules and guidelines:
   
@@ -111,6 +118,9 @@ const LyricLab = ({
   6. Appropriateness
      - Avoid using explicit or offensive language unless explicitly requested by the user.
      - Ensure the final lyrics are well-formatted, with clear section labels and line breaks.
+  
+  7. Default Simplicity for Insufficient Tags
+     - If the user does not select or provide sufficient tags or details, create simple, straightforward lyrics using a basic structure.
   
   Your overall goal is to deliver engaging, well-structured song lyrics that align with the user’s request, without any extra commentary.
   
@@ -216,7 +226,15 @@ const LyricLab = ({
             <SubBanner.LeftImages src={subBg2} />
             <SubBanner.Title text="Select a Tags" />
             <SubBanner.Message text="Please select tags that can express the mood, emotion, and image of the song." />
-            <SubBanner.SubMessage text="Skipped steps won’t affect your ability to create. Your result will adapt to the completed sections." />
+            <SelectItem
+              subTitle="Popular Tags"
+              setter={setLyricData}
+              objKey="lyric_tag"
+              selected={lylicData?.lyric_tag}
+              preset={tagPreset}
+              className="sub-banner__tags"
+              multiple
+            />
           </SubBanner>
           <SelectItem
             mainTitle="Select a Genre"
@@ -250,11 +268,11 @@ const LyricLab = ({
           <SelectedWrap title="Lyric Lab">
             <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
             <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-            <SelectedItem title="Style" value={lylicData?.lyric_style} />
             <SelectedItem
               title="Stylistic"
               value={lylicData?.lyric_stylistic}
             />
+            <SelectedItem title="Style" value={lylicData?.lyric_style} />
           </SelectedWrap>
         </div>
         {/* =========================================================================== */}

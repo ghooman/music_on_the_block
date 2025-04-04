@@ -179,6 +179,7 @@ const LyricLab = ({
       } else {
         setCreatedLyrics(response.output_text);
       }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.error("Responses API 호출 중 오류 발생:", error);
       throw error;
@@ -188,12 +189,7 @@ const LyricLab = ({
   }
 
   // 가사 생성완료 되었을 경우 스크롤 이동
-  useEffect(() => {
-    if (createdLyrics && generatedLyricsRef.current) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      // generatedLyricsRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [createdLyrics]);
+
 
   // 텍스트 파일(.txt) 다운로드 함수
   const downloadTxtFile = () => {

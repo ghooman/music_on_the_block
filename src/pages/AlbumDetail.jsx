@@ -288,7 +288,6 @@ function AlbumDetail() {
       <div className="album-detail">
         <dl className="album-detail__title">
           <dt>AI Lyrics & Songwriting</dt>
-          <dt>AI Lyrics & Songwriting</dt>
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
@@ -472,21 +471,22 @@ function AlbumDetail() {
                     <td>{item.id}</td>
                     <td className="user-info">
                       <p>
-                        <img src={item.user_profile} />
+                        <img src={item.user_profile || defaultCoverImg} />
                         {item.name}
                       </p>
                     </td>
                     <td>
                       <p>{item.title}</p>
                     </td>
-                    <td>{item.create_dt}</td>
+                    <td>{formatLocalTime(item.create_dt)}</td>
                     <td>{item.like}</td>
                     <td>
                       <Link
-                        className={item.buttonClass}
+                        // className={item.buttonClass}
+                        className="details-btn active"
                         to={"/album-detail/" + item.id}
                       >
-                        Detail
+                        Details
                       </Link>
                     </td>
                   </tr>
@@ -614,7 +614,12 @@ function AlbumDetail() {
           </div>
         </section>
       </div>
-      {isShareModal && <ShareModal setShareModal={setShareModal} shareUrl={window.location.href}/>}
+      {isShareModal && (
+        <ShareModal
+          setShareModal={setShareModal}
+          shareUrl={window.location.href}
+        />
+      )}
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}

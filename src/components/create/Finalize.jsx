@@ -103,7 +103,7 @@ const CreatedLyrics = ({ skipLyric, generatedLyric }) => {
         {/* {lyrics.map((item, index) => (
                     <div className="created-lyrics__item">
                         <p className="created-lyrics__item--part">{item.part}</p>
-                        <span className="created-lyrics__item--lyric">{item.lyric}</span>
+                        <span className="created-lyrics__item--lyrics">{item.lyrics}</span>
                     </div>
                 ))} */}
         <pre style={{ backgroundColor: "transparent" }}>{generatedLyric}</pre>

@@ -287,14 +287,15 @@ function Album() {
                     className="album__content-list__list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    Detail
+                    Details
                   </Link>
                 </div>
               </div>
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" 
+        <Link
+          className="album__content-list__see-more-btn"
           // to=""
           onClick={() => setPreparingModal(true)}
         >
@@ -370,7 +371,7 @@ function Album() {
                     className="swiper-music-list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    Detail
+                    Details
                   </Link>
                 </div>
               </div>
@@ -475,14 +476,15 @@ function Album() {
                     className="album__content-list__list__item__right__user__btn"
                     to={"/album-detail/" + track.id}
                   >
-                    Detail
+                    Details
                   </Link>
                 </div>
               </div>
             </button>
           ))}
         </article>
-        <Link className="album__content-list__see-more-btn" 
+        <Link
+          className="album__content-list__see-more-btn"
           // to=""
           onClick={() => setPreparingModal(true)}
         >

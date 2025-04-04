@@ -22,6 +22,10 @@
         display: -webkit-box;  
         max-height: 600px;
         overflow-y: auto;
+        .lyrics__content{
+          background: transparent;
+          width: 100%;
+        }
       }
     }
   }

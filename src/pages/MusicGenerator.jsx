@@ -138,7 +138,7 @@ const MusicGenerator = () => {
                   <img src={item.image_file} alt={item.title} />
                   <div className="music-info">
                     <h3>{item.title}</h3>
-                    <p>{item.lyric}</p>
+                    <p>{item.lyrics}</p>
                     <p>
                       <strong>Tags:</strong> {item.tags}
                     </p>

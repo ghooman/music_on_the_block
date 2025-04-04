@@ -72,7 +72,7 @@ const Create = () => {
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
   const skipHandler = () => {
-    if (skip === "lyric") {
+    if (skip === "lyrics") {
       setSkipLyric(true);
     } else {
       setSkipMelody(true);
@@ -135,7 +135,7 @@ const Create = () => {
           setLyricStory={setLyricStory}
           generatedLyric={generatedLyric}
           setGeneratedLyric={setGeneratedLyric}
-          onSkip={() => setSkip("lyric")}
+          onSkip={() => setSkip("lyrics")}
           setPageNumber={setPageNumber}
           melodyData={melodyData}
           tempo={tempo}
@@ -150,6 +150,7 @@ const Create = () => {
       {pageNumber === 1 && (
         <MelodyMaker
           lylicData={lylicData}
+          lyricStory={lyricStory}
           melodyData={melodyData}
           setMelodyData={setMelodyData}
           melodyStory={melodyStory}

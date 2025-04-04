@@ -33,7 +33,7 @@ const MusicInfo = ({ generatedMusic, skipMelody }) => {
             ),
             color: 'white',
         },
-        { title: 'Ai Service', value: 'AI Lyric & Songwriting' },
+        { title: 'Ai Service', value: 'AI Lyrics & Songwriting' },
         { title: 'Genre', value: 'Lyric' },
         { title: 'Style', value: 'POP' },
         { title: 'Stylistic', value: 'Emotional' },

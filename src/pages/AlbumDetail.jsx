@@ -32,7 +32,7 @@ import {
   Pagination,
   Autoplay,
 } from "swiper/modules";
-
+import PreparingModal from "../components/PreparingModal";
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
@@ -41,6 +41,7 @@ import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 function AlbumDetail() {
+  const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress } = useContext(AuthContext);
@@ -313,8 +314,8 @@ function AlbumDetail() {
     <>
       <div className="album-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyric & Songwriting</dt>
-          <dd>lyric+Songwriting</dd>
+          <dt>AI Lyrics  b & Songwriting</dt>
+          <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
           <p className="album-detail__song-detail__title">Song Detail</p>
@@ -367,7 +368,32 @@ function AlbumDetail() {
                   <img src={shareIcon} />
                 </button>
               </div>
+              <section className="album-detail__audio">
+                <AudioPlayer
+                  src={album?.music_url || track1}
+                  onPlay={() => {
+                    console.log("PLAY!");
+                    setIsPlaying(true);
+                  }}
+                  onPause={() => {
+                    console.log("PAUSE!");
+                    setIsPlaying(false);
+                  }}
+                  onEnded={() => {
+                    console.log("ENDED!");
+                    setIsPlaying(false);
+                  }}
+                />
+                <p
+                  className={`album-detail__audio__cover ${
+                    isPlaying ? "playing" : "paused"
+                  }`}
+                >
+                  <img src={album?.image || coverImg} alt="album cover" />
+                </p>
+              </section>
             </div>
+
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
                 {album?.title}
@@ -433,7 +459,10 @@ function AlbumDetail() {
                       <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
-                    <Link className="see-more-btn" to="/my-page">
+                    <Link className="see-more-btn" 
+                      // to="/my-page"
+                      onClick={() => setPreparingModal(true)}
+                    >
                       See More
                     </Link>
                   </dd>
@@ -443,30 +472,6 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section className="album-detail__audio">
-          <AudioPlayer
-            src={album?.music_url || track1}
-            onPlay={() => {
-              console.log("PLAY!");
-              setIsPlaying(true);
-            }}
-            onPause={() => {
-              console.log("PAUSE!");
-              setIsPlaying(false);
-            }}
-            onEnded={() => {
-              console.log("ENDED!");
-              setIsPlaying(false);
-            }}
-          />
-          <p
-            className={`album-detail__audio__cover ${
-              isPlaying ? "playing" : "paused"
-            }`}
-          >
-            <img src={album?.image || coverImg} alt="album cover" />
-          </p>
-        </section>
 
         <section className="album-detail__rank-table">
           <div ref={commentRef}>
@@ -631,6 +636,9 @@ function AlbumDetail() {
         </section>
       </div>
       {isShareModal && <ShareModal setShareModal={setShareModal} />}
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </>
   );
 }

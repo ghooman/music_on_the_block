@@ -193,7 +193,7 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>AI Service</dt>
                   <dd>
-                    <Link to="/create">AI Lyric & Songwriting</Link>
+                    <Link to="/create">AI Lyrics & Songwriting</Link>
                   </dd>
                   <dd>
                     <Link onClick={() => setPreparingModal(true)}>
@@ -213,11 +213,11 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                 </dl>
                 <dl>
-                  <dt>SNft Market Place</dt>
+                  <dt>NFT Market Place</dt>
                   <dd>
                     <Link 
                       to='/nft'
-                    >Nft Market Place</Link>
+                    >NFT Market Place</Link>
                   </dd>
                 </dl>
                 <dl>

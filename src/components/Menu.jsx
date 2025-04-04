@@ -7,6 +7,8 @@ import useWindowHeight from "../hooks/useWindowHeight";
 import levelIcon from "../assets/images/menu/level-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
+import micIcon from "../assets/images/icon/mic-icon.svg";
+import mobIcon from "../assets/images/icon/mob-icon.svg";
 import { AuthContext } from "../contexts/AuthContext";
 import { WalletConnect } from "./WalletConnect";
 import { useUserDetail } from "../hooks/useUserDetail";
@@ -118,8 +120,9 @@ const Menu = ({
         <div className="menu__cover">
           <dl className="menu__box">
             <Link
-              to="/my-page"
-              onClick={() => handleSingleActive("my-page")}
+              // to="/my-page"
+              // onClick={() => handleSingleActive("my-page")}
+              onClick={() => setPreparingModal(true)}
               className="menu__box__title"
             >
               My Pg
@@ -167,11 +170,11 @@ const Menu = ({
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>100</p>
-                          <span>MOB</span>
+                          <span><img src={mobIcon} alt="mob icon" />MOB</span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>45,345</p>
-                          <span>MIC</span>
+                          <span><img src={micIcon} alt="mic icon" />MIC</span>
                         </div>
                       </div>
                     </div>
@@ -208,7 +211,7 @@ const Menu = ({
                       className={activeSubItem === "ai-lyric" ? "active" : ""}
                       onClick={() => handleSubItemClick("ai-lyric")}
                     >
-                      <Link to="/create">AI Lyric & Songwriting</Link>
+                      <Link to="/create">AI Lyrics & Songwriting</Link>
                     </li>
                     <li
                       className={activeSubItem === "ai-singing" ? "active" : ""}
@@ -365,9 +368,10 @@ const Menu = ({
                     }`}
                   >
                     <Link
-                      to="/account-setting"
+                      // to="/account-setting"
                       className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSingleActive("my-page")}
+                      // onClick={() => handleSingleActive("my-page")}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <p className="icon"></p>My Page
                     </Link>
@@ -380,9 +384,10 @@ const Menu = ({
                     }`}
                   >
                     <Link
-                      to="/my-page?category=AI%20Services"
+                      // to="/my-page?category=AI%20Services"
                       className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSingleActive("my-favorites")}
+                      // onClick={() => handleSingleActive("my-favorites")}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <p className="icon"></p>My Favorites
                     </Link>

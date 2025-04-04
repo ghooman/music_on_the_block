@@ -647,7 +647,7 @@ function AlbumDetail() {
           </div>
         </section>
       </div>
-      {isShareModal && <ShareModal setShareModal={setShareModal} />}
+      {isShareModal && <ShareModal setShareModal={setShareModal} shareUrl={window.location.href}/>}
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}

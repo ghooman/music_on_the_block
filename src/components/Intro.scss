@@ -325,6 +325,13 @@
   .intro__album{
     position: relative;
     width: 100%;
+    overflow: hidden;
+    display: block;
+    &:hover{
+      .intro__album__btn{
+        right: 32px
+      }
+    }
     .intro__album__btn{
       position: absolute;
       right: 16px;
@@ -441,6 +448,11 @@
     background-size: cover;
     border-radius: 8px;
     // border: 1px solid #;
+    &:hover{
+      .intro__nft-market__btn{
+        right: 32px
+      }
+    }
     .intro__nft-market__btn{
       position: absolute;
       right: 16px;
@@ -454,7 +466,7 @@
       font-style: normal;
       font-weight: 700;
       line-height: 0%; /* 0px */
-      letter-spacing: 0.9px;
+      transition: 0.3s;
       &::before{
         content: '';
         position: absolute;
@@ -472,6 +484,8 @@
   .intro__album-wrap{
     display: block;
     min-height: 220px;
+    width: 100%;
+
   }
 }//intro--END--
 

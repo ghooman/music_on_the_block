@@ -311,6 +311,7 @@ function AlbumDetail() {
                 )}
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
+                  {album?.lyrics && console.log("가사 내용:", album.lyrics)}
                 </div>
                 <button className="album-detail__song-detail__left__img__lyrics-btn">
                   Lyrics
@@ -468,7 +469,7 @@ function AlbumDetail() {
               <tbody>
                 {leaderBoardData.map((item, index) => (
                   <tr key={item.id}>
-                    <td>{item.id}</td>
+                    <td>{index+1}</td>
                     <td className="user-info">
                       <p>
                         <img src={item.user_profile || defaultCoverImg} />

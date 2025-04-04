@@ -5,7 +5,7 @@ import useWindowHeight from "../hooks/useWindowHeight";
 
 // 이미지
 import levelIcon from "../assets/images/menu/level-icon.svg";
-import userImg from "../assets/images/intro/intro-demo-img2.png";
+import defaultCoverImg from "../assets/images/header/logo.svg";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
 import micIcon from "../assets/images/icon/mic-icon.svg";
 import mobIcon from "../assets/images/icon/mob-icon.svg";
@@ -112,12 +112,17 @@ const Menu = ({
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
-      <div className={`menu ${active ? "active" : ""} ${isBelowHeight ? "small-height" : ""}`}>
+      <div
+        className={`menu ${active ? "active" : ""} ${
+          isBelowHeight ? "small-height" : ""
+        }`}
+      >
         <div className="menu__cover">
           <dl className="menu__box">
             <Link
-              to="/my-page"
-              onClick={() => handleSingleActive("my-page")}
+              // to="/my-page"
+              // onClick={() => handleSingleActive("my-page")}
+              onClick={() => setPreparingModal(true)}
               className="menu__box__title"
             >
               My Pg
@@ -148,7 +153,7 @@ const Menu = ({
                           className="menu__box__my-page__info__top__img"
                           style={{
                             backgroundImage: `url(${
-                              userData?.profile || userImg
+                              userData?.profile || defaultCoverImg
                             })`,
                           }}
                         ></p>
@@ -363,9 +368,10 @@ const Menu = ({
                     }`}
                   >
                     <Link
-                      to="/account-setting"
+                      // to="/account-setting"
                       className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSingleActive("my-page")}
+                      // onClick={() => handleSingleActive("my-page")}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <p className="icon"></p>My Page
                     </Link>
@@ -378,9 +384,10 @@ const Menu = ({
                     }`}
                   >
                     <Link
-                      to="/my-page?category=AI%20Services"
+                      // to="/my-page?category=AI%20Services"
                       className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSingleActive("my-favorites")}
+                      // onClick={() => handleSingleActive("my-favorites")}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <p className="icon"></p>My Favorites
                     </Link>

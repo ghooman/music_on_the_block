@@ -32,7 +32,7 @@ import {
   Pagination,
   Autoplay,
 } from "swiper/modules";
-
+import PreparingModal from "../components/PreparingModal";
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
@@ -41,6 +41,7 @@ import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
 
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 function AlbumDetail() {
+  const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress } = useContext(AuthContext);
@@ -367,7 +368,32 @@ function AlbumDetail() {
                   <img src={shareIcon} />
                 </button>
               </div>
+              <section className="album-detail__audio">
+                <AudioPlayer
+                  src={album?.music_url || track1}
+                  onPlay={() => {
+                    console.log("PLAY!");
+                    setIsPlaying(true);
+                  }}
+                  onPause={() => {
+                    console.log("PAUSE!");
+                    setIsPlaying(false);
+                  }}
+                  onEnded={() => {
+                    console.log("ENDED!");
+                    setIsPlaying(false);
+                  }}
+                />
+                <p
+                  className={`album-detail__audio__cover ${
+                    isPlaying ? "playing" : "paused"
+                  }`}
+                >
+                  <img src={album?.image || coverImg} alt="album cover" />
+                </p>
+              </section>
             </div>
+
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
                 {album?.title}
@@ -388,16 +414,32 @@ function AlbumDetail() {
                   <dd>{album?.story || "-"}</dd>
                 </dl>
                 <dl>
+                  <dt>Language</dt>
+                  <dd>{album?.language || "-"}</dd>
+                </dl>
+                <dl>
                   <dt>Genre</dt>
                   <dd>{album?.genre || "-"}</dd>
                 </dl>
                 <dl>
-                  <dt>Style</dt>
-                  <dd>{album?.style || "-"}</dd>
-                </dl>
-                <dl>
                   <dt>Stylistic</dt>
                   <dd>{album?.Stylistic || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Gender</dt>
+                  <dd>{album?.gender || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Age</dt>
+                  <dd>{album?.voice_age || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Musical Instrument</dt>
+                  <dd>{album?.musical_instrument || "-"}</dd>
+                </dl>
+                <dl>
+                  <dt>Tempo</dt>
+                  <dd>{album?.tempo || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Creation Data</dt>
@@ -406,14 +448,21 @@ function AlbumDetail() {
                     <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
+                <dl>
+                  <dt>Song Length</dt>
+                  <dd>{album?.Stylistic || "-"}</dd>
+                </dl>
                 <dl className="artist">
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={album?.user_profile || coverImg2} />
+                      <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
-                    <Link className="see-more-btn" to="/my-page">
+                    <Link className="see-more-btn" 
+                      // to="/my-page"
+                      onClick={() => setPreparingModal(true)}
+                    >
                       See More
                     </Link>
                   </dd>
@@ -423,30 +472,6 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section className="album-detail__audio">
-          <AudioPlayer
-            src={album?.music_url || track1}
-            onPlay={() => {
-              console.log("PLAY!");
-              setIsPlaying(true);
-            }}
-            onPause={() => {
-              console.log("PAUSE!");
-              setIsPlaying(false);
-            }}
-            onEnded={() => {
-              console.log("ENDED!");
-              setIsPlaying(false);
-            }}
-          />
-          <p
-            className={`album-detail__audio__cover ${
-              isPlaying ? "playing" : "paused"
-            }`}
-          >
-            <img src={album?.image || coverImg} alt="album cover" />
-          </p>
-        </section>
 
         <section className="album-detail__rank-table">
           <div ref={commentRef}>
@@ -611,6 +636,9 @@ function AlbumDetail() {
         </section>
       </div>
       {isShareModal && <ShareModal setShareModal={setShareModal} />}
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
     </>
   );
 }

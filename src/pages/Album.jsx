@@ -294,7 +294,7 @@ function Album() {
           ))}
         </article>
         <Link className="album__content-list__see-more-btn" to="">
-          Detail
+          See More
         </Link>
       </section>
 
@@ -471,7 +471,7 @@ function Album() {
           ))}
         </article>
         <Link className="album__content-list__see-more-btn" to="">
-          Detail
+          See More
         </Link>
       </section>
     </div>

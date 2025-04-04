@@ -1,5 +1,5 @@
-// components/AccountSetting.jsx
-import "../styles/AccountSetting.scss";
+// components/AccountSettings.jsx
+import "../styles/AccountSettings.scss";
 import { useState, useRef, useContext } from "react";
 import axios from "axios";
 import { useUserDetail } from "../hooks/useUserDetail";
@@ -10,7 +10,7 @@ import editIcon2 from "../assets/images/icon/picture2.svg";
 import { AuthContext } from "../contexts/AuthContext";
 import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
 
-const AccountSetting = () => {
+const AccountSettings = () => {
   const { data: userData, refetch } = useUserDetail();
   const { token } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -194,7 +194,7 @@ const AccountSetting = () => {
 
   return (
     <div className="account-setting">
-      <h1 className="account-setting--title">AccountSetting</h1>
+      <h1 className="account-setting--title">Account Settings</h1>
 
       <section className="account-setting__info">
         <div className="account-setting__info-box">
@@ -484,4 +484,4 @@ const AccountSetting = () => {
   );
 };
 
-export default AccountSetting;
+export default AccountSettings;

@@ -1,11 +1,14 @@
 import "./GetStarted.scss";
+import { useState } from "react";
 import ExpandedButton from "./ExpandedButton";
 import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { RemainCountButton } from "../unit/RemainCountButton";
 const GetStarted = ({ handler }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
+
   const handleWalletConnect = (loggedIn, walletAddress) => {
     setIsLoggedIn(loggedIn);
     if (loggedIn && walletAddress) {
@@ -46,6 +49,8 @@ const GetStarted = ({ handler }) => {
           <p className="create__get-started--features-item ">--%</p>
         </div>
       </div>
+      <RemainCountButton remainingCount={1} />
+
       {isRegistered ? (
         <ExpandedButton
           className="create__get-started--button"

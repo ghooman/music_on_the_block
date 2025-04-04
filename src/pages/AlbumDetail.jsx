@@ -338,8 +338,8 @@ function AlbumDetail() {
                 <div className="album-detail__song-detail__left__img__txt">
                   <pre>{album?.lyrics}</pre>
                 </div>
-                <button className="album-detail__song-detail__left__img__lyric-btn">
-                  Lyric
+                <button className="album-detail__song-detail__left__img__lyrics-btn">
+                  Lyrics
                 </button>
               </div>
               <div className="album-detail__song-detail__left__info">

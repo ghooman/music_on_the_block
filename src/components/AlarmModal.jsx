@@ -36,7 +36,7 @@ const AlarmModal = () => {
   const [storedAlbumData, setStoredAlbumData] = useState(getStoredAlbumData());
   const [isClosed, setIsClosed] = useState(false);
 
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState(true);
 
   console.log("isError", isError);
 
@@ -168,11 +168,13 @@ const AlarmModal = () => {
               isError ? "alarm__modal__item__txt--error" : ""
             }`}
           >
-            {isError
-              ? "Music generation failed."
-              : albumPk
-              ? "Song generation completed!"
-              : "AI song is currently being generated"}
+            {isError ? (
+              <span className="err-txt">Music generation failed.</span>
+            ) : albumPk ? (
+              "Song generation completed!"
+            ) : (
+              "The generation process may take up to 5 minutes."
+            )}
           </p>
 
           {!albumPk && !isError && (

@@ -5,11 +5,13 @@ import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import profileImg from "../assets/images/progile-img.svg";
 import popImg from "../assets/images/sing-up/POP-img.png";
+import kpopImg from "../assets/images/sing-up/KPOP-img.png";
 import randbImg from "../assets/images/sing-up/R&B-img.png";
 import rockImg from "../assets/images/sing-up/Rock-img.png";
 import edmImg from "../assets/images/sing-up/EDM-img.png";
-import balladImg from "../assets/images/sing-up/BALLAD-img.png";
-import jazzImg from "../assets/images/sing-up/JAZZ-img.png";
+import folkBluesImg from "../assets/images/sing-up/folk-blues-img.png";
+import hipHopImg from "../assets/images/sing-up/Hip-Hop.png";
+import classicalImg from "../assets/images/sing-up/Classical-img.png";
 import SingUpCompleteModal from "../components/SingUpCompleteModal";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
@@ -298,12 +300,14 @@ const AIDetailedSettings = ({
 const PreferredGenre = ({ onBack, onNext }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const genreImages = {
+    "K-POP": kpopImg,
     POP: popImg,
     "R&B": randbImg,
+    "HIP-HOP": hipHopImg,
     ROCK: rockImg,
+    "FOLK BLUES COUNTRY": folkBluesImg,
     EDM: edmImg,
-    BALLAD: balladImg,
-    JAZZ: jazzImg,
+    CLASSICAL: classicalImg,
   };
 
   const handleGenreClick = (genre) => {

@@ -1,3 +1,4 @@
+// components/MelodyMaker.jsx
 import "./MelodyMaker.scss";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -82,13 +83,35 @@ const storeAlbumId = (id, title) => {
   );
 };
 
+// ──────────────────────────
+// 프리뷰 문자열의 각 라인에서 콜론(:) 뒤의 값에만 스타일을 적용하는 컴포넌트
+const StyledPromptPreview = ({ previewText, valueColor = "#cf0" }) => {
+  // 줄바꿈을 기준으로 각 라인을 분리하고 빈 줄은 제거
+  const lines = previewText.split("\n").filter((line) => line.trim() !== "");
+  return (
+    <div className="styled-prompt-preview">
+      {lines.map((line, index) => {
+        // 첫 번째 콜론을 기준으로 왼쪽은 라벨, 오른쪽은 값
+        const [label, ...rest] = line.split(":");
+        const value = rest.join(":");
+        return (
+          <p key={index}>
+            {label}:<span style={{ color: valueColor }}>{value}</span>
+          </p>
+        );
+      })}
+    </div>
+  );
+};
+// ──────────────────────────
+
 const MelodyMaker = ({
   lylicData,
   lyricStory,
   melodyData,
   setMelodyData,
-  melodyStory,
-  setMelodyStory,
+  melodyDetail,
+  setMelodyDetail,
   tempo,
   setTempo,
   generatedLyric,
@@ -116,7 +139,6 @@ const MelodyMaker = ({
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [showLyricsModal, setShowLyricsModal] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
     (title && title.trim() !== "") ||
@@ -131,16 +153,16 @@ const MelodyMaker = ({
     (melody_instrument &&
       melody_instrument.length > 0 &&
       melody_instrument[0].trim() !== "") ||
-    (melodyStory && melodyStory.trim() !== "");
+    (melodyDetail && melodyDetail.trim() !== "");
 
   const promptPreview = `
-      Language: ${selectedLanguage},
-      ${melody_tag ? "Tags:" + melody_tag.join(", ") : ""}
-      ${melody_genre ? "Genre:" + melody_genre?.join(", ") : ""}
-      ${melody_gender ? "Gender" + melody_gender?.join(", ") : ""} 
+      Language : ${selectedLanguage}
+      ${melody_tag ? "Tags : " + melody_tag.join(", ") : ""}
+      ${melody_genre ? "Genre : " + melody_genre.join(", ") : ""}
+      ${melody_gender ? "Gender : " + melody_gender.join(", ") : ""} 
       ${
         melody_age
-          ? "Age:" +
+          ? "Age : " +
             melody_age
               .map((age) => {
                 const match = age.match(/\(([^)]+)\)/);
@@ -149,20 +171,20 @@ const MelodyMaker = ({
               .join(", ")
           : ""
       }
-      ${melody_instrument ? "Instrument:" + melody_instrument?.join(", ") : ""}
-      ${melodyStory ? "Story : " + melodyStory : ""}
+      ${melody_instrument ? "Instrument : " + melody_instrument.join(", ") : ""}
       Tempo : ${tempo}
+      ${melodyDetail ? "Detail : " + melodyDetail : ""}
       `;
   const formData = {
     title: title,
-    story: melodyStory,
+    story: melodyDetail,
     language: selectedLanguage,
     lyrics: generatedLyric,
-    genre: melody_genre?.[0] ? melody_genre?.[0] : "",
+    genre: melody_genre?.[0] ? melody_genre[0] : "",
     style: "",
-    gender: melody_gender?.[0] ? melody_gender?.[0] : "",
-    voice_age: melody_age?.[0] ? melody_age?.[0] : "",
-    musical_instrument: melody_instrument?.[0] ? melody_instrument?.[0] : "",
+    gender: melody_gender?.[0] ? melody_gender[0] : "",
+    voice_age: melody_age?.[0] ? melody_age[0] : "",
+    musical_instrument: melody_instrument?.[0] ? melody_instrument[0] : "",
     tags: melody_tag ? melody_tag.join(", ") : "",
     image: "",
     tempo: parseFloat(tempo),
@@ -173,7 +195,7 @@ const MelodyMaker = ({
     mood: "",
   };
 
-  // 노래 생성 요청 함수 수정
+  // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
       setLoading(true);
@@ -204,18 +226,16 @@ const MelodyMaker = ({
     }
   }, [generatedMusicResult]);
 
-  // if (!generatedMusicResult)
   return (
     <div className="create__melody-maker">
       <RemainCountButton createPossibleCount={createPossibleCount} />
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="View Lyrics Lab Results"></SubBanner.Title>
-        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab."></SubBanner.Message>
-        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
+        <SubBanner.Title text="View Lyrics Lab Results" />
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab." />
+        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker." />
         <SubBanner.Button
           title="View Lyrics"
-          // handler={() => alert("가사 보여주기!")}
           handler={() => {
             setShowLyricsModal(true);
           }}
@@ -275,22 +295,29 @@ const MelodyMaker = ({
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemInputOnly
-          value={melodyStory}
-          setter={setMelodyStory}
-          title="Your Story"
+          value={melodyDetail}
+          setter={setMelodyDetail}
+          title="Detail"
         />
         <div className="selected-tag-list">
           <div className="selected-tag-list__title">
             <h3>Selected Tags (max_length : 200)</h3>
             <span>
               current length :
-              <span style={{ color: promptPreview?.length > 200 && "red" }}>
+              <span
+                style={{
+                  color: promptPreview?.length > 200 ? "red" : "inherit",
+                }}
+              >
                 {promptPreview?.length}
               </span>
             </span>
           </div>
           <div className="selected-tag-list__tags">
-            <pre>{promptPreview}</pre>
+            <StyledPromptPreview
+              previewText={promptPreview}
+              valueColor="#cf0"
+            />
           </div>
         </div>
       </SelectItemWrap>
@@ -303,7 +330,7 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
           <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
           <div className="lyrics-lab__selected-item">
-            <p className="lyrics-lab__selected-item--title">Your Story</p>
+            <p className="lyrics-lab__selected-item--title">ㅇ</p>
             <p className="lyrics-lab__selected-item--text">
               {lyricStory || "-"}
             </p>
@@ -333,11 +360,10 @@ const MelodyMaker = ({
         <div className="button-wrap__left">
           <ExpandedButton
             className="back"
-            onClick={() => setPageNumber((prev) => prev + -1)}
+            onClick={() => setPageNumber((prev) => prev - 1)}
           >
             Back
           </ExpandedButton>
-          {/* 임시 위치 ui상 style none으로 */}
           <ExpandedButton
             className="skip"
             onClick={onSkip}
@@ -359,13 +385,6 @@ const MelodyMaker = ({
         </ExpandedButton>
       </div>
       {loading && <CreateLoading textTrue />}
-      {/* {showModal && (
-        <CompleteModal
-          setShowModal={setShowModal}
-          message="Your song is successfully created!"
-          link={`/album-detail/${generatedMusicResult?.id}`}
-        />
-      )} */}
       {showLyricsModal && (
         <LyricsModal
           setShowLyricsModal={setShowLyricsModal}

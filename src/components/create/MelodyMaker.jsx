@@ -48,7 +48,7 @@ const genderPreset = {
   "Female Solo": ["Female Solo"],
   "Male Group": ["Male Group"],
   "Female Group": ["Female Group"],
-  "Mixed Group": ["Mixed Group"],
+  "Mixed Gender Group": ["Mixed Gender Group"],
 };
 
 const agePreset = {
@@ -138,7 +138,17 @@ const MelodyMaker = ({
       ${melody_tag ? "Tags:" + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre:" + melody_genre?.join(", ") : ""}
       ${melody_gender ? "Gender" + melody_gender?.join(", ") : ""} 
-      ${melody_age ? "Age:" + melody_age?.join(", ") : ""}
+      ${
+        melody_age
+          ? "Age:" +
+            melody_age
+              .map((age) => {
+                const match = age.match(/\(([^)]+)\)/);
+                return match ? match[1] : age;
+              })
+              .join(", ")
+          : ""
+      }
       ${melody_instrument ? "Instrument:" + melody_instrument?.join(", ") : ""}
       ${melodyStory ? "Story : " + melodyStory : ""}
       Tempo : ${tempo}
@@ -225,6 +235,7 @@ const MelodyMaker = ({
             preset={tagPreset}
             className="sub-banner__tags"
             multiple
+            add
           />
         </SubBanner>
         <SelectItemInputOnly value={title} setter={setTitle} title="Title" />

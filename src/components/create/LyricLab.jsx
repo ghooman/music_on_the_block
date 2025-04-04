@@ -235,6 +235,7 @@ const LyricLab = ({
               preset={tagPreset}
               className="sub-banner__tags"
               multiple
+              add
             />
           </SubBanner>
           <SelectItem

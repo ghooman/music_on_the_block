@@ -49,6 +49,8 @@ function AlbumDetail() {
     {
       id: 30,
       userName: "User A",
+      userProfile: demoImg,
+      like: 100,
       description: "he dances through his masks<br />like breathing - Yolkhead",
       date: "Sat, 04 Nov 2023 14:40:00 UTC+0",
       liked: true,
@@ -57,6 +59,8 @@ function AlbumDetail() {
     {
       id: 31,
       userName: "User B",
+      userProfile: demoImg,
+      like: 100,
       description: "he dances through his masks<br />like breathing - Yolkhead",
       date: "Sat, 04 Nov 2023 14:50:00 UTC+0",
       liked: false,
@@ -65,6 +69,8 @@ function AlbumDetail() {
     {
       id: 32,
       userName: "User C",
+      userProfile: demoImg,
+      like: 17,
       description: "he dances through his masks",
       date: "Sat, 04 Nov 2023 15:00:00 UTC+0",
       liked: false,
@@ -73,6 +79,8 @@ function AlbumDetail() {
     {
       id: 33,
       userName: "User D",
+      userProfile: demoImg,
+      like: 70,
       description: "moving forward without looking back - PoetX",
       date: "Sat, 04 Nov 2023 15:10:00 UTC+0",
       liked: true,
@@ -81,6 +89,8 @@ function AlbumDetail() {
     {
       id: 34,
       userName: "User E",
+      userProfile: demoImg,
+      like: 54,
       description: "shadows whisper in the moonlight - Anonymous",
       date: "Sat, 04 Nov 2023 15:20:00 UTC+0",
       liked: false,
@@ -497,15 +507,17 @@ function AlbumDetail() {
                 {dummyData.map((item) => (
                   <tr key={item.id}>
                     <td>{item.id}</td>
-                    <td>{item.userName}</td>
+                    <td className="user-info">
+                      <p>
+                        <img src={item.userProfile} />{item.userName}
+                      </p>
+                    </td>
                     <td
                       dangerouslySetInnerHTML={{ __html: item.description }}
                     ></td>
                     <td>{item.date}</td>
                     <td>
-                      <span
-                        className={`heart ${item.liked ? "liked" : ""}`}
-                      ></span>
+                        {item.like}
                     </td>
                     <td>
                       <button className={item.buttonClass}>Details</button>
@@ -564,7 +576,7 @@ function AlbumDetail() {
                           Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
-                          유저정보
+                          Details
                         </button>
                       </div>
                     </div>
@@ -624,7 +636,7 @@ function AlbumDetail() {
                           Yolkhead
                         </p>
                         <button className="album__content-list__list__item__right__user__btn">
-                          유저정보
+                          Details
                         </button>
                       </div>
                     </div>

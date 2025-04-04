@@ -16,6 +16,8 @@ import subBg2 from "../../assets/images/create/subbanner-bg2.png";
 import CreateLoading from "../CreateLoading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
+import LyricsModal from "../LyricsModal";
+
 const tagPreset = {
   Love: ["Love"],
   Moon: ["Moon"],
@@ -113,6 +115,7 @@ const MelodyMaker = ({
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+  const [showLyricsModal, setShowLyricsModal] = useState(false);
   // const [showModal, setShowModal] = useState(false);
   // 각 필드에 값이 있는지 확인하는 변수
   const isAnyFieldFilled =
@@ -202,7 +205,10 @@ const MelodyMaker = ({
         <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker."></SubBanner.Message>
         <SubBanner.Button
           title="View Lyrics"
-          handler={() => alert("가사 보여주기!")}
+          // handler={() => alert("가사 보여주기!")}
+          handler={() => {
+            setShowLyricsModal(true);
+          }}
         ></SubBanner.Button>
       </SubBanner>
 
@@ -350,6 +356,12 @@ const MelodyMaker = ({
           link={`/album-detail/${generatedMusicResult?.id}`}
         />
       )} */}
+      {showLyricsModal && (
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+        />
+      )}
     </div>
   );
 };

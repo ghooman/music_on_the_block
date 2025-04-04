@@ -1,0 +1,28 @@
+
+
+
+
+
+
+
+
+
+.modal-wrap{
+  &.lyrics{
+    .modal-content-box{
+      max-width: 800px;
+      .modal-content{
+        font-size: 14px;
+        padding: 24px;
+        border: 1px solid #222;
+        background: #121212;
+        white-space: normal;      
+        overflow-wrap: break-word;
+        word-break: break-word;   
+        display: -webkit-box;  
+        max-height: 600px;
+        overflow-y: auto;
+      }
+    }
+  }
+}//.modal-wrap--END--

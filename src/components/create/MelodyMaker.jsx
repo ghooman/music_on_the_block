@@ -133,6 +133,7 @@ const MelodyMaker = ({
     melody_age,
     melody_instrument,
   } = melodyData || {};
+  console.log("melody lyricData", lyricData);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -176,41 +177,56 @@ const MelodyMaker = ({
       ${melodyDetail ? "Detail : " + melodyDetail : ""}
       `;
   const formData = {
-    title: title,
-    story: melodyDetail,
-    language: selectedLanguage,
-    lyrics: generatedLyric,
-    genre: melody_genre?.[0] ? melody_genre[0] : "",
-    style: "",
-    gender: melody_gender?.[0] ? melody_gender[0] : "",
-    voice_age: melody_age?.[0] ? melody_age[0] : "",
-    musical_instrument: melody_instrument?.[0] ? melody_instrument[0] : "",
-    tags: melody_tag ? melody_tag.join(", ") : "",
-    image: "",
-    tempo: parseFloat(tempo),
-    song_length: "",
-    mood: "",
-    ai_service: "",
-    ai_service_type: "",
-    mood: "",
+    album: {
+      title: title,
+      story: melodyDetail,
+      language: selectedLanguage,
+      lyrics: generatedLyric,
+      genre: melody_genre?.[0] ? melody_genre[0] : "",
+      style: "",
+      gender: melody_gender?.[0] ? melody_gender[0] : "",
+      voice_age: melody_age?.[0] ? melody_age[0] : "",
+      musical_instrument: melody_instrument?.[0] ? melody_instrument[0] : "",
+      tags: melody_tag ? melody_tag.join(", ") : "",
+      image: "",
+      tempo: parseFloat(tempo),
+      song_length: "",
+      mood: "",
+      ai_service: "",
+      ai_service_type: "",
+      mood: "",
+    },
+    album_lyrics_info: {
+      language: selectedLanguage,
+      feelings: "", // 0407 기준안쓰임
+      genre: lyricData?.lyric_genre[0] || "", // 장르
+      style: lyricData?.lyric_stylistic[0] || "", // 스타일
+      form: lyricData?.lyric_tag ? lyricData?.lyric_tag.join(", ") : "", // 태그
+      my_story: lyricStory,
+    },
   };
 
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(`${serverApi}/api/music/album/`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
-        },
-      });
-      storeAlbumId(res.data.id, res.data.title);
+      const res = await axios.post(
+        `${serverApi}/api/music/album/lyrics`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
+          },
+        }
+      );
       // setShowModal(true);
+      storeAlbumId(res.data.id, res.data.title);
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
+      console.log("formData", formData);
       navigate(`/album`);
     } catch (err) {
       alert("에러 발생");
@@ -330,7 +346,7 @@ const MelodyMaker = ({
           <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
           <SelectedItem title="Stylistic" value={lyricData?.lyric_stylistic} />
           <div className="lyrics-lab__selected-item">
-            <p className="lyrics-lab__selected-item--title">ㅇ</p>
+            <p className="lyrics-lab__selected-item--title">Your Story</p>
             <p className="lyrics-lab__selected-item--text">
               {lyricStory || "-"}
             </p>

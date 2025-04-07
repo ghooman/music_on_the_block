@@ -29,7 +29,6 @@ const Create = () => {
   const [lyricData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],
-    lyric_style: [],
     lyric_stylistic: [],
   });
   const [lyricStory, setLyricStory] = useState("");
@@ -107,7 +106,6 @@ const Create = () => {
                     <SelectedWrap title="Lyrics Lab">
                         <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
                         <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
-                        <SelectedItem title="Style" value={lyricData?.lyric_style} />
                         <SelectedItem title="Stylistic" value={lyricData?.lyric_stylistic} />
                     </SelectedWrap>
                     <SelectedWrap title="Melody Maker">

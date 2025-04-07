@@ -148,15 +148,12 @@ const LyricLab = ({
     (lyricData?.lyric_genre &&
       lyricData.lyric_genre.length > 0 &&
       lyricData.lyric_genre[0].trim() !== "") ||
-    (lyricData?.lyric_style &&
-      lyricData.lyric_style.length > 0 &&
-      lyricData.lyric_style[0].trim() !== "") ||
     (lyricData?.lyric_stylistic &&
       lyricData.lyric_stylistic.length > 0 &&
       lyricData.lyric_stylistic[0].trim() !== "") ||
     (lyricStory && lyricStory.trim() !== "");
 
-  // console.log('lyricData', lyricData);
+  console.log("lyricData", lyricData);
   // 지피티4o API 호출 함수
   async function callGPT4oResponses() {
     try {
@@ -167,7 +164,6 @@ const LyricLab = ({
         input: `출력원하는언어:${selectedLanguage},
         느낌:${lyricData?.lyric_tag.join(",")},
                  장르:${lyricData?.lyric_genre.join(",")},
-                 스타일:${lyricData?.lyric_style.join(",")},
                  양식:${lyricData?.lyric_stylistic.join(",")},
                  추가적인 나의 이야기:${lyricStory}
                 `,

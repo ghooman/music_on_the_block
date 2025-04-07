@@ -1,9 +1,9 @@
 // components/MyAudioPlayer.js
 import React, { useContext, useRef, useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
-import axios from "axios";
 import "react-h5-audio-player/lib/styles.css";
 import { AuthContext } from "../contexts/AuthContext";
+import { incrementPlayCount } from "../api/incrementPlayCount";
 
 const MyAudioPlayer = ({
   track,
@@ -30,8 +30,8 @@ const MyAudioPlayer = ({
 
     // 아직 POST 요청을 보내지 않았고, 현재 재생 시간이 90초 이상이면 POST 요청 실행
     if (!hasCountedRef.current && currentTime >= 90) {
-      try {
-        await axios.post(`${serverApi}/api/music/${track?.id}/play`, {});
+      const success = await incrementPlayCount(track?.id, serverApi);
+      if (success) {
         // 재생 시간 업데이트 후 getTracks 호출
         if (getTracks) {
           getTracks();
@@ -40,9 +40,6 @@ const MyAudioPlayer = ({
         if (handleGetMusicList) {
           handleGetMusicList();
         }
-        console.log("POST 요청 성공");
-      } catch (error) {
-        console.error("POST 요청 실패", error);
       }
       hasCountedRef.current = true;
     }

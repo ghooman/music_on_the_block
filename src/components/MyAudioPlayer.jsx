@@ -10,6 +10,8 @@ const MyAudioPlayer = ({
   onTimeUpdate,
   onClickPrevious,
   onClickNext,
+  getTracks,
+  handleGetMusicList,
 }) => {
   const { token } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -30,6 +32,14 @@ const MyAudioPlayer = ({
     if (!hasCountedRef.current && currentTime >= 90) {
       try {
         await axios.post(`${serverApi}/api/music/${track?.id}/play`, {});
+        // 재생 시간 업데이트 후 getTracks 호출
+        if (getTracks) {
+          getTracks();
+        }
+        // 재생 목록을 가져오는 함수 호출
+        if (handleGetMusicList) {
+          handleGetMusicList();
+        }
         console.log("POST 요청 성공");
       } catch (error) {
         console.error("POST 요청 실패", error);

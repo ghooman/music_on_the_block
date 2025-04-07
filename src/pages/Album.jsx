@@ -46,25 +46,25 @@ function Album() {
   }, []);
   // getHitMusicList
   const [hitMusicList, setHitMusicList] = useState([]);
-  useEffect(() => {
-    const handleGetMusicList = async () => {
-      try {
-        const res = await getHitMusicList(walletAddress);
-        // 트랙마다 오디오 정보를 불러와 duration 설정
-        const fetchedTracks = res.data;
-        fetchedTracks.forEach((track, index) => {
-          const audio = new Audio(track.music_url);
-          audio.addEventListener("loadedmetadata", () => {
-            fetchedTracks[index].duration = audio.duration;
-            setHitMusicList([...fetchedTracks]);
-          });
+  const handleGetMusicList = async () => {
+    try {
+      const res = await getHitMusicList(walletAddress);
+      // 트랙마다 오디오 정보를 불러와 duration 설정
+      const fetchedTracks = res.data;
+      fetchedTracks.forEach((track, index) => {
+        const audio = new Audio(track.music_url);
+        audio.addEventListener("loadedmetadata", () => {
+          fetchedTracks[index].duration = audio.duration;
+          setHitMusicList([...fetchedTracks]);
         });
-        setHitMusicList(fetchedTracks);
-        console.log("hitMusicList", res.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
+      });
+      setHitMusicList(fetchedTracks);
+      console.log("hitMusicList", res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  useEffect(() => {
     handleGetMusicList();
   }, [walletAddress]);
   // 노래플레이 관련 상태
@@ -95,17 +95,19 @@ function Album() {
   };
 
   useEffect(() => {
-    if (walletAddress) {
-      getTracks();
-    }
+    getTracks();
   }, [walletAddress]);
 
   // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
   useEffect(() => {
-    if (tracks.length > 0 && selectedTrackIndex === null) {
-      setSelectedTrackIndex(0);
-    }
-  }, [tracks, selectedTrackIndex]);
+    // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
+    const timer = setTimeout(() => {
+      if (tracks.length > 0 && selectedTrackIndex === null) {
+        setSelectedTrackIndex(0);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [tracks]);
 
   const handleTrackClick = (index) => {
     setSelectedTrackIndex(index);
@@ -203,7 +205,10 @@ function Album() {
           </div>
           <div className="album__header__cover-info">
             <div className="album__header__cover-info__love-play">
-              <p className="love" onClick={() => handleLikeClick(selectedTrack)}>
+              <p
+                className="love"
+                onClick={() => handleLikeClick(selectedTrack)}
+              >
                 <img
                   src={selectedTrack?.is_like ? halfHeartIcon : loveIcon}
                   alt="like-heart-icon"
@@ -232,6 +237,8 @@ function Album() {
             onTimeUpdate={handleTimeUpdate}
             onClickPrevious={handleClickPrevious}
             onClickNext={handleClickNext}
+            getTracks={getTracks}
+            handleGetMusicList={handleGetMusicList}
           />
         </div>
 
@@ -497,9 +504,8 @@ function Album() {
           <PreparingModal setPreparingModal={setPreparingModal} />
         )}
       </div>
-      <IntroLogo2/>
+      <IntroLogo2 />
     </>
-
   );
 }
 

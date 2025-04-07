@@ -153,7 +153,6 @@ const LyricLab = ({
       lyricData.lyric_stylistic[0].trim() !== "") ||
     (lyricStory && lyricStory.trim() !== "");
 
-  console.log("lyricData", lyricData);
   // 지피티4o API 호출 함수
   async function callGPT4oResponses() {
     try {

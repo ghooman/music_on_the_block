@@ -133,7 +133,6 @@ const MelodyMaker = ({
     melody_age,
     melody_instrument,
   } = melodyData || {};
-  console.log("melody lyricData", lyricData);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();

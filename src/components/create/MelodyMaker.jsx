@@ -132,13 +132,8 @@ const MelodyMaker = ({
   setSelectedLanguage,
   createPossibleCount,
 }) => {
-  const {
-    melody_tag,
-    melody_genre,
-    melody_gender,
-    melody_age,
-    melody_instrument,
-  } = melodyData || {};
+  const { melody_tag, melody_genre, melody_gender, melody_instrument } =
+    melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -155,7 +150,6 @@ const MelodyMaker = ({
     (melody_gender &&
       melody_gender.length > 0 &&
       melody_gender[0].trim() !== "") ||
-    (melody_age && melody_age.length > 0 && melody_age[0].trim() !== "") ||
     (melody_instrument &&
       melody_instrument.length > 0 &&
       melody_instrument[0].trim() !== "") ||
@@ -166,17 +160,6 @@ const MelodyMaker = ({
       ${melody_tag ? "Tags : " + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre : " + melody_genre.join(", ") : ""}
       ${melody_gender ? "Gender : " + melody_gender.join(", ") : ""} 
-      ${
-        melody_age
-          ? "Age : " +
-            melody_age
-              .map((age) => {
-                const match = age.match(/\(([^)]+)\)/);
-                return match ? match[1] : age;
-              })
-              .join(", ")
-          : ""
-      }
       ${melody_instrument ? "Instrument : " + melody_instrument.join(", ") : ""}
       Tempo : ${tempo}
       ${melodyDetail ? "Detail : " + melodyDetail : ""}
@@ -190,7 +173,7 @@ const MelodyMaker = ({
       genre: melody_genre?.[0] ? melody_genre[0] : "",
       style: "",
       gender: melody_gender?.[0] ? melody_gender[0] : "",
-      voice_age: melody_age?.[0] ? melody_age[0] : "",
+      voice_age: "",
       musical_instrument: melody_instrument?.[0] ? melody_instrument[0] : "",
       tags: melody_tag ? melody_tag.join(", ") : "",
       image: "",
@@ -296,14 +279,7 @@ const MelodyMaker = ({
           selected={melodyData?.melody_gender}
           preset={genderPreset}
         />
-        <SelectItem
-          mainTitle="Select Age"
-          subTitle="Popular Age"
-          setter={setMelodyData}
-          objKey="melody_age"
-          selected={melodyData?.melody_age}
-          preset={agePreset}
-        />
+
         <SelectItem
           mainTitle="Select a Musical Instrument"
           subTitle="Popular Musical Instrument"
@@ -363,7 +339,6 @@ const MelodyMaker = ({
           <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
           <SelectedItem title="Gender" value={melodyData?.melody_gender} />
-          <SelectedItem title="Age" value={melodyData?.melody_age} />
           <SelectedItem
             title={
               <>

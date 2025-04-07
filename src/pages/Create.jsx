@@ -36,9 +36,7 @@ const Create = () => {
     melody_tag: [],
     melody_genre: [],
     melody_gender: [],
-    melody_age: [],
     melody_instrument: [],
-    // melody_voice: [],
   });
   // 남은 생성횟수 확인
   const [createPossibleCount, setCreatePossibleCount] = useState(0);

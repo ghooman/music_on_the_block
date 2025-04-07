@@ -58,7 +58,7 @@ const Create = () => {
 
   const [melodyDetail, setMelodyDetail] = useState("");
 
-  const [generatedLyric, setGeneratedLyric] = useState("");
+  const [generatedLyrics, setGeneratedLyric] = useState("");
 
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
 
@@ -133,7 +133,7 @@ const Create = () => {
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
           setGeneratedLyric={setGeneratedLyric}
           onSkip={() => setSkip("lyrics")}
           setPageNumber={setPageNumber}
@@ -157,7 +157,7 @@ const Create = () => {
           setMelodyDetail={setMelodyDetail}
           tempo={tempo}
           setTempo={setTempo}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
           generatedMusicResult={generatedMusicResult}
           setGeneratedMusicResult={setGeneratedMusicResult}
           onSkip={() => setSkip("melody")}
@@ -192,7 +192,7 @@ const Create = () => {
       {pageNumber === 2 && (
         <Finalize
           generatedMusic={generatedMusic}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
           lylicData={lylicData}
           melodyData={melodyData}
           skipLyric={skipLyric}

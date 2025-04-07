@@ -120,7 +120,7 @@ const MelodyMaker = ({
   setMelodyDetail,
   tempo,
   setTempo,
-  generatedLyric,
+  generatedLyrics,
   generatedMusicResult,
   setGeneratedMusicResult,
   setPageNumber,
@@ -185,7 +185,7 @@ const MelodyMaker = ({
     title: title,
     story: melodyDetail,
     language: selectedLanguage,
-    lyrics: generatedLyric,
+    lyrics: generatedLyrics,
     genre: melody_genre?.[0] ? melody_genre[0] : "",
     style: "",
     gender: melody_gender?.[0] ? melody_gender[0] : "",
@@ -198,7 +198,6 @@ const MelodyMaker = ({
     mood: "",
     ai_service: "",
     ai_service_type: "",
-    mood: "",
   };
 
   // 노래 생성 요청 함수
@@ -394,7 +393,7 @@ const MelodyMaker = ({
       {showLyricsModal && (
         <LyricsModal
           setShowLyricsModal={setShowLyricsModal}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
         />
       )}
     </div>

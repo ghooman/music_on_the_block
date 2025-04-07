@@ -74,7 +74,7 @@ const LyricLab = ({
   setSelectedLanguage,
   setLyricData,
   lylicData,
-  generatedLyric,
+  generatedLyrics,
   setGeneratedLyric,
   onSkip,
   setPageNumber,
@@ -88,7 +88,7 @@ const LyricLab = ({
   createPossibleCount,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
+  const [createdLyrics, setCreatedLyrics] = useState(generatedLyrics || "");
   const [mode, setMode] = useState("read");
 
   const instructions = `// system-prompt-example.txt

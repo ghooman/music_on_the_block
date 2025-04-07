@@ -24,6 +24,7 @@ import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import {
   FreeMode,
   Navigation,
@@ -315,6 +316,8 @@ function AlbumDetail() {
     }
   };
 
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <>
       <div className="album-detail">
@@ -474,7 +477,12 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section className="album-detail__rank-table">
+        <section 
+          // className="album-detail__rank-table"
+          className={`album-detail__rank-table ${
+            isLoggedIn ? "is-logged-in" : "not-logged-in"
+          }`}
+        >
           <div ref={commentRef}>
             <AdvancedCommentComponent id={id} />
           </div>

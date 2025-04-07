@@ -292,6 +292,13 @@
 // }//nft-item__graph--END--
 
 @media screen and (max-width: 768px) {
+    .nft-slider__swiper{
+        .nft-slider{
+            .swiper-slide{
+                // width: 100% !important;
+            }
+        }
+    }
     .nft-item-wrap {
         grid-template-columns: repeat(2, 1fr);
     }

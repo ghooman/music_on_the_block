@@ -635,6 +635,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            span{
+              width: 40px;
+            }
           }//time-text--END--
           .react-waves{
             margin: 0 !important;

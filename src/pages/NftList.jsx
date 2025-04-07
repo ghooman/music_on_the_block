@@ -14,7 +14,7 @@ const NftList = () => {
     return (
         <div className="nft-list">
             <Categories categories={['NFT item', 'Collection']} value={selectCategory} onClick={setSelectCategory} />
-            <ContentWrap title={`NFT list (${selectCategory === 'NFT item' ? 'item' : 'Collection'})`}>
+            <ContentWrap title={` ${selectCategory === 'NFT item' ? "NFT Item (List)" : 'NFT Collection (List)'}`}>
                 <ContentWrap.SubWrap gap={8}>
                     <FilterItems />
                     <Search />

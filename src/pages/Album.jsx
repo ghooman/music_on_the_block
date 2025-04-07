@@ -59,7 +59,6 @@ function Album() {
         });
       });
       setHitMusicList(fetchedTracks);
-      console.log("hitMusicList", res.data);
     } catch (e) {
       console.error(e);
     }
@@ -88,7 +87,7 @@ function Album() {
         });
       });
       setTracks(fetchedTracks);
-      console.log("album", fetchedTracks);
+      // console.log("album", fetchedTracks);
     } catch (e) {
       console.error(e);
     }

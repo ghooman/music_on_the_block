@@ -10,10 +10,10 @@ import axios from "axios";
 export const incrementPlayCount = async (trackId, serverApi) => {
   try {
     await axios.post(`${serverApi}/api/music/${trackId}/play`, {});
-    console.log("POST 요청 성공");
+    console.log("incrementPlayCount POST 요청 성공");
     return true;
   } catch (error) {
-    console.error("POST 요청 실패", error);
+    console.error("incrementPlayCount POST 요청 실패", error);
     return false;
   }
 };

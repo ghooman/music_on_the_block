@@ -106,7 +106,7 @@ const StyledPromptPreview = ({ previewText, valueColor = "#cf0" }) => {
 // ──────────────────────────
 
 const MelodyMaker = ({
-  lylicData,
+  lyricData,
   lyricStory,
   melodyData,
   setMelodyData,
@@ -326,9 +326,9 @@ const MelodyMaker = ({
         style={{ display: "flex", flexDirection: "column", gap: 16 }}
       >
         <SelectedWrap title="Lyrics Lab">
-          <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-          <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-          <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+          <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
+          <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
+          <SelectedItem title="Stylistic" value={lyricData?.lyric_stylistic} />
           <div className="lyrics-lab__selected-item">
             <p className="lyrics-lab__selected-item--title">ㅇ</p>
             <p className="lyrics-lab__selected-item--text">

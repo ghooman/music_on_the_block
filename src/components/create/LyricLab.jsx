@@ -73,7 +73,7 @@ const LyricLab = ({
   selectedLanguage,
   setSelectedLanguage,
   setLyricData,
-  lylicData,
+  lyricData,
   generatedLyric,
   setGeneratedLyric,
   onSkip,
@@ -144,19 +144,19 @@ const LyricLab = ({
   // 버튼 활성화 조건 계산
   // 각 배열에 대해 길이 체크 후 값이 있는지 확인
   const isAnyFieldFilled =
-    (lylicData?.lyric_tag && lylicData.lyric_tag.length > 0) ||
-    (lylicData?.lyric_genre &&
-      lylicData.lyric_genre.length > 0 &&
-      lylicData.lyric_genre[0].trim() !== "") ||
-    (lylicData?.lyric_style &&
-      lylicData.lyric_style.length > 0 &&
-      lylicData.lyric_style[0].trim() !== "") ||
-    (lylicData?.lyric_stylistic &&
-      lylicData.lyric_stylistic.length > 0 &&
-      lylicData.lyric_stylistic[0].trim() !== "") ||
+    (lyricData?.lyric_tag && lyricData.lyric_tag.length > 0) ||
+    (lyricData?.lyric_genre &&
+      lyricData.lyric_genre.length > 0 &&
+      lyricData.lyric_genre[0].trim() !== "") ||
+    (lyricData?.lyric_style &&
+      lyricData.lyric_style.length > 0 &&
+      lyricData.lyric_style[0].trim() !== "") ||
+    (lyricData?.lyric_stylistic &&
+      lyricData.lyric_stylistic.length > 0 &&
+      lyricData.lyric_stylistic[0].trim() !== "") ||
     (lyricStory && lyricStory.trim() !== "");
 
-  // console.log('lylicData', lylicData);
+  // console.log('lyricData', lyricData);
   // 지피티4o API 호출 함수
   async function callGPT4oResponses() {
     try {
@@ -165,10 +165,10 @@ const LyricLab = ({
         model: "gpt-4o-mini",
         instructions,
         input: `출력원하는언어:${selectedLanguage},
-        느낌:${lylicData?.lyric_tag.join(",")},
-                 장르:${lylicData?.lyric_genre.join(",")},
-                 스타일:${lylicData?.lyric_style.join(",")},
-                 양식:${lylicData?.lyric_stylistic.join(",")},
+        느낌:${lyricData?.lyric_tag.join(",")},
+                 장르:${lyricData?.lyric_genre.join(",")},
+                 스타일:${lyricData?.lyric_style.join(",")},
+                 양식:${lyricData?.lyric_stylistic.join(",")},
                  추가적인 나의 이야기:${lyricStory}
                 `,
       });
@@ -230,7 +230,7 @@ const LyricLab = ({
               subTitle="Popular Tags"
               setter={setLyricData}
               objKey="lyric_tag"
-              selected={lylicData?.lyric_tag}
+              selected={lyricData?.lyric_tag}
               preset={tagPreset}
               className="sub-banner__tags"
               multiple
@@ -242,7 +242,7 @@ const LyricLab = ({
             subTitle="Popular Genre"
             setter={setLyricData}
             objKey="lyric_genre"
-            selected={lylicData?.lyric_genre}
+            selected={lyricData?.lyric_genre}
             preset={genrePreset}
           />
           <SelectItem
@@ -250,7 +250,7 @@ const LyricLab = ({
             subTitle="Popular Stylistic"
             setter={setLyricData}
             objKey="lyric_stylistic"
-            selected={lylicData?.lyric_stylistic}
+            selected={lyricData?.lyric_stylistic}
             preset={stylisticPreset}
             multiple
             add
@@ -267,11 +267,11 @@ const LyricLab = ({
           style={{ display: "flex", flexDirection: "column", gap: 16 }}
         >
           <SelectedWrap title="Lyrics Lab">
-            <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-            <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
+            <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
+            <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
             <SelectedItem
               title="Stylistic"
-              value={lylicData?.lyric_stylistic}
+              value={lyricData?.lyric_stylistic}
             />
             <div className="lyrics-lab__selected-item">
               <p className="lyrics-lab__selected-item--title">Your Story</p>

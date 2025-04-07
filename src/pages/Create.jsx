@@ -26,7 +26,7 @@ const Create = () => {
     }
   }, [pageNumber, walletAddress, isRegistered]);
 
-  const [lylicData, setLyricData] = useState({
+  const [lyricData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],
     lyric_style: [],
@@ -105,10 +105,10 @@ const Create = () => {
       {/* {pageNumber !== 2 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyrics Lab">
-                        <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-                        <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-                        <SelectedItem title="Style" value={lylicData?.lyric_style} />
-                        <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+                        <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
+                        <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
+                        <SelectedItem title="Style" value={lyricData?.lyric_style} />
+                        <SelectedItem title="Stylistic" value={lyricData?.lyric_stylistic} />
                     </SelectedWrap>
                     <SelectedWrap title="Melody Maker">
                         <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
@@ -130,7 +130,7 @@ const Create = () => {
             )} */}
       {pageNumber === 0 && (
         <LyricLab
-          lylicData={lylicData}
+          lyricData={lyricData}
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
@@ -150,7 +150,7 @@ const Create = () => {
       )}
       {pageNumber === 1 && (
         <MelodyMaker
-          lylicData={lylicData}
+          lyricData={lyricData}
           lyricStory={lyricStory}
           melodyData={melodyData}
           setMelodyData={setMelodyData}
@@ -174,7 +174,7 @@ const Create = () => {
       {/* {pageNumber === 2 && (
         <AlbumCoverSudio
           setAlbumCover={setAlbumCover}
-          lylicData={lylicData}
+          lyricData={lyricData}
           generatedLyric={generatedLyric}
         >
           <div className="button-wrap">
@@ -201,7 +201,7 @@ const Create = () => {
         <Finalize
           generatedMusic={generatedMusic}
           generatedLyric={generatedLyric}
-          lylicData={lylicData}
+          lyricData={lyricData}
           melodyData={melodyData}
           skipLyric={skipLyric}
           skipMelody={skipMelody}

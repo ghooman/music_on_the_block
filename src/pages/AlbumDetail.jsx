@@ -234,8 +234,18 @@ function AlbumDetail() {
     }
   };
 
-  // 앨범 상세 정보 가져오기
+  // 앨범 상세 정보 상태
   const [album, setAlbum] = useState(null);
+  const [albumDuration, setAlbumDuration] = useState(null);
+  // 앨범 시간 변환 함수
+  const formatTime = (time) => {
+    if (!time || isNaN(time)) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  // 앨범 상세 정보 가져오기 함수
   const fetchAlbumDetail = async () => {
     try {
       const response = await axios.get(
@@ -243,6 +253,12 @@ function AlbumDetail() {
       );
       console.log("앨범 상세 정보:", response.data);
       setAlbum(response.data);
+      // 앨범 재생 시간 계산
+      const audio = new Audio(response?.data?.music_url);
+      audio.addEventListener("loadedmetadata", () => {
+        const duration = audio?.duration;
+        setAlbumDuration(duration);
+      });
     } catch (error) {
       console.error("앨범 상세 정보 가져오기 에러:", error);
     }
@@ -436,7 +452,7 @@ function AlbumDetail() {
                 </dl>
                 <dl>
                   <dt>Song Length</dt>
-                  <dd>{album?.Stylistic || "-"}</dd>
+                  <dd>{formatTime(albumDuration) || "-"}</dd>
                 </dl>
                 <dl className="artist">
                   <dt>Artist</dt>

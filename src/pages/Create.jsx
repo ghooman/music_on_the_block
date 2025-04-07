@@ -71,6 +71,8 @@ const Create = () => {
   const [skip, setSkip] = useState("");
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [albumCover, setAlbumCover] = useState(null);
+
   const skipHandler = () => {
     if (skip === "lyrics") {
       setSkipLyric(true);
@@ -95,7 +97,6 @@ const Create = () => {
 
   const isLyricPage = pageNumber === 0;
   const isMelodyPage = pageNumber === 1;
-
   return (
     <div className="music_create">
       <Title />
@@ -171,25 +172,32 @@ const Create = () => {
         ></MelodyMaker>
       )}
       {/* {pageNumber === 2 && (
-                <AlbumCoverSudio setAlbumCover={setAlbumCover}>
-                    <div className="button-wrap">
-                        <div className="button-wrap__left">
-                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev - 1)}>
-                                Back
-                            </ExpandedButton>
-                        </div>
-                        <ExpandedButton
-                            className="next"
-                            onClick={() => setPageNumber((prev) => prev + 1)}
-                            disabled={!albumCover}
-                        >
-                            Next
-                        </ExpandedButton>
-                    </div>
-                </AlbumCoverSudio>
-            )}
+        <AlbumCoverSudio
+          setAlbumCover={setAlbumCover}
+          lylicData={lylicData}
+          generatedLyric={generatedLyric}
+        >
+          <div className="button-wrap">
+            <div className="button-wrap__left">
+              <ExpandedButton
+                className="back"
+                onClick={() => setPageNumber((prev) => prev - 1)}
+              >
+                Back
+              </ExpandedButton>
+            </div>
+            <ExpandedButton
+              className="next"
+              onClick={() => setPageNumber((prev) => prev + 1)}
+              disabled={!albumCover}
+            >
+              Next
+            </ExpandedButton>
+          </div>
+        </AlbumCoverSudio>
+      )} */}
 
-      {pageNumber === 2 && (
+      {/* {pageNumber === 2 && (
         <Finalize
           generatedMusic={generatedMusic}
           generatedLyric={generatedLyric}
@@ -235,7 +243,7 @@ const Progress = ({ pageNumber }) => {
   const pages = [
     "Lyrics Lab",
     "Melody Maker",
-    // "Alubum Cover Studio",
+    "Alubum Cover Studio",
     // "Preview & Finalize",
   ];
 

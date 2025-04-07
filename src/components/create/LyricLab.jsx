@@ -194,7 +194,6 @@ const LyricLab = ({
 
   // 가사 생성완료 되었을 경우 스크롤 이동
 
-
   // 텍스트 파일(.txt) 다운로드 함수
   const downloadTxtFile = () => {
     const element = document.createElement("a");

@@ -207,6 +207,7 @@
       gap: 12px;
       width: 100%;
       overflow: auto;
+      
       .album__content-list__tab__item {
         display: flex;
         align-items: center;
@@ -773,7 +774,8 @@
       width: 860px;
       padding: 40px 176px 40px 0 !important;
       position: absolute;
-      left: 50%;
+      // left: 50%;
+      left: calc(50% - 3px);
       // top: 0;
       transform: translate(-50%, 0%);
     }
@@ -782,7 +784,12 @@
 
 @media screen and (max-width: 768px) {
   .album {
-    padding-top: 180px;
+    padding-top: 196px;
+    .album__content-list{
+      .album__content-list__tab{
+        padding-bottom: 16px;
+      }
+    }
     .rhap_main .rhap_time {
       width: 58px;
     }

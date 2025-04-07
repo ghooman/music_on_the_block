@@ -133,3 +133,10 @@
     background: transparent;
   }
 }
+
+
+@media screen and (max-width: 768px) {
+  .middle__title{
+    top:60%;
+  }
+}

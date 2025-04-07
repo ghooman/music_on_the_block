@@ -286,7 +286,7 @@ const Menu = ({
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("nft")}
                   >
-                    <p className="icon"></p>NFT Market Place
+                    <p className="icon"></p>NFT MarketPlace
                   </Link>
                 </div>
 

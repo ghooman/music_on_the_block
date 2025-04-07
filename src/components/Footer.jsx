@@ -125,42 +125,29 @@ const Footer = ({ setIsLoggedIn }) => {
           <section className="footer__top">
             <article className="footer__top__left">
               <img className="footer__top__left__logo" src={logo} />
-              <ul
-                className="footer__top__left__sns"
-              >
+              <ul className="footer__top__left__sns">
                 <li>
-                  <Link
-                    onClick={() => setPreparingModal(true)}
-                  >
+                  <Link onClick={() => setPreparingModal(true)}>
                     <img src={sns01} />
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to='https://discord.gg/7ptURuat'
-                    target="_blank"
-                  >
+                  <Link to="https://discord.gg/7ptURuat" target="_blank">
                     <img src={sns02} />
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => setPreparingModal(true)}
-                  >
+                  <Link onClick={() => setPreparingModal(true)}>
                     <img src={sns03} />
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => setPreparingModal(true)}
-                  >
+                  <Link onClick={() => setPreparingModal(true)}>
                     <img src={sns04} />
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() => setPreparingModal(true)}
-                  >
+                  <Link onClick={() => setPreparingModal(true)}>
                     <img src={sns05} />
                   </Link>
                 </li>
@@ -215,18 +202,15 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>NFT Market Place</dt>
                   <dd>
-                    <Link 
-                      to='/nft'
-                    >NFT Market Place</Link>
+                    <Link to="/nft">NFT Market Place</Link>
                   </dd>
                 </dl>
                 <dl>
                   <dt>Eco System</dt>
                   <dd>
-                    <Link 
-                      to="https://eco.musicontheblock.com/"
-                      target="_blank"
-                    >Eco System</Link>
+                    <Link to="https://eco.musicontheblock.com/" target="_blank">
+                      Eco System
+                    </Link>
                   </dd>
                 </dl>
               </div>

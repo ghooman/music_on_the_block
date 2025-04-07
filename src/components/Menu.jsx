@@ -109,7 +109,7 @@ const Menu = ({
         setCopied(true); // 체크 아이콘 보여주기
         setTimeout(() => {
           setCopied(false); // 3초 후 원래대로
-        }, 3000);
+        }, 2000);
       })
       .catch((err) => {
         console.error("복사에 실패하였습니다: ", err);

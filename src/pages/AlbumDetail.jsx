@@ -1,10 +1,10 @@
+// components/AlbumDetail.js
 import "../styles/AlbumDetail.scss";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import MyAudioPlayer from "../components/MyAudioPlayer";
 import AudioPlayer from "react-h5-audio-player";
-
+import MyAudioPlayer from "../components/MyAudioPlayer";
 import coverImg from "../assets/images/intro/intro-demo-img.png";
 import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
 import coverImg3 from "../assets/images/intro/intro-demo-img3.png";
@@ -23,7 +23,6 @@ import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
-//스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   FreeMode,
@@ -36,11 +35,12 @@ import PreparingModal from "../components/PreparingModal";
 import AdvancedCommentComponent from "../components/AdvancedCommentComponent";
 import ShareModal from "../components/ShareModal";
 import { AuthContext } from "../contexts/AuthContext";
-
 import { formatUtcTime, formatLocalTime } from "../utils/getFormattedTime";
-
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import LyricsModal from "../components/LyricsModal";
+// 외부에서 플레이 카운트 업데이트 함수를 import합니다.
+import { incrementPlayCount } from "../api/incrementPlayCount";
+
 function AlbumDetail() {
   const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -49,7 +49,7 @@ function AlbumDetail() {
 
   // 리더보드 데이터
   const [leaderBoardData, setLeaderBoardData] = useState([]);
-  console.log("leaderBoardData", leaderBoardData);
+  // console.log("leaderBoardData", leaderBoardData);
   const getLeaderboardData = async () => {
     try {
       const res = await axios.get(`${serverApi}/api/music/leader/board/rank`);
@@ -215,13 +215,11 @@ function AlbumDetail() {
 
   const [isActive, setIsActive] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
-
   const handleClick = () => {
     setIsActive((prev) => !prev);
   };
 
   const commentRef = useRef(null);
-
   const handleScrollToComment = () => {
     if (commentRef.current) {
       const offset = -100;
@@ -229,28 +227,43 @@ function AlbumDetail() {
         commentRef.current.getBoundingClientRect().top +
         window.scrollY +
         offset;
-
       window.scrollTo({
         top,
         behavior: "smooth",
       });
     }
   };
-  // 앨범 관련 상태
+
+  // 앨범 상세 정보 상태
   const [album, setAlbum] = useState(null);
-  // 앨범 상세 정보 가져오기
+  const [albumDuration, setAlbumDuration] = useState(null);
+  // 앨범 시간 변환 함수
+  const formatTime = (time) => {
+    if (!time || isNaN(time)) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  // 앨범 상세 정보 가져오기 함수
   const fetchAlbumDetail = async () => {
     try {
       const response = await axios.get(
         `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
       );
-
       console.log("앨범 상세 정보:", response.data);
       setAlbum(response.data);
+      // 앨범 재생 시간 계산
+      const audio = new Audio(response?.data?.music_url);
+      audio.addEventListener("loadedmetadata", () => {
+        const duration = audio?.duration;
+        setAlbumDuration(duration);
+      });
     } catch (error) {
       console.error("앨범 상세 정보 가져오기 에러:", error);
     }
   };
+
   useEffect(() => {
     fetchAlbumDetail();
     getLeaderboardData();
@@ -258,9 +271,29 @@ function AlbumDetail() {
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // album 객체에 tags 문자열이 존재하는지 확인합니다.
+  // 플레이 카운트 업데이트 로직 적용을 위한 useRef 및 상태 선언
+  const playCountRef = useRef(false);
+  const [prevTime, setPrevTime] = useState(0);
+
+  const handleListen = async (e) => {
+    const currentTime = e.target.currentTime;
+    // 재생 시간이 이전 시간보다 작으면(리와인드 시) 플래그 초기화
+    if (currentTime < prevTime) {
+      playCountRef.current = false;
+    }
+    setPrevTime(currentTime);
+
+    // 아직 카운트 업데이트를 하지 않았고, 90초 이상 재생 시 업데이트 실행
+    if (!playCountRef.current && currentTime >= 90) {
+      await incrementPlayCount(album?.id, serverApi);
+      playCountRef.current = true;
+      // 재생 시간 업데이트 후 앨범 상세 정보 다시 가져오기
+      fetchAlbumDetail();
+    }
+  };
+
+  // 앨범 관련 기타 상태 및 이벤트 핸들러
   const tagString = album?.tags;
-  // tags 문자열이 존재하면, 쉼표로 구분된 배열로 변환 후 불필요한 공백을 제거합니다.
   const tagArray = tagString
     ? tagString
         .split(",")
@@ -268,7 +301,6 @@ function AlbumDetail() {
         .filter(Boolean)
     : [];
 
-  // 좋아요 , 좋아요 취소 버튼 클릭
   const handleLike = async () => {
     console.log("id", id);
     try {
@@ -303,14 +335,15 @@ function AlbumDetail() {
                 {album ? (
                   <img src={album?.image || demoImg} alt="앨범 이미지" />
                 ) : (
-                  <div
-                    style={{
-                      backgroundColor: "black",
-                    }}
-                  />
+                  <div style={{ backgroundColor: "black" }} />
                 )}
                 <div className="album-detail__song-detail__left__img__txt">
-                  <pre>{album?.lyrics}</pre>
+                  {/* <pre>{album?.lyrics}</pre> */}
+                  <pre>
+                    {album?.lyrics
+                      ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 앞에 줄바꿈 추가
+                    ?.trim()}
+                  </pre>
                   {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                 </div>
                 <button className="album-detail__song-detail__left__img__lyrics-btn">
@@ -357,6 +390,9 @@ function AlbumDetail() {
                     console.log("ENDED!");
                     setIsPlaying(false);
                   }}
+                  // onListen 이벤트를 통해 재생 시간 체크 후 플레이 카운트 업데이트
+                  onListen={handleListen}
+                  listenInterval={1000}
                 />
                 <p
                   className={`album-detail__audio__cover ${
@@ -367,7 +403,6 @@ function AlbumDetail() {
                 </p>
               </section>
             </div>
-
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
                 {album?.title}
@@ -418,13 +453,12 @@ function AlbumDetail() {
                 <dl>
                   <dt>Creation Data</dt>
                   <dd>
-                    {/* {formatUtcTime(album?.create_dt) || "-"} */}
                     <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl>
                   <dt>Song Length</dt>
-                  <dd>{album?.Stylistic || "-"}</dd>
+                  <dd>{formatTime(albumDuration) || "-"}</dd>
                 </dl>
                 <dl className="artist">
                   <dt>Artist</dt>
@@ -433,12 +467,6 @@ function AlbumDetail() {
                       <img src={album?.user_profile || defaultCoverImg} />
                       {album?.name || "-"}
                     </p>
-                    {/* <Link className="see-more-btn" 
-                      // to="/my-page"
-                      onClick={() => setPreparingModal(true)}
-                    >
-                      See More
-                    </Link> */}
                   </dd>
                 </dl>
               </div>

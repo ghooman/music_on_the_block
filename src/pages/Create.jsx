@@ -26,10 +26,9 @@ const Create = () => {
     }
   }, [pageNumber, walletAddress, isRegistered]);
 
-  const [lylicData, setLyricData] = useState({
+  const [lyricData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],
-    lyric_style: [],
     lyric_stylistic: [],
   });
   const [lyricStory, setLyricStory] = useState("");
@@ -71,6 +70,8 @@ const Create = () => {
   const [skip, setSkip] = useState("");
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [albumCover, setAlbumCover] = useState(null);
+
   const skipHandler = () => {
     if (skip === "lyrics") {
       setSkipLyric(true);
@@ -95,7 +96,6 @@ const Create = () => {
 
   const isLyricPage = pageNumber === 0;
   const isMelodyPage = pageNumber === 1;
-
   return (
     <div className="music_create">
       <Title />
@@ -104,10 +104,9 @@ const Create = () => {
       {/* {pageNumber !== 2 && (
                 <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <SelectedWrap title="Lyrics Lab">
-                        <SelectedItem title="Tags" value={lylicData?.lyric_tag} multiple />
-                        <SelectedItem title="Genre" value={lylicData?.lyric_genre} />
-                        <SelectedItem title="Style" value={lylicData?.lyric_style} />
-                        <SelectedItem title="Stylistic" value={lylicData?.lyric_stylistic} />
+                        <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
+                        <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
+                        <SelectedItem title="Stylistic" value={lyricData?.lyric_stylistic} />
                     </SelectedWrap>
                     <SelectedWrap title="Melody Maker">
                         <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
@@ -129,7 +128,7 @@ const Create = () => {
             )} */}
       {pageNumber === 0 && (
         <LyricLab
-          lylicData={lylicData}
+          lyricData={lyricData}
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
@@ -149,7 +148,7 @@ const Create = () => {
       )}
       {pageNumber === 1 && (
         <MelodyMaker
-          lylicData={lylicData}
+          lyricData={lyricData}
           lyricStory={lyricStory}
           melodyData={melodyData}
           setMelodyData={setMelodyData}
@@ -171,29 +170,36 @@ const Create = () => {
         ></MelodyMaker>
       )}
       {/* {pageNumber === 2 && (
-                <AlbumCoverSudio setAlbumCover={setAlbumCover}>
-                    <div className="button-wrap">
-                        <div className="button-wrap__left">
-                            <ExpandedButton className="back" onClick={() => setPageNumber((prev) => prev - 1)}>
-                                Back
-                            </ExpandedButton>
-                        </div>
-                        <ExpandedButton
-                            className="next"
-                            onClick={() => setPageNumber((prev) => prev + 1)}
-                            disabled={!albumCover}
-                        >
-                            Next
-                        </ExpandedButton>
-                    </div>
-                </AlbumCoverSudio>
-            )}
+        <AlbumCoverSudio
+          setAlbumCover={setAlbumCover}
+          lyricData={lyricData}
+          generatedLyric={generatedLyric}
+        >
+          <div className="button-wrap">
+            <div className="button-wrap__left">
+              <ExpandedButton
+                className="back"
+                onClick={() => setPageNumber((prev) => prev - 1)}
+              >
+                Back
+              </ExpandedButton>
+            </div>
+            <ExpandedButton
+              className="next"
+              onClick={() => setPageNumber((prev) => prev + 1)}
+              disabled={!albumCover}
+            >
+              Next
+            </ExpandedButton>
+          </div>
+        </AlbumCoverSudio>
+      )} */}
 
-      {pageNumber === 2 && (
+      {/* {pageNumber === 2 && (
         <Finalize
           generatedMusic={generatedMusic}
           generatedLyric={generatedLyric}
-          lylicData={lylicData}
+          lyricData={lyricData}
           melodyData={melodyData}
           skipLyric={skipLyric}
           skipMelody={skipMelody}
@@ -235,7 +241,7 @@ const Progress = ({ pageNumber }) => {
   const pages = [
     "Lyrics Lab",
     "Melody Maker",
-    // "Alubum Cover Studio",
+    "Alubum Cover Studio",
     // "Preview & Finalize",
   ];
 

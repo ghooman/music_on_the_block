@@ -45,25 +45,25 @@ export const NftSlider = () => {
     const tracks = [
         {
             id: 1,
-            title: "POP",
+            title: "K-POP",
             cover: coverImg,
             duration: null,
         },
         {
             id: 2,
-            title: "CLASSICAL",
+            title: "POP",
             cover: coverImg2,
             duration: null,
         },
         {
             id: 3,
-            title: "GENRE",
+            title: "R&B",
             cover: coverImg3,
             duration: null,
         },
         {
             id: 4,
-            title: "JAZZ",
+            title: "HIP-HOP",
             cover: coverImg4,
             duration: null,
         },
@@ -75,25 +75,25 @@ export const NftSlider = () => {
         },
         {
             id: 6,
-            title: "DANCE",
+            title: "FOLK",
             cover: coverImg6,
             duration: null,
         },
         {
             id: 7,
-            title: "VOCAL",
+            title: "EDM",
             cover: coverImg7,
             duration: null,
         },
         {
             id: 8,
-            title: "K-POP",
+            title: "CLASSICAL",
             cover: coverImg8,
             duration: null,
         },
         {
             id: 9,
-            title: "Z-POP",
+            title: "REGGAE",
             cover: coverImg9,
             duration: null,
         }

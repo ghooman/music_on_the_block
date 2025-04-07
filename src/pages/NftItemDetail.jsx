@@ -351,7 +351,7 @@ const NftItemDetailInfo = () => {
               <div className="nft-item-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Item ID</dt>
-                  <dd>Item ID (#0001)</dd>
+                  <dd>#0001</dd>
                 </dl>
                 <dl>
                   <dt>Collection</dt>
@@ -389,7 +389,7 @@ const NftItemDetailInfo = () => {
                 <dl>
                   <dt>Price</dt>
                   <dd>
-                    100 MOB<span>£1,000</span>
+                    100 MOB<span>$1,000</span>
                   </dd>
                 </dl>
               </div>
@@ -454,7 +454,7 @@ const TrackInformation = () => {
     <>
       <ContentWrap title="Activity">
         <NftOverview title="Content Information">
-          <NftOverviewItem title="Type" value="Lyrics and Composition" isTwo />
+          <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
           <NftOverviewItem title="Item Name" value="Boom Song Box" isTwo />
           <NftOverviewItem
             title="Tags"
@@ -469,7 +469,7 @@ const TrackInformation = () => {
           <NftOverviewItem title="Views" value="127" />
         </NftOverview>
       </ContentWrap>
-      <ContentWrap title="Top NFTs in this Collection">
+      <ContentWrap title="Recommended NFTs">
         <NftItemList data={[1, 2, 3, 4]} />
       </ContentWrap>
     </>
@@ -508,15 +508,15 @@ const History = () => {
     <ContentWrap title="Information">
       <InfoRowWrap row={3}>
         <InfoRowWrap.UserItem
-          title="Most Purchased User"
+          title="Most Purchased Artist"
           value={{ picture: dummy_userImage, username: "YolkHead" }}
         />
         <InfoRowWrap.UserItem
-          title="Highest Bidding User"
+          title="Highest Bidding Artist"
           value={{ picture: dummy_userImage, username: "YolkHead" }}
         />
         <InfoRowWrap.UserItem
-          title="Most Recently Traded User"
+          title="Most Recently Traded Artist"
           value={{ picture: dummy_userImage, username: "YolkHead" }}
         />
       </InfoRowWrap>
@@ -527,7 +527,7 @@ const History = () => {
           data={dummyData2}
           headers={[
             "#",
-            " Username",
+            " Artist Name",
             "Quantity",
             "Price (MOB)",
             "Total Volume (MOB)",

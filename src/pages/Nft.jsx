@@ -41,7 +41,7 @@ const NftExchange = () => {
         <div className="nft__exchange">
             <h1 className="nft__exchange--title">NFT Market Place</h1>
             <p className="nft__exchange--desc">
-                Your music, nowe as an NFT
+                Your music, now as an NFT
                 <br />
                 Connect AI-generated creations with the world
             </p>

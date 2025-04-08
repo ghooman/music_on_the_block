@@ -194,9 +194,9 @@ function Album() {
               className="album__header__album-cover__img"
               style={{
                 backgroundImage: `url(${
-                  selectedTrack?.image === "string"
+                  selectedTrack?.cover_image === "string"
                     ? coverImg10
-                    : selectedTrack?.image
+                    : selectedTrack?.cover_image
                 })`,
               }}
             ></p>

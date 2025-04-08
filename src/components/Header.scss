@@ -212,3 +212,18 @@
     } //h1--END--
   } //header__inner--END--
 } //header--END--
+
+@media (max-width: 420px) {
+  .header {
+    padding: 8px;
+    .header__inner {
+      height: 48px;
+      gap: 4px;
+      h1 {
+        a {
+          margin-left: 50px;
+        }
+      }
+    }
+  }
+}

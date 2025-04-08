@@ -58,14 +58,6 @@ const genderPreset = {
   "Mixed Gender Group": ["Mixed Gender Group"],
 };
 
-const agePreset = {
-  "Child (0~12)": ["Child (0~12)"],
-  "Teen (13~18)": ["Teen (13~18)"],
-  "Young Adult (19~29)": ["Young Adult (19~29)"],
-  "MiddleAge (30~49)": ["MiddleAge (30~49)"],
-  "Senior (50~)": ["Senior (50~)"],
-};
-
 const instrumentPreset = {
   Guitar: ["Guitar"],
   Piano: ["Piano"],
@@ -120,7 +112,7 @@ const MelodyMaker = ({
   setMelodyDetail,
   tempo,
   setTempo,
-  generatedLyrics,
+  generatedLyric,
   generatedMusicResult,
   setGeneratedMusicResult,
   setPageNumber,
@@ -131,14 +123,11 @@ const MelodyMaker = ({
   selectedLanguage,
   setSelectedLanguage,
   createPossibleCount,
+  albumCover,
+  setAlbumCover,
 }) => {
-  const {
-    melody_tag,
-    melody_genre,
-    melody_gender,
-    melody_age,
-    melody_instrument,
-  } = melodyData || {};
+  const { melody_tag, melody_genre, melody_gender, melody_instrument } =
+    melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -155,83 +144,106 @@ const MelodyMaker = ({
     (melody_gender &&
       melody_gender.length > 0 &&
       melody_gender[0].trim() !== "") ||
-    (melody_age && melody_age.length > 0 && melody_age[0].trim() !== "") ||
     (melody_instrument &&
       melody_instrument.length > 0 &&
       melody_instrument[0].trim() !== "") ||
     (melodyDetail && melodyDetail.trim() !== "");
 
   const promptPreview = `
-      Language : ${selectedLanguage}
+      Language : ${selectedLanguage},
       ${melody_tag ? "Tags : " + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre : " + melody_genre.join(", ") : ""}
       ${melody_gender ? "Gender : " + melody_gender.join(", ") : ""} 
-      ${
-        melody_age
-          ? "Age : " +
-            melody_age
-              .map((age) => {
-                const match = age.match(/\(([^)]+)\)/);
-                return match ? match[1] : age;
-              })
-              .join(", ")
-          : ""
-      }
       ${melody_instrument ? "Instrument : " + melody_instrument.join(", ") : ""}
-      Tempo : ${tempo}
-      ${melodyDetail ? "Detail : " + melodyDetail : ""}
+      Tempo : ${tempo},
+      ${melodyDetail ? "Detail : " + melodyDetail + "," : ""}
       `;
-  const formData = {
-    album: {
-      title: title,
-      story: melodyDetail,
-      language: selectedLanguage,
-      lyrics: generatedLyrics,
-      genre: melody_genre?.[0] ? melody_genre[0] : "",
-      style: "",
-      gender: melody_gender?.[0] ? melody_gender[0] : "",
-      voice_age: melody_age?.[0] ? melody_age[0] : "",
-      musical_instrument: melody_instrument?.[0] ? melody_instrument[0] : "",
-      tags: melody_tag ? melody_tag.join(", ") : "",
-      image: "",
-      tempo: parseFloat(tempo),
-      song_length: "",
-      mood: "",
-      ai_service: "",
-      ai_service_type: "",
-      mood: "",
-    },
-    album_lyrics_info: {
-      language: selectedLanguage,
-      feelings: "", // 0407 기준안쓰임
-      genre: lyricData?.lyric_genre[0] || "", // 장르
-      style: lyricData?.lyric_stylistic[0] || "", // 스타일
-      form: lyricData?.lyric_tag ? lyricData?.lyric_tag.join(", ") : "", // 태그
-      my_story: lyricStory,
-    },
-  };
+  // 함수: promptPreview에서 밸류 부분(콜론(:) 다음의 텍스트만)을 추출하여 하나의 문자열로 만듭니다.
+  function extractValues(str) {
+    return str
+      .split("\n") // 줄 단위로 분리
+      .map((line) => {
+        // 줄의 콜론(:) 위치를 찾음
+        const colonIndex = line.indexOf(":");
+        if (colonIndex !== -1) {
+          // 콜론 이후의 문자열이 밸류 부분입니다.
+          return line.substring(colonIndex + 1).trim();
+        }
+        return "";
+      })
+      .filter((value) => value.length > 0) // 빈 문자열 제거
+      .join(""); // 모든 밸류를 하나의 문자열로 합침
+  }
 
+  // 밸류만 추출하여 새로운 문자열 생성
+  const valuesOnly = extractValues(promptPreview);
+
+  // console.log("valuesOnly:", valuesOnly);
+  // console.log("valuesOnly length:", valuesOnly.length);
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
       setLoading(true);
+
+      // API에 전달할 payload 구성
+      const payload = {
+        album: {
+          title: title,
+          detail: melodyDetail, // 'story' 대신 'detail' 사용
+          language: selectedLanguage,
+          genre: melody_genre?.[0] ? melody_genre[0] : "",
+          style: "", // 필요 시 구체적 값 할당
+          gender: melody_gender?.[0] ? melody_gender[0] : "",
+          musical_instrument: melody_instrument.join(", ") || "",
+          ai_service: "",
+          ai_service_type: "",
+          tempo: parseFloat(tempo),
+          song_length: "",
+          lyrics: generatedLyric,
+          mood: "",
+          tags: melody_tag ? melody_tag.join(", ") : "",
+        },
+        album_lyrics_info: {
+          language: selectedLanguage,
+          feelings: "", // 현재 사용하지 않으므로 빈 문자열 처리
+          genre: lyricData?.lyric_genre?.[0] || "",
+          style: lyricData?.lyric_stylistic?.[0] || "",
+          form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
+          my_story: lyricStory,
+        },
+      };
+
+      // albumCover URL에서 Blob 데이터를 가져옴
+      const response = await fetch(albumCover); // albumCover는 URL 값이어야 함
+      if (!response.ok) {
+        throw new Error("Cover image를 불러오지 못했습니다.");
+      }
+      const coverImageBlob = await response.blob();
+
+      // FormData 생성 후 cover_image와 payload 추가
+      const formData = new FormData();
+      // 파일 이름은 "cover_image.jpg"와 같이 지정할 수 있습니다.
+      formData.append("cover_image", coverImageBlob, "cover_image.jpg");
+      formData.append("payload", JSON.stringify(payload));
+
+      // axios를 통한 POST 요청
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      // setShowModal(true);
+
       storeAlbumId(res.data.id, res.data.title);
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      console.log("formData", formData);
+      console.log("payload", payload);
       navigate(`/album`);
     } catch (err) {
       alert("에러 발생");
@@ -296,14 +308,7 @@ const MelodyMaker = ({
           selected={melodyData?.melody_gender}
           preset={genderPreset}
         />
-        <SelectItem
-          mainTitle="Select Age"
-          subTitle="Popular Age"
-          setter={setMelodyData}
-          objKey="melody_age"
-          selected={melodyData?.melody_age}
-          preset={agePreset}
-        />
+
         <SelectItem
           mainTitle="Select a Musical Instrument"
           subTitle="Popular Musical Instrument"
@@ -327,10 +332,10 @@ const MelodyMaker = ({
               current length :{" "}
               <span
                 style={{
-                  color: promptPreview?.length > 200 ? "red" : "inherit",
+                  color: valuesOnly?.length > 200 ? "red" : "inherit",
                 }}
               >
-                {promptPreview?.length}
+                {valuesOnly?.length}
               </span>
             </span>
           </div>
@@ -363,7 +368,6 @@ const MelodyMaker = ({
           <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
           <SelectedItem title="Genre" value={melodyData?.melody_genre} />
           <SelectedItem title="Gender" value={melodyData?.melody_gender} />
-          <SelectedItem title="Age" value={melodyData?.melody_age} />
           <SelectedItem
             title={
               <>
@@ -395,12 +399,12 @@ const MelodyMaker = ({
         </div>
         <ExpandedButton
           className={
-            loading || promptPreview.length > 200 || !isAnyFieldFilled
+            loading || valuesOnly.length > 200 || !isAnyFieldFilled
               ? "next"
               : "next enable"
           }
           onClick={() => musicGenerate()}
-          disabled={loading || promptPreview.length > 200 || !isAnyFieldFilled}
+          disabled={loading || valuesOnly.length > 200 || !isAnyFieldFilled}
         >
           {loading ? "Loading" : "Generate"}
         </ExpandedButton>
@@ -409,7 +413,7 @@ const MelodyMaker = ({
       {showLyricsModal && (
         <LyricsModal
           setShowLyricsModal={setShowLyricsModal}
-          generatedLyrics={generatedLyrics}
+          generatedLyric={generatedLyric}
         />
       )}
     </div>

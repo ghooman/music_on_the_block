@@ -376,6 +376,9 @@
               height: 16px;
             }
             p {
+              &.play{
+                padding-left: 2px;
+              }
               display: flex;
               align-items: center;
               gap: 4px;

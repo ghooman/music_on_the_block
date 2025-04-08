@@ -24,6 +24,7 @@ import defaultCoverImg from "../assets/images/header/logo.svg";
 import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import {
   FreeMode,
   Navigation,
@@ -315,6 +316,8 @@ function AlbumDetail() {
     }
   };
 
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <>
       <div className="album-detail">
@@ -333,7 +336,7 @@ function AlbumDetail() {
                 onClick={handleClick}
               >
                 {album ? (
-                  <img src={album?.image || demoImg} alt="앨범 이미지" />
+                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
                 ) : (
                   <div style={{ backgroundColor: "black" }} />
                 )}
@@ -342,7 +345,7 @@ function AlbumDetail() {
                   <pre>
                     {album?.lyrics
                       ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 앞에 줄바꿈 추가
-                    ?.trim()}
+                      ?.trim()}
                   </pre>
                   {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                 </div>
@@ -399,7 +402,7 @@ function AlbumDetail() {
                     isPlaying ? "playing" : "paused"
                   }`}
                 >
-                  <img src={album?.image || coverImg} alt="album cover" />
+                  <img src={album?.cover_image || coverImg} alt="album cover" />
                 </p>
               </section>
             </div>
@@ -420,7 +423,7 @@ function AlbumDetail() {
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Detail</dt>
-                  <dd>{album?.Detail || "-"}</dd>
+                  <dd>{album?.detail || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Language</dt>
@@ -474,7 +477,12 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section className="album-detail__rank-table">
+        <section
+          // className="album-detail__rank-table"
+          className={`album-detail__rank-table ${
+            isLoggedIn ? "is-logged-in" : "not-logged-in"
+          }`}
+        >
           <div ref={commentRef}>
             <AdvancedCommentComponent id={id} />
           </div>

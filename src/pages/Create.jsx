@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import ExpandedButton from "../components/create/ExpandedButton";
-import LyricsLab from "../components/create/LyricsLab";
+import LyricLab from "../components/create/LyricLab";
 import MelodyMaker from "../components/create/MelodyMaker";
 import DescriptionBanner from "../components/create/DescriptionBanner";
 import AlbumCoverSudio from "../components/create/AlbumCoverStudio";
@@ -36,9 +36,7 @@ const Create = () => {
     melody_tag: [],
     melody_genre: [],
     melody_gender: [],
-    melody_age: [],
     melody_instrument: [],
-    // melody_voice: [],
   });
   // 남은 생성횟수 확인
   const [createPossibleCount, setCreatePossibleCount] = useState(0);
@@ -57,7 +55,7 @@ const Create = () => {
 
   const [melodyDetail, setMelodyDetail] = useState("");
 
-  const [generatedLyrics, setGeneratedLyric] = useState("");
+  const [generatedLyric, setGeneratedLyric] = useState("");
 
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
 
@@ -69,7 +67,7 @@ const Create = () => {
 
   const [skip, setSkip] = useState("");
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [selectedLanguage, setSelectedLanguage] = useState("KOR");
   const [albumCover, setAlbumCover] = useState(null);
 
   const skipHandler = () => {
@@ -127,12 +125,12 @@ const Create = () => {
                 </div>
             )} */}
       {pageNumber === 0 && (
-        <LyricsLab
+        <LyricLab
           lyricData={lyricData}
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
-          generatedLyrics={generatedLyrics}
+          generatedLyric={generatedLyric}
           setGeneratedLyric={setGeneratedLyric}
           onSkip={() => setSkip("lyrics")}
           setPageNumber={setPageNumber}
@@ -144,7 +142,9 @@ const Create = () => {
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           createPossibleCount={createPossibleCount}
-        ></LyricsLab>
+          albumCover={albumCover}
+          setAlbumCover={setAlbumCover}
+        ></LyricLab>
       )}
       {pageNumber === 1 && (
         <MelodyMaker
@@ -156,7 +156,7 @@ const Create = () => {
           setMelodyDetail={setMelodyDetail}
           tempo={tempo}
           setTempo={setTempo}
-          generatedLyrics={generatedLyrics}
+          generatedLyric={generatedLyric}
           generatedMusicResult={generatedMusicResult}
           setGeneratedMusicResult={setGeneratedMusicResult}
           onSkip={() => setSkip("melody")}
@@ -167,13 +167,15 @@ const Create = () => {
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           createPossibleCount={createPossibleCount}
+          albumCover={albumCover}
+          setAlbumCover={setAlbumCover}
         ></MelodyMaker>
       )}
       {/* {pageNumber === 2 && (
         <AlbumCoverSudio
           setAlbumCover={setAlbumCover}
           lyricData={lyricData}
-          generatedLyrics={generatedLyrics}
+          generatedLyric={generatedLyric}
         >
           <div className="button-wrap">
             <div className="button-wrap__left">
@@ -198,13 +200,8 @@ const Create = () => {
       {/* {pageNumber === 2 && (
         <Finalize
           generatedMusic={generatedMusic}
-<<<<<<< HEAD
-          generatedLyrics={generatedLyrics}
-          lylicData={lylicData}
-=======
-          generatedLyrics={generatedLyrics}
+          generatedLyric={generatedLyric}
           lyricData={lyricData}
->>>>>>> 614dac44f1225fd7ca2e30b044e845127535ee32
           melodyData={melodyData}
           skipLyric={skipLyric}
           skipMelody={skipMelody}
@@ -246,7 +243,7 @@ const Progress = ({ pageNumber }) => {
   const pages = [
     "Lyrics Lab",
     "Melody Maker",
-    "Alubum Cover Studio",
+    // "Alubum Cover Studio",
     // "Preview & Finalize",
   ];
 

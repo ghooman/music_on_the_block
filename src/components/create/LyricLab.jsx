@@ -11,7 +11,7 @@ import "./LyricLab.scss";
 import ExpandedButton from "./ExpandedButton";
 import CreateLoading from "../CreateLoading";
 import { RemainCountButton } from "../unit/RemainCountButton";
-
+import { generateKoreanPdf } from "../../utils/pdfGenerator";
 const tagPreset = {
   Love: ["Love"],
   Moon: ["Moon"],
@@ -370,10 +370,17 @@ const LyricsLab = ({
           <ExpandedButton
             className="generated-lyrics__download-buttons--button pdf"
             onClick={() => {
-              const doc = new jsPDF();
-              const lines = doc.splitTextToSize(createdLyrics, 180);
-              doc.text(lines, 10, 10);
-              doc.save("lyrics.pdf");
+              // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
+              if (selectedLanguage === "KOR") {
+                // 한글일 경우 커스텀 pdf 생성 함수 호출
+                generateKoreanPdf(createdLyrics);
+              } else {
+                // 영어 등 다른 언어의 경우 기존 로직 사용
+                const doc = new jsPDF();
+                const lines = doc.splitTextToSize(createdLyrics, 180);
+                doc.text(lines, 10, 10);
+                doc.save("lyrics.pdf");
+              }
             }}
           >
             Download as pdf (.pdf)

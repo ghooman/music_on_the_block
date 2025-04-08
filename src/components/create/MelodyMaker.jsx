@@ -58,14 +58,6 @@ const genderPreset = {
   "Mixed Gender Group": ["Mixed Gender Group"],
 };
 
-const agePreset = {
-  "Child (0~12)": ["Child (0~12)"],
-  "Teen (13~18)": ["Teen (13~18)"],
-  "Young Adult (19~29)": ["Young Adult (19~29)"],
-  "MiddleAge (30~49)": ["MiddleAge (30~49)"],
-  "Senior (50~)": ["Senior (50~)"],
-};
-
 const instrumentPreset = {
   Guitar: ["Guitar"],
   Piano: ["Piano"],
@@ -131,6 +123,8 @@ const MelodyMaker = ({
   selectedLanguage,
   setSelectedLanguage,
   createPossibleCount,
+  albumCover,
+  setAlbumCover,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } =
     melodyData || {};
@@ -164,57 +158,73 @@ const MelodyMaker = ({
       Tempo : ${tempo}
       ${melodyDetail ? "Detail : " + melodyDetail : ""}
       `;
-  const formData = {
-    album: {
-      title: title,
-      story: melodyDetail,
-      language: selectedLanguage,
-      lyrics: generatedLyric,
-      genre: melody_genre?.[0] ? melody_genre[0] : "",
-      style: "",
-      gender: melody_gender?.[0] ? melody_gender[0] : "",
-      voice_age: "",
-      musical_instrument: melody_instrument?.[0] ? melody_instrument[0] : "",
-      tags: melody_tag ? melody_tag.join(", ") : "",
-      image: "",
-      tempo: parseFloat(tempo),
-      song_length: "",
-      mood: "",
-      ai_service: "",
-      ai_service_type: "",
-      mood: "",
-    },
-    album_lyrics_info: {
-      language: selectedLanguage,
-      feelings: "", // 0407 기준안쓰임
-      genre: lyricData?.lyric_genre[0] || "", // 장르
-      style: lyricData?.lyric_stylistic[0] || "", // 스타일
-      form: lyricData?.lyric_tag ? lyricData?.lyric_tag.join(", ") : "", // 태그
-      my_story: lyricStory,
-    },
-  };
 
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
       setLoading(true);
+
+      // API에 전달할 payload 구성
+      const payload = {
+        album: {
+          title: title,
+          detail: melodyDetail, // 'story' 대신 'detail' 사용
+          language: selectedLanguage,
+          genre: melody_genre?.[0] ? melody_genre[0] : "",
+          style: "", // 필요 시 구체적 값 할당
+          gender: melody_gender?.[0] ? melody_gender[0] : "",
+          musical_instrument: melody_instrument?.[0]
+            ? melody_instrument[0]
+            : "",
+          ai_service: "",
+          ai_service_type: "",
+          tempo: parseFloat(tempo),
+          song_length: "",
+          lyrics: generatedLyric,
+          mood: "",
+          tags: melody_tag ? melody_tag.join(", ") : "",
+        },
+        album_lyrics_info: {
+          language: selectedLanguage,
+          feelings: "", // 현재 사용하지 않으므로 빈 문자열 처리
+          genre: lyricData?.lyric_genre?.[0] || "",
+          style: lyricData?.lyric_stylistic?.[0] || "",
+          form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
+          my_story: lyricStory,
+        },
+      };
+
+      // albumCover URL에서 Blob 데이터를 가져옴
+      const response = await fetch(albumCover); // albumCover는 URL 값이어야 함
+      if (!response.ok) {
+        throw new Error("Cover image를 불러오지 못했습니다.");
+      }
+      const coverImageBlob = await response.blob();
+
+      // FormData 생성 후 cover_image와 payload 추가
+      const formData = new FormData();
+      // 파일 이름은 "cover_image.jpg"와 같이 지정할 수 있습니다.
+      formData.append("cover_image", coverImageBlob, "cover_image.jpg");
+      formData.append("payload", JSON.stringify(payload));
+
+      // axios를 통한 POST 요청
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a", // 필요한 경우 API 키 추가
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      // setShowModal(true);
+
       storeAlbumId(res.data.id, res.data.title);
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      console.log("formData", formData);
+      console.log("payload", payload);
       navigate(`/album`);
     } catch (err) {
       alert("에러 발생");

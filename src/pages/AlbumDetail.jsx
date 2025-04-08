@@ -336,7 +336,7 @@ function AlbumDetail() {
                 onClick={handleClick}
               >
                 {album ? (
-                  <img src={album?.image || demoImg} alt="앨범 이미지" />
+                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
                 ) : (
                   <div style={{ backgroundColor: "black" }} />
                 )}
@@ -345,7 +345,7 @@ function AlbumDetail() {
                   <pre>
                     {album?.lyrics
                       ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 앞에 줄바꿈 추가
-                    ?.trim()}
+                      ?.trim()}
                   </pre>
                   {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                 </div>
@@ -477,7 +477,7 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section 
+        <section
           // className="album-detail__rank-table"
           className={`album-detail__rank-table ${
             isLoggedIn ? "is-logged-in" : "not-logged-in"

@@ -7,6 +7,7 @@ import useWindowHeight from "../hooks/useWindowHeight";
 import levelIcon from "../assets/images/menu/level-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
 import copyIcon from "../assets/images/menu/content-copy-icon.svg";
+import checkIcon from "../assets/images/check-icon.svg";
 import micIcon from "../assets/images/icon/mic-icon.svg";
 import mobIcon from "../assets/images/icon/mob-icon.svg";
 import { AuthContext } from "../contexts/AuthContext";
@@ -73,6 +74,7 @@ const Menu = ({
   const closeMenu = () => {
     setActive(false);
   };
+  const [copied, setCopied] = useState(false);
 
   // userData.wallet_address가 존재하면 앞 5글자와 뒤 4글자만 표시합니다.
   const truncatedAddress = userData?.wallet_address
@@ -81,17 +83,37 @@ const Menu = ({
       )}`
     : "No wallet";
   // copy 버튼 클릭 시 전체 wallet address를 클립보드에 복사
+  // const copyAddress = () => {
+  //   if (userData?.wallet_address) {
+  //     navigator.clipboard
+  //       .writeText(userData.wallet_address)
+  //       .then(() => {
+  //         alert("Wallet address has been copied.");
+  //       })
+  //       .catch((err) => {
+  //         console.error("복사에 실패하였습니다: ", err);
+  //       });
+  //   }
+  // };
   const copyAddress = () => {
-    if (userData?.wallet_address) {
-      navigator.clipboard
-        .writeText(userData.wallet_address)
-        .then(() => {
-          alert("Wallet address has been copied.");
-        })
-        .catch((err) => {
-          console.error("복사에 실패하였습니다: ", err);
-        });
+    const wallet = userData?.wallet_address;
+
+    if (!wallet) {
+      console.warn("지갑 주소가 없습니다.");
+      return;
     }
+
+    navigator.clipboard
+      .writeText(wallet)
+      .then(() => {
+        setCopied(true); // 체크 아이콘 보여주기
+        setTimeout(() => {
+          setCopied(false); // 3초 후 원래대로
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("복사에 실패하였습니다: ", err);
+      });
   };
 
   // const [isScrolled, setIsScrolled] = useState(false);
@@ -161,7 +183,10 @@ const Menu = ({
                           <dt>
                             {truncatedAddress}
                             <button onClick={copyAddress}>
-                              <img src={copyIcon} alt="copy icon" />
+                            <img
+                              src={copied ? checkIcon : copyIcon}
+                              alt={copied ? "복사 완료" : "복사 아이콘"}
+                            />
                             </button>
                           </dt>
                           <dd>{userData?.name || "No Sign up"}</dd>
@@ -261,7 +286,7 @@ const Menu = ({
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("nft")}
                   >
-                    <p className="icon"></p>NFT Market Place
+                    <p className="icon"></p>NFT MarketPlace
                   </Link>
                 </div>
 

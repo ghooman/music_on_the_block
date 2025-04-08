@@ -1,57 +1,54 @@
-
-
-.advanced-input{
-  .advanced-form{
+.advanced-input {
+  .advanced-form {
     background-color: transparent;
-    .rdw-editor-main{
+    .rdw-editor-main {
       overflow: auto;
     }
-    .rdw-block-wrapper{
+    .rdw-block-wrapper {
       display: none;
     }
-    .postBtn{
-      margin-left:  auto !important;
-      background: #CF0 !important;
+    .postBtn {
+      margin-left: auto !important;
+      background: #cf0 !important;
       border: 0;
       color: #121212;
       transition: 0.3s;
-      &:hover{
-        
+      &:hover {
       }
     }
 
-    .advanced-border{
+    .advanced-border {
       border: 1px solid #888;
       background: #121212;
       padding: 0 8px;
-      .rdw-editor-toolbar{
+      .rdw-editor-toolbar {
         display: none;
       }
     }
-    .rdw-option-wrapper{
+    .rdw-option-wrapper {
       border: 1px solid transparent;
       background-color: #777;
       transition: 0.3s;
-      &:hover,&.rdw-option-active{
-        background: #CF0;
-        border: 1px solid #CF0;
+      &:hover,
+      &.rdw-option-active {
+        background: #cf0;
+        border: 1px solid #cf0;
       }
-    }//rdw-option-wrapper--END--
-    .rdw-editor-toolbar{
+    } //rdw-option-wrapper--END--
+    .rdw-editor-toolbar {
       background: transparent;
       border: 1px solid transparent;
-    }//rdw-editor-toolbar--END--
-  }//.advanced-form--END--
-
-}//advanced-input--END--
-.react-responsive-modal-modal{
+    } //rdw-editor-toolbar--END--
+  } //.advanced-form--END--
+} //advanced-input--END--
+.react-responsive-modal-modal {
   background: #121212 !important;
   border: 1px solid #777 !important;
   border-radius: 4px;
 }
 
-.comment-title{
-  color: #CF0;
+.comment-title {
+  color: #cf0;
   font-family: Orbitron400;
   font-size: 24px;
   font-style: normal;
@@ -69,40 +66,31 @@
     width: 4px;
     height: 4px;
     border-radius: 100%;
-    background: #CF0;
-}
+    background: #cf0;
+  }
 }
 .rdw-colorpicker-wrapper,
 .rdw-link-wrapper,
 .rdw-emoji-wrapper,
-.rdw-image-wrapper{
+.rdw-image-wrapper {
   display: none;
 }
-.szh-menu{
+.szh-menu {
   background: #121212;
   border: 1px solid #888;
   padding: 0 !important;
   overflow: hidden;
-  li{
+  li {
     color: #fff !important;
     background: transparent !important;
     transition: 0.3s;
     padding: 8px 12px !important;
-    &:hover{
-      background: #CF0 !important;
+    &:hover {
+      background: #cf0 !important;
       color: #121212 !important;
-      div{
+      div {
         color: #121212 !important;
       }
     }
   }
 }
-
-
-
-
-
-
-
-
-

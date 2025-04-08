@@ -22,7 +22,7 @@ const dummyData = [
     {
         number: 30,
         type: "LYRIC",
-        item: "Item Name (123_1)",
+        item: "Item Name (#123_1)",
         username: "Yolkhead",
         quantity: 100,
         price: "100.000",
@@ -33,7 +33,7 @@ const dummyData = [
     {
         number: 30,
         type: "COMPOSITION",
-        item: "Item Name (123_1)",
+        item: "Item Name (#123_1)",
         username: "Yolkhead",
         quantity: 100,
         price: "100.000",
@@ -44,7 +44,7 @@ const dummyData = [
     {
         number: 30,
         type: "SONG",
-        item: "Item Name (123_1)",
+        item: "Item Name (#123_1)",
         username: "Yolkhead",
         quantity: 100,
         price: "100.000",
@@ -104,7 +104,7 @@ const CollectionInfo = () => {
                     <CollectionInfo.StatsItem title="NFT Items" value={2} suffix="ITEMS" />
                     <CollectionInfo.StatsItem title="Highest Price" value={10.39} suffix="MOB" />
                     <CollectionInfo.StatsItem title="Lowest Price" value={0.01} suffix="MOB" />
-                    <CollectionInfo.StatsItem title="Total Volume" value={10 + ' MOB'} />
+                    <CollectionInfo.StatsItem title="Total Volume" value={10} suffix="MOB" />
                 </div>
             </div>
         </div>
@@ -169,10 +169,10 @@ const Overview = () => {
                     />
                 </NftOverview>
             </ContentWrap>
-            <ContentWrap title="Graph List">
+            <ContentWrap title="Graph">
                 <NftGraph/>
             </ContentWrap>
-            <ContentWrap title="Top NFTs in this Collection">
+            <ContentWrap title="Recommended NFTs">
                 <NftItemList data={[1, 2, 3, 4]} />
             </ContentWrap>
         </>
@@ -197,15 +197,15 @@ const History = () => {
         <ContentWrap title="Activities">
             <InfoRowWrap row={3}>
                 <InfoRowWrap.UserItem
-                    title="Most Purchased User"
+                    title="Most Purchased Artist"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
                 />
                 <InfoRowWrap.UserItem
-                    title="Highest Bidding User"
+                    title="Highest Bidding UArtister"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
                 />
                 <InfoRowWrap.UserItem
-                    title="Most Recently Traded User"
+                    title="Most Recently Traded Artist"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
                 />
             </InfoRowWrap>
@@ -214,7 +214,7 @@ const History = () => {
                 <Search />
                 <CustomTable 
                     data={dummyData} 
-                    headers={["#", "Type", "Item", "Username", "Quantity", "Price(MOB)", "Total Volume(MOB)", "Transaction Date", "Details"]}
+                    headers={["#", "Type", "Item", "Artist Name", "Quantity", "Price(MOB)", "Total Volume(MOB)", "Transaction Date", "Details"]}
                 />
             </ContentWrap.SubWrap>
             <Pagination />

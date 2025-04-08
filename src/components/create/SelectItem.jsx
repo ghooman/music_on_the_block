@@ -310,7 +310,7 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         value={value}
         onChange={(e) => setter(e.target.value)}
         type="text"
-        placeholder="Briefly describe the story you want to tell."
+        placeholder="Add a final mood or vibe, if you want."
       />
     </div>
   );

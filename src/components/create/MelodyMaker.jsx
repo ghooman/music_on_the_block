@@ -112,7 +112,7 @@ const MelodyMaker = ({
   setMelodyDetail,
   tempo,
   setTempo,
-  generatedLyrics,
+  generatedLyric,
   generatedMusicResult,
   setGeneratedMusicResult,
   setPageNumber,
@@ -413,7 +413,7 @@ const MelodyMaker = ({
       {showLyricsModal && (
         <LyricsModal
           setShowLyricsModal={setShowLyricsModal}
-          generatedLyrics={generatedLyrics}
+          generatedLyric={generatedLyric}
         />
       )}
     </div>

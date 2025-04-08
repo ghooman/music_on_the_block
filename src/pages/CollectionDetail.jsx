@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Categories from '../components/nft/Categories';
-import ContentWrap from '../components/nft/ContentWrap';
+import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
 import Pagination from '../components/nft/Pagination';
 import FilterItems from '../components/nft/FilterItems';
@@ -21,37 +21,37 @@ import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
 const dummyData = [
     {
         number: 30,
-        type: "LYRIC",
-        item: "Item Name (#123_1)",
-        username: "Yolkhead",
+        type: 'LYRIC',
+        item: 'Item Name (#123_1)',
+        username: 'Yolkhead',
         quantity: 100,
-        price: "100.000",
-        totalVolume: "100.000",
-        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9",
-        details: "Details"
+        price: '100.000',
+        totalVolume: '100.000',
+        transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
+        details: 'Details',
     },
     {
         number: 30,
-        type: "COMPOSITION",
-        item: "Item Name (#123_1)",
-        username: "Yolkhead",
+        type: 'COMPOSITION',
+        item: 'Item Name (#123_1)',
+        username: 'Yolkhead',
         quantity: 100,
-        price: "100.000",
-        totalVolume: "100.000",
-        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9",
-        details: "Details"
+        price: '100.000',
+        totalVolume: '100.000',
+        transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
+        details: 'Details',
     },
     {
         number: 30,
-        type: "SONG",
-        item: "Item Name (#123_1)",
-        username: "Yolkhead",
+        type: 'SONG',
+        item: 'Item Name (#123_1)',
+        username: 'Yolkhead',
         quantity: 100,
-        price: "100.000",
-        totalVolume: "100.000",
-        transactionDate: "Sat, 04 Nov 2023 14:40:00 UTC+9",
-        details: "Details"
-    }
+        price: '100.000',
+        totalVolume: '100.000',
+        transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
+        details: 'Details',
+    },
 ];
 
 const CollectionDetail = () => {
@@ -138,39 +138,17 @@ const Overview = () => {
                         value="100 MOB" 
                         isTwo
                     /> */}
-                    <NftOverviewItem 
-                        title="NFT Items" 
-                        value="1,573" 
-                    />
-                    <NftOverviewItem 
-                        title="Number of Transactions" 
-                        value="125" 
-                    />
-                    <NftOverviewItem 
-                        title="Total Volume" 
-                        value="342,453" 
-                    />
-                    <NftOverviewItem 
-                        title="Average Price" 
-                        value="100 MOB" 
-                    />
-                    <NftOverviewItem 
-                        title="Highest Price" 
-                        value="100 MOB" 
-                    />
-                    <NftOverviewItem 
-                        title="Lowest Price" 
-                        value="100 MOB" 
-                    />
-                    <NftOverviewItem 
-                        title="Recent Transaction Date" 
-                        value="Sat, 04 Nov 2023 14:40:00 UTC+9" 
-                        isLong
-                    />
+                    <NftOverviewItem title="NFT Items" value="1,573" />
+                    <NftOverviewItem title="Number of Transactions" value="125" />
+                    <NftOverviewItem title="Total Volume" value="342,453" />
+                    <NftOverviewItem title="Average Price" value="100 MOB" />
+                    <NftOverviewItem title="Highest Price" value="100 MOB" />
+                    <NftOverviewItem title="Lowest Price" value="100 MOB" />
+                    <NftOverviewItem title="Recent Transaction Date" value="Sat, 04 Nov 2023 14:40:00 UTC+9" isLong />
                 </NftOverview>
             </ContentWrap>
             <ContentWrap title="Graph">
-                <NftGraph/>
+                <NftGraph />
             </ContentWrap>
             <ContentWrap title="Recommended NFTs">
                 <NftItemList data={[1, 2, 3, 4]} />
@@ -212,9 +190,19 @@ const History = () => {
             <ContentWrap.SubWrap gap={8}>
                 <FilterItems />
                 <Search />
-                <CustomTable 
-                    data={dummyData} 
-                    headers={["#", "Type", "Item", "Artist Name", "Quantity", "Price(MOB)", "Total Volume(MOB)", "Transaction Date", "Details"]}
+                <CustomTable
+                    data={dummyData}
+                    headers={[
+                        '#',
+                        'Type',
+                        'Item',
+                        'Artist Name',
+                        'Quantity',
+                        'Price(MOB)',
+                        'Total Volume(MOB)',
+                        'Transaction Date',
+                        'Details',
+                    ]}
                 />
             </ContentWrap.SubWrap>
             <Pagination />

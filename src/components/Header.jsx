@@ -1,36 +1,37 @@
-import React, { useState } from 'react';
-import './Header.scss';
+import React, { useState } from "react";
+import "./Header.scss";
 import {
-    BrowserRouter,
-    Link,
-    Route,
-    Router,
-    Routes,
-    useLocation,
-    // useNavigate,
-} from 'react-router-dom';
+  BrowserRouter,
+  Link,
+  Route,
+  Router,
+  Routes,
+  useLocation,
+  // useNavigate,
+} from "react-router-dom";
 // import LogoHansung from "../assets/images/";
-import Album from '../pages/Album';
-import PreparingModal from './PreparingModal';
+import Album from "../pages/Album";
+import PreparingModal from "./PreparingModal";
 
 //이미지
-import mainLogo from '../assets/images/header/logo.svg';
-import closeIcon from '../assets/images/close.svg';
-import Menu from './Menu';
-import MyPage from '../pages/MyPage';
-import SignInModal from './SignInModal';
-import CreateLoading from './CreateLoading';
-import AlarmModal from './AlarmModal';
+import mainLogo from "../assets/images/header/logo.svg";
+import betaLogo from "../assets/images/header/beta.svg";
+import closeIcon from "../assets/images/close.svg";
+import Menu from "./Menu";
+import MyPage from "../pages/MyPage";
+import SignInModal from "./SignInModal";
+import CreateLoading from "./CreateLoading";
+import AlarmModal from "./AlarmModal";
 
 const Header = ({ setIsLoggedIn }) => {
-    const [isSignInModal, setSignInModal] = useState(false);
-    const [login, setLogin] = useState(false);
-    const [isPreparingModal, setPreparingModal] = useState(false);
-    const [isActive, setIsActive] = useState(false);
+  const [isSignInModal, setSignInModal] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [isPreparingModal, setPreparingModal] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-    const handleClick = () => {
-        setIsActive((prev) => !prev);
-    };
+  const handleClick = () => {
+    setIsActive((prev) => !prev);
+  };
 
   return (
     <>
@@ -102,29 +103,38 @@ const Header = ({ setIsLoggedIn }) => {
                   </svg>
                 </div>
               </div>
+              <img src={betaLogo} className="beta-logo" />
             </Link>
           </h1>
         </div>
       </div>
 
-            <Menu
-                active={isActive}
-                setActive={setIsActive}
-                setPreparingModal={setPreparingModal}
-                setSignInModal={setSignInModal}
-                setLogin={setLogin}
-                login={login}
-            />
-            {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
-            {isSignInModal && <SignInModal setSignInModal={setSignInModal} setLogin={setLogin} login={login} />}
+      <Menu
+        active={isActive}
+        setActive={setIsActive}
+        setPreparingModal={setPreparingModal}
+        setSignInModal={setSignInModal}
+        setLogin={setLogin}
+        login={login}
+      />
+      {isPreparingModal && (
+        <PreparingModal setPreparingModal={setPreparingModal} />
+      )}
+      {isSignInModal && (
+        <SignInModal
+          setSignInModal={setSignInModal}
+          setLogin={setLogin}
+          login={login}
+        />
+      )}
 
-            {/* <Routes>
+      {/* <Routes>
         <Route path="/" element={<Album />} />
       </Routes> */}
 
-            <AlarmModal />
-        </>
-    );
+      <AlarmModal />
+    </>
+  );
 };
 
 export default Header;

@@ -406,6 +406,13 @@
   overflow: auto;
 }
 .album-detail__rank-table {
+  &.not-logged-in{
+    .advanced-overlay{
+      opacity: 0.4;
+      cursor: not-allowed;
+      display: none;
+    }
+  }
   .advanced-overlay {
     gap: 8px !important;
     .userImg {

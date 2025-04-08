@@ -194,9 +194,9 @@ function Album() {
               className="album__header__album-cover__img"
               style={{
                 backgroundImage: `url(${
-                  selectedTrack?.image === "string"
+                  selectedTrack?.cover_image === "string"
                     ? coverImg10
-                    : selectedTrack?.image
+                    : selectedTrack?.cover_image
                 })`,
               }}
             ></p>
@@ -257,7 +257,9 @@ function Album() {
                     className="album__content-list__list__item__left__img"
                     style={{
                       backgroundImage: `url(${
-                        track.image === "string" ? coverImg10 : track.image
+                        track.cover_image === "string"
+                          ? coverImg10
+                          : track.cover_image
                       })`,
                     }}
                   ></p>
@@ -346,7 +348,9 @@ function Album() {
                     className="swiper-music-list__item__left__img"
                     style={{
                       backgroundImage: `url(${
-                        track.image === "string" ? coverImg10 : track.image
+                        track.cover_image === "string"
+                          ? coverImg10
+                          : track.cover_image
                       })`,
                     }}
                   ></div>
@@ -446,7 +450,9 @@ function Album() {
                     className="album__content-list__list__item__left__img"
                     style={{
                       backgroundImage: `url(${
-                        track.image === "string" ? coverImg10 : track.image
+                        track.cover_image === "string"
+                          ? coverImg10
+                          : track.cover_image
                       })`,
                     }}
                   ></p>

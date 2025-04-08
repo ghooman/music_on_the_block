@@ -71,7 +71,7 @@ function AlbumDetail() {
   const getFavoriteGenre = async () => {
     try {
       const baseUrl = `${serverApi}/api/music/recommended/list`;
-      const url = walletAddress?.address
+      const url = walletAddress.address
         ? `${baseUrl}?wallet_address=${walletAddress.address}`
         : baseUrl;
 

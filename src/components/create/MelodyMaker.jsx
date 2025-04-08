@@ -134,9 +134,10 @@ const MelodyMaker = ({
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [showLyricsModal, setShowLyricsModal] = useState(false);
-  // 각 필드에 값이 있는지 확인하는 변수
-  const isAnyFieldFilled =
-    (title && title.trim() !== "") ||
+  // 타이틀은 무조건 필수이며, 추가 필드 중 하나 이상이 채워져야 하는 조건
+  const isTitleFilled = title && title.trim() !== "";
+
+  const isAdditionalFieldFilled =
     (melody_tag && melody_tag.length > 0) ||
     (melody_genre &&
       melody_genre.length > 0 &&
@@ -148,6 +149,9 @@ const MelodyMaker = ({
       melody_instrument.length > 0 &&
       melody_instrument[0].trim() !== "") ||
     (melodyDetail && melodyDetail.trim() !== "");
+
+  // 최종적으로 타이틀이 채워져있고, 추가 필드 중 최소 한 개 이상 채워진 경우에만 폼이 유효함
+  const isFormValid = isTitleFilled && isAdditionalFieldFilled;
 
   const promptPreview = `
       Language : ${selectedLanguage},
@@ -186,14 +190,14 @@ const MelodyMaker = ({
       setLoading(true);
 
       // API에 전달할 payload 구성
-      const payload = {
+      const formData = {
         album: {
           title: title,
-          detail: melodyDetail, // 'story' 대신 'detail' 사용
+          detail: melodyDetail, // 기존 'story' 대신 'detail' 사용
           language: selectedLanguage,
-          genre: melody_genre?.[0] ? melody_genre[0] : "",
+          genre: melody_genre?.[0] || "",
           style: "", // 필요 시 구체적 값 할당
-          gender: melody_gender?.[0] ? melody_gender[0] : "",
+          gender: melody_gender?.[0] || "",
           musical_instrument: melody_instrument.join(", ") || "",
           ai_service: "",
           ai_service_type: "",
@@ -202,6 +206,7 @@ const MelodyMaker = ({
           lyrics: generatedLyric,
           mood: "",
           tags: melody_tag ? melody_tag.join(", ") : "",
+          cover_image: albumCover, // 'cover' → 'cover_image'로 변경
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -213,19 +218,6 @@ const MelodyMaker = ({
         },
       };
 
-      // albumCover URL에서 Blob 데이터를 가져옴
-      const response = await fetch(albumCover); // albumCover는 URL 값이어야 함
-      if (!response.ok) {
-        throw new Error("Cover image를 불러오지 못했습니다.");
-      }
-      const coverImageBlob = await response.blob();
-
-      // FormData 생성 후 cover_image와 payload 추가
-      const formData = new FormData();
-      // 파일 이름은 "cover_image.jpg"와 같이 지정할 수 있습니다.
-      formData.append("cover_image", coverImageBlob, "cover_image.jpg");
-      formData.append("payload", JSON.stringify(payload));
-
       // axios를 통한 POST 요청
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
@@ -234,7 +226,7 @@ const MelodyMaker = ({
           headers: {
             Authorization: `Bearer ${token}`,
             "x-api-key": "f47d348dc08d492492a7a5d546d40f4a",
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json", // 변경된 헤더
           },
         }
       );
@@ -243,7 +235,6 @@ const MelodyMaker = ({
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      console.log("payload", payload);
       navigate(`/album`);
     } catch (err) {
       alert("에러 발생");
@@ -399,12 +390,12 @@ const MelodyMaker = ({
         </div>
         <ExpandedButton
           className={
-            loading || valuesOnly.length > 200 || !isAnyFieldFilled
+            loading || valuesOnly.length > 200 || !isFormValid
               ? "next"
               : "next enable"
           }
           onClick={() => musicGenerate()}
-          disabled={loading || valuesOnly.length > 200 || !isAnyFieldFilled}
+          disabled={loading || valuesOnly.length > 200 || !isFormValid}
         >
           {loading ? "Loading" : "Generate"}
         </ExpandedButton>

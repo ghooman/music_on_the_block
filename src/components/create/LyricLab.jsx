@@ -69,7 +69,7 @@ const client = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-const LyricLab = ({
+const LyricsLab = ({
   selectedLanguage,
   setSelectedLanguage,
   setLyricData,
@@ -86,13 +86,10 @@ const LyricLab = ({
   SelectedItem,
   isLyricPage,
   createPossibleCount,
-  albumCover,
   setAlbumCover,
 }) => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("read");
-  console.log("lyricData", lyricData);
-  console.log("lyricStory", lyricStory);
   // ================ 가사 생성 ================ //
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || "");
   const instructions = `// system-prompt-example.txt
@@ -157,62 +154,32 @@ const LyricLab = ({
       lyricData.lyric_stylistic[0].trim() !== "") ||
     (lyricStory && lyricStory.trim() !== "");
 
-  // 지피티4o API 호출 함수
-  async function callGPT4oResponses() {
-    try {
-      setLoading(true);
-      const response = await client.responses.create({
-        model: "gpt-4o-mini",
-        instructions,
-        input: `출력원하는언어:${selectedLanguage},
+  // 가사 생성 함수 (로딩 상태 관리는 외부에서 처리)
+  const callGPT4oResponses = async () => {
+    const response = await client.responses.create({
+      model: "gpt-4o-mini",
+      instructions,
+      input: `출력원하는언어:${selectedLanguage},
         느낌:${lyricData?.lyric_tag.join(",")},
-                 장르:${lyricData?.lyric_genre.join(",")},
-                 양식:${lyricData?.lyric_stylistic.join(",")},
-                 추가적인 나의 이야기:${lyricStory}
-                `,
-      });
-      console.log("GPT Responses API 응답:", response.output_text);
-      if (
-        response.output_text.includes(
-          "이 요청에 대한 구체적인 정보가 부족합니다."
-        )
-      ) {
-        alert("Please fill in the blanks");
-        return;
-      } else {
-        setCreatedLyrics(response.output_text);
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (error) {
-      console.error("Responses API 호출 중 오류 발생:", error);
-      throw error;
-    } finally {
-      setLoading(false);
+        장르:${lyricData?.lyric_genre.join(",")},
+        양식:${lyricData?.lyric_stylistic.join(",")},
+        추가적인 나의 이야기:${lyricStory}
+        `,
+    });
+    console.log("GPT Responses API 응답:", response.output_text);
+    if (
+      response.output_text.includes(
+        "이 요청에 대한 구체적인 정보가 부족합니다."
+      )
+    ) {
+      throw new Error("필수 정보가 부족합니다. 모든 항목을 채워주세요.");
+    } else {
+      setCreatedLyrics(response.output_text);
     }
-  }
-
-  // 텍스트 파일(.txt) 다운로드 함수
-  const downloadTxtFile = () => {
-    const element = document.createElement("a");
-    const file = new Blob([createdLyrics], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = "lyrics.txt"; // 저장될 파일명
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // PDF 파일 다운로드 함수
-  const downloadPdfFile = () => {
-    const doc = new jsPDF();
-    // 긴 텍스트의 경우, 자동으로 줄바꿈을 적용합니다.
-    const lines = doc.splitTextToSize(createdLyrics, 180);
-    doc.text(lines, 10, 10);
-    doc.save("lyrics.pdf"); // 저장될 파일명
-  };
-
-  // ================= 앨범 커버 생성 ================ //
-  // 앨범 커버 프롬프트
+  // 앨범 커버 생성 함수 (로딩 상태 관리는 외부에서 처리)
   const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
     const {
       lyric_tag = [],
@@ -220,48 +187,54 @@ const LyricLab = ({
       lyric_stylistic = [],
     } = lyricData;
     return `
-      [가사 데이터]
-      태그: ${lyric_tag.join(", ")}
-      장르: ${lyric_genre.join(", ")}
-      스타일: ${lyric_stylistic.join(", ")}
-      
-      [노래 스토리]
-      ${lyricStory}
-      
-      [디자인 요청]
-      앨범 커버 디자인: 현대적이면서 예술적인 디지털 일러스트레이션 스타일.
-      - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-      - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-      - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
-        ", "
-      )}"와 "${lyric_genre.join(", ")}"의 느낌을 표현할 것.
-      - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
-    `;
+        [가사 데이터]
+        태그: ${lyric_tag.join(", ")}
+        장르: ${lyric_genre.join(", ")}
+        스타일: ${lyric_stylistic.join(", ")}
+        
+        [노래 스토리]
+        ${lyricStory}
+        
+        [디자인 요청]
+        앨범 커버 디자인: 현대적이면서 예술적인 디지털 일러스트레이션 스타일.
+        - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
+        - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
+        - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
+          ", "
+        )}"와 "${lyric_genre.join(", ")}"의 느낌을 표현할 것.
+        - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
+      `;
   };
-  // 앨범 커버 생성함수
+
   const generateAlbumCover = async () => {
+    const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
+    const response = await client.images.generate({
+      model: "dall-e-3",
+      prompt: refinedPrompt,
+      size: "1024x1024",
+      quality: "standard",
+      n: 1,
+    });
+    console.log("generateAlbumCover:", response.data);
+    setAlbumCover(response.data[0].url);
+    // 필요 시, 생성된 가사 상태 업데이트 등 추가 작업 가능
+  };
+
+  // 두 작업(가사 생성 + 앨범 커버 생성)을 동시에 실행하는 함수
+  const handleGenerateAll = async () => {
     setLoading(true);
     try {
-      const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
-      const response = await client.images.generate({
-        model: "dall-e-3",
-        prompt: refinedPrompt,
-        size: "1024x1024",
-        quality: "standard",
-        n: 1,
-      });
-      console.log("generateAlbumCover", response.data);
-      // 생성된 앨범 커버 URL을 상태에 저장합니다.
-      setAlbumCover(response.data[0].url);
-      setGeneratedLyric(createdLyrics);
+      // 두 작업을 병렬로 실행하여 모두 완료될 때까지 대기합니다.
+      await Promise.all([callGPT4oResponses(), generateAlbumCover()]);
     } catch (error) {
-      console.error("앨범 커버 생성 중 오류 발생:", error);
+      console.error("생성 중 오류 발생:", error);
+      alert(error.message || "생성 중 오류가 발생했습니다. 다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
   };
 
-  // 가사가 아직 생성되지 않은 경우
+  // 가사 생성 전 단계 UI
   if (!createdLyrics)
     return (
       <div className="create__lyric-lab">
@@ -309,6 +282,7 @@ const LyricLab = ({
             title="Your Story"
           />
         </SelectItemWrap>
+
         <div
           className="mb40"
           style={{ display: "flex", flexDirection: "column", gap: 16 }}
@@ -328,13 +302,12 @@ const LyricLab = ({
             </div>
           </SelectedWrap>
         </div>
+
         <div className="button-wrap">
-          <div className="button-wrap__left">{/* 필요시 Skip 버튼 */}</div>
+          <div className="button-wrap__left">{/* 필요 시 Skip 버튼 */}</div>
           <ExpandedButton
             className={!isAnyFieldFilled || loading ? "next" : "next enable"}
-            onClick={() => {
-              callGPT4oResponses();
-            }}
+            onClick={handleGenerateAll}
             disabled={!isAnyFieldFilled || loading}
           >
             {loading ? "Loading" : "Generate"}
@@ -343,68 +316,71 @@ const LyricLab = ({
         </div>
       </div>
     );
-
-  // 가사가 생성된 후의 렌더링
-  return (
-    <div ref={generatedLyricsRef} className="create__lyric-lab">
-      {/* 로딩 중일 때 전체 페이지 오버레이로 로딩 화면 표시 */}
-      {loading && (
-        <div className="loading-overlay">
-          <CreateLoading textTrue2={true} />
-        </div>
-      )}
-      <h2>Generated Lyrics</h2>
-      {mode === "read" && (
-        <pre className="generated-lyrics__lyrics">{createdLyrics}</pre>
-      )}
-      {mode === "edit" && (
-        <pre className="generated-lyrics__lyrics">
-          <textarea
-            className="generated-lyrics__lyrics"
-            value={createdLyrics}
-            onChange={(e) => setCreatedLyrics(e.target.value)}
-          />
-        </pre>
-      )}
-      {/* 앨범 커버 미생성 상태일 경우와 생성 완료 후 프리뷰 상태 구분 */}
-      {albumCover ? (
-        <div className="album-cover-preview">
-          <h3>Generated Album Cover</h3>
-          <img src={albumCover} alt="Album Cover Preview" />
-          <ExpandedButton
-            className="generated-lyrics__confirm-buttons--button confirm"
-            onClick={() => setPageNumber((prev) => prev + 1)}
-          >
-            Confirm
-          </ExpandedButton>
-        </div>
-      ) : (
+  else
+    return (
+      <div ref={generatedLyricsRef} className="create__lyric-lab">
+        <h2>Generated Lyrics</h2>
+        {mode === "read" && (
+          <pre className="generated-lyrics__lyrics">{createdLyrics}</pre>
+        )}
+        {mode === "edit" && (
+          <pre className="generated-lyrics__lyrics">
+            <textarea
+              className="generated-lyrics__lyrics"
+              value={createdLyrics}
+              onChange={(e) => setCreatedLyrics(e.target.value)}
+            />
+          </pre>
+        )}
         <div className="generated-lyrics__confirm-buttons">
           <ExpandedButton
-            className="generated-lyrics__confirm-buttons--button confirm"
-            onClick={generateAlbumCover}
-            disabled={loading} // 이미지 생성 도중 버튼 비활성화
+            className="generated-lyrics__confirm-buttons--button edit"
+            onClick={() =>
+              setMode((prev) => (prev === "edit" ? "read" : "edit"))
+            }
           >
-            {loading ? "Generating Image..." : "CONFIRM Album Cover"}
+            EDIT
+          </ExpandedButton>
+          <ExpandedButton
+            className="generated-lyrics__confirm-buttons--button confirm"
+            onClick={() => {
+              setGeneratedLyric(createdLyrics);
+              setPageNumber((prev) => prev + 1);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            CONFIRM
           </ExpandedButton>
         </div>
-      )}
-      <div className="generated-lyrics__download-buttons">
-        <ExpandedButton
-          className="generated-lyrics__download-buttons--button txt"
-          onClick={downloadTxtFile}
-        >
-          Download as text (.txt)
-        </ExpandedButton>
-        <ExpandedButton
-          className="generated-lyrics__download-buttons--button pdf"
-          onClick={downloadPdfFile}
-        >
-          Download as pdf (.pdf)
-        </ExpandedButton>
+        <div className="generated-lyrics__download-buttons">
+          <ExpandedButton
+            className="generated-lyrics__download-buttons--button txt"
+            onClick={() => {
+              const element = document.createElement("a");
+              const file = new Blob([createdLyrics], { type: "text/plain" });
+              element.href = URL.createObjectURL(file);
+              element.download = "lyrics.txt";
+              document.body.appendChild(element);
+              element.click();
+              document.body.removeChild(element);
+            }}
+          >
+            Download as text (.txt)
+          </ExpandedButton>
+          <ExpandedButton
+            className="generated-lyrics__download-buttons--button pdf"
+            onClick={() => {
+              const doc = new jsPDF();
+              const lines = doc.splitTextToSize(createdLyrics, 180);
+              doc.text(lines, 10, 10);
+              doc.save("lyrics.pdf");
+            }}
+          >
+            Download as pdf (.pdf)
+          </ExpandedButton>
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
-export default LyricLab;
+export default LyricsLab;

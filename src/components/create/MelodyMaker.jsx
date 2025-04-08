@@ -150,15 +150,36 @@ const MelodyMaker = ({
     (melodyDetail && melodyDetail.trim() !== "");
 
   const promptPreview = `
-      Language : ${selectedLanguage}
+      Language : ${selectedLanguage},
       ${melody_tag ? "Tags : " + melody_tag.join(", ") : ""}
       ${melody_genre ? "Genre : " + melody_genre.join(", ") : ""}
       ${melody_gender ? "Gender : " + melody_gender.join(", ") : ""} 
       ${melody_instrument ? "Instrument : " + melody_instrument.join(", ") : ""}
-      Tempo : ${tempo}
-      ${melodyDetail ? "Detail : " + melodyDetail : ""}
+      Tempo : ${tempo},
+      ${melodyDetail ? "Detail : " + melodyDetail + "," : ""}
       `;
+  // 함수: promptPreview에서 밸류 부분(콜론(:) 다음의 텍스트만)을 추출하여 하나의 문자열로 만듭니다.
+  function extractValues(str) {
+    return str
+      .split("\n") // 줄 단위로 분리
+      .map((line) => {
+        // 줄의 콜론(:) 위치를 찾음
+        const colonIndex = line.indexOf(":");
+        if (colonIndex !== -1) {
+          // 콜론 이후의 문자열이 밸류 부분입니다.
+          return line.substring(colonIndex + 1).trim();
+        }
+        return "";
+      })
+      .filter((value) => value.length > 0) // 빈 문자열 제거
+      .join(""); // 모든 밸류를 하나의 문자열로 합침
+  }
 
+  // 밸류만 추출하여 새로운 문자열 생성
+  const valuesOnly = extractValues(promptPreview);
+
+  // console.log("valuesOnly:", valuesOnly);
+  // console.log("valuesOnly length:", valuesOnly.length);
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
@@ -173,9 +194,7 @@ const MelodyMaker = ({
           genre: melody_genre?.[0] ? melody_genre[0] : "",
           style: "", // 필요 시 구체적 값 할당
           gender: melody_gender?.[0] ? melody_gender[0] : "",
-          musical_instrument: melody_instrument?.[0]
-            ? melody_instrument[0]
-            : "",
+          musical_instrument: melody_instrument.join(", ") || "",
           ai_service: "",
           ai_service_type: "",
           tempo: parseFloat(tempo),
@@ -313,10 +332,10 @@ const MelodyMaker = ({
               current length :{" "}
               <span
                 style={{
-                  color: promptPreview?.length > 200 ? "red" : "inherit",
+                  color: valuesOnly?.length > 200 ? "red" : "inherit",
                 }}
               >
-                {promptPreview?.length}
+                {valuesOnly?.length}
               </span>
             </span>
           </div>
@@ -380,12 +399,12 @@ const MelodyMaker = ({
         </div>
         <ExpandedButton
           className={
-            loading || promptPreview.length > 200 || !isAnyFieldFilled
+            loading || valuesOnly.length > 200 || !isAnyFieldFilled
               ? "next"
               : "next enable"
           }
           onClick={() => musicGenerate()}
-          disabled={loading || promptPreview.length > 200 || !isAnyFieldFilled}
+          disabled={loading || valuesOnly.length > 200 || !isAnyFieldFilled}
         >
           {loading ? "Loading" : "Generate"}
         </ExpandedButton>

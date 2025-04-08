@@ -402,7 +402,7 @@ function AlbumDetail() {
                     isPlaying ? "playing" : "paused"
                   }`}
                 >
-                  <img src={album?.image || coverImg} alt="album cover" />
+                  <img src={album?.cover_image || coverImg} alt="album cover" />
                 </p>
               </section>
             </div>
@@ -423,7 +423,7 @@ function AlbumDetail() {
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Detail</dt>
-                  <dd>{album?.Detail || "-"}</dd>
+                  <dd>{album?.detail || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Language</dt>

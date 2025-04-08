@@ -3,7 +3,7 @@ import ModalWrap from "./ModalWrap";
 
 import "./LyricsModal.scss";
 
-const LyricsModal = ({ setShowLyricsModal, generatedLyrics }) => {
+const LyricsModal = ({ setShowLyricsModal, generatedLyric }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -19,7 +19,7 @@ const LyricsModal = ({ setShowLyricsModal, generatedLyrics }) => {
       className="lyrics"
     >
       <pre className="lyrics__content">
-        {generatedLyrics || "No lyrics available"}
+        {generatedLyric || "No lyrics available"}
       </pre>
     </ModalWrap>
   );

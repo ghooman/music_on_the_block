@@ -42,13 +42,13 @@ const client = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY, // .env 파일 등에 저장된 API 키 사용
   dangerouslyAllowBrowser: true,
 });
-const AlbumCoverSudio = ({ children, lyricData, generatedLyric }) => {
+const AlbumCoverSudio = ({ children, lyricData, generatedLyrics }) => {
   const [cover, setCover] = useState({
     cover_color: [],
     cover_mood: [],
     cover_texture: [],
   });
-  console.log("generatedLyric", generatedLyric);
+  console.log("generatedLyrics", generatedLyrics);
   const [coverCreate, setCoverCreate] = useState(false);
   const [albumCover, setAlbumCover] = useState(null);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -58,7 +58,7 @@ const AlbumCoverSudio = ({ children, lyricData, generatedLyric }) => {
       const response = await client.images.generate({
         model: "dall-e-2",
         prompt:
-          generatedLyric +
+          generatedLyrics +
           "앞에 첨부한 가사를 기반으로 앨범 커버 디자인을 생성해줄래",
         size: "256x256",
         // quality: "standard",
@@ -67,7 +67,7 @@ const AlbumCoverSudio = ({ children, lyricData, generatedLyric }) => {
       //   const response = await client.images.generate({
       //     model: "dall-e-3",
       //     prompt:
-      //       generatedLyric +
+      //       generatedLyrics +
       //       "앞에 첨부한 가사를 기반으로 앨범 커버 디자인을 생성해줄래",
       //     size: "1024x1024",
       //     quality: "standard",

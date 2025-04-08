@@ -42,6 +42,60 @@ const AlarmModal = () => {
   // console.log("isError", isError);
 
   const socketRef = useRef(null);
+  const hasTimerStartedRef = useRef(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+
+  const shouldRenderModal =
+    storedAlbumData ||
+    (albumPk && walletAddress?.address === albumWalletAddress);
+
+  const formatTime = (sec) => {
+    const minutes = String(Math.floor(sec / 60)).padStart(2, "0");
+    const seconds = String(sec % 60).padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
+
+  // 타이머 초기화: 모달이 처음 열릴 때 딱 한 번만 실행
+  useEffect(() => {
+    if (
+      shouldRenderModal &&
+      !isError &&
+      !albumPk &&
+      !hasTimerStartedRef.current
+    ) {
+      setElapsedSeconds(0);
+      hasTimerStartedRef.current = true;
+    }
+  }, [shouldRenderModal, isError, albumPk]);
+
+  // 완료 또는 실패 시 타이머 초기화 가능하도록 ref 리셋
+  useEffect(() => {
+    if (albumPk || isError) {
+      hasTimerStartedRef.current = false;
+    }
+  }, [albumPk, isError]);
+
+  // 타이머
+  useEffect(() => {
+    let timer;
+    if (!isError && !albumPk) {
+      timer = setInterval(() => {
+        setElapsedSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isError, albumPk]);
+
+  // 컴포넌트 마운트 시 웹소켓 연결 및 storedAlbumData 업데이트
+  useEffect(() => {
+    setStoredAlbumData(getStoredAlbumData());
+    connectWebSocket();
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
+    };
+  }, [location]);
 
   // 웹소켓 연결 및 이벤트 핸들러 등록 함수
   const connectWebSocket = () => {
@@ -93,40 +147,6 @@ const AlarmModal = () => {
     };
   };
 
-  const formatTime = (sec) => {
-    const minutes = String(Math.floor(sec / 60)).padStart(2, "0");
-    const seconds = String(sec % 60).padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
-
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
-
-  useEffect(() => {
-    let timer;
-
-    // 성공 또는 실패하면 타이머 멈춤
-    if (!isError && !albumPk) {
-      timer = setInterval(() => {
-        setElapsedSeconds((prev) => prev + 1);
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isError, albumPk]);
-
-  // 컴포넌트 마운트 시 웹소켓 연결 및 storedAlbumData 업데이트
-  useEffect(() => {
-    setStoredAlbumData(getStoredAlbumData());
-    connectWebSocket();
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-      }
-    };
-  }, [location]);
-
   const handleClose = () => {
     setIsClosed(true);
   };
@@ -146,16 +166,14 @@ const AlarmModal = () => {
 
   // 수정된 조건: 로컬 스토리지에 앨범 데이터가 있거나, 소켓에서 완료 정보가 온 상태에서
   // 현재 유저의 walletAddress와 소켓의 wallet_address가 일치하는 경우에만 모달을 렌더링
-  const shouldRenderModal =
-    storedAlbumData ||
-    (albumPk && walletAddress?.address === albumWalletAddress);
-  if (!shouldRenderModal) return null;
 
   console.log("isClosed", isClosed);
   console.log("storedAlbumData", storedAlbumData);
   console.log("albumPk", albumPk);
   console.log("walletAddress", walletAddress?.address);
   console.log("albumWalletAddress", albumWalletAddress);
+
+  if (!shouldRenderModal) return null;
 
   return (
     <>

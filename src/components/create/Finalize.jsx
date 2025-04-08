@@ -14,7 +14,7 @@ const Finalize = ({
   skipLyric,
   skipMelody,
   setCheckList,
-  generatedLyric,
+  generatedLyrics,
 }) => {
   return (
     <div className="craete__finalizes">
@@ -24,7 +24,7 @@ const Finalize = ({
       ></MusicInfo>
       <CreatedLyrics
         skipLyric={skipLyric}
-        generatedLyric={generatedLyric}
+        generatedLyrics={generatedLyrics}
       ></CreatedLyrics>
       <CheckList setCheckList={setCheckList}></CheckList>
       {children}
@@ -93,7 +93,7 @@ const MusicInfo = ({ generatedMusic, skipMelody }) => {
   );
 };
 
-const CreatedLyrics = ({ skipLyric, generatedLyric }) => {
+const CreatedLyrics = ({ skipLyric, generatedLyrics }) => {
   if (skipLyric) return null;
 
   return (
@@ -106,7 +106,7 @@ const CreatedLyrics = ({ skipLyric, generatedLyric }) => {
                         <span className="created-lyrics__item--lyrics">{item.lyrics}</span>
                     </div>
                 ))} */}
-        <pre style={{ backgroundColor: "transparent" }}>{generatedLyric}</pre>
+        <pre style={{ backgroundColor: "transparent" }}>{generatedLyrics}</pre>
       </div>
     </div>
   );

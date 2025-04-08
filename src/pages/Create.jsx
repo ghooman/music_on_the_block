@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import ExpandedButton from "../components/create/ExpandedButton";
-import LyricLab from "../components/create/LyricLab";
+import LyricsLab from "../components/create/LyricsLab";
 import MelodyMaker from "../components/create/MelodyMaker";
 import DescriptionBanner from "../components/create/DescriptionBanner";
 import AlbumCoverSudio from "../components/create/AlbumCoverStudio";
@@ -55,7 +55,7 @@ const Create = () => {
 
   const [melodyDetail, setMelodyDetail] = useState("");
 
-  const [generatedLyric, setGeneratedLyric] = useState("");
+  const [generatedLyrics, setGeneratedLyric] = useState("");
 
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
 
@@ -125,12 +125,12 @@ const Create = () => {
                 </div>
             )} */}
       {pageNumber === 0 && (
-        <LyricLab
+        <LyricsLab
           lyricData={lyricData}
           setLyricData={setLyricData}
           lyricStory={lyricStory}
           setLyricStory={setLyricStory}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
           setGeneratedLyric={setGeneratedLyric}
           onSkip={() => setSkip("lyrics")}
           setPageNumber={setPageNumber}
@@ -156,7 +156,7 @@ const Create = () => {
           setMelodyDetail={setMelodyDetail}
           tempo={tempo}
           setTempo={setTempo}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
           generatedMusicResult={generatedMusicResult}
           setGeneratedMusicResult={setGeneratedMusicResult}
           onSkip={() => setSkip("melody")}
@@ -175,7 +175,7 @@ const Create = () => {
         <AlbumCoverSudio
           setAlbumCover={setAlbumCover}
           lyricData={lyricData}
-          generatedLyric={generatedLyric}
+          generatedLyrics={generatedLyrics}
         >
           <div className="button-wrap">
             <div className="button-wrap__left">
@@ -200,8 +200,13 @@ const Create = () => {
       {/* {pageNumber === 2 && (
         <Finalize
           generatedMusic={generatedMusic}
-          generatedLyric={generatedLyric}
+<<<<<<< HEAD
+          generatedLyrics={generatedLyrics}
+          lylicData={lylicData}
+=======
+          generatedLyrics={generatedLyrics}
           lyricData={lyricData}
+>>>>>>> 614dac44f1225fd7ca2e30b044e845127535ee32
           melodyData={melodyData}
           skipLyric={skipLyric}
           skipMelody={skipMelody}

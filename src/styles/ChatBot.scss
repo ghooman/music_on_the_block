@@ -2,6 +2,7 @@
 
 .chatbot__background {
   display: flex;
+
   .chatbot {
     width: 50%;
     max-width: 600px;
@@ -12,6 +13,7 @@
     flex-direction: column;
     height: 80vh;
     background-color: #2e2e2e;
+
     &__header {
       padding: 16px;
       background-color: #3a3a3a;
@@ -77,9 +79,108 @@
       color: #fff;
     }
   }
+
   .music__information {
     width: 50%;
     height: 80vh;
     background-color: #2e2e2e;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    &__header {
+      padding: 16px;
+      background-color: #3a3a3a;
+      border-bottom: 1px solid #444;
+      text-align: center;
+      color: #fff;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: 16px;
+    }
+
+    &__lyric {
+      flex: 0 0 auto;
+      margin-bottom: 16px;
+
+      h3 {
+        margin-bottom: 8px;
+        color: #fff;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #555;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        background-color: #222;
+        color: #fff;
+      }
+
+      button {
+        padding: 6px 12px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 8px;
+      }
+
+      .lyric__options {
+        background-color: #3a3a3a;
+        padding: 8px;
+        border: 1px solid #444;
+        border-radius: 4px;
+        margin-top: 8px;
+
+        .lyric__option {
+          padding: 4px 8px;
+          border-bottom: 1px solid #555;
+          color: #fff;
+          cursor: pointer;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            background-color: #555;
+          }
+        }
+      }
+    }
+
+    &__buttons {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 16px;
+      }
+
+      .final-lyric {
+        width: 100%;
+        background-color: #3a3a3a;
+        padding: 16px;
+        border: 1px solid #444;
+        border-radius: 4px;
+        color: #fff;
+        overflow-y: auto;
+        max-height: 300px;
+        pre {
+          white-space: pre-wrap;
+          word-break: break-all;
+        }
+      }
+    }
   }
 }

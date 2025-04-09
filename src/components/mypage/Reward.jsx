@@ -12,9 +12,6 @@ const Reward = () => {
             <ContentWrap title="Reward Type">
                 <Filter list={['All', 'Latest']} />
             </ContentWrap>
-            <ContentWrap title="Payment Type">
-                <Filter list={['All', 'Latest']} />
-            </ContentWrap>
         </div>
         // <div className="mypage__reward-payment">
         //     <section className="reward__section">

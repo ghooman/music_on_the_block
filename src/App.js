@@ -72,7 +72,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/my-page"
+                            path="/my-page/:path"
                             element={
                                 <Layout>
                                     {/* <ProtectedRoute> */}

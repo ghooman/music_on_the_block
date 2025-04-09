@@ -6,6 +6,7 @@ import demoChart3 from '../../assets/images/mypage/demo-chart3.png';
 import FilterDateModal from '../../components/unit/FilterDateModal';
 import Filter from '../unit/Filter';
 import PreparingModal from '../PreparingModal';
+import SubCategories from '../unit/SubCategories';
 
 const AiServiceList = ['All', 'AI Singing Evaluation', 'AI Lyrics & Songwriting', 'AI Cover Creation'];
 const AiServiceTypeList = ['Lyrics', 'Songwriting', 'Sing', 'Link'];
@@ -47,17 +48,11 @@ const AiServices = () => {
             {/** 차트 조작 */}
             <section className="ai__ai-status">
                 <p className="ai-status__title">AI Service Status</p>
-                <div className="ai-status__menu">
-                    {['All', 'Lyrics', 'Songwriting', 'Lyrics & Songwriting'].map((status) => (
-                        <button
-                            key={status}
-                            className={`ai-status__menu-item ${aiServiceStatus === status ? 'active' : ''}`}
-                            onClick={() => setAiServiceStatus(status)}
-                        >
-                            {status}
-                        </button>
-                    ))}
-                </div>
+                <SubCategories
+                    categories={['All', 'Lyrics', 'Songwriting', 'Lyrics & Songwriting']}
+                    handler={setAiServiceStatus}
+                    value={aiServiceStatus}
+                />
                 {/** 콘텐츠 */}
                 <div className="ai-status__info">
                     <div className="ai-status__chart">

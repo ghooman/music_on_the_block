@@ -5,41 +5,15 @@ import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import halfHeartIcon from '../../assets/images/icon/half-heart.svg';
 import NoneContent from './NoneContent';
-import Pagination from './Pagination';
 
-const serverApi = process.env.REACT_APP_SERVER_API;
+/**
+ *
+ * @param {Array} songList : 곡의 데이터 리스트입니다.
+ * @param {Component} children : 페이지네이션을 넣는 것을 권장드립니다! (부모 컴포넌트에서 페이지네이션 조작을 위해)
+ * @returns
+ */
 
-const AlbumsTable = () => {
-    const [albums, setAlbums] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalCount, setTotalCount] = useState(0);
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const { token } = useContext(AuthContext);
-    const navigator = useNavigate();
-
-    const page_ = searchParams.get('page');
-
-    const viewCount = 10;
-
-    // 앨범 목록 가져오기
-
-    useEffect(() => {
-        const fetchAlbums = async () => {
-            try {
-                const response = await axios.get(`${serverApi}/api/music/my/list?page=${page}`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setTotalCount(response.data.total_cnt);
-                setAlbums(response.data.data_list);
-                console.log('앨범 목록:', response.data);
-            } catch (error) {
-                console.error('앨범 목록 가져오기 에러:', error);
-            }
-        };
-        fetchAlbums();
-    }, [serverApi, token, page]);
-
+const AlbumsTable = ({ songList = [], children }) => {
     return (
         <>
             <div className="albums-table">
@@ -57,9 +31,9 @@ const AlbumsTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {albums && albums.length > 0 && (
+                        {songList && songList.length > 0 && (
                             <>
-                                {albums?.map((album, index) => (
+                                {songList?.map((album, index) => (
                                     <tr key={album.id}>
                                         <td>{index + 1}</td>
                                         <td>{album.name}</td>
@@ -88,22 +62,10 @@ const AlbumsTable = () => {
                         )}
                     </tbody>
                 </table>
-                {albums?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
+                {songList?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
                 {/* {albums?.length > 0 && ( */}
-                <Pagination
-                    totalCount={totalCount}
-                    slice={viewCount}
-                    page={page}
-                    handler={(page) => {
-                        // setSearchParams((prev) => {
-                        //     return {
-                        //         ...Object.fromEntries(prev),
-                        //         page: page,
-                        //     };
-                        // });
-                        setPage(page);
-                    }}
-                />
+                {/** 페이지네이션 자리입니다. */}
+                {children}
                 {/* )} */}
             </div>
         </>

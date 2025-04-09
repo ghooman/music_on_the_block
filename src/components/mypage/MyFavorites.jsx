@@ -9,6 +9,7 @@ import AlbumsTable from '../unit/AlbumsTable';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
 import FilterItems from '../unit/FilterItems';
+import Pagination from '../unit/Pagination';
 
 const MyFavorites = () => {
     return (
@@ -25,12 +26,14 @@ const MyFavorites = () => {
         //         <AlbumsTable />
         //     </div>
         // </div>
-        <ContentWrap title="My Favorites">
+        <ContentWrap title="Favorites">
             <ContentWrap.SubWrap gap={8}>
                 <Filter list={['All', 'Lyrics', 'Latest']} />
                 <Search />
             </ContentWrap.SubWrap>
-            <AlbumsTable />
+            <AlbumsTable>
+                <Pagination />
+            </AlbumsTable>
         </ContentWrap>
     );
 };

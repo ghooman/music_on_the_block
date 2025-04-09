@@ -12,10 +12,10 @@ const Nft = () => {
         <div className="nft">
             <NftExchange />
             <Search />
-            <ContentWrap title="TOP NFTs" link="/nft">
+            <ContentWrap title="TOP NFTs" link="/nft/list">
                 <NftItemList data={[1, 2, 3, 4]} />
             </ContentWrap>
-            <ContentWrap title="Popular Collection" link="/nft">
+            <ContentWrap title="Popular Collection" link="/nft/list">
                 <CollectionItemList data={[1, 2, 3]} />
             </ContentWrap>
             <ContentWrap title="Popular Genre">

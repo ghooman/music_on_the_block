@@ -71,9 +71,10 @@ function AlbumDetail() {
   const getFavoriteGenre = async () => {
     try {
       const res = await axios.get(
-        `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress.address}`
+        `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
       );
       const tracks = res.data;
+      console.log("getFavoriteGenre", res);
 
       // 각 track의 music_url을 이용해서 duration을 비동기로 계산
       const tracksWithDuration = await Promise.all(
@@ -103,7 +104,7 @@ function AlbumDetail() {
       console.log("favoriteGenreList with durations", tracksWithDuration);
       setFavoriteGenreList(tracksWithDuration);
     } catch (error) {
-      console.log("getFavoriteGenre error: ", error);
+      console.error("getFavoriteGenre error: ", error);
     }
   };
 

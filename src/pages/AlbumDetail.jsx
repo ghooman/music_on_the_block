@@ -70,12 +70,9 @@ function AlbumDetail() {
 
   const getFavoriteGenre = async () => {
     try {
-      const baseUrl = `${serverApi}/api/music/recommended/list`;
-      const url = walletAddress.address
-        ? `${baseUrl}?wallet_address=${walletAddress.address}`
-        : baseUrl;
-
-      const res = await axios.get(url);
+      const res = await axios.get(
+        `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress.address}`
+      );
       const tracks = res.data;
 
       // 각 track의 music_url을 이용해서 duration을 비동기로 계산

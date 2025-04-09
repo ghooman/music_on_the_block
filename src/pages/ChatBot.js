@@ -1,9 +1,17 @@
 // pages/ChatBot.js
-import React, { useState } from "react";
 import "../styles/ChatBot.scss";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
+import CreateLoading from "../components/CreateLoading";
+import axios from "axios";
+import { AuthContext } from "../contexts/AuthContext";
 
 const ChatBot = () => {
+  const serverApi = process.env.REACT_APP_SERVER_API;
+  const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
     { role: "assistant", content: "만들고 싶은 노래 장르를 말해주세요!" },
@@ -15,6 +23,10 @@ const ChatBot = () => {
   const [finalTitle, setFinalTitle] = useState("");
   const [finalLyricPrompt, setFinalLyricPrompt] = useState("");
   const [finalLyric, setFinalLyric] = useState("");
+
+  // 앨범 커버 및 생성 중 로딩 상태 관리
+  const [albumCover, setAlbumCover] = useState("");
+  const [createLoading, setCreateLoading] = useState(false);
 
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
@@ -119,17 +131,120 @@ const ChatBot = () => {
     }
   };
 
-  // 추가적인 상태들
-  const initialQuestions = ["K-POP", "BALLAD", "HIP-HOP"];
-  const [lyricDropdown, setLyricDropdown] = useState(false);
-  const [lyricInput, setLyricInput] = useState("");
-  const [musicDropdown, setMusicDropdown] = useState(false);
-  const [musicInput, setMusicInput] = useState("");
-  const [musicOptions, setMusicOptions] = useState([]);
-  const [musicData, setMusicData] = useState([]);
+  // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
+  const generateAlbumCover = async () => {
+    try {
+      const response = await client.images.generate({
+        model: "dall-e-3",
+        prompt: `
+          Create an album cover for a song titled "${finalTitle}". Use "${finalLyricPrompt}" as a visual reference or inspiration for the design. The cover should reflect the song’s title, genre, and lyrical theme: "${finalLyric}". If no specific reference is available, use your creative judgment to interpret the mood and meaning visually.
+        `,
+        size: "1024x1024",
+        quality: "standard",
+        n: 1,
+      });
+      console.log("generateAlbumCover:", response.data);
+      const cover = response.data[0].url;
+      setAlbumCover(cover);
+      return cover;
+    } catch (error) {
+      console.error("앨범 커버 생성 오류:", error);
+      return null;
+    }
+  };
+
+  // ====== 음악 생성 함수 ========
+  // localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분)
+  const albumIdStorageKey = "generatedAlbumId";
+  const storeAlbumId = (id, title) => {
+    const expires = Date.now() + 15 * 60 * 1000; // 15분 후
+    localStorage.setItem(
+      albumIdStorageKey,
+      JSON.stringify({ id, title, expires })
+    );
+  };
+  const musicGenerate = async () => {
+    try {
+      // API에 전달할 payload 구성
+      const formData = {
+        album: {
+          title: finalTitle,
+          detail: finalLyricPrompt, // 기존 'story' 대신 'detail' 사용
+          language: "KOR",
+          genre: "",
+          style: "", // 필요 시 구체적 값 할당
+          gender: "",
+          musical_instrument: "",
+          ai_service: "",
+          ai_service_type: "",
+          tempo: 0,
+          song_length: "",
+          lyrics: finalLyric,
+          mood: "",
+          tags: "",
+          cover_image: albumCover,
+        },
+        album_lyrics_info: {
+          language: "KOR",
+          feelings: "",
+          genre: "",
+          style: "",
+          form: "",
+          my_story: "",
+        },
+      };
+
+      // axios를 통한 POST 요청
+      const res = await axios.post(
+        `${serverApi}/api/music/album/lyrics`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": "f47d348dc08d492492a7a5d546d40f4a",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      storeAlbumId(res.data.id, res.data.title);
+      console.log("handleSubmit", res);
+      console.log("storeAlbumId", res.data.id, res.data.title);
+      navigate(`/album`);
+    } catch (err) {
+      alert("에러 발생");
+      console.error("handleSubmit error", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ====== Generate Song 버튼 클릭 핸들러 ======
+  const handleGenerateSong = async () => {
+    // 필수 값이 없으면 진행하지 않음
+    if (!(finalTitle && finalLyricPrompt && finalLyric)) return;
+
+    setCreateLoading(true);
+    try {
+      // 앨범 커버 생성 후 URL 반환
+      const cover = await generateAlbumCover();
+      if (cover) {
+        // 앨범 커버가 생성되었으면 음악 생성 API 실행
+        await musicGenerate();
+      } else {
+        alert("앨범 커버 생성에 실패하였습니다.");
+      }
+    } catch (error) {
+      console.error("노래 생성 중 오류 발생:", error);
+      alert("노래 생성에 오류가 발생하였습니다.");
+    } finally {
+      setCreateLoading(false);
+    }
+  };
 
   return (
     <div className="chatbot__background">
+      {createLoading && <CreateLoading />}
       <section className="chatbot">
         <div className="chatbot__header">
           <h2>ChatBot</h2>
@@ -185,7 +300,10 @@ const ChatBot = () => {
           />
         </div>
         <div className="music__information__buttons">
-          <button>
+          <button
+            onClick={handleGenerateSong}
+            disabled={!(finalTitle && finalLyricPrompt && finalLyric)}
+          >
             <span>Generate Song</span>
           </button>
         </div>

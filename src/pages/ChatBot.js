@@ -79,29 +79,72 @@ const ChatBot = () => {
     "",
     "어떤 분위기의 노래를 원하나요?",
   ];
+
+  const [lyricDropdown, setLyricDropdown] = useState(false);
+  const [lyricInput, setLyricInput] = useState("");
+  const [lyricOptions, setLyricOptions] = useState({
+    tags: ["사랑", "이별", "행복", "슬픔", "추억"],
+    genre: ["발라드"],
+    stylistic: ["감성적"],
+  });
+  const [finalLyric, setFinalLyric] = useState([]);
+
+  const [musicDropdown, setMusicDropdown] = useState(false);
+  const [musicInput, setMusicInput] = useState("");
+  const [musicOptions, setMusicOptions] = useState([]);
+  const [musicData, setMusicData] = useState([]);
+
   return (
-    <div className="chatbot">
-      <div className="chatbot__header">
-        <h2>ChatBot</h2>
-      </div>
-      <div className="chatbot__messages">
-        {chatHistory.map((msg, index) => (
-          <div key={index} className={`message ${msg.role}`}>
-            {msg.content}
-          </div>
-        ))}
-        {loading && <div className="message bot">Loading...</div>}
-      </div>
-      <div className="chatbot__input">
-        <input
-          type="text"
-          value={userInput}
-          onChange={handleUserInput}
-          onKeyPress={handleKeyPress}
-          placeholder="Type your message..."
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
+    <div className="chatbot__background">
+      <section className="chatbot">
+        <div className="chatbot__header">
+          <h2>ChatBot</h2>
+        </div>
+        <div className="chatbot__messages">
+          {chatHistory.map((msg, index) => (
+            <div key={index} className={`message ${msg.role}`}>
+              {msg.content}
+            </div>
+          ))}
+          {loading && <div className="message bot">Loading...</div>}
+        </div>
+        <div className="chatbot__input">
+          <input
+            type="text"
+            value={userInput}
+            onChange={handleUserInput}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your message..."
+          />
+          <button onClick={handleSendMessage}>Send</button>
+        </div>
+      </section>
+      <section className="music__information">
+        <div className="music__information__header">
+          <h2>Music Information</h2>
+        </div>
+        <div className="music__information__lyric">
+          <h3>Lyric</h3>
+          <input
+            type="text"
+            value={lyricInput}
+            onChange={(e) => setLyricInput(e.target.value)}
+            placeholder="Enter lyric..."
+          />
+          <button onClick={() => setLyricDropdown(!lyricDropdown)}>
+            {lyricDropdown ? "Hide Options" : "Show Options"}
+          </button>
+          {lyricDropdown && (
+            <div className="lyric__options">
+              {lyricOptions.map((option, index) => (
+                <div key={index} className="lyric__option">
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

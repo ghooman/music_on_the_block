@@ -114,7 +114,7 @@ const MyPage = () => {
                     </button>
                 ))}
             </nav>
-
+            {category === 'Reward & Payments' && <Reward />}
             {category === 'AI Services' && <AiServices />}
             {category === 'Albums' && <Albums token={token} />}
             {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}

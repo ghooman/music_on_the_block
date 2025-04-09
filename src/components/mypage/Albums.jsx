@@ -13,15 +13,23 @@ import FilterAiServiceModal from '../unit/FilterAiServiceModal';
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
+import FilterItems from '../unit/FilterItems';
+import SubCategories from '../unit/SubCategories';
 
 const AiServiceList = ['All', 'AI Singing Evaluation', 'AI Lyrics & Songwriting', 'AI Cover Creation'];
 const AiServiceTypeList = ['Lyrics', 'Songwriting', 'Sing', 'Link'];
 const SortByList = ['Latest', 'Oldest', 'Most Liked', 'Most Commented', 'Low Likes', 'Most Comments'];
 
+const topAlbumsCategoryList = ['AI Lyrics & Songwriting', 'AI Singing Evaluation', 'AI Cover Creation'];
+const myAlbumsCategoryList = ['Unreleased songs', 'Released songs'];
+
 const Albums = ({ token }) => {
     const [openModal, setOpenModal] = useState(false);
     const [modalList, setModalList] = useState([]);
     const [myTopAlbumList, setMyTopAlbumList] = useState({});
+
+    const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0]);
+    const [myAlbumsCategory, setMyAlbumsCategory] = useState(myAlbumsCategoryList[0]);
 
     // 첫 번째 필터 클릭 이벤트 (AI 서비스 리스트 + 타입 리스트만 전달)
     const handleFilterClick = () => {
@@ -60,32 +68,37 @@ const Albums = ({ token }) => {
     return (
         <div className="albums">
             <ContentWrap title="Top Albums">
+                <SubCategories
+                    categories={topAlbumsCategoryList}
+                    handler={setTopAlbumsCategory}
+                    value={topAlbumsCategory}
+                />
                 <div className="albums__body">
-                    {Object.values(myTopAlbumList).map((item, index) => (
+                    {Object.entries(myTopAlbumList).map(([key, value], index) => (
                         <div className="albums__item" key={index}>
-                            <p className="albums__item-title">{item?.title}</p>
+                            <p className="albums__item-title">{key?.replaceAll('_', ' ')}</p>
                             <div className="albums__item-intro">
                                 <div className="albums__item__img-box">
-                                    <img className="albums__item__img" src={item?.image || demoAlbum} alt="album" />
+                                    <img className="albums__item__img" src={value?.image || demoAlbum} alt="album" />
                                 </div>
                                 <div className="albums__item-desc">
                                     <div className="albums__item__icon-box">
                                         <div className="albums__item__play-count">
                                             <img src={heartIcon} alt="heart" />
-                                            <span>{item?.like}</span>
+                                            <span>{value?.like}</span>
                                         </div>
                                         <div className="albums__item__play-count">
                                             <img src={commentIcon} alt="comment" />
-                                            <span>{item?.comment_cnt}</span>
+                                            <span>{value?.comment_cnt}</span>
                                         </div>
                                     </div>
                                     <div className="albums__item__user-info">
                                         <img
                                             className="albums__item__user-img"
-                                            src={item?.user_profile || demoUser}
+                                            src={value?.user_profile || demoUser}
                                             alt="user"
                                         />
-                                        <span>{item?.name || 'Unknown'}</span>
+                                        <span>{value?.name || 'Unknown'}</span>
                                         <button className="albums__item__more-btn">
                                             <img src={moreIcon} alt="more" />
                                         </button>
@@ -97,8 +110,15 @@ const Albums = ({ token }) => {
                 </div>
             </ContentWrap>
             <ContentWrap title="My Albums">
-                {/* <Filter clickEvent={handleAlbumsFilterClick} /> */}
-                <Search />
+                <SubCategories
+                    categories={myAlbumsCategoryList}
+                    handler={setMyAlbumsCategory}
+                    value={myAlbumsCategory}
+                />
+                <ContentWrap.SubWrap gap={8}>
+                    <Filter list={['All', 'Latest']} />
+                    <Search />
+                </ContentWrap.SubWrap>
                 <AlbumsTable />
             </ContentWrap>
             {openModal && <FilterAiServiceModal list={modalList} onClose={() => setOpenModal(false)} />}

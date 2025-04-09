@@ -1,0 +1,32 @@
+.unit-component-sub-categories {
+    display: flex;
+    gap: 12px;
+    width: fit-content;
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid #222;
+
+    .unit-component-sub-categories__category-item {
+        padding: 8px 12px;
+        color: #565656;
+        font-family: Orbitron500;
+        font-size: 14px;
+        font-style: normal;
+        letter-spacing: 0.42px;
+        border-radius: 12px;
+
+        display: flex;
+        gap: 8px;
+
+        img {
+            width: 18px;
+            height: 18px;
+            object-fit: cover;
+        }
+
+        &.select {
+            background-color: #00ffb3;
+            color: #1a1a1a;
+        }
+    }
+}

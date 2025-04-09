@@ -36,9 +36,7 @@ const Create = () => {
     melody_tag: [],
     melody_genre: [],
     melody_gender: [],
-    melody_age: [],
     melody_instrument: [],
-    // melody_voice: [],
   });
   // 남은 생성횟수 확인
   const [createPossibleCount, setCreatePossibleCount] = useState(0);
@@ -69,7 +67,7 @@ const Create = () => {
 
   const [skip, setSkip] = useState("");
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [selectedLanguage, setSelectedLanguage] = useState("KOR");
   const [albumCover, setAlbumCover] = useState(null);
 
   const skipHandler = () => {
@@ -144,6 +142,8 @@ const Create = () => {
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           createPossibleCount={createPossibleCount}
+          albumCover={albumCover}
+          setAlbumCover={setAlbumCover}
         ></LyricLab>
       )}
       {pageNumber === 1 && (
@@ -167,6 +167,8 @@ const Create = () => {
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           createPossibleCount={createPossibleCount}
+          albumCover={albumCover}
+          setAlbumCover={setAlbumCover}
         ></MelodyMaker>
       )}
       {/* {pageNumber === 2 && (
@@ -241,7 +243,7 @@ const Progress = ({ pageNumber }) => {
   const pages = [
     "Lyrics Lab",
     "Melody Maker",
-    "Alubum Cover Studio",
+    // "Alubum Cover Studio",
     // "Preview & Finalize",
   ];
 

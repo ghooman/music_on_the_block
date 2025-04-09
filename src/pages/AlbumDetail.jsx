@@ -48,6 +48,8 @@ function AlbumDetail() {
   const { id } = useParams();
   const { token, walletAddress } = useContext(AuthContext);
 
+  console.log("walletAddress1", walletAddress);
+  console.log("walletAddress2", walletAddress?.address);
   // 리더보드 데이터
   const [leaderBoardData, setLeaderBoardData] = useState([]);
   // console.log("leaderBoardData", leaderBoardData);
@@ -58,6 +60,53 @@ function AlbumDetail() {
       setLeaderBoardData(res.data);
     } catch (error) {
       console.log("getLeaderboardData error: ", error);
+    }
+  };
+
+  // Your Picks
+
+  const [favoriteGenreList, setFavoriteGenreList] = useState([]);
+  console.log("favoriteGenreList", favoriteGenreList);
+
+  const getFavoriteGenre = async () => {
+    try {
+      const baseUrl = `${serverApi}/api/music/recommended/list`;
+      const url = walletAddress.address
+        ? `${baseUrl}?wallet_address=${walletAddress.address}`
+        : baseUrl;
+
+      const res = await axios.get(url);
+      const tracks = res.data;
+
+      // 각 track의 music_url을 이용해서 duration을 비동기로 계산
+      const tracksWithDuration = await Promise.all(
+        tracks.map(async (track) => {
+          try {
+            const audio = new Audio(track.music_url);
+            // duration을 로딩 완료될 때까지 기다림
+            await new Promise((resolve, reject) => {
+              audio.addEventListener("loadedmetadata", () => resolve());
+              audio.addEventListener("error", (e) => reject(e));
+            });
+
+            return {
+              ...track,
+              duration: audio.duration,
+            };
+          } catch (err) {
+            console.error("duration failed:", err);
+            return {
+              ...track,
+              duration: 0,
+            };
+          }
+        })
+      );
+
+      console.log("favoriteGenreList with durations", tracksWithDuration);
+      setFavoriteGenreList(tracksWithDuration);
+    } catch (error) {
+      console.log("getFavoriteGenre error: ", error);
     }
   };
 
@@ -238,6 +287,7 @@ function AlbumDetail() {
   // 앨범 상세 정보 상태
   const [album, setAlbum] = useState(null);
   const [albumDuration, setAlbumDuration] = useState(null);
+
   // 앨범 시간 변환 함수
   const formatTime = (time) => {
     if (!time || isNaN(time)) return "0:00";
@@ -268,6 +318,7 @@ function AlbumDetail() {
   useEffect(() => {
     fetchAlbumDetail();
     getLeaderboardData();
+    getFavoriteGenre();
   }, [id, walletAddress, token, serverApi]);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -336,7 +387,7 @@ function AlbumDetail() {
                 onClick={handleClick}
               >
                 {album ? (
-                  <img src={album?.image || demoImg} alt="앨범 이미지" />
+                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
                 ) : (
                   <div style={{ backgroundColor: "black" }} />
                 )}
@@ -345,7 +396,7 @@ function AlbumDetail() {
                   <pre>
                     {album?.lyrics
                       ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 앞에 줄바꿈 추가
-                    ?.trim()}
+                      ?.trim()}
                   </pre>
                   {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                 </div>
@@ -402,7 +453,7 @@ function AlbumDetail() {
                     isPlaying ? "playing" : "paused"
                   }`}
                 >
-                  <img src={album?.image || coverImg} alt="album cover" />
+                  <img src={album?.cover_image || coverImg} alt="album cover" />
                 </p>
               </section>
             </div>
@@ -423,7 +474,7 @@ function AlbumDetail() {
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Detail</dt>
-                  <dd>{album?.Detail || "-"}</dd>
+                  <dd>{album?.detail || "-"}</dd>
                 </dl>
                 <dl>
                   <dt>Language</dt>
@@ -477,7 +528,7 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section 
+        <section
           // className="album-detail__rank-table"
           className={`album-detail__rank-table ${
             isLoggedIn ? "is-logged-in" : "not-logged-in"
@@ -538,16 +589,12 @@ function AlbumDetail() {
 
         <section className="album-detail__slide">
           <dl className="album-detail__slide__title">
-            <dt>Recommended Music Source</dt>
-            <dd>
-              Discover music tracks tailored to your preferences. Based on mood,
-              genre, and user recommendations, these songs are perfectly matched
-              to your current selection
-            </dd>
+            <dt>Your Picks</dt>
+            <dd>Top tracks from your favorite genre.</dd>
           </dl>
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="album-detail-slide">
-              {tracks.slice(0, 9).map((track, index) => (
+              {favoriteGenreList.map((track, index) => (
                 <SwiperSlide>
                   <button
                     key={track.id}
@@ -556,9 +603,9 @@ function AlbumDetail() {
                     <div className="album__content-list__list__item__left">
                       <p
                         className="album__content-list__list__item__left__img"
-                        style={{ backgroundImage: `url(${track.cover})` }}
+                        style={{ backgroundImage: `url(${track.cover_image})` }}
                       ></p>
-                      <span className="time">2:11</span>
+                      <span className="time">{formatTime(track.duration)}</span>
                     </div>
                     <div className="album__content-list__list__item__right">
                       <p className="album__content-list__list__item__right__title">
@@ -567,21 +614,31 @@ function AlbumDetail() {
                       <div className="album__content-list__list__item__right__love-play">
                         <p className="love">
                           <img src={loveIcon} />
-                          145
+                          {track.like}
                         </p>
                         <p className="play">
                           <img src={playIcon} />
-                          145
+                          {track.play_cnt}
                         </p>
                       </div>
                       <div className="album__content-list__list__item__right__user">
                         <p className="album__content-list__list__item__right__user__info">
-                          <img src={defaultCoverImg} />
-                          Yolkhead
+                          <img
+                            src={
+                              track.user_profile
+                                ? track.user_profile
+                                : defaultCoverImg
+                            }
+                            alt="User profile"
+                          />
+                          {track.name}
                         </p>
-                        <button className="album__content-list__list__item__right__user__btn">
+                        <Link
+                          className="album__content-list__list__item__right__user__btn"
+                          to={`/album-detail/${track?.id}`}
+                        >
                           Details
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </button>
@@ -593,12 +650,8 @@ function AlbumDetail() {
 
         <section className="album-detail__slide">
           <dl className="album-detail__slide__title">
-            <dt>Content liked by other users</dt>
-            <dd>
-              Expand your music journey with tracks loved by users who
-              appreciated this sound. Find hidden gems and connect with similar
-              musical tastes.
-            </dd>
+            <dt>Similar Vibes</dt>
+            <dd>Top tracks from the same genre as this song.</dd>
           </dl>
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="album-detail-slide">

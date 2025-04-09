@@ -378,9 +378,10 @@ function AlbumDetail() {
                                 <div className="album-detail__song-detail__left__img__txt">
                                     {/* <pre>{album?.lyrics}</pre> */}
                                     <pre>
-                                        {album?.lyrics
-                                            ?.replace(/(\*\*.*?\*\*)/g, '\n$1') // **텍스트** 앞에 줄바꿈 추가
-                                            ?.trim()}
+                                    {album?.lyrics
+                                      ?.replace(/(###\s?[\w\s]+)/g, '\n$1\n') // "###"로 시작하는 절 제목 앞뒤에 줄바꿈 추가
+                                      ?.replace(/(\*\*.*?\*\*)/g, '\n$1\n') // **텍스트** 앞에 줄바꿈 추가
+                                      ?.trim()}
                                     </pre>
                                     {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                                 </div>
@@ -388,18 +389,19 @@ function AlbumDetail() {
                             </div>
                             <div className="album-detail__song-detail__left__info">
                                 <div className="album-detail__song-detail__left__info__number">
-                                    <button className="love" onClick={handleLike}>
+                                    <p className="love" onClick={handleLike}>
                                         <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                                         {album?.like || 0}
-                                    </button>
-                                    <button className="comment" onClick={handleScrollToComment}>
-                                        <img src={commentIcon} />
-                                        {album?.comment_cnt || 0}
-                                    </button>
+                                    </p>
                                     <p className="play">
                                         <img src={playIcon} />
                                         {album?.play_cnt || 0}
                                     </p>
+                                    <p className="comment" onClick={handleScrollToComment}>
+                                        <img src={commentIcon} />
+                                        {album?.comment_cnt || 0}
+                                    </p>
+
                                 </div>
                                 <button
                                     className="album-detail__song-detail__left__info__share-btn"

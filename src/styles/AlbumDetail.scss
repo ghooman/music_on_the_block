@@ -138,7 +138,13 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            button {
+            p{
+              cursor: pointer;
+              &.play{
+                cursor: auto;
+              }
+            }
+            button ,p{
               width: 66px;
               display: flex;
               align-items: center;

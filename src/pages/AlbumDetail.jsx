@@ -6,14 +6,6 @@ import axios from "axios";
 import AudioPlayer from "react-h5-audio-player";
 import MyAudioPlayer from "../components/MyAudioPlayer";
 import coverImg from "../assets/images/intro/intro-demo-img.png";
-import coverImg2 from "../assets/images/intro/intro-demo-img2.png";
-import coverImg3 from "../assets/images/intro/intro-demo-img3.png";
-import coverImg4 from "../assets/images/demo/album01.svg";
-import coverImg5 from "../assets/images/demo/album02.svg";
-import coverImg6 from "../assets/images/demo/album03.svg";
-import coverImg7 from "../assets/images/demo/album04.svg";
-import coverImg8 from "../assets/images/demo/album05.svg";
-import coverImg9 from "../assets/images/demo/album06.svg";
 import demoImg from "../assets/images/intro/intro-demo-img4.png";
 import loveIcon from "../assets/images/like-icon/like-icon.svg";
 import halfHeartIcon from "../assets/images/like-icon/like-icon-on.svg";
@@ -101,6 +93,8 @@ function AlbumDetail() {
         })
       );
 
+      tracksWithDuration.sort((a, b) => b.like - a.like);
+
       console.log("favoriteGenreList with durations", tracksWithDuration);
       setFavoriteGenreList(tracksWithDuration);
     } catch (error) {
@@ -108,135 +102,51 @@ function AlbumDetail() {
     }
   };
 
-  const [tracks, setTracks] = useState([
-    {
-      id: 1,
-      title: "he dances through his masks like breathing - Yolkhead",
-      src: track1,
-      cover: coverImg,
-      duration: null,
-    },
-    {
-      id: 2,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg2,
-      duration: null,
-    },
-    {
-      id: 3,
-      title: "Touch The Sky - Simon Doty",
-      src: track2,
-      cover: coverImg3,
-      duration: null,
-    },
-    {
-      id: 4,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg4,
-      duration: null,
-    },
-    {
-      id: 5,
-      title: "he dances through his masks like breathing - Yolkhead",
-      src: track2,
-      cover: coverImg5,
-      duration: null,
-    },
-    {
-      id: 6,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg6,
-      duration: null,
-    },
-    {
-      id: 7,
-      title: "Touch The Sky - Simon Doty",
-      src: track2,
-      cover: coverImg7,
-      duration: null,
-    },
-    {
-      id: 8,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg8,
-      duration: null,
-    },
-    {
-      id: 9,
-      title: "Touch The Sky - Simon Doty",
-      src: track2,
-      cover: coverImg9,
-      duration: null,
-    },
+  const [similarVibesList, setSimilarVibesList] = useState([]);
+  console.log("similarVibesList", similarVibesList);
 
-    {
-      id: 10,
-      title: "he dances through his masks like breathing - Yolkhead",
-      src: track1,
-      cover: coverImg9,
-      duration: null,
-    },
-    {
-      id: 11,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg8,
-      duration: null,
-    },
-    {
-      id: 12,
-      title: "Touch The Sky - Simon Doty",
-      src: track2,
-      cover: coverImg7,
-      duration: null,
-    },
-    {
-      id: 13,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg4,
-      duration: null,
-    },
-    {
-      id: 14,
-      title: "he dances through his masks like breathing - Yolkhead",
-      src: track2,
-      cover: coverImg5,
-      duration: null,
-    },
-    {
-      id: 15,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg6,
-      duration: null,
-    },
-    {
-      id: 16,
-      title: "Touch The Sky - Simon Doty",
-      src: track2,
-      cover: coverImg7,
-      duration: null,
-    },
-    {
-      id: 17,
-      title: "Touch The Sky - Simon Doty",
-      src: track1,
-      cover: coverImg8,
-      duration: null,
-    },
-    {
-      id: 18,
-      title: "Touch The Sky - Simon Doty",
-      src: track2,
-      cover: coverImg9,
-      duration: null,
-    },
-  ]);
+  const getSimilarVibes = async () => {
+    try {
+      const res = await axios.get(
+        `${serverApi}/api/music/${id}/content/link/list`
+      );
+      const tracks = res.data;
+      console.log("getSimilarVibes", res);
+
+      // 각 track의 music_url을 이용해서 duration을 비동기로 계산
+      const tracksWithDuration = await Promise.all(
+        tracks.map(async (track) => {
+          try {
+            const audio = new Audio(track.music_url);
+            // duration을 로딩 완료될 때까지 기다림
+            await new Promise((resolve, reject) => {
+              audio.addEventListener("loadedmetadata", () => resolve());
+              audio.addEventListener("error", (e) => reject(e));
+            });
+
+            return {
+              ...track,
+              duration: audio.duration,
+            };
+          } catch (err) {
+            console.error("duration failed:", err);
+            return {
+              ...track,
+              duration: 0,
+            };
+          }
+        })
+      );
+
+      tracksWithDuration.sort((a, b) => b.like - a.like);
+
+      console.log("getSimilarVibes with durations", tracksWithDuration);
+      setSimilarVibesList(tracksWithDuration);
+    } catch (error) {
+      console.error("getSimilarVibes error: ", error);
+    }
+  };
+
   const swiperOptions = {
     loop: true,
     slidesPerView: 3,
@@ -317,6 +227,7 @@ function AlbumDetail() {
     fetchAlbumDetail();
     getLeaderboardData();
     getFavoriteGenre();
+    getSimilarVibes();
   }, [id, walletAddress, token, serverApi]);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -653,7 +564,7 @@ function AlbumDetail() {
           </dl>
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="album-detail-slide">
-              {tracks.slice(0, 9).map((track, index) => (
+              {similarVibesList.map((track, index) => (
                 <SwiperSlide>
                   <button
                     key={track.id}
@@ -662,9 +573,9 @@ function AlbumDetail() {
                     <div className="album__content-list__list__item__left">
                       <p
                         className="album__content-list__list__item__left__img"
-                        style={{ backgroundImage: `url(${track.cover})` }}
+                        style={{ backgroundImage: `url(${track.cover_image})` }}
                       ></p>
-                      <span className="time">2:11</span>
+                      <span className="time">{formatTime(track.duration)}</span>
                       {/* <span className="time">
                         {selectedTrackIndex === index
                           ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
@@ -678,21 +589,31 @@ function AlbumDetail() {
                       <div className="album__content-list__list__item__right__love-play">
                         <p className="love">
                           <img src={loveIcon} />
-                          145
+                          {track.like}
                         </p>
                         <p className="play">
                           <img src={playIcon} />
-                          145
+                          {track.play_cnt}
                         </p>
                       </div>
                       <div className="album__content-list__list__item__right__user">
                         <p className="album__content-list__list__item__right__user__info">
-                          <img src={defaultCoverImg} />
-                          Yolkhead
+                          <img
+                            src={
+                              track.user_profile
+                                ? track.user_profile
+                                : defaultCoverImg
+                            }
+                            alt="User profile"
+                          />
+                          {track.name}
                         </p>
-                        <button className="album__content-list__list__item__right__user__btn">
+                        <Link
+                          className="album__content-list__list__item__right__user__btn"
+                          to={`/album-detail/${track?.id}`}
+                        >
                           Details
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </button>

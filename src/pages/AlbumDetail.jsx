@@ -74,7 +74,7 @@ function AlbumDetail() {
         `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress.address}`
       );
       const tracks = res.data;
-
+      console.log("getFavoriteGenre", tracks);
       // 각 track의 music_url을 이용해서 duration을 비동기로 계산
       const tracksWithDuration = await Promise.all(
         tracks.map(async (track) => {
@@ -85,7 +85,6 @@ function AlbumDetail() {
               audio.addEventListener("loadedmetadata", () => resolve());
               audio.addEventListener("error", (e) => reject(e));
             });
-
             return {
               ...track,
               duration: audio.duration,

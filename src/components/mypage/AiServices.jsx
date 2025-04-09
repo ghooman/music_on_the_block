@@ -49,7 +49,7 @@ const AiServices = () => {
             <section className="ai__ai-status">
                 <p className="ai-status__title">AI Service Status</p>
                 <SubCategories
-                    categories={['All', 'Lyrics', 'Songwriting', 'Lyrics & Songwriting']}
+                    categories={['All', 'Lyrics', 'Songwriting', 'Lyrics + Songwriting']}
                     handler={setAiServiceStatus}
                     value={aiServiceStatus}
                 />

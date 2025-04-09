@@ -1,12 +1,16 @@
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
-import SongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 
 import './SubCategories.scss';
 
 const categoryImage = {
-    'AI Lyrics & Songwriting': SongwritingIcon,
+    'AI Lyrics & Songwriting': LyricsAndSongwritingIcon,
     'AI Singing Evaluation': LyricsIcon,
-    'AI Cover Creation': LyricsIcon,
+    'AI Cover Creation': SongwritingIcon,
+    Lyrics: LyricsIcon,
+    Songwriting: SongwritingIcon,
+    'Lyrics + Songwriting': LyricsAndSongwritingIcon,
 };
 
 const SubCategories = ({ categories, handler, value }) => {

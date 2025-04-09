@@ -8,8 +8,14 @@ import playIcon from "../../assets/images/album/play-icon.svg";
 import defaultCoverImg from "../../assets/images/header/logo.svg";
 import coverImg10 from "../../assets/images/intro/intro-demo-img4.png";
 
-
-const AlbumItem = ({ track, isActive, currentTime, onClick, formatTime }) => {
+const AlbumItem = ({
+  track,
+  isActive = false,
+  currentTime,
+  onClick,
+  formatTime = (t) =>
+    `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`,
+}) => {
   return (
     <button
       className={`album__content-list__list__item ${isActive ? "active" : ""}`}
@@ -25,7 +31,9 @@ const AlbumItem = ({ track, isActive, currentTime, onClick, formatTime }) => {
           }}
         ></p>
         <span className="time">
-          {isActive ? formatTime(currentTime) : formatTime(track.duration)}
+          {isActive && currentTime !== undefined
+            ? formatTime(currentTime)
+            : formatTime(track.duration)}
         </span>
       </div>
       <div className="album__content-list__list__item__right">

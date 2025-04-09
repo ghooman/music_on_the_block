@@ -35,6 +35,7 @@ import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import LyricsModal from '../components/LyricsModal';
 // 외부에서 플레이 카운트 업데이트 함수를 import합니다.
 import { incrementPlayCount } from '../api/incrementPlayCount';
+import AlbumItem from '../components/unit/AlbumItem';
 
 function AlbumDetail() {
     const [isPreparingModal, setPreparingModal] = useState(false);
@@ -508,7 +509,7 @@ function AlbumDetail() {
                         <AdvancedCommentComponent id={id} />
                     </div>
                     <dl className="album-detail__rank-table__title">
-                        <dt>Albums Leaderboard Rank</dt>
+                        <dt>Songs Leaderboard Rank</dt>
                         <dd>Most Likes</dd>
                     </dl>
                     <div className="table-container">
@@ -565,8 +566,9 @@ function AlbumDetail() {
                     <div className="album-detail__slide__swiper">
                         <Swiper {...swiperOptions} className="album-detail-slide">
                             {favoriteGenreList.map((track, index) => (
-                                <SwiperSlide>
-                                    <button key={track.id} className={`album__content-list__list__item`}>
+                                <SwiperSlide key={track.id}>
+                                      <AlbumItem track={track} />
+                                    {/* <button key={track.id} className={`album__content-list__list__item`}>
                                         <div className="album__content-list__list__item__left">
                                             <p
                                                 className="album__content-list__list__item__left__img"
@@ -604,7 +606,7 @@ function AlbumDetail() {
                                                 </Link>
                                             </div>
                                         </div>
-                                    </button>
+                                    </button> */}
                                 </SwiperSlide>
                             ))}
                         </Swiper>

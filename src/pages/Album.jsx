@@ -443,63 +443,67 @@ function Album() {
           <p className="album__content-list__title">AI Lyrics & Songwriting</p>
           <article className="album__content-list__list">
             {tracks.slice(0, 9).map((track, index) => (
-              <button
-                key={track.id}
-                className={`album__content-list__list__item ${
-                  selectedTrackIndex === index ? "active" : ""
-                }`}
-                onClick={() => handleTrackClick(index)}
-              >
-                <div className="album__content-list__list__item__left">
-                  <p
-                    className="album__content-list__list__item__left__img"
-                    style={{
-                      backgroundImage: `url(${
-                        track.cover_image === "string"
-                          ? coverImg10
-                          : track.cover_image
-                      })`,
-                    }}
-                  ></p>
-                  <span className="time">
-                    {selectedTrackIndex === index
-                      ? `${formatTime(currentTime)}`
-                      : formatTime(track.duration)}
-                  </span>
-                  {/* <span className="time">
-                    {selectedTrackIndex === index
-                      ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                      : formatTime(track.duration)}
-                  </span> */}
-                </div>
-                <div className="album__content-list__list__item__right">
-                  <p className="album__content-list__list__item__right__title">
-                    {track.title}
-                  </p>
-                  <div className="album__content-list__list__item__right__love-play">
-                    <p className="love">
-                      <img src={track.is_like ? halfHeartIcon : loveIcon} />
-                      {track?.like || 0}
-                    </p>
-                    <p className="play">
-                      <img src={playIcon} />
-                      {track?.play_cnt || 0}
-                    </p>
-                  </div>
-                  <div className="album__content-list__list__item__right__user">
-                    <p className="album__content-list__list__item__right__user__info">
-                      <img src={track?.user_profile || defaultCoverImg} />
-                      {track?.name || "unKnown"}
-                    </p>
-                    <Link
-                      className="album__content-list__list__item__right__user__btn"
-                      to={"/album-detail/" + track.id}
-                    >
-                      Details
-                    </Link>
-                  </div>
-                </div>
-              </button>
+                <AlbumItem
+                  key={track.id}
+                  track={track}
+                  isActive={selectedTrackIndex === index}
+                  currentTime={currentTime}
+                  onClick={() => handleTrackClick(index)}
+                  formatTime={formatTime}
+                />
+              // <button
+              //   key={track.id}
+              //   className={`album__content-list__list__item ${
+              //     selectedTrackIndex === index ? "active" : ""
+              //   }`}
+              //   onClick={() => handleTrackClick(index)}
+              // >
+              //   <div className="album__content-list__list__item__left">
+              //     <p
+              //       className="album__content-list__list__item__left__img"
+              //       style={{
+              //         backgroundImage: `url(${
+              //           track.cover_image === "string"
+              //             ? coverImg10
+              //             : track.cover_image
+              //         })`,
+              //       }}
+              //     ></p>
+              //     <span className="time">
+              //       {selectedTrackIndex === index
+              //         ? `${formatTime(currentTime)}`
+              //         : formatTime(track.duration)}
+              //     </span>
+
+              //   </div>
+              //   <div className="album__content-list__list__item__right">
+              //     <p className="album__content-list__list__item__right__title">
+              //       {track.title}
+              //     </p>
+              //     <div className="album__content-list__list__item__right__love-play">
+              //       <p className="love">
+              //         <img src={track.is_like ? halfHeartIcon : loveIcon} />
+              //         {track?.like || 0}
+              //       </p>
+              //       <p className="play">
+              //         <img src={playIcon} />
+              //         {track?.play_cnt || 0}
+              //       </p>
+              //     </div>
+              //     <div className="album__content-list__list__item__right__user">
+              //       <p className="album__content-list__list__item__right__user__info">
+              //         <img src={track?.user_profile || defaultCoverImg} />
+              //         {track?.name || "unKnown"}
+              //       </p>
+              //       <Link
+              //         className="album__content-list__list__item__right__user__btn"
+              //         to={"/album-detail/" + track.id}
+              //       >
+              //         Details
+              //       </Link>
+              //     </div>
+              //   </div>
+              // </button>
             ))}
           </article>
           <Link

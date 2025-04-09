@@ -329,6 +329,15 @@ const LyricsLab = ({
               className="generated-lyrics__lyrics"
               value={createdLyrics}
               onChange={(e) => setCreatedLyrics(e.target.value)}
+              onKeyDown={(e) => {
+                // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
+                if (e.key === 'Enter') {
+                  const currentScroll = e.target.scrollTop;
+                  setTimeout(() => {
+                    e.target.scrollTop = currentScroll; // 화면 스크롤을 유지
+                  }, 0);
+                }
+              }}
             />
           </pre>
         )}

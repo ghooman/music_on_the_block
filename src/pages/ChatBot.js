@@ -73,7 +73,12 @@ const ChatBot = () => {
       handleSendMessage();
     }
   };
-
+  // 초기 프리셋 질문
+  const initialQuestions = [
+    "가사를 먼저 만들고싶어!",
+    "",
+    "어떤 분위기의 노래를 원하나요?",
+  ];
   return (
     <div className="chatbot">
       <div className="chatbot__header">

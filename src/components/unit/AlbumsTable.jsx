@@ -1,24 +1,33 @@
 import './AlbumsTable.scss';
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import halfHeartIcon from '../../assets/images/icon/half-heart.svg';
-import NoneContent from '../../components/NoneContent';
-import Pagination from '../Pagination';
+import NoneContent from './NoneContent';
+import Pagination from './Pagination';
+
+const serverApi = process.env.REACT_APP_SERVER_API;
+
 const AlbumsTable = () => {
-    const serverApi = process.env.REACT_APP_SERVER_API;
+    const [albums, setAlbums] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const { token } = useContext(AuthContext);
     const navigator = useNavigate();
-    const [page, setPage] = useState(0);
-    const [totalCount, setTotalCount] = useState(0);
+
+    const page_ = searchParams.get('page');
+
     const viewCount = 10;
+
     // 앨범 목록 가져오기
-    const [albums, setAlbums] = useState([]);
+
     useEffect(() => {
         const fetchAlbums = async () => {
             try {
-                const response = await axios.get(`${serverApi}/api/music/my/list?page=${page + 1}`, {
+                const response = await axios.get(`${serverApi}/api/music/my/list?page=${page}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setTotalCount(response.data.total_cnt);
@@ -30,6 +39,7 @@ const AlbumsTable = () => {
         };
         fetchAlbums();
     }, [serverApi, token, page]);
+
     return (
         <>
             <div className="albums-table">
@@ -79,9 +89,22 @@ const AlbumsTable = () => {
                     </tbody>
                 </table>
                 {albums?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
-                {albums?.length > 0 && (
-                    <Pagination totalCount={totalCount} viewCount={viewCount} page={page} setPage={setPage} />
-                )}
+                {/* {albums?.length > 0 && ( */}
+                <Pagination
+                    totalCount={totalCount}
+                    slice={viewCount}
+                    page={page}
+                    handler={(page) => {
+                        // setSearchParams((prev) => {
+                        //     return {
+                        //         ...Object.fromEntries(prev),
+                        //         page: page,
+                        //     };
+                        // });
+                        setPage(page);
+                    }}
+                />
+                {/* )} */}
             </div>
         </>
     );

@@ -21,7 +21,7 @@ import Reward from '../components/mypage/Reward';
 import { useUserDetail } from '../hooks/useUserDetail';
 import PreparingModal from '../components/PreparingModal';
 
-const serviceTab = ['AI Services', 'Albums'];
+const serviceTab = ['AI Services', 'Reward & Payments', 'Albums'];
 
 const MyPage = () => {
     const { data: userData } = useUserDetail();
@@ -104,7 +104,7 @@ const MyPage = () => {
             </div>
 
             <nav className="mypage__nav">
-                {['AI Services', 'Albums'].map((service) => (
+                {serviceTab.map((service) => (
                     <button
                         key={service}
                         className={`mypage__nav-item ${category === service ? 'active' : ''}`}

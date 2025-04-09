@@ -56,7 +56,6 @@ function AlbumDetail() {
   };
 
   // Your Picks
-
   const [favoriteGenreList, setFavoriteGenreList] = useState([]);
   console.log("favoriteGenreList", favoriteGenreList);
 
@@ -91,8 +90,7 @@ function AlbumDetail() {
         })
       );
 
-      tracksWithDuration.sort((a, b) => b.like - a.like);
-
+      console.log("getFavoriteGenre", res);
       console.log("favoriteGenreList with durations", tracksWithDuration);
       setFavoriteGenreList(tracksWithDuration);
     } catch (error) {
@@ -136,55 +134,6 @@ function AlbumDetail() {
         })
       );
 
-      tracksWithDuration.sort((a, b) => b.like - a.like);
-
-      tracksWithDuration.sort((a, b) => b.like - a.like);
-
-      console.log("getSimilarVibes with durations", tracksWithDuration);
-      setSimilarVibesList(tracksWithDuration);
-    } catch (error) {
-      console.log("getFavoriteGenre error: ", error);
-    }
-  };
-
-  const [similarVibesList, setSimilarVibesList] = useState([]);
-  console.log("similarVibesList", similarVibesList);
-
-  const getSimilarVibes = async () => {
-    try {
-      const res = await axios.get(
-        `${serverApi}/api/music/${id}/content/link/list`
-      );
-      const tracks = res.data;
-      console.log("getSimilarVibes", res);
-
-      // 각 track의 music_url을 이용해서 duration을 비동기로 계산
-      const tracksWithDuration = await Promise.all(
-        tracks.map(async (track) => {
-          try {
-            const audio = new Audio(track.music_url);
-            // duration을 로딩 완료될 때까지 기다림
-            await new Promise((resolve, reject) => {
-              audio.addEventListener("loadedmetadata", () => resolve());
-              audio.addEventListener("error", (e) => reject(e));
-            });
-
-            return {
-              ...track,
-              duration: audio.duration,
-            };
-          } catch (err) {
-            console.error("duration failed:", err);
-            return {
-              ...track,
-              duration: 0,
-            };
-          }
-        })
-      );
-
-      tracksWithDuration.sort((a, b) => b.like - a.like);
-
       console.log("getSimilarVibes with durations", tracksWithDuration);
       setSimilarVibesList(tracksWithDuration);
     } catch (error) {
@@ -196,7 +145,7 @@ function AlbumDetail() {
     loop: true,
     slidesPerView: 3,
     spaceBetween: 8,
-    initialSlide: 2,
+    // initialSlide: 0,
     grabCursor: true,
     pagination: {
       clickable: true,

@@ -1011,24 +1011,24 @@
         .album-detail__song-detail__right {
           .album-detail__song-detail__right__info-box {
             dl {
-              &:nth-child(5) {
-                dt {
-                  min-height: 48px;
-                }
-              }
-              &:last-child {
-                dt {
-                  min-height: 60px;
-                }
-                dd {
-                  flex-direction: column;
-                  gap: 4px;
-                }
-              }
+              // &:nth-child(5) {
+              //   dt {
+              //     min-height: 48px;
+              //   }
+              // }
+              // &:last-child {
+              //   dt {
+              //     min-height: 60px;
+              //   }
+              //   dd {
+              //     flex-direction: column;
+              //     gap: 4px;
+              //   }
+              // }
               min-height: auto;
               dt {
                 font-size: 10px;
-                min-width: 100px;
+                min-width: 124px;
                 min-height: 30px;
               }
               dd {

@@ -1,17 +1,17 @@
 .create__lyric-lab {
-  .generated-lyrics__lyrics {
-    background-color: transparent;
-    width: 100%;
-    resize: none;
-    min-height: 600px;
-    max-height: 600px;
-    // overflow: auto;
-    // overflow: ;
-    textarea {
-      // min-height: 600px;
-      // max-height: 600px;
+    .generated-lyrics__lyrics {
+        background-color: transparent;
+        width: 100%;
+        resize: none;
+        min-height: 600px;
+        max-height: 100%;
+        // overflow: auto;
+        // overflow: ;
+        &textarea{
+            // min-height: 600px;
+            // max-height: 600px;
+        }
     }
-  }
 
   .generated-lyrics__confirm-buttons {
     margin-top: 40px;
@@ -20,6 +20,7 @@
     justify-content: flex-end;
     gap: 32px;
   }
+
 
   .generated-lyrics__confirm-buttons--button {
     // 임시 클래스입니다.
@@ -37,6 +38,7 @@
       background-color: #cf0;
     }
   }
+
 
   .generated-lyrics__download-buttons {
     width: 100%;

@@ -1,4 +1,4 @@
-.album-detail {
+.song-detail {
   .album-detail__title {
     margin-bottom: 32px;
     dt {
@@ -302,7 +302,7 @@
     overflow: hidden;
     min-height: 136px;
     .album-detail__audio__cover {
-      &::before{
+      &::before {
         content: "";
         width: 100%;
         height: 100%;
@@ -401,13 +401,12 @@
   } //album-detail__audio--END--
 } //album-detail__audio--END--
 
-
-.album-detail__rank-table .advanced-overlay{
+.album-detail__rank-table .advanced-overlay {
   overflow: auto;
 }
 .album-detail__rank-table {
-  &.not-logged-in{
-    .advanced-overlay{
+  &.not-logged-in {
+    .advanced-overlay {
       opacity: 0.4;
       cursor: not-allowed;
       display: none;
@@ -421,7 +420,7 @@
   }
   .infoStyle {
     margin-top: 12px !important;
-    p{
+    p {
       word-wrap: break-word;
       word-break: break-all;
     }
@@ -449,16 +448,16 @@
       margin-right: 8px !important;
     }
   } //replyBtn--END--
-  .public-DraftStyleDefault-ltr{
+  .public-DraftStyleDefault-ltr {
     font-size: 14px;
   }
-  .no-comDiv{
+  .no-comDiv {
     margin-top: 32px;
     margin-bottom: 40px;
     color: #555;
     text-align: center;
     font-size: 14px;
-  }//no-comDiv--END--
+  } //no-comDiv--END--
   border-radius: 12px;
   border: 1px solid var(--Color-03, #222);
   padding: 16px;
@@ -690,8 +689,7 @@
       background: #00ff99;
       color: #000;
       transition: 0.3s;
-      &:hover{
-
+      &:hover {
       }
     }
 
@@ -742,7 +740,7 @@
     }
   } //album-detail__slide__title--END--
 
-  .album-detail-slide {
+  .song-detail-slide {
     padding: 16px 0 40px;
     .swiper-button-prev {
       width: 24px;
@@ -957,18 +955,18 @@
         } //album__content-list__list__item__right__user--END--
       } //album__content-list__list__item__right--END-
     } //album__content-list__list__item--END--
-  } //album-detail-slide--END--
+  } //song-detail-slide--END--
 } //album-detail__slide--END--
 
-//album-detail--END--
+//song-detail--END--
 
 .rhap_download-progress {
   width: 100% !important;
   background: #333;
 } //rhap_download-progress--END--
-.rhap_progress-filled{
+.rhap_progress-filled {
   background: #a9d400;
-}//.rhap_progress-filled--END--
+} //.rhap_progress-filled--END--
 
 @media screen and (max-width: 1600px) {
   .album {
@@ -981,7 +979,7 @@
 }
 
 @media screen and (max-width: 930px) {
-  .album-detail {
+  .song-detail {
     .album-detail__song-detail {
       .album-detail__song-detail__bot {
         .album-detail__song-detail__left {
@@ -993,7 +991,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .album-detail {
+  .song-detail {
     .album-detail__title {
       dt {
         font-size: 24px;
@@ -1046,7 +1044,7 @@
       }
     }
     .album-detail__slide {
-      .album-detail-slide {
+      .song-detail-slide {
         .swiper-button-prev,
         .swiper-button-next {
           display: none;
@@ -1057,7 +1055,7 @@
 }
 
 @media screen and (max-width: 480px) {
-  .album-detail {
+  .song-detail {
     .album-detail__slide {
       .album-detail__slide__title {
         dt {

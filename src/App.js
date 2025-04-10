@@ -92,7 +92,7 @@ function App() {
               }
             />
             <Route
-              path="/album-detail/:id"
+              path="/song-detail/:id"
               element={
                 <Layout>
                   <AlbumDetail />

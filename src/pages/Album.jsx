@@ -226,7 +226,7 @@ function Album() {
             </div>
             <Link
               className="album__header__cover-info__btn"
-              to={`/album-detail/${selectedTrack?.id}`}
+              to={`/song-detail/${selectedTrack?.id}`}
             >
               Detail
             </Link>
@@ -295,7 +295,7 @@ function Album() {
                     </p>
                     <Link
                       className="album__content-list__list__item__right__user__btn"
-                      to={"/album-detail/" + track.id}
+                      to={"/song-detail/" + track.id}
                     >
                       Details
                     </Link>
@@ -381,7 +381,7 @@ function Album() {
                     </p>
                     <Link
                       className="swiper-music-list__item__right__user__btn"
-                      to={"/album-detail/" + track.id}
+                      to={"/song-detail/" + track.id}
                     >
                       Details
                     </Link>
@@ -488,7 +488,7 @@ function Album() {
                     </p>
                     <Link
                       className="album__content-list__list__item__right__user__btn"
-                      to={"/album-detail/" + track.id}
+                      to={"/song-detail/" + track.id}
                     >
                       Details
                     </Link>

@@ -69,7 +69,7 @@ const AlbumsTable = () => {
                       <div className="td-content">
                         <button
                           className="albums-table__detail-btn"
-                          onClick={() => navigator(`/album-detail/${album.id}`)}
+                          onClick={() => navigator(`/song-detail/${album.id}`)}
                         >
                           Detail
                         </button>

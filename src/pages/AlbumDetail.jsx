@@ -151,7 +151,7 @@ function AlbumDetail() {
     loop: true,
     slidesPerView: 3,
     spaceBetween: 8,
-    initialSlide: 2,
+    // initialSlide: 2,
     grabCursor: true,
     pagination: {
       clickable: true,
@@ -280,7 +280,7 @@ function AlbumDetail() {
 
   return (
     <>
-      <div className="album-detail">
+      <div className="song-detail">
         <dl className="album-detail__title">
           <dt>AI Lyrics & Songwriting</dt>
           <dd>Lyrics+Songwriting</dd>
@@ -481,7 +481,7 @@ function AlbumDetail() {
                       <Link
                         // className={item.buttonClass}
                         className="details-btn active"
-                        to={"/album-detail/" + item.id}
+                        to={"/song-detail/" + item.id}
                       >
                         Details
                       </Link>
@@ -502,7 +502,7 @@ function AlbumDetail() {
             <dd>Top tracks from your favorite genre.</dd>
           </dl>
           <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="album-detail-slide">
+            <Swiper {...swiperOptions} className="song-detail-slide">
               {favoriteGenreList.map((track, index) => (
                 <SwiperSlide>
                   <button
@@ -544,7 +544,7 @@ function AlbumDetail() {
                         </p>
                         <Link
                           className="album__content-list__list__item__right__user__btn"
-                          to={`/album-detail/${track?.id}`}
+                          to={`/song-detail/${track?.id}`}
                         >
                           Details
                         </Link>
@@ -563,7 +563,7 @@ function AlbumDetail() {
             <dd>Top tracks from the same genre as this song.</dd>
           </dl>
           <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="album-detail-slide">
+            <Swiper {...swiperOptions} className="song-detail-slide">
               {similarVibesList.map((track, index) => (
                 <SwiperSlide>
                   <button
@@ -610,7 +610,7 @@ function AlbumDetail() {
                         </p>
                         <Link
                           className="album__content-list__list__item__right__user__btn"
-                          to={`/album-detail/${track?.id}`}
+                          to={`/song-detail/${track?.id}`}
                         >
                           Details
                         </Link>

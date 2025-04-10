@@ -2,9 +2,9 @@ import { useState } from 'react';
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { CollectionItemList, NftItemList } from '../components/nft/NftItem';
-import Pagination from '../components/nft/Pagination';
-import Search from '../components/nft/Search';
-import FilterItems from '../components/nft/FilterItems';
+import Pagination from '../components/unit/Pagination';
+import Search from '../components/unit/Search';
+import FilterItems from '../components/unit/FilterItems';
 
 import '../styles/NftList.scss';
 

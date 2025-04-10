@@ -1,0 +1,37 @@
+.unit-component-sub-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid #222;
+    width: fit-content;
+
+    .unit-component-sub-categories__category-item {
+        padding: 8px 12px;
+        color: #565656;
+        font-family: Orbitron500;
+        font-size: 14px;
+        font-style: normal;
+        letter-spacing: 0.42px;
+        border-radius: 12px;
+        display: flex;
+        gap: 8px;
+
+        .unit-component-sub-categories__category-item--icon {
+            border-radius: 100%;
+            background-color: #222;
+            padding: 4px;
+            img {
+                width: 10px;
+                height: 10px;
+                object-fit: cover;
+            }
+        }
+
+        &.select {
+            background-color: #00ffb3;
+            color: #1a1a1a;
+        }
+    }
+}

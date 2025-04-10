@@ -31,9 +31,9 @@ const AlbumItem = ({
           }}
         ></p>
         <span className="time">
-          {isActive && currentTime !== undefined
+          <strong>{isActive && currentTime !== undefined
             ? formatTime(currentTime)
-            : formatTime(track.duration)}
+            : formatTime(track.duration)}</strong>
         </span>
       </div>
       <div className="album__content-list__list__item__right">

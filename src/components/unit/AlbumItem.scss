@@ -28,6 +28,9 @@
             no-repeat;
           background-size: contain;
         }
+        strong{
+          color: #222 !important;
+        }
       }
     }
     .album__content-list__list__item__left {
@@ -51,18 +54,21 @@
         bottom: 16px;
         left: 16px;
         padding: 4px 10px;
+
         border-radius: 12px;
         background: var(--Color-03, #222);
         box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.15);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
-        text-align: center;
-        font-family: Inter400;
-        font-size: 12px;
-        font-style: normal;
-        line-height: 16px; /* 133.333% */
+
+        strong{
+          color: #fff;
+          text-align: center;
+          font-family: Inter400;
+          font-size: 12px;
+          width: 26px;
+        }
       }
     } //album__content-list__list__item__left--END--
 

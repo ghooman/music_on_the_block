@@ -1,29 +1,21 @@
 // components/AlbumDetail.js
-import '../styles/AlbumDetail.scss';
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
-import AudioPlayer from 'react-h5-audio-player';
-import MyAudioPlayer from '../components/MyAudioPlayer';
-import coverImg from '../assets/images/intro/intro-demo-img.png';
-import coverImg2 from '../assets/images/intro/intro-demo-img2.png';
-import coverImg3 from '../assets/images/intro/intro-demo-img3.png';
-import coverImg4 from '../assets/images/demo/album01.svg';
-import coverImg5 from '../assets/images/demo/album02.svg';
-import coverImg6 from '../assets/images/demo/album03.svg';
-import coverImg7 from '../assets/images/demo/album04.svg';
-import coverImg8 from '../assets/images/demo/album05.svg';
-import coverImg9 from '../assets/images/demo/album06.svg';
-import demoImg from '../assets/images/intro/intro-demo-img4.png';
-import loveIcon from '../assets/images/like-icon/like-icon.svg';
-import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
-import playIcon from '../assets/images/album/play-icon.svg';
-import commentIcon from '../assets/images/album/chat-icon.svg';
-import shareIcon from '../assets/images/album/share-icon.svg';
-import defaultCoverImg from '../assets/images/header/logo.svg';
-import track1 from '../assets/music/song01.mp3';
-import track2 from '../assets/music/nisoft_song.mp3';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import "../styles/AlbumDetail.scss";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import AudioPlayer from "react-h5-audio-player";
+import MyAudioPlayer from "../components/MyAudioPlayer";
+import coverImg from "../assets/images/intro/intro-demo-img.png";
+import demoImg from "../assets/images/intro/intro-demo-img4.png";
+import loveIcon from "../assets/images/like-icon/like-icon.svg";
+import halfHeartIcon from "../assets/images/like-icon/like-icon-on.svg";
+import playIcon from "../assets/images/album/play-icon.svg";
+import commentIcon from "../assets/images/album/chat-icon.svg";
+import shareIcon from "../assets/images/album/share-icon.svg";
+import defaultCoverImg from "../assets/images/header/logo.svg";
+import track1 from "../assets/music/song01.mp3";
+import track2 from "../assets/music/nisoft_song.mp3";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
 import PreparingModal from '../components/PreparingModal';
@@ -63,12 +55,13 @@ function AlbumDetail() {
     const [favoriteGenreList, setFavoriteGenreList] = useState([]);
     console.log('favoriteGenreList', favoriteGenreList);
 
-    const getFavoriteGenre = async () => {
-        try {
-            const res = await axios.get(
-                `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress.address}`
-            );
-            const tracks = res.data;
+  const getFavoriteGenre = async () => {
+    try {
+      const res = await axios.get(
+        `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
+      );
+      const tracks = res.data;
+      console.log("getFavoriteGenre", res);
 
             // 각 track의 music_url을 이용해서 duration을 비동기로 계산
             const tracksWithDuration = await Promise.all(
@@ -81,179 +74,97 @@ function AlbumDetail() {
                             audio.addEventListener('error', (e) => reject(e));
                         });
 
-                        return {
-                            ...track,
-                            duration: audio.duration,
-                        };
-                    } catch (err) {
-                        console.error('duration failed:', err);
-                        return {
-                            ...track,
-                            duration: 0,
-                        };
-                    }
-                })
-            );
+            return {
+              ...track,
+              duration: audio.duration,
+            };
+          } catch (err) {
+            console.error("duration failed:", err);
+            return {
+              ...track,
+              duration: 0,
+            };
+          }
+        })
+      );
 
-            console.log('favoriteGenreList with durations', tracksWithDuration);
-            setFavoriteGenreList(tracksWithDuration);
-        } catch (error) {
-            console.log('getFavoriteGenre error: ', error);
-        }
-    };
+      tracksWithDuration.sort((a, b) => b.like - a.like);
 
-    const [tracks, setTracks] = useState([
-        {
-            id: 1,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track1,
-            cover: coverImg,
-            duration: null,
-        },
-        {
-            id: 2,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg2,
-            duration: null,
-        },
-        {
-            id: 3,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg3,
-            duration: null,
-        },
-        {
-            id: 4,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg4,
-            duration: null,
-        },
-        {
-            id: 5,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track2,
-            cover: coverImg5,
-            duration: null,
-        },
-        {
-            id: 6,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg6,
-            duration: null,
-        },
-        {
-            id: 7,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg7,
-            duration: null,
-        },
-        {
-            id: 8,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg8,
-            duration: null,
-        },
-        {
-            id: 9,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg9,
-            duration: null,
-        },
+      console.log("favoriteGenreList with durations", tracksWithDuration);
+      setFavoriteGenreList(tracksWithDuration);
+    } catch (error) {
+      console.error("getFavoriteGenre error: ", error);
+    }
+  };
 
-        {
-            id: 10,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track1,
-            cover: coverImg9,
-            duration: null,
-        },
-        {
-            id: 11,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg8,
-            duration: null,
-        },
-        {
-            id: 12,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg7,
-            duration: null,
-        },
-        {
-            id: 13,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg4,
-            duration: null,
-        },
-        {
-            id: 14,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track2,
-            cover: coverImg5,
-            duration: null,
-        },
-        {
-            id: 15,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg6,
-            duration: null,
-        },
-        {
-            id: 16,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg7,
-            duration: null,
-        },
-        {
-            id: 17,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg8,
-            duration: null,
-        },
-        {
-            id: 18,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg9,
-            duration: null,
-        },
-    ]);
-    const swiperOptions = {
-        loop: true,
+  const [similarVibesList, setSimilarVibesList] = useState([]);
+  console.log("similarVibesList", similarVibesList);
+
+  const getSimilarVibes = async () => {
+    try {
+      const res = await axios.get(
+        `${serverApi}/api/music/${id}/content/link/list`
+      );
+      const tracks = res.data;
+      console.log("getSimilarVibes", res);
+
+      // 각 track의 music_url을 이용해서 duration을 비동기로 계산
+      const tracksWithDuration = await Promise.all(
+        tracks.map(async (track) => {
+          try {
+            const audio = new Audio(track.music_url);
+            // duration을 로딩 완료될 때까지 기다림
+            await new Promise((resolve, reject) => {
+              audio.addEventListener("loadedmetadata", () => resolve());
+              audio.addEventListener("error", (e) => reject(e));
+            });
+
+            return {
+              ...track,
+              duration: audio.duration,
+            };
+          } catch (err) {
+            console.error("duration failed:", err);
+            return {
+              ...track,
+              duration: 0,
+            };
+          }
+        })
+      );
+
+      tracksWithDuration.sort((a, b) => b.like - a.like);
+
+      console.log("getSimilarVibes with durations", tracksWithDuration);
+      setSimilarVibesList(tracksWithDuration);
+    } catch (error) {
+      console.error("getSimilarVibes error: ", error);
+    }
+  };
+
+  const swiperOptions = {
+    loop: true,
+    slidesPerView: 3,
+    spaceBetween: 8,
+    initialSlide: 2,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    navigation: true,
+    modules: [Pagination, Navigation, Autoplay],
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+      },
+      680: {
+        slidesPerView: 2,
+      },
+      930: {
         slidesPerView: 3,
-        spaceBetween: 8,
-        initialSlide: 2,
-        grabCursor: true,
-        pagination: {
-            clickable: true,
-        },
-        navigation: true,
-        modules: [Pagination, Navigation, Autoplay],
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            680: {
-                slidesPerView: 2,
-            },
-            930: {
-                slidesPerView: 3,
-            },
-        },
-    };
+      },
+    },
+  };
 
     const [isActive, setIsActive] = useState(false);
     const [isShareModal, setShareModal] = useState(false);
@@ -302,11 +213,12 @@ function AlbumDetail() {
         }
     };
 
-    useEffect(() => {
-        fetchAlbumDetail();
-        getLeaderboardData();
-        getFavoriteGenre();
-    }, [id, walletAddress, token, serverApi]);
+  useEffect(() => {
+    fetchAlbumDetail();
+    getLeaderboardData();
+    getFavoriteGenre();
+    getSimilarVibes();
+  }, [id, walletAddress, token, serverApi]);
 
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -367,6 +279,29 @@ function AlbumDetail() {
                     <p className="album-detail__song-detail__title">Song Detail</p>
                     <div className="album-detail__song-detail__bot">
                         <div className="album-detail__song-detail__left">
+                            <section className="album-detail__audio">
+                                <AudioPlayer
+                                    src={album?.music_url || track1}
+                                    onPlay={() => {
+                                        console.log('PLAY!');
+                                        setIsPlaying(true);
+                                    }}
+                                    onPause={() => {
+                                        console.log('PAUSE!');
+                                        setIsPlaying(false);
+                                    }}
+                                    onEnded={() => {
+                                        console.log('ENDED!');
+                                        setIsPlaying(false);
+                                    }}
+                                    // onListen 이벤트를 통해 재생 시간 체크 후 플레이 카운트 업데이트
+                                    onListen={handleListen}
+                                    listenInterval={1000}
+                                />
+                                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
+                                    <img src={album?.cover_image || coverImg} alt="album cover" />
+                                </p>
+                            </section>
                             <div
                                 className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                                 onClick={handleClick}
@@ -380,9 +315,11 @@ function AlbumDetail() {
                                     {/* <pre>{album?.lyrics}</pre> */}
                                     <pre>
                                     {album?.lyrics
-                                      ?.replace(/(###\s?[\w\s]+)/g, '\n$1\n') // "###"로 시작하는 절 제목 앞뒤에 줄바꿈 추가
-                                      ?.replace(/(\*\*.*?\*\*)/g, '\n$1\n') // **텍스트** 앞에 줄바꿈 추가
-                                      ?.trim()}
+                                        ?.replace(/(###\s?[\w\s]+)/g, '\n$1') // "###"로 시작하는 절 제목 위에 두 개의 줄바꿈 추가
+                                        ?.replace(/(\*\*.*?\*\*)/g, '\n$1') // **텍스트** 위에 두 개의 줄바꿈 추가
+                                        ?.replace(/\[([^\]]+)\]/g, '\n[$1]') // [] 안의 텍스트 위에만 줄바꿈 추가 (아래 줄바꿈 없음)
+                                        ?.replace(/\(([^\)]+)\)/g, '\n($1)') // () 안의 텍스트 위에만 줄바꿈 추가 (아래 줄바꿈 없음)
+                                        ?.trim()}
                                     </pre>
                                     {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
                                 </div>
@@ -411,29 +348,6 @@ function AlbumDetail() {
                                     <img src={shareIcon} />
                                 </button>
                             </div>
-                            <section className="album-detail__audio">
-                                <AudioPlayer
-                                    src={album?.music_url || track1}
-                                    onPlay={() => {
-                                        console.log('PLAY!');
-                                        setIsPlaying(true);
-                                    }}
-                                    onPause={() => {
-                                        console.log('PAUSE!');
-                                        setIsPlaying(false);
-                                    }}
-                                    onEnded={() => {
-                                        console.log('ENDED!');
-                                        setIsPlaying(false);
-                                    }}
-                                    // onListen 이벤트를 통해 재생 시간 체크 후 플레이 카운트 업데이트
-                                    onListen={handleListen}
-                                    listenInterval={1000}
-                                />
-                                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                                    <img src={album?.cover_image || coverImg} alt="album cover" />
-                                </p>
-                            </section>
                         </div>
                         <div className="album-detail__song-detail__right">
                             <p className="album-detail__song-detail__right__title">{album?.title}</p>
@@ -619,8 +533,14 @@ function AlbumDetail() {
                         <dd>Top tracks from the same genre as this song.</dd>
                     </dl>
                     <div className="album-detail__slide__swiper">
+
                         <Swiper {...swiperOptions} className="album-detail-slide">
-                            {tracks.slice(0, 9).map((track, index) => (
+                          {favoriteGenreList.map((track, index) => (
+                            <SwiperSlide key={track.id}>
+                              <AlbumItem track={track} />
+                            </SwiperSlide>
+                              ))}
+                            {/* {tracks.slice(0, 9).map((track, index) => (
                                 <SwiperSlide>
                                     <button key={track.id} className={`album__content-list__list__item`}>
                                         <div className="album__content-list__list__item__left">
@@ -629,11 +549,6 @@ function AlbumDetail() {
                                                 style={{ backgroundImage: `url(${track.cover})` }}
                                             ></p>
                                             <span className="time">2:11</span>
-                                            {/* <span className="time">
-                        {selectedTrackIndex === index
-                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                          : formatTime(track.duration)}
-                      </span> */}
                                         </div>
                                         <div className="album__content-list__list__item__right">
                                             <p className="album__content-list__list__item__right__title">
@@ -661,7 +576,7 @@ function AlbumDetail() {
                                         </div>
                                     </button>
                                 </SwiperSlide>
-                            ))}
+                            ))} */}
                         </Swiper>
                     </div>
                 </section>

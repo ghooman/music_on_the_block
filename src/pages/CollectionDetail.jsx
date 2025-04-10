@@ -3,9 +3,9 @@ import { useState } from 'react';
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
-import Pagination from '../components/nft/Pagination';
-import FilterItems from '../components/nft/FilterItems';
-import Search from '../components/nft/Search';
+import Pagination from '../components/unit/Pagination';
+import FilterItems from '../components/unit/FilterItems';
+import Search from '../components/unit/Search';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import CustomTable from '../components/CustomTable';
 

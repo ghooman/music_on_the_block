@@ -22,9 +22,27 @@
     transition: 0.6s;
     overflow: hidden;
     &.active {
+      &.playing {
+        .main__header__album-cover__img {
+          animation-play-state: running; // 애니메이션을 실행 상태로 변경
+        }
+      }
+      &.no-playing {
+        .main__header__album-cover__img {
+          animation-play-state: paused !important;
+        }
+        .main__header__album-cover {
+          &::after {
+            animation-play-state: paused !important;
+          }
+        }
+      }
       .main__header__album-cover__img {
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
         background-size: cover;
+        animation: none;
+
+        animation-play-state: running;
         animation: rotate-disc 3s 0.6s linear infinite;
         @keyframes rotate-disc {
           from {
@@ -38,6 +56,7 @@
       .main__header__album-cover {
         &::after {
           animation: rotate-disc2 3s 0.6s linear infinite;
+          animation-play-state: running;
           @keyframes rotate-disc2 {
             from {
               transform: translate(-50%, -50%) rotate(0deg);
@@ -624,7 +643,7 @@
 } //.album--END--
 
 @media screen and (max-width: 980px) {
-  .album {
+  .main {
     padding-top: 166px;
     .main__header {
       width: calc(100% - 32px);
@@ -657,8 +676,9 @@
 }
 
 @media screen and (max-width: 768px) {
-  .album {
-    padding-top: 196px;
+  .main {
+    padding-top: 226px;
+
     .album__content-list{
       .album__content-list__tab{
         padding-bottom: 16px;
@@ -670,13 +690,17 @@
     .rhap_main-controls {
       margin-top: -16px;
       button {
-        height: 60px;
+        height: 30px;
       }
     }
     .main__header {
       padding: 16px;
       gap: 0;
       height: auto;
+      .rhap_stacked .rhap_controls-section{
+        margin-top: 32px;
+        margin-bottom: 16px;
+      }
       .main__header__mobile-detail-btn {
         // display: block !important;
         position: absolute;
@@ -723,7 +747,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .album {
+  .main {
     .album__content-list {
       .album__content-list__list {
         grid-template-columns: repeat(1, 1fr);

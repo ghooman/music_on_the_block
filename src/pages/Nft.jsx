@@ -3,7 +3,7 @@ import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
 import { NftSlider } from '../components/nft/NftSlider';
 import { NftGraph } from '../components/nft/NftGraph';
-import Search from '../components/nft/Search';
+import Search from '../components/unit/Search';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/Nft.scss';
 
@@ -12,10 +12,10 @@ const Nft = () => {
         <div className="nft">
             <NftExchange />
             <Search />
-            <ContentWrap title="TOP NFTs" link="/nft">
+            <ContentWrap title="TOP NFTs" link="/nft/list">
                 <NftItemList data={[1, 2, 3, 4]} />
             </ContentWrap>
-            <ContentWrap title="Popular Collection" link="/nft">
+            <ContentWrap title="Popular Collection" link="/nft/list">
                 <CollectionItemList data={[1, 2, 3]} />
             </ContentWrap>
             <ContentWrap title="Popular Genre">
@@ -39,7 +39,7 @@ export default Nft;
 const NftExchange = () => {
     return (
         <div className="nft__exchange">
-            <h1 className="nft__exchange--title">NFT Market Place</h1>
+            <h1 className="nft__exchange--title">NFT MarketPlace</h1>
             <p className="nft__exchange--desc">
                 Your music, now as an NFT
                 <br />

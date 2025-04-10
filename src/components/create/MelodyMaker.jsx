@@ -51,8 +51,8 @@ const genrePreset = {
 };
 
 const genderPreset = {
-  "Male Solo": ["Male Solo"],
-  "Female Solo": ["Female Solo"],
+  "Male": ["Male"],
+  "Female": ["Female"],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],

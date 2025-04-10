@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import ModalWrap from "./ModalWrap";
 
 import checkIcon from "../assets/images/check-icon2.svg";
-import "./ShareModal.scss";
+import copyIcon from "../assets/images/content_copy.svg";
+import './ShareModal.scss';
 
 const ShareModal = ({ setShareModal, shareUrl, title }) => {
   const [copied, setCopied] = useState(false);
@@ -37,7 +38,7 @@ const ShareModal = ({ setShareModal, shareUrl, title }) => {
       <div className="share-modal__link">
         <p className="share-modal__link__txt">{shareUrl}</p>
         <button className="share-modal__link__btn" onClick={copyToClipboard}>
-          {!copied && <span>Copy</span>}
+          {!copied && <img src={copyIcon} alt="copy" />}
           {copied && <img src={checkIcon} alt="check" />}
         </button>
       </div>

@@ -272,7 +272,7 @@ const Menu = ({
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("album")}
                   >
-                    <p className="icon"></p>Albums
+                    <p className="icon"></p>Main
                   </Link>
                 </div>
                 {/* 일반 아이템 - NFT MarketPlace */}
@@ -399,10 +399,10 @@ const Menu = ({
                     }`}
                   >
                     <Link
-                      // to="/account-setting"
+                      to="/account-setting"
                       className="menu__box__gnb-list__item__btn"
-                      // onClick={() => handleSingleActive("my-page")}
-                      onClick={() => setPreparingModal(true)}
+                      onClick={() => handleSingleActive("my-page")}
+                      // onClick={() => setPreparingModal(true)}
                     >
                       <p className="icon"></p>My Page
                     </Link>
@@ -415,10 +415,10 @@ const Menu = ({
                     }`}
                   >
                     <Link
-                      // to="/my-page?category=AI%20Services"
+                      to="/my-page?category=AI%20Services"
                       className="menu__box__gnb-list__item__btn"
-                      // onClick={() => handleSingleActive("my-favorites")}
-                      onClick={() => setPreparingModal(true)}
+                      onClick={() => handleSingleActive("my-favorites")}
+                      // onClick={() => setPreparingModal(true)}
                     >
                       <p className="icon"></p>My Favorites
                     </Link>

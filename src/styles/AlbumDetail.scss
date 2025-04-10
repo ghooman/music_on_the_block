@@ -138,7 +138,13 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            button {
+            p{
+              cursor: pointer;
+              &.play{
+                cursor: auto;
+              }
+            }
+            button ,p{
               width: 66px;
               display: flex;
               align-items: center;
@@ -208,7 +214,7 @@
             align-items: center;
             border: 1px solid #222;
             border-radius: 6px;
-            min-height: 34px;
+            height: 36px;
             overflow: hidden;
             &.artist {
               dd {
@@ -297,10 +303,10 @@
     border-radius: 12px;
     border: 1px solid var(--Color-03, #222);
     padding: 16px;
-    margin-top: 16px;
+    margin-bottom: 16px;
     position: relative;
     overflow: hidden;
-    min-height: 136px;
+    // min-height: 136px;
     .album-detail__audio__cover {
       &::before {
         content: "";
@@ -348,6 +354,10 @@
         }
       }
     } //album-detail__audio__cover--END--
+    .rhap_volume-controls{
+      position: relative;
+      top: 6px;
+    }
     .rhap_container {
       // margin-top: 16px;
       background: transparent;
@@ -368,7 +378,7 @@
         font-family: math !important;
         font-size: 30px;
         svg {
-          font-size: 30px;
+          font-size: 40px;
         }
         &:nth-child(2) {
           position: relative;

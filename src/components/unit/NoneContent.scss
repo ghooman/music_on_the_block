@@ -1,0 +1,26 @@
+.unit-component-none-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    .unit-component-none-content__image {
+        width: 40px;
+    }
+    .unit-component-none-content--text {
+        color: #a3a3a3;
+        text-align: center;
+        font-family: Pretendard600;
+        font-size: 16px;
+        line-height: normal;
+    }
+}
+
+// .loading-single{
+//   width: 100%;
+//   height: 386px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }

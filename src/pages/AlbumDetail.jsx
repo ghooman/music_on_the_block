@@ -33,6 +33,7 @@ import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import LyricsModal from "../components/LyricsModal";
 // 외부에서 플레이 카운트 업데이트 함수를 import합니다.
 import { incrementPlayCount } from "../api/incrementPlayCount";
+import AlbumItem from "../components/unit/AlbumItem";
 
 function AlbumDetail() {
   const [isPreparingModal, setPreparingModal] = useState(false);
@@ -66,7 +67,6 @@ function AlbumDetail() {
         `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
       );
       const tracks = res.data;
-      console.log("getFavoriteGenre", res);
 
       // 각 track의 music_url을 이용해서 duration을 비동기로 계산
       const tracksWithDuration = await Promise.all(
@@ -93,8 +93,7 @@ function AlbumDetail() {
         })
       );
 
-      tracksWithDuration.sort((a, b) => b.like - a.like);
-
+      console.log("getFavoriteGenre", res);
       console.log("favoriteGenreList with durations", tracksWithDuration);
       setFavoriteGenreList(tracksWithDuration);
     } catch (error) {
@@ -137,8 +136,6 @@ function AlbumDetail() {
           }
         })
       );
-
-      tracksWithDuration.sort((a, b) => b.like - a.like);
 
       console.log("getSimilarVibes with durations", tracksWithDuration);
       setSimilarVibesList(tracksWithDuration);
@@ -289,55 +286,6 @@ function AlbumDetail() {
           <p className="album-detail__song-detail__title">Song Detail</p>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
-              <div
-                className={`album-detail__song-detail__left__img ${
-                  isActive ? "active" : ""
-                }`}
-                onClick={handleClick}
-              >
-                {album ? (
-                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
-                ) : (
-                  <div style={{ backgroundColor: "black" }} />
-                )}
-                <div className="album-detail__song-detail__left__img__txt">
-                  {/* <pre>{album?.lyrics}</pre> */}
-                  <pre>
-                    {album?.lyrics
-                      ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 앞에 줄바꿈 추가
-                      ?.trim()}
-                  </pre>
-                  {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
-                </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">
-                  Lyrics
-                </button>
-              </div>
-              <div className="album-detail__song-detail__left__info">
-                <div className="album-detail__song-detail__left__info__number">
-                  <button className="love" onClick={handleLike}>
-                    <img
-                      src={album?.is_like ? halfHeartIcon : loveIcon}
-                      alt="love Icon"
-                    />
-                    {album?.like || 0}
-                  </button>
-                  <button className="comment" onClick={handleScrollToComment}>
-                    <img src={commentIcon} />
-                    {album?.comment_cnt || 0}
-                  </button>
-                  <p className="play">
-                    <img src={playIcon} />
-                    {album?.play_cnt || 0}
-                  </p>
-                </div>
-                <button
-                  className="album-detail__song-detail__left__info__share-btn"
-                  onClick={() => setShareModal(true)}
-                >
-                  <img src={shareIcon} />
-                </button>
-              </div>
               <section className="album-detail__audio">
                 <AudioPlayer
                   src={album?.music_url || track1}
@@ -365,6 +313,58 @@ function AlbumDetail() {
                   <img src={album?.cover_image || coverImg} alt="album cover" />
                 </p>
               </section>
+              <div
+                className={`album-detail__song-detail__left__img ${
+                  isActive ? "active" : ""
+                }`}
+                onClick={handleClick}
+              >
+                {album ? (
+                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
+                ) : (
+                  <div style={{ backgroundColor: "black" }} />
+                )}
+                <div className="album-detail__song-detail__left__img__txt">
+                  {/* <pre>{album?.lyrics}</pre> */}
+                  <pre>
+                    {album?.lyrics
+                      ?.replace(/(###\s?[\w\s]+)/g, "\n$1") // "###"로 시작하는 절 제목 위에 두 개의 줄바꿈 추가
+                      ?.replace(/(\*\*.*?\*\*)/g, "\n$1") // **텍스트** 위에 두 개의 줄바꿈 추가
+                      ?.replace(/\[([^\]]+)\]/g, "\n[$1]") // [] 안의 텍스트 위에만 줄바꿈 추가 (아래 줄바꿈 없음)
+                      ?.replace(/\(([^\)]+)\)/g, "\n($1)") // () 안의 텍스트 위에만 줄바꿈 추가 (아래 줄바꿈 없음)
+                      ?.trim()}
+                  </pre>
+                  {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
+                </div>
+                <button className="album-detail__song-detail__left__img__lyrics-btn">
+                  Lyrics
+                </button>
+              </div>
+              <div className="album-detail__song-detail__left__info">
+                <div className="album-detail__song-detail__left__info__number">
+                  <p className="love" onClick={handleLike}>
+                    <img
+                      src={album?.is_like ? halfHeartIcon : loveIcon}
+                      alt="love Icon"
+                    />
+                    {album?.like || 0}
+                  </p>
+                  <p className="play">
+                    <img src={playIcon} />
+                    {album?.play_cnt || 0}
+                  </p>
+                  <p className="comment" onClick={handleScrollToComment}>
+                    <img src={commentIcon} />
+                    {album?.comment_cnt || 0}
+                  </p>
+                </div>
+                <button
+                  className="album-detail__song-detail__left__info__share-btn"
+                  onClick={() => setShareModal(true)}
+                >
+                  <img src={shareIcon} />
+                </button>
+              </div>
             </div>
             <div className="album-detail__song-detail__right">
               <p className="album-detail__song-detail__right__title">
@@ -504,53 +504,47 @@ function AlbumDetail() {
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="song-detail-slide">
               {favoriteGenreList.map((track, index) => (
-                <SwiperSlide>
-                  <button
-                    key={track.id}
-                    className={`album__content-list__list__item`}
-                  >
-                    <div className="album__content-list__list__item__left">
-                      <p
-                        className="album__content-list__list__item__left__img"
-                        style={{ backgroundImage: `url(${track.cover_image})` }}
-                      ></p>
-                      <span className="time">{formatTime(track.duration)}</span>
-                    </div>
-                    <div className="album__content-list__list__item__right">
-                      <p className="album__content-list__list__item__right__title">
-                        {track.title}
-                      </p>
-                      <div className="album__content-list__list__item__right__love-play">
-                        <p className="love">
-                          <img src={loveIcon} />
-                          {track.like}
-                        </p>
-                        <p className="play">
-                          <img src={playIcon} />
-                          {track.play_cnt}
-                        </p>
-                      </div>
-                      <div className="album__content-list__list__item__right__user">
-                        <p className="album__content-list__list__item__right__user__info">
-                          <img
-                            src={
-                              track.user_profile
-                                ? track.user_profile
-                                : defaultCoverImg
-                            }
-                            alt="User profile"
-                          />
-                          {track.name}
-                        </p>
-                        <Link
-                          className="album__content-list__list__item__right__user__btn"
-                          to={`/song-detail/${track?.id}`}
-                        >
-                          Details
-                        </Link>
-                      </div>
-                    </div>
-                  </button>
+                <SwiperSlide key={track.id}>
+                  <AlbumItem track={track} />
+                  {/* <button key={track.id} className={`album__content-list__list__item`}>
+                                        <div className="album__content-list__list__item__left">
+                                            <p
+                                                className="album__content-list__list__item__left__img"
+                                                style={{ backgroundImage: `url(${track.cover_image})` }}
+                                            ></p>
+                                            <span className="time">{formatTime(track.duration)}</span>
+                                        </div>
+                                        <div className="album__content-list__list__item__right">
+                                            <p className="album__content-list__list__item__right__title">
+                                                {track.title}
+                                            </p>
+                                            <div className="album__content-list__list__item__right__love-play">
+                                                <p className="love">
+                                                    <img src={loveIcon} />
+                                                    {track.like}
+                                                </p>
+                                                <p className="play">
+                                                    <img src={playIcon} />
+                                                    {track.play_cnt}
+                                                </p>
+                                            </div>
+                                            <div className="album__content-list__list__item__right__user">
+                                                <p className="album__content-list__list__item__right__user__info">
+                                                    <img
+                                                        src={track.user_profile ? track.user_profile : defaultCoverImg}
+                                                        alt="User profile"
+                                                    />
+                                                    {track.name}
+                                                </p>
+                                                <Link
+                                                    className="album__content-list__list__item__right__user__btn"
+                                                    to={`/song-detail/${track?.id}`}
+                                                >
+                                                    Details
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </button> */}
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -565,60 +559,47 @@ function AlbumDetail() {
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="song-detail-slide">
               {similarVibesList.map((track, index) => (
-                <SwiperSlide>
-                  <button
-                    key={track.id}
-                    className={`album__content-list__list__item`}
-                  >
-                    <div className="album__content-list__list__item__left">
-                      <p
-                        className="album__content-list__list__item__left__img"
-                        style={{ backgroundImage: `url(${track.cover_image})` }}
-                      ></p>
-                      <span className="time">{formatTime(track.duration)}</span>
-                      {/* <span className="time">
-                        {selectedTrackIndex === index
-                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                          : formatTime(track.duration)}
-                      </span> */}
-                    </div>
-                    <div className="album__content-list__list__item__right">
-                      <p className="album__content-list__list__item__right__title">
-                        {track.title}
-                      </p>
-                      <div className="album__content-list__list__item__right__love-play">
-                        <p className="love">
-                          <img src={loveIcon} />
-                          {track.like}
-                        </p>
-                        <p className="play">
-                          <img src={playIcon} />
-                          {track.play_cnt}
-                        </p>
-                      </div>
-                      <div className="album__content-list__list__item__right__user">
-                        <p className="album__content-list__list__item__right__user__info">
-                          <img
-                            src={
-                              track.user_profile
-                                ? track.user_profile
-                                : defaultCoverImg
-                            }
-                            alt="User profile"
-                          />
-                          {track.name}
-                        </p>
-                        <Link
-                          className="album__content-list__list__item__right__user__btn"
-                          to={`/song-detail/${track?.id}`}
-                        >
-                          Details
-                        </Link>
-                      </div>
-                    </div>
-                  </button>
+                <SwiperSlide key={track.id}>
+                  <AlbumItem track={track} />
                 </SwiperSlide>
               ))}
+              {/* {tracks.slice(0, 9).map((track, index) => (
+                                <SwiperSlide>
+                                    <button key={track.id} className={`album__content-list__list__item`}>
+                                        <div className="album__content-list__list__item__left">
+                                            <p
+                                                className="album__content-list__list__item__left__img"
+                                                style={{ backgroundImage: `url(${track.cover})` }}
+                                            ></p>
+                                            <span className="time">2:11</span>
+                                        </div>
+                                        <div className="album__content-list__list__item__right">
+                                            <p className="album__content-list__list__item__right__title">
+                                                {track.title}
+                                            </p>
+                                            <div className="album__content-list__list__item__right__love-play">
+                                                <p className="love">
+                                                    <img src={loveIcon} />
+                                                    145
+                                                </p>
+                                                <p className="play">
+                                                    <img src={playIcon} />
+                                                    145
+                                                </p>
+                                            </div>
+                                            <div className="album__content-list__list__item__right__user">
+                                                <p className="album__content-list__list__item__right__user__info">
+                                                    <img src={defaultCoverImg} />
+                                                    Yolkhead
+                                                </p>
+                                                <button className="album__content-list__list__item__right__user__btn">
+                                                    Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </SwiperSlide>
+                            ))} */}
             </Swiper>
           </div>
         </section>
@@ -627,6 +608,7 @@ function AlbumDetail() {
         <ShareModal
           setShareModal={setShareModal}
           shareUrl={window.location.href}
+          title={album?.title}
         />
       )}
       {isPreparingModal && (

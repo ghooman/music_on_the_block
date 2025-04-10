@@ -3,12 +3,14 @@ import './ContentWrap.scss';
 
 const ContentWrap = ({ children, title, link }) => {
     return (
-        <div className="nft-content-wrap">
-            <div className="nft-content-wrap__title">
-                <p className="nft-contnet-wrap__title--text">{title}</p>
-                {link && <Link className="nft-content-wrap__title--link"
-                    to='/nft/list'
-                >See More</Link>}
+        <div className="unit-component-content-wrap">
+            <div className="unit-component-content-wrap__title">
+                <p className="unit-component-contnet-wrap__title--text">{title}</p>
+                {link && (
+                    <Link className="unit-component-content-wrap__title--link" to={link}>
+                        See More
+                    </Link>
+                )}
             </div>
             {children}
         </div>

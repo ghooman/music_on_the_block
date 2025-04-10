@@ -29,6 +29,7 @@ import axios from "axios";
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import { getHitMusicList } from "../api/HitMusicList";
 import IntroLogo2 from "../components/IntroLogo2";
+import AlbumItem from "../components/unit/AlbumItem";
 function Album() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token, walletAddress } = useContext(AuthContext);
@@ -228,7 +229,7 @@ function Album() {
               className="album__header__cover-info__btn"
               to={`/song-detail/${selectedTrack?.id}`}
             >
-              Detail
+              Details
             </Link>
           </div>
           <MyAudioPlayer
@@ -245,63 +246,14 @@ function Album() {
           <p className="album__content-list__title">Total</p>
           <article className="album__content-list__list">
             {tracks.slice(0, 9).map((track, index) => (
-              <button
+              <AlbumItem
                 key={track.id}
-                className={`album__content-list__list__item ${
-                  selectedTrackIndex === index ? "active" : ""
-                }`}
+                track={track}
+                isActive={selectedTrackIndex === index}
+                currentTime={currentTime}
                 onClick={() => handleTrackClick(index)}
-              >
-                <div className="album__content-list__list__item__left">
-                  <p
-                    className="album__content-list__list__item__left__img"
-                    style={{
-                      backgroundImage: `url(${
-                        track.cover_image === "string"
-                          ? coverImg10
-                          : track.cover_image
-                      })`,
-                    }}
-                  ></p>
-                  <span className="time">
-                    {selectedTrackIndex === index
-                      ? `${formatTime(currentTime)}`
-                      : formatTime(track.duration)}
-                  </span>
-                  {/* <span className="time">
-                    {selectedTrackIndex === index
-                      ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                      : formatTime(track.duration)}
-                  </span> */}
-                </div>
-                <div className="album__content-list__list__item__right">
-                  <p className="album__content-list__list__item__right__title">
-                    {track.title}
-                  </p>
-                  <div className="album__content-list__list__item__right__love-play">
-                    <p className="love">
-                      <img src={track.is_like ? halfHeartIcon : loveIcon} />
-                      {track?.like || 0}
-                    </p>
-                    <p className="play">
-                      <img src={playIcon} />
-                      {track?.play_cnt || 0}
-                    </p>
-                  </div>
-                  <div className="album__content-list__list__item__right__user">
-                    <p className="album__content-list__list__item__right__user__info">
-                      <img src={track?.user_profile || defaultCoverImg} />
-                      {track?.name || "unKnown"}
-                    </p>
-                    <Link
-                      className="album__content-list__list__item__right__user__btn"
-                      to={"/song-detail/" + track.id}
-                    >
-                      Details
-                    </Link>
-                  </div>
-                </div>
-              </button>
+              />
+
             ))}
           </article>
           <Link
@@ -438,63 +390,13 @@ function Album() {
           <p className="album__content-list__title">AI Lyrics & Songwriting</p>
           <article className="album__content-list__list">
             {tracks.slice(0, 9).map((track, index) => (
-              <button
+              <AlbumItem
                 key={track.id}
-                className={`album__content-list__list__item ${
-                  selectedTrackIndex === index ? "active" : ""
-                }`}
+                track={track}
+                isActive={selectedTrackIndex === index}
+                currentTime={currentTime}
                 onClick={() => handleTrackClick(index)}
-              >
-                <div className="album__content-list__list__item__left">
-                  <p
-                    className="album__content-list__list__item__left__img"
-                    style={{
-                      backgroundImage: `url(${
-                        track.cover_image === "string"
-                          ? coverImg10
-                          : track.cover_image
-                      })`,
-                    }}
-                  ></p>
-                  <span className="time">
-                    {selectedTrackIndex === index
-                      ? `${formatTime(currentTime)}`
-                      : formatTime(track.duration)}
-                  </span>
-                  {/* <span className="time">
-                    {selectedTrackIndex === index
-                      ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                      : formatTime(track.duration)}
-                  </span> */}
-                </div>
-                <div className="album__content-list__list__item__right">
-                  <p className="album__content-list__list__item__right__title">
-                    {track.title}
-                  </p>
-                  <div className="album__content-list__list__item__right__love-play">
-                    <p className="love">
-                      <img src={track.is_like ? halfHeartIcon : loveIcon} />
-                      {track?.like || 0}
-                    </p>
-                    <p className="play">
-                      <img src={playIcon} />
-                      {track?.play_cnt || 0}
-                    </p>
-                  </div>
-                  <div className="album__content-list__list__item__right__user">
-                    <p className="album__content-list__list__item__right__user__info">
-                      <img src={track?.user_profile || defaultCoverImg} />
-                      {track?.name || "unKnown"}
-                    </p>
-                    <Link
-                      className="album__content-list__list__item__right__user__btn"
-                      to={"/song-detail/" + track.id}
-                    >
-                      Details
-                    </Link>
-                  </div>
-                </div>
-              </button>
+              />
             ))}
           </article>
           <Link

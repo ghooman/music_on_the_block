@@ -1,4 +1,4 @@
-.nft-content-wrap {
+.unit-component-content-wrap {
     padding: 16px;
     border-radius: 12px;
     border: 1px solid #222;
@@ -6,7 +6,7 @@
     flex-direction: column;
     gap: 24px;
 
-    .nft-content-wrap__title {
+    .unit-component-content-wrap__title {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -22,7 +22,7 @@
         }
     }
 
-    .nft-contnet-wrap__title--text {
+    .unit-component-contnet-wrap__title--text {
         color: #cf0;
         font-family: Orbitron400;
         font-size: 24px;
@@ -30,7 +30,7 @@
         padding-left: 8px;
     }
 
-    .nft-content-wrap__title--link {
+    .unit-component-content-wrap__title--link {
         color: #aaa;
         font-family: Orbitron500;
         font-size: 14px;

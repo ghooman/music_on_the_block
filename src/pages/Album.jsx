@@ -184,15 +184,15 @@ function Album() {
 
   return (
     <>
-      <div className="album">
+      <div className="main">
         <div
-          className={`album__header 
+          className={`main__header 
               ${selectedTrackIndex !== null ? "active" : ""} 
               ${isScrolled ? "scrolled" : ""}`}
         >
-          <div className="album__header__album-cover">
+          <div className="main__header__album-cover">
             <p
-              className="album__header__album-cover__img"
+              className="main__header__album-cover__img"
               style={{
                 backgroundImage: `url(${
                   selectedTrack?.cover_image === "string"
@@ -201,10 +201,10 @@ function Album() {
                 })`,
               }}
             ></p>
-            <p className="album__header__title">{albumTitle}</p>
+            <p className="main__header__title">{albumTitle}</p>
           </div>
-          <div className="album__header__cover-info">
-            <div className="album__header__cover-info__love-play">
+          <div className="main__header__cover-info">
+            <div className="main__header__cover-info__love-play">
               <p
                 className="love"
                 onClick={() => handleLikeClick(selectedTrack)}
@@ -226,7 +226,7 @@ function Album() {
               </p>
             </div>
             <Link
-              className="album__header__cover-info__btn"
+              className="main__header__cover-info__btn"
               to={`/song-detail/${selectedTrack?.id}`}
             >
               Details

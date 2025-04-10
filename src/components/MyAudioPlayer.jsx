@@ -1,5 +1,5 @@
 // components/MyAudioPlayer.js
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { AuthContext } from "../contexts/AuthContext";
@@ -12,6 +12,7 @@ const MyAudioPlayer = ({
   onClickNext,
   getTracks,
   handleGetMusicList,
+  setIsPlaying
 }) => {
   const { token } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -50,6 +51,22 @@ const MyAudioPlayer = ({
     }
   };
 
+  
+  const handlePlay = () => {
+    setIsPlaying(true); // 재생 시작 시 playing 상태를 true로 설정
+  };
+
+  // Pause 상태 변경
+  const handlePause = () => {
+    setIsPlaying(false); // 재생 멈추면 playing 상태를 false로 설정
+  };
+
+  useEffect(() => {
+    // 트랙이 변경될 때마다 playing 상태를 false로 설정
+    setIsPlaying(false);
+  }, [track, setIsPlaying]);
+
+
   return (
     <AudioPlayer
       key={track?.id}
@@ -57,8 +74,11 @@ const MyAudioPlayer = ({
       autoPlay={true}
       loop={true}
       showSkipControls={true}
-      onPlay={() => console.log(`${track?.title} 재생 시작`)}
+      onPlay={handlePlay} // 재생 시작 시 handlePlay 호출
+      onPause={handlePause} // 일시정지 시 handlePause 호출
+      // onListen={onTimeUpdate} // 부모 컴포넌트로 시간 업데이트 전달
       onListen={handleListen}
+      // onPlay={() => console.log(`${track?.title} 재생 시작`)}
       listenInterval={1000}
       onClickPrevious={onClickPrevious}
       onClickNext={onClickNext}

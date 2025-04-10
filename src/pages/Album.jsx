@@ -68,6 +68,7 @@ function Album() {
     handleGetMusicList();
   }, [walletAddress]);
   // 노래플레이 관련 상태
+  const [isPlaying, setIsPlaying] = useState(false);
   const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [tracks, setTracks] = useState([]);
@@ -185,11 +186,17 @@ function Album() {
   return (
     <>
       <div className="main">
-        <div
+        {/* <div
           className={`main__header 
               ${selectedTrackIndex !== null ? "active" : ""} 
               ${isScrolled ? "scrolled" : ""}`}
-        >
+        > */}
+        <div
+          className={`main__header 
+              ${selectedTrackIndex !== null ? "active" : ""} 
+              ${isScrolled ? "scrolled" : ""} 
+              ${isPlaying ? "playing" : "no-playing"}`}
+          >
           <div className="main__header__album-cover">
             <p
               className="main__header__album-cover__img"
@@ -239,6 +246,7 @@ function Album() {
             onClickNext={handleClickNext}
             getTracks={getTracks}
             handleGetMusicList={handleGetMusicList}
+            setIsPlaying={setIsPlaying}
           />
         </div>
 

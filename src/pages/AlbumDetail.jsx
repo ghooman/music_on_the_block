@@ -34,7 +34,7 @@ import LyricsModal from "../components/LyricsModal";
 // 외부에서 플레이 카운트 업데이트 함수를 import합니다.
 import { incrementPlayCount } from "../api/incrementPlayCount";
 import AlbumItem from "../components/unit/AlbumItem";
-
+import IntroLogo3 from "../components/IntroLogo3";
 function AlbumDetail() {
   const [isPreparingModal, setPreparingModal] = useState(false);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -203,21 +203,24 @@ function AlbumDetail() {
 
   // 앨범 상세 정보 가져오기 함수
   const fetchAlbumDetail = async () => {
+    // 페이지 전환 시 기존 데이터를 초기화하고 로딩 상태 true로 설정합니다.
+    setAlbum(null);
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
       );
-      console.log("앨범 상세 정보:", response.data);
       setAlbum(response.data);
       // 앨범 재생 시간 계산
       const audio = new Audio(response?.data?.music_url);
       audio.addEventListener("loadedmetadata", () => {
-        const duration = audio?.duration;
+        const duration = audio.duration;
         setAlbumDuration(duration);
       });
     } catch (error) {
       console.error("앨범 상세 정보 가져오기 에러:", error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -274,9 +277,15 @@ function AlbumDetail() {
   };
 
   const { isLoggedIn } = useContext(AuthContext);
+  const LoadingSpinner = () => {
+    return <div className="loading-spinner">Loading...</div>;
+  };
+  // 로딩 상태 변수 추가
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
+      {isLoading && <IntroLogo3 />}
       <div className="song-detail">
         <dl className="album-detail__title">
           <dt>AI Lyrics & Songwriting</dt>

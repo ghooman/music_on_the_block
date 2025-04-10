@@ -253,7 +253,6 @@ function Album() {
                 currentTime={currentTime}
                 onClick={() => handleTrackClick(index)}
               />
-
             ))}
           </article>
           <Link
@@ -341,22 +340,6 @@ function Album() {
                 </div>
               </SwiperSlide>
             ))}
-            {/* {tracks.map((track, index) => (
-              <SwiperSlide className="swiper-music-list__item">
-                <p 
-                  // style={{ backgroundImage: `url(${track.cover})` }}
-                >1
-                </p>
-              </SwiperSlide>
-            ))} */}
-            {/* <SwiperSlide><p>Slide 2</p></SwiperSlide>
-            <SwiperSlide><p>Slide 3</p></SwiperSlide>
-            <SwiperSlide><p>Slide 4</p></SwiperSlide>
-            <SwiperSlide><p>Slide 5</p></SwiperSlide>
-            <SwiperSlide><p>Slide 6</p></SwiperSlide>
-            <SwiperSlide><p>Slide 7</p></SwiperSlide>
-            <SwiperSlide><p>Slide 8</p></SwiperSlide>
-            <SwiperSlide><p>Slide 9</p></SwiperSlide> */}
           </Swiper>
         </section>
 

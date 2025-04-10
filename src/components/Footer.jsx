@@ -128,10 +128,7 @@ const Footer = ({ setIsLoggedIn }) => {
               <img className="footer__top__left__logo" src={logo} />
               <ul className="footer__top__left__sns">
                 <li>
-                  <Link 
-                    to="https://x.com/MUSICONTHE68603"
-                    target="_blank"
-                  >
+                  <Link to="https://x.com/MUSICONTHE68603" target="_blank">
                     <img src={sns01} alt="트위터&엑스" />
                   </Link>
                 </li>
@@ -141,7 +138,7 @@ const Footer = ({ setIsLoggedIn }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link 
+                  <Link
                     to="https://medium.com/@musicontheblock"
                     target="_blank"
                     // onClick={() => setPreparingModal(true)}
@@ -205,7 +202,7 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>MAIN</dt>
                   <dd>
-                    <Link to="/album">MAIN</Link>
+                    <Link to="/main">MAIN</Link>
                   </dd>
                 </dl>
                 <dl>

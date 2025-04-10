@@ -67,18 +67,24 @@ const AlarmModal = () => {
   }, [storedAlbumData, isError, albumPk]);
 
   useEffect(() => {
-    if (albumPk) {
+    let timer;
+    if (storedAlbumData && !albumPk && !isError) {
+      timer = setInterval(() => {
+        const storedStart = parseInt(
+          localStorage.getItem(albumTimerStorageKey)
+        );
+        const diffSeconds = Math.floor((Date.now() - storedStart) / 1000);
+        setElapsedSeconds(diffSeconds);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [storedAlbumData, albumPk, isError]);
+
+  useEffect(() => {
+    if (albumPk || isError) {
       hasTimerStartedRef.current = false;
       localStorage.removeItem(albumTimerStorageKey);
     }
-  }, [albumPk]);
-
-  useEffect(() => {
-    let timer;
-    if (!albumPk && !isError) {
-      timer = setInterval(() => setElapsedSeconds((prev) => prev + 1), 1000);
-    }
-    return () => clearInterval(timer);
   }, [albumPk, isError]);
 
   useEffect(() => {
@@ -179,7 +185,7 @@ const AlarmModal = () => {
             )}
           </p>
 
-          {!albumPk && !isError && (
+          {!isError && storedAlbumData && (
             <>
               <div className="middle2">
                 {[...Array(8)].map((_, i) => (
@@ -197,7 +203,8 @@ const AlarmModal = () => {
               OK
             </button>
           ) : (
-            albumPk && (
+            albumPk &&
+            !storedAlbumData && (
               <Link
                 className="alarm__modal__item__link"
                 to={`/song-detail/${albumPk}`}

@@ -48,7 +48,7 @@ const Header = ({ setIsLoggedIn }) => {
             </svg>
           </button>
           <h1>
-            <Link to="/album">
+            <Link to="/main">
               <img src={mainLogo} className="logo" />
               <div className="text-box">
                 <div className="text-wrap">

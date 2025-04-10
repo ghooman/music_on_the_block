@@ -1,11 +1,11 @@
 // components/create/chatbot/LyricChatBot.js
-import "../styles/LyricChatBot.scss";
+import "./LyricChatBot.scss";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
-import CreateLoading from "../components/CreateLoading";
+import CreateLoading from "../../CreateLoading";
 import axios from "axios";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const LyricChatBot = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;

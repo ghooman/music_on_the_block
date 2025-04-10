@@ -1,0 +1,41 @@
+// 다른 곳에서도 사용될 경우 클래스명 변경 부탁드립니다.
+// 파일 위치도 변경해주세용
+
+.unit-component-pagination {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .unit-component-pagination-content {
+        display: flex;
+        gap: 10px;
+    }
+    .unit-component-pagination-content__page {
+        color: #f1f1f1;
+        text-align: center;
+        font-family: Inter500;
+        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        &.enable {
+            color: #1a1a1a;
+            background: var(--primary-100, #cf0);
+        }
+
+        &.prev,
+        &.next {
+            cursor: pointer;
+        }
+
+        &.prev {
+            background: url('../../assets/images/album/prev-btn.svg') center no-repeat;
+            // border: 1px solid #565656;
+            // background-color: #383838;
+        }
+        &.next {
+            background: url('../../assets/images/album/next-btn.svg') center no-repeat;
+        }
+    }
+}

@@ -334,7 +334,7 @@ const LyricsLab = ({
                 if (e.key === "Enter") {
                   const currentScroll = e.target.scrollTop;
                   setTimeout(() => {
-                    e.target.scrollTop = currentScroll; // 화면 스크롤을 유지
+                    e.target.scrollTop = currentScroll; // 화면 스크롤 픽스
                   }, 0);
                 }
               }}

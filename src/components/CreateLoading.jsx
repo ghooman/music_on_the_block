@@ -20,9 +20,9 @@ const CreateLoading = ({textTrue,textTrue2}) => {
         <div className="bar bar8"></div>
       </div>
       <p className="middle__bg"></p>
-      {textTrue &&
+      {/* {textTrue &&
         <p className="middle__title">music generation takes at least 3 minutes</p>
-      }
+      } */}
       {textTrue2 &&
         <p className="middle__title">Lyrics in progress</p>
       }

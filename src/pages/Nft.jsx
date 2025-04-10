@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentWrap from '../components/nft/ContentWrap';
+import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
 import { NftSlider } from '../components/nft/NftSlider';
 import { NftGraph } from '../components/nft/NftGraph';

@@ -260,6 +260,13 @@ const ChatBot = () => {
       setCreateLoading(false);
     }
   };
+  // 생성 버튼 허용 조건
+  const isGenerateButtonDisabled =
+    !finalGenre ||
+    !finalTitle ||
+    !finalLyricPrompt ||
+    !finalLyric ||
+    createLoading;
 
   return (
     <div className="chatbot__background">
@@ -296,7 +303,7 @@ const ChatBot = () => {
           <input
             type="text"
             value={finalGenre}
-            placeholder="Final Genre"
+            placeholder="POP,K-POP,ROCK,HIP-HOP ..."
             readOnly
           />
         </div>

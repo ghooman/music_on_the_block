@@ -1,0 +1,40 @@
+.chart__pie {
+    position: relative;
+
+    .chart__pie--text {
+        position: absolute;
+        left: 50%;
+        top: 47%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+
+        .chart__pie--text-value {
+            transition: 0.3s;
+            font-size: 24px;
+            font-family: Orbitron600;
+        }
+        .chart__pie--text-per {
+            color: #cf0;
+            text-align: center;
+            font-family: Orbitron600;
+            font-size: 12px;
+        }
+    }
+
+    .chart__pie--legends {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+
+        .chart__pie--legends__item {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart__pie--legends__item--square {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+        }
+    }
+}

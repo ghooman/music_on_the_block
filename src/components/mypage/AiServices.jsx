@@ -3,47 +3,79 @@ import './AiServices.scss';
 import demoChart from '../../assets/images/mypage/demo-chart.png';
 import demoChart2 from '../../assets/images/mypage/demo-chart2.png';
 import demoChart3 from '../../assets/images/mypage/demo-chart3.png';
+import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
+import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 
 import FilterDateModal from '../../components/unit/FilterDateModal';
 import Filter from '../unit/Filter';
 import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
+import { PieChart } from '../unit/Chart';
 
 const AiServiceList = ['AI Lyrics & Songwriting', 'AI Singing Evaluation', 'AI Cover Creation'];
 const AiServiceTypeList = ['All', 'Lyrics', 'Songwriting', 'Lyrics + Songwriting'];
 
+const chartData = [
+    {
+        id: 'AI Lyrics & Songwriting',
+        label: 'css',
+        value: 46,
+        color: 'hsl(252, 100%, 50%)',
+    },
+    {
+        id: 'AI Singing Evaluation',
+        label: 'java',
+        value: 68,
+        color: 'hsl(162, 100%, 50%)',
+    },
+    {
+        id: 'AI Cover Creation',
+        label: 'lisp',
+        value: 17,
+        color: 'hsl(342, 100%, 50%)',
+    },
+];
+
 const AiServices = () => {
-    const [selectedAiService, setSelectedAiService] = useState('AI Lyrics & Songwriting');
     const [aiServiceStatus, setAiServiceStatus] = useState('All');
     const [openModal, setOpenModal] = useState(false);
     const [showPreparingModal, setShowPreparingModal] = useState(false);
 
+    const [selectedItem, setSelectedItem] = useState(chartData[0]);
+
     const handleAiServiceClick = (aiService) => {
-        if (aiService === 'AI Singing Evaluation' || aiService === 'AI Cover Creation') {
-            setShowPreparingModal(true);
-            return;
-        }
-        setSelectedAiService(aiService);
+        // if (aiService === 'AI Singing Evaluation' || aiService === 'AI Cover Creation') {
+        //     setShowPreparingModal(true);
+        //     return;
+        // }
+        // setSelectedAiService(aiService);
     };
 
     return (
         <>
             {/** 차트 조작 버튼입니다. */}
             <div className="ai__services">
-                {AiServiceList.map((aiService) => (
+                {chartData.map((aiService) => (
                     <button
                         key={aiService}
-                        className={`ai__service-btn ${selectedAiService === aiService ? 'active' : ''}`}
-                        onClick={() => handleAiServiceClick(aiService)}
+                        className={`ai__service-btn ${selectedItem.id === aiService.id ? 'active' : ''}`}
+                        onClick={() => setSelectedItem(aiService)}
                     >
-                        {aiService}
+                        {aiService.id}
                     </button>
                 ))}
             </div>
 
             {/** 콘텐츠 */}
             <div className="ai__chart">
-                <img src={demoChart} alt="chart" />
+                <PieChart
+                    height={300}
+                    width={300}
+                    data={chartData}
+                    selectedItem={selectedItem}
+                    setSelectedItem={setSelectedItem}
+                />
             </div>
 
             {/** 차트 조작 */}

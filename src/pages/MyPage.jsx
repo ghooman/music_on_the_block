@@ -19,6 +19,7 @@ import AiServices from '../components/mypage/AiServices';
 import Albums from '../components/mypage/Albums';
 import MyFavorites from '../components/mypage/MyFavorites';
 import Reward from '../components/mypage/Reward';
+import { PieChart } from '../components/unit/Chart';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import PreparingModal from '../components/PreparingModal';
@@ -89,22 +90,22 @@ const MyPage = () => {
                     </div>
                     <p className="mypage__bio">{userData?.introduce || 'No introduction'}</p>
                     {/* <div className="mypage__social-icons">
-            <button className="social-icon">
-              <img src={instarIcon} alt="social" />
-            </button>
-            <button className="social-icon">
-              <img src={facebookIcon} alt="social" />
-            </button>
-            <button className="social-icon">
-              <img src={xIcon} alt="social" />
-            </button>
-            <button className="social-icon">
-              <img src={discordIcon} alt="social" />
-            </button>
-            <button className="social-icon">
-              <img src={youtubeIcon} alt="social" />
-            </button>
-          </div> */}
+                        <button className="social-icon">
+                            <img src={instarIcon} alt="social" />
+                        </button>
+                        <button className="social-icon">
+                            <img src={facebookIcon} alt="social" />
+                        </button>
+                        <button className="social-icon">
+                            <img src={xIcon} alt="social" />
+                        </button>
+                        <button className="social-icon">
+                            <img src={discordIcon} alt="social" />
+                        </button>
+                        <button className="social-icon">
+                            <img src={youtubeIcon} alt="social" />
+                        </button>
+                    </div> */}
                     <div className="mypage__exp">
                         <div className="mypage__exp-box">
                             <span className="exp-box__value">52,104</span>

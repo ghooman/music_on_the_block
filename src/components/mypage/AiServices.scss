@@ -52,13 +52,11 @@
     }
 }
 .ai__chart {
-    width: 700px;
-    margin: 0 auto;
+    width: 100%;
     margin-top: 40px;
-    text-align: center;
-    img {
-        width: 100%;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .ai__ai-status {
     margin-top: 100px;

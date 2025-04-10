@@ -37,113 +37,113 @@ const queryClient = new QueryClient();
 function App() {
     const { pathname } = useLocation();
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathname]);
-    return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <div className="App">
-                    <title>MUSIC ON THE BLOCK</title>
-                    <Routes>
-                        <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
-                        <Route
-                            path="/album"
-                            element={
-                                <Layout>
-                                    <Album />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/create"
-                            element={
-                                <Layout>
-                                    <Create />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/chatbot"
-                            element={
-                                <Layout>
-                                    <ChatBot />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/my-page"
-                            element={
-                                <Layout>
-                                    {/* <ProtectedRoute> */}
-                                    <MyPage />
-                                    {/* </ProtectedRoute> */}
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/account-setting"
-                            element={
-                                <Layout>
-                                    <ProtectedRoute>
-                                        <AccountSettings />
-                                    </ProtectedRoute>
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/album-detail/:id"
-                            element={
-                                <Layout>
-                                    <AlbumDetail />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/sign-up"
-                            element={
-                                <Layout>
-                                    <SignUp />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft"
-                            element={
-                                <Layout>
-                                    <Nft />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/list"
-                            element={
-                                <Layout>
-                                    <NftList />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/collection/detail"
-                            element={
-                                <Layout>
-                                    <CollectionDetail />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/detail"
-                            element={
-                                <Layout>
-                                    <NftItemDetail />
-                                </Layout>
-                            }
-                        />
-                    </Routes>
-                </div>
-            </AuthProvider>
-        </QueryClientProvider>
-    );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <div className="App">
+          <title>MUSIC ON THE BLOCK</title>
+          <Routes>
+            <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
+            <Route
+              path="/album"
+              element={
+                <Layout>
+                  <Album />
+                </Layout>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <Layout>
+                  <Create />
+                </Layout>
+              }
+            />
+            <Route
+              path="/chatbot"
+              element={
+                <Layout>
+                  <ChatBot />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-page"
+              element={
+                <Layout>
+                  <ProtectedRoute>
+                    <MyPage />
+                  </ProtectedRoute>
+                </Layout>
+              }
+            />
+            <Route
+              path="/account-setting"
+              element={
+                <Layout>
+                  <ProtectedRoute>
+                    <AccountSettings />
+                  </ProtectedRoute>
+                </Layout>
+              }
+            />
+            <Route
+              path="/song-detail/:id"
+              element={
+                <Layout>
+                  <AlbumDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="/sign-up"
+              element={
+                <Layout>
+                  <SignUp />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft"
+              element={
+                <Layout>
+                  <Nft />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/list"
+              element={
+                <Layout>
+                  <NftList />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/collection/detail"
+              element={
+                <Layout>
+                  <CollectionDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/detail"
+              element={
+                <Layout>
+                  <NftItemDetail />
+                </Layout>
+              }
+            />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;

@@ -146,7 +146,7 @@ function AlbumDetail() {
     loop: true,
     slidesPerView: 3,
     spaceBetween: 8,
-    initialSlide: 2,
+    // initialSlide: 2,
     grabCursor: true,
     pagination: {
       clickable: true,
@@ -270,7 +270,7 @@ function AlbumDetail() {
 
     return (
         <>
-            <div className="album-detail">
+            <div className="song-detail">
                 <dl className="album-detail__title">
                     <dt>AI Lyrics & Songwriting</dt>
                     <dd>Lyrics+Songwriting</dd>
@@ -415,59 +415,61 @@ function AlbumDetail() {
                     </div>
                 </section>
 
-                <section
-                    // className="album-detail__rank-table"
-                    className={`album-detail__rank-table ${isLoggedIn ? 'is-logged-in' : 'not-logged-in'}`}
-                >
-                    <div ref={commentRef}>
-                        <AdvancedCommentComponent id={id} />
-                    </div>
-                    <dl className="album-detail__rank-table__title">
-                        <dt>Songs Leaderboard Rank</dt>
-                        <dd>Most Likes</dd>
-                    </dl>
-                    <div className="table-container">
-                        <table className="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Artist</th>
-                                    <th>Song Title</th>
-                                    <th>Date</th>
-                                    <th>Likes</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {leaderBoardData.map((item, index) => (
-                                    <tr key={item.id}>
-                                        <td>{index + 1}</td>
-                                        <td className="user-info">
-                                            <p>
-                                                <img src={item.user_profile || defaultCoverImg} />
-                                                {item.name}
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>{item.title}</p>
-                                        </td>
-                                        <td>{formatLocalTime(item.create_dt)}</td>
-                                        <td>{item.like}</td>
-                                        <td>
-                                            <Link
-                                                // className={item.buttonClass}
-                                                className="details-btn active"
-                                                to={'/album-detail/' + item.id}
-                                            >
-                                                Details
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    {/* <button className="album-detail__filter-btn">
+        <section
+          // className="album-detail__rank-table"
+          className={`album-detail__rank-table ${
+            isLoggedIn ? "is-logged-in" : "not-logged-in"
+          }`}
+        >
+          <div ref={commentRef}>
+            <AdvancedCommentComponent id={id} />
+          </div>
+          <dl className="album-detail__rank-table__title">
+            <dt>Albums Leaderboard Rank</dt>
+            <dd>Most Likes</dd>
+          </dl>
+          <div className="table-container">
+            <table className="custom-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Artist</th>
+                  <th>Song Title</th>
+                  <th>Date</th>
+                  <th>Likes</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderBoardData.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td className="user-info">
+                      <p>
+                        <img src={item.user_profile || defaultCoverImg} />
+                        {item.name}
+                      </p>
+                    </td>
+                    <td>
+                      <p>{item.title}</p>
+                    </td>
+                    <td>{formatLocalTime(item.create_dt)}</td>
+                    <td>{item.like}</td>
+                    <td>
+                      <Link
+                        // className={item.buttonClass}
+                        className="details-btn active"
+                        to={"/song-detail/" + item.id}
+                      >
+                        Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* <button className="album-detail__filter-btn">
             Filter
           </button> */}
                 </section>
@@ -478,10 +480,10 @@ function AlbumDetail() {
                         <dd>Top tracks from your favorite genre.</dd>
                     </dl>
                     <div className="album-detail__slide__swiper">
-                        <Swiper {...swiperOptions} className="album-detail-slide">
+                        <Swiper {...swiperOptions} className="song-detail-slide">
                             {favoriteGenreList.map((track, index) => (
                                 <SwiperSlide key={track.id}>
-                                      <AlbumItem track={track} />
+                                    <AlbumItem track={track} />
                                     {/* <button key={track.id} className={`album__content-list__list__item`}>
                                         <div className="album__content-list__list__item__left">
                                             <p
@@ -514,7 +516,7 @@ function AlbumDetail() {
                                                 </p>
                                                 <Link
                                                     className="album__content-list__list__item__right__user__btn"
-                                                    to={`/album-detail/${track?.id}`}
+                                                    to={`/song-detail/${track?.id}`}
                                                 >
                                                     Details
                                                 </Link>
@@ -534,12 +536,12 @@ function AlbumDetail() {
                     </dl>
                     <div className="album-detail__slide__swiper">
 
-                        <Swiper {...swiperOptions} className="album-detail-slide">
-                          {favoriteGenreList.map((track, index) => (
+                        <Swiper {...swiperOptions} className="song-detail-slide">
+                            {similarVibesList.map((track, index) => (
                             <SwiperSlide key={track.id}>
-                              <AlbumItem track={track} />
+                                <AlbumItem track={track} />
                             </SwiperSlide>
-                              ))}
+                            ))}
                             {/* {tracks.slice(0, 9).map((track, index) => (
                                 <SwiperSlide>
                                     <button key={track.id} className={`album__content-list__list__item`}>

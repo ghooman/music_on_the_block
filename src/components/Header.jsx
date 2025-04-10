@@ -21,7 +21,7 @@ import Menu from "./Menu";
 import MyPage from "../pages/MyPage";
 import SignInModal from "./SignInModal";
 import CreateLoading from "./CreateLoading";
-import AlarmModal from "./AlarmModal";
+import AlarmModal from "./AlarmModal_before";
 
 const Header = ({ setIsLoggedIn }) => {
   const [isSignInModal, setSignInModal] = useState(false);

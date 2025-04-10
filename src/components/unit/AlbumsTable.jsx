@@ -65,49 +65,43 @@ const AlbumsTable = () => {
                                         <td>{album.name}</td>
                                         {/* <td>{album.ai_service}</td>
                 <td>{album.ai_service_type}</td> */}
-                                        <td>{album.title}</td>
-                                        <td>{album.create_dt}</td>
-                                        <td>
-                                            <div className="td-content">
-                                                <img src={halfHeartIcon} alt="like-heart-icon"></img>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="td-content">
-                                                <button
-                                                    className="albums-table__detail-btn"
-                                                    onClick={() => navigator(`/album-detail/${album.id}`)}
-                                                >
-                                                    Detail
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </>
-                        )}
-                    </tbody>
-                </table>
-                {albums?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
-                {/* {albums?.length > 0 && ( */}
-                <Pagination
-                    totalCount={totalCount}
-                    slice={viewCount}
-                    page={page}
-                    handler={(page) => {
-                        // setSearchParams((prev) => {
-                        //     return {
-                        //         ...Object.fromEntries(prev),
-                        //         page: page,
-                        //     };
-                        // });
-                        setPage(page);
-                    }}
-                />
-                {/* )} */}
-            </div>
-        </>
-    );
+                    <td>{album.title}</td>
+                    <td>{album.create_dt}</td>
+                    <td>
+                      <div className="td-content">
+                        <img src={halfHeartIcon} alt="like-heart-icon"></img>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="td-content">
+                        <button
+                          className="albums-table__detail-btn"
+                          onClick={() => navigator(`/song-detail/${album.id}`)}
+                        >
+                          Detail
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+        </table>
+        {albums?.length === 0 && (
+          <NoneContent message={"No albums created"} height={300} />
+        )}
+        {albums?.length > 0 && (
+          <Pagination
+            totalCount={totalCount}
+            viewCount={viewCount}
+            page={page}
+            setPage={setPage}
+          />
+        )}
+      </div>
+    </>
+  );
 };
 
 export default AlbumsTable;

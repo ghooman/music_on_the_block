@@ -57,7 +57,7 @@ const AlbumItem = ({
           </p>
           <Link
             className="album__content-list__list__item__right__user__btn"
-            to={`/album-detail/${track.id}`}
+            to={`/song-detail/${track.id}`}
           >
             Details
           </Link>

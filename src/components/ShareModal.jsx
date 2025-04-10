@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ModalWrap from './ModalWrap';
 
 import checkIcon from "../assets/images/check-icon2.svg";
+import copyIcon from "../assets/images/content_copy.svg";
 import './ShareModal.scss';
 
 const ShareModal = ({ setShareModal, shareUrl }) => {
@@ -40,7 +41,7 @@ const ShareModal = ({ setShareModal, shareUrl }) => {
           className='share-modal__link__btn'
           onClick={copyToClipboard}
         >
-          {!copied && <span>Copy</span>}
+          {!copied && <img src={copyIcon} alt="copy" />}
           {copied && <img src={checkIcon} alt="check" />}
         </button>
       </div>

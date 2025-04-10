@@ -1,10 +1,11 @@
 .unit-component-sub-categories {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
-    width: fit-content;
     padding: 6px;
     border-radius: 12px;
     border: 1px solid #222;
+    width: fit-content;
 
     .unit-component-sub-categories__category-item {
         padding: 8px 12px;
@@ -14,7 +15,6 @@
         font-style: normal;
         letter-spacing: 0.42px;
         border-radius: 12px;
-
         display: flex;
         gap: 8px;
 

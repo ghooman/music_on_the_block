@@ -57,7 +57,9 @@ export const PieChart = ({ height, width, data, selectedItem, setSelectedItem })
                             className="chart__pie--legends__item--square"
                             style={{ backgroundColor: item.color }}
                         ></div>
-                        {/* <img src={item.} */}
+                        <div className="chart__pie--legends__item--label-image">
+                            <img src={item.image} alt={item.id} />
+                        </div>
                     </div>
                 ))}
             </div>

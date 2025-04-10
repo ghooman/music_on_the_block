@@ -18,8 +18,8 @@ import sns01 from "../assets/images/footer/sns-x.svg";
 import sns02 from "../assets/images/footer/sns-discode.svg";
 import sns03 from "../assets/images/footer/sns-you.svg";
 import sns04 from "../assets/images/footer/sns04.svg";
-// import sns05 from "../assets/images/footer/mideum-icon.svg";
-import sns05 from "../assets/images/footer/sns05.svg";
+import sns05 from "../assets/images/footer/mideum-icon.svg";
+// import sns05 from "../assets/images/footer/sns05.svg";
 import sns06 from "../assets/images/footer/sns06.svg";
 import musicTokenIcon from "../assets/images/icon/mob-icon01.svg";
 import baseCoin from "../assets/images/coin/base-coin-icon.svg";
@@ -128,16 +128,22 @@ const Footer = ({ setIsLoggedIn }) => {
               <img className="footer__top__left__logo" src={logo} />
               <ul className="footer__top__left__sns">
                 <li>
-                  <Link 
-                    to="https://x.com/MUSICONTHE68603"
-                    target="_blank"
-                  >
+                  <Link to="https://x.com/MUSICONTHE68603" target="_blank">
                     <img src={sns01} alt="트위터&엑스" />
                   </Link>
                 </li>
                 <li>
                   <Link to="https://discord.gg/7ptURuat" target="_blank">
                     <img src={sns02} />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="https://medium.com/@musicontheblock"
+                    target="_blank"
+                    // onClick={() => setPreparingModal(true)}
+                  >
+                    <img src={sns05} />
                   </Link>
                 </li>
                 <li>
@@ -150,15 +156,7 @@ const Footer = ({ setIsLoggedIn }) => {
                     <img src={sns04} />
                   </Link>
                 </li>
-                <li>
-                  <Link 
-                    // to="https://medium.com/@musicontheblock"
-                    // target="_blank"
-                    onClick={() => setPreparingModal(true)}
-                  >
-                    <img src={sns05} />
-                  </Link>
-                </li>
+
                 {/* <li>
                   <Link>
                     <img src={sns06}/>
@@ -202,9 +200,9 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Album</dt>
+                  <dt>MAIN</dt>
                   <dd>
-                    <Link to="/album">Album</Link>
+                    <Link to="/main">MAIN</Link>
                   </dd>
                 </dl>
                 <dl>

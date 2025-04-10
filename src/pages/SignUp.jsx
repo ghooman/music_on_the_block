@@ -462,7 +462,7 @@ function SignUp() {
           setShowModal={setShowModal}
           message={"Congratulations on signing up!"}
           setIsRegistered={setIsRegistered}
-          link={"/album"}
+          link={"main"}
         />
       )}
     </div>

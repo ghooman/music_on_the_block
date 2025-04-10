@@ -1,5 +1,9 @@
-import './Albums.scss';
+// 📦 외부 라이브러리
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+
+// 🖼️ 이미지/에셋
 import heartIcon from '../../assets/images/icon/heart.svg';
 import moreIcon from '../../assets/images/icon/more.svg';
 import playIcon from '../../assets/images/icon/play.svg';
@@ -7,18 +11,23 @@ import commentIcon from '../../assets/images/icon/comment.svg';
 import demoAlbum from '../../assets/images/mypage/demo-album.png';
 import demoUser from '../../assets/images/mypage/demo-user.png';
 import viewAllBackground from '../../assets/images/mypage/view-all-button.png';
+
+// 🧩 유닛 컴포넌트
 import Filter from '../unit/Filter';
 import AlbumsTable from '../unit/AlbumsTable';
 import FilterAiServiceModal from '../unit/FilterAiServiceModal';
-import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
+import AlbumItem from '../unit/AlbumItem';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
-import FilterItems from '../unit/FilterItems';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
+
+// 🔌 API 모듈
+import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
 import { getMyMusicList } from '../../api/getMyMusicList';
-import { useSearchParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+
+// 🎨 스타일
+import './Albums.scss';
 
 const AiServiceList = ['All', 'AI Singing Evaluation', 'AI Lyrics & Songwriting', 'AI Cover Creation'];
 const AiServiceTypeList = ['Lyrics', 'Songwriting', 'Sing', 'Link'];
@@ -127,7 +136,19 @@ const Albums = ({ token }) => {
                     value={topAlbumsCategory}
                 />
                 <div className="albums__body">
-                    {topSongsData &&
+                    <div className="albums__item">
+                        <p className="albums__item-title">Top Like</p>
+                        <AlbumItem track={topSongsData?.top_like} />
+                    </div>
+                    <div className="albums__item">
+                        <p className="albums__item-title">Top Plays</p>
+                        <AlbumItem track={topSongsData?.top_plays} />
+                    </div>
+                    <div className="albums__item">
+                        <p className="albums__item-title">Top Comments</p>
+                        <AlbumItem track={topSongsData?.top_comments} />
+                    </div>
+                    {/* {topSongsData &&
                         Object.entries(topSongsData).map(([key, value], index) => (
                             <div className="albums__item" key={index}>
                                 <p className="albums__item-title">{key?.replaceAll('_', ' ')}</p>
@@ -164,7 +185,7 @@ const Albums = ({ token }) => {
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        ))} */}
                 </div>
             </ContentWrap>
             <ContentWrap title="Songs">

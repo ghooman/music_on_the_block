@@ -48,7 +48,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
                         <Route
-                            path="/album"
+                            path="main"
                             element={
                                 <Layout>
                                     <Album />
@@ -92,7 +92,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/album-detail/:id"
+                            path="/song-detail/:id"
                             element={
                                 <Layout>
                                     <AlbumDetail />

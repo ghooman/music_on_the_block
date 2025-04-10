@@ -14,8 +14,8 @@ import "swiper/css/free-mode";
 
 //이미지
 import albumImg01 from "../assets/images/intro/mob-album-cover.png";
-import albumImg02 from "../assets/images/intro/intro-demo-img2.png";
-import albumImg03 from "../assets/images/intro/intro-demo-img3.png";
+import albumImg02 from "../assets/images/intro/intro-demo-img.png";
+import albumImg03 from "../assets/images/intro/intro-demo-img2.png";
 
 import MusicList from "./MusicList";
 import IntroLogo from "./IntroLogo";
@@ -143,7 +143,7 @@ const Intro = ({ setIsLoggedIn }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 1050); // 1.7초 후 실행
+    }, 1050); // 1초 후 실행
 
     return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
   }, []);
@@ -162,7 +162,7 @@ const Intro = ({ setIsLoggedIn }) => {
                 </dd>
               </dl>
               <dl className="intro__number__title">
-                <dt>Number of songs</dt>
+                <dt>Number of Songs</dt>
                 <dd>
                   <Counter targetNumber={transaction?.number_of_songs} />
                 </dd>
@@ -308,7 +308,7 @@ const Intro = ({ setIsLoggedIn }) => {
             </section>
 
             <div className="intro__album-wrap">
-              <Link to="/album" className="intro__album">
+              <Link to="/main" className="intro__album">
                 <ul className="intro__album__list">
                   <li className="intro__album__list__item">
                     <img src={albumImg01} />
@@ -347,7 +347,7 @@ const Intro = ({ setIsLoggedIn }) => {
                     <img src={albumImg03} />
                   </li>
                 </ul>
-                <p className="intro__album__btn">ALBUM</p>
+                <p className="intro__album__btn">MAIN</p>
               </Link>
 
               <Link to="/nft" className="intro__nft-market">

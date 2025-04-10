@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import halfHeartIcon from '../../assets/images/icon/half-heart.svg';
+import Pagination from './Pagination';
 import NoneContent from './NoneContent';
 
 /**
@@ -53,7 +54,7 @@ const AlbumsTable = ({
                                             <div className="td-content">
                                                 <button
                                                     className="albums-table__detail-btn"
-                                                    onClick={() => navigator(`/album-detail/${album.id}`)}
+                                                    onClick={() => navigator(`/song-detail/${album.id}`)}
                                                 >
                                                     Detail
                                                 </button>
@@ -66,10 +67,9 @@ const AlbumsTable = ({
                     </tbody>
                 </table>
                 {songList?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
-                {/* {albums?.length > 0 && ( */}
-                {/** 페이지네이션 자리입니다. */}
-                {/* {children} */}
-                {/* )} */}
+                {/* {songList?.length > 0 && (
+                    <Pagination totalCount={totalCount} viewCount={viewCount} page={page} setPage={setPage} />
+                )} */}
             </div>
         </>
     );

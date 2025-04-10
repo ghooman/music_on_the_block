@@ -359,7 +359,7 @@ const AccountSettings = () => {
             />
           </div>
         </div>
-        <div className="details__item">
+        {/* <div className="details__item">
           <p className="details__item-title">Date of Birth</p>
           <div className="details__input-box">
             <input
@@ -369,7 +369,7 @@ const AccountSettings = () => {
               value="2020-01-01"
             />
           </div>
-        </div>
+        </div> */}
         <div className="details__item">
           <p className="details__item-title">Wallet Address</p>
           <div className="details__input-box">

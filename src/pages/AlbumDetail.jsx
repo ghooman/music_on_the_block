@@ -6,14 +6,6 @@ import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
 import coverImg from '../assets/images/intro/intro-demo-img.png';
-import coverImg2 from '../assets/images/intro/intro-demo-img2.png';
-import coverImg3 from '../assets/images/intro/intro-demo-img3.png';
-import coverImg4 from '../assets/images/demo/album01.svg';
-import coverImg5 from '../assets/images/demo/album02.svg';
-import coverImg6 from '../assets/images/demo/album03.svg';
-import coverImg7 from '../assets/images/demo/album04.svg';
-import coverImg8 from '../assets/images/demo/album05.svg';
-import coverImg9 from '../assets/images/demo/album06.svg';
 import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
@@ -35,6 +27,7 @@ import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import LyricsModal from '../components/LyricsModal';
 // 외부에서 플레이 카운트 업데이트 함수를 import합니다.
 import { incrementPlayCount } from '../api/incrementPlayCount';
+import AlbumItem from '../components/unit/AlbumItem';
 
 function AlbumDetail() {
     const [isPreparingModal, setPreparingModal] = useState(false);
@@ -65,176 +58,33 @@ function AlbumDetail() {
     const getFavoriteGenre = async () => {
         try {
             const res = await axios.get(
-                `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress.address}`
-            );
-            const tracks = res.data;
-
-            // 각 track의 music_url을 이용해서 duration을 비동기로 계산
-            const tracksWithDuration = await Promise.all(
-                tracks.map(async (track) => {
-                    try {
-                        const audio = new Audio(track.music_url);
-                        // duration을 로딩 완료될 때까지 기다림
-                        await new Promise((resolve, reject) => {
-                            audio.addEventListener('loadedmetadata', () => resolve());
-                            audio.addEventListener('error', (e) => reject(e));
-                        });
-
-                        return {
-                            ...track,
-                            duration: audio.duration,
-                        };
-                    } catch (err) {
-                        console.error('duration failed:', err);
-                        return {
-                            ...track,
-                            duration: 0,
-                        };
-                    }
-                })
+                `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
             );
 
-            console.log('favoriteGenreList with durations', tracksWithDuration);
-            setFavoriteGenreList(tracksWithDuration);
+            setFavoriteGenreList(res.data);
         } catch (error) {
-            console.log('getFavoriteGenre error: ', error);
+            console.error('getFavoriteGenre error: ', error);
         }
     };
 
-    const [tracks, setTracks] = useState([
-        {
-            id: 1,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track1,
-            cover: coverImg,
-            duration: null,
-        },
-        {
-            id: 2,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg2,
-            duration: null,
-        },
-        {
-            id: 3,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg3,
-            duration: null,
-        },
-        {
-            id: 4,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg4,
-            duration: null,
-        },
-        {
-            id: 5,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track2,
-            cover: coverImg5,
-            duration: null,
-        },
-        {
-            id: 6,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg6,
-            duration: null,
-        },
-        {
-            id: 7,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg7,
-            duration: null,
-        },
-        {
-            id: 8,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg8,
-            duration: null,
-        },
-        {
-            id: 9,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg9,
-            duration: null,
-        },
+    const [similarVibesList, setSimilarVibesList] = useState([]);
+    console.log('similarVibesList', similarVibesList);
 
-        {
-            id: 10,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track1,
-            cover: coverImg9,
-            duration: null,
-        },
-        {
-            id: 11,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg8,
-            duration: null,
-        },
-        {
-            id: 12,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg7,
-            duration: null,
-        },
-        {
-            id: 13,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg4,
-            duration: null,
-        },
-        {
-            id: 14,
-            title: 'he dances through his masks like breathing - Yolkhead',
-            src: track2,
-            cover: coverImg5,
-            duration: null,
-        },
-        {
-            id: 15,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg6,
-            duration: null,
-        },
-        {
-            id: 16,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg7,
-            duration: null,
-        },
-        {
-            id: 17,
-            title: 'Touch The Sky - Simon Doty',
-            src: track1,
-            cover: coverImg8,
-            duration: null,
-        },
-        {
-            id: 18,
-            title: 'Touch The Sky - Simon Doty',
-            src: track2,
-            cover: coverImg9,
-            duration: null,
-        },
-    ]);
+    const getSimilarVibes = async () => {
+        try {
+            const res = await axios.get(`${serverApi}/api/music/${id}/content/link/list`);
+
+            setSimilarVibesList(res.data);
+        } catch (error) {
+            console.error('getSimilarVibes error: ', error);
+        }
+    };
+
     const swiperOptions = {
         loop: true,
         slidesPerView: 3,
         spaceBetween: 8,
-        initialSlide: 2,
+        // initialSlide: 2,
         grabCursor: true,
         pagination: {
             clickable: true,
@@ -305,6 +155,7 @@ function AlbumDetail() {
         fetchAlbumDetail();
         getLeaderboardData();
         getFavoriteGenre();
+        getSimilarVibes();
     }, [id, walletAddress, token, serverApi]);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -357,7 +208,7 @@ function AlbumDetail() {
 
     return (
         <>
-            <div className="album-detail">
+            <div className="song-detail">
                 <dl className="album-detail__title">
                     <dt>AI Lyrics & Songwriting</dt>
                     <dd>Lyrics+Songwriting</dd>
@@ -366,48 +217,6 @@ function AlbumDetail() {
                     <p className="album-detail__song-detail__title">Song Detail</p>
                     <div className="album-detail__song-detail__bot">
                         <div className="album-detail__song-detail__left">
-                            <div
-                                className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
-                                onClick={handleClick}
-                            >
-                                {album ? (
-                                    <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
-                                ) : (
-                                    <div style={{ backgroundColor: 'black' }} />
-                                )}
-                                <div className="album-detail__song-detail__left__img__txt">
-                                    {/* <pre>{album?.lyrics}</pre> */}
-                                    <pre>
-                                        {album?.lyrics
-                                            ?.replace(/(\*\*.*?\*\*)/g, '\n$1') // **텍스트** 앞에 줄바꿈 추가
-                                            ?.trim()}
-                                    </pre>
-                                    {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
-                                </div>
-                                <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
-                            </div>
-                            <div className="album-detail__song-detail__left__info">
-                                <div className="album-detail__song-detail__left__info__number">
-                                    <button className="love" onClick={handleLike}>
-                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                                        {album?.like || 0}
-                                    </button>
-                                    <button className="comment" onClick={handleScrollToComment}>
-                                        <img src={commentIcon} />
-                                        {album?.comment_cnt || 0}
-                                    </button>
-                                    <p className="play">
-                                        <img src={playIcon} />
-                                        {album?.play_cnt || 0}
-                                    </p>
-                                </div>
-                                <button
-                                    className="album-detail__song-detail__left__info__share-btn"
-                                    onClick={() => setShareModal(true)}
-                                >
-                                    <img src={shareIcon} />
-                                </button>
-                            </div>
                             <section className="album-detail__audio">
                                 <AudioPlayer
                                     src={album?.music_url || track1}
@@ -431,6 +240,51 @@ function AlbumDetail() {
                                     <img src={album?.cover_image || coverImg} alt="album cover" />
                                 </p>
                             </section>
+                            <div
+                                className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
+                                onClick={handleClick}
+                            >
+                                {album ? (
+                                    <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
+                                ) : (
+                                    <div style={{ backgroundColor: 'black' }} />
+                                )}
+                                <div className="album-detail__song-detail__left__img__txt">
+                                    {/* <pre>{album?.lyrics}</pre> */}
+                                    <pre>
+                                        {album?.lyrics
+                                            ?.replace(/(###\s?[\w\s]+)/g, '\n$1') // "###"로 시작하는 절 제목 위에 두 개의 줄바꿈 추가
+                                            ?.replace(/(\*\*.*?\*\*)/g, '\n$1') // **텍스트** 위에 두 개의 줄바꿈 추가
+                                            ?.replace(/\[([^\]]+)\]/g, '\n[$1]') // [] 안의 텍스트 위에만 줄바꿈 추가 (아래 줄바꿈 없음)
+                                            ?.replace(/\(([^\)]+)\)/g, '\n($1)') // () 안의 텍스트 위에만 줄바꿈 추가 (아래 줄바꿈 없음)
+                                            ?.trim()}
+                                    </pre>
+                                    {/* {album?.lyrics && console.log("가사 내용:", album.lyrics)} */}
+                                </div>
+                                <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
+                            </div>
+                            <div className="album-detail__song-detail__left__info">
+                                <div className="album-detail__song-detail__left__info__number">
+                                    <p className="love" onClick={handleLike}>
+                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                        {album?.like || 0}
+                                    </p>
+                                    <p className="play">
+                                        <img src={playIcon} />
+                                        {album?.play_cnt || 0}
+                                    </p>
+                                    <p className="comment" onClick={handleScrollToComment}>
+                                        <img src={commentIcon} />
+                                        {album?.comment_cnt || 0}
+                                    </p>
+                                </div>
+                                <button
+                                    className="album-detail__song-detail__left__info__share-btn"
+                                    onClick={() => setShareModal(true)}
+                                >
+                                    <img src={shareIcon} />
+                                </button>
+                            </div>
                         </div>
                         <div className="album-detail__song-detail__right">
                             <p className="album-detail__song-detail__right__title">{album?.title}</p>
@@ -540,7 +394,7 @@ function AlbumDetail() {
                                             <Link
                                                 // className={item.buttonClass}
                                                 className="details-btn active"
-                                                to={'/album-detail/' + item.id}
+                                                to={'/song-detail/' + item.id}
                                             >
                                                 Details
                                             </Link>
@@ -561,10 +415,11 @@ function AlbumDetail() {
                         <dd>Top tracks from your favorite genre.</dd>
                     </dl>
                     <div className="album-detail__slide__swiper">
-                        <Swiper {...swiperOptions} className="album-detail-slide">
+                        <Swiper {...swiperOptions} className="song-detail-slide">
                             {favoriteGenreList.map((track, index) => (
-                                <SwiperSlide>
-                                    <button key={track.id} className={`album__content-list__list__item`}>
+                                <SwiperSlide key={track.id}>
+                                    <AlbumItem track={track} />
+                                    {/* <button key={track.id} className={`album__content-list__list__item`}>
                                         <div className="album__content-list__list__item__left">
                                             <p
                                                 className="album__content-list__list__item__left__img"
@@ -596,13 +451,13 @@ function AlbumDetail() {
                                                 </p>
                                                 <Link
                                                     className="album__content-list__list__item__right__user__btn"
-                                                    to={`/album-detail/${track?.id}`}
+                                                    to={`/song-detail/${track?.id}`}
                                                 >
                                                     Details
                                                 </Link>
                                             </div>
                                         </div>
-                                    </button>
+                                    </button> */}
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -615,8 +470,13 @@ function AlbumDetail() {
                         <dd>Top tracks from the same genre as this song.</dd>
                     </dl>
                     <div className="album-detail__slide__swiper">
-                        <Swiper {...swiperOptions} className="album-detail-slide">
-                            {tracks.slice(0, 9).map((track, index) => (
+                        <Swiper {...swiperOptions} className="song-detail-slide">
+                            {similarVibesList.map((track, index) => (
+                                <SwiperSlide key={track.id}>
+                                    <AlbumItem track={track} />
+                                </SwiperSlide>
+                            ))}
+                            {/* {tracks.slice(0, 9).map((track, index) => (
                                 <SwiperSlide>
                                     <button key={track.id} className={`album__content-list__list__item`}>
                                         <div className="album__content-list__list__item__left">
@@ -625,11 +485,6 @@ function AlbumDetail() {
                                                 style={{ backgroundImage: `url(${track.cover})` }}
                                             ></p>
                                             <span className="time">2:11</span>
-                                            {/* <span className="time">
-                        {selectedTrackIndex === index
-                          ? `${formatTime(currentTime)} / ${formatTime(track.duration)}`
-                          : formatTime(track.duration)}
-                      </span> */}
                                         </div>
                                         <div className="album__content-list__list__item__right">
                                             <p className="album__content-list__list__item__right__title">
@@ -657,12 +512,14 @@ function AlbumDetail() {
                                         </div>
                                     </button>
                                 </SwiperSlide>
-                            ))}
+                            ))} */}
                         </Swiper>
                     </div>
                 </section>
             </div>
-            {isShareModal && <ShareModal setShareModal={setShareModal} shareUrl={window.location.href} />}
+            {isShareModal && (
+                <ShareModal setShareModal={setShareModal} shareUrl={window.location.href} title={album?.title} />
+            )}
             {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
         </>
     );

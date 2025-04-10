@@ -19,19 +19,19 @@ const AiServiceTypeList = ['All', 'Lyrics', 'Songwriting', 'Lyrics + Songwriting
 const chartData = [
     {
         id: 'AI Lyrics & Songwriting',
-        label: 'css',
+        image: LyricsAndSongwritingIcon,
         value: 46,
         color: 'hsl(252, 100%, 50%)',
     },
     {
         id: 'AI Singing Evaluation',
-        label: 'java',
+        image: SongwritingIcon,
         value: 68,
         color: 'hsl(162, 100%, 50%)',
     },
     {
         id: 'AI Cover Creation',
-        label: 'lisp',
+        image: LyricsIcon,
         value: 17,
         color: 'hsl(342, 100%, 50%)',
     },

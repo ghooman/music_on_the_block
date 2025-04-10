@@ -30,6 +30,7 @@ import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import { getHitMusicList } from "../api/HitMusicList";
 import IntroLogo2 from "../components/IntroLogo2";
 import AlbumItem from "../components/unit/AlbumItem";
+import CreateLoading from "../components/CreateLoading";
 function Album() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token, walletAddress } = useContext(AuthContext);
@@ -403,6 +404,7 @@ function Album() {
         )}
       </div>
       <IntroLogo2 />
+      {/* <CreateLoading textTrue/> */}
     </>
   );
 }

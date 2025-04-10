@@ -196,7 +196,7 @@ const LyricsLab = ({
         ${lyricStory}
         
         [디자인 요청]
-        앨범 커버 디자인: 현대적이면서 예술적인 디지털 일러스트레이션 스타일.
+        앨범 커버 디자인 : 
         - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
         - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
         - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
@@ -330,7 +330,8 @@ const LyricsLab = ({
               value={createdLyrics}
               onChange={(e) => setCreatedLyrics(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
+                if (e.key === "Enter") {
                   const currentScroll = e.target.scrollTop;
                   setTimeout(() => {
                     e.target.scrollTop = currentScroll; // 화면 스크롤 픽스

@@ -173,10 +173,13 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           background-color: darken($primary, 10%);
         }
       }
-    }
-    .disabled {
-      background-color: rgba($primary, 0.5);
-      cursor: not-allowed;
+      .disabled {
+        background-color: rgba(255, 255, 255, 0.1);
+        cursor: not-allowed;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
     }
   }
 }

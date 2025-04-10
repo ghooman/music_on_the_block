@@ -234,6 +234,15 @@ const LyricsLab = ({
     }
   };
 
+  const textareaRef = useRef(null);
+
+  // 텍스트가 비었을 때 스크롤 위치를 유지
+  useEffect(() => {
+    if (textareaRef.current) {
+      // 텍스트가 비어도 스크롤 위치를 유지하도록 설정
+      textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
+    }
+  }, [createdLyrics]); // createdLyrics가 변경될 때마다 실행
   // 가사 생성 전 단계 UI
   if (!createdLyrics)
     return (
@@ -326,6 +335,7 @@ const LyricsLab = ({
         {mode === "edit" && (
           <pre className="generated-lyrics__lyrics">
             <textarea
+              ref={textareaRef}
               className="generated-lyrics__lyrics"
               value={createdLyrics}
               onChange={(e) => setCreatedLyrics(e.target.value)}

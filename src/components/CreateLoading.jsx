@@ -21,7 +21,7 @@ const CreateLoading = ({textTrue,textTrue2}) => {
       </div>
       <p className="middle__bg"></p>
       {textTrue &&
-        <p className="middle__title">Song In Progress</p>
+        <p className="middle__title">Song Lyrics In Progress</p>
       }
       {textTrue2 &&
         <p className="middle__title">Lyrics In progress</p>

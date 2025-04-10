@@ -35,11 +35,11 @@ const AlbumItem = ({
     return (
         <button className={`album__content-list__list__item ${isActive ? 'active' : ''}`} onClick={onClick}>
             <div className="album__content-list__list__item__left">
-                {isActive && 
+                {/* {isActive && 
                     <button className="album__content-list__list__item__left__play-btn">
                         <img src={stopIcon} />
                     </button>
-                }
+                } */}
                 <p
                     className="album__content-list__list__item__left__img"
                     style={{

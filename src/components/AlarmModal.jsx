@@ -175,7 +175,7 @@ const AlarmModal = () => {
             ) : albumPk ? (
               "Song generation completed!"
             ) : (
-              "The generation process may take up to 5 minutes."
+              "The generation process may take up to 10 minutes."
             )}
           </p>
 

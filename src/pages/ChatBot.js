@@ -145,7 +145,6 @@ const ChatBot = () => {
       handleSendMessage();
     }
   };
-  console.log("token", token);
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   const generateAlbumCover = async () => {
     try {
@@ -241,7 +240,10 @@ const ChatBot = () => {
 
   // ====== Generate Song 버튼 클릭 핸들러 ======
   const handleGenerateSong = async () => {
-    if (!(finalTitle && finalLyricPrompt && finalLyric)) return;
+    if (!finalGenre || !finalTitle || !finalLyricPrompt || !finalLyric) {
+      alert("모든 정보를 입력해주세요.");
+      return;
+    }
 
     setCreateLoading(true);
     try {
@@ -336,10 +338,11 @@ const ChatBot = () => {
         </div>
         <div className="music__information__buttons">
           <button
+            className={`music__information__button ${
+              isGenerateButtonDisabled ? "disabled" : ""
+            }`}
             onClick={handleGenerateSong}
-            disabled={
-              !(finalGenre && finalTitle && finalLyricPrompt && finalLyric)
-            }
+            disabled={isGenerateButtonDisabled} // 버튼 비활성화 조건 추가
           >
             <span>Generate Song</span>
           </button>

@@ -183,10 +183,10 @@ const Menu = ({
                           <dt>
                             {truncatedAddress}
                             <button onClick={copyAddress}>
-                            <img
-                              src={copied ? checkIcon : copyIcon}
-                              alt={copied ? "복사 완료" : "복사 아이콘"}
-                            />
+                              <img
+                                src={copied ? checkIcon : copyIcon}
+                                alt={copied ? "복사 완료" : "복사 아이콘"}
+                              />
                             </button>
                           </dt>
                           <dd>{userData?.name || "No Sign up"}</dd>
@@ -268,7 +268,7 @@ const Menu = ({
                   }`}
                 >
                   <Link
-                    to="/album"
+                    to="/main"
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSingleActive("album")}
                   >

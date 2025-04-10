@@ -308,7 +308,7 @@ const Intro = ({ setIsLoggedIn }) => {
             </section>
 
             <div className="intro__album-wrap">
-              <Link to="/album" className="intro__album">
+              <Link to="/main" className="intro__album">
                 <ul className="intro__album__list">
                   <li className="intro__album__list__item">
                     <img src={albumImg01} />

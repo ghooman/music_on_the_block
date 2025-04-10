@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import ModalWrap from "./ModalWrap";
 
-import checkIcon from "../assets/images/check-icon2.svg";
-import copyIcon from "../assets/images/content_copy.svg";
+import checkIcon from "../assets/images/check-icon.svg";
+import copyIcon from "../assets/images/menu/content-copy-icon.svg";
 import './ShareModal.scss';
 
 const ShareModal = ({ setShareModal, shareUrl, title }) => {

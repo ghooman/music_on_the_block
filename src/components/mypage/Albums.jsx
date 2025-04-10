@@ -177,9 +177,8 @@ const Albums = ({ token }) => {
                     <Filter list={['All', 'Latest']} />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
-                <AlbumsTable songList={songsList?.data_list}>
-                    <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
-                </AlbumsTable>
+                <AlbumsTable songList={songsList?.data_list}></AlbumsTable>
+                <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
             </ContentWrap>
             {openModal && <FilterAiServiceModal list={modalList} onClose={() => setOpenModal(false)} />}
         </div>

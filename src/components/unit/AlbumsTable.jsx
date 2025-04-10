@@ -13,7 +13,10 @@ import NoneContent from './NoneContent';
  * @returns
  */
 
-const AlbumsTable = ({ songList = [], children }) => {
+const AlbumsTable = ({
+    songList = [],
+    // children
+}) => {
     return (
         <>
             <div className="albums-table">
@@ -65,7 +68,7 @@ const AlbumsTable = ({ songList = [], children }) => {
                 {songList?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
                 {/* {albums?.length > 0 && ( */}
                 {/** 페이지네이션 자리입니다. */}
-                {children}
+                {/* {children} */}
                 {/* )} */}
             </div>
         </>

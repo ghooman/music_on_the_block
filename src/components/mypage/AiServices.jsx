@@ -3,14 +3,14 @@ import './AiServices.scss';
 import demoChart from '../../assets/images/mypage/demo-chart.png';
 import demoChart2 from '../../assets/images/mypage/demo-chart2.png';
 import demoChart3 from '../../assets/images/mypage/demo-chart3.png';
+
 import FilterDateModal from '../../components/unit/FilterDateModal';
 import Filter from '../unit/Filter';
 import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
 
-const AiServiceList = ['All', 'AI Singing Evaluation', 'AI Lyrics & Songwriting', 'AI Cover Creation'];
-const AiServiceTypeList = ['Lyrics', 'Songwriting', 'Sing', 'Link'];
-const SortByList = ['Latest', 'Oldest', 'Most Likes', 'Most Comments', 'Low Likes', 'Low Comments'];
+const AiServiceList = ['AI Lyrics & Songwriting', 'AI Singing Evaluation', 'AI Cover Creation'];
+const AiServiceTypeList = ['All', 'Lyrics', 'Songwriting', 'Lyrics + Songwriting'];
 
 const AiServices = () => {
     const [selectedAiService, setSelectedAiService] = useState('AI Lyrics & Songwriting');
@@ -30,7 +30,7 @@ const AiServices = () => {
         <>
             {/** 차트 조작 버튼입니다. */}
             <div className="ai__services">
-                {['AI Lyrics & Songwriting', 'AI Singing Evaluation', 'AI Cover Creation'].map((aiService) => (
+                {AiServiceList.map((aiService) => (
                     <button
                         key={aiService}
                         className={`ai__service-btn ${selectedAiService === aiService ? 'active' : ''}`}
@@ -40,6 +40,7 @@ const AiServices = () => {
                     </button>
                 ))}
             </div>
+
             {/** 콘텐츠 */}
             <div className="ai__chart">
                 <img src={demoChart} alt="chart" />
@@ -48,11 +49,7 @@ const AiServices = () => {
             {/** 차트 조작 */}
             <section className="ai__ai-status">
                 <p className="ai-status__title">AI Service Status</p>
-                <SubCategories
-                    categories={['All', 'Lyrics', 'Songwriting', 'Lyrics + Songwriting']}
-                    handler={setAiServiceStatus}
-                    value={aiServiceStatus}
-                />
+                <SubCategories categories={AiServiceTypeList} handler={setAiServiceStatus} value={aiServiceStatus} />
                 {/** 콘텐츠 */}
                 <div className="ai-status__info">
                     <div className="ai-status__chart">

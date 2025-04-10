@@ -22,9 +22,10 @@ import Reward from '../components/mypage/Reward';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import PreparingModal from '../components/PreparingModal';
+import Connections from '../components/mypage/Connections';
 
 const serviceTab = ['AI Services', 'Reward & Payments'];
-const musicTab = ['Songs', 'Subscribes', 'Favorites', 'Albums'];
+const musicTab = ['Songs', 'Connections', 'Favorites', 'Albums'];
 
 const MyPage = () => {
     const { path } = useParams();
@@ -72,11 +73,11 @@ const MyPage = () => {
                                         <span className="neon">10</span>
                                     </div>
                                     <div>
-                                        <span>Albums</span>
+                                        <span>Songs</span>
                                         <span className="neon">624</span>
                                     </div>
                                     <div>
-                                        <span>Subscribers</span>
+                                        <span>Followers</span>
                                         <span className="neon">1,235</span>
                                     </div>
                                 </div>
@@ -140,7 +141,10 @@ const MyPage = () => {
 
             {/** music */}
             {category === 'Songs' && <Albums token={token} />}
+            {category === 'Connections' && <Connections />}
             {category === 'Favorites' && <MyFavorites />}
+            {category === 'Albums' && <div></div>}
+
             {/** */}
             {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
         </div>

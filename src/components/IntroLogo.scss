@@ -1,6 +1,6 @@
-.intro-logo{
+.intro-logo {
   position: fixed;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
@@ -20,22 +20,22 @@
       z-index: -100;
     }
   }
-  img{
+  img {
     width: 120px;
     height: 120px;
-    &.logo{
+    &.logo {
       opacity: 0;
       animation: logo2 0.4s ease-in-out forwards;
       animation-delay: 0.3s;
-      transform: translate(100px,0);
+      transform: translate(100px, 0);
       @keyframes logo2 {
-        0%{
+        0% {
           opacity: 0;
-          transform: translate(30px,0);
+          transform: translate(30px, 0);
         }
-        100%{
+        100% {
           opacity: 1;
-          transform: translate(0,0);
+          transform: translate(0, 0);
         }
       }
     }
@@ -46,7 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .text-wrap{
+    .text-wrap {
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -66,13 +66,13 @@
     }
   }
 
-  svg{
-      will-change: transform;
-      backface-visibility: hidden;
+  svg {
+    will-change: transform;
+    backface-visibility: hidden;
     text {
       font-family: Orbitron600;
       font-size: 46px;
-      fill:transparent;
+      fill: transparent;
       stroke-dasharray: 326px;
       animation: stroke 0.5s linear;
       animation-fill-mode: forwards;
@@ -101,8 +101,8 @@
         animation-delay: 0.35s;
       }
     }
-    &:last-child{
-      text{
+    &:last-child {
+      text {
         &:nth-child(1) {
           animation-delay: 0.35s;
         }
@@ -131,33 +131,32 @@
     }
   }
 
-@keyframes stroke {
-    0%   {
-        stroke:rgb(255, 234, 0);
-        stroke-width: 1px;
-        stroke-dashoffset: 300px;
+  @keyframes stroke {
+    0% {
+      stroke: rgb(255, 234, 0);
+      stroke-width: 1px;
+      stroke-dashoffset: 300px;
     }
     50% {
-        fill: transparent;
-        stroke-width: 0.5px;
-      }
+      fill: transparent;
+      stroke-width: 0.5px;
+    }
     85% {
-        stroke:#CF0;
-        stroke-dashoffset: 0px;
-        stroke-width: 0px;
+      stroke: #cf0;
+      stroke-dashoffset: 0px;
+      stroke-width: 0px;
     }
     100% {
-        fill: #CF0;
-        stroke-dashoffset: 0px;
+      fill: #cf0;
+      stroke-dashoffset: 0px;
     }
   }
 }
 
 @media screen and (max-width: 768px) {
-  .intro-logo{
-    .text-box{
+  .intro-logo {
+    .text-box {
       transform: scale(0.7);
-
     }
   }
 }

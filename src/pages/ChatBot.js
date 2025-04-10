@@ -23,7 +23,7 @@ const ChatBot = () => {
   const [finalTitle, setFinalTitle] = useState("");
   const [finalLyricPrompt, setFinalLyricPrompt] = useState("");
   const [finalLyric, setFinalLyric] = useState("");
-
+  const [finalGenre, setFinalGenre] = useState("");
   // 앨범 커버 및 생성 중 로딩 상태 관리
   const [albumCover, setAlbumCover] = useState("");
   const [createLoading, setCreateLoading] = useState(false);
@@ -69,12 +69,26 @@ const ChatBot = () => {
         }
       }
 
-      // [프롬프트 추출]
+      // [프롬프트 추출] 최종 프롬프트에서 불필요한 텍스트 제거 후 저장
       if (botMessage.includes("최종 프롬프트 :")) {
         const promptRegex = /최종 프롬프트\s*:\s*'([^']+)'/;
         const promptMatch = botMessage.match(promptRegex);
         if (promptMatch && promptMatch[1]) {
-          setFinalLyricPrompt(promptMatch[1].trim());
+          let promptContent = promptMatch[1].trim();
+          // "입니다." 이후에 오는 불필요한 문자열을 제거합니다.
+          if (promptContent.includes("입니다.")) {
+            promptContent = promptContent.split("입니다.")[0].trim();
+          }
+          setFinalLyricPrompt(promptContent);
+        }
+      }
+
+      // 장르 추출
+      if (botMessage.includes("장르(")) {
+        const genreRegex = /장르\(([^)]+)\)/;
+        const genreMatch = botMessage.match(genreRegex);
+        if (genreMatch && genreMatch[1]) {
+          setFinalGenre(genreMatch[1].trim());
         }
       }
 
@@ -94,7 +108,8 @@ const ChatBot = () => {
           setFinalLyric(extractedLyric);
         }
       }
-
+      console.log("finalPrompt", finalLyricPrompt);
+      console.log("finalGenre", finalGenre);
       setChatHistory((prevHistory) => [
         ...prevHistory,
         { role: "assistant", content: botMessage },
@@ -130,7 +145,7 @@ const ChatBot = () => {
       handleSendMessage();
     }
   };
-
+  console.log("token", token);
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   const generateAlbumCover = async () => {
     try {
@@ -163,16 +178,16 @@ const ChatBot = () => {
       JSON.stringify({ id, title, expires })
     );
   };
-  const musicGenerate = async () => {
+  // musicGenerate 함수 수정: coverUrl 인자를 받아 사용
+  const musicGenerate = async (coverUrl) => {
     try {
-      // API에 전달할 payload 구성
       const formData = {
         album: {
           title: finalTitle,
-          detail: finalLyricPrompt, // 기존 'story' 대신 'detail' 사용
+          detail: finalLyricPrompt,
           language: "KOR",
-          genre: "",
-          style: "", // 필요 시 구체적 값 할당
+          genre: finalGenre,
+          style: finalLyricPrompt,
           gender: "",
           musical_instrument: "",
           ai_service: "",
@@ -182,7 +197,7 @@ const ChatBot = () => {
           lyrics: finalLyric,
           mood: "",
           tags: "",
-          cover_image: albumCover,
+          cover_image: coverUrl, // 직접 전달받은 coverUrl 사용
         },
         album_lyrics_info: {
           language: "KOR",
@@ -193,8 +208,13 @@ const ChatBot = () => {
           my_story: "",
         },
       };
-
-      // axios를 통한 POST 요청
+      console.log("폼 데이터 전송 전:", {
+        token,
+        finalTitle,
+        finalLyricPrompt,
+        finalGenre,
+        albumCover,
+      });
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
         formData,
@@ -221,7 +241,6 @@ const ChatBot = () => {
 
   // ====== Generate Song 버튼 클릭 핸들러 ======
   const handleGenerateSong = async () => {
-    // 필수 값이 없으면 진행하지 않음
     if (!(finalTitle && finalLyricPrompt && finalLyric)) return;
 
     setCreateLoading(true);
@@ -229,8 +248,8 @@ const ChatBot = () => {
       // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
       if (cover) {
-        // 앨범 커버가 생성되었으면 음악 생성 API 실행
-        await musicGenerate();
+        // 생성된 cover 값을 인자로 전달하여 musicGenerate 함수 호출
+        await musicGenerate(cover);
       } else {
         alert("앨범 커버 생성에 실패하였습니다.");
       }
@@ -272,6 +291,15 @@ const ChatBot = () => {
         <div className="music__information__header">
           <h2>Music Information</h2>
         </div>
+        <div className="music__information__genre">
+          <h3>Genre</h3>
+          <input
+            type="text"
+            value={finalGenre}
+            placeholder="Final Genre"
+            readOnly
+          />
+        </div>
         <div className="music__information__title">
           <h3>Lyric Title</h3>
           <input
@@ -302,7 +330,9 @@ const ChatBot = () => {
         <div className="music__information__buttons">
           <button
             onClick={handleGenerateSong}
-            disabled={!(finalTitle && finalLyricPrompt && finalLyric)}
+            disabled={
+              !(finalGenre && finalTitle && finalLyricPrompt && finalLyric)
+            }
           >
             <span>Generate Song</span>
           </button>

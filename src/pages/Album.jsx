@@ -112,18 +112,22 @@ function Album() {
         }
     };
 
+    // 아이템 클릭하여 음악 재생시 사용되는 함수입니다.
+    // 카테고리 리스트와, id를 설정해야 재생시 나타나는 UI 중복 랜더링을 막을 수 있습니다.
     const handlePlay = ({ list, id, track }) => {
         setSelectedList(list);
         setSelectedId(id);
         setSelectedMusic(track);
     };
 
+    // 다음 곡 재생 버튼 클릭 시
     const handleNext = () => {
         if (!selectedList || !selectedMusic || !selectedId) return;
         const index = selectedList.indexOf(selectedMusic);
         setSelectedMusic(selectedList[(index + 1) % selectedList.length]);
     };
 
+    // 이전 곡 재생 버튼 클릭 시
     const handlePrev = () => {
         if (!selectedList || !selectedMusic || !selectedId) return;
         const index = selectedList.indexOf(selectedMusic);
@@ -143,12 +147,14 @@ function Album() {
         return () => clearTimeout(timer);
     }, [totalList]);
 
+    // 선택 음악 변경 시
     useEffect(() => {
         if (!selectedMusic) return;
         setIsPlaying(true);
         setCurrentTime(0);
     }, [selectedMusic]);
 
+    // 월렛 어드레스 변경 시 (로그인 계정 변경 시)
     useEffect(() => {
         getTracks();
         handleGetMusicList();
@@ -209,7 +215,7 @@ function Album() {
                         </Link>
                     </div>
                     <MyAudioPlayer
-                        track={selectedMusic || null}
+                        track={selectedMusic}
                         onTimeUpdate={handleTimeUpdate}
                         // onClickPrevious={handleClickPrevious}
                         // onClickNext={handleClickNext}
@@ -231,8 +237,6 @@ function Album() {
                 />
                 <ListSlider
                     hitMusicList={hitList}
-                    // selectedTrackIndex={selectedTrackIndex}
-                    // handleTrackClick={handleTrackClick}
                     currentTime={currentTime}
                     handleLikeClick={handleLikeClick}
                     selectedMusic={selectedMusic}

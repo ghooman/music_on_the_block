@@ -34,6 +34,7 @@ function AlbumDetail() {
     const serverApi = process.env.REACT_APP_SERVER_API;
     const { id } = useParams();
     const { token, walletAddress } = useContext(AuthContext);
+    const listenTime = useRef(0);
 
     console.log('walletAddress1', walletAddress);
     console.log('walletAddress2', walletAddress?.address);
@@ -161,25 +162,25 @@ function AlbumDetail() {
     const [isPlaying, setIsPlaying] = useState(false);
 
     // 플레이 카운트 업데이트 로직 적용을 위한 useRef 및 상태 선언
-    const playCountRef = useRef(false);
-    const [prevTime, setPrevTime] = useState(0);
+    // const playCountRef = useRef(false);
+    // const [prevTime, setPrevTime] = useState(0);
 
-    const handleListen = async (e) => {
-        const currentTime = e.target.currentTime;
-        // 재생 시간이 이전 시간보다 작으면(리와인드 시) 플래그 초기화
-        if (currentTime < prevTime) {
-            playCountRef.current = false;
-        }
-        setPrevTime(currentTime);
+    // const handleListen = async (e) => {
+    //     const currentTime = e.target.currentTime;
+    //     // 재생 시간이 이전 시간보다 작으면(리와인드 시) 플래그 초기화
+    //     if (currentTime < prevTime) {
+    //         playCountRef.current = false;
+    //     }
+    //     setPrevTime(currentTime);
 
-        // 아직 카운트 업데이트를 하지 않았고, 90초 이상 재생 시 업데이트 실행
-        if (!playCountRef.current && currentTime >= 90) {
-            await incrementPlayCount(album?.id, serverApi);
-            playCountRef.current = true;
-            // 재생 시간 업데이트 후 앨범 상세 정보 다시 가져오기
-            fetchAlbumDetail();
-        }
-    };
+    //     // 아직 카운트 업데이트를 하지 않았고, 90초 이상 재생 시 업데이트 실행
+    //     if (!playCountRef.current && currentTime >= 90) {
+    //         await incrementPlayCount(album?.id, serverApi);
+    //         playCountRef.current = true;
+    //         // 재생 시간 업데이트 후 앨범 상세 정보 다시 가져오기
+    //         fetchAlbumDetail();
+    //     }
+    // };
 
     // 앨범 관련 기타 상태 및 이벤트 핸들러
     const tagString = album?.tags;
@@ -195,16 +196,34 @@ function AlbumDetail() {
         try {
             if (album?.is_like) {
                 await cancelLikeAlbum(id, token);
+                setAlbum((prev) => ({ ...prev, like: Math.max(0, --prev.like), is_like: false }));
             } else {
                 await likeAlbum(id, token);
+                setAlbum((prev) => ({ ...prev, like: Math.max(0, ++prev.like), is_like: true }));
             }
-            fetchAlbumDetail();
         } catch (error) {
             console.error('좋아요 에러:', error);
         }
     };
 
     const { isLoggedIn } = useContext(AuthContext);
+
+    useEffect(() => {
+        let interval;
+        if (isPlaying) {
+            interval = setInterval(() => {
+                console.log('들었어요', ++listenTime.current);
+                if (listenTime.current === 90) {
+                    console.log('들었어요오');
+                    incrementPlayCount(album?.id, serverApi);
+                    setAlbum((prev) => ({ ...prev, play_cnt: ++prev.play_cnt }));
+                }
+            }, 1000);
+        } else {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isPlaying]);
 
     return (
         <>
@@ -233,7 +252,7 @@ function AlbumDetail() {
                                         setIsPlaying(false);
                                     }}
                                     // onListen 이벤트를 통해 재생 시간 체크 후 플레이 카운트 업데이트
-                                    onListen={handleListen}
+                                    // onListen={handleListen}
                                     listenInterval={1000}
                                 />
                                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>

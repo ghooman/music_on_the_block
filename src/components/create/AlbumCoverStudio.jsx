@@ -42,7 +42,7 @@ const client = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY, // .env 파일 등에 저장된 API 키 사용
   dangerouslyAllowBrowser: true,
 });
-const AlbumCoverSudio = ({ children, lyricData, generatedLyrics }) => {
+const AlbumCoverStudio = ({ children, lyricData, generatedLyrics }) => {
   const [cover, setCover] = useState({
     cover_color: [],
     cover_mood: [],
@@ -149,7 +149,7 @@ With customization ON, the design will also reflect your additional settings."
   );
 };
 
-export default AlbumCoverSudio;
+export default AlbumCoverStudio;
 
 const CoverCreate = ({ coverCreate, setAlbumCover }) => {
   const [selectImage, setSelectImage] = useState(null);

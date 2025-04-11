@@ -295,7 +295,7 @@ const LyricChatBot = () => {
       {createLoading && <CreateLoading />}
       <section className="chatbot">
         <div className="chatbot__header">
-          <h2>ChatBot</h2>
+          <h2>Lyric Maker</h2>
         </div>
         <div className="chatbot__messages">
           {chatHistory.map((msg, index) => (

@@ -58,8 +58,8 @@ const GetStarted = ({ handler, createPossibleCount }) => {
           className={`create__get-started--button ${
             createPossibleCount === 0 ? "disabled" : ""
           }`}
-          // onClick={handler}
-          onClick={() => setServiceUpdateModal(true)}
+          onClick={handler}
+          // onClick={() => setServiceUpdateModal(true)}
           disabled={createPossibleCount === 0}
         >
           Create

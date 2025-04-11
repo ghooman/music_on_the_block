@@ -234,6 +234,8 @@ function Album() {
                     selectedId={selectedId}
                     handlePlay={handlePlay}
                     currentTime={currentTime}
+                    link="/song/list"
+                    setPreparingModal={setPreparingModal}
                 />
                 <ListSlider
                     hitMusicList={hitList}
@@ -279,6 +281,7 @@ function Album() {
                         selectedId={selectedId}
                         handlePlay={handlePlay}
                         currentTime={currentTime}
+                        setPreparingModal={setPreparingModal}
                     />
                 </section>
                 {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
@@ -290,7 +293,7 @@ function Album() {
 
 export default Album;
 
-const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title }) => {
+const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title, setPreparingModal, link }) => {
     return (
         <section className="album__content-list">
             <p className="album__content-list__title">{title}</p>
@@ -309,6 +312,18 @@ const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, ti
                     </React.Fragment>
                 ))}
             </article>
+            <Link
+                className="album__content-list__see-more-btn"
+                to={link}
+                onClick={(e) => {
+                    if (!link) {
+                        e.preventDefault();
+                        setPreparingModal(true);
+                    }
+                }}
+            >
+                See More
+            </Link>
         </section>
     );
 };

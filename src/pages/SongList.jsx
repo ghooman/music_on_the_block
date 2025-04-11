@@ -14,7 +14,7 @@ import axios from 'axios';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const SongList = () => {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const page = searchParams.get('page');
     const search = searchParams.get('search');

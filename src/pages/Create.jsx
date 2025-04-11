@@ -105,7 +105,7 @@ const Create = () => {
       <DescriptionBanner pageNumber={pageNumber} />
       {createMode === "chatbot" && (
         <>
-          {pageNumber !== 0 && (
+          {pageNumber === 0 && (
             <LyricChatBot
               createLoading={createLoading}
               setCreateLoading={setCreateLoading}
@@ -119,7 +119,7 @@ const Create = () => {
               selectedLanguage={selectedLanguage}
             />
           )}
-          {pageNumber !== 1 && (
+          {pageNumber === 1 && (
             <MelodyChatBot
               createLoading={createLoading}
               setCreateLoading={setCreateLoading}

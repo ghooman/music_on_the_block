@@ -28,6 +28,7 @@ import LyricsModal from '../components/LyricsModal';
 import { incrementPlayCount } from '../api/incrementPlayCount';
 import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
+import Filter from '../components/unit/Filter';
 
 function AlbumDetail() {
     const serverApi = process.env.REACT_APP_SERVER_API;
@@ -379,6 +380,7 @@ function AlbumDetail() {
                         <dt>Albums Leaderboard Rank</dt>
                         <dd>Most Likes</dd>
                     </dl>
+                    {/* <Filter songs /> */}
                     <div className="table-container">
                         <table className="custom-table">
                             <thead>

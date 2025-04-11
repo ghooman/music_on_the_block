@@ -52,11 +52,9 @@ const LyricChatBot = ({
       });
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, "");
-
       // [태그 추출]
-      if (botMessage.includes(selectedLanguage === "ENG" ? "Tags(" : "태그(")) {
-        const tagRegex = locale.extraction.tagRegex;
-        const tagMatch = botMessage.match(tagRegex);
+      if (locale.extraction.tagRegex.test(botMessage)) {
+        const tagMatch = botMessage.match(locale.extraction.tagRegex);
         if (tagMatch && tagMatch[1]) {
           const extractedTags = tagMatch[1]
             .trim()
@@ -70,11 +68,8 @@ const LyricChatBot = ({
       }
 
       // [장르 추출]
-      if (
-        botMessage.includes(selectedLanguage === "ENG" ? "Genre(" : "장르(")
-      ) {
-        const genreRegex = locale.extraction.genreRegex;
-        const genreMatch = botMessage.match(genreRegex);
+      if (locale.extraction.genreRegex.test(botMessage)) {
+        const genreMatch = botMessage.match(locale.extraction.genreRegex);
         if (genreMatch && genreMatch[1]) {
           setLyricData((prevData) => ({
             ...prevData,
@@ -84,13 +79,10 @@ const LyricChatBot = ({
       }
 
       // [느낌/분위기 추출]
-      if (
-        botMessage.includes(
-          selectedLanguage === "ENG" ? "Mood/Vibe(" : "느낌/분위기("
-        )
-      ) {
-        const stylisticRegex = locale.extraction.stylisticRegex;
-        const stylisticMatch = botMessage.match(stylisticRegex);
+      if (locale.extraction.stylisticRegex.test(botMessage)) {
+        const stylisticMatch = botMessage.match(
+          locale.extraction.stylisticRegex
+        );
         if (stylisticMatch && stylisticMatch[1]) {
           setLyricData((prevData) => ({
             ...prevData,
@@ -100,15 +92,8 @@ const LyricChatBot = ({
       }
 
       // [추가 요소/스토리 추출]
-      if (
-        botMessage.includes(
-          selectedLanguage === "ENG"
-            ? "Additional Elements/Story("
-            : "추가 요소/스토리("
-        )
-      ) {
-        const storyRegex = locale.extraction.storyRegex;
-        const storyMatch = botMessage.match(storyRegex);
+      if (locale.extraction.storyRegex.test(botMessage)) {
+        const storyMatch = botMessage.match(locale.extraction.storyRegex);
         if (storyMatch && storyMatch[1]) {
           setLyricStory(storyMatch[1].trim());
         }
@@ -136,7 +121,6 @@ const LyricChatBot = ({
           setGeneratedLyric(extractedLyric);
         }
       }
-
       setChatHistory((prevHistory) => [
         ...prevHistory,
         { role: "assistant", content: botMessage },

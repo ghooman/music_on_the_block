@@ -1,5 +1,5 @@
 // src/api/Transaction.js
-import axios from "axios";
+import axios from 'axios';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -9,9 +9,9 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @returns {Promise} axios GET 요청 반환
  */
 export const getTransaction = async (token) => {
-  return axios.get(`${serverApi}/api/user/transaction`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    return axios.get(`${serverApi}/api/user/transaction`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 };

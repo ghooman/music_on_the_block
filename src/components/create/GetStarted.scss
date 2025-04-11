@@ -1,5 +1,5 @@
 .create__get-started {
-  padding: 100px;
+  padding: 32px 100px 100px;
   background-image: url("../../assets/images/create/bg.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -56,7 +56,7 @@
     float: right;
   }
   .disabled {
-    opacity: 0.2;
+    opacity: 0.7;
     color: #000;
     cursor: not-allowed;
   }
@@ -77,6 +77,152 @@
     color: #000;
     font-family: orbitron600;
   }
+
+  $color1: #1A1A1A;
+  $color2: #00FFB3;
+  .radio {
+    margin: 0.5rem;
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      + .radio-label {
+        &:before {
+          content: '';
+          background: $color1;
+          border-radius: 100%;
+          border: 1px solid darken($color1, 25%);
+          display: inline-block;
+          width: 1.4em;
+          height: 1.4em;
+          position: relative;
+          top: -0.2em;
+          margin-right: 1em; 
+          vertical-align: top;
+          cursor: pointer;
+          text-align: center;
+          transition: all 250ms ease;
+        }
+      }
+      &:checked {
+        + .radio-label {
+          &:before {
+            background-color: $color2;
+            box-shadow: inset 0 0 0 4px $color1;
+          }
+        }
+      }
+      &:focus {
+        + .radio-label {
+          &:before {
+            outline: none;
+            border-color: $color2;
+          }
+        }
+      }
+      &:disabled {
+        + .radio-label {
+          &:before {
+            box-shadow: inset 0 0 0 4px $color1;
+            border-color: darken($color1, 25%);
+            background: darken($color1, 25%);
+          }
+        }
+      }
+      + .radio-label {
+        &:empty {
+          &:before {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+
+.create__get-started--format{
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+
+  .create__get-started--format-item{
+    flex: 1; 
+    border-radius: 12px;
+    background: #1A1A1A;
+    padding: 16px;
+    border: 1px solid transparent;
+    transition: 0.3s;
+    cursor: pointer;
+    &.active{
+      border: 1px solid #cf0;
+      .create__get-started--format-item-title{
+        color: #cf0;
+      }
+      .create__get-started--format-item-txt{
+        color: var(--Text-music-title, #F1F1F1);
+        font-family: Inter400;
+        font-size: 14px;
+        span{
+          color: var(--Text-music-sub, #AAA);
+          font-family: Inter400;
+          font-size: 14px;
+        }
+      }
+    }
+    .create__get-started--format-item-title{
+      color: var(--Text-music-sub, #AAA);
+      font-family: Orbitron700;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .create__get-started--format-item-txt{
+      color: var(--Text-music-un, #565656);
+      font-family: Inter400;
+      font-size: 14px;
+      span{
+        margin-top: 8px;
+        display: block;
+        color: var(--Text-music-un, #565656);
+        font-family: Inter400;
+        font-size: 14px;
+      }
+    }
+    .create__get-started--format-item-select{
+      border-radius: 8px;
+      background: #222;
+      padding: 8px;
+      color: var(--Text-music-un, #565656);
+      font-family: Inter400;
+      font-size: 14px;
+      margin-top: 16px;
+      .create__get-started--format-item-select-title{
+        color: var(--Text-music-sub, #AAA);
+        font-family: Inter400;
+        font-size: 14px;
+      }
+      .create__get-started--format-item-select-items{
+        .container{
+          .radio{
+            input{
+              display: none;
+            }
+            .radio-label{
+              
+            }
+          }
+        }
+      }//create__get-started--format-item-select-items--END--
+    }//create__get-started--format-item-select--END--
+  }//create__get-started--format-item--END--
+}//create__get-started--format--END--
+.create__get-started{
+  .create__btn{
+    .create__get-started--button{
+      width: 100%;
+      margin-top: 16px;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -89,5 +235,8 @@
     .create__get-started--subtitle {
       font-size: 18px;
     }
+  }
+  .create__get-started--format{
+    flex-direction: column;
   }
 }

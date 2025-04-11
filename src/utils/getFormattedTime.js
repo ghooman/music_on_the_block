@@ -50,49 +50,49 @@
 // };
 
 const formatISODate = (time) => {
-  if (!time) {
-    console.error('Invalid time input:', time);
-    return null;
-  }
+    if (!time) {
+        console.error('Invalid time input:', time);
+        return null;
+    }
 
-  // Date 객체인지 확인 후 ISO 문자열로 변환
-  if (time instanceof Date) {
-    return time.toISOString();
-  }
+    // Date 객체인지 확인 후 ISO 문자열로 변환
+    if (time instanceof Date) {
+        return time.toISOString();
+    }
 
-  if (typeof time !== 'string') {
-    console.error('Invalid time input (not string or Date object):', time);
-    return null;
-  }
+    if (typeof time !== 'string') {
+        console.error('Invalid time input (not string or Date object):', time);
+        return null;
+    }
 
-  // 공백을 T로 변환하여 Safari에서도 인식 가능하게 변경
-  let formattedTime = time.replace(' ', 'T');
+    // 공백을 T로 변환하여 Safari에서도 인식 가능하게 변경
+    let formattedTime = time.replace(' ', 'T');
 
-  // Safari 호환성을 위해 'YYYY-MM-DDTHH:mm:ss' 형식으로 변환 후 UTC 보정
-  if (!formattedTime.endsWith('Z')) {
-    formattedTime += 'Z'; // UTC 시간을 보장하기 위해 Z 추가
-  }
+    // Safari 호환성을 위해 'YYYY-MM-DDTHH:mm:ss' 형식으로 변환 후 UTC 보정
+    if (!formattedTime.endsWith('Z')) {
+        formattedTime += 'Z'; // UTC 시간을 보장하기 위해 Z 추가
+    }
 
-  return formattedTime;
+    return formattedTime;
 };
 
 export const formatUtcTime = (time, set = 9) => {
-  if (!time) {
-    console.error('editUtcTime received invalid time:', time);
-    return 'Invalid Date';
-  }
+    if (!time) {
+        console.error('editUtcTime received invalid time:', time);
+        return 'Invalid Date';
+    }
 
-  const formattedTime = formatISODate(time);
-  if (!formattedTime) return 'Invalid Date';
+    const formattedTime = formatISODate(time);
+    if (!formattedTime) return 'Invalid Date';
 
-  const date = new Date(formattedTime);
-  const timeitme = new Date(date.getTime() - set * 60 * 60 * 1000);
-  if (isNaN(date.getTime())) {
-    console.error('Invalid Date after parsing:', formattedTime);
-    return 'Invalid Date';
-  }
+    const date = new Date(formattedTime);
+    const timeitme = new Date(date.getTime() - set * 60 * 60 * 1000);
+    if (isNaN(date.getTime())) {
+        console.error('Invalid Date after parsing:', formattedTime);
+        return 'Invalid Date';
+    }
 
-  return timeitme.toUTCString().replace('GMT', ' UTC+0'); // 원하는 형식으로 변환
+    return timeitme.toUTCString().replace('GMT', ' UTC+0'); // 원하는 형식으로 변환
 };
 
 //=============
@@ -102,50 +102,46 @@ export const formatUtcTime = (time, set = 9) => {
 //=============
 
 //=============
-export const formatLocalTime = (
-  time,
-  set = 9,
-  timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
-) => {
-  if (!time) {
-    console.error('editLocaleTime received invalid time:', time);
-    return 'Invalid Date';
-  }
+export const formatLocalTime = (time, set = 9, timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone) => {
+    if (!time) {
+        console.error('editLocaleTime received invalid time:', time);
+        return 'Invalid Date';
+    }
 
-  const formattedTime = formatISODate(time);
-  if (!formattedTime) return 'Invalid Date';
+    const formattedTime = formatISODate(time);
+    if (!formattedTime) return 'Invalid Date';
 
-  const date = new Date(formattedTime);
+    const date = new Date(formattedTime);
 
-  if (isNaN(date.getTime())) {
-    console.error('Invalid Date after parsing:', formattedTime);
-    return 'Invalid Date';
-  }
+    if (isNaN(date.getTime())) {
+        console.error('Invalid Date after parsing:', formattedTime);
+        return 'Invalid Date';
+    }
 
-  // Intl.DateTimeFormat을 사용하여 지정한 timeZone의 로컬 시간으로 변환
-  const formatter = new Intl.DateTimeFormat('en-GB', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-    // timeZone, // 인자로 받은 timeZone 사용 (예: "Asia/Seoul", "Europe/London" 등)
-    timeZoneName: 'short',
-  });
+    // Intl.DateTimeFormat을 사용하여 지정한 timeZone의 로컬 시간으로 변환
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        // timeZone, // 인자로 받은 timeZone 사용 (예: "Asia/Seoul", "Europe/London" 등)
+        timeZoneName: 'short',
+    });
 
-  let formattedString = formatter.format(date - set * 60 * 60 * 1000);
+    let formattedString = formatter.format(date - set * 60 * 60 * 1000);
 
-  // Safari에서 자동 삽입된 ' at ' 제거
-  formattedString = formattedString.replace(' at ', ' ');
+    // Safari에서 자동 삽입된 ' at ' 제거
+    formattedString = formattedString.replace(' at ', ' ');
 
-  // 연도 뒤 쉼표 제거 (예: "13 Feb 2025, 23:28:12" → "13 Feb 2025 23:28:12")
-  formattedString = formattedString.replace(/(\d{4}),/, '$1');
+    // 연도 뒤 쉼표 제거 (예: "13 Feb 2025, 23:28:12" → "13 Feb 2025 23:28:12")
+    formattedString = formattedString.replace(/(\d{4}),/, '$1');
 
-  // Safari와 Chrome의 타임존 표기 차이를 보정
-  formattedString = formattedString.replace('GMT', 'UTC');
+    // Safari와 Chrome의 타임존 표기 차이를 보정
+    formattedString = formattedString.replace('GMT', 'UTC');
 
-  return formattedString;
+    return formattedString;
 };

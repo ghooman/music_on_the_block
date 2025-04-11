@@ -8,6 +8,7 @@ import Pagination from '../unit/Pagination';
 import NoneContent from '../unit/NoneContent';
 
 import './Connections.scss';
+import AlbumsTable from '../unit/AlbumsTable';
 
 const categories = ['Following', 'Followers'];
 
@@ -22,6 +23,8 @@ const Connections = () => {
                     <Filter />
                     <Search />
                 </ContentWrap.SubWrap>
+                <AlbumsTable />
+                <Pagination />
             </ContentWrap>
         </div>
     );

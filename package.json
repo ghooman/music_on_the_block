@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@dschoon/react-waves": "^4.0.3",
+    "@nivo/line": "^0.88.0",
     "@nivo/pie": "^0.88.0",
     "@tanstack/react-ranger": "^0.0.4",
     "@testing-library/jest-dom": "^5.17.0",

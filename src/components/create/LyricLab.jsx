@@ -234,15 +234,6 @@ const LyricsLab = ({
     }
   };
 
-  const textareaRef = useRef(null);
-
-  // 텍스트가 비었을 때 스크롤 위치를 유지
-  useEffect(() => {
-    if (textareaRef.current) {
-      // 텍스트가 비어도 스크롤 위치를 유지하도록 설정
-      textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
-    }
-  }, [createdLyrics]); // createdLyrics가 변경될 때마다 실행
   // 가사 생성 전 단계 UI
   if (!createdLyrics)
     return (
@@ -335,10 +326,15 @@ const LyricsLab = ({
         {mode === "edit" && (
           <pre className="generated-lyrics__lyrics">
             <textarea
-              ref={textareaRef}
               className="generated-lyrics__lyrics"
               value={createdLyrics}
-              onChange={(e) => setCreatedLyrics(e.target.value)}
+              // onChange={(e) => setCreatedLyrics(e.target.value)}
+              onChange={(e) => {
+                // 입력된 텍스트가 비어있을 경우 최소 한 줄의 공백을 유지하도록 설정
+                const newText =
+                  e.target.value.trim() === "" ? "\n" : e.target.value;
+                setCreatedLyrics(newText);
+              }}
               onKeyDown={(e) => {
                 // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
                 if (e.key === "Enter") {

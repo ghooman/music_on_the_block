@@ -1,9 +1,10 @@
 import { ResponsivePie } from '@nivo/pie';
+import { ResponsiveLine } from '@nivo/line';
 
 import './Chart.scss';
 
-export const PieChart = ({ height, width, data, selectedItem, setSelectedItem }) => {
-    const total = data.reduce((a, b) => a + b.value, 0);
+export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, legends }) => {
+    const total = data ? data.reduce((a, b) => a + b.value, 0) : 0;
 
     const getColor = (datum) => {
         const hslString = datum?.data?.color;
@@ -50,19 +51,90 @@ export const PieChart = ({ height, width, data, selectedItem, setSelectedItem })
                 </p>
                 <p className="chart__pie--text-per">{((total / selectedItem?.value) * 10)?.toFixed(2)}%</p>
             </div>
-            <div className="chart__pie--legends">
-                {data.map((item) => (
-                    <div className="chart__pie--legends__item">
-                        <div
-                            className="chart__pie--legends__item--square"
-                            style={{ backgroundColor: item.color }}
-                        ></div>
-                        <div className="chart__pie--legends__item--label-image">
-                            <img src={item.image} alt={item.id} />
+            {legends && (
+                <div className="chart__pie--legends">
+                    {data?.map((item, index) => (
+                        <div className="chart__pie--legends__item" key={`legends-${index}`}>
+                            <div
+                                className="chart__pie--legends__item--square"
+                                style={{ backgroundColor: item.color }}
+                            ></div>
+                            <div className="chart__pie--legends__item--label-image">
+                                <img src={item.image} alt={item.id} />
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export const LineChart = ({ height = '500px', width = '100%' }) => {
+    const data = [
+        {
+            id: 'japan',
+            color: 'hsl(162, 70%, 50%)',
+            data: [
+                {
+                    x: 'plane',
+                    y: 30,
+                },
+                {
+                    x: 'helicopter',
+                    y: 73,
+                },
+                {
+                    x: 'boat',
+                    y: 18,
+                },
+                {
+                    x: 'train',
+                    y: 72,
+                },
+                {
+                    x: 'subway',
+                    y: 92,
+                },
+                {
+                    x: 'bus',
+                    y: 32,
+                },
+                {
+                    x: 'car',
+                    y: 22,
+                },
+            ],
+        },
+    ];
+
+    return (
+        <div style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
+            <ResponsiveLine
+                data={data}
+                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                curve="cardinal"
+                xScale={{ type: 'point' }}
+                yScale={{
+                    type: 'linear',
+                    min: 0,
+                    max: 100,
+                    stacked: true,
+                    reverse: false,
+                }}
+                yFormat=" >-.2f"
+                axisTop={null}
+                axisRight={null}
+                enableGridX={false}
+                pointSize={0}
+                pointColor={{ theme: 'background' }}
+                pointBorderWidth={2}
+                pointBorderColor={{ from: 'serieColor' }}
+                pointLabel="data.yFormatted"
+                pointLabelYOffset={-12}
+                enableTouchCrosshair={true}
+                useMesh={true}
+            />
         </div>
     );
 };

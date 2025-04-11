@@ -5,6 +5,7 @@ import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
+import ServiceUpdateModal from "../ServiceUpdateModal";
 const GetStarted = ({ handler, createPossibleCount }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
@@ -15,6 +16,8 @@ const GetStarted = ({ handler, createPossibleCount }) => {
       setWalletAddress(walletAddress);
     }
   };
+
+  const [serviceUpdateModal, setServiceUpdateModal] = useState(false);
   return (
     <div className="create__get-started">
       <h1 className="create__get-started--title">
@@ -57,7 +60,8 @@ const GetStarted = ({ handler, createPossibleCount }) => {
           className={`create__get-started--button ${
             createPossibleCount === 0 ? "disabled" : ""
           }`}
-          onClick={handler}
+          // onClick={handler}
+          onClick={() => setServiceUpdateModal(true)}
           disabled={createPossibleCount === 0}
         >
           Create
@@ -65,6 +69,23 @@ const GetStarted = ({ handler, createPossibleCount }) => {
       ) : (
         <WalletConnect onConnect={handleWalletConnect} />
       )}
+
+      {/* 서비스 업데이트용
+      <ExpandedButton
+        className="create__get-started--button"
+        // className={`create__get-started--button ${
+        //   createPossibleCount === 0 ? "disabled" : ""
+        // }`}
+        // onClick={handler}
+        onClick={() => setServiceUpdateModal(true)}
+        // disabled={createPossibleCount === 0}
+      >
+        Create
+      </ExpandedButton>
+
+      {serviceUpdateModal && (
+        <ServiceUpdateModal setServiceUpdateModal={setServiceUpdateModal} />
+      )} */}
     </div>
   );
 };

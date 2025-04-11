@@ -34,6 +34,8 @@ const LyricChatBot = ({
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("read");
+
+  
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,

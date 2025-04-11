@@ -204,17 +204,35 @@ const MelodyChatBot = ({
     }
   };
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
+  // 앨범커버프롬프트
+
   const generateAlbumCover = async () => {
     try {
       const response = await client.images.generate({
         model: "dall-e-3",
         prompt: `
- 
-        `,
+        [가사 데이터]
+        태그: ${lyricData?.lyric_tag.join(", ")}
+        장르: ${lyricData?.lyric_genre?.[0]}
+        스타일: ${lyricData?.lyric_stylistic?.[0]}
+        
+        [노래 스토리]
+        ${lyricStory}
+        
+        [디자인 요청]
+        앨범 커버 디자인 : 
+        - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
+        - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
+        - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyricData?.lyric_tag.join(
+          ", "
+        )}"와 "${lyricData?.lyric_genre?.[0]}"의 느낌을 표현할 것.
+        - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
+      `,
         size: "1024x1024",
         quality: "standard",
         n: 1,
       });
+      console.log("prompt", prompt);
       console.log("generateAlbumCover:", response.data);
       const cover = response.data[0].url;
       setAlbumCover(cover);
@@ -240,31 +258,32 @@ const MelodyChatBot = ({
     try {
       const formData = {
         album: {
-          title: "",
-          detail: "",
-          language: "KOR",
-          genre: "",
+          title: melody_title,
+          detail: melody_detail,
+          language: selectedLanguage,
+          genre: melody_genre,
           style: "",
-          gender: "",
-          musical_instrument: "",
+          gender: melody_gender,
+          musical_instrument: melody_instrument,
           ai_service: "",
           ai_service_type: "",
-          tempo: 0,
+          tempo: parseInt(melody_tempo),
           song_length: "",
-          lyrics: "",
+          lyrics: generatedLyric,
           mood: "",
-          tags: "",
+          tags: melody_tag?.join(", ") || "",
           cover_image: coverUrl, // 직접 전달받은 coverUrl 사용
         },
         album_lyrics_info: {
-          language: "KOR",
-          feelings: "",
-          genre: "",
-          style: "",
-          form: "",
-          my_story: "",
+          language: selectedLanguage,
+          feelings: "", // 현재 사용하지 않으므로 빈 문자열 처리
+          genre: lyricData?.lyric_genre?.[0] || "",
+          style: lyricData?.lyric_stylistic?.[0] || "",
+          form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
+          my_story: lyricStory,
         },
       };
+      console.log("formData", formData);
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
         formData,
@@ -293,7 +312,7 @@ const MelodyChatBot = ({
   const handleGenerateSong = async () => {
     setCreateLoading(true);
     try {
-      // 앨범 커버 생성 후 URL 반환
+      // // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
       if (cover) {
         // 생성된 cover 값을 인자로 전달하여 musicGenerate 함수 호출
@@ -310,7 +329,6 @@ const MelodyChatBot = ({
   };
   // 생성 버튼 허용 조건
   const isGenerateButtonDisabled = "";
-  console.log("createLoading", createLoading);
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}

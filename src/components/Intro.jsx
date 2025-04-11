@@ -295,11 +295,11 @@ const Intro = ({ setIsLoggedIn }) => {
                 <li className="intro__slide-mobile__tab-list__item">
                   <dl className="intro__slide-mobile__tab-list__item__title">
                     <dt>
-                      he dances through his masks like breathing - Yolkhead
+                    Music on the Block
                     </dt>
                     <dd>
-                      Daft Punk
-                      <span>– 13 songs, 2024</span>
+                      MOB
+                      {/* <span>– 13 songs, 2024</span> */}
                     </dd>
                   </dl>
                   <MusicList />

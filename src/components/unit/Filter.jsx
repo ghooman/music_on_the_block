@@ -11,7 +11,16 @@ import pencelIcon from '../../assets/images/icon/pencel.svg';
 // url만 조작함.
 // 사용하는 부모 컴포넌트에서 쿼리 파라미터로 필터링
 
-const Filter = ({ period = true, types = true, songs }) => {
+/**
+ *
+ * @param {boolean} parameter : 사용하는 필터들
+ */
+
+/**
+ * 프롭스 추가 시 변수도 추가해주어야 합니다.
+ */
+
+const Filter = ({ period, types, songs }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
     const [filter, setFilter] = useState(false);
 
@@ -19,6 +28,7 @@ const Filter = ({ period = true, types = true, songs }) => {
 
     const page = searchParamas.get('page');
 
+    // 프롭스와 맞춰주세요
     const period_ = searchParamas.get('period');
     const types_ = searchParamas.get('types');
     const songs_ = searchParamas.get('songs');

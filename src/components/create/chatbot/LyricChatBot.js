@@ -1,12 +1,13 @@
 // components/create/chatbot/LyricChatBot.js
 import "./LyricChatBot.scss";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext ,useRef,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
+import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 
 const LyricChatBot = ({
   createLoading,
@@ -173,18 +174,40 @@ const LyricChatBot = ({
   const isGenerateButtonDisabled =
     generatedLyric?.trim() === "" || createLoading;
 
+
+
+
+
+
+    const scrollContainerRef = useRef(null);
+
+    useEffect(() => {
+      const container = scrollContainerRef.current;
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }, [chatHistory, loading]);
+
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
       <section className="chatbot">
         <div className="chatbot__header">
-          <h2>Lyric Maker</h2>
+          <h2>Chat bot</h2>
         </div>
-        <div className="chatbot__messages">
+        <div className="chatbot__messages"
+            ref={scrollContainerRef}
+        >
           {chatHistory.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
-              <img src={defaultCoverImg}/>
-              {msg.content}
+              <div className="message__content">
+                {/* <img src={mobProfilerImg}/> */}
+                <img
+                  src={msg.role === "assistant" ? mobProfilerImg : defaultCoverImg}
+                  alt="profile"
+                />
+                <p className="message__content--text">{msg.content}</p>
+              </div>
             </div>
           ))}
           {loading && <div className="message bot">Loading...</div>}
@@ -242,12 +265,15 @@ const LyricChatBot = ({
         </div>
         <div className="music__information__lyric">
           <h3>Final Lyric</h3>
-          <textarea
-            value={generatedLyric}
-            placeholder="Enter your lyrics here..."
-            rows="10"
-            readOnly
-          />
+          <div className="music__information__lyric--text">
+            <textarea
+              value={generatedLyric}
+              placeholder="Enter your lyrics here..."
+              rows="10"
+              readOnly
+            />
+          </div>
+
         </div>
         <div className="music__information__buttons">
           <button
@@ -259,7 +285,7 @@ const LyricChatBot = ({
               setPageNumber(1);
             }}
           >
-            <span>Confirm</span>
+            Confirm
           </button>
         </div>
       </section>

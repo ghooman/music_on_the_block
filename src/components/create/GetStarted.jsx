@@ -5,7 +5,12 @@ import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
-const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
+const GetStarted = ({
+  handler,
+  createPossibleCount,
+  setCreateMode,
+  setSelectedLanguage,
+}) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
 
@@ -18,17 +23,17 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: 'Chatbot Format',
-      description: 'Chat with AI to create your own song.',
-      keywords: 'AI Chatbot · Conversation · Flow',
+      title: "Chatbot Format",
+      description: "Chat with AI to create your own song.",
+      keywords: "AI Chatbot · Conversation · Flow",
     },
     {
-      title: 'General Format',
-      description: 'Select and input to create your own song.',
-      keywords: 'Selection · Input · Control',
+      title: "General Format",
+      description: "Select and input to create your own song.",
+      keywords: "Selection · Input · Control",
     },
   ];
-  const languages = ['한국어', 'English'];
+  const languages = ["한국어", "English"];
 
   const handleArticleClick = (index) => {
     setActiveIndex(index);
@@ -125,7 +130,9 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
         {formats.map((format, idx) => (
           <article
             key={idx}
-            className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
+            className={`create__get-started--format-item ${
+              activeIndex === idx ? "active" : ""
+            }`}
             onClick={() => handleArticleClick(idx)}
           >
             <h3 className="create__get-started--format-item-title">
@@ -136,7 +143,9 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
               <span>* Keywords: {format.keywords}</span>
             </p>
             <div className="create__get-started--format-item-select">
-              <p className="create__get-started--format-item-select-title">Language selection</p>
+              <p className="create__get-started--format-item-select-title">
+                Language selection
+              </p>
               <div className="create__get-started--format-item-select-items">
                 <div className="container">
                   {languages.map((lang, langIdx) => (
@@ -147,8 +156,16 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
                         type="radio"
                         disabled={activeIndex !== idx}
                         defaultChecked={langIdx === 0}
+                        onChange={() => {
+                          setSelectedLanguage(
+                            lang === "한국어" ? "KOR" : "ENG"
+                          );
+                        }}
                       />
-                      <label htmlFor={`radio-${idx}-${langIdx}`} className="radio-label">
+                      <label
+                        htmlFor={`radio-${idx}-${langIdx}`}
+                        className="radio-label"
+                      >
                         {lang}
                       </label>
                     </div>
@@ -159,7 +176,7 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
           </article>
         ))}
       </section>
-      
+
       {/* <div className="create__btn">
         {isRegistered && activeIndex !== null ? (
           <ExpandedButton
@@ -184,7 +201,9 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
         {isRegistered ? (
           <ExpandedButton
             className={`create__get-started--button ${
-              createPossibleCount === 0 || activeIndex === null ? "disabled" : ""
+              createPossibleCount === 0 || activeIndex === null
+                ? "disabled"
+                : ""
             }`}
             onClick={() => {
               if (activeIndex === null) return; // 포맷 선택 전이면 동작 막음
@@ -205,9 +224,6 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
           <WalletConnect onConnect={handleWalletConnect} />
         )}
       </div>
-
-
-
 
       {/* {isRegistered ? (
         <ExpandedButton

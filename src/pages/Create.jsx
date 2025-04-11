@@ -93,6 +93,7 @@ const Create = () => {
         handler={() => setPageNumber(0)}
         createPossibleCount={createPossibleCount}
         setCreateMode={setCreateMode}
+        setSelectedLanguage={setSelectedLanguage}
       />
     );
 

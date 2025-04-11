@@ -212,9 +212,7 @@ function AlbumDetail() {
         let interval;
         if (isPlaying) {
             interval = setInterval(() => {
-                console.log('들었어요', ++listenTime.current);
                 if (listenTime.current === 90) {
-                    console.log('들었어요오');
                     incrementPlayCount(album?.id, serverApi);
                     setAlbum((prev) => ({ ...prev, play_cnt: ++prev.play_cnt }));
                 }

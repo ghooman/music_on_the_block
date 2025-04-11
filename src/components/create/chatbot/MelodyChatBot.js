@@ -17,7 +17,7 @@ const MelodyChatBot = ({
   setPageNumber,
   melodyData,
   setMelodyData,
-  selectedLanguage,
+  selectedLanguage, // "KOR" 또는 "ENG"
   albumCover,
   setAlbumCover,
 }) => {
@@ -327,8 +327,9 @@ const MelodyChatBot = ({
       setCreateLoading(false);
     }
   };
-  // 생성 버튼 허용 조건
+  // 생성 버튼 허용 여부 input 들이 값이 다 있을 경우 통과
   const isGenerateButtonDisabled = "";
+
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}

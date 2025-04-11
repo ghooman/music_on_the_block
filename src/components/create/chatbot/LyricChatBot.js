@@ -4,6 +4,8 @@ import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
+import defaultCoverImg from "../../../assets/images/header/logo.svg";
+import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
 // 언어별 리소스 파일 불러오기
 import koLyric from "../../../locales/koLyric";
 import enLyric from "../../../locales/enLyric";

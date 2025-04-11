@@ -1,9 +1,12 @@
 // components/create/chatbot/LyricChatBot.js
 import "./LyricChatBot.scss";
-import React, { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
 import OpenAI from "openai";
+import jsPDF from "jspdf";
+import ExpandedButton from "../ExpandedButton";
 import CreateLoading from "../../CreateLoading";
+import { RemainCountButton } from "../../unit/RemainCountButton";
+import { generateKoreanPdf } from "../../../utils/pdfGenerator";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
 // 언어별 리소스 파일 불러오기
@@ -20,6 +23,7 @@ const LyricChatBot = ({
   setGeneratedLyric,
   setPageNumber,
 }) => {
+  const generatedLyricsRef = useRef(null);
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "KOR" ? koLyric : enLyric;
 
@@ -29,7 +33,7 @@ const LyricChatBot = ({
   ]);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [mode, setMode] = useState("read");
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -169,109 +173,198 @@ const LyricChatBot = ({
       container.scrollTop = container.scrollHeight;
     }
   }, [chatHistory, loading]);
-
-  return (
-    <div className="chatbot__background">
-      {createLoading && <CreateLoading />}
-      <section className="chatbot">
-        <div className="chatbot__header">
-          <h2>Chat bot</h2>
-        </div>
-        <div className="chatbot__messages" ref={scrollContainerRef}>
-          {chatHistory.map((msg, index) => (
-            <div key={index} className={`message ${msg.role}`}>
-              <div className="message__content">
-                {/* <img src={mobProfilerImg}/> */}
-                <img
-                  src={
-                    msg.role === "assistant" ? mobProfilerImg : defaultCoverImg
-                  }
-                  alt="profile"
-                />
-                <p className="message__content--text">{msg.content}</p>
+  if (!generatedLyric)
+    return (
+      <div className="chatbot__background">
+        {createLoading && <CreateLoading />}
+        <section className="chatbot">
+          <div className="chatbot__header">
+            <h2>Chat bot</h2>
+          </div>
+          <div className="chatbot__messages" ref={scrollContainerRef}>
+            {chatHistory.map((msg, index) => (
+              <div key={index} className={`message ${msg.role}`}>
+                <div className="message__content">
+                  {/* <img src={mobProfilerImg}/> */}
+                  <img
+                    src={
+                      msg.role === "assistant"
+                        ? mobProfilerImg
+                        : defaultCoverImg
+                    }
+                    alt="profile"
+                  />
+                  <p className="message__content--text">{msg.content}</p>
+                </div>
               </div>
-            </div>
-          ))}
-          {loading && <div className="message bot">Loading...</div>}
-        </div>
-        <div className="chatbot__input">
-          <input
-            type="text"
-            value={userInput}
-            onChange={handleUserInput}
-            onKeyPress={handleKeyPress}
-            placeholder="Type your message..."
-          />
-          <button onClick={handleSendMessage}>Send</button>
-        </div>
-      </section>
-      <section className="music__information">
-        <div className="music__information__header">
-          <h2>Music Information</h2>
-        </div>
-        <div className="music__information__tags">
-          <h3>Lyric Tags</h3>
-          <input
-            type="text"
-            value={lyricData.lyric_tag.join(", ")}
-            placeholder="Enter tags separated by commas"
-            readOnly
-          />
-        </div>
-        <div className="music__information__genre">
-          <h3>Lyric Genre</h3>
-          <input
-            type="text"
-            value={lyricData.lyric_genre}
-            placeholder="POP, K-POP, ROCK, HIP-HOP ..."
-            readOnly
-          />
-          <div className="music__information__stylistic">
-            <h3>Lyric Stylistic</h3>
+            ))}
+            {loading && <div className="message bot">Loading...</div>}
+          </div>
+          <div className="chatbot__input">
             <input
               type="text"
-              value={lyricData.lyric_stylistic}
-              placeholder="Enter stylistic elements"
+              value={userInput}
+              onChange={handleUserInput}
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message..."
+            />
+            <button onClick={handleSendMessage}>Send</button>
+          </div>
+        </section>
+        <section className="music__information">
+          <div className="music__information__header">
+            <h2>Music Information</h2>
+          </div>
+          <div className="music__information__tags">
+            <h3>Lyric Tags</h3>
+            <input
+              type="text"
+              value={lyricData.lyric_tag.join(", ")}
+              placeholder="Enter tags separated by commas"
               readOnly
             />
           </div>
-        </div>
-        <div className="music__information__story">
-          <h3>Lyric Story</h3>
-          <textarea
-            value={lyricStory}
-            placeholder="Enter your story here..."
-            rows="4"
-            readOnly
-          />
-        </div>
-        <div className="music__information__lyric">
-          <h3>Final Lyric</h3>
-          <div className="music__information__lyric--text">
+          <div className="music__information__genre">
+            <h3>Lyric Genre</h3>
+            <input
+              type="text"
+              value={lyricData.lyric_genre}
+              placeholder="POP, K-POP, ROCK, HIP-HOP ..."
+              readOnly
+            />
+            <div className="music__information__stylistic">
+              <h3>Lyric Stylistic</h3>
+              <input
+                type="text"
+                value={lyricData.lyric_stylistic}
+                placeholder="Enter stylistic elements"
+                readOnly
+              />
+            </div>
+          </div>
+          <div className="music__information__story">
+            <h3>Lyric Story</h3>
             <textarea
-              value={generatedLyric}
-              placeholder="Enter your lyrics here..."
-              rows="10"
+              value={lyricStory}
+              placeholder="Enter your story here..."
+              rows="4"
               readOnly
             />
           </div>
-        </div>
-        <div className="music__information__buttons">
-          <button
-            className={`music__information__button ${
-              isGenerateButtonDisabled ? "disabled" : ""
-            }`}
-            disabled={isGenerateButtonDisabled}
+          <div className="music__information__lyric">
+            <h3>Final Lyric</h3>
+            <div className="music__information__lyric--text">
+              <textarea
+                value={generatedLyric}
+                placeholder="Enter your lyrics here..."
+                rows="10"
+                readOnly
+              />
+            </div>
+          </div>
+          <div className="music__information__buttons">
+            <button
+              className={`music__information__button ${
+                isGenerateButtonDisabled ? "disabled" : ""
+              }`}
+              disabled={isGenerateButtonDisabled}
+              onClick={() => {
+                setPageNumber(1);
+              }}
+            >
+              Confirm
+            </button>
+          </div>
+        </section>
+      </div>
+    );
+  else
+    return (
+      <div ref={generatedLyricsRef} className="create__lyric-lab">
+        <h2>Generated Lyrics</h2>
+        {mode === "read" && (
+          <pre className="generated-lyrics__lyrics">{generatedLyric}</pre>
+        )}
+        {mode === "edit" && (
+          <pre className="generated-lyrics__lyrics">
+            <textarea
+              className="generated-lyrics__lyrics"
+              value={generatedLyric}
+              // onChange={(e) => setCreatedLyrics(e.target.value)}
+              onChange={(e) => {
+                // 입력된 텍스트가 비어있을 경우 최소 한 줄의 공백을 유지하도록 설정
+                const newText =
+                  e.target.value.trim() === "" ? "\n" : e.target.value;
+                setGeneratedLyric(newText);
+              }}
+              onKeyDown={(e) => {
+                // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
+                if (e.key === "Enter") {
+                  const currentScroll = e.target.scrollTop;
+                  setTimeout(() => {
+                    e.target.scrollTop = currentScroll; // 화면 스크롤 픽스
+                  }, 0);
+                }
+              }}
+            />
+          </pre>
+        )}
+        <div className="generated-lyrics__confirm-buttons">
+          <ExpandedButton
+            className="generated-lyrics__confirm-buttons--button edit"
+            onClick={() =>
+              setMode((prev) => (prev === "edit" ? "read" : "edit"))
+            }
+          >
+            EDIT
+          </ExpandedButton>
+          <ExpandedButton
+            className="generated-lyrics__confirm-buttons--button confirm"
             onClick={() => {
-              setPageNumber(1);
+              setGeneratedLyric(generatedLyric);
+              setPageNumber((prev) => prev + 1);
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            Confirm
-          </button>
+            CONFIRM
+          </ExpandedButton>
         </div>
-      </section>
-    </div>
-  );
+        <div className="generated-lyrics__download-buttons">
+          <ExpandedButton
+            className="generated-lyrics__download-buttons--button txt"
+            onClick={() => {
+              const element = document.createElement("a");
+              const file = new Blob([generatedLyric], { type: "text/plain" });
+              element.href = URL.createObjectURL(file);
+              element.download = "lyrics.txt";
+              document.body.appendChild(element);
+              element.click();
+              document.body.removeChild(element);
+            }}
+          >
+            Download as text (.txt)
+          </ExpandedButton>
+          <ExpandedButton
+            className="generated-lyrics__download-buttons--button pdf"
+            onClick={() => {
+              // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
+              if (selectedLanguage === "KOR") {
+                // 한글일 경우 커스텀 pdf 생성 함수 호출
+                generateKoreanPdf(generatedLyric);
+              } else {
+                // 영어 등 다른 언어의 경우 기존 로직 사용
+                const doc = new jsPDF();
+                const lines = doc.splitTextToSize(generatedLyric, 180);
+                doc.text(lines, 10, 10);
+                doc.save("lyrics.pdf");
+              }
+            }}
+          >
+            Download as pdf (.pdf)
+          </ExpandedButton>
+        </div>
+      </div>
+    );
 };
 
 export default LyricChatBot;

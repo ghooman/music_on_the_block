@@ -60,11 +60,11 @@ const MelodyChatBot = ({
             content:
               "당신은 작곡 전문가이자 멜로디 제작에 특화된 조수입니다. 지금부터 사용자가 원하는 작곡 멜로디 제작을 위해 아래 단계를 순차적으로 진행할 수 있도록 도와주세요.\n\n" +
               "곡 제작과 관련된 질문이 아닌 경우에는 '곡 제작과 관련된 질문이 아닙니다.'라고 답해주세요.\n\n" +
-              "1. 사용자가 원하는 태그들을 선택하도록 질문합니다.\n" +
-              "2. 사용자가 원하는 곡의 장르를 선택하도록 질문합니다.\n" +
+              "1. 먼저 사용자가 원하는 곡의 장르를 선택하도록 질문합니다.\n" +
+              "2. 사용자가 원하는 태그들 정하도록 질문합니다. (사랑,우정,성공 등)\n" +
               "3. 곡의 타이틀을 정하도록 유도합니다.\n" +
               "4. 곡의 보이스 선택: 남성 또는 여성 중 한 명의 보이스를 선택하도록 제안합니다. 현재 시스템은 한 종류의 보이스만 사용할 수 있음을 안내해주세요.\n" +
-              "5. 곡에서 사용하길 원하는 악기들을 물어봅니다.\n" +
+              "5. 곡에서 사용하길 원하는 악기들을 물어봅니다. (드럼,베이스,피아노 등)\n" +
               "6. 곡의 템포를 결정하도록 안내합니다. (최소 60 BPM에서 최대 120 BPM 사이)\n" +
               "7. 추가적으로 곡에 넣고 싶은 요소들이 있는지 질문합니다.\n" +
               "8. 마지막으로, 지금까지 선택한 옵션들을 다음과 같은 형식으로 정리하여 사용자에게 보여주세요:\n" +
@@ -79,14 +79,91 @@ const MelodyChatBot = ({
       // 불필요한 ** 문자 제거
       botMessage = botMessage.replace(/\*\*/g, "");
 
-      // [곡 제목 추출] (예시: "곡 제목: '배추도사무도사'" 식으로 포함된 경우)
-      if (botMessage.includes("곡 제목:")) {
-        const titleRegex = /곡 제목\s*:\s*'([^']+)'/;
+      // [곡 제목 추출] (예시: "곡의 타이틀(달리기)" 식으로 포함된 경우)
+      // [태그 추출]
+      if (botMessage.includes("태그(")) {
+        const tagRegex = /태그\s*\(([^)]+)\)/;
+        const tagMatch = botMessage.match(tagRegex);
+        if (tagMatch && tagMatch[1]) {
+          const extractedTags = tagMatch[1]
+            .trim()
+            .split(",")
+            .map((tag) => tag.trim());
+          setMelodyData((prevData) => ({
+            ...prevData,
+            melody_tag: extractedTags,
+          }));
+        }
+      }
+
+      // [곡의 타이틀 추출]
+      if (botMessage.includes("곡의 타이틀(")) {
+        const titleRegex = /곡의\s*타이틀\s*\(([^)]+)\)/;
         const titleMatch = botMessage.match(titleRegex);
         if (titleMatch && titleMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
-            melody_title: titleMatch[1],
+            melody_title: titleMatch[1].trim(),
+          }));
+        }
+      }
+
+      // [장르 추출]
+      if (botMessage.includes("장르(")) {
+        const genreRegex = /장르\s*\(([^)]+)\)/;
+        const genreMatch = botMessage.match(genreRegex);
+        if (genreMatch && genreMatch[1]) {
+          setMelodyData((prevData) => ({
+            ...prevData,
+            melody_genre: genreMatch[1].trim(),
+          }));
+        }
+      }
+
+      // [보이스 추출]
+      if (botMessage.includes("보이스(")) {
+        const voiceRegex = /보이스\s*\(([^)]+)\)/;
+        const voiceMatch = botMessage.match(voiceRegex);
+        if (voiceMatch && voiceMatch[1]) {
+          setMelodyData((prevData) => ({
+            ...prevData,
+            melody_gender: voiceMatch[1].trim(),
+          }));
+        }
+      }
+
+      // [악기 추출]
+      if (botMessage.includes("악기(")) {
+        const instrumentRegex = /악기\s*\(([^)]+)\)/;
+        const instrumentMatch = botMessage.match(instrumentRegex);
+        if (instrumentMatch && instrumentMatch[1]) {
+          setMelodyData((prevData) => ({
+            ...prevData,
+            melody_instrument: instrumentMatch[1].trim(),
+          }));
+        }
+      }
+
+      // [템포 추출]
+      if (botMessage.includes("템포(")) {
+        const tempoRegex = /템포\s*\(([^)]+)\)/;
+        const tempoMatch = botMessage.match(tempoRegex);
+        if (tempoMatch && tempoMatch[1]) {
+          setMelodyData((prevData) => ({
+            ...prevData,
+            melody_tempo: tempoMatch[1].trim(),
+          }));
+        }
+      }
+
+      // [추가 요소/스토리 추출]
+      if (botMessage.includes("추가 요소/스토리(")) {
+        const detailRegex = /추가 요소\/스토리\s*\(([^)]+)\)/;
+        const detailMatch = botMessage.match(detailRegex);
+        if (detailMatch && detailMatch[1]) {
+          setMelodyData((prevData) => ({
+            ...prevData,
+            melody_detail: detailMatch[1].trim(),
           }));
         }
       }

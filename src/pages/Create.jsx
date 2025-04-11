@@ -18,7 +18,8 @@ import LyricChatBot from "../components/create/chatbot/LyricChatBot";
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [pageNumber, setPageNumber] = useState(-1);
+  const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
+  const [createMode, setCreateMode] = useState(""); // chatbot, select
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
   useEffect(() => {
     if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
@@ -55,17 +56,12 @@ const Create = () => {
   }, [token]);
 
   const [melodyDetail, setMelodyDetail] = useState("");
-
   const [generatedLyric, setGeneratedLyric] = useState("");
-
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
-
   const [tempo, setTempo] = useState([90]);
   const [checkList, setCheckList] = useState(false);
-
   const [skipLyric, setSkipLyric] = useState(false);
   const [skipMelody, setSkipMelody] = useState(false);
-
   const [skip, setSkip] = useState("");
   const [createCompleteModal, setCreateCompleteModal] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("KOR");
@@ -128,62 +124,74 @@ const Create = () => {
 
 export default Create;
 
-const SelectCreateLayout = ({
-  pageNumber,
-  lyricData,
-  lyricStory,
-  melodyData,
-  setMelodyData,
-  melodyDetail,
-  setMelodyDetail,
-  tempo,
-  setTempo,
-  generatedLyric,
-  generatedMusicResult,
-  setGeneratedMusicResult,
-  skip,
-  setSkip,
-  skipHandler,
-  setPageNumber,
-  SelectedWrap,
-  SelectedItem,
-  isMelodyPage,
-  selectedLanguage,
-  setSelectedLanguage,
-  createPossibleCount,
-  albumCover,
-  setAlbumCover,
-  createCompleteModal,
-  setCreateCompleteModal,
-}) => {
-  return (
-    <div>
-      {pageNumber === 1 && (
-        <MelodyMaker
-          lyricData={lyricData}
-          lyricStory={lyricStory}
-          melodyData={melodyData}
-          setMelodyData={setMelodyData}
-          melodyDetail={melodyDetail}
-          setMelodyDetail={setMelodyDetail}
-          tempo={tempo}
-          setTempo={setTempo}
-          generatedLyric={generatedLyric}
-          generatedMusicResult={generatedMusicResult}
-          setGeneratedMusicResult={setGeneratedMusicResult}
-          onSkip={() => setSkip("melody")}
-          setPageNumber={setPageNumber}
-          SelectedWrap={SelectedWrap}
-          SelectedItem={SelectedItem}
-          isMelodyPage={isMelodyPage}
-          selectedLanguage={selectedLanguage}
-          setSelectedLanguage={setSelectedLanguage}
-          createPossibleCount={createPossibleCount}
-          albumCover={albumCover}
-          setAlbumCover={setAlbumCover}
-        ></MelodyMaker>
-      )}
-      {/* {pageNumber === 2 && (
+const Title = () => {
+  return <h1 className="title">Recommended Music Source</h1>;
+};
+
+const Progress = ({ pageNumber }) => {
+  const pages = [
+    "Lyrics Lab",
+    "Melody Maker",
+    // "Alubum Cover Studio",
+    // "Preview & Finalize",
+  ];
+
+  const SelectCreateLayout = ({
+    pageNumber,
+    lyricData,
+    lyricStory,
+    melodyData,
+    setMelodyData,
+    melodyDetail,
+    setMelodyDetail,
+    tempo,
+    setTempo,
+    generatedLyric,
+    generatedMusicResult,
+    setGeneratedMusicResult,
+    skip,
+    setSkip,
+    skipHandler,
+    setPageNumber,
+    SelectedWrap,
+    SelectedItem,
+    isMelodyPage,
+    selectedLanguage,
+    setSelectedLanguage,
+    createPossibleCount,
+    albumCover,
+    setAlbumCover,
+    createCompleteModal,
+    setCreateCompleteModal,
+  }) => {
+    return (
+      <div>
+        {pageNumber === 1 && (
+          <MelodyMaker
+            lyricData={lyricData}
+            lyricStory={lyricStory}
+            melodyData={melodyData}
+            setMelodyData={setMelodyData}
+            melodyDetail={melodyDetail}
+            setMelodyDetail={setMelodyDetail}
+            tempo={tempo}
+            setTempo={setTempo}
+            generatedLyric={generatedLyric}
+            generatedMusicResult={generatedMusicResult}
+            setGeneratedMusicResult={setGeneratedMusicResult}
+            onSkip={() => setSkip("melody")}
+            setPageNumber={setPageNumber}
+            SelectedWrap={SelectedWrap}
+            SelectedItem={SelectedItem}
+            isMelodyPage={isMelodyPage}
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+            createPossibleCount={createPossibleCount}
+            albumCover={albumCover}
+            setAlbumCover={setAlbumCover}
+          ></MelodyMaker>
+        )}
+        {/* {pageNumber === 2 && (
         <AlbumCoverStudio
           setAlbumCover={setAlbumCover}
           lyricData={lyricData}
@@ -209,7 +217,7 @@ const SelectCreateLayout = ({
         </AlbumCoverStudio>
       )} */}
 
-      {/* {pageNumber === 2 && (
+        {/* {pageNumber === 2 && (
         <Finalize
           generatedMusic={generatedMusic}
           generatedLyric={generatedLyric}
@@ -237,25 +245,15 @@ const SelectCreateLayout = ({
         </Finalize>
       )} */}
 
-      {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
-      {createCompleteModal && (
-        <CreateCompleteModal setCreateCompleteModal={setCreateCompleteModal} />
-      )}
-    </div>
-  );
-};
-
-const Title = () => {
-  return <h1 className="title">Recommended Music Source</h1>;
-};
-
-const Progress = ({ pageNumber }) => {
-  const pages = [
-    "Lyrics Lab",
-    "Melody Maker",
-    // "Alubum Cover Studio",
-    // "Preview & Finalize",
-  ];
+        {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
+        {createCompleteModal && (
+          <CreateCompleteModal
+            setCreateCompleteModal={setCreateCompleteModal}
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="progress mb40">
@@ -288,6 +286,13 @@ const Progress = ({ pageNumber }) => {
   );
 };
 
+// createMode 가 chatbot 일때
+const chatbotMode = {
+  title: "Lyric Chatbot",
+  description: "Chat with the AI to create lyrics.",
+  component: <LyricChatBot />,
+};
+// select Layout 에서 사용되는 아이템들
 const SelectedWrap = ({ children, title }) => {
   const [isActive, setIsActive] = useState(false);
 

@@ -10,7 +10,6 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    letter-spacing: 0.72px;
     position: relative;
     &::after {
       position: absolute;
@@ -22,7 +21,7 @@
       background-color: #cf0;
       border-radius: 100%;
     }
-    margin-bottom: 76px;
+    margin-bottom: 32px;
   }
 
   .progress {

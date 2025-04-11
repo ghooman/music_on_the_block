@@ -179,109 +179,6 @@ const LyricChatBot = ({
   const handleToggle = () => {
     setIsActive((prev) => !prev);
   };
-
-  return (
-    <div className="chatbot__background">
-      {createLoading && <CreateLoading />}
-      <section className="chatbot">
-        <div className="chatbot__header">
-          <h2>Chat bot</h2>
-        </div>
-        <div className="chatbot__messages" ref={scrollContainerRef}>
-          {chatHistory.map((msg, index) => (
-            <div key={index} className={`message ${msg.role}`}>
-              <div className="message__content">
-                {/* <img src={mobProfilerImg}/> */}
-                <img
-                  src={
-                    msg.role === "assistant" ? mobProfilerImg : defaultCoverImg
-                  }
-                  alt="profile"
-                />
-                <p className="message__content--text">{msg.content}</p>
-              </div>
-            </div>
-          ))}
-          {loading && <div className="message bot">Loading...</div>}
-        </div>
-        <div className="chatbot__input">
-          <input
-            type="text"
-            value={userInput}
-            onChange={handleUserInput}
-            onKeyPress={handleKeyPress}
-            placeholder="Type your message..."
-          />
-          <button onClick={handleSendMessage}>Send</button>
-        </div>
-      </section>
-      <section className={`music__information ${isActive ? "active" : ""}`}>
-        <div className="music__information__header" onClick={handleToggle}>
-          <h2>Music Information</h2>
-        </div>
-        <div className="music__information__tags">
-          <h3>Lyric Tags</h3>
-          <input
-            type="text"
-            value={lyricData.lyric_tag.join(", ")}
-            placeholder="Enter tags separated by commas"
-            readOnly
-          />
-        </div>
-        <div className="music__information__genre">
-          <h3>Lyric Genre</h3>
-          <input
-            type="text"
-            value={lyricData.lyric_genre}
-            placeholder="POP, K-POP, ROCK, HIP-HOP ..."
-            readOnly
-          />
-          <div className="music__information__stylistic">
-            <h3>Lyric Stylistic</h3>
-            <input
-              type="text"
-              value={lyricData.lyric_stylistic}
-              placeholder="Enter stylistic elements"
-              readOnly
-            />
-          </div>
-        </div>
-        <div className="music__information__story">
-          <h3>Lyric Story</h3>
-          <textarea
-            value={lyricStory}
-            placeholder="Enter your story here..."
-            rows="4"
-            readOnly
-          />
-        </div>
-        <div className="music__information__lyric">
-          <h3>Final Lyric</h3>
-          <div className="music__information__lyric--text">
-            <textarea
-              value={generatedLyric}
-              placeholder="Enter your lyrics here..."
-              rows="10"
-              readOnly
-            />
-          </div>
-        </div>
-      </section>
-      <div className="music__information__buttons">
-        <button
-          className={`music__information__button ${
-            isGenerateButtonDisabled ? "disabled" : ""
-          }`}
-          disabled={isGenerateButtonDisabled}
-          onClick={() => {
-            setPageNumber(1);
-          }}
-        >
-          Confirm
-        </button>
-      </div>
-    </div>
-  );
   if (!generatedLyric)
     return (
       <div className="chatbot__background">
@@ -320,8 +217,8 @@ const LyricChatBot = ({
             <button onClick={handleSendMessage}>Send</button>
           </div>
         </section>
-        <section className="music__information">
-          <div className="music__information__header">
+        <section className={`music__information ${isActive ? "active" : ""}`}>
+          <div className="music__information__header" onClick={handleToggle}>
             <h2>Music Information</h2>
           </div>
           <div className="music__information__tags">
@@ -371,20 +268,20 @@ const LyricChatBot = ({
               />
             </div>
           </div>
-          <div className="music__information__buttons">
-            <button
-              className={`music__information__button ${
-                isGenerateButtonDisabled ? "disabled" : ""
-              }`}
-              disabled={isGenerateButtonDisabled}
-              onClick={() => {
-                setPageNumber(1);
-              }}
-            >
-              Confirm
-            </button>
-          </div>
         </section>
+        <div className="music__information__buttons">
+          <button
+            className={`music__information__button ${
+              isGenerateButtonDisabled ? "disabled" : ""
+            }`}
+            disabled={isGenerateButtonDisabled}
+            onClick={() => {
+              setPageNumber(1);
+            }}
+          >
+            Confirm
+          </button>
+        </div>
       </div>
     );
   else

@@ -84,6 +84,9 @@ const AiServices = () => {
                         className={`ai__service-btn ${selectedItem.id === aiService.id ? 'active' : ''}`}
                         onClick={() => setSelectedItem(aiService)}
                     >
+                        <div className="ai__service-btn--image">
+                            <img src={aiService.image} alt="icon" />
+                        </div>
                         {aiService.id}
                     </button>
                 ))}
@@ -113,7 +116,7 @@ const AiServices = () => {
                             height={300}
                             width={300}
                             data={statusData}
-                            selectedItem={statusChartItem}
+                            selectedItem={statusData.find((item) => item.id === aiServiceStatus)}
                             setSelectedItem={setStatusChartItem}
                         />
                     </div>
@@ -151,9 +154,7 @@ const AiServices = () => {
 
             <section className="ai__period">
                 <p className="period__title">AI Work Trends by Period</p>
-                <div className="period__menu">
-                    {/* <Filter list={['All', 'Lyrics', 'Latest']} clickEvent={() => setOpenModal(true)} /> */}
-                </div>
+                <div className="period__menu"></div>
                 <div className="period__chart">
                     <LineChart />
                 </div>

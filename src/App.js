@@ -75,9 +75,9 @@ function App() {
                             path="/my-page/:path"
                             element={
                                 <Layout>
-                                    <ProtectedRoute>
-                                        <MyPage />
-                                    </ProtectedRoute>
+                                    {/* <ProtectedRoute> */}
+                                    <MyPage />
+                                    {/* </ProtectedRoute> */}
                                 </Layout>
                             }
                         />

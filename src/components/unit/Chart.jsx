@@ -3,6 +3,8 @@ import { ResponsiveLine } from '@nivo/line';
 
 import './Chart.scss';
 
+// 차트는 다시 작성하겠습니다.
+
 export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, legends }) => {
     const total = data ? data.reduce((a, b) => a + b.value, 0) : 0;
 
@@ -10,7 +12,7 @@ export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, l
         const hslString = datum?.data?.color;
         const hslRegex = /hsl\(\s*(\d+),\s*([\d.]+)%?,\s*([\d.]+)%?\s*\)/;
         const match = hslString.match(hslRegex);
-        const lightness = selectedItem?.id === datum?.id ? 50 : 10;
+        const lightness = selectedItem ? (selectedItem?.id === datum?.id ? 50 : 10) : 50;
         if (!match) return hslString; // 유효하지 않으면 원본 반환
         const [_, h, s] = match;
         return `hsl(${h}, 100%, ${lightness}%)`;
@@ -47,9 +49,11 @@ export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, l
             />
             <div className="chart__pie--text">
                 <p className="chart__pie--text-value" style={{ color: selectedItem?.color }}>
-                    {selectedItem?.value?.toLocaleString()}
+                    {selectedItem ? selectedItem?.value?.toLocaleString() : total}
                 </p>
-                <p className="chart__pie--text-per">{((total / selectedItem?.value) * 10)?.toFixed(2)}%</p>
+                <p className="chart__pie--text-per">
+                    {selectedItem ? ((total / selectedItem?.value) * 10)?.toFixed(2) : 100}%
+                </p>
             </div>
             {legends && (
                 <div className="chart__pie--legends">

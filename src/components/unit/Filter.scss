@@ -70,12 +70,15 @@
     .albums__filter-item-wrap {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
 
         .albums__filter-item-wrap--title {
-            color: #d9d9d9;
-            font-family: Pretendard700;
+            color: #f1f1f1;
+            font-family: Orbitron400;
             font-size: 14px;
+            padding-bottom: 12px;
+            text-transform: capitalize;
+            border-bottom: 1px solid #222;
         }
 
         .albums__filter-item-wrap--contents {

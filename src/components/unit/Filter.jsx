@@ -111,7 +111,7 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName }) => {
         }));
     }, [selectItem]);
     return (
-        <FilterItemWrap title="Period">
+        <FilterItemWrap title={filterName}>
             {filterItems.map((item) => (
                 <button
                     className={`albums__filter-item-wrap--contents__item ${selectItem === item && 'select'}`}

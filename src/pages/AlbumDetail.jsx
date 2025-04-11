@@ -221,9 +221,6 @@ function AlbumDetail() {
   };
 
   const { isLoggedIn } = useContext(AuthContext);
-  const LoadingSpinner = () => {
-    return <div className="loading-spinner">Loading...</div>;
-  };
   // 로딩 상태 변수 추가
   const [isLoading, setIsLoading] = useState(true);
 

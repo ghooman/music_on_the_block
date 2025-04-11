@@ -53,10 +53,8 @@ const GetStarted = ({ handler, createPossibleCount }) => {
         </div>
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
-
       {isRegistered ? (
         <ExpandedButton
-          // className="create__get-started--button"
           className={`create__get-started--button ${
             createPossibleCount === 0 ? "disabled" : ""
           }`}

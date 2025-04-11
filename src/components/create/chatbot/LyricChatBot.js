@@ -6,6 +6,7 @@ import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
+import defaultCoverImg from '../../../assets/images/header/logo.svg';
 
 const LyricChatBot = ({
   createLoading,
@@ -182,6 +183,7 @@ const LyricChatBot = ({
         <div className="chatbot__messages">
           {chatHistory.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
+              <img src={defaultCoverImg}/>
               {msg.content}
             </div>
           ))}

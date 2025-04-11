@@ -33,6 +33,7 @@ const LyricChatBot = ({
   ]);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isStatus, setIsStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
   const [mode, setMode] = useState("read");
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
@@ -179,7 +180,13 @@ const LyricChatBot = ({
   const handleToggle = () => {
     setIsActive((prev) => !prev);
   };
-  if (!generatedLyric)
+
+  const handleIsStatus = () => {
+    setIsStatus(true);
+    window.scrollTo(0, 0);
+  };
+
+  if (!isStatus)
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
@@ -276,7 +283,7 @@ const LyricChatBot = ({
             }`}
             disabled={isGenerateButtonDisabled}
             onClick={() => {
-              setPageNumber(1);
+              handleIsStatus();
             }}
           >
             Confirm

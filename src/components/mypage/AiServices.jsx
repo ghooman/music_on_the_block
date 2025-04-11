@@ -42,19 +42,19 @@ const statusData = [
         id: 'Lyrics',
         image: LyricsAndSongwritingIcon,
         value: 46,
-        color: 'hsl(72, 100%, 50%)',
+        color: 'hsl(67, 100.00%, 50.00%)',
     },
     {
         id: 'Songwriting',
         image: SongwritingIcon,
         value: 68,
-        color: 'hsl(73, 100%, 26%)',
+        color: 'hsl(101, 100.00%, 26.10%)',
     },
     {
         id: 'Lyrics + Songwriting',
         image: LyricsIcon,
         value: 17,
-        color: 'hsl(74, 100%, 11%)',
+        color: 'hsl(139, 100.00%, 11.00%)',
     },
 ];
 

@@ -130,7 +130,7 @@ export const LineChart = ({ height = '500px', width = '100%' }) => {
                 axisTop={null}
                 axisRight={null}
                 enableGridX={false}
-                pointSize={0}
+                pointSize={10}
                 pointColor={{ theme: 'background' }}
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
@@ -138,6 +138,17 @@ export const LineChart = ({ height = '500px', width = '100%' }) => {
                 pointLabelYOffset={-12}
                 enableTouchCrosshair={true}
                 useMesh={true}
+                enableArea={true}
+                tooltip={() => null}
+                colors={() => '#00ffb3'}
+                theme={{
+                    grid: {
+                        line: {
+                            stroke: '#222',
+                            strokeWidth: 2,
+                        },
+                    },
+                }}
             />
         </div>
     );

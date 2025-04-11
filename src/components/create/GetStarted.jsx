@@ -50,6 +50,16 @@ const GetStarted = ({ handler, createPossibleCount }) => {
         </div>
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
+
+      <section className="create__get-started--format">
+        <article className="create__get-started--format-item">
+          <h3 className="create__get-started--format-item-title">
+            &lt;Chatbot Format&gt;
+          </h3>
+          
+        </article>
+      </section>
+
       {isRegistered ? (
         <ExpandedButton
           className={`create__get-started--button ${

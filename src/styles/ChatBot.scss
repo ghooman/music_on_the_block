@@ -17,6 +17,9 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   padding: 20px;
 
   .chatbot {
+    height: 800px;
+    min-height: 800px;
+    max-height: 800px;
     width: 50%;
     max-width: 600px;
     background-color: $foreground;
@@ -25,7 +28,6 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    min-height: 800px;
 
     &__header {
       padding: 20px;
@@ -127,7 +129,9 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     }
 
     // 공통 양식: 장르, 타이틀, 프롬프트, 가사 영역에 대한 스타일
+    &__tags,
     &__genre,
+    &__story,
     &__title,
     &__prompt,
     &__lyric {
@@ -150,6 +154,10 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
       // 필요한 경우 영역간 여백 조정
       margin-bottom: 10px;
+    }
+
+    .music__information__stylistic {
+      margin-top: 30px;
     }
 
     &__buttons {
@@ -180,6 +188,24 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           background-color: rgba(255, 255, 255, 0.1);
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .chatbot__background {
+    flex-direction: column;
+
+    .chatbot {
+      height: 500px;
+      min-height: 500px;
+      max-height: 500px;
+    }
+
+    .chatbot,
+    .music__information {
+      width: 100%;
+      max-width: none;
     }
   }
 }

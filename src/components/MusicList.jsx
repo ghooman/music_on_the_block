@@ -37,6 +37,10 @@ class MusicList extends Component {
       mediaElement.addEventListener("canplaythrough", () => {
         this.setState({ mediaElt: mediaElement, isLoaded: true }, () => {
           this.props.onStateChange?.({ isLoaded: true });
+          // 페이지가 열리면 2초 뒤에 자동으로 재생
+          // setTimeout(() => {
+          //   this.togglePlay(); // 2초 뒤에 play() 호출
+          // }, 2000);
         });
       });
     }

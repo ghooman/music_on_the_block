@@ -26,7 +26,12 @@ import PreparingModal from '../components/PreparingModal';
 import Connections from '../components/mypage/Connections';
 
 const serviceTab = ['AI Services', 'Reward & Payments'];
-const musicTab = ['Songs', 'Connections', 'Favorites', 'Albums'];
+const musicTab = [
+    'Songs',
+    'Connections',
+    'Favorites',
+    // 'Albums'
+];
 
 const MyPage = () => {
     const { path } = useParams();
@@ -144,7 +149,7 @@ const MyPage = () => {
             {category === 'Songs' && <Albums token={token} />}
             {category === 'Connections' && <Connections />}
             {category === 'Favorites' && <MyFavorites />}
-            {category === 'Albums' && <div></div>}
+            {/* {category === 'Albums' && <div></div>} */}
 
             {/** */}
             {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}

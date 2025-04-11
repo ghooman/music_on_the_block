@@ -100,17 +100,6 @@ function Album() {
         getTracks();
     }, [walletAddress]);
 
-    // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
-    useEffect(() => {
-        // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
-        const timer = setTimeout(() => {
-            if (tracks.length > 0 && selectedTrackIndex === null) {
-                setSelectedTrackIndex(0);
-            }
-        }, 2000);
-        return () => clearTimeout(timer);
-    }, [tracks]);
-
     const handleTrackClick = (index) => {
         setSelectedTrackIndex(index);
         setCurrentTime(0);
@@ -120,50 +109,12 @@ function Album() {
         setCurrentTime(time);
     };
 
-    const handleClickPrevious = () => {
-        if (selectedTrackIndex !== null) {
-            const prevIndex = selectedTrackIndex === 0 ? tracks.length - 1 : selectedTrackIndex - 1;
-            setSelectedTrackIndex(prevIndex);
-        }
-    };
-
-    const handleClickNext = () => {
-        if (selectedTrackIndex !== null) {
-            const nextIndex = selectedTrackIndex === tracks.length - 1 ? 0 : selectedTrackIndex + 1;
-            setSelectedTrackIndex(nextIndex);
-        }
-    };
-
-    const formatTime = (time) => {
-        if (!time || isNaN(time)) return '0:00';
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
-
     // 선택된 트랙의 정보
-    const selectedTrack = selectedTrackIndex !== null ? tracks[selectedTrackIndex] : null;
-    const albumTitle = selectedTrack ? selectedTrack.title : 'Select an Album';
-    const albumCover = selectedTrack ? selectedTrack.cover : defaultCoverImg;
+    // const selectedTrack = selectedTrackIndex !== null ? tracks[selectedTrackIndex] : null;
+    // const albumTitle = selectedTrack ? selectedTrack.title : 'Select an Album';
+    // const albumCover = selectedTrack ? selectedTrack.cover : defaultCoverImg;
 
     // 스와이프 관련 설정
-    const swiperRef = useRef(null);
-    const handleSlideChange = (swiper) => {
-        const slides = swiper.slides;
-        const activeIndex = swiper.activeIndex;
-        const totalSlides = slides.length;
-
-        slides.forEach((slide, index) => {
-            slide.classList.remove('swiper-slide-next-next', 'swiper-slide-prev-prev');
-
-            if (index === (activeIndex + 2) % totalSlides) {
-                slide.classList.add('swiper-slide-next-next');
-            }
-            if (index === (activeIndex - 2 + totalSlides) % totalSlides) {
-                slide.classList.add('swiper-slide-prev-prev');
-            }
-        });
-    };
 
     const handleLikeClick = async (track) => {
         try {
@@ -178,19 +129,56 @@ function Album() {
         }
     };
 
-    const { data: totalList } = useQuery(['random_list'], async () => {
+    const { data: totalList } = useQuery(['random_list', walletAddress?.address], async () => {
         const res = await axios.get(`${serverApi}/api/music/all/list?wallet_address=${walletAddress?.address}`);
         return res.data.data_list;
     });
 
-    const { data: randomList } = useQuery(['random_list'], async () => {
-        const res = await axios.get(`${serverApi}/api/music/all/list/ramdom?wallet_address=${walletAddress?.address}`);
+    const { data: randomList } = useQuery(['random_list', walletAddress?.address], async () => {
+        const res = await axios.get(`${serverApi}/api/music/all/list/random?wallet_address=${walletAddress?.address}`);
         return res.data.data_list;
     });
 
     const [selectedList, setSelectedList] = useState(null);
     const [selectedMusic, setSelectedMusic] = useState(null);
-    const [selectedKey, setSelectedKey] = useState(null);
+    const [selectedId, setSelectedId] = useState(null);
+
+    const handlePlay = ({ list, id, track }) => {
+        console.log(list, id, track, 'hhh');
+
+        setSelectedList(list);
+        setSelectedId(id);
+        setSelectedMusic(track);
+    };
+
+    const handleNext = () => {
+        if (!selectedList || !selectedMusic || !selectedId) return;
+        const index = selectedList.indexOf(selectedMusic);
+        setSelectedMusic(selectedList[(index + 1) % selectedList.length]);
+    };
+
+    const handlePrev = () => {
+        if (!selectedList || !selectedMusic || !selectedId) return;
+        const index = selectedList.indexOf(selectedMusic);
+        const prevIndex = (index - 1 + selectedList.length) % selectedList.length;
+        setSelectedMusic(selectedList[prevIndex]);
+    };
+
+    // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
+    useEffect(() => {
+        // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
+        const timer = setTimeout(() => {
+            if (totalList.length > 0 && !selectedMusic) {
+                handlePlay({ list: totalList, id: 'total', track: totalList[0] });
+            }
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, [totalList]);
+
+    useEffect(() => {
+        setIsPlaying(true);
+        setCurrentTime(0);
+    }, [selectedMusic]);
 
     return (
         <>
@@ -211,37 +199,39 @@ function Album() {
                             className="main__header__album-cover__img"
                             style={{
                                 backgroundImage: `url(${
-                                    selectedTrack?.cover_image === 'string' ? coverImg10 : selectedTrack?.cover_image
+                                    selectedMusic?.cover_image === 'string' ? coverImg10 : selectedMusic?.cover_image
                                 })`,
                             }}
                         ></p>
-                        <p className="main__header__title">{albumTitle}</p>
+                        <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
                     </div>
                     <div className="main__header__cover-info">
                         <div className="main__header__cover-info__love-play">
-                            <p className="love" onClick={() => handleLikeClick(selectedTrack)}>
-                                <img src={selectedTrack?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
-                                {selectedTrack?.like || 0}
+                            <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
+                                <img src={selectedMusic?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
+                                {selectedMusic?.like || 0}
                             </p>
                             <p className="play">
                                 <img src={playIcon} alt="play-icon" />
-                                {selectedTrack?.play_cnt || 0}
+                                {selectedMusic?.play_cnt || 0}
                             </p>
                             <p>|</p>
                             <p className="name">
-                                <img src={selectedTrack?.user_profile || defaultCoverImg} />
-                                {selectedTrack?.name || 'unKnown'}
+                                <img src={selectedMusic?.user_profile || defaultCoverImg} />
+                                {selectedMusic?.name || 'unKnown'}
                             </p>
                         </div>
-                        <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedTrack?.id}`}>
+                        <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedMusic?.id}`}>
                             Details
                         </Link>
                     </div>
                     <MyAudioPlayer
-                        track={selectedTrack}
+                        track={selectedMusic}
                         onTimeUpdate={handleTimeUpdate}
-                        onClickPrevious={handleClickPrevious}
-                        onClickNext={handleClickNext}
+                        // onClickPrevious={handleClickPrevious}
+                        // onClickNext={handleClickNext}
+                        onClickPrevious={handlePrev}
+                        onClickNext={handleNext}
                         getTracks={getTracks}
                         handleGetMusicList={handleGetMusicList}
                         setIsPlaying={setIsPlaying}
@@ -249,102 +239,21 @@ function Album() {
                 </div>
                 <List
                     data={totalList}
-                    keys="total"
+                    id="total"
                     selectedMusic={selectedMusic}
-                    setSelectedMusic={setSelectedMusic}
-                    selectedKey={selectedKey}
-                    setSelectedKey={setSelectedKey}
+                    selectedId={selectedId}
+                    handlePlay={handlePlay}
+                    currentTime={currentTime}
                 />
-
-                <section className="album__slide">
-                    <p className="album__slide__title">Hit Music List</p>
-                    <Swiper
-                        ref={swiperRef}
-                        loop={true}
-                        slidesPerView={5}
-                        centeredSlides={true}
-                        spaceBetween={0}
-                        initialSlide={2}
-                        grabCursor={true}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        autoplay={{
-                            delay: 3000,
-                            disableOnInteraction: false,
-                            pauseOnMouseEnter: true,
-                        }}
-                        modules={[Pagination, Autoplay]}
-                        className="swiper-music-list"
-                        onSlideChange={(swiper) => handleSlideChange(swiper)}
-                    >
-                        {hitMusicList.map((track, index) => (
-                            <SwiperSlide
-                                key={track.id}
-                                className={`swiper-music-list__item ${selectedTrackIndex === index ? 'active' : ''}`}
-                                onClick={() => handleTrackClick(index)}
-                            >
-                                <div className="swiper-music-list__item__left">
-                                    <div
-                                        className="swiper-music-list__item__left__img"
-                                        style={{
-                                            backgroundImage: `url(${
-                                                track.cover_image === 'string' ? coverImg10 : track.cover_image
-                                            })`,
-                                        }}
-                                    ></div>
-                                    <span className="time">
-                                        {selectedTrackIndex === index
-                                            ? `${formatTime(currentTime)}`
-                                            : formatTime(track.duration)}
-                                    </span>
-                                </div>
-                                <div className="swiper-music-list__item__right">
-                                    <p className="swiper-music-list__item__right__title">{track.title}</p>
-                                    <div className="swiper-music-list__item__right__love-play">
-                                        <p className="love" onClick={() => handleLikeClick(track)}>
-                                            <img src={track.is_like ? halfHeartIcon : loveIcon} />
-                                            {track?.like || 0}
-                                        </p>
-                                        <p className="play">
-                                            <img src={playIcon} />
-                                            {track?.play_cnt || 0}
-                                        </p>
-                                    </div>
-                                    <div className="swiper-music-list__item__right__user">
-                                        <p className="swiper-music-list__item__right__user__info">
-                                            <img src={track?.user_profile || defaultCoverImg} />
-                                            {track?.name || 'unKnown'}
-                                        </p>
-                                        <Link
-                                            className="swiper-music-list__item__right__user__btn"
-                                            to={'/song-detail/' + track.id}
-                                        >
-                                            Details
-                                        </Link>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                        {/* {tracks.map((track, index) => (
-              <SwiperSlide className="swiper-music-list__item">
-                <p 
-                  // style={{ backgroundImage: `url(${track.cover})` }}
-                >1
-                </p>
-              </SwiperSlide>
-            ))} */}
-                        {/* <SwiperSlide><p>Slide 2</p></SwiperSlide>
-            <SwiperSlide><p>Slide 3</p></SwiperSlide>
-            <SwiperSlide><p>Slide 4</p></SwiperSlide>
-            <SwiperSlide><p>Slide 5</p></SwiperSlide>
-            <SwiperSlide><p>Slide 6</p></SwiperSlide>
-            <SwiperSlide><p>Slide 7</p></SwiperSlide>
-            <SwiperSlide><p>Slide 8</p></SwiperSlide>
-            <SwiperSlide><p>Slide 9</p></SwiperSlide> */}
-                    </Swiper>
-                </section>
-
+                <ListSlider
+                    hitMusicList={hitMusicList}
+                    selectedTrackIndex={selectedTrackIndex}
+                    handleTrackClick={handleTrackClick}
+                    currentTime={currentTime}
+                    handleLikeClick={handleLikeClick}
+                    selectedId={selectedId}
+                    keys="slide"
+                />
                 <section className="album__content-list">
                     <article className="album__content-list__tab">
                         <button
@@ -374,13 +283,11 @@ function Album() {
                     </article>
                     <List
                         data={randomList}
-                        keys="random"
+                        id="random"
                         selectedMusic={selectedMusic}
-                        setSelectedMusic={setSelectedMusic}
-                        selectedKey={selectedKey}
-                        setSelectedKey={setSelectedKey}
-                        selectedList={selectedList}
-                        setSelectedList={setSelectedList}
+                        selectedId={selectedId}
+                        handlePlay={handlePlay}
+                        currentTime={currentTime}
                     />
                 </section>
                 {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
@@ -393,35 +300,139 @@ function Album() {
 
 export default Album;
 
-const List = ({
-    data,
-    keys,
-    selectedMusic,
-    setSelectedMusic,
-    selectedKey,
-    setSelectedKey,
-    selectedList,
-    setSelectedList,
-}) => {
+const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay }) => {
     return (
         <section className="album__content-list">
             <p className="album__content-list__title">Total</p>
             <article className="album__content-list__list">
-                {data?.slice(0, 9).map((track) => (
-                    <React.Fragment key={`${keys}+${track.id}`}>
+                {data?.slice(0, 9).map((track, _, list) => (
+                    <React.Fragment key={`${id}+${track.id}`}>
                         <AlbumItem
                             key={track.id}
                             track={track}
-                            isActive={`${selectedKey}+${selectedMusic?.id}` === `${keys}+${track.id}`}
-                            // currentTime={currentTime}
+                            isActive={`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`}
+                            currentTime={currentTime}
                             onClick={() => {
-                                setSelectedMusic(track);
-                                setSelectedKey(keys);
+                                handlePlay({ list: list, track: track, id: id });
                             }}
                         />
                     </React.Fragment>
                 ))}
             </article>
+        </section>
+    );
+};
+
+const ListSlider = ({
+    hitMusicList,
+    selectedTrackIndex,
+    handleTrackClick,
+    currentTime,
+    handleLikeClick,
+
+    selectedId,
+    keys,
+
+    // \n
+}) => {
+    const swiperRef = useRef(null);
+
+    const handleSlideChange = (swiper) => {
+        const slides = swiper.slides;
+        const activeIndex = swiper.activeIndex;
+        const totalSlides = slides.length;
+
+        slides.forEach((slide, index) => {
+            slide.classList.remove('swiper-slide-next-next', 'swiper-slide-prev-prev');
+
+            if (index === (activeIndex + 2) % totalSlides) {
+                slide.classList.add('swiper-slide-next-next');
+            }
+            if (index === (activeIndex - 2 + totalSlides) % totalSlides) {
+                slide.classList.add('swiper-slide-prev-prev');
+            }
+        });
+    };
+
+    const formatTime = (time) => {
+        if (!time || isNaN(time)) return '0:00';
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    return (
+        <section className="album__slide">
+            <p className="album__slide__title">Hit Music List</p>
+            <Swiper
+                ref={swiperRef}
+                loop={true}
+                slidesPerView={5}
+                centeredSlides={true}
+                spaceBetween={0}
+                initialSlide={2}
+                grabCursor={true}
+                pagination={{
+                    clickable: true,
+                }}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                }}
+                modules={[Pagination, Autoplay]}
+                className="swiper-music-list"
+                onSlideChange={(swiper) => handleSlideChange(swiper)}
+            >
+                {hitMusicList.map((track, index) => (
+                    <SwiperSlide
+                        key={track.id}
+                        className={`swiper-music-list__item ${selectedTrackIndex === index ? 'active' : ''}`}
+                        onClick={() => handleTrackClick(index)}
+                    >
+                        <div className="swiper-music-list__item__left">
+                            <div
+                                className="swiper-music-list__item__left__img"
+                                style={{
+                                    backgroundImage: `url(${
+                                        track.cover_image === 'string' ? coverImg10 : track.cover_image
+                                    })`,
+                                }}
+                            ></div>
+                            <span className="time">
+                                {selectedTrackIndex === index
+                                    ? `${formatTime(currentTime)}`
+                                    : formatTime(track.duration)}
+                            </span>
+                        </div>
+                        <div className="swiper-music-list__item__right">
+                            <p className="swiper-music-list__item__right__title">{track.title}</p>
+                            <div className="swiper-music-list__item__right__love-play">
+                                <p className="love" onClick={() => handleLikeClick(track)}>
+                                    <img src={track.is_like ? halfHeartIcon : loveIcon} />
+                                    {track?.like || 0}
+                                </p>
+                                <p className="play">
+                                    <img src={playIcon} />
+                                    {track?.play_cnt || 0}
+                                </p>
+                            </div>
+                            <div className="swiper-music-list__item__right__user">
+                                <p className="swiper-music-list__item__right__user__info">
+                                    <img src={track?.user_profile || defaultCoverImg} />
+                                    {track?.name || 'unKnown'}
+                                </p>
+                                <Link
+                                    className="swiper-music-list__item__right__user__btn"
+                                    to={'/song-detail/' + track.id}
+                                >
+                                    Details
+                                </Link>
+                            </div>
+                        </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </section>
     );
 };

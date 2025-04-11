@@ -25,17 +25,10 @@ const Filter = ({ period = true, types = true, songs }) => {
 
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
-            return { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
+            const parameters = { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
+            return Object.fromEntries(Object.entries(parameters).filter(([key, value]) => value !== null));
         });
         setFilter(false);
-    };
-
-    const handleRemoveQueryParameter = (key) => {
-        setSearchParams((prev) => {
-            const params = Object.fromEntries(prev);
-            delete params[key]; // 해당 키 제거
-            return params;
-        });
     };
 
     useEffect(() => {
@@ -47,21 +40,15 @@ const Filter = ({ period = true, types = true, songs }) => {
             <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
                 <span>Filter</span>
             </button>
-            {period_ && (
-                <button className="albums__filter__btn" onClick={() => handleRemoveQueryParameter('period')}>
-                    <span>{period_}</span>
-                </button>
-            )}
-            {types_ && (
-                <button className="albums__filter__btn" onClick={() => handleRemoveQueryParameter('types')}>
-                    <span>{types_}</span>
-                </button>
-            )}
-            {songs_ && (
-                <button className="albums__filter__btn" onClick={() => handleRemoveQueryParameter('songs')}>
-                    <span>{songs_}</span>
-                </button>
-            )}
+            {[period_, types_, songs_].map((item) => {
+                if (!item) return null;
+                return (
+                    <button className="albums__filter__btn">
+                        <span>{item}</span>
+                    </button>
+                );
+            })}
+
             {filter && (
                 <ModalWrap title="Filter" onClose={setFilter}>
                     <div className="albums__filter-modal">
@@ -119,18 +106,25 @@ const FilterItemWrap = ({ title, children }) => {
 
 const FilterCategory = ({ value, setParamsObj, filterItems, filterName }) => {
     const [selectItem, setSelectItem] = useState(value);
+
     useEffect(() => {
         setParamsObj((prev) => ({
             ...prev,
-            ...(selectItem && { [filterName]: selectItem }),
+            ...{ [filterName]: selectItem },
         }));
     }, [selectItem]);
+
     return (
         <FilterItemWrap title={filterName}>
             {filterItems.map((item) => (
                 <button
                     className={`albums__filter-item-wrap--contents__item ${selectItem === item && 'select'}`}
-                    onClick={() => setSelectItem(item)}
+                    onClick={() =>
+                        setSelectItem((prev) => {
+                            if (prev === item) return null;
+                            else return item;
+                        })
+                    }
                     key={`${filterName}-${item}`}
                 >
                     {item}

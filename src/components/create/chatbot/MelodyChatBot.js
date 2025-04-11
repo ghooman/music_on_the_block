@@ -334,6 +334,11 @@ const MelodyChatBot = ({
 
 
 
+  const [isActive, setIsActive] = useState(false);
+
+  const handleToggle = () => {
+    setIsActive(prev => !prev);
+  };
 
 
   const scrollContainerRef = useRef(null);
@@ -380,8 +385,8 @@ const MelodyChatBot = ({
           <button onClick={handleSendMessage}>Send</button>
         </div>
       </section>
-      <section className="music__information">
-        <div className="music__information__header">
+      <section className={`music__information ${isActive ? "active" : ""}`}>
+        <div className="music__information__header" onClick={handleToggle}>
           <h2>Music Information</h2>
         </div>
         <div className="music__information__tags">
@@ -447,18 +452,18 @@ const MelodyChatBot = ({
             readOnly
           />
         </div>
-        <div className="music__information__buttons">
-          <button
-            className={`music__information__button ${
-              isGenerateButtonDisabled ? "disabled" : ""
-            }`}
-            onClick={handleGenerateSong}
-            disabled={isGenerateButtonDisabled} // 버튼 비활성화 조건 추가
-          >
-            <span>Generate Song</span>
-          </button>
-        </div>
       </section>
+      <div className="music__information__buttons">
+        <button
+          className={`music__information__button ${
+            isGenerateButtonDisabled ? "disabled" : ""
+          }`}
+          onClick={handleGenerateSong}
+          disabled={isGenerateButtonDisabled} // 버튼 비활성화 조건 추가
+        >
+          Generate Song
+        </button>
+      </div>
     </div>
   );
 };

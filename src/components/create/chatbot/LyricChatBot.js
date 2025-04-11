@@ -186,6 +186,12 @@ const LyricChatBot = ({
     }
   }, [chatHistory, loading]);
 
+  const [isActive, setIsActive] = useState(false);
+
+  const handleToggle = () => {
+    setIsActive(prev => !prev);
+  };
+
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
@@ -221,8 +227,8 @@ const LyricChatBot = ({
           <button onClick={handleSendMessage}>Send</button>
         </div>
       </section>
-      <section className="music__information">
-        <div className="music__information__header">
+      <section className={`music__information ${isActive ? "active" : ""}`}>
+        <div className="music__information__header" onClick={handleToggle}>
           <h2>Music Information</h2>
         </div>
         <div className="music__information__tags">
@@ -272,7 +278,8 @@ const LyricChatBot = ({
             />
           </div>
         </div>
-        <div className="music__information__buttons">
+      </section>
+      <div className="music__information__buttons">
           <button
             className={`music__information__button ${
               isGenerateButtonDisabled ? "disabled" : ""
@@ -285,7 +292,6 @@ const LyricChatBot = ({
             Confirm
           </button>
         </div>
-      </section>
     </div>
   );
 };

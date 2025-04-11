@@ -6,6 +6,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import ExpandedButton from "../components/create/ExpandedButton";
 import LyricLab from "../components/create/LyricLab";
 import MelodyMaker from "../components/create/MelodyMaker";
+import LyricChatBot from "../components/create/chatbot/LyricChatBot";
+import MelodyChatBot from "../components/create/chatbot/MelodyChatBot";
 import DescriptionBanner from "../components/create/DescriptionBanner";
 import AlbumCoverStudio from "../components/create/AlbumCoverStudio";
 import Finalize from "../components/create/Finalize";
@@ -14,7 +16,6 @@ import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
 import "../styles/Create.scss";
 import { getCreatePossibleCount } from "../api/getCreatePossibleCount";
-import LyricChatBot from "../components/create/chatbot/LyricChatBot";
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -86,6 +87,7 @@ const Create = () => {
       <GetStarted
         handler={() => setPageNumber(0)}
         createPossibleCount={createPossibleCount}
+        setCreateMode={setCreateMode}
       />
     );
 
@@ -96,27 +98,82 @@ const Create = () => {
       <Title />
       <Progress pageNumber={pageNumber} />
       <DescriptionBanner pageNumber={pageNumber} />
-      {pageNumber === 0 && (
-        <LyricLab
-          lyricData={lyricData}
-          setLyricData={setLyricData}
-          lyricStory={lyricStory}
-          setLyricStory={setLyricStory}
-          generatedLyric={generatedLyric}
-          setGeneratedLyric={setGeneratedLyric}
-          onSkip={() => setSkip("lyrics")}
-          setPageNumber={setPageNumber}
-          melodyData={melodyData}
-          tempo={tempo}
-          SelectedWrap={SelectedWrap}
-          SelectedItem={SelectedItem}
-          isLyricPage={isLyricPage}
-          selectedLanguage={selectedLanguage}
-          setSelectedLanguage={setSelectedLanguage}
-          createPossibleCount={createPossibleCount}
-          albumCover={albumCover}
-          setAlbumCover={setAlbumCover}
-        ></LyricLab>
+      {createMode === "chatbot" && (
+        <>
+          {pageNumber === 1 && (
+            <LyricChatBot
+              lyricStory={lyricStory}
+              setLyricStory={setLyricStory}
+              setGeneratedLyric={setGeneratedLyric}
+              generatedLyric={generatedLyric}
+              setPageNumber={setPageNumber}
+              selectedLanguage={selectedLanguage}
+            />
+          )}
+          {pageNumber === 0 && (
+            <MelodyChatBot
+              lyricStory={lyricStory}
+              setLyricStory={setLyricStory}
+              setGeneratedMusicResult={setGeneratedMusicResult}
+              generatedMusicResult={generatedMusicResult}
+              setPageNumber={setPageNumber}
+              selectedLanguage={selectedLanguage}
+            />
+          )}
+        </>
+      )}
+      {createMode === "select" && (
+        <>
+          {pageNumber === 0 && (
+            <LyricLab
+              createMode={createMode}
+              setCreateMode={setCreateMode}
+              lyricData={lyricData}
+              setLyricData={setLyricData}
+              lyricStory={lyricStory}
+              setLyricStory={setLyricStory}
+              generatedLyric={generatedLyric}
+              setGeneratedLyric={setGeneratedLyric}
+              onSkip={() => setSkip("lyrics")}
+              setPageNumber={setPageNumber}
+              melodyData={melodyData}
+              tempo={tempo}
+              SelectedWrap={SelectedWrap}
+              SelectedItem={SelectedItem}
+              isLyricPage={isLyricPage}
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+              createPossibleCount={createPossibleCount}
+              albumCover={albumCover}
+              setAlbumCover={setAlbumCover}
+            ></LyricLab>
+          )}
+          {pageNumber === 1 && (
+            <MelodyMaker
+              lyricData={lyricData}
+              lyricStory={lyricStory}
+              melodyData={melodyData}
+              setMelodyData={setMelodyData}
+              melodyDetail={melodyDetail}
+              setMelodyDetail={setMelodyDetail}
+              tempo={tempo}
+              setTempo={setTempo}
+              generatedLyric={generatedLyric}
+              generatedMusicResult={generatedMusicResult}
+              setGeneratedMusicResult={setGeneratedMusicResult}
+              onSkip={() => setSkip("melody")}
+              setPageNumber={setPageNumber}
+              SelectedWrap={SelectedWrap}
+              SelectedItem={SelectedItem}
+              isMelodyPage={isMelodyPage}
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+              createPossibleCount={createPossibleCount}
+              albumCover={albumCover}
+              setAlbumCover={setAlbumCover}
+            ></MelodyMaker>
+          )}
+        </>
       )}
     </div>
   );
@@ -135,125 +192,6 @@ const Progress = ({ pageNumber }) => {
     // "Alubum Cover Studio",
     // "Preview & Finalize",
   ];
-
-  const SelectCreateLayout = ({
-    pageNumber,
-    lyricData,
-    lyricStory,
-    melodyData,
-    setMelodyData,
-    melodyDetail,
-    setMelodyDetail,
-    tempo,
-    setTempo,
-    generatedLyric,
-    generatedMusicResult,
-    setGeneratedMusicResult,
-    skip,
-    setSkip,
-    skipHandler,
-    setPageNumber,
-    SelectedWrap,
-    SelectedItem,
-    isMelodyPage,
-    selectedLanguage,
-    setSelectedLanguage,
-    createPossibleCount,
-    albumCover,
-    setAlbumCover,
-    createCompleteModal,
-    setCreateCompleteModal,
-  }) => {
-    return (
-      <div>
-        {pageNumber === 1 && (
-          <MelodyMaker
-            lyricData={lyricData}
-            lyricStory={lyricStory}
-            melodyData={melodyData}
-            setMelodyData={setMelodyData}
-            melodyDetail={melodyDetail}
-            setMelodyDetail={setMelodyDetail}
-            tempo={tempo}
-            setTempo={setTempo}
-            generatedLyric={generatedLyric}
-            generatedMusicResult={generatedMusicResult}
-            setGeneratedMusicResult={setGeneratedMusicResult}
-            onSkip={() => setSkip("melody")}
-            setPageNumber={setPageNumber}
-            SelectedWrap={SelectedWrap}
-            SelectedItem={SelectedItem}
-            isMelodyPage={isMelodyPage}
-            selectedLanguage={selectedLanguage}
-            setSelectedLanguage={setSelectedLanguage}
-            createPossibleCount={createPossibleCount}
-            albumCover={albumCover}
-            setAlbumCover={setAlbumCover}
-          ></MelodyMaker>
-        )}
-        {/* {pageNumber === 2 && (
-        <AlbumCoverStudio
-          setAlbumCover={setAlbumCover}
-          lyricData={lyricData}
-          generatedLyric={generatedLyric}
-        >
-          <div className="button-wrap">
-            <div className="button-wrap__left">
-              <ExpandedButton
-                className="back"
-                onClick={() => setPageNumber((prev) => prev - 1)}
-              >
-                Back
-              </ExpandedButton>
-            </div>
-            <ExpandedButton
-              className="next"
-              onClick={() => setPageNumber((prev) => prev + 1)}
-              disabled={!albumCover}
-            >
-              Next
-            </ExpandedButton>
-          </div>
-        </AlbumCoverStudio>
-      )} */}
-
-        {/* {pageNumber === 2 && (
-        <Finalize
-          generatedMusic={generatedMusic}
-          generatedLyric={generatedLyric}
-          lyricData={lyricData}
-          melodyData={melodyData}
-          skipLyric={skipLyric}
-          skipMelody={skipMelody}
-          setCheckList={setCheckList}
-        >
-          <div className="button-wrap">
-            <ExpandedButton
-              className="back"
-              onClick={() => setPageNumber((prev) => prev - 1)}
-            >
-              Back
-            </ExpandedButton>
-            <ExpandedButton
-              className="next"
-              disabled={!checkList}
-              onClick={() => setCreateCompleteModal(true)}
-            >
-              Upload
-            </ExpandedButton>
-          </div>
-        </Finalize>
-      )} */}
-
-        {skip && <SkipModal setSkipModal={setSkip} handler={skipHandler} />}
-        {createCompleteModal && (
-          <CreateCompleteModal
-            setCreateCompleteModal={setCreateCompleteModal}
-          />
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className="progress mb40">
@@ -286,13 +224,6 @@ const Progress = ({ pageNumber }) => {
   );
 };
 
-// createMode 가 chatbot 일때
-const chatbotMode = {
-  title: "Lyric Chatbot",
-  description: "Chat with the AI to create lyrics.",
-  component: <LyricChatBot />,
-};
-// select Layout 에서 사용되는 아이템들
 const SelectedWrap = ({ children, title }) => {
   const [isActive, setIsActive] = useState(false);
 

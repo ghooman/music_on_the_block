@@ -5,7 +5,7 @@ import { WalletConnect } from "../WalletConnect";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { RemainCountButton } from "../unit/RemainCountButton";
-const GetStarted = ({ handler, createPossibleCount }) => {
+const GetStarted = ({ handler, createPossibleCount, setCreateMode }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
 
@@ -55,20 +55,26 @@ const GetStarted = ({ handler, createPossibleCount }) => {
           className={`create__get-started--button ${
             createPossibleCount === 0 ? "disabled" : ""
           }`}
-          onClick={handler}
+          onClick={() => {
+            handler();
+            setCreateMode("select");
+          }}
           disabled={createPossibleCount === 0}
         >
           Create
         </ExpandedButton>
       ) : (
         <WalletConnect onConnect={handleWalletConnect} />
-      )}{" "}
+      )}
       {isRegistered ? (
         <ExpandedButton
           className={`create__get-started--button ${
             createPossibleCount === 0 ? "disabled" : ""
           }`}
-          onClick={handler}
+          onClick={() => {
+            handler();
+            setCreateMode("chatbot");
+          }}
           disabled={createPossibleCount === 0}
         >
           ChatBot Create

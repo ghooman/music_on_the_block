@@ -129,12 +129,13 @@ const Create = () => {
               setMelodyData={setMelodyData}
               lyricStory={lyricStory}
               setLyricStory={setLyricStory}
-              setGeneratedMusicResult={setGeneratedMusicResult}
-              generatedMusicResult={generatedMusicResult}
+              generatedLyric={generatedLyric}
               setPageNumber={setPageNumber}
               selectedLanguage={selectedLanguage}
               albumCover={albumCover}
               setAlbumCover={setAlbumCover}
+              generatedMusicResult={generatedMusicResult}
+              setGeneratedMusicResult={setGeneratedMusicResult}
             />
           )}
         </>

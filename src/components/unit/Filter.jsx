@@ -30,6 +30,14 @@ const Filter = ({ period = true, types = true, songs }) => {
         setFilter(false);
     };
 
+    const handleRemoveQueryParameter = (key) => {
+        setSearchParams((prev) => {
+            const params = Object.fromEntries(prev);
+            delete params[key]; // 해당 키 제거
+            return params;
+        });
+    };
+
     useEffect(() => {
         if (!filter) setParamsObj({});
     }, [filter]);
@@ -39,14 +47,21 @@ const Filter = ({ period = true, types = true, songs }) => {
             <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
                 <span>Filter</span>
             </button>
-            {[period_, types_, songs_].map((item) => {
-                if (!item) return null;
-                return (
-                    <button className="albums__filter__btn">
-                        <span>{item}</span>
-                    </button>
-                );
-            })}
+            {period_ && (
+                <button className="albums__filter__btn" onClick={() => handleRemoveQueryParameter('period')}>
+                    <span>{period_}</span>
+                </button>
+            )}
+            {types_ && (
+                <button className="albums__filter__btn" onClick={() => handleRemoveQueryParameter('types')}>
+                    <span>{types_}</span>
+                </button>
+            )}
+            {songs_ && (
+                <button className="albums__filter__btn" onClick={() => handleRemoveQueryParameter('songs')}>
+                    <span>{songs_}</span>
+                </button>
+            )}
             {filter && (
                 <ModalWrap title="Filter" onClose={setFilter}>
                     <div className="albums__filter-modal">

@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
-import coverImg from '../assets/images/intro/intro-demo-img.png';
+import coverImg from '../assets/images/black-img.jpg';
 import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
@@ -28,7 +28,6 @@ import LyricsModal from '../components/LyricsModal';
 import { incrementPlayCount } from '../api/incrementPlayCount';
 import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
-import Filter from '../components/unit/Filter';
 
 function AlbumDetail() {
     const serverApi = process.env.REACT_APP_SERVER_API;
@@ -176,10 +175,18 @@ function AlbumDetail() {
         try {
             if (album?.is_like) {
                 await cancelLikeAlbum(id, token);
-                setAlbum((prev) => ({ ...prev, like: Math.max(0, --prev.like), is_like: !prev.is_like }));
+                setAlbum((prev) => ({
+                    ...prev,
+                    like: Math.max(0, --prev.like),
+                    is_like: !prev.is_like,
+                }));
             } else {
                 await likeAlbum(id, token);
-                setAlbum((prev) => ({ ...prev, like: Math.max(0, ++prev.like), is_like: !prev.is_like }));
+                setAlbum((prev) => ({
+                    ...prev,
+                    like: Math.max(0, ++prev.like),
+                    is_like: !prev.is_like,
+                }));
             }
             // 좋아요 후 전체 데이터를 다시 불러오는 대신 필요 시 play_cnt, like 등의 값만 업데이트하거나 fetchAlbumDetail 호출
         } catch (error) {
@@ -380,7 +387,6 @@ function AlbumDetail() {
                         <dt>Albums Leaderboard Rank</dt>
                         <dd>Most Likes</dd>
                     </dl>
-                    {/* <Filter songs /> */}
                     <div className="table-container">
                         <table className="custom-table">
                             <thead>

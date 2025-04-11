@@ -331,7 +331,8 @@ const LyricsLab = ({
               // onChange={(e) => setCreatedLyrics(e.target.value)}
               onChange={(e) => {
                 // 입력된 텍스트가 비어있을 경우 최소 한 줄의 공백을 유지하도록 설정
-                const newText = e.target.value.trim() === "" ? "\n" : e.target.value;
+                const newText =
+                  e.target.value.trim() === "" ? "\n" : e.target.value;
                 setCreatedLyrics(newText);
               }}
               onKeyDown={(e) => {

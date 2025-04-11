@@ -46,7 +46,7 @@ const SongList = () => {
             <ContentWrap title="Song List">
                 <ContentWrap.SubWrap gap={8}>
                     <Filter songs />
-                    <Search />
+                    <Search reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 {songList.length > 0 ? (
                     <div className="songs-list__items">

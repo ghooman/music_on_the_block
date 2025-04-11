@@ -22,6 +22,7 @@ import IntroLogo from "./IntroLogo";
 import PreparingModal from "./PreparingModal";
 
 import { getTransaction } from "../api/Transaction";
+import ServiceUpdatingModal from "./ServiceUpdatingModal";
 
 const Intro = ({ setIsLoggedIn }) => {
   const audioRef = useRef(null);
@@ -360,6 +361,7 @@ const Intro = ({ setIsLoggedIn }) => {
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}
+      {/* <ServiceUpdatingModal/> */}
     </>
   );
 };

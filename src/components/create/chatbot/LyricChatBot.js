@@ -1,13 +1,13 @@
-// pages/ChatBot.js
-import "../styles/ChatBot.scss";
+// components/create/chatbot/LyricChatBot.js
+import "./LyricChatBot.scss";
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
-import CreateLoading from "../components/CreateLoading";
+import CreateLoading from "../../CreateLoading";
 import axios from "axios";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 
-const ChatBot = () => {
+const LyricChatBot = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -253,7 +253,7 @@ const ChatBot = () => {
       storeAlbumId(res.data.id, res.data.title);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      navigate(`/main`);
+      navigate(`/album`);
     } catch (err) {
       alert("에러 발생");
       console.error("handleSubmit error", err);
@@ -381,4 +381,4 @@ const ChatBot = () => {
   );
 };
 
-export default ChatBot;
+export default LyricChatBot;

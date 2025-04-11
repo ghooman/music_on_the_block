@@ -50,10 +50,8 @@ const GetStarted = ({ handler, createPossibleCount }) => {
         </div>
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
-
       {isRegistered ? (
         <ExpandedButton
-          // className="create__get-started--button"
           className={`create__get-started--button ${
             createPossibleCount === 0 ? "disabled" : ""
           }`}
@@ -61,6 +59,19 @@ const GetStarted = ({ handler, createPossibleCount }) => {
           disabled={createPossibleCount === 0}
         >
           Create
+        </ExpandedButton>
+      ) : (
+        <WalletConnect onConnect={handleWalletConnect} />
+      )}{" "}
+      {isRegistered ? (
+        <ExpandedButton
+          className={`create__get-started--button ${
+            createPossibleCount === 0 ? "disabled" : ""
+          }`}
+          onClick={handler}
+          disabled={createPossibleCount === 0}
+        >
+          ChatBot Create
         </ExpandedButton>
       ) : (
         <WalletConnect onConnect={handleWalletConnect} />

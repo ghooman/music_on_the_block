@@ -22,6 +22,7 @@ import IntroLogo from "./IntroLogo";
 import PreparingModal from "./PreparingModal";
 
 import { getTransaction } from "../api/Transaction";
+import ServiceUpdatingModal from "./ServiceUpdatingModal";
 
 const Intro = ({ setIsLoggedIn }) => {
   const audioRef = useRef(null);
@@ -295,11 +296,11 @@ const Intro = ({ setIsLoggedIn }) => {
                 <li className="intro__slide-mobile__tab-list__item">
                   <dl className="intro__slide-mobile__tab-list__item__title">
                     <dt>
-                      he dances through his masks like breathing - Yolkhead
+                    Music on the Block
                     </dt>
                     <dd>
-                      Daft Punk
-                      <span>– 13 songs, 2024</span>
+                      MOB
+                      {/* <span>– 13 songs, 2024</span> */}
                     </dd>
                   </dl>
                   <MusicList />
@@ -360,6 +361,7 @@ const Intro = ({ setIsLoggedIn }) => {
       {isPreparingModal && (
         <PreparingModal setPreparingModal={setPreparingModal} />
       )}
+      {/* <ServiceUpdatingModal/> */}
     </>
   );
 };

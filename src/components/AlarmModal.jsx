@@ -5,28 +5,30 @@ import { Link, useLocation } from "react-router-dom";
 import closeIcon from "../assets/images/close.svg";
 import { AuthContext } from "../contexts/AuthContext";
 
-const WS_URL = "wss://muble.xyz/ws/album_status/";
-const albumIdStorageKey = "generatedAlbumId";
-const albumTimerStorageKey = "generatedAlbumTimerStart";
-const RECONNECT_INTERVAL = 3000;
+const AlarmModal = () => {
+  const WS_URL = "wss://muble.xyz/ws/album_status/";
+  const albumIdStorageKey = "generatedAlbumId";
+  const albumTimerStorageKey = "generatedAlbumTimerStart";
+  const RECONNECT_INTERVAL = 3000;
 
-const getStoredAlbumData = () => {
-  try {
-    const item = localStorage.getItem(albumIdStorageKey);
-    if (!item) return null;
-    const data = JSON.parse(item);
-    if (data.expires < Date.now()) {
+  const getStoredAlbumData = () => {
+    try {
+      const item = localStorage.getItem(albumIdStorageKey);
+      if (!item) return null;
+      const data = JSON.parse(item);
+      if (data.expires < Date.now()) {
+        localStorage.removeItem(albumIdStorageKey);
+        return null;
+      }
+      return { id: data.id, title: data.title };
+    } catch {
       localStorage.removeItem(albumIdStorageKey);
       return null;
     }
-    return { id: data.id, title: data.title };
-  } catch {
-    localStorage.removeItem(albumIdStorageKey);
-    return null;
-  }
-};
+  };
 
-const AlarmModal = () => {
+  const item = localStorage.getItem(albumIdStorageKey);
+  console.log("item", item);
   const { walletAddress } = useContext(AuthContext);
   const location = useLocation();
 
@@ -44,6 +46,8 @@ const AlarmModal = () => {
   const shouldRenderModal =
     storedAlbumData ||
     (albumPk && walletAddress?.address === albumWalletAddress);
+
+  console.log("storedAlbumData", storedAlbumData);
 
   const formatTime = (sec) =>
     `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(

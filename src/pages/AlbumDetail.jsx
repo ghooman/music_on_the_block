@@ -310,10 +310,6 @@ function AlbumDetail() {
                       ?.replace(/(\*\*.*?\*\*)/g, "\n$1")
                       ?.replace(/\[([^\]]+)\]/g, "\n[$1]")
                       ?.replace(/\(([^\)]+)\)/g, "\n($1)")
-                      ?.replace(
-                        /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge))/gi,
-                        "\n$1"
-                      )
                       ?.trim()}
                   </pre>
                 </div>

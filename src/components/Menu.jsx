@@ -387,12 +387,12 @@ const Menu = ({
             </dd>
           </dl> */}
 
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
                 <div className="menu__box__gnb-list">
-                  {/* 일반 아이템 - My Page */}
+                  일반 아이템 - My Page
                   <div
                     className={`menu__box__gnb-list__item my-page ${
                       activeSingle === "my-page" ? "active" : ""
@@ -408,7 +408,7 @@ const Menu = ({
                     </Link>
                   </div>
 
-                  {/* 일반 아이템 - My Favorites */}
+                  일반 아이템 - My Favorites
                   <div
                     className={`menu__box__gnb-list__item my-favorite ${
                       activeSingle === "my-favorites" ? "active" : ""
@@ -426,7 +426,7 @@ const Menu = ({
                 </div>
               </dd>
             </dl>
-          )}
+          )} */}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

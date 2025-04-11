@@ -1,11 +1,13 @@
 // components/create/chatbot/MelodyChatBot.js
-import "./MelodyChatBot.scss";
-import React, { useState, useContext } from "react";
+import "../../../styles/ChatBot.scss";
+import React, { useState, useContext,useRef,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
+import defaultCoverImg from "../../../assets/images/header/logo.svg";
+import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
 
 const MelodyChatBot = ({
   createLoading,
@@ -330,6 +332,19 @@ const MelodyChatBot = ({
   // 생성 버튼 허용 여부 input 들이 값이 다 있을 경우 통과
   const isGenerateButtonDisabled = "";
 
+
+
+
+
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [chatHistory, loading]);
+
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
@@ -337,10 +352,19 @@ const MelodyChatBot = ({
         <div className="chatbot__header">
           <h2>Melody Maker</h2>
         </div>
-        <div className="chatbot__messages">
+        <div className="chatbot__messages" ref={scrollContainerRef}>
           {chatHistory.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
-              {msg.content}
+              <div className="message__content">
+                {/* <img src={mobProfilerImg}/> */}
+                <img
+                  src={
+                    msg.role === "assistant" ? mobProfilerImg : defaultCoverImg
+                  }
+                  alt="profile"
+                />
+                <p className="message__content--text">{msg.content}</p>
+              </div>
             </div>
           ))}
           {loading && <div className="message bot">Loading...</div>}

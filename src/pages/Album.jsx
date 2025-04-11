@@ -30,7 +30,6 @@ import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import { getHitMusicList } from '../api/HitMusicList';
 import IntroLogo2 from '../components/IntroLogo2';
 import AlbumItem from '../components/unit/AlbumItem';
-import { useQuery } from 'react-query';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -40,81 +39,27 @@ function Album() {
     const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
     const [isScrolled, setIsScrolled] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY >= 88);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-    // getHitMusicList
-    const [hitMusicList, setHitMusicList] = useState([]);
-    const handleGetMusicList = async () => {
-        try {
-            const res = await getHitMusicList(walletAddress);
-            // 트랙마다 오디오 정보를 불러와 duration 설정
-            const fetchedTracks = res.data;
-            fetchedTracks.forEach((track, index) => {
-                const audio = new Audio(track.music_url);
-                audio.addEventListener('loadedmetadata', () => {
-                    fetchedTracks[index].duration = audio.duration;
-                    setHitMusicList([...fetchedTracks]);
-                });
-            });
-            setHitMusicList(fetchedTracks);
-        } catch (e) {
-            console.error(e);
-        }
-    };
-    useEffect(() => {
-        handleGetMusicList();
-    }, [walletAddress]);
     // 노래플레이 관련 상태
     const [isPlaying, setIsPlaying] = useState(false);
-    const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
+    // const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
     const [currentTime, setCurrentTime] = useState(0);
-    const [tracks, setTracks] = useState([]);
 
-    const getTracks = async () => {
-        try {
-            const res = await axios.get(`${serverApi}/api/music/all/list?wallet_address=${walletAddress?.address}`);
-            const fetchedTracks = res.data.data_list;
+    const [totalList, setTotalList] = useState([]);
+    const [hitList, setHitList] = useState([]);
+    const [randomList, setRandomList] = useState([]);
 
-            // 트랙마다 오디오 정보를 불러와 duration 설정
-            fetchedTracks.forEach((track, index) => {
-                const audio = new Audio(track.music_url);
-                audio.addEventListener('loadedmetadata', () => {
-                    fetchedTracks[index].duration = audio.duration;
-                    setTracks([...fetchedTracks]);
-                });
-            });
-            setTracks(fetchedTracks);
-            // console.log("album", fetchedTracks);
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    const [selectedList, setSelectedList] = useState(null);
+    const [selectedMusic, setSelectedMusic] = useState(null);
+    const [selectedId, setSelectedId] = useState(null);
 
-    useEffect(() => {
-        getTracks();
-    }, [walletAddress]);
-
-    const handleTrackClick = (index) => {
-        setSelectedTrackIndex(index);
-        setCurrentTime(0);
-    };
+    // const handleTrackClick = (index) => {
+    //     setSelectedTrackIndex(index);
+    //     setCurrentTime(0);
+    // };
 
     const handleTimeUpdate = (time) => {
         setCurrentTime(time);
     };
-
-    // 선택된 트랙의 정보
-    // const selectedTrack = selectedTrackIndex !== null ? tracks[selectedTrackIndex] : null;
-    // const albumTitle = selectedTrack ? selectedTrack.title : 'Select an Album';
-    // const albumCover = selectedTrack ? selectedTrack.cover : defaultCoverImg;
-
-    // 스와이프 관련 설정
 
     const handleLikeClick = async (track) => {
         try {
@@ -129,34 +74,60 @@ function Album() {
         }
     };
 
-    const { data: totalList } = useQuery(['random_list', walletAddress?.address], async () => {
-        const res = await axios.get(`${serverApi}/api/music/all/list?wallet_address=${walletAddress?.address}`);
-        return res.data.data_list;
-    });
+    const getTracks = async () => {
+        try {
+            const res = await axios.get(`${serverApi}/api/music/all/list?wallet_address=${walletAddress?.address}`);
+            setTotalList(res.data.data_list);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
-    const { data: randomList } = useQuery(['random_list', walletAddress?.address], async () => {
-        const res = await axios.get(`${serverApi}/api/music/all/list/random?wallet_address=${walletAddress?.address}`);
-        return res.data.data_list;
-    });
+    const handleGetMusicList = async () => {
+        try {
+            const res = await getHitMusicList(walletAddress);
+            // 트랙마다 오디오 정보를 불러와 duration 설정
+            const fetchedTracks = res.data;
+            fetchedTracks.forEach((track, index) => {
+                const audio = new Audio(track.music_url);
+                audio.addEventListener('loadedmetadata', () => {
+                    fetchedTracks[index].duration = audio.duration;
+                    setHitList([...fetchedTracks]);
+                });
+            });
+            setHitList(fetchedTracks);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
-    const [selectedList, setSelectedList] = useState(null);
-    const [selectedMusic, setSelectedMusic] = useState(null);
-    const [selectedId, setSelectedId] = useState(null);
+    const getRandomTracks = async () => {
+        try {
+            const res = await axios.get(
+                `${serverApi}/api/music/all/list/random?wallet_address=${walletAddress?.address}`
+            );
+            setRandomList(res.data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
+    // 아이템 클릭하여 음악 재생시 사용되는 함수입니다.
+    // 카테고리 리스트와, id를 설정해야 재생시 나타나는 UI 중복 랜더링을 막을 수 있습니다.
     const handlePlay = ({ list, id, track }) => {
-        console.log(list, id, track, 'hhh');
-
         setSelectedList(list);
         setSelectedId(id);
         setSelectedMusic(track);
     };
 
+    // 다음 곡 재생 버튼 클릭 시
     const handleNext = () => {
         if (!selectedList || !selectedMusic || !selectedId) return;
         const index = selectedList.indexOf(selectedMusic);
         setSelectedMusic(selectedList[(index + 1) % selectedList.length]);
     };
 
+    // 이전 곡 재생 버튼 클릭 시
     const handlePrev = () => {
         if (!selectedList || !selectedMusic || !selectedId) return;
         const index = selectedList.indexOf(selectedMusic);
@@ -167,6 +138,7 @@ function Album() {
     // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
     useEffect(() => {
         // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
+        if (!totalList) return;
         const timer = setTimeout(() => {
             if (totalList.length > 0 && !selectedMusic) {
                 handlePlay({ list: totalList, id: 'total', track: totalList[0] });
@@ -175,10 +147,27 @@ function Album() {
         return () => clearTimeout(timer);
     }, [totalList]);
 
+    // 선택 음악 변경 시
     useEffect(() => {
+        if (!selectedMusic) return;
         setIsPlaying(true);
         setCurrentTime(0);
     }, [selectedMusic]);
+
+    // 월렛 어드레스 변경 시 (로그인 계정 변경 시)
+    useEffect(() => {
+        getTracks();
+        handleGetMusicList();
+        getRandomTracks();
+    }, [walletAddress]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY >= 88);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <>
@@ -190,9 +179,9 @@ function Album() {
         > */}
                 <div
                     className={`main__header 
-                    ${selectedTrackIndex !== null ? 'active' : ''} 
-                    ${isScrolled ? 'scrolled' : ''} 
-                    ${isPlaying ? 'playing' : 'no-playing'}`}
+              ${selectedMusic !== null ? 'active' : ''} 
+              ${isScrolled ? 'scrolled' : ''} 
+              ${isPlaying ? 'playing' : 'no-playing'}`}
                 >
                     <div className="main__header__album-cover">
                         <p
@@ -238,6 +227,7 @@ function Album() {
                     />
                 </div>
                 <List
+                    title="total"
                     data={totalList}
                     id="total"
                     selectedMusic={selectedMusic}
@@ -246,13 +236,13 @@ function Album() {
                     currentTime={currentTime}
                 />
                 <ListSlider
-                    hitMusicList={hitMusicList}
-                    selectedTrackIndex={selectedTrackIndex}
-                    handleTrackClick={handleTrackClick}
+                    hitMusicList={hitList}
                     currentTime={currentTime}
                     handleLikeClick={handleLikeClick}
+                    selectedMusic={selectedMusic}
                     selectedId={selectedId}
-                    keys="slide"
+                    handlePlay={handlePlay}
+                    id="slide"
                 />
                 <section className="album__content-list">
                     <article className="album__content-list__tab">
@@ -282,6 +272,7 @@ function Album() {
                         </button>
                     </article>
                     <List
+                        title="AI Lyrics & Songwriting"
                         data={randomList}
                         id="random"
                         selectedMusic={selectedMusic}
@@ -299,10 +290,10 @@ function Album() {
 
 export default Album;
 
-const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay }) => {
+const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title }) => {
     return (
         <section className="album__content-list">
-            <p className="album__content-list__title">Total</p>
+            <p className="album__content-list__title">{title}</p>
             <article className="album__content-list__list">
                 {data?.slice(0, 9).map((track, _, list) => (
                     <React.Fragment key={`${id}+${track.id}`}>
@@ -324,13 +315,12 @@ const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay }) 
 
 const ListSlider = ({
     hitMusicList,
-    selectedTrackIndex,
-    handleTrackClick,
+    selectedMusic,
     currentTime,
     handleLikeClick,
-
+    handlePlay,
     selectedId,
-    keys,
+    id,
 
     // \n
 }) => {
@@ -386,8 +376,10 @@ const ListSlider = ({
                 {hitMusicList.map((track, index) => (
                     <SwiperSlide
                         key={track.id}
-                        className={`swiper-music-list__item ${selectedTrackIndex === index ? 'active' : ''}`}
-                        onClick={() => handleTrackClick(index)}
+                        className={`swiper-music-list__item ${
+                            selectedId + selectedMusic?.id === id + track?.id ? 'active' : ''
+                        }`}
+                        onClick={() => handlePlay({ track: track, id: id, list: hitMusicList })}
                     >
                         <div className="swiper-music-list__item__left">
                             <div
@@ -399,7 +391,7 @@ const ListSlider = ({
                                 }}
                             ></div>
                             <span className="time">
-                                {selectedTrackIndex === index
+                                {`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`
                                     ? `${formatTime(currentTime)}`
                                     : formatTime(track.duration)}
                             </span>

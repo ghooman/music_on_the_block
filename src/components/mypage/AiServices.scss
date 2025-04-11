@@ -114,8 +114,12 @@
         display: flex;
         justify-content: space-between;
         gap: 16px;
+        margin-top: 24px;
         .ai-status__chart {
             width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
                 object-fit: cover;
                 width: 100%;
@@ -153,6 +157,7 @@
                     border-top: 1px solid var(--Color-03, #222);
                     border-bottom: 1px solid var(--Color-03, #222);
                     border-left: 1px solid var(--Color-03, #222);
+                    border-right: 12px solid #1a1a1a;
                     background: var(--Color-03, #222);
                 }
                 .detail-item__value {
@@ -164,6 +169,7 @@
                     border-top: 1px solid var(--Color-03, #222);
                     border-right: 1px solid var(--Color-03, #222);
                     border-bottom: 1px solid var(--Color-03, #222);
+                    border-left: 1px solid #222;
                     color: var(--Text-music-sub, #aaa);
                     font-family: Inter400;
                     font-size: 14px;
@@ -185,6 +191,7 @@
         margin-bottom: 24px;
         position: relative;
         margin-top: 16px;
+
         &::after {
             position: absolute;
             content: '';

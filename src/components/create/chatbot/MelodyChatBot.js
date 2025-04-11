@@ -1,6 +1,6 @@
 // components/create/chatbot/MelodyChatBot.js
 import "../../../styles/ChatBot.scss";
-import React, { useState, useContext,useRef,useEffect } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
@@ -8,7 +8,9 @@ import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
-
+// 언어별 리소스 파일 불러오기
+import koMelody from "../../../locales/koMelody";
+import enMelody from "../../../locales/enMelody";
 const MelodyChatBot = ({
   createLoading,
   setCreateLoading,
@@ -26,7 +28,8 @@ const MelodyChatBot = ({
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  // 선택된 언어에 따라 리소스 파일 선택
+  const locale = selectedLanguage === "ENG" ? enMelody : koMelody;
   const {
     melody_tag = [],
     melody_genre = "",
@@ -39,7 +42,7 @@ const MelodyChatBot = ({
 
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
-    { role: "assistant", content: "만들고 싶은 노래 장르를 말해주세요!" },
+    { role: "assistant", content: locale.chatbot.initialMessage },
   ]);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,33 +62,18 @@ const MelodyChatBot = ({
         messages: [
           {
             role: "system",
-            content:
-              "당신은 작곡 전문가이자 멜로디 제작에 특화된 조수입니다. 지금부터 사용자가 원하는 작곡 멜로디 제작을 위해 아래 단계를 순차적으로 진행할 수 있도록 도와주세요.\n\n" +
-              "곡 제작과 관련된 질문이 아닌 경우에는 '곡 제작과 관련된 질문이 아닙니다.'라고 답해주세요.\n\n" +
-              "1. 먼저 사용자가 원하는 곡의 장르를 선택하도록 질문합니다.\n" +
-              "2. 사용자가 원하는 태그들 정하도록 질문합니다. (사랑,우정,성공 등)\n" +
-              "3. 곡의 타이틀을 정하도록 유도합니다.\n" +
-              "4. 곡의 보이스 선택: 남성 또는 여성 중 한 명의 보이스를 선택하도록 제안합니다. 현재 시스템은 한 종류의 보이스만 사용할 수 있음을 안내해주세요.\n" +
-              "5. 곡에서 사용하길 원하는 악기들을 물어봅니다. (드럼,베이스,피아노 등)\n" +
-              "6. 곡의 템포를 결정하도록 안내합니다. (최소 60 BPM에서 최대 120 BPM 사이)\n" +
-              "7. 추가적으로 곡에 넣고 싶은 요소들이 있는지 질문합니다.\n" +
-              "8. 마지막으로, 지금까지 선택한 옵션들을 다음과 같은 형식으로 정리하여 사용자에게 보여주세요:\n" +
-              "   [예시 출력] 최종 프롬프트: '태그(사용자가 선택한 태그), 곡의 타이틀(사용자가 정한 타이틀), 장르(선택한 장르), 보이스(선택한 보이스), 악기(선택한 악기), 템포(선택한 템포), 추가 요소/스토리(사용자가 제시한 추가 요소)입니다. 이대로 곡을 생성하시겠습니까?'\n" +
-              "대화는 단계별로 진행되어, 사용자의 선택에 따라 세부사항이 반영되도록 해주세요.",
+            content: locale.chatbot.systemMessage,
           },
           ...chatHistory,
           { role: "user", content: userInput },
         ],
       });
       let botMessage = response.choices[0].message.content;
-      // 불필요한 ** 문자 제거
       botMessage = botMessage.replace(/\*\*/g, "");
 
-      // [곡 제목 추출] (예시: "곡의 타이틀(달리기)" 식으로 포함된 경우)
       // [태그 추출]
-      if (botMessage.includes("태그(")) {
-        const tagRegex = /태그\s*\(([^)]+)\)/;
-        const tagMatch = botMessage.match(tagRegex);
+      if (locale.extraction.tagRegex.test(botMessage)) {
+        const tagMatch = botMessage.match(locale.extraction.tagRegex);
         if (tagMatch && tagMatch[1]) {
           const extractedTags = tagMatch[1]
             .trim()
@@ -99,9 +87,8 @@ const MelodyChatBot = ({
       }
 
       // [곡의 타이틀 추출]
-      if (botMessage.includes("곡의 타이틀(")) {
-        const titleRegex = /곡의\s*타이틀\s*\(([^)]+)\)/;
-        const titleMatch = botMessage.match(titleRegex);
+      if (locale.extraction.titleRegex.test(botMessage)) {
+        const titleMatch = botMessage.match(locale.extraction.titleRegex);
         if (titleMatch && titleMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
@@ -111,9 +98,8 @@ const MelodyChatBot = ({
       }
 
       // [장르 추출]
-      if (botMessage.includes("장르(")) {
-        const genreRegex = /장르\s*\(([^)]+)\)/;
-        const genreMatch = botMessage.match(genreRegex);
+      if (locale.extraction.genreRegex.test(botMessage)) {
+        const genreMatch = botMessage.match(locale.extraction.genreRegex);
         if (genreMatch && genreMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
@@ -123,9 +109,8 @@ const MelodyChatBot = ({
       }
 
       // [보이스 추출]
-      if (botMessage.includes("보이스(")) {
-        const voiceRegex = /보이스\s*\(([^)]+)\)/;
-        const voiceMatch = botMessage.match(voiceRegex);
+      if (locale.extraction.voiceRegex.test(botMessage)) {
+        const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
         if (voiceMatch && voiceMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
@@ -135,9 +120,11 @@ const MelodyChatBot = ({
       }
 
       // [악기 추출]
-      if (botMessage.includes("악기(")) {
-        const instrumentRegex = /악기\s*\(([^)]+)\)/;
-        const instrumentMatch = botMessage.match(instrumentRegex);
+      // 영어의 경우 'Instruments ('를 사용하도록 업데이트합니다.
+      if (locale.extraction.instrumentRegex.test(botMessage)) {
+        const instrumentMatch = botMessage.match(
+          locale.extraction.instrumentRegex
+        );
         if (instrumentMatch && instrumentMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
@@ -147,9 +134,8 @@ const MelodyChatBot = ({
       }
 
       // [템포 추출]
-      if (botMessage.includes("템포(")) {
-        const tempoRegex = /템포\s*\(([^)]+)\)/;
-        const tempoMatch = botMessage.match(tempoRegex);
+      if (locale.extraction.tempoRegex.test(botMessage)) {
+        const tempoMatch = botMessage.match(locale.extraction.tempoRegex);
         if (tempoMatch && tempoMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
@@ -159,9 +145,8 @@ const MelodyChatBot = ({
       }
 
       // [추가 요소/스토리 추출]
-      if (botMessage.includes("추가 요소/스토리(")) {
-        const detailRegex = /추가 요소\/스토리\s*\(([^)]+)\)/;
-        const detailMatch = botMessage.match(detailRegex);
+      if (locale.extraction.detailRegex.test(botMessage)) {
+        const detailMatch = botMessage.match(locale.extraction.detailRegex);
         if (detailMatch && detailMatch[1]) {
           setMelodyData((prevData) => ({
             ...prevData,
@@ -331,10 +316,6 @@ const MelodyChatBot = ({
   };
   // 생성 버튼 허용 여부 input 들이 값이 다 있을 경우 통과
   const isGenerateButtonDisabled = "";
-
-
-
-
 
   const scrollContainerRef = useRef(null);
 

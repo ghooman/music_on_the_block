@@ -328,7 +328,12 @@ const LyricsLab = ({
             <textarea
               className="generated-lyrics__lyrics"
               value={createdLyrics}
-              onChange={(e) => setCreatedLyrics(e.target.value)}
+              // onChange={(e) => setCreatedLyrics(e.target.value)}
+              onChange={(e) => {
+                // 입력된 텍스트가 비어있을 경우 최소 한 줄의 공백을 유지하도록 설정
+                const newText = e.target.value.trim() === "" ? "\n" : e.target.value;
+                setCreatedLyrics(newText);
+              }}
               onKeyDown={(e) => {
                 // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
                 if (e.key === "Enter") {

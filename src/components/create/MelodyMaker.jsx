@@ -51,8 +51,8 @@ const genrePreset = {
 };
 
 const genderPreset = {
-  "Male Solo": ["Male Solo"],
-  "Female Solo": ["Female Solo"],
+  "Male": ["Male"],
+  "Female": ["Female"],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],
@@ -235,7 +235,7 @@ const MelodyMaker = ({
       setGeneratedMusicResult(res.data);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      navigate(`/album`);
+      navigate(`/main`);
     } catch (err) {
       alert("에러 발생");
       console.log("handleSubmit error", err);

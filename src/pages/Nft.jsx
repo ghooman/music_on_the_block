@@ -39,7 +39,7 @@ export default Nft;
 const NftExchange = () => {
     return (
         <div className="nft__exchange">
-            <h1 className="nft__exchange--title">NFT Market Place</h1>
+            <h1 className="nft__exchange--title">NFT MarketPlace</h1>
             <p className="nft__exchange--desc">
                 Your music, now as an NFT
                 <br />

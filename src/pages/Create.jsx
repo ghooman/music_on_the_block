@@ -21,6 +21,7 @@ const Create = () => {
   const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
   const [createMode, setCreateMode] = useState(""); // chatbot, select
+  const [createLoading, setCreateLoading] = useState(false);
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
   useEffect(() => {
     if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
@@ -40,7 +41,12 @@ const Create = () => {
     melody_genre: [],
     melody_gender: [],
     melody_instrument: [],
+    melody_tempo: [],
+    melody_detail: [],
+    melody_title: [],
   });
+  const [melodyDetail, setMelodyDetail] = useState("");
+  const [melodyTitle, setMelodyTitle] = useState("");
   // 남은 생성횟수 확인
   const [createPossibleCount, setCreatePossibleCount] = useState(0);
   useEffect(() => {
@@ -56,7 +62,6 @@ const Create = () => {
     fetchCreatePossibleCount();
   }, [token]);
 
-  const [melodyDetail, setMelodyDetail] = useState("");
   const [generatedLyric, setGeneratedLyric] = useState("");
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
   const [tempo, setTempo] = useState([90]);
@@ -100,8 +105,12 @@ const Create = () => {
       <DescriptionBanner pageNumber={pageNumber} />
       {createMode === "chatbot" && (
         <>
-          {pageNumber === 1 && (
+          {pageNumber !== 0 && (
             <LyricChatBot
+              createLoading={createLoading}
+              setCreateLoading={setCreateLoading}
+              lyricData={lyricData}
+              setLyricData={setLyricData}
               lyricStory={lyricStory}
               setLyricStory={setLyricStory}
               setGeneratedLyric={setGeneratedLyric}
@@ -110,14 +119,21 @@ const Create = () => {
               selectedLanguage={selectedLanguage}
             />
           )}
-          {pageNumber === 0 && (
+          {pageNumber !== 1 && (
             <MelodyChatBot
+              createLoading={createLoading}
+              setCreateLoading={setCreateLoading}
+              lyricData={lyricData}
+              melodyData={melodyData}
+              setMelodyData={setMelodyData}
               lyricStory={lyricStory}
               setLyricStory={setLyricStory}
               setGeneratedMusicResult={setGeneratedMusicResult}
               generatedMusicResult={generatedMusicResult}
               setPageNumber={setPageNumber}
               selectedLanguage={selectedLanguage}
+              albumCover={albumCover}
+              setAlbumCover={setAlbumCover}
             />
           )}
         </>

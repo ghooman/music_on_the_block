@@ -13,6 +13,7 @@ const MyAudioPlayer = ({
     getTracks,
     handleGetMusicList,
     setIsPlaying,
+    audioRef,
 }) => {
     const { token } = useContext(AuthContext);
     const serverApi = process.env.REACT_APP_SERVER_API;
@@ -65,17 +66,27 @@ const MyAudioPlayer = ({
         setIsPlaying(false);
     }, [track, setIsPlaying]);
 
+
+    const handleEnded = () => {
+        setIsPlaying(false);
+        if (onClickNext) {
+          onClickNext(); // 다음 트랙으로 넘기기
+        }
+    };
+
     return (
         <AudioPlayer
+            ref={audioRef} 
             key={track?.id}
             src={track?.music_url}
             autoPlay={true}
-            loop={true}
+            loop={false}
             showSkipControls={true}
             onPlay={handlePlay} // 재생 시작 시 handlePlay 호출
             onPause={handlePause} // 일시정지 시 handlePause 호출
             // onListen={onTimeUpdate} // 부모 컴포넌트로 시간 업데이트 전달
             onListen={handleListen}
+            onEnded={handleEnded}
             // onPlay={() => console.log(`${track?.title} 재생 시작`)}
             listenInterval={1000}
             onClickPrevious={onClickPrevious}

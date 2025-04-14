@@ -34,6 +34,7 @@ import AlbumItem from '../components/unit/AlbumItem';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
+
     const { token, walletAddress } = useContext(AuthContext);
     const [isPreparingModal, setPreparingModal] = useState(false);
     const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
@@ -169,6 +170,9 @@ function Album() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const audioRef = useRef(null); // 오디오 제어용 ref
+
+
     return (
         <>
             <div className="main">
@@ -179,9 +183,9 @@ function Album() {
         > */}
                 <div
                     className={`main__header 
-              ${selectedMusic !== null ? 'active' : ''} 
-              ${isScrolled ? 'scrolled' : ''} 
-              ${isPlaying ? 'playing' : 'no-playing'}`}
+                    ${selectedMusic !== null ? 'active' : ''} 
+                    ${isScrolled ? 'scrolled' : ''} 
+                    ${isPlaying ? 'playing' : 'no-playing'}`}
                 >
                     <div className="main__header__album-cover">
                         <p
@@ -224,6 +228,7 @@ function Album() {
                         getTracks={getTracks}
                         handleGetMusicList={handleGetMusicList}
                         setIsPlaying={setIsPlaying}
+                        audioRef={audioRef}
                     />
                 </div>
                 <List
@@ -236,6 +241,7 @@ function Album() {
                     currentTime={currentTime}
                     link="/song/list"
                     setPreparingModal={setPreparingModal}
+                    audioRef={audioRef}
                 />
                 <ListSlider
                     hitMusicList={hitList}
@@ -293,7 +299,7 @@ function Album() {
 
 export default Album;
 
-const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title, setPreparingModal, link }) => {
+const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, audioRef,title, setPreparingModal, link }) => {
     return (
         <section className="album__content-list">
             <p className="album__content-list__title">{title}</p>
@@ -308,6 +314,7 @@ const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, ti
                             onClick={() => {
                                 handlePlay({ list: list, track: track, id: id });
                             }}
+                            audioRef={audioRef}
                         />
                     </React.Fragment>
                 ))}

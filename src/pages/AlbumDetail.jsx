@@ -242,6 +242,9 @@ function AlbumDetail() {
               .filter(Boolean)
         : [];
 
+
+        
+
     return (
         <>
             {isLoading && <IntroLogo3 />}
@@ -256,6 +259,7 @@ function AlbumDetail() {
                         <div className="album-detail__song-detail__left">
                             <section className="album-detail__audio">
                                 <AudioPlayer
+                                    autoPlay={true}
                                     src={album?.music_url || track1}
                                     onPlay={() => {
                                         setIsPlaying(true);
@@ -269,6 +273,7 @@ function AlbumDetail() {
                                     // onListen={handleListen}
                                     listenInterval={1000}
                                 />
+
                                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
                                     <img src={album?.cover_image || coverImg} alt="album cover" />
                                 </p>

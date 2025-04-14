@@ -7,8 +7,11 @@ import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { useUserDetail } from "../../../hooks/useUserDetail";
+import LyricsModal from "../../LyricsModal";
+import SubBanner from "../../create/SubBanner";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
+import subBg1 from "../../../assets/images/create/subbanner-bg1.png";
 // 언어별 리소스 파일 불러오기
 import koMelody from "../../../locales/koMelody";
 import enMelody from "../../../locales/enMelody";
@@ -32,6 +35,7 @@ const MelodyChatBot = ({
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
   const navigate = useNavigate();
+  const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "ENG" ? enMelody : koMelody;
   const {
@@ -452,6 +456,18 @@ const MelodyChatBot = ({
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
+      <SubBanner>
+        <SubBanner.RightImages src={subBg1} />
+        <SubBanner.Title text="View Lyrics Lab Results" />
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab." />
+        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker." />
+        <SubBanner.Button
+          title="View Lyrics"
+          handler={() => {
+            setShowLyricsModal(true);
+          }}
+        ></SubBanner.Button>
+      </SubBanner>
       <section className="chatbot">
         <div className="chatbot__header">
           <h2>Melody Maker</h2>
@@ -564,6 +580,12 @@ const MelodyChatBot = ({
           Generate Song
         </button>
       </div>
+      {showLyricsModal && (
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+        />
+      )}
     </div>
   );
 };

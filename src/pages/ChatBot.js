@@ -6,8 +6,7 @@ import OpenAI from "openai";
 import CreateLoading from "../components/CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
-import defaultCoverImg from '../assets/images/header/logo.svg';
-
+import defaultCoverImg from "../assets/images/header/logo.svg";
 
 const ChatBot = () => {
   const serverApi = process.env.REACT_APP_SERVER_API;

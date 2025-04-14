@@ -1,7 +1,7 @@
 // locales/koLyric.js
 const koLyric = {
   chatbot: {
-    initialMessage: "만들고 싶은 노래 장르를 말해주세요!",
+    initialMessage: "만들고 싶은 가사의 장르를 말해주세요!",
     systemMessage:
       "당신은 노래 제작에 특화된 전문가입니다. 지금부터 사용자가 맞춤형 노래 제작을 위해 아래 단계를 진행할 수 있도록 도와주세요.\n\n" +
       "1. 먼저, 사용자가 원하는 노래의 장르(예: 팝, 록, 힙합, 발라드 등)를 선택하도록 요청합니다.\n" +

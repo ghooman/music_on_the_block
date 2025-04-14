@@ -6,6 +6,9 @@ import './Filter.scss';
 
 import resetIcon from '../../assets/images/icon/reset.svg';
 import pencelIcon from '../../assets/images/icon/pencel.svg';
+import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
+import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 
 // 생각중인 필터는 이렇습니다.
 // url만 조작함.
@@ -20,7 +23,7 @@ import pencelIcon from '../../assets/images/icon/pencel.svg';
  * 프롭스 추가 시 변수도 추가해주어야 합니다.
  */
 
-const Filter = ({ period, types, songs }) => {
+const Filter = ({ period, types, songs, connections }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
     const [filter, setFilter] = useState(false);
 
@@ -32,6 +35,7 @@ const Filter = ({ period, types, songs }) => {
     const period_ = searchParamas.get('period');
     const types_ = searchParamas.get('types');
     const songs_ = searchParamas.get('songs');
+    const connections_ = searchParamas.get('connections');
 
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
@@ -41,19 +45,15 @@ const Filter = ({ period, types, songs }) => {
         setFilter(false);
     };
 
-    useEffect(() => {
-        if (!filter) setParamsObj({});
-    }, [filter]);
-
     return (
         <div className="albums__filter">
             <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
                 <span>Filter</span>
             </button>
-            {[period_, types_, songs_].map((item) => {
+            {[period_, types_, songs_, connections_].map((item, index) => {
                 if (!item) return null;
                 return (
-                    <button className="albums__filter__btn">
+                    <button className="albums__filter__btn" key={`filter-item-${index}`}>
                         <span>{item}</span>
                     </button>
                 );
@@ -66,24 +66,64 @@ const Filter = ({ period, types, songs }) => {
                             <FilterCategory
                                 value={period_}
                                 setParamsObj={setParamsObj}
+                                title="period"
                                 filterName="period"
-                                filterItems={['Latest', 'Early']}
+                                filterItems={
+                                    // songs를 단순 true로 설정 시 프리셋 제공
+                                    // 커스텀이 필요할 경우 배열로 전달
+                                    typeof period === 'boolean' ? ['Latest', 'Early'] : period
+                                }
                             />
                         )}
                         {types && (
                             <FilterCategory
                                 value={types_}
                                 setParamsObj={setParamsObj}
+                                title="types"
                                 filterName="types"
-                                filterItems={['Lyrics', 'Songwriting']}
+                                filterItems={
+                                    typeof types === 'boolean' ? ['Lyrics + Songwriting', 'Songwriting'] : types
+                                }
                             />
                         )}
                         {songs && (
                             <FilterCategory
                                 value={songs_}
                                 setParamsObj={setParamsObj}
+                                title="Sort by"
                                 filterName="songs"
-                                filterItems={['Latest', 'Oldest', 'Most Likes', 'Low Likes', 'Most Replied']}
+                                filterItems={
+                                    typeof songs === 'boolean'
+                                        ? [
+                                              'Latest',
+                                              'Oldest',
+                                              'Most Liked',
+                                              'Least Liked',
+                                              'Most Played',
+                                              'Least Played',
+                                          ]
+                                        : songs
+                                }
+                            />
+                        )}
+                        {connections && (
+                            <FilterCategory
+                                value={connections_}
+                                setParamsObj={setParamsObj}
+                                title="Sort by"
+                                filterName="connections"
+                                filterItems={
+                                    typeof connections === 'boolean'
+                                        ? [
+                                              'Highest Level',
+                                              'Lowest Level',
+                                              'Most Songs',
+                                              'Least Songs',
+                                              'Most Followers',
+                                              'Least Followers',
+                                          ]
+                                        : connections
+                                }
                             />
                         )}
                         <div className="albums__filter-buttons">
@@ -92,7 +132,7 @@ const Filter = ({ period, types, songs }) => {
                                 Reset
                             </button>
                             <button className="albums__filter-buttons--button view" onClick={handleQueryParameter}>
-                                View {Object.keys(paramsObj).reduce((a, b) => a + 1, 0)} results
+                                View {Object.values(paramsObj).filter((item) => item).length} results
                                 <img src={pencelIcon} alt="icon" />
                             </button>
                         </div>
@@ -114,7 +154,7 @@ const FilterItemWrap = ({ title, children }) => {
     );
 };
 
-const FilterCategory = ({ value, setParamsObj, filterItems, filterName }) => {
+const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title }) => {
     const [selectItem, setSelectItem] = useState(value);
 
     useEffect(() => {
@@ -125,7 +165,7 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName }) => {
     }, [selectItem]);
 
     return (
-        <FilterItemWrap title={filterName}>
+        <FilterItemWrap title={title}>
             {filterItems.map((item) => (
                 <button
                     className={`albums__filter-item-wrap--contents__item ${selectItem === item && 'select'}`}

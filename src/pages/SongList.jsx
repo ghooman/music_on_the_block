@@ -14,10 +14,11 @@ import axios from 'axios';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const SongList = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     const page = searchParams.get('page');
     const search = searchParams.get('search');
+    const songs = searchParams.get('songs');
 
     const [songList, setSongList] = useState([]);
     const [totalCount, setTotalCount] = useState(null);
@@ -29,7 +30,8 @@ const SongList = () => {
                 const res = await axios.get(`${serverApi}/api/music/all/list`, {
                     params: {
                         page,
-                        search,
+                        search_keyword: search,
+                        sort_by: songs,
                     },
                 });
                 setSongList(res.data.data_list);
@@ -39,13 +41,13 @@ const SongList = () => {
             }
         };
         getSongList();
-    }, [page, search]);
+    }, [page, search, songs]);
 
     return (
         <div className="songs-list">
             <ContentWrap title="Song List">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter songs />
+                    <Filter types songs />
                     <Search reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 {songList.length > 0 ? (
@@ -57,7 +59,7 @@ const SongList = () => {
                 ) : (
                     <NoneContent message={'No data'} height={400} />
                 )}
-                <Pagination totalCount={totalCount} viewCount={9} page={page} />
+                <Pagination totalCount={totalCount} viewCount={15} page={page} />
             </ContentWrap>
         </div>
     );

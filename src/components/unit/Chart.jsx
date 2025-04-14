@@ -25,7 +25,7 @@ export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, l
                 activeId={selectedItem?.id}
                 onClick={(e) => {
                     // console.log(e)
-                    setSelectedItem(e.data);
+                    // setSelectedItem(e.data);
                 }}
                 tooltip={() => null}
                 data={data}

@@ -43,6 +43,8 @@ const AlarmModal = () => {
   const socketRef = useRef(null);
   const hasTimerStartedRef = useRef(false);
 
+  console.log("albumPk", albumPk);
+
   const shouldRenderModal =
     storedAlbumData ||
     (albumPk && walletAddress?.address === albumWalletAddress);
@@ -158,6 +160,29 @@ const AlarmModal = () => {
       setElapsedSeconds(0);
     }
   }, [storedAlbumData]);
+
+  // const prevStoredAlbumData = useRef(null);
+  // console.log("prevStoredAlbumData", prevStoredAlbumData.current);
+
+  // useEffect(() => {
+  //   // storedAlbumData가 "새로" 생긴 경우에만 초기화
+  //   const isNewStart =
+  //     storedAlbumData &&
+  //     (!prevStoredAlbumData.current ||
+  //       storedAlbumData.id !== prevStoredAlbumData.current.id);
+
+  //   if (isNewStart) {
+  //     console.log("새로운 곡 생성 시작됨. 상태 초기화!");
+  //     setAlbumPk(null);
+  //     setAlbumWalletAddress(null);
+  //     setIsError(false);
+  //     setErrorMessage("");
+  //     setElapsedSeconds(0);
+  //   }
+
+  //   // 이전 값 업데이트
+  //   prevStoredAlbumData.current = storedAlbumData;
+  // }, [storedAlbumData]);
 
   if (!shouldRenderModal) return null;
 

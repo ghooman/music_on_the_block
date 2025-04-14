@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import AudioPlayer from "react-h5-audio-player";
 import MyAudioPlayer from "../components/MyAudioPlayer";
-import coverImg from "../assets/images/intro/intro-demo-img.png";
+import coverImg from "../assets/images/black-img.jpg";
 import demoImg from "../assets/images/intro/intro-demo-img4.png";
 import loveIcon from "../assets/images/like-icon/like-icon.svg";
 import halfHeartIcon from "../assets/images/like-icon/like-icon-on.svg";

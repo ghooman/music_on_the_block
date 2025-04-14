@@ -200,9 +200,9 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                 </dl>
                 <dl>
-                  <dt>MAIN</dt>
+                  <dt>Main</dt>
                   <dd>
-                    <Link to="/main">MAIN</Link>
+                    <Link to="/main">Main</Link>
                   </dd>
                 </dl>
                 <dl>

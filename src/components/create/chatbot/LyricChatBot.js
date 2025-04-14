@@ -37,6 +37,8 @@ const LyricChatBot = ({
   const [loading, setLoading] = useState(false);
   const [isStatus, setIsStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
   const [mode, setMode] = useState("read");
+
+  
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,

@@ -50,7 +50,7 @@ const statusData = [
         id: 'Lyrics + Songwriting',
         name: 'Lyrics + Songwriting',
         image: LyricsIcon,
-        value: 17,
+        value: 0,
         color: 'hsl(139, 100.00%, 11.00%)',
         preparing: true,
     },

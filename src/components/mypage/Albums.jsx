@@ -35,13 +35,14 @@ const myAlbumsCategoryList = [
 ];
 
 const Albums = ({ token }) => {
-    const [searchParams, _] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0].name);
     const [myAlbumsCategory, setMyAlbumsCategory] = useState(myAlbumsCategoryList[0].name);
 
     const page = searchParams.get('page') || 1;
     const search = searchParams.get('search') || '';
+    const songs = searchParams.get('songs');
 
     // 내 TOP 앨범 리스트 API 호출
 
@@ -55,7 +56,7 @@ const Albums = ({ token }) => {
     );
 
     const { data: songsList } = useQuery(
-        ['songs_list', { page, search }],
+        ['songs_list', { page, search, songs }],
         async () => {
             const { data } = await getMyMusicList({ token, page, search });
             return data;
@@ -93,7 +94,7 @@ const Albums = ({ token }) => {
                     value={myAlbumsCategory}
                 />
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter list={['All', 'Latest']} />
+                    <Filter songs />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 <AlbumsTable songList={songsList?.data_list}></AlbumsTable>

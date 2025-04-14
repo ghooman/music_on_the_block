@@ -5,7 +5,6 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import demoBg from '../assets/images/mypage/demo-bg.png';
 import demoUser from '../assets/images/mypage/demo-user.png';
-import demoFlag from '../assets/images/mypage/demo-flag.png';
 import gearImg from '../assets/images/mypage/gear.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
@@ -19,19 +18,10 @@ import AiServices from '../components/mypage/AiServices';
 import Albums from '../components/mypage/Albums';
 import MyFavorites from '../components/mypage/MyFavorites';
 import Reward from '../components/mypage/Reward';
-import { PieChart } from '../components/unit/Chart';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import PreparingModal from '../components/PreparingModal';
 import Connections from '../components/mypage/Connections';
-
-const serviceTab = ['AI Services', 'Reward & Payments'];
-const musicTab = [
-    'Songs',
-    'Connections',
-    'Favorites',
-    // 'Albums'
-];
 
 const serviceTabObj = [
     { name: 'AI Services', preparing: false },
@@ -144,7 +134,7 @@ const MyPage = () => {
             <nav className="mypage__nav">
                 {tabs.map((service) => (
                     <button
-                        key={service}
+                        key={service.name}
                         className={`mypage__nav-item ${category === service.name ? 'active' : ''}`}
                         onClick={() => {
                             if (service.preparing) {

@@ -95,8 +95,8 @@ const LyricsLab = ({
   const instructions = `// system-prompt-example.txt
 
   You are a professional songwriter and lyricist. 
-  Your task is to create original song lyrics based on the user’s instructions. 
-  Output only the lyrics themselves without any additional text such as introductions, conclusions, or remarks like “Sure!” or “Hope you like it!”.
+  Your task is to create original song lyrics based on the user's instructions. 
+  Output only the lyrics themselves without any additional text such as introductions, conclusions, or remarks like "Sure!" or "Hope you like it!".
   
   Follow these rules and guidelines:
   
@@ -118,7 +118,7 @@ const LyricsLab = ({
      - Maintain a coherent narrative or thematic flow throughout the sections.
   
   5. No Extra Text
-     - Do not include any introduction, conclusion, or filler text like “Sure!” or “Hope you like it!”.
+     - Do not include any introduction, conclusion, or filler text like "Sure!" or "Hope you like it!".
      - Provide only the requested lyrics in the specified structure.
   
   6. Appropriateness
@@ -128,7 +128,7 @@ const LyricsLab = ({
   7. Default Simplicity for Insufficient Tags
      - If the user does not select or provide sufficient tags or details, create simple, straightforward lyrics using a basic structure.
   
-  Your overall goal is to deliver engaging, well-structured song lyrics that align with the user’s request, without any extra commentary.
+  Your overall goal is to deliver engaging, well-structured song lyrics that align with the user's request, without any extra commentary.
   
 `;
 
@@ -179,53 +179,11 @@ const LyricsLab = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // 앨범 커버 생성 함수 (로딩 상태 관리는 외부에서 처리)
-  const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
-    const {
-      lyric_tag = [],
-      lyric_genre = [],
-      lyric_stylistic = [],
-    } = lyricData;
-    return `
-        [가사 데이터]
-        태그: ${lyric_tag.join(", ")}
-        장르: ${lyric_genre.join(", ")}
-        스타일: ${lyric_stylistic.join(", ")}
-        
-        [노래 스토리]
-        ${lyricStory}
-        
-        [디자인 요청]
-        앨범 커버 디자인 : 
-        - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-        - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-        - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
-          ", "
-        )}"와 "${lyric_genre.join(", ")}"의 느낌을 표현할 것.
-        - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
-      `;
-  };
-
-  const generateAlbumCover = async () => {
-    const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
-    const response = await client.images.generate({
-      model: "dall-e-3",
-      prompt: refinedPrompt,
-      size: "1024x1024",
-      quality: "standard",
-      n: 1,
-    });
-    console.log("generateAlbumCover:", response.data);
-    setAlbumCover(response.data[0].url);
-    // 필요 시, 생성된 가사 상태 업데이트 등 추가 작업 가능
-  };
-
-  // 두 작업(가사 생성 + 앨범 커버 생성)을 동시에 실행하는 함수
-  const handleGenerateAll = async () => {
+  // 가사 생성 전용 함수
+  const handleGenerateLyrics = async () => {
     setLoading(true);
     try {
-      // 두 작업을 병렬로 실행하여 모두 완료될 때까지 대기합니다.
-      await Promise.all([callGPT4oResponses(), generateAlbumCover()]);
+      await callGPT4oResponses();
     } catch (error) {
       console.error("생성 중 오류 발생:", error);
       alert(error.message || "생성 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -307,7 +265,7 @@ const LyricsLab = ({
           <div className="button-wrap__left">{/* 필요 시 Skip 버튼 */}</div>
           <ExpandedButton
             className={!isAnyFieldFilled || loading ? "next" : "next enable"}
-            onClick={handleGenerateAll}
+            onClick={handleGenerateLyrics}
             disabled={!isAnyFieldFilled || loading}
           >
             {loading ? "Loading" : "Generate"}

@@ -106,6 +106,7 @@ function AlbumDetail() {
                 const duration = audio.duration;
                 setAlbumDuration(duration);
             });
+            console.log('album', response.data);
         } catch (error) {
             console.error('앨범 상세 정보 가져오기 에러:', error);
         }
@@ -210,6 +211,17 @@ function AlbumDetail() {
         // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
     }, [id, walletAddress, token, serverApi]);
 
+    // 앨범 데이터가 로드되면 자동 재생
+    useEffect(() => {
+        if (album?.music_url) {
+            // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
+            const timer = setTimeout(() => {
+                setIsPlaying(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [album]);
+
     useEffect(() => {
         let interval;
         if (isPlaying) {
@@ -268,6 +280,7 @@ function AlbumDetail() {
                                     }}
                                     // onListen={handleListen}
                                     listenInterval={1000}
+                                    autoPlay={true}
                                 />
                                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
                                     <img src={album?.cover_image || coverImg} alt="album cover" />
@@ -285,10 +298,31 @@ function AlbumDetail() {
                                 <div className="album-detail__song-detail__left__img__txt">
                                     <pre>
                                         {album?.lyrics
-                                            ?.replace(/(###\s?[\w\s]+)/g, '\n$1')
-                                            ?.replace(/(\*\*.*?\*\*)/g, '\n$1')
-                                            ?.replace(/\[([^\]]+)\]/g, '\n[$1]')
-                                            ?.replace(/\(([^\)]+)\)/g, '\n($1)')
+                                            // 1. "###"와 그 이후 공백을 제거
+                                            ?.replace(/#\s*/g, '')
+                                            ?.replace(/###\s*/g, '')
+                                            // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                                            ?.replace(/(\*\*.*?\*\*)/g, '')
+                                            // 3. 대괄호([]) 안 텍스트 제거
+                                            ?.replace(/\[([^\]]+)\]/g, '')
+                                            // 4. 소괄호 안 텍스트 처리:
+                                            //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                                            //    - 그 외의 경우에는 내용 자체를 제거
+                                            ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                                                if (
+                                                    /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?$/i.test(
+                                                        p1.trim()
+                                                    )
+                                                ) {
+                                                    return p1.trim();
+                                                }
+                                                return '';
+                                            })
+                                            // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                                            ?.replace(
+                                                /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?)/gi,
+                                                '\n$1'
+                                            )
                                             ?.trim()}
                                     </pre>
                                 </div>

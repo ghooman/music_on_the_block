@@ -6,6 +6,7 @@ import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { useUserDetail } from "../../../hooks/useUserDetail";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
 // 언어별 리소스 파일 불러오기
@@ -24,9 +25,12 @@ const MelodyChatBot = ({
   selectedLanguage, // "KOR" 또는 "ENG"
   albumCover,
   setAlbumCover,
+  finalPrompt,
+  setFinalPrompt,
 }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
+  const { data: userData } = useUserDetail();
   const navigate = useNavigate();
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "ENG" ? enMelody : koMelody;
@@ -40,6 +44,70 @@ const MelodyChatBot = ({
     melody_title = "",
   } = melodyData || {};
 
+  const genrePreset = {
+    "K-POP": ["K-POP"],
+    POP: ["POP"],
+    BALLAD: ["BALLAD"],
+    "R&B": ["R&B"],
+    SOUL: ["SOUL"],
+    "HIP-HOP": ["HIP-HOP"],
+    RAP: ["RAP"],
+    ROCK: ["ROCK"],
+    METAL: ["METAL"],
+    FOLK: ["FOLK"],
+    BLUES: ["BLUES"],
+    COUNTRY: ["COUNTRY"],
+    EDM: ["EDM"],
+    CLASSICAL: ["CLASSICAL"],
+    REGGAE: ["REGGAE"],
+  };
+
+  // 장르 변환 함수 (한글/영어 -> 영어 대문자)
+  const convertGenreToPreset = (genre) => {
+    if (!genre) return "";
+
+    // 1. 이미 genrePreset 키와 일치하는 경우
+    if (genrePreset[genre.toUpperCase()]) {
+      return genre.toUpperCase();
+    }
+
+    // 2. 한글 장르를 영어로 매핑
+    const genreMapping = {
+      케이팝: "K-POP",
+      "케이-팝": "K-POP",
+      "케이 팝": "K-POP",
+      팝: "POP",
+      팝송: "POP",
+      발라드: "BALLAD",
+      알앤비: "R&B",
+      알엔비: "R&B",
+      "알 앤 비": "R&B",
+      소울: "SOUL",
+      힙합: "HIP-HOP",
+      "힙-합": "HIP-HOP",
+      "힙 합": "HIP-HOP",
+      랩: "RAP",
+      록: "ROCK",
+      락: "ROCK",
+      메탈: "METAL",
+      포크: "FOLK",
+      블루스: "BLUES",
+      컨트리: "COUNTRY",
+      이디엠: "EDM",
+      클래식: "CLASSICAL",
+      레게: "REGGAE",
+    };
+
+    const mappedGenre = genreMapping[genre];
+    if (mappedGenre) {
+      return mappedGenre;
+    }
+
+    // 3. 매핑되지 않은 경우 원본 대문자 반환
+    return genre.toUpperCase() || genre;
+  };
+
+  // ======= 유저 대화용 챗봇 =======
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
     { role: "assistant", content: locale.chatbot.initialMessage },
@@ -190,6 +258,53 @@ const MelodyChatBot = ({
       handleSendMessage();
     }
   };
+
+  // 최종 프롬프트 변형 함수
+  // gpt를 이용하여서 데이터를 받고 "예시 형식으로 프롬프트를 전환합니다."
+
+  const generateFinalPrompt = async () => {
+    try {
+      // Genre를 대문자로 변환 (genrePreset 기반)
+      const standardizedGenre = convertGenreToPreset(melody_genre);
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`,
+          },
+          {
+            role: "user",
+            content: `Create a concise English prompt based on these music parameters:\n            - Title: ${melody_title}\n            - Tags: ${melody_tag.join(
+              ", "
+            )}\n            - Genre: ${standardizedGenre}\n            - Voice/Gender: ${melody_gender}\n            - Instruments: ${melody_instrument}\n            - Tempo: ${melody_tempo} BPM\n            - Additional Details: ${melody_detail}`,
+          },
+        ],
+      });
+
+      let promptText = response.choices[0].message.content.trim();
+
+      if (promptText.length > 200) {
+        promptText = promptText.substring(0, 197) + "...";
+      }
+
+      console.log("Generated promptText:", promptText);
+      console.log("promptText length:", promptText.length);
+      setFinalPrompt(promptText);
+      return promptText;
+    } catch (error) {
+      console.error("Error generating final prompt:", error);
+      const standardizedGenre = convertGenreToPreset(melody_genre);
+      const basicPrompt =
+        `A ${melody_gender.toLowerCase()} ${standardizedGenre} song at ${melody_tempo} BPM with ${melody_instrument}.`.substring(
+          0,
+          200
+        );
+      setFinalPrompt(basicPrompt);
+      return basicPrompt;
+    }
+  };
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   // 앨범커버프롬프트
 
@@ -240,15 +355,16 @@ const MelodyChatBot = ({
       JSON.stringify({ id, title, expires })
     );
   };
-  // musicGenerate 함수 수정: coverUrl 인자를 받아 사용
-  const musicGenerate = async (coverUrl) => {
+  // musicGenerate 함수 수정: generatedPrompt 인자를 받도록 변경
+  const musicGenerate = async (coverUrl, generatedPrompt) => {
+    const standardizedGenre = convertGenreToPreset(melody_genre);
     try {
       const formData = {
         album: {
           title: melody_title,
           detail: melody_detail,
           language: selectedLanguage,
-          genre: melody_genre,
+          genre: standardizedGenre,
           style: "",
           gender: melody_gender,
           musical_instrument: melody_instrument,
@@ -259,18 +375,19 @@ const MelodyChatBot = ({
           lyrics: generatedLyric,
           mood: "",
           tags: melody_tag?.join(", ") || "",
-          cover_image: coverUrl, // 직접 전달받은 coverUrl 사용
+          cover_image: coverUrl,
+          prompt: generatedPrompt,
         },
         album_lyrics_info: {
           language: selectedLanguage,
-          feelings: "", // 현재 사용하지 않으므로 빈 문자열 처리
+          feelings: "",
           genre: lyricData?.lyric_genre?.[0] || "",
           style: lyricData?.lyric_stylistic?.[0] || "",
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
           my_story: lyricStory,
         },
       };
-      console.log("formData", formData);
+      console.log("formData being sent:", formData);
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
         formData,
@@ -284,14 +401,13 @@ const MelodyChatBot = ({
       );
 
       storeAlbumId(res.data.id, res.data.title);
-      console.log("handleSubmit", res);
-      console.log("storeAlbumId", res.data.id, res.data.title);
+      console.log("handleSubmit success:", res);
       navigate(`/main`);
     } catch (err) {
-      alert("에러 발생");
+      alert("Error submitting data");
       console.error("handleSubmit error", err);
     } finally {
-      setLoading(false);
+      // setLoading(false) in handleGenerateSong should handle this
     }
   };
 
@@ -299,23 +415,27 @@ const MelodyChatBot = ({
   const handleGenerateSong = async () => {
     setCreateLoading(true);
     try {
-      // // 앨범 커버 생성 후 URL 반환
+      // 최종 프롬프트 생성하고 결과 받기
+      const generatedPrompt = await generateFinalPrompt();
+
+      // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
       if (cover) {
-        // 생성된 cover 값을 인자로 전달하여 musicGenerate 함수 호출
-        await musicGenerate(cover);
+        // 생성된 cover와 prompt를 인자로 전달하여 musicGenerate 함수 호출
+        await musicGenerate(cover, generatedPrompt);
       } else {
         alert("앨범 커버 생성에 실패하였습니다.");
       }
     } catch (error) {
-      console.error("노래 생성 중 오류 발생:", error);
-      alert("노래 생성에 오류가 발생하였습니다.");
+      console.error("Error during song generation process:", error);
+      alert("노래 생성 중 오류가 발생하였습니다.");
     } finally {
       setCreateLoading(false);
     }
   };
-  // 생성 버튼 허용 여부 input 들이 값이 다 있을 경우 통과
-  const isGenerateButtonDisabled = "";
+  // 생성 버튼 허용 여부 Melody Title 값이 있을 경우 통과
+  const isGenerateButtonDisabled =
+    melodyData?.melody_title === "" || melodyData?.melody_title?.length === 0;
 
   const [isActive, setIsActive] = useState(false);
 
@@ -331,7 +451,6 @@ const MelodyChatBot = ({
       container.scrollTop = container.scrollHeight;
     }
   }, [chatHistory, loading]);
-
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
@@ -343,10 +462,11 @@ const MelodyChatBot = ({
           {chatHistory.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
               <div className="message__content">
-                {/* <img src={mobProfilerImg}/> */}
                 <img
                   src={
-                    msg.role === "assistant" ? mobProfilerImg : defaultCoverImg
+                    msg.role === "assistant"
+                      ? mobProfilerImg
+                      : userData?.profile || defaultCoverImg
                   }
                   alt="profile"
                 />

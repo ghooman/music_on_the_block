@@ -226,6 +226,17 @@ function AlbumDetail() {
     // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
   }, [id, walletAddress, token, serverApi]);
 
+  // 앨범 데이터가 로드되면 자동 재생
+  useEffect(() => {
+    if (album?.music_url) {
+      // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
+      const timer = setTimeout(() => {
+        setIsPlaying(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [album]);
+
   useEffect(() => {
     let interval;
     if (isPlaying) {
@@ -284,6 +295,7 @@ function AlbumDetail() {
                   }}
                   // onListen={handleListen}
                   listenInterval={1000}
+                  autoPlay={true}
                 />
                 <p
                   className={`album-detail__audio__cover ${

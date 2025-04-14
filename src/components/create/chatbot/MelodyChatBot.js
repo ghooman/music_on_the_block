@@ -451,7 +451,6 @@ const MelodyChatBot = ({
       container.scrollTop = container.scrollHeight;
     }
   }, [chatHistory, loading]);
-  console.log("melody_title", melodyData?.melody_title);
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
@@ -552,15 +551,6 @@ const MelodyChatBot = ({
             type="text"
             value={melodyData?.melody_detail}
             placeholder="Enter"
-            readOnly
-          />
-        </div>
-        <div className="music__information__prompt">
-          <h3>Final Prompt</h3>
-          <input
-            type="text"
-            value={finalPrompt}
-            placeholder="Final prompt will be generated when you click Generate Song"
             readOnly
           />
         </div>

@@ -36,8 +36,8 @@ const AdvancedCommentComponent = ({ id }) => {
         })),
       }));
       setComments(transformedComments);
-      console.log("fetchCommentList res", response);
-      console.log("fetchCommentList", transformedComments);
+      // console.log("fetchCommentList res", response);
+      // console.log("fetchCommentList", transformedComments);
     } catch (error) {
       console.error("코멘트 리스트 가져오기 에러:", error);
     }

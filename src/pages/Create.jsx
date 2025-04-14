@@ -1,6 +1,5 @@
 // pages/Create.js
-import { useEffect, useState, useContext } from "react";
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import ExpandedButton from "../components/create/ExpandedButton";
@@ -9,9 +8,9 @@ import MelodyMaker from "../components/create/MelodyMaker";
 import LyricChatBot from "../components/create/chatbot/LyricChatBot";
 import MelodyChatBot from "../components/create/chatbot/MelodyChatBot";
 import DescriptionBanner from "../components/create/DescriptionBanner";
+import GetStarted from "../components/create/GetStarted";
 import AlbumCoverStudio from "../components/create/AlbumCoverStudio";
 import Finalize from "../components/create/Finalize";
-import GetStarted from "../components/create/GetStarted";
 import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
 import "../styles/Create.scss";
@@ -22,6 +21,7 @@ const Create = () => {
   const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
   const [createMode, setCreateMode] = useState(""); // chatbot, select
   const [createLoading, setCreateLoading] = useState(false);
+  const [finalPrompt, setFinalPrompt] = useState("");
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
   useEffect(() => {
     if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
@@ -136,6 +136,8 @@ const Create = () => {
               setAlbumCover={setAlbumCover}
               generatedMusicResult={generatedMusicResult}
               setGeneratedMusicResult={setGeneratedMusicResult}
+              finalPrompt={finalPrompt}
+              setFinalPrompt={setFinalPrompt}
             />
           )}
         </>
@@ -189,6 +191,8 @@ const Create = () => {
               createPossibleCount={createPossibleCount}
               albumCover={albumCover}
               setAlbumCover={setAlbumCover}
+              finalPrompt={finalPrompt}
+              setFinalPrompt={setFinalPrompt}
             ></MelodyMaker>
           )}
         </>

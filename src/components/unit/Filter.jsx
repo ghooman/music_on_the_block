@@ -75,7 +75,7 @@ const Filter = ({ period, types, songs }) => {
                                 value={types_}
                                 setParamsObj={setParamsObj}
                                 filterName="types"
-                                filterItems={['Lyrics', 'Songwriting']}
+                                filterItems={['Lyrics + Songwriting', 'Songwriting']}
                             />
                         )}
                         {songs && (
@@ -83,7 +83,14 @@ const Filter = ({ period, types, songs }) => {
                                 value={songs_}
                                 setParamsObj={setParamsObj}
                                 filterName="songs"
-                                filterItems={['Latest', 'Oldest', 'Most Likes', 'Low Likes', 'Most Replied']}
+                                filterItems={[
+                                    'Latest',
+                                    'Oldest',
+                                    'Most Likes',
+                                    'Least Likes',
+                                    'Most Plays',
+                                    'Least Plays',
+                                ]}
                             />
                         )}
                         <div className="albums__filter-buttons">

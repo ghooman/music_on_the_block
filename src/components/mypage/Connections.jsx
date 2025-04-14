@@ -5,15 +5,17 @@ import Filter from '../unit/Filter';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
-import NoneContent from '../unit/NoneContent';
 
 import './Connections.scss';
 import AlbumsTable from '../unit/AlbumsTable';
 
-const categories = ['Following', 'Followers'];
+const categories = [
+    { name: 'Following', preparing: false },
+    { name: 'Followers', preparing: false },
+];
 
 const Connections = () => {
-    const [selectCategory, setSelectCategory] = useState(categories[0]);
+    const [selectCategory, setSelectCategory] = useState(categories[0].name);
 
     return (
         <div className="connections">

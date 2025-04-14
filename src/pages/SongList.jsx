@@ -10,6 +10,8 @@ import AlbumItem from '../components/unit/AlbumItem';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import IntroLogo3 from '../components/IntroLogo3';
+import IntroLogo from '../components/IntroLogo2';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -45,7 +47,7 @@ const SongList = () => {
         <div className="songs-list">
             <ContentWrap title="Song List">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter songs />
+                    <Filter types songs />
                     <Search reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 {songList.length > 0 ? (
@@ -57,7 +59,7 @@ const SongList = () => {
                 ) : (
                     <NoneContent message={'No data'} height={400} />
                 )}
-                <Pagination totalCount={totalCount} viewCount={9} page={page} />
+                <Pagination totalCount={totalCount} viewCount={15} page={page} />
             </ContentWrap>
         </div>
     );

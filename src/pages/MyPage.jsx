@@ -33,6 +33,16 @@ const musicTab = [
     // 'Albums'
 ];
 
+const serviceTabObj = [
+    { name: 'AI Services', preparing: false },
+    { name: 'Reward & Payments', preparing: true },
+];
+const musicTabObj = [
+    { name: 'Songs', preparing: false },
+    { name: 'Connections', preparing: false },
+    { name: 'Favorites', preparing: false },
+];
+
 const MyPage = () => {
     const { path } = useParams();
     const { data: userData } = useUserDetail();
@@ -41,7 +51,8 @@ const MyPage = () => {
     const [isPreparingModal, setPreparingModal] = useState(false);
 
     const category = searchParams.get('category');
-    const tabs = path === 'music' ? musicTab : serviceTab;
+    const tabs = path === 'music' ? musicTabObj : serviceTabObj;
+
     const handleServiceClick = (service) => {
         // if (serviceTab?.includes(service)) {
         setSearchParams({ category: service });
@@ -51,8 +62,8 @@ const MyPage = () => {
     };
 
     useEffect(() => {
-        if (!category || category !== tabs[0]) {
-            setSearchParams({ category: tabs[0] }, { replace: true });
+        if (!category || category !== tabs[0].name) {
+            setSearchParams({ category: tabs[0].name }, { replace: true });
         }
     }, []);
 
@@ -134,10 +145,16 @@ const MyPage = () => {
                 {tabs.map((service) => (
                     <button
                         key={service}
-                        className={`mypage__nav-item ${category === service ? 'active' : ''}`}
-                        onClick={() => handleServiceClick(service)}
+                        className={`mypage__nav-item ${category === service.name ? 'active' : ''}`}
+                        onClick={() => {
+                            if (service.preparing) {
+                                setPreparingModal(true);
+                                return;
+                            }
+                            handleServiceClick(service.name);
+                        }}
                     >
-                        {service}
+                        {service.name}
                     </button>
                 ))}
             </nav>

@@ -63,8 +63,8 @@
                     height: 100px;
                     img {
                         border-radius: 50%;
-                        width: 100%;
-                        height: 100%;
+                        width: 100px;
+                        height: 100px;
                     }
                 }
                 .mypage__profile-info-box {
@@ -243,6 +243,11 @@
                 }
                 .mypage__profile-edit-box {
                     .mypage__profile-info-box {
+                        .mypage__stats {
+                            .stats__info {
+                                display: block;
+                            }
+                        }
                         .mypage__username {
                             font-size: 24px;
                         }

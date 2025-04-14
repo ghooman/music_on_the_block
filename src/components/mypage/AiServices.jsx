@@ -13,48 +13,46 @@ import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
 import { LineChart, PieChart } from '../unit/Chart';
 
-const AiServiceList = ['AI Lyrics & Songwriting', 'AI Singing Evaluation', 'AI Cover Creation'];
-const AiServiceTypeList = ['All', 'Lyrics', 'Songwriting', 'Lyrics + Songwriting'];
+const AiServiceTypeList = ['All', 'Lyrics + Songwriting', 'Songwriting'];
 
 const chartData = [
     {
         id: 'AI Lyrics & Songwriting',
         image: LyricsAndSongwritingIcon,
-        value: 46,
+        value: 100,
         color: 'hsl(252, 100%, 50%)',
     },
     {
         id: 'AI Singing Evaluation',
         image: SongwritingIcon,
-        value: 68,
+        value: 0,
         color: 'hsl(162, 100%, 50%)',
+        preparing: true,
     },
     {
         id: 'AI Cover Creation',
         image: LyricsIcon,
-        value: 17,
+        value: 0,
         color: 'hsl(342, 100%, 50%)',
+        preparing: true,
     },
 ];
 
 const statusData = [
     {
-        id: 'Lyrics',
-        image: LyricsAndSongwritingIcon,
-        value: 46,
-        color: 'hsl(67, 100.00%, 50.00%)',
-    },
-    {
         id: 'Songwriting',
+        name: 'Songwriting',
         image: SongwritingIcon,
         value: 68,
         color: 'hsl(101, 100.00%, 26.10%)',
     },
     {
         id: 'Lyrics + Songwriting',
+        name: 'Lyrics + Songwriting',
         image: LyricsIcon,
         value: 17,
         color: 'hsl(139, 100.00%, 11.00%)',
+        preparing: true,
     },
 ];
 
@@ -82,7 +80,13 @@ const AiServices = () => {
                     <button
                         key={aiService}
                         className={`ai__service-btn ${selectedItem.id === aiService.id ? 'active' : ''}`}
-                        onClick={() => setSelectedItem(aiService)}
+                        onClick={() => {
+                            if (aiService?.preparing) {
+                                setShowPreparingModal(true);
+                                return;
+                            }
+                            setSelectedItem(aiService);
+                        }}
                     >
                         <div className="ai__service-btn--image">
                             <img src={aiService.image} alt="icon" />
@@ -107,7 +111,11 @@ const AiServices = () => {
             {/** 차트 조작 */}
             <section className="ai__ai-status">
                 <p className="ai-status__title">AI Service Status</p>
-                <SubCategories categories={AiServiceTypeList} handler={setAiServiceStatus} value={aiServiceStatus} />
+                <SubCategories
+                    categories={[{ name: 'All' }, ...statusData]}
+                    handler={setAiServiceStatus}
+                    value={aiServiceStatus}
+                />
                 {/** 콘텐츠 */}
                 <div className="ai-status__info">
                     <div className="ai-status__chart">

@@ -345,8 +345,7 @@ const MelodyMaker = ({
       console.log("storeAlbumId", res.data.id, res.data.title);
       navigate(`/main`);
     } catch (err) {
-      alert("에러 발생");
-      console.log("handleSubmit error", err);
+      console.error("handleSubmit error", err);
     } finally {
       setLoading(false);
     }

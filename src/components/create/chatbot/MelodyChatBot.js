@@ -404,7 +404,6 @@ const MelodyChatBot = ({
       console.log("handleSubmit success:", res);
       navigate(`/main`);
     } catch (err) {
-      alert("Error submitting data");
       console.error("handleSubmit error", err);
     } finally {
       // setLoading(false) in handleGenerateSong should handle this
@@ -424,11 +423,10 @@ const MelodyChatBot = ({
         // 생성된 cover와 prompt를 인자로 전달하여 musicGenerate 함수 호출
         await musicGenerate(cover, generatedPrompt);
       } else {
-        alert("앨범 커버 생성에 실패하였습니다.");
+        console.error("앨범 커버 생성에 실패하였습니다.");
       }
     } catch (error) {
       console.error("Error during song generation process:", error);
-      alert("노래 생성 중 오류가 발생하였습니다.");
     } finally {
       setCreateLoading(false);
     }

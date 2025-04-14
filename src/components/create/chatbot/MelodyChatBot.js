@@ -274,32 +274,25 @@ const MelodyChatBot = ({
           },
           {
             role: "user",
-            content: `Create a concise English prompt based on these music parameters:
-            - Title: ${melody_title}
-            - Tags: ${melody_tag.join(", ")}
-            - Genre: ${standardizedGenre}
-            - Voice/Gender: ${melody_gender}
-            - Instruments: ${melody_instrument}
-            - Tempo: ${melody_tempo} BPM
-            - Additional Details: ${melody_detail}`,
+            content: `Create a concise English prompt based on these music parameters:\n            - Title: ${melody_title}\n            - Tags: ${melody_tag.join(
+              ", "
+            )}\n            - Genre: ${standardizedGenre}\n            - Voice/Gender: ${melody_gender}\n            - Instruments: ${melody_instrument}\n            - Tempo: ${melody_tempo} BPM\n            - Additional Details: ${melody_detail}`,
           },
         ],
       });
 
       let promptText = response.choices[0].message.content.trim();
 
-      // 200자로 제한
       if (promptText.length > 200) {
         promptText = promptText.substring(0, 197) + "...";
       }
 
-      console.log("promptText", promptText);
+      console.log("Generated promptText:", promptText);
       console.log("promptText length:", promptText.length);
       setFinalPrompt(promptText);
       return promptText;
     } catch (error) {
       console.error("Error generating final prompt:", error);
-      // 에러 발생시 간단한 기본 프롬프트 생성 (표준화된 장르)
       const standardizedGenre = convertGenreToPreset(melody_genre);
       const basicPrompt =
         `A ${melody_gender.toLowerCase()} ${standardizedGenre} song at ${melody_tempo} BPM with ${melody_instrument}.`.substring(
@@ -360,11 +353,9 @@ const MelodyChatBot = ({
       JSON.stringify({ id, title, expires })
     );
   };
-  // musicGenerate 함수 수정: coverUrl 인자를 받아 사용
-  const musicGenerate = async (coverUrl) => {
-    // 장르를 표준화된 영어 대문자로 변환
+  // musicGenerate 함수 수정: generatedPrompt 인자를 받도록 변경
+  const musicGenerate = async (coverUrl, generatedPrompt) => {
     const standardizedGenre = convertGenreToPreset(melody_genre);
-
     try {
       const formData = {
         album: {
@@ -382,19 +373,19 @@ const MelodyChatBot = ({
           lyrics: generatedLyric,
           mood: "",
           tags: melody_tag?.join(", ") || "",
-          cover_image: coverUrl, // 직접 전달받은 coverUrl 사용
-          prompt: finalPrompt,
+          cover_image: coverUrl,
+          prompt: generatedPrompt,
         },
         album_lyrics_info: {
           language: selectedLanguage,
-          feelings: "", // 현재 사용하지 않으므로 빈 문자열 처리
+          feelings: "",
           genre: lyricData?.lyric_genre?.[0] || "",
           style: lyricData?.lyric_stylistic?.[0] || "",
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
           my_story: lyricStory,
         },
       };
-      console.log("formData", formData);
+      console.log("formData being sent:", formData);
       const res = await axios.post(
         `${serverApi}/api/music/album/lyrics`,
         formData,
@@ -408,14 +399,13 @@ const MelodyChatBot = ({
       );
 
       storeAlbumId(res.data.id, res.data.title);
-      console.log("handleSubmit", res);
-      console.log("storeAlbumId", res.data.id, res.data.title);
+      console.log("handleSubmit success:", res);
       navigate(`/main`);
     } catch (err) {
-      alert("에러 발생");
+      alert("Error submitting data");
       console.error("handleSubmit error", err);
     } finally {
-      setLoading(false);
+      // setLoading(false) in handleGenerateSong should handle this
     }
   };
 
@@ -423,20 +413,20 @@ const MelodyChatBot = ({
   const handleGenerateSong = async () => {
     setCreateLoading(true);
     try {
-      // 최종 프롬프트 생성
-      await generateFinalPrompt();
+      // 최종 프롬프트 생성하고 결과 받기
+      const generatedPrompt = await generateFinalPrompt();
 
       // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
       if (cover) {
-        // 생성된 cover 값을 인자로 전달하여 musicGenerate 함수 호출
-        await musicGenerate(cover);
+        // 생성된 cover와 prompt를 인자로 전달하여 musicGenerate 함수 호출
+        await musicGenerate(cover, generatedPrompt);
       } else {
         alert("앨범 커버 생성에 실패하였습니다.");
       }
     } catch (error) {
-      console.error("노래 생성 중 오류 발생:", error);
-      alert("노래 생성에 오류가 발생하였습니다.");
+      console.error("Error during song generation process:", error);
+      alert("노래 생성 중 오류가 발생하였습니다.");
     } finally {
       setCreateLoading(false);
     }

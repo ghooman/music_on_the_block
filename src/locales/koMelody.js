@@ -1,7 +1,7 @@
 // locales/koMelody.js
 const koMelody = {
   chatbot: {
-    initialMessage: "만들고 싶은 노래 장르를 말해주세요!",
+    initialMessage: "만들고 싶은 멜로디의 장르를 말해주세요!",
     systemMessage:
       "당신은 작곡 전문가이자 멜로디 제작에 특화된 조수입니다. 지금부터 사용자가 원하는 작곡 멜로디 제작을 위해 아래 단계를 순차적으로 진행할 수 있도록 도와주세요.\n\n" +
       "곡 제작과 관련된 질문이 아닌 경우에는 '곡 제작과 관련된 질문이 아닙니다.'라고 답해주세요.\n\n" +

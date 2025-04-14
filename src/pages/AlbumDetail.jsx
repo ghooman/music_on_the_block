@@ -29,6 +29,9 @@ import { incrementPlayCount } from '../api/incrementPlayCount';
 import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
+import { WalletConnect } from "../components/WalletConnect";
+
+
 function AlbumDetail() {
     const serverApi = process.env.REACT_APP_SERVER_API;
     const { id } = useParams();
@@ -254,6 +257,17 @@ function AlbumDetail() {
               .filter(Boolean)
         : [];
 
+
+
+        const { setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+
+        const handleWalletConnect = (loggedIn, walletAddress) => {
+          setIsLoggedIn(loggedIn);
+          if (loggedIn && walletAddress) {
+            setWalletAddress(walletAddress);
+          }
+        };
+        
     return (
         <>
             {isLoading && <IntroLogo3 />}
@@ -329,7 +343,7 @@ function AlbumDetail() {
                                 <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
                             </div>
                             <div className="album-detail__song-detail__left__info">
-                                <div className="album-detail__song-detail__left__info__number">
+                                {/* <div className="album-detail__song-detail__left__info__number">
                                     <p className="love" onClick={handleLike}>
                                         <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                                         {album?.like || 0}
@@ -342,7 +356,42 @@ function AlbumDetail() {
                                         <img src={commentIcon} alt="comment Icon" />
                                         {album?.comment_cnt || 0}
                                     </p>
-                                </div>
+                                </div> */}
+                                {!setIsLoggedIn && 
+                                    <div className="album-detail__song-detail__left__info__number">
+                                        <p className="love" onClick={handleLike}>
+                                            <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                            {album?.like || 0}
+                                        </p>
+                                        <p className="play">
+                                            <img src={playIcon} alt="play Icon" />
+                                            {album?.play_cnt || 0}
+                                        </p>
+                                        <p className="comment" onClick={handleScrollToComment}>
+                                            <img src={commentIcon} alt="comment Icon" />
+                                            {album?.comment_cnt || 0}
+                                        </p>
+                                    </div>
+                                }
+                                {setIsLoggedIn && 
+                                    <div className="album-detail__song-detail__left__info__number">
+                                        <p className="love">
+                                            <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                            {album?.like || 0}
+                                            {setIsLoggedIn && 
+                                                <WalletConnect onConnect={handleWalletConnect} />
+                                            }
+                                        </p>
+                                        <p className="play">
+                                            <img src={playIcon} alt="play Icon" />
+                                            {album?.play_cnt || 0}
+                                        </p>
+                                        <p className="comment" onClick={handleScrollToComment}>
+                                            <img src={commentIcon} alt="comment Icon" />
+                                            {album?.comment_cnt || 0}
+                                        </p>
+                                    </div>
+                                }
                                 <button
                                     className="album-detail__song-detail__left__info__share-btn"
                                     onClick={() => setShareModal(true)}

@@ -169,6 +169,9 @@ function Album() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+
+    const audioRef = useRef(null); // 오디오 제어용 ref
+    
     return (
         <>
             <div className="main">
@@ -224,6 +227,7 @@ function Album() {
                         getTracks={getTracks}
                         handleGetMusicList={handleGetMusicList}
                         setIsPlaying={setIsPlaying}
+                        audioRef={audioRef}
                     />
                 </div>
                 <List
@@ -236,6 +240,7 @@ function Album() {
                     currentTime={currentTime}
                     link="/song/list?songs=Latest"
                     setPreparingModal={setPreparingModal}
+                    audioRef={audioRef}
                 />
                 <ListSlider
                     hitMusicList={hitList}
@@ -294,7 +299,7 @@ function Album() {
 
 export default Album;
 
-const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title, setPreparingModal, link }) => {
+const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title, setPreparingModal, link,audioRef }) => {
     return (
         <section className="album__content-list">
             <p className="album__content-list__title">{title}</p>
@@ -309,6 +314,7 @@ const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, ti
                             onClick={() => {
                                 handlePlay({ list: list, track: track, id: id });
                             }}
+                            audioRef={audioRef}
                         />
                     </React.Fragment>
                 ))}

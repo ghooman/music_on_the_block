@@ -83,10 +83,8 @@ const Filter = ({ period, types, songs, connections }) => {
                                 filterItems={
                                     typeof types === 'boolean'
                                         ? [
-                                              { name: 'Lyrics + Songwriting' },
-                                              { name: 'Songwriting' },
-                                              'Lyrics + Songwriting',
-                                              'Songwriting',
+                                              { name: 'Lyrics + Songwriting', icon: LyricsAndSongwritingIcon },
+                                              { name: 'Songwriting', icon: SongwritingIcon },
                                           ]
                                         : types
                                 }
@@ -173,43 +171,52 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
     return (
         <FilterItemWrap title={title}>
             {filterItems.map((item) => {
-                if (item?.image) {
+                if (typeof item === 'object') {
+                    // 이미지 넣을 경우
                     return (
-                        <button
-                            className={`albums__filter-item-wrap--contents__item ${
-                                selectItem === item?.name && 'select'
-                            }`}
-                            onClick={() =>
+                        <FilterButton
+                            value={item.name}
+                            icon={item.icon}
+                            select={selectItem}
+                            handleClick={() =>
                                 setSelectItem((prev) => {
-                                    if (prev === item?.name) return null;
-                                    else return item?.name;
+                                    if (prev === item.name) return null;
+                                    else return item.name;
                                 })
                             }
-                            key={`${filterName}-${item}`}
-                        >
-                            <div>
-                                <img src={item.image} alt="icon" />
-                            </div>
-                            {item?.name}
-                        </button>
+                        ></FilterButton>
                     );
                 } else {
                     return (
-                        <button
-                            className={`albums__filter-item-wrap--contents__item ${selectItem === item && 'select'}`}
-                            onClick={() =>
+                        <FilterButton
+                            value={item}
+                            select={selectItem}
+                            handleClick={() =>
                                 setSelectItem((prev) => {
                                     if (prev === item) return null;
                                     else return item;
                                 })
                             }
-                            key={`${filterName}-${item}`}
-                        >
-                            {item}
-                        </button>
+                        ></FilterButton>
                     );
                 }
             })}
         </FilterItemWrap>
+    );
+};
+
+const FilterButton = ({ value, select, handleClick, icon }) => {
+    return (
+        <button
+            className={`albums__filter-item-wrap--contents__item ${value === select && 'select'}`}
+            onClick={handleClick}
+        >
+            {icon && (
+                <div className="icons">
+                    <img src={icon} alt="icon" />
+                </div>
+            )}
+            {value}
+        </button>
     );
 };

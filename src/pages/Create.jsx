@@ -22,6 +22,7 @@ const Create = () => {
   const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
   const [createMode, setCreateMode] = useState(""); // chatbot, select
   const [createLoading, setCreateLoading] = useState(false);
+  const [finalPrompt, setFinalPrompt] = useState("");
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
   useEffect(() => {
     if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
@@ -136,6 +137,8 @@ const Create = () => {
               setAlbumCover={setAlbumCover}
               generatedMusicResult={generatedMusicResult}
               setGeneratedMusicResult={setGeneratedMusicResult}
+              finalPrompt={finalPrompt}
+              setFinalPrompt={setFinalPrompt}
             />
           )}
         </>
@@ -189,6 +192,8 @@ const Create = () => {
               createPossibleCount={createPossibleCount}
               albumCover={albumCover}
               setAlbumCover={setAlbumCover}
+              finalPrompt={finalPrompt}
+              setFinalPrompt={setFinalPrompt}
             ></MelodyMaker>
           )}
         </>

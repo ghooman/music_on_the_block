@@ -117,6 +117,7 @@ function AlbumDetail() {
         const duration = audio.duration;
         setAlbumDuration(duration);
       });
+      console.log("album", response.data);
     } catch (error) {
       console.error("앨범 상세 정보 가져오기 에러:", error);
     }

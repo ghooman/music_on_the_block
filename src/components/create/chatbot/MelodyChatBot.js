@@ -24,6 +24,8 @@ const MelodyChatBot = ({
   selectedLanguage, // "KOR" 또는 "ENG"
   albumCover,
   setAlbumCover,
+  finalPrompt,
+  setFinalPrompt,
 }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -40,6 +42,70 @@ const MelodyChatBot = ({
     melody_title = "",
   } = melodyData || {};
 
+  const genrePreset = {
+    "K-POP": ["K-POP"],
+    POP: ["POP"],
+    BALLAD: ["BALLAD"],
+    "R&B": ["R&B"],
+    SOUL: ["SOUL"],
+    "HIP-HOP": ["HIP-HOP"],
+    RAP: ["RAP"],
+    ROCK: ["ROCK"],
+    METAL: ["METAL"],
+    FOLK: ["FOLK"],
+    BLUES: ["BLUES"],
+    COUNTRY: ["COUNTRY"],
+    EDM: ["EDM"],
+    CLASSICAL: ["CLASSICAL"],
+    REGGAE: ["REGGAE"],
+  };
+
+  // 장르 변환 함수 (한글/영어 -> 영어 대문자)
+  const convertGenreToPreset = (genre) => {
+    if (!genre) return "";
+
+    // 1. 이미 genrePreset 키와 일치하는 경우
+    if (genrePreset[genre.toUpperCase()]) {
+      return genre.toUpperCase();
+    }
+
+    // 2. 한글 장르를 영어로 매핑
+    const genreMapping = {
+      케이팝: "K-POP",
+      "케이-팝": "K-POP",
+      "케이 팝": "K-POP",
+      팝: "POP",
+      팝송: "POP",
+      발라드: "BALLAD",
+      알앤비: "R&B",
+      알엔비: "R&B",
+      "알 앤 비": "R&B",
+      소울: "SOUL",
+      힙합: "HIP-HOP",
+      "힙-합": "HIP-HOP",
+      "힙 합": "HIP-HOP",
+      랩: "RAP",
+      록: "ROCK",
+      락: "ROCK",
+      메탈: "METAL",
+      포크: "FOLK",
+      블루스: "BLUES",
+      컨트리: "COUNTRY",
+      이디엠: "EDM",
+      클래식: "CLASSICAL",
+      레게: "REGGAE",
+    };
+
+    const mappedGenre = genreMapping[genre];
+    if (mappedGenre) {
+      return mappedGenre;
+    }
+
+    // 3. 매핑되지 않은 경우 원본 대문자 반환
+    return genre.toUpperCase() || genre;
+  };
+
+  // ======= 유저 대화용 챗봇 =======
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
     { role: "assistant", content: locale.chatbot.initialMessage },
@@ -190,6 +256,60 @@ const MelodyChatBot = ({
       handleSendMessage();
     }
   };
+
+  // 최종 프롬프트 변형 함수
+  // gpt를 이용하여서 데이터를 받고 "예시 형식으로 프롬프트를 전환합니다."
+
+  const generateFinalPrompt = async () => {
+    try {
+      // Genre를 대문자로 변환 (genrePreset 기반)
+      const standardizedGenre = convertGenreToPreset(melody_genre);
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`,
+          },
+          {
+            role: "user",
+            content: `Create a concise English prompt based on these music parameters:
+            - Title: ${melody_title}
+            - Tags: ${melody_tag.join(", ")}
+            - Genre: ${standardizedGenre}
+            - Voice/Gender: ${melody_gender}
+            - Instruments: ${melody_instrument}
+            - Tempo: ${melody_tempo} BPM
+            - Additional Details: ${melody_detail}`,
+          },
+        ],
+      });
+
+      let promptText = response.choices[0].message.content.trim();
+
+      // 200자로 제한
+      if (promptText.length > 200) {
+        promptText = promptText.substring(0, 197) + "...";
+      }
+
+      console.log("promptText", promptText);
+      console.log("promptText length:", promptText.length);
+      setFinalPrompt(promptText);
+      return promptText;
+    } catch (error) {
+      console.error("Error generating final prompt:", error);
+      // 에러 발생시 간단한 기본 프롬프트 생성 (표준화된 장르)
+      const standardizedGenre = convertGenreToPreset(melody_genre);
+      const basicPrompt =
+        `A ${melody_gender.toLowerCase()} ${standardizedGenre} song at ${melody_tempo} BPM with ${melody_instrument}.`.substring(
+          0,
+          200
+        );
+      setFinalPrompt(basicPrompt);
+      return basicPrompt;
+    }
+  };
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   // 앨범커버프롬프트
 
@@ -242,13 +362,16 @@ const MelodyChatBot = ({
   };
   // musicGenerate 함수 수정: coverUrl 인자를 받아 사용
   const musicGenerate = async (coverUrl) => {
+    // 장르를 표준화된 영어 대문자로 변환
+    const standardizedGenre = convertGenreToPreset(melody_genre);
+
     try {
       const formData = {
         album: {
           title: melody_title,
           detail: melody_detail,
           language: selectedLanguage,
-          genre: melody_genre,
+          genre: standardizedGenre,
           style: "",
           gender: melody_gender,
           musical_instrument: melody_instrument,
@@ -260,6 +383,7 @@ const MelodyChatBot = ({
           mood: "",
           tags: melody_tag?.join(", ") || "",
           cover_image: coverUrl, // 직접 전달받은 coverUrl 사용
+          prompt: finalPrompt,
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -299,7 +423,10 @@ const MelodyChatBot = ({
   const handleGenerateSong = async () => {
     setCreateLoading(true);
     try {
-      // // 앨범 커버 생성 후 URL 반환
+      // 최종 프롬프트 생성
+      await generateFinalPrompt();
+
+      // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
       if (cover) {
         // 생성된 cover 값을 인자로 전달하여 musicGenerate 함수 호출
@@ -431,6 +558,15 @@ const MelodyChatBot = ({
             type="text"
             value={melodyData?.melody_detail}
             placeholder="Enter"
+            readOnly
+          />
+        </div>
+        <div className="music__information__prompt">
+          <h3>Final Prompt</h3>
+          <input
+            type="text"
+            value={finalPrompt}
+            placeholder="Final prompt will be generated when you click Generate Song"
             readOnly
           />
         </div>

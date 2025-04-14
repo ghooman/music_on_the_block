@@ -4,6 +4,7 @@ import viewAllBackground from '../../assets/images/mypage/view-all-button.png';
 import Filter from '../unit/Filter';
 
 import ContentWrap from '../unit/ContentWrap';
+import AlbumTable from '../unit/AlbumsTable';
 import FilterItems from '../unit/FilterItems';
 
 const Reward = () => {
@@ -11,6 +12,7 @@ const Reward = () => {
         <div className="mypage__reward-payment">
             <ContentWrap title="Reward Type">
                 <Filter list={['All', 'Latest']} />
+                <AlbumTable />
             </ContentWrap>
         </div>
         // <div className="mypage__reward-payment">

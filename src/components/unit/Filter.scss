@@ -2,6 +2,12 @@
     display: flex;
     gap: 16px;
 
+    .albums__filter-modal {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
     .albums__filter__btn {
         display: flex;
         padding: 8px;
@@ -29,6 +35,69 @@
             right: 2px;
             border-radius: 100%;
             background-color: #cf0;
+        }
+    }
+
+    .albums__filter-buttons {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        .albums__filter-buttons--button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            padding: 14px 20px;
+            gap: 8px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            font-style: normal;
+
+            &.reset {
+                width: 100px;
+                border: 1px solid var(--Color-04, #383838);
+            }
+            &.view {
+                flex: 1;
+                color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
+                background: #cf0;
+            }
+        }
+    }
+
+    .albums__filter-item-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .albums__filter-item-wrap--title {
+            color: #f1f1f1;
+            font-family: Orbitron400;
+            font-size: 14px;
+            padding-bottom: 12px;
+            text-transform: capitalize;
+            border-bottom: 1px solid #222;
+        }
+
+        .albums__filter-item-wrap--contents {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 8px;
+        }
+        .albums__filter-item-wrap--contents__item {
+            padding: 6px 14px;
+            border-radius: 20px;
+            background-color: #222;
+            border: 1px solid #383838;
+            color: #a3a3a3;
+            font-size: 14px;
+
+            &.select {
+                background-color: #cf0;
+                color: #222;
+            }
         }
     }
 }

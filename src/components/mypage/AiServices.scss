@@ -43,6 +43,16 @@
             transform: translateY(3px);
         }
     }
+    .ai__service-btn--image {
+        padding: 4px;
+        background-color: #222;
+        border-radius: 20px;
+        img {
+            width: 10px;
+            height: 10px;
+        }
+    }
+
     .active {
         color: var(--Text-dark-title, #1a1a1a);
         background: var(--primary-100, #cf0);

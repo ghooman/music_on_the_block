@@ -107,45 +107,45 @@ const AccountSettings = () => {
         };
 
         // 닉네임 수정 시 검사 (변경된 경우에만)
-        if (userName !== userData?.name) {
-            const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
-            if (!nameRegex.test(userName)) {
-                newErrors.userName.push('Invalid username format. Must be 1-10 characters with no special characters.');
-                valid = false;
-            } else {
-                try {
-                    const res = await checkArtistName(userName, token);
-                    // API 응답에서 true는 사용 가능(생성 가능한 경우)를 의미합니다.
-                    if (!res.data) {
-                        newErrors.userName.push('This username is already taken. Please try another.');
-                        valid = false;
-                    }
-                } catch (error) {
-                    newErrors.userName.push('Error checking username.');
-                    valid = false;
-                }
-            }
-        }
+        // if (userName !== userData?.name) {
+        //     const nameRegex = /^[a-zA-Z0-9가-힣\s]{1,10}$/;
+        //     if (!nameRegex.test(userName)) {
+        //         newErrors.userName.push('Invalid username format. Must be 1-10 characters with no special characters.');
+        //         valid = false;
+        //     } else {
+        //         try {
+        //             const res = await checkArtistName(userName, token);
+        //             // API 응답에서 true는 사용 가능(생성 가능한 경우)를 의미합니다.
+        //             if (!res.data) {
+        //                 newErrors.userName.push('This username is already taken. Please try another.');
+        //                 valid = false;
+        //             }
+        //         } catch (error) {
+        //             newErrors.userName.push('Error checking username.');
+        //             valid = false;
+        //         }
+        //     }
+        // }
 
         // 이메일 수정 시 검사 (변경된 경우에만)
-        if (email !== userData?.email) {
-            const emailRegex = /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/;
-            if (!emailRegex.test(email)) {
-                newErrors.email.push('Invalid email format.');
-                valid = false;
-            } else {
-                try {
-                    const res = await checkEmail(email, token);
-                    if (!res.data) {
-                        newErrors.email.push('This email is already registered. Please try another.');
-                        valid = false;
-                    }
-                } catch (error) {
-                    newErrors.email.push('Error checking email.');
-                    valid = false;
-                }
-            }
-        }
+        // if (email !== userData?.email) {
+        //     const emailRegex = /^[A-Za-z0-9_.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/;
+        //     if (!emailRegex.test(email)) {
+        //         newErrors.email.push('Invalid email format.');
+        //         valid = false;
+        //     } else {
+        //         try {
+        //             const res = await checkEmail(email, token);
+        //             if (!res.data) {
+        //                 newErrors.email.push('This email is already registered. Please try another.');
+        //                 valid = false;
+        //             }
+        //         } catch (error) {
+        //             newErrors.email.push('Error checking email.');
+        //             valid = false;
+        //         }
+        //     }
+        // }
 
         setErrorMessages(newErrors);
         if (!valid) return;

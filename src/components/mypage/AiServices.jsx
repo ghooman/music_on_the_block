@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './AiServices.scss';
-import demoChart from '../../assets/images/mypage/demo-chart.png';
-import demoChart2 from '../../assets/images/mypage/demo-chart2.png';
-import demoChart3 from '../../assets/images/mypage/demo-chart3.png';
+
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
@@ -13,85 +11,81 @@ import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
 import { LineChart, PieChart } from '../unit/Chart';
 
-const AiServiceTypeList = ['All', 'Lyrics + Songwriting', 'Songwriting'];
-
-const chartData = [
-    {
-        id: 'AI Lyrics & Songwriting',
-        image: LyricsAndSongwritingIcon,
-        value: 100,
-        color: 'hsl(252, 100%, 50%)',
-    },
-    {
-        id: 'AI Singing Evaluation',
-        image: SongwritingIcon,
-        value: 0,
-        color: 'hsl(162, 100%, 50%)',
-        preparing: true,
-    },
-    {
-        id: 'AI Cover Creation',
-        image: LyricsIcon,
-        value: 0,
-        color: 'hsl(342, 100%, 50%)',
-        preparing: true,
-    },
+const AiServiceTypeList = [
+    { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon },
+    { name: 'AI Singing Evaluation', image: SongwritingIcon, preparing: true },
+    { name: 'AI Cover Creation', image: LyricsIcon, preparing: true },
 ];
-
-const statusData = [
-    {
-        id: 'Songwriting',
-        name: 'Songwriting',
-        image: LyricsAndSongwritingIcon,
-        value: 68,
-        color: 'hsl(101, 100.00%, 26.10%)',
-    },
-    {
-        id: 'Lyrics + Songwriting',
-        name: 'Lyrics + Songwriting',
-        image: SongwritingIcon,
-        value: 0,
-        color: 'hsl(139, 100.00%, 11.00%)',
-        preparing: true,
-    },
+const AiStatusList = [
+    { name: 'All' },
+    { name: 'Songwriting', image: LyricsAndSongwritingIcon },
+    { name: 'Lyrics + Songwriting', image: SongwritingIcon, preparing: true },
 ];
 
 const AiServices = () => {
-    const [aiServiceStatus, setAiServiceStatus] = useState('All');
     const [openModal, setOpenModal] = useState(false);
     const [showPreparingModal, setShowPreparingModal] = useState(false);
 
-    const [selectedItem, setSelectedItem] = useState(chartData[0]);
-    const [statusChartItem, setStatusChartItem] = useState(statusData[0]);
+    const [selectedServiceChartItem, setSelectedSErviceChartItem] = useState(AiServiceTypeList[0].name);
+    const [selectedStatusChartItem, setSelectedStatusItem] = useState(AiStatusList[0]?.name);
 
-    const handleAiServiceClick = (aiService) => {
-        // if (aiService === 'AI Singing Evaluation' || aiService === 'AI Cover Creation') {
-        //     setShowPreparingModal(true);
-        //     return;
-        // }
-        // setSelectedAiService(aiService);
-    };
+    const [aiServiceData, setAiServiceData] = useState([
+        {
+            id: 'AI Lyrics & Songwriting',
+            value: 100,
+            color: 'hsl(252, 100%, 50%)',
+            image: LyricsAndSongwritingIcon,
+        },
+        {
+            id: 'AI Singing Evaluation',
+            value: 0,
+            color: 'hsl(162, 100%, 50%)',
+            preparing: true,
+            image: SongwritingIcon,
+        },
+        {
+            id: 'AI Cover Creation',
+            value: 0,
+            color: 'hsl(342, 100%, 50%)',
+            preparing: true,
+            image: LyricsIcon,
+        },
+    ]);
+
+    const [aiStatusData, setAiStatusData] = useState([
+        {
+            id: 'Songwriting',
+            value: 68,
+            color: 'hsl(101, 100.00%, 26.10%)',
+        },
+        {
+            id: 'Lyrics + Songwriting',
+            value: 0,
+            color: 'hsl(139, 100.00%, 11.00%)',
+            preparing: true,
+        },
+    ]);
 
     return (
         <>
             {/** 차트 조작 버튼입니다. */}
             <div className="ai__services">
-                {chartData.map((aiService) => (
+                {AiServiceTypeList.map((item) => (
                     <button
-                        key={aiService}
-                        className={`ai__service-btn ${selectedItem.id === aiService.id ? 'active' : ''}`}
+                        key={item.name}
+                        className={`ai__service-btn ${selectedServiceChartItem === item.name ? 'active' : ''}`}
                         onClick={() => {
-                            if (aiService?.preparing) {
+                            if (item?.preparing) {
                                 setShowPreparingModal(true);
                                 return;
                             }
-                            setSelectedItem(aiService);
+                            setSelectedSErviceChartItem(item.name);
                         }}
                     >
                         <div className="ai__service-btn--image">
-                            <img src={aiService.image} alt="icon" />
+                            <img src={item.image} alt="icon" />
                         </div>
-                        {aiService.id}
+                        {item.name}
                     </button>
                 ))}
             </div>
@@ -101,9 +95,8 @@ const AiServices = () => {
                 <PieChart
                     height={300}
                     width={300}
-                    data={chartData}
-                    selectedItem={selectedItem}
-                    setSelectedItem={setSelectedItem}
+                    data={aiServiceData}
+                    selectedItem={selectedServiceChartItem}
                     legends
                 />
             </div>
@@ -112,21 +105,15 @@ const AiServices = () => {
             <section className="ai__ai-status">
                 <p className="ai-status__title">AI Service Status</p>
                 <SubCategories
-                    categories={[{ name: 'All' }, ...statusData]}
-                    handler={setAiServiceStatus}
-                    value={aiServiceStatus}
+                    categories={AiStatusList}
+                    handler={setSelectedStatusItem}
+                    value={selectedStatusChartItem}
                 />
                 {/** 콘텐츠 */}
                 <div className="ai-status__info">
                     <div className="ai-status__chart">
                         {/* <img src={demoChart2} alt="chart" /> */}
-                        <PieChart
-                            height={300}
-                            width={300}
-                            data={statusData}
-                            selectedItem={statusData.find((item) => item.id === aiServiceStatus)}
-                            setSelectedItem={setStatusChartItem}
-                        />
+                        <PieChart height={300} width={300} data={aiStatusData} selectedItem={selectedStatusChartItem} />
                     </div>
                     <div className="ai-status__detail">
                         <p className="ai-status__detail-title">AI Service Detail</p>

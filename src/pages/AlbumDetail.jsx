@@ -30,7 +30,6 @@ import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
 import { WalletConnect } from "../components/WalletConnect";
-// import { WalletConnect } from "./WalletConnect";
 
 
 function AlbumDetail() {
@@ -101,23 +100,21 @@ function AlbumDetail() {
     const fetchAlbumDetail = async (showLoading = true) => {
         if (showLoading) setIsLoading(true);
 
-    try {
-      const response = await axios.get(
-        `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
-      );
-      setAlbum(response.data);
-      // 앨범 재생 시간 계산
-      const audio = new Audio(response?.data?.music_url);
-      audio.addEventListener("loadedmetadata", () => {
-        const duration = audio.duration;
-        setAlbumDuration(duration);
-      });
-      console.log("album", response.data);
-    } catch (error) {
-      console.error("앨범 상세 정보 가져오기 에러:", error);
-    }
-    if (showLoading) setIsLoading(false);
-  };
+        try {
+            const response = await axios.get(`${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`);
+            setAlbum(response.data);
+            // 앨범 재생 시간 계산
+            const audio = new Audio(response?.data?.music_url);
+            audio.addEventListener('loadedmetadata', () => {
+                const duration = audio.duration;
+                setAlbumDuration(duration);
+            });
+            console.log('album', response.data);
+        } catch (error) {
+            console.error('앨범 상세 정보 가져오기 에러:', error);
+        }
+        if (showLoading) setIsLoading(false);
+    };
 
     // 리더보드 데이터 가져오기
     const getLeaderboardData = async () => {
@@ -207,26 +204,26 @@ function AlbumDetail() {
         setIsActive((prev) => !prev);
     };
 
-  useEffect(() => {
-    listenTime.current = 0;
-    setIsPlaying(false);
-    fetchAlbumDetail();
-    getLeaderboardData();
-    getFavoriteGenre();
-    getSimilarVibes();
-    // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
-  }, [id, walletAddress, token, serverApi]);
+    useEffect(() => {
+        listenTime.current = 0;
+        setIsPlaying(false);
+        fetchAlbumDetail();
+        getLeaderboardData();
+        getFavoriteGenre();
+        getSimilarVibes();
+        // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
+    }, [id, walletAddress, token, serverApi]);
 
-  // 앨범 데이터가 로드되면 자동 재생
-  useEffect(() => {
-    if (album?.music_url) {
-      // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
-      const timer = setTimeout(() => {
-        setIsPlaying(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [album]);
+    // 앨범 데이터가 로드되면 자동 재생
+    useEffect(() => {
+        if (album?.music_url) {
+            // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
+            const timer = setTimeout(() => {
+                setIsPlaying(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [album]);
 
     useEffect(() => {
         let interval;
@@ -260,183 +257,210 @@ function AlbumDetail() {
               .filter(Boolean)
         : [];
 
-  return (
-    <>
-      {isLoading && <IntroLogo3 />}
-      <div className="song-detail">
-        <dl className="album-detail__title">
-          <dt>AI Lyrics & Songwriting</dt>
-          <dd>Lyrics+Songwriting</dd>
-        </dl>
-        <section className="album-detail__song-detail">
-          <p className="album-detail__song-detail__title">Song Detail</p>
-          <div className="album-detail__song-detail__bot">
-            <div className="album-detail__song-detail__left">
-              <section className="album-detail__audio">
-                <AudioPlayer
-                  src={album?.music_url || track1}
-                  onPlay={() => {
-                    setIsPlaying(true);
-                  }}
-                  onPause={() => {
-                    setIsPlaying(false);
-                  }}
-                  onEnded={() => {
-                    setIsPlaying(false);
-                  }}
-                  // onListen={handleListen}
-                  listenInterval={1000}
-                  autoPlay={true}
-                />
-                <p
-                  className={`album-detail__audio__cover ${
-                    isPlaying ? "playing" : "paused"
-                  }`}
-                >
-                  <img src={album?.cover_image || coverImg} alt="album cover" />
-                </p>
-              </section>
-              <div
-                className={`album-detail__song-detail__left__img ${
-                  isActive ? "active" : ""
-                }`}
-                onClick={handleClick}
-              >
-                {album ? (
-                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
-                ) : (
-                  <div style={{ backgroundColor: "black" }} />
-                )}
-                <div className="album-detail__song-detail__left__img__txt">
-                  <pre>
-                    {album?.lyrics
-                      // 1. "###"와 그 이후 공백을 제거
-                      ?.replace(/#\s*/g, "")
-                      ?.replace(/###\s*/g, "")
-                      // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
-                      ?.replace(/(\*\*.*?\*\*)/g, "")
-                      // 3. 대괄호([]) 안 텍스트 제거
-                      ?.replace(/\[([^\]]+)\]/g, "")
-                      // 4. 소괄호 안 텍스트 처리:
-                      //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
-                      //    - 그 외의 경우에는 내용 자체를 제거
-                      ?.replace(/\(([^)]+)\)/g, (match, p1) => {
-                        if (
-                          /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?$/i.test(
-                            p1.trim()
-                          )
-                        ) {
-                          return p1.trim();
-                        }
-                        return "";
-                      })
-                      // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
-                      ?.replace(
-                        /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?)/gi,
-                        "\n$1"
-                      )
-                      ?.trim()}
-                  </pre>
-                </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">
-                  Lyrics
-                </button>
-              </div>
-              <div className="album-detail__song-detail__left__info">
-                <div className="album-detail__song-detail__left__info__number">
-                  <p className="love" onClick={handleLike}>
-                    <img
-                      src={album?.is_like ? halfHeartIcon : loveIcon}
-                      alt="love Icon"
-                    />
-                    {album?.like || 0}
-                  </p>
-                  <p className="play">
-                    <img src={playIcon} alt="play Icon" />
-                    {album?.play_cnt || 0}
-                  </p>
-                  <p className="comment" onClick={handleScrollToComment}>
-                    <img src={commentIcon} alt="comment Icon" />
-                    {album?.comment_cnt || 0}
-                  </p>
-                </div>
-                <button
-                  className="album-detail__song-detail__left__info__share-btn"
-                  onClick={() => setShareModal(true)}
-                >
-                  <img src={shareIcon} alt="share Icon" />
-                </button>
-              </div>
-            </div>
-            <div className="album-detail__song-detail__right">
-              <p className="album-detail__song-detail__right__title">
-                {album?.title}
-              </p>
-              <div className="album-detail__song-detail__right__type">
-                {tagArray.map((type, index) => (
-                  <div
-                    key={index}
-                    className="album-detail__song-detail__right__type__item"
-                  >
-                    {type}
-                  </div>
-                ))}
-              </div>
-              <div className="album-detail__song-detail__right__info-box">
-                <dl>
-                  <dt>Detail</dt>
-                  <dd>{album?.detail || "-"}</dd>
+
+
+        const { setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+
+        const handleWalletConnect = (loggedIn, walletAddress) => {
+          setIsLoggedIn(loggedIn);
+          if (loggedIn && walletAddress) {
+            setWalletAddress(walletAddress);
+          }
+        };
+        
+    return (
+        <>
+            {isLoading && <IntroLogo3 />}
+            <div className="song-detail">
+                <dl className="album-detail__title">
+                    <dt>AI Lyrics & Songwriting</dt>
+                    <dd>Lyrics+Songwriting</dd>
                 </dl>
-                <dl>
-                  <dt>Language</dt>
-                  <dd>{album?.language || "-"}</dd>
-                </dl>
-                <dl>
-                  <dt>Genre</dt>
-                  <dd>{album?.genre || "-"}</dd>
-                </dl>
-                <dl>
-                  <dt>Stylistic</dt>
-                  <dd>{album?.Stylistic || "-"}</dd>
-                </dl>
-                <dl>
-                  <dt>Gender</dt>
-                  <dd>{album?.gender || "-"}</dd>
-                </dl>
-                <dl>
-                  <dt>Musical Instrument</dt>
-                  <dd>{album?.musical_instrument || "-"}</dd>
-                </dl>
-                <dl>
-                  <dt>Tempo</dt>
-                  <dd>{album?.tempo || "-"}</dd>
-                </dl>
-                <dl>
-                  <dt>Creation Date</dt>
-                  <dd>
-                    <span>{formatLocalTime(album?.create_dt)}</span>
-                  </dd>
-                </dl>
-                <dl>
-                  <dt>Song Length</dt>
-                  <dd>{formatTime(albumDuration) || "-"}</dd>
-                </dl>
-                <dl className="artist">
-                  <dt>Artist</dt>
-                  <dd>
-                    <p className="user">
-                      <img
-                        src={album?.user_profile || defaultCoverImg}
-                        alt="user profile"
-                      />
-                      {album?.name || "-"}
-                    </p>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </section>
+                <section className="album-detail__song-detail">
+                    <p className="album-detail__song-detail__title">Song Detail</p>
+                    <div className="album-detail__song-detail__bot">
+                        <div className="album-detail__song-detail__left">
+                            <section className="album-detail__audio">
+                                <AudioPlayer
+                                    src={album?.music_url || track1}
+                                    onPlay={() => {
+                                        setIsPlaying(true);
+                                    }}
+                                    onPause={() => {
+                                        setIsPlaying(false);
+                                    }}
+                                    onEnded={() => {
+                                        setIsPlaying(false);
+                                    }}
+                                    // onListen={handleListen}
+                                    listenInterval={1000}
+                                    autoPlay={true}
+                                />
+                                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
+                                    <img src={album?.cover_image || coverImg} alt="album cover" />
+                                </p>
+                            </section>
+                            <div
+                                className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
+                                onClick={handleClick}
+                            >
+                                {album ? (
+                                    <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
+                                ) : (
+                                    <div style={{ backgroundColor: 'black' }} />
+                                )}
+                                <div className="album-detail__song-detail__left__img__txt">
+                                    <pre>
+                                        {album?.lyrics
+                                            // 1. "###"와 그 이후 공백을 제거
+                                            ?.replace(/#\s*/g, '')
+                                            ?.replace(/###\s*/g, '')
+                                            // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                                            ?.replace(/(\*\*.*?\*\*)/g, '')
+                                            // 3. 대괄호([]) 안 텍스트 제거
+                                            ?.replace(/\[([^\]]+)\]/g, '')
+                                            // 4. 소괄호 안 텍스트 처리:
+                                            //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                                            //    - 그 외의 경우에는 내용 자체를 제거
+                                            ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                                                if (
+                                                    /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?$/i.test(
+                                                        p1.trim()
+                                                    )
+                                                ) {
+                                                    return p1.trim();
+                                                }
+                                                return '';
+                                            })
+                                            // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                                            ?.replace(
+                                                /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?)/gi,
+                                                '\n$1'
+                                            )
+                                            ?.trim()}
+                                    </pre>
+                                </div>
+                                <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
+                            </div>
+                            <div className="album-detail__song-detail__left__info">
+                                {/* <div className="album-detail__song-detail__left__info__number">
+                                    <p className="love" onClick={handleLike}>
+                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                        {album?.like || 0}
+                                    </p>
+                                    <p className="play">
+                                        <img src={playIcon} alt="play Icon" />
+                                        {album?.play_cnt || 0}
+                                    </p>
+                                    <p className="comment" onClick={handleScrollToComment}>
+                                        <img src={commentIcon} alt="comment Icon" />
+                                        {album?.comment_cnt || 0}
+                                    </p>
+                                </div> */}
+                                {!setIsLoggedIn && 
+                                    <div className="album-detail__song-detail__left__info__number">
+                                        <p className="love" onClick={handleLike}>
+                                            <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                            {album?.like || 0}
+                                        </p>
+                                        <p className="play">
+                                            <img src={playIcon} alt="play Icon" />
+                                            {album?.play_cnt || 0}
+                                        </p>
+                                        <p className="comment" onClick={handleScrollToComment}>
+                                            <img src={commentIcon} alt="comment Icon" />
+                                            {album?.comment_cnt || 0}
+                                        </p>
+                                    </div>
+                                }
+                                {setIsLoggedIn && 
+                                    <div className="album-detail__song-detail__left__info__number">
+                                        <p className="love">
+                                            <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                            {album?.like || 0}
+                                            {setIsLoggedIn && 
+                                                <WalletConnect onConnect={handleWalletConnect} />
+                                            }
+                                        </p>
+                                        <p className="play">
+                                            <img src={playIcon} alt="play Icon" />
+                                            {album?.play_cnt || 0}
+                                        </p>
+                                        <p className="comment" onClick={handleScrollToComment}>
+                                            <img src={commentIcon} alt="comment Icon" />
+                                            {album?.comment_cnt || 0}
+                                        </p>
+                                    </div>
+                                }
+                                <button
+                                    className="album-detail__song-detail__left__info__share-btn"
+                                    onClick={() => setShareModal(true)}
+                                >
+                                    <img src={shareIcon} alt="share Icon" />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="album-detail__song-detail__right">
+                            <p className="album-detail__song-detail__right__title">{album?.title}</p>
+                            <div className="album-detail__song-detail__right__type">
+                                {tagArray.map((type, index) => (
+                                    <div key={index} className="album-detail__song-detail__right__type__item">
+                                        {type}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="album-detail__song-detail__right__info-box">
+                                <dl>
+                                    <dt>Detail</dt>
+                                    <dd>{album?.detail || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Language</dt>
+                                    <dd>{album?.language || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Genre</dt>
+                                    <dd>{album?.genre || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Stylistic</dt>
+                                    <dd>{album?.Stylistic || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Gender</dt>
+                                    <dd>{album?.gender || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Musical Instrument</dt>
+                                    <dd>{album?.musical_instrument || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Tempo</dt>
+                                    <dd>{album?.tempo || '-'}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Creation Date</dt>
+                                    <dd>
+                                        <span>{formatLocalTime(album?.create_dt)}</span>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>Song Length</dt>
+                                    <dd>{formatTime(albumDuration) || '-'}</dd>
+                                </dl>
+                                <dl className="artist">
+                                    <dt>Artist</dt>
+                                    <dd>
+                                        <p className="user">
+                                            <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
+                                            {album?.name || '-'}
+                                        </p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <section className={`album-detail__rank-table ${isLoggedIn ? 'is-logged-in' : 'not-logged-in'}`}>
                     <div ref={commentRef}>

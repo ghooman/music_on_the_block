@@ -64,7 +64,7 @@ const AlbumsTable = ({
                         )}
                     </tbody>
                 </table>
-                {songList?.length === 0 && <NoneContent message={'No albums created'} height={300} />}
+                {songList?.length === 0 && <NoneContent message={'There are no songs created yet.'} height={300} />}
                 {/* {songList?.length > 0 && (
                     <Pagination totalCount={totalCount} viewCount={viewCount} page={page} setPage={setPage} />
                 )} */}

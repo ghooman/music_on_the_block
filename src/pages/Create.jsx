@@ -1,6 +1,5 @@
 // pages/Create.js
-import { useEffect, useState, useContext } from "react";
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import ExpandedButton from "../components/create/ExpandedButton";
@@ -9,9 +8,9 @@ import MelodyMaker from "../components/create/MelodyMaker";
 import LyricChatBot from "../components/create/chatbot/LyricChatBot";
 import MelodyChatBot from "../components/create/chatbot/MelodyChatBot";
 import DescriptionBanner from "../components/create/DescriptionBanner";
+import GetStarted from "../components/create/GetStarted";
 import AlbumCoverStudio from "../components/create/AlbumCoverStudio";
 import Finalize from "../components/create/Finalize";
-import GetStarted from "../components/create/GetStarted";
 import CreateCompleteModal from "../components/CreateCompleteModal";
 import SkipModal from "../components/SkipModal";
 import "../styles/Create.scss";

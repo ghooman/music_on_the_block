@@ -7,7 +7,6 @@ import OpenAI from "openai";
 import jsPDF from "jspdf";
 import ExpandedButton from "../ExpandedButton";
 import CreateLoading from "../../CreateLoading";
-import { RemainCountButton } from "../../unit/RemainCountButton";
 import { generateKoreanPdf } from "../../../utils/pdfGenerator";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
@@ -26,7 +25,6 @@ const LyricChatBot = ({
   setPageNumber,
 }) => {
   const { data: userData } = useUserDetail();
-  console.log("userData", userData);
   const generatedLyricsRef = useRef(null);
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "KOR" ? koLyric : enLyric;

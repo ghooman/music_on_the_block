@@ -10,13 +10,11 @@ import AlbumItem from '../components/unit/AlbumItem';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import IntroLogo3 from '../components/IntroLogo3';
-import IntroLogo from '../components/IntroLogo2';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const SongList = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _] = useSearchParams();
 
     const page = searchParams.get('page');
     const search = searchParams.get('search');

@@ -234,7 +234,7 @@ function Album() {
                     selectedId={selectedId}
                     handlePlay={handlePlay}
                     currentTime={currentTime}
-                    link="/song/list"
+                    link="/song/list?songs=Latest"
                     setPreparingModal={setPreparingModal}
                 />
                 <ListSlider
@@ -282,6 +282,7 @@ function Album() {
                         handlePlay={handlePlay}
                         currentTime={currentTime}
                         setPreparingModal={setPreparingModal}
+                        link="/song/list?songs=Latest"
                     />
                 </section>
                 {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}

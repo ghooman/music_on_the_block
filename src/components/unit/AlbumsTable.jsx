@@ -1,10 +1,8 @@
+import { Link } from 'react-router-dom';
+
 import './AlbumsTable.scss';
-import { useState, useEffect, useContext } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
-import { AuthContext } from '../../contexts/AuthContext';
+
 import halfHeartIcon from '../../assets/images/icon/half-heart.svg';
-import Pagination from './Pagination';
 import NoneContent from './NoneContent';
 
 /**
@@ -52,12 +50,12 @@ const AlbumsTable = ({
                                         </td>
                                         <td>
                                             <div className="td-content">
-                                                <button
+                                                <Link
                                                     className="albums-table__detail-btn"
-                                                    onClick={() => navigator(`/song-detail/${album.id}`)}
+                                                    to={`/song-detail/${album.id}`}
                                                 >
                                                     Detail
-                                                </button>
+                                                </Link>
                                             </div>
                                         </td>
                                     </tr>

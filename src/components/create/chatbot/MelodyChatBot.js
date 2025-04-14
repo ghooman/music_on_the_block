@@ -433,8 +433,9 @@ const MelodyChatBot = ({
       setCreateLoading(false);
     }
   };
-  // 생성 버튼 허용 여부 input 들이 값이 다 있을 경우 통과
-  const isGenerateButtonDisabled = "";
+  // 생성 버튼 허용 여부 Melody Title 값이 있을 경우 통과
+  const isGenerateButtonDisabled =
+    melodyData?.melody_title === "" || melodyData?.melody_title?.length === 0;
 
   const [isActive, setIsActive] = useState(false);
 
@@ -450,7 +451,6 @@ const MelodyChatBot = ({
       container.scrollTop = container.scrollHeight;
     }
   }, [chatHistory, loading]);
-
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
@@ -551,15 +551,6 @@ const MelodyChatBot = ({
             type="text"
             value={melodyData?.melody_detail}
             placeholder="Enter"
-            readOnly
-          />
-        </div>
-        <div className="music__information__prompt">
-          <h3>Final Prompt</h3>
-          <input
-            type="text"
-            value={finalPrompt}
-            placeholder="Final prompt will be generated when you click Generate Song"
             readOnly
           />
         </div>

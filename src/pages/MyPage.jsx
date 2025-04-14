@@ -8,6 +8,7 @@ import demoUser from '../assets/images/mypage/demo-user.png';
 import gearImg from '../assets/images/mypage/gear.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
+import defaultCoverImg from '../assets/images/header/logo.svg';
 import instarIcon from '../assets/images/social/instar.svg';
 import facebookIcon from '../assets/images/social/facebook.svg';
 import xIcon from '../assets/images/social/x.svg';
@@ -67,7 +68,7 @@ const MyPage = () => {
                 <div className="mypage__profile-info">
                     <div className="mypage__profile-edit-box">
                         <div className="mypage__profile-img">
-                            <img src={userData?.profile || demoUser} alt="profile-img" />
+                            <img src={userData?.profile || defaultCoverImg} alt="profile-img" />
                         </div>
                         <div className="mypage__profile-info-box">
                             <p className="mypage__username">{userData?.name}</p>

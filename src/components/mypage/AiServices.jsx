@@ -42,14 +42,14 @@ const statusData = [
     {
         id: 'Songwriting',
         name: 'Songwriting',
-        image: SongwritingIcon,
+        image: LyricsAndSongwritingIcon,
         value: 68,
         color: 'hsl(101, 100.00%, 26.10%)',
     },
     {
         id: 'Lyrics + Songwriting',
         name: 'Lyrics + Songwriting',
-        image: LyricsIcon,
+        image: SongwritingIcon,
         value: 0,
         color: 'hsl(139, 100.00%, 11.00%)',
         preparing: true,
@@ -161,7 +161,7 @@ const AiServices = () => {
             </section>
 
             <section className="ai__period">
-                <p className="period__title">AI Work Trends by Period</p>
+                <p className="period__title">AI Work Trends by Period (14-Day Fixed)</p>
                 <div className="period__menu"></div>
                 <div className="period__chart">
                     <LineChart />

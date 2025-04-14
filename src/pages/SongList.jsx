@@ -20,6 +20,7 @@ const SongList = () => {
 
     const page = searchParams.get('page');
     const search = searchParams.get('search');
+    const songs = searchParams.get('songs');
 
     const [songList, setSongList] = useState([]);
     const [totalCount, setTotalCount] = useState(null);
@@ -31,7 +32,8 @@ const SongList = () => {
                 const res = await axios.get(`${serverApi}/api/music/all/list`, {
                     params: {
                         page,
-                        search,
+                        search_keyword: search,
+                        sort_by: songs,
                     },
                 });
                 setSongList(res.data.data_list);
@@ -41,7 +43,7 @@ const SongList = () => {
             }
         };
         getSongList();
-    }, [page, search]);
+    }, [page, search, songs]);
 
     return (
         <div className="songs-list">

@@ -212,10 +212,12 @@
             line-height: 100%; /* 14px */
             letter-spacing: 0.42px;
             white-space: nowrap;
-        }
-        .active {
-            color: var(--Text-dark-title, #1a1a1a);
-            background: var(--primary-base, #cf0);
+            transition: 0.3s all;
+            &:hover,
+            &.active {
+                color: var(--Text-dark-title, #1a1a1a);
+                background: var(--primary-base, #cf0);
+            }
         }
     }
 }

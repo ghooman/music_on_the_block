@@ -41,19 +41,15 @@ const Filter = ({ period, types, songs }) => {
         setFilter(false);
     };
 
-    useEffect(() => {
-        if (!filter) setParamsObj({});
-    }, [filter]);
-
     return (
         <div className="albums__filter">
             <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
                 <span>Filter</span>
             </button>
-            {[period_, types_, songs_].map((item) => {
+            {[period_, types_, songs_].map((item, index) => {
                 if (!item) return null;
                 return (
-                    <button className="albums__filter__btn">
+                    <button className="albums__filter__btn" key={`filter-item-${index}`}>
                         <span>{item}</span>
                     </button>
                 );
@@ -86,10 +82,10 @@ const Filter = ({ period, types, songs }) => {
                                 filterItems={[
                                     'Latest',
                                     'Oldest',
-                                    'Most Likes',
-                                    'Least Likes',
-                                    'Most Plays',
-                                    'Least Plays',
+                                    'Most Liked',
+                                    'Least Liked',
+                                    'Most Played',
+                                    'Least Played',
                                 ]}
                             />
                         )}
@@ -99,7 +95,7 @@ const Filter = ({ period, types, songs }) => {
                                 Reset
                             </button>
                             <button className="albums__filter-buttons--button view" onClick={handleQueryParameter}>
-                                View {Object.keys(paramsObj).reduce((a, b) => a + 1, 0)} results
+                                View {Object.values(paramsObj).filter((item) => item).length} results
                                 <img src={pencelIcon} alt="icon" />
                             </button>
                         </div>

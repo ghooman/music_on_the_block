@@ -19,6 +19,8 @@
         width: 32px;
         height: 32px;
         border-radius: 8px;
+        transition: 0.3s all;
+        &:hover,
         &.enable {
             color: #1a1a1a;
             background: var(--primary-100, #cf0);

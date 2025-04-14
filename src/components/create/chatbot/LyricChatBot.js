@@ -1,6 +1,8 @@
 // components/create/chatbot/LyricChatBot.js
 import "./LyricChatBot.scss";
 import React, { useState, useRef, useEffect } from "react";
+
+import { useUserDetail } from "../../../hooks/useUserDetail";
 import OpenAI from "openai";
 import jsPDF from "jspdf";
 import ExpandedButton from "../ExpandedButton";
@@ -23,6 +25,8 @@ const LyricChatBot = ({
   setGeneratedLyric,
   setPageNumber,
 }) => {
+  const { data: userData } = useUserDetail();
+  console.log("userData", userData);
   const generatedLyricsRef = useRef(null);
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "KOR" ? koLyric : enLyric;
@@ -198,12 +202,11 @@ const LyricChatBot = ({
             {chatHistory.map((msg, index) => (
               <div key={index} className={`message ${msg.role}`}>
                 <div className="message__content">
-                  {/* <img src={mobProfilerImg}/> */}
                   <img
                     src={
                       msg.role === "assistant"
                         ? mobProfilerImg
-                        : defaultCoverImg
+                        : userData?.profile || defaultCoverImg
                     }
                     alt="profile"
                   />

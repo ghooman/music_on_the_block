@@ -6,6 +6,7 @@ import OpenAI from "openai";
 import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { useUserDetail } from "../../../hooks/useUserDetail";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
 // 언어별 리소스 파일 불러오기
@@ -29,6 +30,7 @@ const MelodyChatBot = ({
 }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
+  const { data: userData } = useUserDetail();
   const navigate = useNavigate();
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "ENG" ? enMelody : koMelody;
@@ -460,10 +462,11 @@ const MelodyChatBot = ({
           {chatHistory.map((msg, index) => (
             <div key={index} className={`message ${msg.role}`}>
               <div className="message__content">
-                {/* <img src={mobProfilerImg}/> */}
                 <img
                   src={
-                    msg.role === "assistant" ? mobProfilerImg : defaultCoverImg
+                    msg.role === "assistant"
+                      ? mobProfilerImg
+                      : userData?.profile || defaultCoverImg
                   }
                   alt="profile"
                 />

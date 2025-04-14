@@ -3,6 +3,7 @@ import "./MelodyMaker.scss";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import OpenAI from "openai";
 import SubBanner from "./SubBanner";
 import {
   SelectItem,
@@ -51,8 +52,8 @@ const genrePreset = {
 };
 
 const genderPreset = {
-  "Male": ["Male"],
-  "Female": ["Female"],
+  Male: ["Male"],
+  Female: ["Female"],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],
@@ -70,6 +71,12 @@ const instrumentPreset = {
   Harp: ["Harp"],
   Synthesizer: ["Synthesizer"],
 };
+
+// OpenAI 클라이언트 초기화
+const client = new OpenAI({
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY, // .env 파일 등에 저장된 API 키 사용
+  dangerouslyAllowBrowser: true,
+});
 
 // localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분)
 const albumIdStorageKey = "generatedAlbumId";
@@ -103,6 +110,29 @@ const StyledPromptPreview = ({ previewText, valueColor = "#cf0" }) => {
 };
 // ──────────────────────────
 
+// 앨범 커버 프롬프트 생성 함수
+const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
+  const { lyric_tag = [], lyric_genre = [], lyric_stylistic = [] } = lyricData;
+  return `
+      [가사 데이터]
+      태그: ${lyric_tag.join(", ")}
+      장르: ${lyric_genre.join(", ")}
+      스타일: ${lyric_stylistic.join(", ")}
+      
+      [노래 스토리]
+      ${lyricStory}
+      
+      [디자인 요청]
+      앨범 커버 디자인 : 
+      - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
+      - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
+      - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
+        ", "
+      )}"와 "${lyric_genre.join(", ")}"의 느낌을 표현할 것.
+      - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
+    `;
+};
+
 const MelodyMaker = ({
   lyricData,
   lyricStory,
@@ -125,6 +155,8 @@ const MelodyMaker = ({
   createPossibleCount,
   albumCover,
   setAlbumCover,
+  finalPrompt,
+  setFinalPrompt,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } =
     melodyData || {};
@@ -184,21 +216,96 @@ const MelodyMaker = ({
 
   // console.log("valuesOnly:", valuesOnly);
   // console.log("valuesOnly length:", valuesOnly.length);
+
+  // 앨범 커버 생성 함수
+  const generateAlbumCover = async () => {
+    const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
+    const response = await client.images.generate({
+      model: "dall-e-3",
+      prompt: refinedPrompt,
+      size: "1024x1024",
+      quality: "standard",
+      n: 1,
+    });
+    console.log("generateAlbumCover:", response.data);
+    return response.data[0].url;
+  };
+
+  // 최종 프롬프트 생성 함수
+  const generateFinalPrompt = async () => {
+    try {
+      // Genre를 대문자로 변환
+      const standardizedGenre = melody_genre?.[0]?.toUpperCase() || "";
+
+      const response = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`,
+          },
+          {
+            role: "user",
+            content: `Create a concise English prompt based on these music parameters:
+            - Title: ${title}
+            - Tags: ${melody_tag?.join(", ") || ""}
+            - Genre: ${standardizedGenre}
+            - Voice/Gender: ${melody_gender?.[0] || ""}
+            - Instruments: ${melody_instrument?.join(", ") || ""}
+            - Tempo: ${tempo} BPM
+            - Additional Details: ${melodyDetail || ""}`,
+          },
+        ],
+      });
+
+      let promptText = response.choices[0].message.content.trim();
+
+      if (promptText.length > 200) {
+        promptText = promptText.substring(0, 197) + "...";
+      }
+
+      console.log("Generated promptText:", promptText);
+      console.log("promptText length:", promptText.length);
+      setFinalPrompt(promptText);
+      return promptText;
+    } catch (error) {
+      console.error("Error generating final prompt:", error);
+      const standardizedGenre = melody_genre?.[0]?.toUpperCase() || "";
+      const basicPrompt = `A ${
+        melody_gender?.[0]?.toLowerCase() || ""
+      } ${standardizedGenre} song at ${tempo} BPM with ${
+        melody_instrument?.join(", ") || ""
+      }.`.substring(0, 200);
+      setFinalPrompt(basicPrompt);
+      return basicPrompt;
+    }
+  };
+
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
       setLoading(true);
 
+      // 최종 프롬프트 생성
+      const finalPrompt = await generateFinalPrompt();
+
+      // 앨범 커버 생성 (앨범 커버가 없는 경우만)
+      let coverImageUrl = albumCover;
+      if (!coverImageUrl) {
+        coverImageUrl = await generateAlbumCover();
+        setAlbumCover(coverImageUrl);
+      }
+
       // API에 전달할 payload 구성
       const formData = {
         album: {
           title: title,
-          detail: melodyDetail, // 기존 'story' 대신 'detail' 사용
+          detail: melodyDetail,
           language: selectedLanguage,
           genre: melody_genre?.[0] || "",
-          style: "", // 필요 시 구체적 값 할당
+          style: "",
           gender: melody_gender?.[0] || "",
-          musical_instrument: melody_instrument.join(", ") || "",
+          musical_instrument: melody_instrument?.join(", ") || "",
           ai_service: "",
           ai_service_type: "",
           tempo: parseFloat(tempo),
@@ -206,11 +313,12 @@ const MelodyMaker = ({
           lyrics: generatedLyric,
           mood: "",
           tags: melody_tag ? melody_tag.join(", ") : "",
-          cover_image: albumCover, // 'cover' → 'cover_image'로 변경
+          cover_image: coverImageUrl,
+          prompt: finalPrompt,
         },
         album_lyrics_info: {
           language: selectedLanguage,
-          feelings: "", // 현재 사용하지 않으므로 빈 문자열 처리
+          feelings: "",
           genre: lyricData?.lyric_genre?.[0] || "",
           style: lyricData?.lyric_stylistic?.[0] || "",
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
@@ -226,7 +334,7 @@ const MelodyMaker = ({
           headers: {
             Authorization: `Bearer ${token}`,
             "x-api-key": "f47d348dc08d492492a7a5d546d40f4a",
-            "Content-Type": "application/json", // 변경된 헤더
+            "Content-Type": "application/json",
           },
         }
       );

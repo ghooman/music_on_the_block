@@ -197,6 +197,9 @@
 
 
   // 오디오 라이브러리 ==============START===============
+  .rhap_container{
+    padding: 10px 3px 10px 0;
+  }
   .rhap_main {
     flex-direction: column-reverse;
     gap: 8px;
@@ -229,7 +232,7 @@
     opacity: 1;
     cursor: auto;
     position: absolute;
-    left: 0;
+    right: 32px;
     bottom: 8px;
     width: 216px;
   }
@@ -365,7 +368,7 @@
     }
     .rhap_volume-controls{
       width: 100px;
-      left: 22px;
+      right: 20px;
       bottom:16px;
     }
   }

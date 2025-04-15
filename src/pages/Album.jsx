@@ -17,6 +17,7 @@ import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import { getHitMusicList } from "../api/HitMusicList";
 import AlbumItem from "../components/unit/AlbumItem";
 import PlayerHeader from "../components/PlayerHeader";
+import IntroLogo2 from "../components/IntroLogo2";
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 

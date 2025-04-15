@@ -10,13 +10,9 @@ import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 
-// 생각중인 필터는 이렇습니다.
-// url만 조작함.
-// 사용하는 부모 컴포넌트에서 쿼리 파라미터로 필터링
-
 /**
  *
- * @param {boolean} parameter : 사용하는 필터들
+ * @param {boolean | string[] | {name, image}[]} props : 사용하는 필터들 (boolean 타입 작성 시 프리셋, 문자열로 이루어진 배열 타입 작성 시 작성한 필터)
  */
 
 /**
@@ -37,6 +33,9 @@ const Filter = ({ period, types, songs, connections }) => {
     const songs_ = searchParamas.get('songs');
     const connections_ = searchParamas.get('connections');
 
+    // queries 변수에 값을 넣어야 filter 아이템이 표시됩니다.
+    const queries = [period_, types_, songs_, connections_];
+
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
             const parameters = { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
@@ -50,7 +49,7 @@ const Filter = ({ period, types, songs, connections }) => {
             <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
                 <span>Filter</span>
             </button>
-            {[period_, types_, songs_, connections_].map((item, index) => {
+            {queries.map((item, index) => {
                 if (!item) return null;
                 return (
                     <button className="albums__filter__btn" key={`filter-item-${index}`}>
@@ -82,7 +81,12 @@ const Filter = ({ period, types, songs, connections }) => {
                                 title="types"
                                 filterName="types"
                                 filterItems={
-                                    typeof types === 'boolean' ? ['Lyrics + Songwriting', 'Songwriting'] : types
+                                    typeof types === 'boolean'
+                                        ? [
+                                              { name: 'Lyrics + Songwriting', icon: LyricsAndSongwritingIcon },
+                                              { name: 'Songwriting', icon: SongwritingIcon },
+                                          ]
+                                        : types
                                 }
                             />
                         )}
@@ -127,10 +131,10 @@ const Filter = ({ period, types, songs, connections }) => {
                             />
                         )}
                         <div className="albums__filter-buttons">
-                            <button className="albums__filter-buttons--button reset">
+                            {/* <button className="albums__filter-buttons--button reset">
                                 <img src={resetIcon} alt="icon" />
                                 Reset
-                            </button>
+                            </button> */}
                             <button className="albums__filter-buttons--button view" onClick={handleQueryParameter}>
                                 View {Object.values(paramsObj).filter((item) => item).length} results
                                 <img src={pencelIcon} alt="icon" />
@@ -166,20 +170,53 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
 
     return (
         <FilterItemWrap title={title}>
-            {filterItems.map((item) => (
-                <button
-                    className={`albums__filter-item-wrap--contents__item ${selectItem === item && 'select'}`}
-                    onClick={() =>
-                        setSelectItem((prev) => {
-                            if (prev === item) return null;
-                            else return item;
-                        })
-                    }
-                    key={`${filterName}-${item}`}
-                >
-                    {item}
-                </button>
-            ))}
+            {filterItems.map((item) => {
+                if (typeof item === 'object') {
+                    // 이미지 넣을 경우
+                    return (
+                        <FilterButton
+                            value={item.name}
+                            icon={item.icon}
+                            select={selectItem}
+                            handleClick={() =>
+                                setSelectItem((prev) => {
+                                    if (prev === item.name) return null;
+                                    else return item.name;
+                                })
+                            }
+                        ></FilterButton>
+                    );
+                } else {
+                    return (
+                        <FilterButton
+                            value={item}
+                            select={selectItem}
+                            handleClick={() =>
+                                setSelectItem((prev) => {
+                                    if (prev === item) return null;
+                                    else return item;
+                                })
+                            }
+                        ></FilterButton>
+                    );
+                }
+            })}
         </FilterItemWrap>
+    );
+};
+
+const FilterButton = ({ value, select, handleClick, icon }) => {
+    return (
+        <button
+            className={`albums__filter-item-wrap--contents__item ${value === select && 'select'}`}
+            onClick={handleClick}
+        >
+            {icon && (
+                <div className="icons">
+                    <img src={icon} alt="icon" />
+                </div>
+            )}
+            {value}
+        </button>
     );
 };

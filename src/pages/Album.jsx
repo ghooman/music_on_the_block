@@ -30,6 +30,7 @@ import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import { getHitMusicList } from '../api/HitMusicList';
 import IntroLogo2 from '../components/IntroLogo2';
 import AlbumItem from '../components/unit/AlbumItem';
+import PlayerHeader from '../components/PlayerHeader';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -176,15 +177,10 @@ function Album() {
         <>
             <div className="main">
                 {/* <div
-          className={`main__header 
-              ${selectedTrackIndex !== null ? "active" : ""} 
-              ${isScrolled ? "scrolled" : ""}`}
-        > */}
-                <div
                     className={`main__header 
-              ${selectedMusic !== null ? 'active' : ''} 
-              ${isScrolled ? 'scrolled' : ''} 
-              ${isPlaying ? 'playing' : 'no-playing'}`}
+                    ${selectedMusic !== null ? 'active' : ''} 
+                    ${isScrolled ? 'scrolled' : ''} 
+                    ${isPlaying ? 'playing' : 'no-playing'}`}
                 >
                     <div className="main__header__album-cover">
                         <p
@@ -229,7 +225,20 @@ function Album() {
                         setIsPlaying={setIsPlaying}
                         audioRef={audioRef}
                     />
-                </div>
+                </div> */}
+                <PlayerHeader
+                    selectedMusic={selectedMusic}
+                    isPlaying={isPlaying}
+                    isScrolled={isScrolled}
+                    handleTimeUpdate={handleTimeUpdate}
+                    handleLikeClick={handleLikeClick}
+                    handlePrev={handlePrev}
+                    handleNext={handleNext}
+                    getTracks={getTracks}
+                    handleGetMusicList={handleGetMusicList}
+                    setIsPlaying={setIsPlaying}
+                    audioRef={audioRef}
+                />
                 <List
                     title="total"
                     data={totalList}

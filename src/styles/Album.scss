@@ -193,6 +193,7 @@
           }
           .swiper-music-list__item__right {
             opacity: 1 !important;
+            display: block;
           }
         }
         &.swiper-slide-prev {
@@ -282,6 +283,7 @@
           gap: 8px;
           padding: 8px 0;
           opacity: 0;
+          display: none;
           transition: 0.3s;
           .swiper-music-list__item__right__title {
             color: var(--Text-music-title, #f1f1f1);

@@ -19,7 +19,6 @@ import Pagination from '../unit/Pagination';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
-import { getMyMusicList } from '../../api/getMyMusicList';
 import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnReleaseSongData';
 
 // 🎨 스타일

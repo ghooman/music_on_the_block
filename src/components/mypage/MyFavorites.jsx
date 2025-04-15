@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+// 라이브러리
+import { useState, useEffect, useContext } from 'react';
+import { useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
 
+// CSS
 import './MyFavorites.scss';
+
 // 이미지
-import viewAllBackground from '../../assets/images/mypage/view-all-button.png';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
@@ -12,10 +16,14 @@ import Filter from '../unit/Filter';
 import AlbumsTable from '../unit/AlbumsTable';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
-import FilterItems from '../unit/FilterItems';
 import Pagination from '../unit/Pagination';
-import { useSearchParams } from 'react-router-dom';
 import SubCategories from '../unit/SubCategories';
+
+// API 모듈
+import { getLikeList } from '../../api/getLikeAndUnLikeList';
+
+// Context
+import { AuthContext } from '../../contexts/AuthContext';
 
 const subCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -26,23 +34,30 @@ const subCategoryList = [
 const MyFavorites = () => {
     const [searchParams] = useSearchParams();
     const [selected, setSelected] = useState(subCategoryList[0].name);
+    const { token } = useContext(AuthContext);
 
     const search = searchParams.get('search');
     const page = searchParams.get('page');
     const generateType = searchParams.get('generate_type');
     const songsSort = searchParams.get('songs_sort');
 
-    useEffect(() => {}, [search, page, generateType, songsSort]);
+    const { data: favoritesSongsList } = useQuery(
+        ['favoritest_songs', { search, page, generateType, songsSort }],
+        async () => {
+            let res = await getLikeList({ token, page, search_keyword: search, sort_by: songsSort });
+            return res.data;
+        }
+    );
 
     return (
         <ContentWrap title="Favorites">
-            <SubCategories categories={subCategoryList} value={selected} />
+            <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
             <ContentWrap.SubWrap gap={8}>
-                <Filter generateType songsSort />
+                <Filter songsSort />
                 <Search />
             </ContentWrap.SubWrap>
-            <AlbumsTable></AlbumsTable>
-            <Pagination />
+            <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable>
+            <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={10} page={page} />
         </ContentWrap>
     );
 };

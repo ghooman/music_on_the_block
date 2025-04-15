@@ -22,6 +22,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
+import SongList from './pages/SongList';
 function Layout({ children }) {
     return (
         <div>
@@ -60,6 +61,14 @@ function App() {
                             element={
                                 <Layout>
                                     <Create />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/song/list"
+                            element={
+                                <Layout>
+                                    <SongList />
                                 </Layout>
                             }
                         />

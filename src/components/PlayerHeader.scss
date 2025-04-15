@@ -1,0 +1,375 @@
+
+
+
+
+
+
+
+
+
+
+.main__header {
+  .main__header__mobile-detail-btn {
+    display: none;
+  }
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: fixed;
+  top: 88px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  max-width: 960px;
+  width: 100%;
+  height: 156px;
+  z-index: 9;
+  border-radius: 16px;
+  border: 1px solid #222;
+  background: #1a1a1a;
+  padding: 16px 32px;
+  transition: 0.6s;
+  overflow: hidden;
+  &.active {
+    &.playing {
+      .main__header__album-cover__img {
+        animation-play-state: running; // 애니메이션을 실행 상태로 변경
+      }
+    }
+    &.no-playing {
+      .main__header__album-cover__img {
+        animation-play-state: paused !important;
+      }
+      .main__header__album-cover {
+        &::after {
+          animation-play-state: paused !important;
+        }
+      }
+    }
+    .main__header__album-cover__img {
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      background-size: cover;
+      animation: none;
+
+      animation-play-state: running;
+      animation: rotate-disc 3s 0.6s linear infinite;
+      @keyframes rotate-disc {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
+    .main__header__album-cover {
+      &::after {
+        animation: rotate-disc2 3s 0.6s linear infinite;
+        animation-play-state: running;
+        @keyframes rotate-disc2 {
+          from {
+            transform: translate(-50%, -50%) rotate(0deg);
+          }
+          to {
+            transform: translate(-50%, -50%) rotate(360deg);
+          }
+        }
+      }
+    }
+  } //active--END--
+  &.scrolled {
+    top: 16px;
+  } //scrolled--END--
+  .main__header__album-cover {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    .main__header__album-cover__img {
+      border-radius: 100%;
+      border: 1px solid #222;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 160%;
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    } //main__header__album-cover__img--END--
+    &::after {
+      content: "";
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url("../assets/images/album/album-bg.png") center no-repeat;
+      background-size: cover;
+      z-index: -2;
+    }
+    .main__header__title {
+      position: absolute;
+      top: 0;
+      left: 90px;
+      width: 240px;
+    } //main__header__title--END--
+  } //main__header__album-cover--END--
+  .main__header__cover-info {
+    position: absolute;
+    right: 32px;
+    top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 1;
+    .play{
+      img{
+        width: 14px;
+        height: 14px;
+      }
+
+    }
+    img {
+      width: 16px;
+      height: 16px;
+
+    }
+    .main__header__cover-info__love-play {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      p {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--Text-music-sub, #aaa);
+        font-family: Inter400;
+        font-size: 12px;
+        font-style: normal;
+        line-height: 100%; /* 12px */
+        &.name {
+          img {
+            width: 16px;
+            height: 16px;
+            border-radius: 100%;
+            overflow: hidden;
+          }
+        }
+      }
+    } //main__header__cover-info__love-play--END--
+    .main__header__cover-info__btn {
+      width: 100%;
+      height: 24px;
+      background: #cf0;
+      position: relative;
+      top: 0;
+      transition: 0.2s;
+      color: var(--Text-dark-title, #1a1a1a);
+      font-family: Orbitron600;
+      font-size: 12px;
+      font-style: normal;
+      line-height: normal;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: calc(100% - 2px);
+        transition: 0.2s;
+        border-radius: 8px;
+        height: 23px;
+        border: 1px solid #cf0;
+      }
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0;
+        }
+      }
+    } //main__header__cover-info--END--
+  } //main__header__cover-info--END--
+
+
+
+  // 오디오 라이브러리 ==============START===============
+  .rhap_main {
+    flex-direction: column-reverse;
+    gap: 8px;
+    .rhap_time {
+      color: #aaa !important;
+      width: 54px;
+    }
+    .rhap_download-progress {
+      background: transparent !important;
+    }
+  }
+  .rhap_container {
+    background: transparent;
+  } //.rhap_container--END--
+  .rhap_additional-controls {
+    .rhap_repeat-button {
+      opacity: 0;
+      cursor: auto;
+    }
+  }
+  .rhap_additional-controls{
+    display: none !important;
+  }
+  .rhap_button-clear{
+    &.rhap_volume-button{
+      margin-top: -12px;
+    }
+  }
+  .rhap_volume-controls {
+    opacity: 1;
+    cursor: auto;
+    position: absolute;
+    left: 0;
+    bottom: 8px;
+    width: 216px;
+  }
+  .rhap_progress-indicator {
+    width: 10px;
+    background: #cf0;
+  }
+  .rhap_volume-indicator {
+    width: 6px;
+    background: #cf0;
+  }
+  .rhap_main-controls {
+    margin-top: 0px;
+    width: 100%;
+    button {
+      font-family: math;
+    }
+  }
+  .rhap_progress-filled {
+    background: #cf0 !important;
+  } //.rhap_progress-filled--END--
+
+  .rhap_button-clear {
+    &.rhap_skip-button{
+      svg{
+        font-size: 38px;
+      }
+    }
+    &.rhap_play-pause-button{
+      position: relative;
+      top: 2px;
+      left: 2px;
+      margin: 0 32px;
+      width: 50px;
+      height: 50px;
+      svg {
+        font-size: 50px;
+        // transform: scale(1.8);
+      }
+    }
+  }
+  .rhap_main-controls-button {
+    &.rhap_rewind-button {
+      display: none !important;
+    }
+    &.rhap_forward-button {
+      display: none !important;
+    }
+  }
+  // 오디오 라이브러리 ==============END===============
+
+
+
+} //main__header--END--
+
+
+
+@media screen and (max-width: 980px) {
+
+    .main__header {
+      width: calc(100% - 32px);
+      top: 96px;
+      &.scrolled {
+        top: 96px;
+      }
+    }
+  }
+  
+
+
+
+
+  @media screen and (max-width: 768px) {
+
+
+
+  .main__header {
+    padding: 16px 16px 32px;
+    gap: 0;
+    height: auto;
+    .rhap_stacked .rhap_controls-section{
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+    .main__header__mobile-detail-btn {
+      // display: block !important;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 1;
+      width: 100%;
+
+    } //main__header__mobile-detail-btn--END--
+    .main__header__cover-info__btn {
+      // display: none !important;
+      width: 80px !important;
+      margin-left: auto;
+    } //main__header__cover-info__btn--END--
+    .main__header__album-cover {
+      position: static;
+      &::after {
+        display: none;
+      }
+      .main__header__album-cover__img {
+        display: none;
+      }
+      .main__header__title {
+        top: 16px;
+        left: 16px;
+        width: calc(100% - 32px);
+      }
+    }
+    .main__header__cover-info {
+      left: 16px;
+      right: auto;
+      top: 60px;
+      flex-direction: row;
+      align-items: center;
+      padding-right: 32px;
+      width: 100%;
+    }
+    .rhap_main .rhap_time {
+      width: 58px;
+    }
+    .rhap_main-controls {
+      margin-top: -16px;
+      button {
+        height: 30px;
+      }
+    }
+    .rhap_container {
+      margin-top: 60px;
+    }
+    .rhap_volume-controls{
+      width: 100px;
+      left: 22px;
+      bottom:16px;
+    }
+  }
+
+
+
+  }

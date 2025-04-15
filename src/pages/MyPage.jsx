@@ -5,10 +5,10 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import demoBg from '../assets/images/mypage/demo-bg.png';
 import demoUser from '../assets/images/mypage/demo-user.png';
-import demoFlag from '../assets/images/mypage/demo-flag.png';
 import gearImg from '../assets/images/mypage/gear.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
+import defaultCoverImg from '../assets/images/header/logo.svg';
 import instarIcon from '../assets/images/social/instar.svg';
 import facebookIcon from '../assets/images/social/facebook.svg';
 import xIcon from '../assets/images/social/x.svg';
@@ -19,18 +19,19 @@ import AiServices from '../components/mypage/AiServices';
 import Albums from '../components/mypage/Albums';
 import MyFavorites from '../components/mypage/MyFavorites';
 import Reward from '../components/mypage/Reward';
-import { PieChart } from '../components/unit/Chart';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import PreparingModal from '../components/PreparingModal';
 import Connections from '../components/mypage/Connections';
 
-const serviceTab = ['AI Services', 'Reward & Payments'];
-const musicTab = [
-    'Songs',
-    'Connections',
-    'Favorites',
-    // 'Albums'
+const serviceTabObj = [
+    { name: 'AI Services', preparing: false },
+    { name: 'Reward & Payments', preparing: true },
+];
+const musicTabObj = [
+    { name: 'Songs', preparing: false },
+    { name: 'Connections', preparing: false },
+    { name: 'Favorites', preparing: false },
 ];
 
 const MyPage = () => {
@@ -41,7 +42,8 @@ const MyPage = () => {
     const [isPreparingModal, setPreparingModal] = useState(false);
 
     const category = searchParams.get('category');
-    const tabs = path === 'music' ? musicTab : serviceTab;
+    const tabs = path === 'music' ? musicTabObj : serviceTabObj;
+
     const handleServiceClick = (service) => {
         // if (serviceTab?.includes(service)) {
         setSearchParams({ category: service });
@@ -51,8 +53,8 @@ const MyPage = () => {
     };
 
     useEffect(() => {
-        if (!category || category !== tabs[0]) {
-            setSearchParams({ category: tabs[0] }, { replace: true });
+        if (!category || category !== tabs[0].name) {
+            setSearchParams({ category: tabs[0].name }, { replace: true });
         }
     }, []);
 
@@ -66,7 +68,7 @@ const MyPage = () => {
                 <div className="mypage__profile-info">
                     <div className="mypage__profile-edit-box">
                         <div className="mypage__profile-img">
-                            <img src={userData?.profile || demoUser} alt="profile-img" />
+                            <img src={userData?.profile || defaultCoverImg} alt="profile-img" />
                         </div>
                         <div className="mypage__profile-info-box">
                             <p className="mypage__username">{userData?.name}</p>
@@ -76,15 +78,15 @@ const MyPage = () => {
                                     {/* <span className="neon">Kor</span> */}
                                     <div>
                                         <span>Level</span>
-                                        <span className="neon">10</span>
+                                        <span className="neon">{userData?.level}</span>
                                     </div>
                                     <div>
                                         <span>Songs</span>
-                                        <span className="neon">624</span>
+                                        <span className="neon">{userData?.total_songs}</span>
                                     </div>
                                     <div>
                                         <span>Followers</span>
-                                        <span className="neon">1,235</span>
+                                        <span className="neon">{userData?.followers}</span>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +115,7 @@ const MyPage = () => {
                     </div> */}
                     <div className="mypage__exp">
                         <div className="mypage__exp-box">
-                            <span className="exp-box__value">52,104</span>
+                            <span className="exp-box__value">45,345</span>
                             <div className="exp-box__coin">
                                 <img className="exp-box__coin--image" src={micIcon} alt="mic" />
                                 <span className="exp-box__coin--text">MIC</span>
@@ -133,11 +135,17 @@ const MyPage = () => {
             <nav className="mypage__nav">
                 {tabs.map((service) => (
                     <button
-                        key={service}
-                        className={`mypage__nav-item ${category === service ? 'active' : ''}`}
-                        onClick={() => handleServiceClick(service)}
+                        key={service.name}
+                        className={`mypage__nav-item ${category === service.name ? 'active' : ''}`}
+                        onClick={() => {
+                            if (service.preparing) {
+                                setPreparingModal(true);
+                                return;
+                            }
+                            handleServiceClick(service.name);
+                        }}
                     >
-                        {service}
+                        {service.name}
                     </button>
                 ))}
             </nav>

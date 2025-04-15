@@ -42,7 +42,7 @@ const Albums = ({ token }) => {
     const page = searchParams.get('page') || 1;
     const search = searchParams.get('search') || '';
     const songsSort = searchParams.get('songs_sort');
-    const releaseType = searchParams.get('release_type');
+    const releaseType = searchParams.get('release_type') || 'Unreleased songs';
 
     // 내 TOP 앨범 리스트 API 호출
     const { data: topSongsData } = useQuery(
@@ -68,15 +68,6 @@ const Albums = ({ token }) => {
         },
         { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
     );
-
-    useEffect(() => {
-        setSearchParams(
-            (prev) => {
-                return { ...Object.fromEntries(prev), release_type: 'Unreleased songs' };
-            },
-            { replace: true }
-        );
-    }, []);
 
     return (
         <div className="albums">

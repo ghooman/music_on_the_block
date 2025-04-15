@@ -36,17 +36,18 @@ const MyFavorites = () => {
     const [selected, setSelected] = useState(subCategoryList[0].name);
     const { token } = useContext(AuthContext);
 
-    const search = searchParams.get('search');
-    const page = searchParams.get('page');
+    const search = searchParams.get('search') || '';
+    const page = searchParams.get('page') || 1;
     const generateType = searchParams.get('generate_type');
-    const songsSort = searchParams.get('songs_sort');
+    const songsSort = searchParams.get('songs_sort') || 'Latest';
 
     const { data: favoritesSongsList } = useQuery(
-        ['favoritest_songs', { search, page, generateType, songsSort }],
+        ['favoritest_songs', { token, search, page, generateType, songsSort }],
         async () => {
             let res = await getLikeList({ token, page, search_keyword: search, sort_by: songsSort });
             return res.data;
-        }
+        },
+        { refetchOnWindowFocus: false, enabled: !!token }
     );
 
     return (

@@ -18,7 +18,7 @@ const SongList = () => {
 
     const page = searchParams.get('page');
     const search = searchParams.get('search');
-    const songs = searchParams.get('songs');
+    const songsSort = searchParams.get('songs_sort');
 
     const [songList, setSongList] = useState([]);
     const [totalCount, setTotalCount] = useState(null);
@@ -31,7 +31,7 @@ const SongList = () => {
                     params: {
                         page,
                         search_keyword: search,
-                        sort_by: songs,
+                        sort_by: songsSort,
                     },
                 });
                 setSongList(res.data.data_list);
@@ -41,13 +41,13 @@ const SongList = () => {
             }
         };
         getSongList();
-    }, [page, search, songs]);
+    }, [page, search, songsSort]);
 
     return (
         <div className="songs-list">
             <ContentWrap title="Song List">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter songs />
+                    <Filter songsSort />
                     <Search reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 {songList.length > 0 ? (

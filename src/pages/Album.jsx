@@ -169,9 +169,8 @@ function Album() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-
     const audioRef = useRef(null); // 오디오 제어용 ref
-    
+
     return (
         <>
             <div className="main">
@@ -238,7 +237,7 @@ function Album() {
                     selectedId={selectedId}
                     handlePlay={handlePlay}
                     currentTime={currentTime}
-                    link="/song/list?songs=Latest"
+                    link="/song/list?songs_sort=Latest"
                     setPreparingModal={setPreparingModal}
                     audioRef={audioRef}
                 />
@@ -287,7 +286,7 @@ function Album() {
                         handlePlay={handlePlay}
                         currentTime={currentTime}
                         setPreparingModal={setPreparingModal}
-                        link="/song/list?songs=Latest"
+                        link="/song/list?songs_sort=Latest"
                     />
                 </section>
                 {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
@@ -299,7 +298,18 @@ function Album() {
 
 export default Album;
 
-const List = ({ data, id, selectedMusic, selectedId, currentTime, handlePlay, title, setPreparingModal, link,audioRef }) => {
+const List = ({
+    data,
+    id,
+    selectedMusic,
+    selectedId,
+    currentTime,
+    handlePlay,
+    title,
+    setPreparingModal,
+    link,
+    audioRef,
+}) => {
     return (
         <section className="album__content-list">
             <p className="album__content-list__title">{title}</p>

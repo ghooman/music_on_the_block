@@ -3,28 +3,31 @@ import { ResponsiveLine } from '@nivo/line';
 
 import './Chart.scss';
 
-export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, legends }) => {
+// 차트는 다시 작성하겠습니다.
+
+export const PieChart = ({ height, width, data, selectedItem, legends }) => {
     const total = data ? data.reduce((a, b) => a + b.value, 0) : 0;
 
     const getColor = (datum) => {
         const hslString = datum?.data?.color;
         const hslRegex = /hsl\(\s*(\d+),\s*([\d.]+)%?,\s*([\d.]+)%?\s*\)/;
         const match = hslString.match(hslRegex);
-        const lightness = selectedItem?.id === datum?.id ? 50 : 10;
+        const lightness = selectedItem === datum?.id ? 50 : 10;
         if (!match) return hslString; // 유효하지 않으면 원본 반환
         const [_, h, s] = match;
+        if (selectedItem === 'All') {
+            return `hsl(${h}, 100%, ${50}%)`;
+        }
         return `hsl(${h}, 100%, ${lightness}%)`;
     };
+
+    const matchedData = data.find((item) => item.id === selectedItem);
 
     return (
         <div className="chart__pie" style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
             <ResponsivePie
                 sortByValue={true}
-                activeId={selectedItem?.id}
-                onClick={(e) => {
-                    // console.log(e)
-                    setSelectedItem(e.data);
-                }}
+                activeId={matchedData?.id}
                 tooltip={() => null}
                 data={data}
                 margin={{ top: 10, right: 10, bottom: 30, left: 10 }}
@@ -46,10 +49,13 @@ export const PieChart = ({ height, width, data, selectedItem, setSelectedItem, l
                 colors={(datum) => getColor(datum)}
             />
             <div className="chart__pie--text">
-                <p className="chart__pie--text-value" style={{ color: selectedItem?.color }}>
-                    {selectedItem?.value?.toLocaleString()}
+                <p className="chart__pie--text-value" style={{ color: matchedData?.color }}>
+                    {selectedItem === 'All' && total}
+                    {selectedItem !== 'All' && matchedData?.value}
                 </p>
-                <p className="chart__pie--text-per">{((total / selectedItem?.value) * 10)?.toFixed(2)}%</p>
+                <p className="chart__pie--text-per">
+                    {selectedItem !== 'All' ? ((matchedData?.value / total) * 100)?.toFixed(2) : 100}%
+                </p>
             </div>
             {legends && (
                 <div className="chart__pie--legends">
@@ -126,7 +132,7 @@ export const LineChart = ({ height = '500px', width = '100%' }) => {
                 axisTop={null}
                 axisRight={null}
                 enableGridX={false}
-                pointSize={0}
+                pointSize={10}
                 pointColor={{ theme: 'background' }}
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
@@ -134,6 +140,17 @@ export const LineChart = ({ height = '500px', width = '100%' }) => {
                 pointLabelYOffset={-12}
                 enableTouchCrosshair={true}
                 useMesh={true}
+                enableArea={true}
+                tooltip={() => null}
+                colors={() => '#00ffb3'}
+                theme={{
+                    grid: {
+                        line: {
+                            stroke: '#222',
+                            strokeWidth: 2,
+                        },
+                    },
+                }}
             />
         </div>
     );

@@ -16,6 +16,7 @@ const AlbumItem = ({
     isActive = false,
     currentTime,
     onClick,
+    audioRef,
     formatTime = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`,
 }) => {
     const [runningTime, setRunningTime] = useState();
@@ -30,16 +31,44 @@ const AlbumItem = ({
         });
     }, [track]);
 
+    const handleTogglePlay = (e) => {
+        e.stopPropagation();
+    
+        const player = audioRef?.current?.audio?.current;
+        if (!player) return;
+    
+        if (player.paused) {
+            player.play();
+        } else {
+            player.pause();
+        }
+    };
+
     if (!track) return;
 
+    
     return (
         <button className={`album__content-list__list__item ${isActive ? 'active' : ''}`} onClick={onClick}>
             <div className="album__content-list__list__item__left">
-                {/* {isActive && 
-                    <button className="album__content-list__list__item__left__play-btn">
-                        <img src={stopIcon} />
+                {isActive && 
+                    // <button className="album__content-list__list__item__left__play-btn">
+                    //     <img src={stopIcon} />
+                    // </button>
+
+                    <button
+                        className="album__content-list__list__item__left__play-btn"
+                        onClick={handleTogglePlay}
+                    >
+                        <img
+                            src={
+                            audioRef?.current?.audio?.current?.paused
+                                ? playIcon2
+                                : stopIcon
+                            }
+                            alt="toggle play"
+                        />
                     </button>
-                } */}
+                }
                 <p
                     className="album__content-list__list__item__left__img"
                     style={{

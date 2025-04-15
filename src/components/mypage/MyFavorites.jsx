@@ -10,30 +10,26 @@ import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
 import FilterItems from '../unit/FilterItems';
 import Pagination from '../unit/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const MyFavorites = () => {
+    const [searchParams] = useSearchParams();
+
+    const search = searchParams.get('search');
+    const page = searchParams.get('page');
+    const types = searchParams.get('types');
+    const songs = searchParams.get('songs');
+
+    useEffect(() => {}, [search, page, types, songs]);
+
     return (
-        // <div className="my-favorites">
-        //     <div className="my-favorites__header">
-        //         <h1 className="my-favorites__title">My Favorites</h1>
-        //         <button className="my-favorites__view-all">View All</button>
-        //     </div>
-        //     <input className="my-favorites__search" placeholder="Search by Artist name or song title..." />
-        //     <div className="my-favorites__filter">
-        //         <Filter list={['All', 'Lyrics', 'Latest']} />
-        //     </div>
-        //     <div className="my-favorites__table">
-        //         <AlbumsTable />
-        //     </div>
-        // </div>
         <ContentWrap title="Favorites">
             <ContentWrap.SubWrap gap={8}>
-                <Filter list={['All', 'Lyrics', 'Latest']} />
+                <Filter types songs />
                 <Search />
             </ContentWrap.SubWrap>
-            <AlbumsTable>
-                <Pagination />
-            </AlbumsTable>
+            <AlbumsTable></AlbumsTable>
+            <Pagination />
         </ContentWrap>
     );
 };

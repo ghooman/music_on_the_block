@@ -17,6 +17,7 @@
         border-radius: 12px;
         display: flex;
         gap: 8px;
+        transition: 0.3s all;
 
         .unit-component-sub-categories__category-item--icon {
             border-radius: 100%;
@@ -29,6 +30,7 @@
             }
         }
 
+        &:hover,
         &.select {
             background-color: #00ffb3;
             color: #1a1a1a;

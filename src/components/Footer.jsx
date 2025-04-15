@@ -128,7 +128,7 @@ const Footer = ({ setIsLoggedIn }) => {
               <img className="footer__top__left__logo" src={logo} />
               <ul className="footer__top__left__sns">
                 <li>
-                  <Link to="https://x.com/MUSICONTHE68603" target="_blank">
+                  <Link to="https://x.com/musicaiblock" target="_blank">
                     <img src={sns01} alt="트위터&엑스" />
                   </Link>
                 </li>

@@ -228,7 +228,7 @@ function Album() {
           audioRef={audioRef}
         />
         <List
-          title="total"
+          title="Total"
           data={totalList}
           id="total"
           selectedMusic={selectedMusic}
@@ -291,7 +291,7 @@ function Album() {
           <PreparingModal setPreparingModal={setPreparingModal} />
         )}
       </div>
-      <IntroLogo2 />
+      {/* <IntroLogo2 /> */}
     </>
   );
 }

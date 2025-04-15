@@ -12,7 +12,7 @@ import {
 // import LogoHansung from "../assets/images/";
 
 
-import mainLogo from "../assets/images/header/logo.svg";
+import mainLogo from "../assets/images/header/logo-png.png";
 
 
 

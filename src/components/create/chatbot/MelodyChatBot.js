@@ -385,8 +385,8 @@ const MelodyChatBot = ({
         album_lyrics_info: {
           language: selectedLanguage,
           feelings: "",
-          genre: lyricData?.lyric_genre?.[0] || "",
-          style: lyricData?.lyric_stylistic?.[0] || "",
+          genre: lyricData?.lyric_genre || "",
+          style: lyricData?.lyric_stylistic || "",
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
           my_story: lyricStory,
         },

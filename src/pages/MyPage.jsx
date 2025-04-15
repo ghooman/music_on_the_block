@@ -78,15 +78,15 @@ const MyPage = () => {
                                     {/* <span className="neon">Kor</span> */}
                                     <div>
                                         <span>Level</span>
-                                        <span className="neon">10</span>
+                                        <span className="neon">{userData?.level}</span>
                                     </div>
                                     <div>
                                         <span>Songs</span>
-                                        <span className="neon">624</span>
+                                        <span className="neon">{userData?.total_songs}</span>
                                     </div>
                                     <div>
                                         <span>Followers</span>
-                                        <span className="neon">1,235</span>
+                                        <span className="neon">{userData?.followers}</span>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@ const MyPage = () => {
                     </div> */}
                     <div className="mypage__exp">
                         <div className="mypage__exp-box">
-                            <span className="exp-box__value">52,104</span>
+                            <span className="exp-box__value">45,345</span>
                             <div className="exp-box__coin">
                                 <img className="exp-box__coin--image" src={micIcon} alt="mic" />
                                 <span className="exp-box__coin--text">MIC</span>

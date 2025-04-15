@@ -50,7 +50,7 @@ const Pagination = ({ totalCount = 1, viewCount = 1, handler, page = 1 }) => {
         }
     };
 
-    if (!totalCount || !viewCount) return <p>필수 데이터가 없습니다.</p>;
+    if (totalCount === 0 || !viewCount) return;
 
     return (
         <div className="unit-component-pagination">

@@ -47,7 +47,7 @@ const AIDetailedSettings = ({
       };
       reader.readAsDataURL(file);
     } else {
-      alert("file size exceeds 3MB.");
+      console.error("file size exceeds 3MB.");
     }
   };
 

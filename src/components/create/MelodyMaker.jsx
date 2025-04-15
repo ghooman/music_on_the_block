@@ -346,7 +346,7 @@ const MelodyMaker = ({
       navigate(`/main`);
     } catch (err) {
       alert("에러 발생");
-      console.log("handleSubmit error", err);
+      console.error("musicGenerate error", err);
     } finally {
       setLoading(false);
     }

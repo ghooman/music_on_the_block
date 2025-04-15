@@ -13,7 +13,8 @@ const enMelody = {
       "6. Guide the user in deciding the tempo (between 60 and 120 BPM).\n" +
       "7. Ask if there are any additional elements or a story they want to incorporate.\n" +
       "8. Finally, summarize all the choices with a message similar to:\n" +
-      "   [Sample Output] Final Prompt: 'Tags (user-selected tags), Song Title (user-defined title), Genre (selected genre), Voice (selected voice), Instruments (selected instruments), Tempo (selected tempo), Additional Elements/Story (user-specified details). Would you like to generate the song with these settings?'\n" +
+      "9.   [Sample Output] Final Prompt: 'Tags (user-selected tags), Song Title (user-defined title), Genre (selected genre), Voice (selected voice), Instruments (selected instruments), Tempo (selected tempo), Additional Elements/Story (user-specified details). Would you like to generate the song with these settings?'\n" +
+      "10. Now, click the generate button below to create the song!\n" +
       "The conversation should proceed step-by-step reflecting the user's selections. Please ensure that the final prompt strictly adheres to the above format.",
   },
   extraction: {

@@ -143,87 +143,95 @@ const MelodyChatBot = ({
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, "");
 
-      // [태그 추출]
-      if (locale.extraction.tagRegex.test(botMessage)) {
-        const tagMatch = botMessage.match(locale.extraction.tagRegex);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
-            .trim()
-            .split(",")
-            .map((tag) => tag.trim());
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_tag: extractedTags,
-          }));
-        }
-      }
+      // 10단계가 완료되었는지 확인하는 정규식
+      const isStep10Complete =
+        /Would you like to generate the song with these settings\?/i.test(
+          botMessage
+        ) || /이대로 곡을 생성하시겠습니까\?/i.test(botMessage);
 
-      // [곡의 타이틀 추출]
-      if (locale.extraction.titleRegex.test(botMessage)) {
-        const titleMatch = botMessage.match(locale.extraction.titleRegex);
-        if (titleMatch && titleMatch[1]) {
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_title: titleMatch[1].trim(),
-          }));
+      // 10단계가 완료된 경우에만 정보 추출
+      if (isStep10Complete) {
+        // [태그 추출]
+        if (locale.extraction.tagRegex.test(botMessage)) {
+          const tagMatch = botMessage.match(locale.extraction.tagRegex);
+          if (tagMatch && tagMatch[1]) {
+            const extractedTags = tagMatch[1]
+              .trim()
+              .split(",")
+              .map((tag) => tag.trim());
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_tag: extractedTags,
+            }));
+          }
         }
-      }
 
-      // [장르 추출]
-      if (locale.extraction.genreRegex.test(botMessage)) {
-        const genreMatch = botMessage.match(locale.extraction.genreRegex);
-        if (genreMatch && genreMatch[1]) {
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_genre: genreMatch[1].trim(),
-          }));
+        // [곡의 타이틀 추출]
+        if (locale.extraction.titleRegex.test(botMessage)) {
+          const titleMatch = botMessage.match(locale.extraction.titleRegex);
+          if (titleMatch && titleMatch[1]) {
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_title: titleMatch[1].trim(),
+            }));
+          }
         }
-      }
 
-      // [보이스 추출]
-      if (locale.extraction.voiceRegex.test(botMessage)) {
-        const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
-        if (voiceMatch && voiceMatch[1]) {
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_gender: voiceMatch[1].trim(),
-          }));
+        // [장르 추출]
+        if (locale.extraction.genreRegex.test(botMessage)) {
+          const genreMatch = botMessage.match(locale.extraction.genreRegex);
+          if (genreMatch && genreMatch[1]) {
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_genre: genreMatch[1].trim(),
+            }));
+          }
         }
-      }
 
-      // [악기 추출]
-      // 영어의 경우 'Instruments ('를 사용하도록 업데이트합니다.
-      if (locale.extraction.instrumentRegex.test(botMessage)) {
-        const instrumentMatch = botMessage.match(
-          locale.extraction.instrumentRegex
-        );
-        if (instrumentMatch && instrumentMatch[1]) {
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_instrument: instrumentMatch[1].trim(),
-          }));
+        // [보이스 추출]
+        if (locale.extraction.voiceRegex.test(botMessage)) {
+          const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
+          if (voiceMatch && voiceMatch[1]) {
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_gender: voiceMatch[1].trim(),
+            }));
+          }
         }
-      }
 
-      // [템포 추출]
-      if (locale.extraction.tempoRegex.test(botMessage)) {
-        const tempoMatch = botMessage.match(locale.extraction.tempoRegex);
-        if (tempoMatch && tempoMatch[1]) {
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_tempo: tempoMatch[1].trim(),
-          }));
+        // [악기 추출]
+        if (locale.extraction.instrumentRegex.test(botMessage)) {
+          const instrumentMatch = botMessage.match(
+            locale.extraction.instrumentRegex
+          );
+          if (instrumentMatch && instrumentMatch[1]) {
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_instrument: instrumentMatch[1].trim(),
+            }));
+          }
         }
-      }
 
-      // [추가 요소/스토리 추출]
-      if (locale.extraction.detailRegex.test(botMessage)) {
-        const detailMatch = botMessage.match(locale.extraction.detailRegex);
-        if (detailMatch && detailMatch[1]) {
-          setMelodyData((prevData) => ({
-            ...prevData,
-            melody_detail: detailMatch[1].trim(),
-          }));
+        // [템포 추출]
+        if (locale.extraction.tempoRegex.test(botMessage)) {
+          const tempoMatch = botMessage.match(locale.extraction.tempoRegex);
+          if (tempoMatch && tempoMatch[1]) {
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_tempo: tempoMatch[1].trim(),
+            }));
+          }
+        }
+
+        // [추가 요소/스토리 추출]
+        if (locale.extraction.detailRegex.test(botMessage)) {
+          const detailMatch = botMessage.match(locale.extraction.detailRegex);
+          if (detailMatch && detailMatch[1]) {
+            setMelodyData((prevData) => ({
+              ...prevData,
+              melody_detail: detailMatch[1].trim(),
+            }));
+          }
         }
       }
 

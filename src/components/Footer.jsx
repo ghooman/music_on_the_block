@@ -132,7 +132,7 @@ const Footer = ({ setIsLoggedIn }) => {
                     <img src={sns01} alt="트위터&엑스" />
                   </Link>
                 </li>
-                <li>
+                <li>ㅊ
                   <Link to="https://discord.gg/7ptURuat" target="_blank">
                     <img src={sns02} />
                   </Link>

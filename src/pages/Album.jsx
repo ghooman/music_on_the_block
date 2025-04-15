@@ -395,11 +395,11 @@ const ListSlider = ({
                 pagination={{
                     clickable: true,
                 }}
-                autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                }}
+                // autoplay={{
+                //     delay: 3000,
+                //     disableOnInteraction: false,
+                //     pauseOnMouseEnter: true,
+                // }}
                 modules={[Pagination, Autoplay]}
                 className="swiper-music-list"
                 onSlideChange={(swiper) => handleSlideChange(swiper)}

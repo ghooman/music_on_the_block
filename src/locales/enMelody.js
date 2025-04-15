@@ -14,7 +14,7 @@ const enMelody = {
       "7. Ask if there are any additional elements or a story they want to incorporate.\n" +
       "8. Finally, summarize all the choices with a message similar to:\n" +
       "9.   [Sample Output] Final Prompt: 'Tags (user-selected tags), Song Title (user-defined title), Genre (selected genre), Voice (selected voice), Instruments (selected instruments), Tempo (selected tempo), Additional Elements/Story (user-specified details). Would you like to generate the song with these settings?'\n" +
-      "10. Now, click the generate button below to create the song!\n" +
+      "10. When the user asks to generate the song, respond with 'Generation completed! Please click the button below.'\n" +
       "The conversation should proceed step-by-step reflecting the user's selections. Please ensure that the final prompt strictly adheres to the above format.",
   },
   extraction: {

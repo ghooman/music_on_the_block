@@ -14,7 +14,7 @@ import axios from 'axios';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const SongList = () => {
-    const [searchParams, _] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const page = searchParams.get('page');
     const search = searchParams.get('search');
@@ -47,7 +47,7 @@ const SongList = () => {
         <div className="songs-list">
             <ContentWrap title="Song List">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter types songs />
+                    <Filter songs />
                     <Search reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 {songList.length > 0 ? (

@@ -82,19 +82,7 @@ const Menu = ({
         -4
       )}`
     : "No wallet";
-  // copy 버튼 클릭 시 전체 wallet address를 클립보드에 복사
-  // const copyAddress = () => {
-  //   if (userData?.wallet_address) {
-  //     navigator.clipboard
-  //       .writeText(userData.wallet_address)
-  //       .then(() => {
-  //         alert("Wallet address has been copied.");
-  //       })
-  //       .catch((err) => {
-  //         console.error("복사에 실패하였습니다: ", err);
-  //       });
-  //   }
-  // };
+
   const copyAddress = () => {
     const wallet = userData?.wallet_address;
 

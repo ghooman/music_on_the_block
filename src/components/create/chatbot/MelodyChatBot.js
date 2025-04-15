@@ -7,8 +7,11 @@ import CreateLoading from "../../CreateLoading";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { useUserDetail } from "../../../hooks/useUserDetail";
+import LyricsModal from "../../LyricsModal";
+import SubBanner from "../../create/SubBanner";
 import defaultCoverImg from "../../../assets/images/header/logo.svg";
 import mobProfilerImg from "../../../assets/images/mob-profile-img01.svg";
+import subBg1 from "../../../assets/images/create/subbanner-bg1.png";
 // 언어별 리소스 파일 불러오기
 import koMelody from "../../../locales/koMelody";
 import enMelody from "../../../locales/enMelody";
@@ -32,6 +35,7 @@ const MelodyChatBot = ({
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
   const navigate = useNavigate();
+  const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 선택된 언어에 따라 리소스 파일 선택
   const locale = selectedLanguage === "ENG" ? enMelody : koMelody;
   const {
@@ -404,7 +408,6 @@ const MelodyChatBot = ({
       console.log("handleSubmit success:", res);
       navigate(`/main`);
     } catch (err) {
-      alert("Error submitting data");
       console.error("handleSubmit error", err);
     } finally {
       // setLoading(false) in handleGenerateSong should handle this
@@ -424,11 +427,10 @@ const MelodyChatBot = ({
         // 생성된 cover와 prompt를 인자로 전달하여 musicGenerate 함수 호출
         await musicGenerate(cover, generatedPrompt);
       } else {
-        alert("앨범 커버 생성에 실패하였습니다.");
+        console.error("앨범 커버 생성에 실패하였습니다.");
       }
     } catch (error) {
       console.error("Error during song generation process:", error);
-      alert("노래 생성 중 오류가 발생하였습니다.");
     } finally {
       setCreateLoading(false);
     }
@@ -454,6 +456,18 @@ const MelodyChatBot = ({
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
+      <SubBanner>
+        <SubBanner.RightImages src={subBg1} />
+        <SubBanner.Title text="View Lyrics Lab Results" />
+        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab." />
+        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker." />
+        <SubBanner.Button
+          title="View Lyrics"
+          handler={() => {
+            setShowLyricsModal(true);
+          }}
+        ></SubBanner.Button>
+      </SubBanner>
       <section className="chatbot">
         <div className="chatbot__header">
           <h2>Melody Maker</h2>
@@ -566,6 +580,12 @@ const MelodyChatBot = ({
           Generate Song
         </button>
       </div>
+      {showLyricsModal && (
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+        />
+      )}
     </div>
   );
 };

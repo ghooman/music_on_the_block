@@ -131,10 +131,10 @@ const Filter = ({ period, types, songs, connections }) => {
                             />
                         )}
                         <div className="albums__filter-buttons">
-                            <button className="albums__filter-buttons--button reset">
+                            {/* <button className="albums__filter-buttons--button reset">
                                 <img src={resetIcon} alt="icon" />
                                 Reset
-                            </button>
+                            </button> */}
                             <button className="albums__filter-buttons--button view" onClick={handleQueryParameter}>
                                 View {Object.values(paramsObj).filter((item) => item).length} results
                                 <img src={pencelIcon} alt="icon" />

@@ -16,7 +16,7 @@ import coverImg9 from '../assets/images/demo/album06.svg';
 import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
-import defaultCoverImg from '../assets/images/header/logo.svg';
+import defaultCoverImg from '../assets/images/header/logo-png.png';
 import track1 from '../assets/music/song01.mp3';
 import track2 from '../assets/music/nisoft_song.mp3';
 import track3 from '../assets/music/MusicOnTheBlock_v1.mp3';

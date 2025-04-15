@@ -7,7 +7,7 @@ import halfHeartIcon from '../../assets/images/icon/half-heart.svg';
 import playIcon from '../../assets/images/album/play-icon.svg';
 import playIcon2 from '../../assets/images/play-icon2.svg';
 import stopIcon from '../../assets/images/stop-icon.svg';
-import defaultCoverImg from '../../assets/images/header/logo.svg';
+import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 import { useEffect, useState } from 'react';
 

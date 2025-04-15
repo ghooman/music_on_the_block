@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import demoBg from '../assets/images/mypage/demo-bg.png';
-import demoUser from '../assets/images/mypage/demo-user.png';
 import gearImg from '../assets/images/mypage/gear.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
@@ -45,11 +44,7 @@ const MyPage = () => {
     const tabs = path === 'music' ? musicTabObj : serviceTabObj;
 
     const handleServiceClick = (service) => {
-        // if (serviceTab?.includes(service)) {
         setSearchParams({ category: service });
-        // } else {
-        // setPreparingModal(true);
-        // }
     };
 
     useEffect(() => {
@@ -150,13 +145,13 @@ const MyPage = () => {
                 ))}
             </nav>
             {/** service */}
-            {category === 'AI Services' && <AiServices />}
-            {category === 'Reward & Payments' && <Reward />}
+            {path === 'service' && category === 'AI Services' && <AiServices />}
+            {path === 'service' && category === 'Reward & Payments' && <Reward />}
 
             {/** music */}
-            {category === 'Songs' && <Albums token={token} />}
-            {category === 'Connections' && <Connections />}
-            {category === 'Favorites' && <MyFavorites />}
+            {path === 'music' && category === 'Songs' && <Albums token={token} />}
+            {path === 'music' && category === 'Connections' && <Connections />}
+            {path === 'music' && category === 'Favorites' && <MyFavorites />}
             {/* {category === 'Albums' && <div></div>} */}
 
             {/** */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AiServices.scss';
 
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
@@ -10,61 +10,104 @@ import Filter from '../unit/Filter';
 import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
 import { LineChart, PieChart } from '../unit/Chart';
+import axios from 'axios';
+
+const serverApi = process.env.REACT_APP_SERVER_API;
 
 const AiServiceTypeList = [
-    { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon },
+    { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
     { name: 'AI Singing Evaluation', image: SongwritingIcon, preparing: true },
     { name: 'AI Cover Creation', image: LyricsIcon, preparing: true },
 ];
 const AiStatusList = [
     { name: 'All' },
-    { name: 'Songwriting', image: LyricsAndSongwritingIcon },
-    { name: 'Lyrics + Songwriting', image: SongwritingIcon, preparing: true },
+    { name: 'Lyrics + Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
+    { name: 'Songwriting', image: SongwritingIcon, preparing: true },
 ];
 
-const AiServices = () => {
+const AiServices = ({ username = 'sks' }) => {
     const [openModal, setOpenModal] = useState(false);
     const [showPreparingModal, setShowPreparingModal] = useState(false);
 
     const [selectedServiceChartItem, setSelectedSErviceChartItem] = useState(AiServiceTypeList[0].name);
     const [selectedStatusChartItem, setSelectedStatusItem] = useState(AiStatusList[0]?.name);
 
-    const [aiServiceData, setAiServiceData] = useState([
+    const [aiServiceData, setAiServiceData] = useState();
+    const aiServiceChartData = [
         {
             id: 'AI Lyrics & Songwriting',
-            value: 100,
+            value: aiServiceData?.song_writing,
             color: 'hsl(252, 100%, 50%)',
+            preparing: false,
             image: LyricsAndSongwritingIcon,
         },
         {
             id: 'AI Singing Evaluation',
-            value: 0,
+            value: aiServiceData?.singing_evaluation,
             color: 'hsl(162, 100%, 50%)',
             preparing: true,
             image: SongwritingIcon,
         },
         {
             id: 'AI Cover Creation',
-            value: 0,
+            value: aiServiceData?.cover_creation,
             color: 'hsl(342, 100%, 50%)',
             preparing: true,
             image: LyricsIcon,
         },
-    ]);
+    ];
 
-    const [aiStatusData, setAiStatusData] = useState([
-        {
-            id: 'Songwriting',
-            value: 68,
-            color: 'hsl(101, 100.00%, 26.10%)',
-        },
+    const [aiStatusData, setAiStatusData] = useState();
+    const aiStatusChartData = [
         {
             id: 'Lyrics + Songwriting',
+            value: aiStatusData?.total_creation,
+            color: 'hsl(101, 100.00%, 26.10%)',
+            preparing: false,
+        },
+        {
+            id: 'Songwriting',
             value: 0,
             color: 'hsl(139, 100.00%, 11.00%)',
             preparing: true,
         },
-    ]);
+    ];
+
+    const [dailyUsageData, setDailyUsageData] = useState([]);
+
+    useEffect(() => {
+        const getStatusData = async () => {
+            try {
+                const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
+                setAiServiceData(res.data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        const getAiServiceData = async () => {
+            try {
+                const res = await axios.get(`${serverApi}/api/user/ai/service/statistics?name=${username}`);
+                setAiStatusData(res.data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        const getDailyUsageData = async () => {
+            try {
+                const res = await axios.get(`${serverApi}/api/user/daily/ai/usage/statistics?name=${username}`);
+                const formatXY = res.data.map((item) => ({ x: item.record_date, y: item.cnt }));
+                setDailyUsageData(formatXY);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        getAiServiceData();
+        getStatusData();
+        getDailyUsageData();
+    }, [username]);
 
     return (
         <>
@@ -95,7 +138,7 @@ const AiServices = () => {
                 <PieChart
                     height={300}
                     width={300}
-                    data={aiServiceData}
+                    data={aiServiceChartData}
                     selectedItem={selectedServiceChartItem}
                     legends
                 />
@@ -113,34 +156,47 @@ const AiServices = () => {
                 <div className="ai-status__info">
                     <div className="ai-status__chart">
                         {/* <img src={demoChart2} alt="chart" /> */}
-                        <PieChart height={300} width={300} data={aiStatusData} selectedItem={selectedStatusChartItem} />
+                        <PieChart
+                            height={300}
+                            width={300}
+                            data={aiStatusChartData}
+                            selectedItem={selectedStatusChartItem}
+                        />
                     </div>
                     <div className="ai-status__detail">
                         <p className="ai-status__detail-title">AI Service Detail</p>
                         <div className="ai-status__detail-box">
                             <div className="ai-status__detail-item">
                                 <p className="detail-item__title">Top Type</p>
-                                <p className="detail-item__value">Love</p>
+                                <p className="detail-item__value">{aiStatusData?.top_type || '-'}</p>
                             </div>
                             <div className="ai-status__detail-item">
                                 <p className="detail-item__title">Total Creation</p>
-                                <p className="detail-item__value">239</p>
+                                <p className="detail-item__value">
+                                    {aiStatusData?.total_creation?.toLocaleString() || '-'}
+                                </p>
                             </div>
                             <div className="ai-status__detail-item">
                                 <p className="detail-item__title">Total Earn</p>
-                                <p className="detail-item__value">1,000 MIC</p>
+                                <p className="detail-item__value">
+                                    {aiStatusData?.total_earn?.toLocaleString() || '-'} MIC
+                                </p>
                             </div>
                             <div className="ai-status__detail-item">
                                 <p className="detail-item__title">Total Likes</p>
-                                <p className="detail-item__value">100</p>
+                                <p className="detail-item__value">
+                                    {aiStatusData?.total_likes?.toLocaleString() || '-'}
+                                </p>
                             </div>
                             <div className="ai-status__detail-item">
                                 <p className="detail-item__title">Total Plays</p>
-                                <p className="detail-item__value">24</p>
+                                <p className="detail-item__value">
+                                    {aiStatusData?.total_plays?.toLocaleString() || '-'}
+                                </p>
                             </div>
                             <div className="ai-status__detail-item">
                                 <p className="detail-item__title">Last Used Date</p>
-                                <p className="detail-item__value">Sat, 04 Nov 2023 14:40:00 UTC+0</p>
+                                <p className="detail-item__value">{aiStatusData?.last_used_date || '-'}</p>
                             </div>
                         </div>
                     </div>
@@ -151,7 +207,7 @@ const AiServices = () => {
                 <p className="period__title">AI Work Trends by Period (14-Day Fixed)</p>
                 <div className="period__menu"></div>
                 <div className="period__chart">
-                    <LineChart />
+                    <LineChart data={dailyUsageData} />
                 </div>
             </section>
             {openModal && <FilterDateModal setOpenModal={setOpenModal} />}

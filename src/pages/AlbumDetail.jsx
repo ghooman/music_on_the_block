@@ -375,7 +375,7 @@ function AlbumDetail() {
                                 }
                                 {setIsLoggedIn && 
                                     <div className="album-detail__song-detail__left__info__number">
-                                        <p className="love">
+                                        <p className="love" onClick={handleLike}>
                                             <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                                             {album?.like || 0}
                                             {setIsLoggedIn && 

@@ -6,7 +6,7 @@ import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
-import defaultCoverImg from '../assets/images/header/logo.svg';
+import defaultCoverImg from '../assets/images/header/logo-png.png';
 import './PlayerHeader.scss';
 
 

@@ -13,7 +13,7 @@ import {
 import Album from "../pages/Album";
 
 //이미지
-import logo from "../assets/images/full-logo.svg";
+import logo from "../assets/images/full-logo-png.png";
 import sns01 from "../assets/images/footer/sns-x.svg";
 import sns02 from "../assets/images/footer/sns-discode.svg";
 import sns03 from "../assets/images/footer/sns-you.svg";

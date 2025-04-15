@@ -166,7 +166,7 @@ const Menu = ({
                       <p className="menu__box__my-page__level__img">
                         <img src={levelIcon} alt="level icon" />
                       </p>
-                      <p className="number">10</p>
+                      <p className="number">1</p>
                       <p className="level">Level</p>
                     </div>
                     <div className="menu__box__my-page__info">
@@ -194,14 +194,14 @@ const Menu = ({
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>100</p>
+                          <p>0</p>
                           <span>
                             <img src={mobIcon} alt="mob icon" />
                             MOB
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>45,345</p>
+                          <p>0</p>
                           <span>
                             <img src={micIcon} alt="mic icon" />
                             MIC

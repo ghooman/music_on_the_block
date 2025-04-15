@@ -176,15 +176,15 @@ function Album() {
         <>
             <div className="main">
                 {/* <div
-          className={`main__header 
-              ${selectedTrackIndex !== null ? "active" : ""} 
-              ${isScrolled ? "scrolled" : ""}`}
-        > */}
+                    className={`main__header 
+                        ${selectedTrackIndex !== null ? "active" : ""} 
+                        ${isScrolled ? "scrolled" : ""}`}
+                    > */}
                 <div
                     className={`main__header 
-              ${selectedMusic !== null ? 'active' : ''} 
-              ${isScrolled ? 'scrolled' : ''} 
-              ${isPlaying ? 'playing' : 'no-playing'}`}
+                    ${selectedMusic !== null ? 'active' : ''} 
+                    ${isScrolled ? 'scrolled' : ''} 
+                    ${isPlaying ? 'playing' : 'no-playing'}`}
                 >
                     <div className="main__header__album-cover">
                         <p

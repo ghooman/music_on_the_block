@@ -15,7 +15,6 @@ import { Pagination, Autoplay } from "swiper/modules";
 import axios from "axios";
 import { likeAlbum, cancelLikeAlbum } from "../api/AlbumLike";
 import { getHitMusicList } from "../api/HitMusicList";
-import IntroLogo2 from "../components/IntroLogo2";
 import AlbumItem from "../components/unit/AlbumItem";
 import PlayerHeader from "../components/PlayerHeader";
 
@@ -39,11 +38,6 @@ function Album() {
   const [selectedList, setSelectedList] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-
-  // const handleTrackClick = (index) => {
-  //     setSelectedTrackIndex(index);
-  //     setCurrentTime(0);
-  // };
 
   const handleTimeUpdate = (time) => {
     setCurrentTime(time);
@@ -443,17 +437,23 @@ const ListSlider = ({
               </p>
               <div className="swiper-music-list__item__right__love-play">
                 <p className="love" onClick={() => handleLikeClick(track)}>
-                  <img src={track.is_like ? halfHeartIcon : loveIcon} />
+                  <img
+                    src={track.is_like ? halfHeartIcon : loveIcon}
+                    alt="LikeIcon"
+                  />
                   {track?.like || 0}
                 </p>
                 <p className="play">
-                  <img src={playIcon} />
+                  <img src={playIcon} alt="PlayIcon" />
                   {track?.play_cnt || 0}
                 </p>
               </div>
               <div className="swiper-music-list__item__right__user">
                 <p className="swiper-music-list__item__right__user__info">
-                  <img src={track?.user_profile || defaultCoverImg} />
+                  <img
+                    src={track?.user_profile || defaultCoverImg}
+                    alt="likeIcon"
+                  />
                   {track?.name || "unKnown"}
                 </p>
                 <Link

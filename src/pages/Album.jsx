@@ -291,7 +291,7 @@ function Album() {
           <PreparingModal setPreparingModal={setPreparingModal} />
         )}
       </div>
-      {/* <IntroLogo2 /> */}
+      <IntroLogo2 />
     </>
   );
 }

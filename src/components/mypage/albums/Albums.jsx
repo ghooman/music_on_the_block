@@ -1,15 +1,15 @@
-import { useSearchParams } from "react-router-dom";
-import ContentWrap from "../unit/ContentWrap";
-import Filter from "../unit/Filter";
-import Pagination from "../unit/Pagination";
-import Search from "../unit/Search";
-import SubBanner from "../../components/create/SubBanner";
-
-import subBannerImage4 from "../../assets/images/create/subbanner-bg4.png";
-import "./Albums.scss";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import ContentWrap from "../../unit/ContentWrap";
+import Filter from "../../unit/Filter";
+import Pagination from "../../unit/Pagination";
+import Search from "../../unit/Search";
+import SubBanner from "../../../components/create/SubBanner";
 import AlbumsItem from "./AlbumsItem";
-import DemoImg from "../../assets/images/demo/album01.svg";
+
+import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
+import "./Albums.scss";
+import DemoImg from "../../../assets/images/demo/album01.svg";
 
 const dummyAlbumDataList = [
   {
@@ -105,6 +105,9 @@ const Albums = () => {
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
   const search = searchParams.get("search");
+
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
 
   return (
     <div className="albums">

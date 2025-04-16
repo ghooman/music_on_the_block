@@ -1,4 +1,4 @@
-import MoreHoriz from "../../assets/images/icon/more-horiz.svg";
+import MoreHoriz from "../../../assets/images/icon/more-horiz.svg";
 
 import "./AlbumsItem.scss";
 const AlbumsItem = ({ album }) => {

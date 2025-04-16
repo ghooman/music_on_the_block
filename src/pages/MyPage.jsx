@@ -11,7 +11,7 @@ import defaultCoverImg from "../assets/images/header/logo.svg";
 
 import AiServices from "../components/mypage/AiServices";
 import Songs from "../components/mypage/Songs";
-import Albums from "../components/mypage/Albums";
+import Albums from "../components/mypage/albums/Albums";
 import MyFavorites from "../components/mypage/MyFavorites";
 import { WalletConnect } from "../components/WalletConnect";
 

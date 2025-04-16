@@ -300,7 +300,7 @@ const AccountSettings = () => {
                 onChange={(e) => setIntro(e.target.value)}
                 maxLength={150}
               />
-              <button className="user-info__edit-btn">Change</button>
+              {/* <button className="user-info__edit-btn">Change</button> */}
             </div>
             {errorMessages.intro.map((err, idx) => (
               <span key={idx} className="user-info__error">

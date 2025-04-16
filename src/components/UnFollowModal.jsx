@@ -19,7 +19,13 @@ const UnFollowModal = ({ setUnFollowModal, profileData, handleClick }) => {
                 <button onClick={() => setUnFollowModal(false)} className="unfollow-modal__button no">
                     NO
                 </button>
-                <button onClick={handleClick} className="unfollow-modal__button yes">
+                <button
+                    onClick={async () => {
+                        await handleClick();
+                        setUnFollowModal(false);
+                    }}
+                    className="unfollow-modal__button yes"
+                >
                     YES
                 </button>
             </div>

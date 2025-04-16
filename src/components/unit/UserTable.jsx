@@ -19,7 +19,9 @@ import './UserTable.scss';
  */
 
 const UserTable = ({ userList = [], unFollowOption, followOption, handleUnFollowing, handleFollowing, refetch }) => {
-    const [unFollowModal, setUnFollowModal] = useState(false);
+    const [unFollowId, setUnFollowId] = useState(false);
+
+    console.log(userList, unFollowId, '유저 리스트');
 
     const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ const UserTable = ({ userList = [], unFollowOption, followOption, handleUnFollow
                                     <button
                                         className="user-table__button unfollow"
                                         onClick={() => {
-                                            setUnFollowModal(true);
+                                            setUnFollowId(user.user_id);
                                         }}
                                     >
                                         Unfollow
@@ -88,8 +90,8 @@ const UserTable = ({ userList = [], unFollowOption, followOption, handleUnFollow
                 </tbody>
             </table>
             {userList?.length === 0 && <NoneContent message={'There are no connections yet'} height={300} />}
-            {unFollowModal && unFollowOption && (
-                <UnFollowModal setUnFollowModal={setUnFollowModal} handleClick={handleUnFollowing} />
+            {unFollowId && unFollowOption && (
+                <UnFollowModal setUnFollowModal={setUnFollowId} handleClick={() => handleUnFollowing(unFollowId)} />
             )}
         </div>
     );

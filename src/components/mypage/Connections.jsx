@@ -52,6 +52,7 @@ const Connections = () => {
         { refetchOnWindowFocus: false, enabled: !!token }
     );
 
+    // 핸들 팔로잉
     const handleFollowing = async (id) => {
         try {
             const res = await axios.post(`${serverApi}/api/user/${id}/follow`, null, {
@@ -65,9 +66,18 @@ const Connections = () => {
         }
     };
 
-    const handleUnfollowing = async () => {
+    // 핸들 언팔로잉
+    const handleUnfollowing = async (id) => {
         try {
-        } catch (e) {}
+            const res = await axios.post(`${serverApi}/api/user/${id}/follow/cancel`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            refetch();
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     return (
@@ -94,7 +104,7 @@ const Connections = () => {
                     followOption={connectionsType === 'Followers'}
                     unFollowOption={connectionsType === 'Following'}
                     handleFollowing={(id) => handleFollowing(id)}
-                    handleUnFollowing={() => handleUnfollowing()}
+                    handleUnFollowing={(id) => handleUnfollowing(id)}
                 />
                 <Pagination totalCount={connectionsData?.total_cnt} viewCount={10} page={page} />
             </ContentWrap>

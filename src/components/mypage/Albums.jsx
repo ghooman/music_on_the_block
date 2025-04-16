@@ -1,114 +1,34 @@
-// 📦 외부 라이브러리
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
-
-// 🖼️ 이미지/에셋
-import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
-import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
-
-// 🧩 유닛 컴포넌트
-import Filter from '../unit/Filter';
-import AlbumsTable from '../unit/AlbumsTable';
-import AlbumItem from '../unit/AlbumItem';
 import ContentWrap from '../unit/ContentWrap';
-import Search from '../unit/Search';
-import SubCategories from '../unit/SubCategories';
+import Filter from '../unit/Filter';
 import Pagination from '../unit/Pagination';
+import Search from '../unit/Search';
+import SubBanner from '../../components/create/SubBanner';
 
-// 🔌 API 모듈
-import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
-import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnReleaseSongData';
+import subBannerImage4 from '../../assets/images/create/subbanner-bg4.png';
 
-// 🎨 스타일
 import './Albums.scss';
 
-const topAlbumsCategoryList = [
-    { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
-    { name: 'AI Singing Evaluation', image: LyricsIcon, preparing: true },
-    { name: 'AI Cover Creation', image: SongwritingIcon, preparing: true },
-];
-
-const myAlbumsCategoryList = [
-    { name: 'Unreleased songs', preparing: false },
-    { name: 'Released songs', preparing: false },
-];
-
-const Albums = ({ token }) => {
+const Albums = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0].name);
 
-    const page = searchParams.get('page') || 1;
-    const search = searchParams.get('search') || '';
-    const songsSort = searchParams.get('songs_sort');
-    const releaseType = searchParams.get('release_type') || 'Unreleased songs';
-
-    // 내 TOP 앨범 리스트 API 호출
-    const { data: topSongsData } = useQuery(
-        ['top_songs'],
-        async () => {
-            const { data } = await GetMyTopAlbumList(token);
-            return data;
-        },
-        { refetchOnWindowFocus: false, enabled: !!token }
-    );
-
-    const { data: songsList } = useQuery(
-        ['songs_list', { token, page, songsSort, search, releaseType }],
-        async () => {
-            const { data } = await getReleaseAndUnReleaseSongData({
-                token,
-                page,
-                sort_by: songsSort,
-                search_keyword: search,
-                type: releaseType,
-            });
-            return data;
-        },
-        { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
-    );
+    const albumSort = searchParams.get('album_sort');
 
     return (
         <div className="albums">
-            <ContentWrap title="Top Songs">
-                <SubCategories
-                    categories={topAlbumsCategoryList}
-                    handler={setTopAlbumsCategory}
-                    value={topAlbumsCategory}
-                />
-                <div className="albums__body">
-                    <div className="albums__item">
-                        <p className="albums__item-title">Top Like</p>
-                        <AlbumItem track={topSongsData?.top_like} />
-                    </div>
-                    <div className="albums__item">
-                        <p className="albums__item-title">Top Plays</p>
-                        <AlbumItem track={topSongsData?.top_plays} />
-                    </div>
-                    <div className="albums__item">
-                        <p className="albums__item-title">Top Comments</p>
-                        <AlbumItem track={topSongsData?.top_comments} />
-                    </div>
-                </div>
-            </ContentWrap>
-            <ContentWrap title="Songs">
-                <SubCategories
-                    categories={myAlbumsCategoryList}
-                    handler={(value) => {
-                        setSearchParams((prev) => {
-                            const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
-                            return { ...rest, release_type: value, page: 1 };
-                        });
-                    }}
-                    value={releaseType}
-                />
+            <SubBanner>
+                <SubBanner.LeftImages src={subBannerImage4} />
+                <SubBanner.Title text="Create Your Own Album" />
+                <SubBanner.Message text="Gather your favorite tracks and organise them into a single. You can showcase your musical world!" />
+                <SubBanner.Button title="Create Album" />
+            </SubBanner>
+            <ContentWrap title="Albums List">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter songsSort />
-                    <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
+                    <Filter />
+                    <Search placeholder="Search by album name..." reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
-                <AlbumsTable songList={songsList?.data_list}></AlbumsTable>
-                <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
+                {/** */}
+                <Pagination />
             </ContentWrap>
         </div>
     );

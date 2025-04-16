@@ -15,6 +15,7 @@ import discordIcon from '../assets/images/social/discord.svg';
 import youtubeIcon from '../assets/images/social/youtube.svg';
 
 import AiServices from '../components/mypage/AiServices';
+import Songs from '../components/mypage/Songs';
 import Albums from '../components/mypage/Albums';
 import MyFavorites from '../components/mypage/MyFavorites';
 import Reward from '../components/mypage/Reward';
@@ -37,6 +38,7 @@ const musicTabObj = [
     { name: 'Songs', preparing: false },
     { name: 'Connections', preparing: false },
     { name: 'Favorites', preparing: false },
+    { name: 'Albums', preparing: false },
 ];
 
 /**
@@ -242,10 +244,10 @@ const Templates = ({ userData, token, isMyProfile, children }) => {
             {/* {category === 'Reward & Payments' && <Reward />} */}
 
             {/** music */}
-            {path === 'music' && category === 'Songs' && <Albums token={token} />}
+            {path === 'music' && category === 'Songs' && <Songs token={token} />}
             {path === 'music' && category === 'Connections' && <Connections />}
             {path === 'music' && category === 'Favorites' && <MyFavorites />}
-            {/* {category === 'Albums' && <div></div>} */}
+            {category === 'Albums' && <Albums />}
 
             {/** */}
             {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}

@@ -25,7 +25,7 @@ const AiStatusList = [
     { name: 'Songwriting', image: SongwritingIcon, preparing: true },
 ];
 
-const AiServices = ({ username = 'sks' }) => {
+const AiServices = ({ username }) => {
     const [openModal, setOpenModal] = useState(false);
     const [showPreparingModal, setShowPreparingModal] = useState(false);
 
@@ -76,6 +76,8 @@ const AiServices = ({ username = 'sks' }) => {
     const [dailyUsageData, setDailyUsageData] = useState([]);
 
     useEffect(() => {
+        if (!username) return;
+
         const getStatusData = async () => {
             try {
                 const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);

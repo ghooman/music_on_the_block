@@ -1,39 +1,27 @@
-import axios from 'axios';
 import ModalWrap from './ModalWrap';
 
-const serverApi = process.env.REACT_APP_SERVER_API;
+import './UnFollowModal.scss';
 
 /**
  *
  * @param {function} setUnFollowModal : 모달 조작 함수
  * @param {object} profileData : 프로필 데이터
- * @param {function} action : 언팔로우 후 실행할 함수
+ * @param {function} handleClick : 함수 정의
  * @returns
  */
-const UnFollowModal = ({ setUnFollowModal, profileData, action, token }) => {
-    console.log(profileData, '프로필 데이터');
-
-    const handleUnFollowing = async () => {
-        try {
-            const res = await axios.post(`${serverApi}/api/user/${profileData?.id}/follow/cancel`, null, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (action) {
-                action();
-                setUnFollowModal(false);
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
+const UnFollowModal = ({ setUnFollowModal, profileData, handleClick }) => {
     return (
-        <ModalWrap onClose={setUnFollowModal} title={`Do you want to Unfollow '${profileData?.name}'?`}>
+        <ModalWrap
+            onClose={setUnFollowModal}
+            title={`Do you want to Unfollow '${profileData?.name || profileData?.artist}'?`}
+        >
             <div className="unfollow-modal">
-                <button onClick={() => setUnFollowModal(false)}>NO</button>
-                <button onClick={handleUnFollowing}>YES</button>
+                <button onClick={() => setUnFollowModal(false)} className="unfollow-modal__button no">
+                    NO
+                </button>
+                <button onClick={handleClick} className="unfollow-modal__button yes">
+                    YES
+                </button>
             </div>
         </ModalWrap>
     );

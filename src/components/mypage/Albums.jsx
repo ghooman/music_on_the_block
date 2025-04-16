@@ -8,9 +8,11 @@ import SubBanner from '../../components/create/SubBanner';
 import subBannerImage4 from '../../assets/images/create/subbanner-bg4.png';
 
 import './Albums.scss';
+import { useState } from 'react';
 
 const Albums = () => {
     const [searchParams] = useSearchParams();
+    const [createAlbumModal, setCreateAlbumModal] = useState(false);
 
     const albumSort = searchParams.get('album_sort');
     const page = searchParams.get('page');

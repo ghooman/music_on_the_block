@@ -89,7 +89,11 @@ const UserProfile = () => {
         }
     };
 
-    const { data: profileData, refetch } = useQuery(
+    const {
+        data: profileData,
+        refetch,
+        isLoading,
+    } = useQuery(
         ['user_profile', username, walletAddress],
         async () => {
             const res = await axios.get(
@@ -111,10 +115,23 @@ const UserProfile = () => {
             });
             // 낙관적 업데이트
             queryClient.setQueryData(['user_profile', username, walletAddress], (prevData) => {
-                console.log(prevData, '이전 데이터입니다.');
                 return { ...prevData, is_follow: true };
             });
             // refetch();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    // 언팔로잉
+    const handleUnFollowing = async () => {
+        try {
+            const res = await axios.post(`${serverApi}/api/user/${profileData?.id}/follow/cancel`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            refetch();
         } catch (e) {
             console.error(e);
         }
@@ -125,7 +142,7 @@ const UserProfile = () => {
     return (
         <>
             <Templates userData={profileData}>
-                {isLoggedIn ? (
+                {isLoggedIn && !isLoading ? (
                     <>
                         {profileData?.is_follow && (
                             <Templates.UnFollowingButton handleUnFollowing={() => setUnFollowModal(true)} />
@@ -142,8 +159,7 @@ const UserProfile = () => {
                 <UnFollowModal
                     setUnFollowModal={setUnFollowModal}
                     profileData={profileData}
-                    action={() => refetch()}
-                    token={token}
+                    handleClick={handleUnFollowing}
                 />
             )}
         </>

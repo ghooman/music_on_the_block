@@ -19,7 +19,7 @@ import Pagination from '../unit/Pagination';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
-import { getMyMusicList } from '../../api/getMyMusicList';
+import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnReleaseSongData';
 
 // 🎨 스타일
 import './Albums.scss';
@@ -29,23 +29,22 @@ const topAlbumsCategoryList = [
     { name: 'AI Singing Evaluation', image: LyricsIcon, preparing: true },
     { name: 'AI Cover Creation', image: SongwritingIcon, preparing: true },
 ];
+
 const myAlbumsCategoryList = [
     { name: 'Unreleased songs', preparing: false },
     { name: 'Released songs', preparing: false },
 ];
 
 const Albums = ({ token }) => {
-    const [searchParams] = useSearchParams();
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0].name);
-    const [myAlbumsCategory, setMyAlbumsCategory] = useState(myAlbumsCategoryList[0].name);
 
     const page = searchParams.get('page') || 1;
     const search = searchParams.get('search') || '';
-    const songs = searchParams.get('songs');
+    const songsSort = searchParams.get('songs_sort');
+    const releaseType = searchParams.get('release_type') || 'Unreleased songs';
 
     // 내 TOP 앨범 리스트 API 호출
-
     const { data: topSongsData } = useQuery(
         ['top_songs'],
         async () => {
@@ -56,12 +55,18 @@ const Albums = ({ token }) => {
     );
 
     const { data: songsList } = useQuery(
-        ['songs_list', { page, search, songs }],
+        ['songs_list', { token, page, songsSort, search, releaseType }],
         async () => {
-            const { data } = await getMyMusicList({ token, page, search });
+            const { data } = await getReleaseAndUnReleaseSongData({
+                token,
+                page,
+                sort_by: songsSort,
+                search_keyword: search,
+                type: releaseType,
+            });
             return data;
         },
-        { refetchOnWindowFocus: false, enabled: !!token }
+        { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
     );
 
     return (
@@ -90,11 +95,16 @@ const Albums = ({ token }) => {
             <ContentWrap title="Songs">
                 <SubCategories
                     categories={myAlbumsCategoryList}
-                    handler={setMyAlbumsCategory}
-                    value={myAlbumsCategory}
+                    handler={(value) => {
+                        setSearchParams((prev) => {
+                            const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
+                            return { ...rest, release_type: value, page: 1 };
+                        });
+                    }}
+                    value={releaseType}
                 />
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter songs />
+                    <Filter songsSort />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 <AlbumsTable songList={songsList?.data_list}></AlbumsTable>

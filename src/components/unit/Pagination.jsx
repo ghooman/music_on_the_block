@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
  *
  * @param {number} totalCount : 데이터의 총 개수
  * @param {number} slice : 몇 개로 자를지
- * @param {function} handler : 페이지네이션 핸들러 함수
+ * @param {function} handler : 페이지네이션 핸들러 함수 (쿼리 파라미터 방식 사용하지 않을 경우)
  * @param {number | string} page : 현재 페이지 (state or query parameter) 1부터
  * @returns JSX
  */

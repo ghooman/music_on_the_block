@@ -19,7 +19,7 @@ import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
  * 프롭스 추가 시 변수도 추가해주어야 합니다.
  */
 
-const Filter = ({ period, types, songs, connections }) => {
+const Filter = ({ period, generateType, songsSort, connectionsSort }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
     const [filter, setFilter] = useState(false);
 
@@ -29,12 +29,12 @@ const Filter = ({ period, types, songs, connections }) => {
 
     // 프롭스와 맞춰주세요
     const period_ = searchParamas.get('period');
-    const types_ = searchParamas.get('types');
-    const songs_ = searchParamas.get('songs');
-    const connections_ = searchParamas.get('connections');
+    const generateType_ = searchParamas.get('generate_type');
+    const songsSort_ = searchParamas.get('songs_sort');
+    const connectionsSort_ = searchParamas.get('connections_sort');
 
     // queries 변수에 값을 넣어야 filter 아이템이 표시됩니다.
-    const queries = [period_, types_, songs_, connections_];
+    const queries = [period_, generateType_, songsSort_, connectionsSort_];
 
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
@@ -74,30 +74,30 @@ const Filter = ({ period, types, songs, connections }) => {
                                 }
                             />
                         )}
-                        {types && (
+                        {generateType && (
                             <FilterCategory
-                                value={types_}
+                                value={generateType_}
                                 setParamsObj={setParamsObj}
                                 title="types"
-                                filterName="types"
+                                filterName="generate_type"
                                 filterItems={
-                                    typeof types === 'boolean'
+                                    typeof generateType === 'boolean'
                                         ? [
                                               { name: 'Lyrics + Songwriting', icon: LyricsAndSongwritingIcon },
                                               { name: 'Songwriting', icon: SongwritingIcon },
                                           ]
-                                        : types
+                                        : generateType
                                 }
                             />
                         )}
-                        {songs && (
+                        {songsSort && (
                             <FilterCategory
-                                value={songs_}
+                                value={songsSort_}
                                 setParamsObj={setParamsObj}
                                 title="Sort by"
-                                filterName="songs"
+                                filterName="songs_sort"
                                 filterItems={
-                                    typeof songs === 'boolean'
+                                    typeof songsSort === 'boolean'
                                         ? [
                                               'Latest',
                                               'Oldest',
@@ -106,18 +106,18 @@ const Filter = ({ period, types, songs, connections }) => {
                                               'Most Played',
                                               'Least Played',
                                           ]
-                                        : songs
+                                        : songsSort
                                 }
                             />
                         )}
-                        {connections && (
+                        {connectionsSort && (
                             <FilterCategory
-                                value={connections_}
+                                value={connectionsSort_}
                                 setParamsObj={setParamsObj}
                                 title="Sort by"
-                                filterName="connections"
+                                filterName="connections_sort"
                                 filterItems={
-                                    typeof connections === 'boolean'
+                                    typeof connectionsSort === 'boolean'
                                         ? [
                                               'Highest Level',
                                               'Lowest Level',
@@ -126,7 +126,7 @@ const Filter = ({ period, types, songs, connections }) => {
                                               'Most Followers',
                                               'Least Followers',
                                           ]
-                                        : connections
+                                        : connectionsSort
                                 }
                             />
                         )}

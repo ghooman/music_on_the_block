@@ -375,12 +375,12 @@ const Menu = ({
             </dd>
           </dl> */}
 
-          {/* {isLoggedIn && (
+          {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
                 <div className="menu__box__gnb-list">
-                  일반 아이템 - My Page
+                  {/* 일반 아이템 - My Page */}
                   <div
                     className={`menu__box__gnb-list__item my-page ${
                       activeSingle === "my-page" ? "active" : ""
@@ -396,8 +396,8 @@ const Menu = ({
                     </Link>
                   </div>
 
-                  일반 아이템 - My Favorites
-                  <div
+                  {/* 일반 아이템 - My Favorites */}
+                  {/* <div
                     className={`menu__box__gnb-list__item my-favorite ${
                       activeSingle === "my-favorites" ? "active" : ""
                     }`}
@@ -410,11 +410,53 @@ const Menu = ({
                     >
                       <p className="icon"></p>My Favorites
                     </Link>
+                  </div> */}
+                                  {/* AI Services - 슬라이드 탭 */}
+                  <div
+                    className={`menu__box__gnb-list__item my-music slide-tab ${
+                      activeMenus.includes("my-music") ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      className="menu__box__gnb-list__item__btn"
+                      onClick={() => handleSlideToggle("my-music")}
+                    >
+                      <p className="icon"></p>My Music
+                    </button>
+                    <ul className="menu__box__gnb-list__item__list my-music">
+                      <li
+                        className={activeSubItem === "Songs" ? "active" : ""}
+                        onClick={() => handleSubItemClick("Songs")}
+                      >
+                        <Link to="/my-music/songs">Songs</Link>
+                      </li>
+                      <li
+                        className={activeSubItem === "Connections" ? "active" : ""}
+                        onClick={() => handleSubItemClick("Connections")}
+                        // onClick={() => setPreparingModal(true)}
+                      >
+                        <Link to="/my-music/connections">Connections</Link>
+                      </li>
+                      <li
+                        className={activeSubItem === "Favorites" ? "active" : ""}
+                        onClick={() => handleSubItemClick("Favorites")}
+                        // onClick={() => setPreparingModal(true)}
+                      >
+                        <Link to="/my-music/favorites">Favorites</Link>
+                      </li>
+                      <li
+                        className={activeSubItem === "Albums" ? "active" : ""}
+                        onClick={() => handleSubItemClick("Albums")}
+                        // onClick={() => setPreparingModal(true)}
+                      >
+                        <Link to="/my-music/albums">Albums</Link>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </dd>
             </dl>
-          )} */}
+          )}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

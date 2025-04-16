@@ -29,8 +29,7 @@ import { incrementPlayCount } from '../api/incrementPlayCount';
 import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
-import { WalletConnect } from "../components/WalletConnect";
-
+import { WalletConnect } from '../components/WalletConnect';
 
 function AlbumDetail() {
     const serverApi = process.env.REACT_APP_SERVER_API;
@@ -257,17 +256,15 @@ function AlbumDetail() {
               .filter(Boolean)
         : [];
 
+    const { setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
-
-        const { setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
-
-        const handleWalletConnect = (loggedIn, walletAddress) => {
-          setIsLoggedIn(loggedIn);
-          if (loggedIn && walletAddress) {
+    const handleWalletConnect = (loggedIn, walletAddress) => {
+        setIsLoggedIn(loggedIn);
+        if (loggedIn && walletAddress) {
             setWalletAddress(walletAddress);
-          }
-        };
-        
+        }
+    };
+
     return (
         <>
             {isLoading && <IntroLogo3 />}
@@ -357,7 +354,7 @@ function AlbumDetail() {
                                         {album?.comment_cnt || 0}
                                     </p>
                                 </div> */}
-                                {!setIsLoggedIn && 
+                                {!setIsLoggedIn && (
                                     <div className="album-detail__song-detail__left__info__number">
                                         <p className="love" onClick={handleLike}>
                                             <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
@@ -372,15 +369,13 @@ function AlbumDetail() {
                                             {album?.comment_cnt || 0}
                                         </p>
                                     </div>
-                                }
-                                {setIsLoggedIn && 
+                                )}
+                                {setIsLoggedIn && (
                                     <div className="album-detail__song-detail__left__info__number">
                                         <p className="love" onClick={handleLike}>
                                             <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                                             {album?.like || 0}
-                                            {setIsLoggedIn && 
-                                                <WalletConnect onConnect={handleWalletConnect} />
-                                            }
+                                            {setIsLoggedIn && <WalletConnect onConnect={handleWalletConnect} />}
                                         </p>
                                         <p className="play">
                                             <img src={playIcon} alt="play Icon" />
@@ -391,7 +386,7 @@ function AlbumDetail() {
                                             {album?.comment_cnt || 0}
                                         </p>
                                     </div>
-                                }
+                                )}
                                 <button
                                     className="album-detail__song-detail__left__info__share-btn"
                                     onClick={() => setShareModal(true)}
@@ -451,10 +446,10 @@ function AlbumDetail() {
                                 <dl className="artist">
                                     <dt>Artist</dt>
                                     <dd>
-                                        <p className="user">
+                                        <Link className="user" to={`/profile?username=${album?.name}`}>
                                             <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
                                             {album?.name || '-'}
-                                        </p>
+                                        </Link>
                                     </dd>
                                 </dl>
                             </div>

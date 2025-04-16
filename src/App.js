@@ -84,9 +84,17 @@ function App() {
                             path="/my-page/:path"
                             element={
                                 <Layout>
-                                    {/* <ProtectedRoute> */}
-                                    <MyPage />
-                                    {/* </ProtectedRoute> */}
+                                    <ProtectedRoute>
+                                        <MyPage isMyProfile={true} />
+                                    </ProtectedRoute>
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/profile"
+                            element={
+                                <Layout>
+                                    <MyPage isMyProfile={false} />
                                 </Layout>
                             }
                         />

@@ -23,6 +23,7 @@ import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnRelease
 
 // 🎨 스타일
 import './Songs.scss';
+import SongPlayTable from '../unit/SongPlayTable';
 
 const topAlbumsCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -69,6 +70,28 @@ const Songs = ({ token }) => {
         { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
     );
 
+    // ⭐ 더미 데이터 정의 (SongPlayTable 전용 더미 테이블)
+    const dummySongList = [
+        {
+            id: 1,
+            name: 'Dummy Artist 1',
+            title: 'Dummy Song 1',
+            create_dt: '2025-04-10',
+        },
+        {
+            id: 2,
+            name: 'Dummy Artist 2',
+            title: 'Dummy Song 2',
+            create_dt: '2025-04-11',
+        },
+        {
+            id: 3,
+            name: 'Dummy Artist 3',
+            title: 'Dummy Song 3',
+            create_dt: '2025-04-12',
+        },
+    ];
+
     return (
         <div className="songs">
             <ContentWrap title="Top Songs">
@@ -107,7 +130,8 @@ const Songs = ({ token }) => {
                     <Filter songsSort />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
-                <AlbumsTable songList={songsList?.data_list}></AlbumsTable>
+                {/* <AlbumsTable songList={songsList?.data_list}></AlbumsTable> */}
+                <SongPlayTable songList={dummySongList} />
                 <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
             </ContentWrap>
         </div>

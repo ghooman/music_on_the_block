@@ -157,7 +157,7 @@ const LyricsLab = ({
   // 가사 생성 함수 (로딩 상태 관리는 외부에서 처리)
   const callGPT4oResponses = async () => {
     const response = await client.responses.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-nano",
       instructions,
       input: `출력원하는언어:${selectedLanguage},
         느낌:${lyricData?.lyric_tag.join(",")},

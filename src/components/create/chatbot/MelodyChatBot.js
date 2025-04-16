@@ -130,7 +130,7 @@ const MelodyChatBot = ({
     setLoading(true);
     try {
       const response = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-nano",
         messages: [
           {
             role: "system",
@@ -331,7 +331,7 @@ const MelodyChatBot = ({
       const standardizedGenre = convertGenreToPreset(melody_genre);
 
       const response = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-nano",
         messages: [
           {
             role: "system",

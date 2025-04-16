@@ -238,7 +238,7 @@ const MelodyMaker = ({
       const standardizedGenre = melody_genre?.[0]?.toUpperCase() || "";
 
       const response = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-nano",
         messages: [
           {
             role: "system",

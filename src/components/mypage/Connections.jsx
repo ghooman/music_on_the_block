@@ -11,6 +11,7 @@ import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import UnFollowModal from '../UnFollowModal';
 import UserTable from '../unit/UserTable';
+import Loading from '../../components/IntroLogo2';
 
 import './Connections.scss';
 
@@ -34,7 +35,11 @@ const Connections = () => {
     const connectionsSort = searchParamas.get('connections_sort') || 'Latest';
     const connectionsType = searchParamas.get('connections_type') || 'Following';
 
-    const { data: connectionsData, refetch } = useQuery(
+    const {
+        data: connectionsData,
+        refetch,
+        isLoading,
+    } = useQuery(
         ['follow_list', { token, page, search, connectionsSort, connectionsType }],
         async () => {
             const path = connectionsType === 'Following' ? 'following' : 'follower';
@@ -117,6 +122,7 @@ const Connections = () => {
                     handleClick={handleUnfollowing}
                 />
             )}
+            {isLoading && <Loading />}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Menu.scss';
 import useWindowHeight from '../hooks/useWindowHeight';
 
@@ -18,6 +18,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
     const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
     const isBelowHeight = useWindowHeight(750);
+    const { pathname } = useLocation();
 
     // AuthContext에서 전역 인증 상태 업데이트 함수 가져오기
     const { isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
@@ -116,7 +117,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <div className="menu__cover">
                     <dl className="menu__box">
                         <Link
-                            to="/my-page/music"
+                            to="/my-page/service?category=AI Services"
                             // onClick={() => handleSingleActive("my-page")}
                             // onClick={() => setPreparingModal(true)}
                             className="menu__box__title"
@@ -353,29 +354,29 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             </dd>
           </dl> */}
 
-          {isLoggedIn && (
-            <dl className="menu__box">
-              <dt className="menu__box__title">MY LIBRARY</dt>
-              <dd>
-                <div className="menu__box__gnb-list">
-                  {/* 일반 아이템 - My Page */}
-                  <div
-                    className={`menu__box__gnb-list__item my-page ${
-                      activeSingle === "my-page" ? "active" : ""
-                    }`}
-                  >
-                    <Link
-                      to="/account-setting"
-                      className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSingleActive("my-page")}
-                      // onClick={() => setPreparingModal(true)}
-                    >
-                      <p className="icon"></p>My Page
-                    </Link>
-                  </div>
+                    {isLoggedIn && (
+                        <dl className="menu__box">
+                            <dt className="menu__box__title">MY LIBRARY</dt>
+                            <dd>
+                                <div className="menu__box__gnb-list">
+                                    {/* 일반 아이템 - My Page */}
+                                    <div
+                                        className={`menu__box__gnb-list__item my-page ${
+                                            pathname.startsWith('/my-page/service') ? 'active' : ''
+                                        }`}
+                                    >
+                                        <Link
+                                            to="/my-page/service?category=AI Services"
+                                            className="menu__box__gnb-list__item__btn"
+                                            onClick={() => handleSingleActive('my-page')}
+                                            // onClick={() => setPreparingModal(true)}
+                                        >
+                                            <p className="icon"></p>My Page
+                                        </Link>
+                                    </div>
 
-                  {/* 일반 아이템 - My Favorites */}
-                  {/* <div
+                                    {/* 일반 아이템 - My Favorites */}
+                                    {/* <div
                     className={`menu__box__gnb-list__item my-favorite ${
                       activeSingle === "my-favorites" ? "active" : ""
                     }`}
@@ -389,52 +390,52 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       <p className="icon"></p>My Favorites
                     </Link>
                   </div> */}
-                                  {/* AI Services - 슬라이드 탭 */}
-                  <div
-                    className={`menu__box__gnb-list__item my-music slide-tab ${
-                      activeMenus.includes("my-music") ? "active" : ""
-                    }`}
-                  >
-                    <button
-                      className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSlideToggle("my-music")}
-                    >
-                      <p className="icon"></p>My Music
-                    </button>
-                    <ul className="menu__box__gnb-list__item__list my-music">
-                      <li
-                        className={activeSubItem === "Songs" ? "active" : ""}
-                        onClick={() => handleSubItemClick("Songs")}
-                      >
-                        <Link to="/my-music/songs">Songs</Link>
-                      </li>
-                      <li
-                        className={activeSubItem === "Connections" ? "active" : ""}
-                        onClick={() => handleSubItemClick("Connections")}
-                        // onClick={() => setPreparingModal(true)}
-                      >
-                        <Link to="/my-music/connections">Connections</Link>
-                      </li>
-                      <li
-                        className={activeSubItem === "Favorites" ? "active" : ""}
-                        onClick={() => handleSubItemClick("Favorites")}
-                        // onClick={() => setPreparingModal(true)}
-                      >
-                        <Link to="/my-music/favorites">Favorites</Link>
-                      </li>
-                      <li
-                        className={activeSubItem === "Albums" ? "active" : ""}
-                        onClick={() => handleSubItemClick("Albums")}
-                        // onClick={() => setPreparingModal(true)}
-                      >
-                        <Link to="/my-music/albums">Albums</Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </dd>
-            </dl>
-          )}
+                                    {/* AI Services - 슬라이드 탭 */}
+                                    <div
+                                        className={`menu__box__gnb-list__item my-music slide-tab ${
+                                            activeMenus.includes('my-music') ? 'active' : ''
+                                        }`}
+                                    >
+                                        <button
+                                            className="menu__box__gnb-list__item__btn"
+                                            onClick={() => handleSlideToggle('my-music')}
+                                        >
+                                            <p className="icon"></p>My Music
+                                        </button>
+                                        <ul className="menu__box__gnb-list__item__list my-music">
+                                            <li
+                                                className={activeSubItem === 'Songs' ? 'active' : ''}
+                                                onClick={() => handleSubItemClick('Songs')}
+                                            >
+                                                <Link to="/my-page/music?category=Songs">Songs</Link>
+                                            </li>
+                                            <li
+                                                className={activeSubItem === 'Connections' ? 'active' : ''}
+                                                onClick={() => handleSubItemClick('Connections')}
+                                                // onClick={() => setPreparingModal(true)}
+                                            >
+                                                <Link to="/my-page/music?category=Connections">Connections</Link>
+                                            </li>
+                                            <li
+                                                className={activeSubItem === 'Favorites' ? 'active' : ''}
+                                                onClick={() => handleSubItemClick('Favorites')}
+                                                // onClick={() => setPreparingModal(true)}
+                                            >
+                                                <Link to="/my-page/music?category=Favorites">Favorites</Link>
+                                            </li>
+                                            <li
+                                                className={activeSubItem === 'Albums' ? 'active' : ''}
+                                                onClick={() => handleSubItemClick('Albums')}
+                                                // onClick={() => setPreparingModal(true)}
+                                            >
+                                                <Link to="/my-page/music?category=Albums">Albums</Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </dd>
+                        </dl>
+                    )}
 
                     {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

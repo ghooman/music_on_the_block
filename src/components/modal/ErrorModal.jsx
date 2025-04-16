@@ -1,13 +1,8 @@
 import ModalWrap from "../ModalWrap";
 
-import logoIcon from "../../assets/images/header/logo-png.png";
-
 import "./ErrorModal.scss";
-import { useNavigate } from "react-router-dom";
 
 const ErrorModal = ({ title, setShowErrorModal, message }) => {
-  const navigate = useNavigate();
-
   return (
     <ModalWrap onClose={setShowErrorModal} title={title || ""}>
       <div className="error-modal">

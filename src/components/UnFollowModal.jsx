@@ -5,7 +5,6 @@ import './UnFollowModal.scss';
 /**
  *
  * @param {function} setUnFollowModal : 모달 조작 함수
- * @param {object} profileData : 프로필 데이터
  * @param {function} handleClick : 함수 정의
  * @returns
  */

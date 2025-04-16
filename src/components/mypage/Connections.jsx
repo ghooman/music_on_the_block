@@ -9,7 +9,7 @@ import Filter from '../unit/Filter';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
-import AlbumsTable from '../unit/AlbumsTable';
+import UnFollowModal from '../UnFollowModal';
 import UserTable from '../unit/UserTable';
 
 import './Connections.scss';
@@ -25,6 +25,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 
 const Connections = () => {
     const [searchParamas, setSearchParams] = useSearchParams();
+    const [unFollowUserData, setUnFollowUserData] = useState(null);
 
     const { token } = useContext(AuthContext);
 
@@ -67,14 +68,15 @@ const Connections = () => {
     };
 
     // 핸들 언팔로잉
-    const handleUnfollowing = async (id) => {
+    const handleUnfollowing = async () => {
         try {
-            const res = await axios.post(`${serverApi}/api/user/${id}/follow/cancel`, null, {
+            const res = await axios.post(`${serverApi}/api/user/${unFollowUserData?.user_id}/follow/cancel`, null, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             refetch();
+            setUnFollowUserData(null);
         } catch (e) {
             console.error(e);
         }
@@ -104,10 +106,17 @@ const Connections = () => {
                     followOption={connectionsType === 'Followers'}
                     unFollowOption={connectionsType === 'Following'}
                     handleFollowing={(id) => handleFollowing(id)}
-                    handleUnFollowing={(id) => handleUnfollowing(id)}
+                    handleUnFollowing={setUnFollowUserData}
                 />
                 <Pagination totalCount={connectionsData?.total_cnt} viewCount={10} page={page} />
             </ContentWrap>
+            {unFollowUserData && (
+                <UnFollowModal
+                    setUnFollowModal={setUnFollowUserData}
+                    profileData={unFollowUserData}
+                    handleClick={handleUnfollowing}
+                />
+            )}
         </div>
     );
 };

@@ -18,6 +18,7 @@ import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
 import Pagination from '../unit/Pagination';
 import SubCategories from '../unit/SubCategories';
+import Loading from '../../components/IntroLogo2';
 
 // API 모듈
 import { getLikeList } from '../../api/getLikeAndUnLikeList';
@@ -41,7 +42,7 @@ const MyFavorites = () => {
     const generateType = searchParams.get('generate_type');
     const songsSort = searchParams.get('songs_sort') || 'Latest';
 
-    const { data: favoritesSongsList } = useQuery(
+    const { data: favoritesSongsList, isLoading } = useQuery(
         ['favoritest_songs', { token, search, page, generateType, songsSort }],
         async () => {
             let res = await getLikeList({ token, page, search_keyword: search, sort_by: songsSort });
@@ -51,15 +52,18 @@ const MyFavorites = () => {
     );
 
     return (
-        <ContentWrap title="Favorites">
-            <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-            <ContentWrap.SubWrap gap={8}>
-                <Filter songsSort />
-                <Search />
-            </ContentWrap.SubWrap>
-            <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable>
-            <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={10} page={page} />
-        </ContentWrap>
+        <>
+            <ContentWrap title="Favorites">
+                <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+                <ContentWrap.SubWrap gap={8}>
+                    <Filter songsSort />
+                    <Search />
+                </ContentWrap.SubWrap>
+                <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable>
+                <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={10} page={page} />
+            </ContentWrap>
+            {isLoading && <Loading />}
+        </>
     );
 };
 

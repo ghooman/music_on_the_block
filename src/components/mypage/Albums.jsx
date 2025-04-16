@@ -8,11 +8,15 @@ import SubBanner from '../../components/create/SubBanner';
 import subBannerImage4 from '../../assets/images/create/subbanner-bg4.png';
 
 import './Albums.scss';
+import { useState } from 'react';
 
 const Albums = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
+    const [createAlbumModal, setCreateAlbumModal] = useState(false);
 
     const albumSort = searchParams.get('album_sort');
+    const page = searchParams.get('page');
+    const search = searchParams.get('search');
 
     return (
         <div className="albums">
@@ -24,7 +28,7 @@ const Albums = () => {
             </SubBanner>
             <ContentWrap title="Albums List">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter />
+                    <Filter albumSort={true} />
                     <Search placeholder="Search by album name..." reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 {/** */}

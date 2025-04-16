@@ -19,7 +19,7 @@ import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
  * 프롭스 추가 시 변수도 추가해주어야 합니다.
  */
 
-const Filter = ({ period, generateType, songsSort, connectionsSort }) => {
+const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
     const [filter, setFilter] = useState(false);
 
@@ -32,9 +32,10 @@ const Filter = ({ period, generateType, songsSort, connectionsSort }) => {
     const generateType_ = searchParamas.get('generate_type');
     const songsSort_ = searchParamas.get('songs_sort');
     const connectionsSort_ = searchParamas.get('connections_sort');
+    const albumSort_ = searchParamas.get('album_sort');
 
     // queries 변수에 값을 넣어야 filter 아이템이 표시됩니다.
-    const queries = [period_, generateType_, songsSort_, connectionsSort_];
+    const queries = [period_, generateType_, songsSort_, connectionsSort_, albumSort_];
 
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
@@ -127,6 +128,17 @@ const Filter = ({ period, generateType, songsSort, connectionsSort }) => {
                                               'Least Followers',
                                           ]
                                         : connectionsSort
+                                }
+                            />
+                        )}
+                        {albumSort && (
+                            <FilterCategory
+                                value={albumSort_}
+                                setParamsObj={setParamsObj}
+                                title="Sort by"
+                                filterName="album_sort"
+                                filterItems={
+                                    typeof albumSort === 'boolean' ? ['Most Songs', 'Fewest Songs'] : albumSort
                                 }
                             />
                         )}

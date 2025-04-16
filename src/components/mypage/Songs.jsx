@@ -16,6 +16,7 @@ import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
+import Loading from '../../components/IntroLogo2';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
@@ -23,6 +24,7 @@ import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnRelease
 
 // 🎨 스타일
 import './Songs.scss';
+import SongPlayTable from '../unit/SongPlayTable';
 
 const topAlbumsCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -45,7 +47,7 @@ const Songs = ({ token }) => {
     const releaseType = searchParams.get('release_type') || 'Unreleased songs';
 
     // 내 TOP 앨범 리스트 API 호출
-    const { data: topSongsData } = useQuery(
+    const { data: topSongsData, isLoading: topSongLoading } = useQuery(
         ['top_songs'],
         async () => {
             const { data } = await GetMyTopAlbumList(token);
@@ -54,7 +56,7 @@ const Songs = ({ token }) => {
         { refetchOnWindowFocus: false, enabled: !!token }
     );
 
-    const { data: songsList } = useQuery(
+    const { data: songsList, isLoading: songsListLoading } = useQuery(
         ['songs_list', { token, page, songsSort, search, releaseType }],
         async () => {
             const { data } = await getReleaseAndUnReleaseSongData({
@@ -107,9 +109,10 @@ const Songs = ({ token }) => {
                     <Filter songsSort />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
-                <AlbumsTable songList={songsList?.data_list}></AlbumsTable>
+                <SongPlayTable songList={songsList?.data_list} />
                 <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
             </ContentWrap>
+            {(topSongLoading || songsListLoading) && <Loading />}
         </div>
     );
 };

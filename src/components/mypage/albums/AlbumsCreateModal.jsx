@@ -8,7 +8,7 @@ import UploadButtonImage from "../../../assets/images/icon/picture1.svg";
 import defaultAlbumsImage from "../../../assets/images/mypage/albums-upload-logo.png";
 import { AuthContext } from "../../../contexts/AuthContext";
 
-const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
+const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated }) => {
   const { token } = useContext(AuthContext);
   const [albumsImage, setAlbumsImage] = useState(null);
   const [albumsName, setAlbumsName] = useState("");
@@ -70,8 +70,9 @@ const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
       const response = await createAlbumsList(formDataToSend, token);
 
       if (response.status === 200 || response.status === 201) {
+        // 생성 성공 후, 최신 리스트 조회
+        await onAlbumCreated();
         setShowCreateModal(false);
-        // 필요하다면 추가로 상태 초기화 로직을 여기에 작성
       } else {
         setErrorMessage("앨범 생성에 실패했습니다. 다시 시도해주세요.");
       }

@@ -30,6 +30,7 @@ export const createAlbumsList = async (formData, token) => {
       headers,
     });
     console.log("API 응답 성공:", response.data);
+    getAlbumsList(token, 1, "", "");
     return response;
   } catch (error) {
     console.error("API 호출 실패:", error);
@@ -54,7 +55,6 @@ export const getAlbumsList = async (
   albumSort = ""
 ) => {
   const params = new URLSearchParams({});
-  console.log(token);
   if (page) params.append("page", page);
   if (searchKeyword) params.append("search_keyword", searchKeyword);
   if (albumSort) params.append("album_sort", albumSort);

@@ -21,6 +21,7 @@ const Albums = () => {
   const [searchParams] = useSearchParams();
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [albumsList, setAlbumsList] = useState([]);
+
   // 현재 albumSort는 url에 없음 기준나올때 추가
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
@@ -34,12 +35,12 @@ const Albums = () => {
     setSelectedAlbum(album);
     setShowDetailModal(true);
   };
-
+  // 앨범 목록 조회
+  const fetchAlbumsList = async () => {
+    const response = await getAlbumsList(token, page, search, albumSort);
+    setAlbumsList(response.data.data_list);
+  };
   useEffect(() => {
-    const fetchAlbumsList = async () => {
-      const response = await getAlbumsList(token, page, search, albumSort);
-      setAlbumsList(response.data.data_list);
-    };
     fetchAlbumsList();
   }, []);
 
@@ -82,7 +83,10 @@ const Albums = () => {
         />
       </ContentWrap>
       {showCreateModal && (
-        <AlbumsCreateModal setShowCreateModal={setShowCreateModal} />
+        <AlbumsCreateModal
+          setShowCreateModal={setShowCreateModal}
+          onAlbumCreated={fetchAlbumsList}
+        />
       )}
       {showDetailModal && selectedAlbum && (
         <AlbumsDetailsModal

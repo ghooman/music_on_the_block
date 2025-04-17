@@ -24,6 +24,7 @@ import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/AlbumsDetail';
+import EditAlbumSongs from './components/mypage/EditAlbumSongs';
 function Layout({ children }) {
     return (
         <div>
@@ -162,6 +163,14 @@ function App() {
                             element={
                                 <Layout>
                                     <AlbumsDetail/>
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-page/edit-album-songs"
+                            element={
+                                <Layout>
+                                    <EditAlbumSongs/>
                                 </Layout>
                             }
                         />

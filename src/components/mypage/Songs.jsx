@@ -18,6 +18,8 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import Loading from '../../components/IntroLogo2';
+import SongDeleteModal from '../../components/SongDeleteModal';
+import SongReleaseModal from '../../components/SongReleaseModal';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
@@ -44,6 +46,8 @@ const myAlbumsCategoryList = [
 const Songs = ({ token }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0].name);
+    const [deleteMusic, setDeleteMusic] = useState(null);
+    const [releaseMusic, setReleaseMusic] = useState(null);
 
     const page = searchParams.get('page') || 1;
     const search = searchParams.get('search') || '';
@@ -61,7 +65,11 @@ const Songs = ({ token }) => {
     );
 
     // 송 리스트 get API
-    const { data: songsList, isLoading: songsListLoading } = useQuery(
+    const {
+        data: songsList,
+        isLoading: songsListLoading,
+        refetch: songListRefetch,
+    } = useQuery(
         ['songs_list', { token, page, songsSort, search, releaseType }],
         async () => {
             const { data } = await getReleaseAndUnReleaseSongData({
@@ -80,30 +88,24 @@ const Songs = ({ token }) => {
     // 삭제
     //=============
     const handleDelete = async (id) => {
-        try {
-            const res = await axios.post(`${serverApi}/api/music/${id}`, null, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-        } catch (e) {
-            console.error(e);
-        }
+        const res = await axios.delete(`${serverApi}/api/music/${deleteMusic?.id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        songListRefetch();
     };
 
     //=============
     // 릴리즈
     //=============
-    const handleRelease = async (id) => {
-        try {
-            const res = await axios.post(`${serverApi}/api/music/${id}/release`, null, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-        } catch (e) {
-            console.error(e);
-        }
+    const handleRelease = async () => {
+        const res = await axios.post(`${serverApi}/api/music/${releaseMusic?.id}/release`, null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        songListRefetch();
     };
 
     return (
@@ -147,13 +149,23 @@ const Songs = ({ token }) => {
                 <SongPlayTable
                     songList={songsList?.data_list}
                     deleteOption={true}
-                    releaseOption={releaseType === 'Unrelease songs'}
-                    handleDelete={handleDelete}
-                    handleRelease={handleRelease}
+                    releaseOption={releaseType === 'Unreleased songs'}
+                    handleDelete={setDeleteMusic}
+                    handleRelease={setReleaseMusic}
                 />
                 <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
             </ContentWrap>
             {(topSongLoading || songsListLoading) && <Loading />}
+            {deleteMusic && (
+                <SongDeleteModal setSongDeleteModal={setDeleteMusic} songData={deleteMusic} handler={handleDelete} />
+            )}
+            {releaseMusic && (
+                <SongReleaseModal
+                    setSongReleaseModal={setReleaseMusic}
+                    songData={releaseMusic}
+                    handler={handleRelease}
+                />
+            )}
         </div>
     );
 };

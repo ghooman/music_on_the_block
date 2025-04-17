@@ -61,14 +61,25 @@ const UserTable = ({ userList = [], unFollowOption, followOption, handleUnFollow
                             </td>
                             {unFollowOption && (
                                 <td>
-                                    <button
-                                        className="user-table__button unfollow"
-                                        onClick={() => {
-                                            handleUnFollowing(user);
-                                        }}
-                                    >
-                                        Unfollow
-                                    </button>
+                                    {user?.is_follow ? (
+                                        <button
+                                            className="user-table__button follow"
+                                            onClick={() => {
+                                                handleFollowing(user.user_id);
+                                            }}
+                                        >
+                                            Follow
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="user-table__button unfollow"
+                                            onClick={() => {
+                                                handleUnFollowing(user);
+                                            }}
+                                        >
+                                            Unfollow
+                                        </button>
+                                    )}
                                 </td>
                             )}
                             {followOption && (

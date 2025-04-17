@@ -21,10 +21,10 @@ import track3 from '../../assets/music/MusicOnTheBlock_v1.mp3';
 
 const SongPlayTable = ({
     songList = [],
-    deleteOption = true,
-    releaseOption = true,
-    handleDelete = true,
-    handleRelease = true,
+    deleteOption,
+    releaseOption,
+    handleDelete,
+    handleRelease,
     // children
 }) => {
     const [activeSong, setActiveSong] = useState(null);
@@ -123,7 +123,7 @@ const SongPlayTable = ({
                                                         className="albums-table__detail-btn delete"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            handleDelete();
+                                                            handleDelete(album);
                                                         }}
                                                     >
                                                         Delete
@@ -138,7 +138,7 @@ const SongPlayTable = ({
                                                         className="albums-table__detail-btn release"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            handleRelease();
+                                                            handleRelease(album);
                                                         }}
                                                     >
                                                         Release

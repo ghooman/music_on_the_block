@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 
 import axios from 'axios';
@@ -30,6 +30,7 @@ const Connections = () => {
 
     const { token } = useContext(AuthContext);
 
+    const queryClient = useQueryClient();
     const page = searchParamas.get('page') || 1;
     const search = searchParamas.get('search') || '';
     const connectionsSort = searchParamas.get('connections_sort') || 'Latest';
@@ -39,6 +40,7 @@ const Connections = () => {
         data: connectionsData,
         refetch,
         isLoading,
+        isFetching,
     } = useQuery(
         ['follow_list', { token, page, search, connectionsSort, connectionsType }],
         async () => {
@@ -58,7 +60,30 @@ const Connections = () => {
         { refetchOnWindowFocus: false, enabled: !!token }
     );
 
+    //====================
+    // 낙관적 업데이트 함수
+    //====================
+    const queryUpdate = (id) => {
+        queryClient.setQueryData(
+            ['follow_list', { token, page, search, connectionsSort, connectionsType }],
+            (prevData) => {
+                const { data_list } = prevData;
+                const copy = [...data_list];
+                copy.forEach((user) => {
+                    if (user.user_id === id) {
+                        user.is_follow = !user.is_follow;
+                    }
+                });
+                prevData.data_list = copy;
+                return prevData;
+            }
+        );
+    };
+
+    //====================
     // 핸들 팔로잉
+    //====================
+
     const handleFollowing = async (id) => {
         try {
             const res = await axios.post(`${serverApi}/api/user/${id}/follow`, null, {
@@ -66,13 +91,16 @@ const Connections = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            refetch();
+            queryUpdate(id);
         } catch (e) {
             console.error(e);
         }
     };
 
+    //=====================
     // 핸들 언팔로잉
+    //=====================
+
     const handleUnfollowing = async () => {
         try {
             const res = await axios.post(`${serverApi}/api/user/${unFollowUserData?.user_id}/follow/cancel`, null, {
@@ -80,8 +108,7 @@ const Connections = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            refetch();
-            setUnFollowUserData(null);
+            queryUpdate(unFollowUserData?.user_id);
         } catch (e) {
             console.error(e);
         }
@@ -122,7 +149,7 @@ const Connections = () => {
                     handleClick={handleUnfollowing}
                 />
             )}
-            {isLoading && <Loading />}
+            {(isFetching || isLoading) && <Loading />}
         </div>
     );
 };

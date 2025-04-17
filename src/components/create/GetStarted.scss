@@ -83,6 +83,13 @@
             background-color: #000 !important;
             border: 1px solid #2c3a00 !important;
             cursor: not-allowed;
+            &:hover {
+                transform: translateY(0px);
+                &::after {
+                    transform: translateY(3px);
+                }
+            }
+
             &::after {
                 border-color: #2c3a00;
             }

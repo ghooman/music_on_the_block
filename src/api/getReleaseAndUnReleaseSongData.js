@@ -20,6 +20,6 @@ export const getReleaseAndUnReleaseSongData = async ({ token, page, sort_by, sea
             },
         });
     } else {
-        console.error('올바른 type을 작성해주세요 (unrelease, release)');
+        console.warn('올바른 type을 작성해주세요 (unrelease, release)');
     }
 };

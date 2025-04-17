@@ -134,7 +134,9 @@ const MelodyChatBot = ({
         messages: [
           {
             role: "system",
-            content: locale.chatbot.systemMessage,
+            content:
+              `사용자가 '가사 장르는 ${lyricData.lyric_genre}, 가사 태그들은 ${lyricData.lyric_tag}, 가사 스타일은 ${lyricData.lyric_stylistic}, 가사 스토리는 lyricStory를 참고해달라'고 요청하면, ${lyricData}와 ${lyricStory}의 내용을 바탕으로 멜로디 제작을 진행해주세요.\n\n +` +
+              locale.chatbot.systemMessage,
           },
           ...chatHistory,
           { role: "user", content: userInput },

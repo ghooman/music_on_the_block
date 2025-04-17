@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import ContentWrap from "../../unit/ContentWrap";
 import Filter from "../../unit/Filter";
@@ -12,7 +13,7 @@ import AlbumsDetailsModal from "./AlbumsDetailsModal";
 import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
 import "./Albums.scss";
 import DemoImg from "../../../assets/images/demo/album01.svg";
-
+import { getAlbumsList } from "../../../api/AlbumsListApi";
 const dummyAlbumDataList = [
   {
     id: 1,
@@ -101,10 +102,11 @@ const dummyAlbumDataList = [
 ];
 
 const Albums = () => {
+  const { token } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const [createAlbumModal, setCreateAlbumModal] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-
+  // 현재 albumSort는 url에 없음 기준나올때 추가
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
   const search = searchParams.get("search");
@@ -117,6 +119,14 @@ const Albums = () => {
     setSelectedAlbum(album);
     setShowDetailModal(true);
   };
+
+  useEffect(() => {
+    const fetchAlbumsList = async () => {
+      const response = await getAlbumsList(token, page, search, albumSort);
+      console.log(response);
+    };
+    fetchAlbumsList();
+  }, []);
 
   return (
     <div className="albums">

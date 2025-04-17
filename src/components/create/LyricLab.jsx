@@ -262,13 +262,13 @@ const LyricsLab = ({
 
         <div className="button-wrap">
           <div className="button-wrap__left">{/* 필요 시 Skip 버튼 */}</div>
-          <ExpandedButton
+          <button
             className={!isAnyFieldFilled || loading ? "next" : "next enable"}
             onClick={handleGenerateLyrics}
             disabled={!isAnyFieldFilled || loading}
           >
             {loading ? "Loading" : "Generate"}
-          </ExpandedButton>
+          </button>
           {loading && <CreateLoading textTrue2={true} />}
         </div>
       </div>
@@ -305,15 +305,15 @@ const LyricsLab = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
-          <ExpandedButton
+          <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
               setMode((prev) => (prev === "edit" ? "read" : "edit"))
             }
           >
             EDIT
-          </ExpandedButton>
-          <ExpandedButton
+          </button>
+          <button
             className="generated-lyrics__confirm-buttons--button confirm"
             onClick={() => {
               setGeneratedLyric(createdLyrics);
@@ -322,10 +322,10 @@ const LyricsLab = ({
             }}
           >
             CONFIRM
-          </ExpandedButton>
+          </button>
         </div>
         <div className="generated-lyrics__download-buttons">
-          <ExpandedButton
+          <button
             className="generated-lyrics__download-buttons--button txt"
             onClick={() => {
               const element = document.createElement("a");
@@ -338,8 +338,8 @@ const LyricsLab = ({
             }}
           >
             Download as text (.txt)
-          </ExpandedButton>
-          <ExpandedButton
+          </button>
+          <button
             className="generated-lyrics__download-buttons--button pdf"
             onClick={() => {
               // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
@@ -356,7 +356,7 @@ const LyricsLab = ({
             }}
           >
             Download as pdf (.pdf)
-          </ExpandedButton>
+          </button>
         </div>
       </div>
     );

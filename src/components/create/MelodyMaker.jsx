@@ -482,21 +482,17 @@ const MelodyMaker = ({
       )}
       <div className="button-wrap">
         <div className="button-wrap__left">
-          <ExpandedButton
+          <button
             className="back"
             onClick={() => setPageNumber((prev) => prev - 1)}
           >
             Back
-          </ExpandedButton>
-          <ExpandedButton
-            className="skip"
-            onClick={onSkip}
-            style={{ display: "none" }}
-          >
+          </button>
+          <button className="skip" onClick={onSkip} style={{ display: "none" }}>
             Skip
-          </ExpandedButton>
+          </button>
         </div>
-        <ExpandedButton
+        <button
           className={
             loading || valuesOnly.length > 200 || !isFormValid
               ? "next"
@@ -506,7 +502,7 @@ const MelodyMaker = ({
           disabled={loading || valuesOnly.length > 200 || !isFormValid}
         >
           {loading ? "Loading" : "Generate"}
-        </ExpandedButton>
+        </button>
       </div>
       {loading && <CreateLoading textTrue />}
       {showLyricsModal && (

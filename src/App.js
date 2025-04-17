@@ -23,6 +23,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
+import AlbumsDetail from './components/mypage/AlbumsDetail';
 function Layout({ children }) {
     return (
         <div>
@@ -153,6 +154,14 @@ function App() {
                             element={
                                 <Layout>
                                     <NftItemDetail />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-page/albums-detail"
+                            element={
+                                <Layout>
+                                    <AlbumsDetail/>
                                 </Layout>
                             }
                         />

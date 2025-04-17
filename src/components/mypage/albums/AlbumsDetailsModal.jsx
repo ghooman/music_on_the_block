@@ -2,13 +2,13 @@ import { useState } from "react";
 import ModalWrap from "../../ModalWrap";
 import "./AlbumsDetailsModal.scss";
 
-const AlbumsDetailsModal = ({ setShowDetailModal, album }) => {
+import { deleteAlbumsList } from "../../../api/AlbumsListApi";
+
+const AlbumsDetailsModal = ({ setShowDetailModal, album, token }) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   const handleDeleteAlbum = () => {
-    // 실제 앨범 삭제 로직을 여기에 구현
-    // API 호출 등 필요한 작업 수행 후 성공 시 deleteSuccess를 true로 설정
     setDeleteSuccess(true);
   };
 
@@ -82,7 +82,7 @@ const AlbumsDetailsModal = ({ setShowDetailModal, album }) => {
             </button>
             <button
               className="albums-details-modal__button__delete-confirm"
-              onClick={handleDeleteAlbum}
+              onClick={() => deleteAlbumsList(album?.id, token)}
             >
               Delete Album
             </button>

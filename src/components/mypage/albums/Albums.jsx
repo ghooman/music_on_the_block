@@ -9,6 +9,8 @@ import SubBanner from "../../../components/create/SubBanner";
 import AlbumsItem from "./AlbumsItem";
 import AlbumsCreateModal from "./AlbumsCreateModal";
 import AlbumsDetailsModal from "./AlbumsDetailsModal";
+import NoneContent from "../../../components/unit/NoneContent";
+import NoDataImage from "../../../assets/images/mypage/albums-no-data.svg";
 
 import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
 import "./Albums.scss";
@@ -17,7 +19,6 @@ import { getAlbumsList } from "../../../api/AlbumsListApi";
 const Albums = () => {
   const { token } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
-  const [createAlbumModal, setCreateAlbumModal] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [albumsList, setAlbumsList] = useState([]);
   // 현재 albumSort는 url에 없음 기준나올때 추가
@@ -58,6 +59,7 @@ const Albums = () => {
           <Filter albumSort={true} />
           <Search placeholder="Search by album name..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
+
         <div className="albums-list">
           {albumsList?.map((album, index) => (
             <AlbumsItem
@@ -67,6 +69,12 @@ const Albums = () => {
             />
           ))}
         </div>
+        {(!albumsList || albumsList?.length === 0) && (
+          <NoneContent
+            message={"There are no albums created yet."}
+            image={NoDataImage}
+          />
+        )}
         <Pagination
           totalCount={albumsList?.length}
           viewCount={12}

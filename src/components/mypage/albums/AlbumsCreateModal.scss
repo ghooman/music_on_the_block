@@ -70,6 +70,16 @@
     margin-bottom: 12px;
   }
 
+  &__error-message {
+    text-align: center;
+    color: #ff5c63;
+    font-family: Inter600;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    margin-bottom: 12px;
+  }
+
   &__name-box {
     position: relative;
     margin-top: 12px;

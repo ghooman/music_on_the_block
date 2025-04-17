@@ -8,7 +8,6 @@ import halfHeartIcon from "../assets/images/icon/half-heart.svg";
 import playIcon from "../assets/images/album/play-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo-png.png";
 import PreparingModal from "../components/PreparingModal";
-
 // 스와이프
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";

@@ -11,12 +11,15 @@ import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 // 🧩 유닛 컴포넌트
 import Filter from '../unit/Filter';
 import AlbumsTable from '../unit/AlbumsTable';
+import SongPlayTable from '../unit/SongPlayTable';
 import AlbumItem from '../unit/AlbumItem';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import Loading from '../../components/IntroLogo2';
+import SongDeleteModal from '../../components/SongDeleteModal';
+import SongReleaseModal from '../../components/SongReleaseModal';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
@@ -24,7 +27,10 @@ import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnRelease
 
 // 🎨 스타일
 import './Songs.scss';
-import SongPlayTable from '../unit/SongPlayTable';
+import axios from 'axios';
+
+// 환경변수
+const serverApi = process.env.REACT_APP_SERVER_API;
 
 const topAlbumsCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -40,6 +46,8 @@ const myAlbumsCategoryList = [
 const Songs = ({ token }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0].name);
+    const [deleteMusic, setDeleteMusic] = useState(null);
+    const [releaseMusic, setReleaseMusic] = useState(null);
 
     const page = searchParams.get('page') || 1;
     const search = searchParams.get('search') || '';
@@ -56,7 +64,12 @@ const Songs = ({ token }) => {
         { refetchOnWindowFocus: false, enabled: !!token }
     );
 
-    const { data: songsList, isLoading: songsListLoading } = useQuery(
+    // 송 리스트 get API
+    const {
+        data: songsList,
+        isLoading: songsListLoading,
+        refetch: songListRefetch,
+    } = useQuery(
         ['songs_list', { token, page, songsSort, search, releaseType }],
         async () => {
             const { data } = await getReleaseAndUnReleaseSongData({
@@ -70,6 +83,30 @@ const Songs = ({ token }) => {
         },
         { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
     );
+
+    //=============
+    // 삭제
+    //=============
+    const handleDelete = async (id) => {
+        const res = await axios.delete(`${serverApi}/api/music/${deleteMusic?.id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        songListRefetch();
+    };
+
+    //=============
+    // 릴리즈
+    //=============
+    const handleRelease = async () => {
+        const res = await axios.post(`${serverApi}/api/music/${releaseMusic?.id}/release`, null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        songListRefetch();
+    };
 
     return (
         <div className="songs">
@@ -109,10 +146,26 @@ const Songs = ({ token }) => {
                     <Filter songsSort />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
-                <SongPlayTable songList={songsList?.data_list} />
+                <SongPlayTable
+                    songList={songsList?.data_list}
+                    deleteOption={true}
+                    releaseOption={releaseType === 'Unreleased songs'}
+                    handleDelete={setDeleteMusic}
+                    handleRelease={setReleaseMusic}
+                />
                 <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
             </ContentWrap>
             {(topSongLoading || songsListLoading) && <Loading />}
+            {deleteMusic && (
+                <SongDeleteModal setSongDeleteModal={setDeleteMusic} songData={deleteMusic} handler={handleDelete} />
+            )}
+            {releaseMusic && (
+                <SongReleaseModal
+                    setSongReleaseModal={setReleaseMusic}
+                    songData={releaseMusic}
+                    handler={handleRelease}
+                />
+            )}
         </div>
     );
 };

@@ -102,7 +102,16 @@ const UserProfile = () => {
   // 팔로잉
   const handleFollowing = async () => {
     if (!token) return;
+    const update = (follow) => {
+      queryClient.setQueryData(
+        ["user_profile", username, walletAddress],
+        (prevData) => {
+          return { ...prevData, is_follow: follow };
+        }
+      );
+    };
     try {
+      update(true);
       const res = await axios.post(
         `${serverApi}/api/user/${profileData?.id}/follow`,
         null,
@@ -112,15 +121,8 @@ const UserProfile = () => {
           },
         }
       );
-      // 낙관적 업데이트
-      queryClient.setQueryData(
-        ["user_profile", username, walletAddress],
-        (prevData) => {
-          return { ...prevData, is_follow: true };
-        }
-      );
-      // refetch();
     } catch (e) {
+      update(false);
       console.error(e);
     }
   };

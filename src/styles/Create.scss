@@ -173,6 +173,7 @@
                     background: var(--secondary-100, #00ffb3);
                     padding: 4px 12px;
                     position: relative;
+                    cursor: default;
 
                     &::after {
                         content: '';

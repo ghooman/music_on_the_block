@@ -58,7 +58,6 @@ const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
       // FormData 객체 생성
       const formDataToSend = new FormData();
 
-      // 회원가입 코드와 유사하게 payload 구조 사용
       const payload = {
         album_name: albumsName,
       };
@@ -68,7 +67,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
 
       // 이미지 파일이 있으면 추가 (파일명은 'file'로 지정)
       if (albumsImage?.file) {
-        formDataToSend.append("file", albumsImage.file);
+        formDataToSend.append("cover_image", albumsImage.file);
         console.log(
           "업로드할 이미지:",
           albumsImage.file.name,

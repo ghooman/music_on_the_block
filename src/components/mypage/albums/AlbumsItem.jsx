@@ -1,13 +1,13 @@
 import MoreHoriz from "../../../assets/images/icon/more-horiz.svg";
-
+import defaultAlbumImage from "../../../assets/images/mypage/albums-upload-logo.png";
 import "./AlbumsItem.scss";
 const AlbumsItem = ({ album, handleAlbumClick }) => {
   return (
     <div className="albums-item">
       <div className="albums-item__info">
-        <h1>{album?.title}</h1>
-        <p>{album?.artist}</p>
-        <span>{album?.song_count} Songs</span>
+        <h1>{album?.album_name}</h1>
+        <p>{album?.name}</p>
+        <span>{album?.song_cnt} Songs</span>
       </div>
       <div className="albums-item__cover">
         <button
@@ -19,7 +19,7 @@ const AlbumsItem = ({ album, handleAlbumClick }) => {
         >
           <img src={MoreHoriz} alt="more_content" />
         </button>
-        <img src={album?.cover_image} alt="album_cover" />
+        <img src={album?.cover_image || defaultAlbumImage} alt="album_cover" />
       </div>
     </div>
   );

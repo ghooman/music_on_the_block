@@ -12,100 +12,14 @@ import AlbumsDetailsModal from "./AlbumsDetailsModal";
 
 import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
 import "./Albums.scss";
-import DemoImg from "../../../assets/images/demo/album01.svg";
 import { getAlbumsList } from "../../../api/AlbumsListApi";
-const dummyAlbumDataList = [
-  {
-    id: 1,
-    title: "Summer Vibes",
-    artist: "Ocean Waves",
-    cover_image: DemoImg,
-    song_count: 12,
-  },
-  {
-    id: 2,
-    title: "Midnight Dreams",
-    artist: "Starlight",
-    cover_image: DemoImg,
-    song_count: 8,
-  },
-  {
-    id: 3,
-    title: "Urban Jungle",
-    artist: "City Lights",
-    cover_image: DemoImg,
-    song_count: 15,
-  },
-  {
-    id: 4,
-    title: "Mountain Echo",
-    artist: "Nature Sounds",
-    cover_image: DemoImg,
-    song_count: 10,
-  },
-  {
-    id: 5,
-    title: "Electric Dreams",
-    artist: "Neon Pulse",
-    cover_image: DemoImg,
-    song_count: 7,
-  },
-  {
-    id: 6,
-    title: "Rainy Days",
-    artist: "Cloud Nine",
-    cover_image: DemoImg,
-    song_count: 9,
-  },
-  {
-    id: 7,
-    title: "Desert Winds",
-    artist: "Sand Dunes",
-    cover_image: DemoImg,
-    song_count: 11,
-  },
-  {
-    id: 8,
-    title: "Ocean Depths",
-    artist: "Deep Blue",
-    cover_image: DemoImg,
-    song_count: 6,
-  },
-  {
-    id: 9,
-    title: "Forest Whispers",
-    artist: "Green Leaf",
-    cover_image: DemoImg,
-    song_count: 14,
-  },
-  {
-    id: 10,
-    title: "City Nights",
-    artist: "Urban Beat",
-    cover_image: DemoImg,
-    song_count: 13,
-  },
-  {
-    id: 11,
-    title: "Morning Light",
-    artist: "Sunrise",
-    cover_image: DemoImg,
-    song_count: 5,
-  },
-  {
-    id: 12,
-    title: "Winter Tales",
-    artist: "Snowfall",
-    cover_image: DemoImg,
-    song_count: 8,
-  },
-];
 
 const Albums = () => {
   const { token } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const [createAlbumModal, setCreateAlbumModal] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const [albumsList, setAlbumsList] = useState([]);
   // 현재 albumSort는 url에 없음 기준나올때 추가
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
@@ -123,7 +37,7 @@ const Albums = () => {
   useEffect(() => {
     const fetchAlbumsList = async () => {
       const response = await getAlbumsList(token, page, search, albumSort);
-      console.log(response);
+      setAlbumsList(response.data.data_list);
     };
     fetchAlbumsList();
   }, []);
@@ -145,7 +59,7 @@ const Albums = () => {
           <Search placeholder="Search by album name..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <div className="albums-list">
-          {dummyAlbumDataList?.map((album, index) => (
+          {albumsList?.map((album, index) => (
             <AlbumsItem
               key={album?.id}
               album={album}
@@ -154,7 +68,7 @@ const Albums = () => {
           ))}
         </div>
         <Pagination
-          totalCount={dummyAlbumDataList?.length}
+          totalCount={albumsList?.length}
           viewCount={12}
           page={page}
         />

@@ -4,11 +4,18 @@ import "./AlbumsDetailsModal.scss";
 
 import { deleteAlbumsList } from "../../../api/AlbumsListApi";
 
-const AlbumsDetailsModal = ({ setShowDetailModal, album, token }) => {
+const AlbumsDetailsModal = ({
+  setShowDetailModal,
+  album,
+  token,
+  onAlbumCreated,
+}) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
 
-  const handleDeleteAlbum = () => {
+  const handleDeleteAlbum = async () => {
+    await deleteAlbumsList(album?.id, token);
+    await onAlbumCreated();
     setDeleteSuccess(true);
   };
 
@@ -68,7 +75,7 @@ const AlbumsDetailsModal = ({ setShowDetailModal, album, token }) => {
             <p className="albums-details-modal__delete-confirm__question">
               Are you sure you want to delete <br />
               <span className="albums-details-modal__delete-confirm__album-name">
-                "{album?.title}"
+                "{album?.album_name}"
               </span>
               ?
             </p>
@@ -82,7 +89,7 @@ const AlbumsDetailsModal = ({ setShowDetailModal, album, token }) => {
             </button>
             <button
               className="albums-details-modal__button__delete-confirm"
-              onClick={() => deleteAlbumsList(album?.id, token)}
+              onClick={handleDeleteAlbum}
             >
               Delete Album
             </button>

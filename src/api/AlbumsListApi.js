@@ -92,7 +92,7 @@ export const updateAlbumsList = async (albumId, formData, token) => {
  * @returns {Promise} axios DELETE 요청 반환
  */
 export const deleteAlbumsList = async (albumId, token) => {
-  return axios.delete(`${serverApi}/api/music/album/${albumId}`, {
+  return axios.delete(`${serverApi}/api/music/album/bundle/${albumId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

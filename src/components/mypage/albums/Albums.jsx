@@ -94,6 +94,8 @@ const Albums = () => {
         <AlbumsDetailsModal
           setShowDetailModal={setShowDetailModal}
           album={selectedAlbum}
+          token={token}
+          onAlbumCreated={refetch}
         />
       )}
       {isLoading && <Loading />}

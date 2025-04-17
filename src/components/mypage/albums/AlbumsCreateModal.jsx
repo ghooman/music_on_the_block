@@ -1,4 +1,4 @@
-import ModalWrap from "../ModalWrap";
+import ModalWrap from "../../ModalWrap";
 import { useState } from "react";
 import "./AlbumsCreateModal.scss";
 

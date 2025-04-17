@@ -10,6 +10,7 @@ import AlbumsItem from "./AlbumsItem";
 import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
 import "./Albums.scss";
 import DemoImg from "../../../assets/images/demo/album01.svg";
+import AlbumsCreateModal from "./AlbumsCreateModal";
 
 const dummyAlbumDataList = [
   {
@@ -133,6 +134,7 @@ const Albums = () => {
           page={page}
         />
       </ContentWrap>
+      {/* {true && <AlbumsCreateModal />} */}
     </div>
   );
 };

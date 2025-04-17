@@ -280,7 +280,7 @@ const Templates = ({ userData, token, isMyProfile, children }) => {
       {path === "music" && category === "Songs" && <Songs token={token} />}
       {path === "music" && category === "Connections" && <Connections />}
       {path === "music" && category === "Favorites" && <MyFavorites />}
-      {category === "Albums" && <Albums />}
+      {path === "music" && category === "Albums" && <Albums />}
 
       {/** */}
       {isPreparingModal && (

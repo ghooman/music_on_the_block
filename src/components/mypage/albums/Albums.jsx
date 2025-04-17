@@ -6,11 +6,12 @@ import Pagination from "../../unit/Pagination";
 import Search from "../../unit/Search";
 import SubBanner from "../../../components/create/SubBanner";
 import AlbumsItem from "./AlbumsItem";
+import AlbumsCreateModal from "./AlbumsCreateModal";
+import AlbumsDetailsModal from "./AlbumsDetailsModal";
 
 import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
 import "./Albums.scss";
 import DemoImg from "../../../assets/images/demo/album01.svg";
-import AlbumsCreateModal from "./AlbumsCreateModal";
 
 const dummyAlbumDataList = [
   {
@@ -102,6 +103,7 @@ const dummyAlbumDataList = [
 const Albums = () => {
   const [searchParams] = useSearchParams();
   const [createAlbumModal, setCreateAlbumModal] = useState(false);
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
 
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
@@ -109,6 +111,12 @@ const Albums = () => {
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+
+  const handleAlbumClick = (album) => {
+    console.log(album);
+    setSelectedAlbum(album);
+    setShowDetailModal(true);
+  };
 
   return (
     <div className="albums">
@@ -128,7 +136,11 @@ const Albums = () => {
         </ContentWrap.SubWrap>
         <div className="albums-list">
           {dummyAlbumDataList?.map((album, index) => (
-            <AlbumsItem key={album?.id} album={album} />
+            <AlbumsItem
+              key={album?.id}
+              album={album}
+              handleAlbumClick={handleAlbumClick}
+            />
           ))}
         </div>
         <Pagination
@@ -139,6 +151,12 @@ const Albums = () => {
       </ContentWrap>
       {showCreateModal && (
         <AlbumsCreateModal setShowCreateModal={setShowCreateModal} />
+      )}
+      {showDetailModal && selectedAlbum && (
+        <AlbumsDetailsModal
+          setShowDetailModal={setShowDetailModal}
+          album={selectedAlbum}
+        />
       )}
     </div>
   );

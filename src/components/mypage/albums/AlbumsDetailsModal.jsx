@@ -1,0 +1,119 @@
+import { useState } from "react";
+import ModalWrap from "../../ModalWrap";
+import "./AlbumsDetailsModal.scss";
+
+const AlbumsDetailsModal = ({ setShowDetailModal, album }) => {
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+
+  const handleDeleteAlbum = () => {
+    // 실제 앨범 삭제 로직을 여기에 구현
+    // API 호출 등 필요한 작업 수행 후 성공 시 deleteSuccess를 true로 설정
+    setDeleteSuccess(true);
+  };
+
+  // 초기 상태: 앨범 상세 정보 표시
+  if (!deleteConfirm && !deleteSuccess) {
+    return (
+      <ModalWrap onClose={setShowDetailModal} title="Album Details">
+        <div className="albums-details-modal">
+          <div className="albums-details-modal__info">
+            <p className="albums-details-modal__info__title">{album?.title}</p>
+            <p className="albums-details-modal__info__artist">
+              {album?.artist}
+            </p>
+            <p className="albums-details-modal__info__songs">
+              {album?.song_count} Songs
+            </p>
+          </div>
+          <div className="albums-details-modal__button-box">
+            <div className="albums-details-modal__button-box__edit">
+              <button
+                className="albums-details-modal__button__edit"
+                onClick={() => {}}
+              >
+                Edit Details
+              </button>
+              <button
+                className="albums-details-modal__button__edit-songs"
+                onClick={() => {}}
+              >
+                Edit Songs
+              </button>
+            </div>
+            <button
+              className="albums-details-modal__button__delete"
+              onClick={() => setDeleteConfirm(true)}
+            >
+              Delete Album
+            </button>
+          </div>
+        </div>
+      </ModalWrap>
+    );
+  }
+
+  // 삭제 확인 상태
+  if (deleteConfirm && !deleteSuccess) {
+    return (
+      <ModalWrap onClose={setShowDetailModal} title="Delete Album">
+        <div className="albums-details-modal">
+          <div className="albums-details-modal__delete-confirm">
+            <p className="albums-details-modal__delete-confirm__text">
+              This action cannot be undone.
+            </p>
+            <p className="albums-details-modal__delete-confirm__text">
+              All tracks in this album will also be permanently deleted.
+            </p>
+            <p className="albums-details-modal__delete-confirm__question">
+              Are you sure you want to delete <br />
+              <span className="albums-details-modal__delete-confirm__album-name">
+                "{album?.title}"
+              </span>
+              ?
+            </p>
+          </div>
+          <div className="albums-details-modal__button-box">
+            <button
+              className="albums-details-modal__button__cancel"
+              onClick={() => setDeleteConfirm(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="albums-details-modal__button__delete-confirm"
+              onClick={handleDeleteAlbum}
+            >
+              Delete Album
+            </button>
+          </div>
+        </div>
+      </ModalWrap>
+    );
+  }
+
+  // 삭제 완료 상태
+  if (deleteSuccess) {
+    return (
+      <ModalWrap onClose={setShowDetailModal} title="">
+        <div className="albums-details-modal">
+          <div className="albums-details-modal__success">
+            <p className="albums-details-modal__success__text">
+              Album deleted successfully.
+            </p>
+          </div>
+          <div className="albums-details-modal__button-box">
+            <button
+              className="albums-details-modal__button__ok"
+              onClick={() => setShowDetailModal(false)}
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      </ModalWrap>
+    );
+  }
+};
+
+export default AlbumsDetailsModal;

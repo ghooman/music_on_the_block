@@ -18,12 +18,12 @@ const AlbumsDetailsModal = ({ setShowDetailModal, album }) => {
       <ModalWrap onClose={setShowDetailModal} title="Album Details">
         <div className="albums-details-modal">
           <div className="albums-details-modal__info">
-            <p className="albums-details-modal__info__title">{album?.title}</p>
-            <p className="albums-details-modal__info__artist">
-              {album?.artist}
+            <p className="albums-details-modal__info__title">
+              [{album?.album_name}]
             </p>
+            <p className="albums-details-modal__info__artist">{album?.name}</p>
             <p className="albums-details-modal__info__songs">
-              {album?.song_count} Songs
+              {album?.song_cnt} Songs
             </p>
           </div>
           <div className="albums-details-modal__button-box">

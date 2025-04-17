@@ -22,6 +22,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CollectionDetail from "./pages/CollectionDetail";
 import NftItemDetail from "./pages/NftItemDetail";
 import SongList from "./pages/SongList";
+import AlbumsDetail from "./components/mypage/AlbumsDetail";
+import EditAlbumSongs from "./components/mypage/EditAlbumSongs";
 function Layout({ children }) {
   return (
     <div>
@@ -72,12 +74,20 @@ function App() {
               }
             />
             <Route
+              path="/chatbot"
+              element={
+                <Layout>
+                  <ChatBot />
+                </Layout>
+              }
+            />
+            <Route
               path="/my-page/:path"
               element={
                 <Layout>
-                  {/* <ProtectedRoute> */}
-                  <MyPage isMyProfile={true} />
-                  {/* </ProtectedRoute> */}
+                  <ProtectedRoute>
+                    <MyPage isMyProfile={true} />
+                  </ProtectedRoute>
                 </Layout>
               }
             />
@@ -144,6 +154,22 @@ function App() {
               element={
                 <Layout>
                   <NftItemDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-page/albums-detail"
+              element={
+                <Layout>
+                  <AlbumsDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-page/edit-album-songs"
+              element={
+                <Layout>
+                  <EditAlbumSongs />
                 </Layout>
               }
             />

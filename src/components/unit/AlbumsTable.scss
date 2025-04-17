@@ -85,12 +85,17 @@
                 }
             }
             td {
+                padding: 0 8px;
                 color: var(--Text-music-sub, #aaa);
                 text-align: center;
                 font-family: Inter400;
                 font-size: 14px;
                 font-style: normal;
                 line-height: normal;
+                max-width: 10ch;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 &:first-child {
                     width: 40px;
                 }

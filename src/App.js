@@ -12,7 +12,6 @@ import AlbumDetail from "./pages/AlbumDetail";
 import SignUp from "./pages/SignUp";
 import Nft from "./pages/Nft";
 import NftList from "./pages/NftList";
-import ChatBot from "./pages/ChatBot";
 // 컴포넌트
 import Header from "./components/Header";
 import Intro from "./components/Intro";
@@ -69,14 +68,6 @@ function App() {
               element={
                 <Layout>
                   <SongList />
-                </Layout>
-              }
-            />
-            <Route
-              path="/chatbot"
-              element={
-                <Layout>
-                  <ChatBot />
                 </Layout>
               }
             />

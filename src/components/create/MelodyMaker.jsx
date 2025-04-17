@@ -112,12 +112,11 @@ const StyledPromptPreview = ({ previewText, valueColor = "#cf0" }) => {
 
 // 앨범 커버 프롬프트 생성 함수
 const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
-  const { lyric_tag = [], lyric_genre = [], lyric_stylistic = [] } = lyricData;
+  const { lyric_tag = [], lyric_genre = [] } = lyricData;
   return `
       [가사 데이터]
       태그: ${lyric_tag.join(", ")}
       장르: ${lyric_genre.join(", ")}
-      스타일: ${lyric_stylistic.join(", ")}
       
       [노래 스토리]
       ${lyricStory}
@@ -320,7 +319,6 @@ const MelodyMaker = ({
           language: selectedLanguage,
           feelings: "",
           genre: lyricData?.lyric_genre?.[0] || "",
-          style: lyricData?.lyric_stylistic?.[0] || "",
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
           my_story: lyricStory,
         },
@@ -453,7 +451,7 @@ const MelodyMaker = ({
         <SelectedWrap title="Lyrics Lab">
           <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
           <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
-          <SelectedItem title="Stylistic" value={lyricData?.lyric_stylistic} />
+
           <div className="lyrics-lab__selected-item">
             <p className="lyrics-lab__selected-item--title">Story</p>
             <p className="lyrics-lab__selected-item--text">

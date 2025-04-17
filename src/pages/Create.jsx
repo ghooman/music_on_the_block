@@ -1,274 +1,288 @@
 // pages/Create.js
-import React, { useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
-import ExpandedButton from '../components/create/ExpandedButton';
-import LyricLab from '../components/create/LyricLab';
-import MelodyMaker from '../components/create/MelodyMaker';
-import LyricChatBot from '../components/create/chatbot/LyricChatBot';
-import MelodyChatBot from '../components/create/chatbot/MelodyChatBot';
-import DescriptionBanner from '../components/create/DescriptionBanner';
-import GetStarted from '../components/create/GetStarted';
-import AlbumCoverStudio from '../components/create/AlbumCoverStudio';
-import Finalize from '../components/create/Finalize';
-import CreateCompleteModal from '../components/CreateCompleteModal';
-import SkipModal from '../components/SkipModal';
-import '../styles/Create.scss';
-import { getCreatePossibleCount } from '../api/getCreatePossibleCount';
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import ExpandedButton from "../components/create/ExpandedButton";
+import LyricLab from "../components/create/LyricLab";
+import MelodyMaker from "../components/create/MelodyMaker";
+import LyricChatBot from "../components/create/chatbot/LyricChatBot";
+import MelodyChatBot from "../components/create/chatbot/MelodyChatBot";
+import DescriptionBanner from "../components/create/DescriptionBanner";
+import GetStarted from "../components/create/GetStarted";
+import AlbumCoverStudio from "../components/create/AlbumCoverStudio";
+import Finalize from "../components/create/Finalize";
+import CreateCompleteModal from "../components/CreateCompleteModal";
+import SkipModal from "../components/SkipModal";
+import "../styles/Create.scss";
+import { getCreatePossibleCount } from "../api/getCreatePossibleCount";
 const Create = () => {
-    const { token, walletAddress, isRegistered } = useContext(AuthContext);
-    const navigate = useNavigate();
-    const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
-    const [createMode, setCreateMode] = useState(''); // chatbot, select
-    const [createLoading, setCreateLoading] = useState(false);
-    const [finalPrompt, setFinalPrompt] = useState('');
-    // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
-    useEffect(() => {
-        if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
-            // 조건에 맞지 않으면 메인 페이지로 이동
-            navigate('/');
-        }
-    }, [pageNumber, walletAddress, isRegistered]);
+  const { token, walletAddress, isRegistered } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
+  const [createMode, setCreateMode] = useState(""); // chatbot, select
+  const [createLoading, setCreateLoading] = useState(false);
+  const [finalPrompt, setFinalPrompt] = useState("");
+  // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
+  useEffect(() => {
+    if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
+      // 조건에 맞지 않으면 메인 페이지로 이동
+      navigate("/");
+    }
+  }, [pageNumber, walletAddress, isRegistered]);
 
-    const [lyricData, setLyricData] = useState({
-        lyric_tag: [],
-        lyric_genre: [],
-        lyric_stylistic: [],
-    });
-    const [lyricStory, setLyricStory] = useState('');
-    const [melodyData, setMelodyData] = useState({
-        melody_tag: [],
-        melody_genre: [],
-        melody_gender: [],
-        melody_instrument: [],
-        melody_tempo: [],
-        melody_detail: [],
-        melody_title: [],
-    });
-    const [melodyDetail, setMelodyDetail] = useState('');
-    const [melodyTitle, setMelodyTitle] = useState('');
-    // 남은 생성횟수 확인
-    const [createPossibleCount, setCreatePossibleCount] = useState(0);
-    useEffect(() => {
-        const fetchCreatePossibleCount = async () => {
-            try {
-                const response = await getCreatePossibleCount(token);
-                setCreatePossibleCount(response.data);
-            } catch (error) {
-                console.error('Error fetching create possible count:', error);
-            }
-        };
-
-        fetchCreatePossibleCount();
-    }, [token]);
-
-    const [generatedLyric, setGeneratedLyric] = useState('');
-    const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
-    const [tempo, setTempo] = useState([90]);
-    const [checkList, setCheckList] = useState(false);
-    const [skipLyric, setSkipLyric] = useState(false);
-    const [skipMelody, setSkipMelody] = useState(false);
-    const [skip, setSkip] = useState('');
-    const [createCompleteModal, setCreateCompleteModal] = useState(false);
-    const [selectedLanguage, setSelectedLanguage] = useState('KOR');
-    const [albumCover, setAlbumCover] = useState(null);
-
-    const skipHandler = () => {
-        if (skip === 'lyrics') {
-            setSkipLyric(true);
-        } else {
-            setSkipMelody(true);
-        }
-        setPageNumber((prev) => prev + 1);
-        setSkip(false);
+  const [lyricData, setLyricData] = useState({
+    lyric_tag: [],
+    lyric_genre: [],
+    // lyric_stylistic: [],
+  });
+  const [lyricStory, setLyricStory] = useState("");
+  const [melodyData, setMelodyData] = useState({
+    melody_tag: [],
+    melody_genre: [],
+    melody_gender: [],
+    melody_instrument: [],
+    melody_tempo: [],
+    melody_detail: [],
+    melody_title: [],
+  });
+  const [melodyDetail, setMelodyDetail] = useState("");
+  const [melodyTitle, setMelodyTitle] = useState("");
+  // 남은 생성횟수 확인
+  const [createPossibleCount, setCreatePossibleCount] = useState(0);
+  useEffect(() => {
+    const fetchCreatePossibleCount = async () => {
+      try {
+        const response = await getCreatePossibleCount(token);
+        setCreatePossibleCount(response.data);
+      } catch (error) {
+        console.error("Error fetching create possible count:", error);
+      }
     };
 
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, [pageNumber]);
+    fetchCreatePossibleCount();
+  }, [token]);
 
-    if (pageNumber === -1)
-        return (
-            <GetStarted
-                handler={() => setPageNumber(0)}
-                createPossibleCount={createPossibleCount}
-                setCreateMode={setCreateMode}
-                setSelectedLanguage={setSelectedLanguage}
-            />
-        );
+  const [generatedLyric, setGeneratedLyric] = useState("");
+  const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
+  const [tempo, setTempo] = useState([90]);
+  const [checkList, setCheckList] = useState(false);
+  const [skipLyric, setSkipLyric] = useState(false);
+  const [skipMelody, setSkipMelody] = useState(false);
+  const [skip, setSkip] = useState("");
+  const [createCompleteModal, setCreateCompleteModal] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("KOR");
+  const [albumCover, setAlbumCover] = useState(null);
 
-    const isLyricPage = pageNumber === 0;
-    const isMelodyPage = pageNumber === 1;
+  const skipHandler = () => {
+    if (skip === "lyrics") {
+      setSkipLyric(true);
+    } else {
+      setSkipMelody(true);
+    }
+    setPageNumber((prev) => prev + 1);
+    setSkip(false);
+  };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pageNumber]);
+
+  if (pageNumber === -1)
     return (
-        <div className="music_create">
-            <Title />
-            <Progress pageNumber={pageNumber} />
-            <DescriptionBanner pageNumber={pageNumber} />
-            {createMode === 'chatbot' && (
-                <>
-                    {pageNumber === 0 && (
-                        <LyricChatBot
-                            createLoading={createLoading}
-                            setCreateLoading={setCreateLoading}
-                            lyricData={lyricData}
-                            setLyricData={setLyricData}
-                            lyricStory={lyricStory}
-                            setLyricStory={setLyricStory}
-                            setGeneratedLyric={setGeneratedLyric}
-                            generatedLyric={generatedLyric}
-                            setPageNumber={setPageNumber}
-                            selectedLanguage={selectedLanguage}
-                        />
-                    )}
-                    {pageNumber === 1 && (
-                        <MelodyChatBot
-                            createLoading={createLoading}
-                            setCreateLoading={setCreateLoading}
-                            lyricData={lyricData}
-                            melodyData={melodyData}
-                            setMelodyData={setMelodyData}
-                            lyricStory={lyricStory}
-                            setLyricStory={setLyricStory}
-                            generatedLyric={generatedLyric}
-                            setPageNumber={setPageNumber}
-                            selectedLanguage={selectedLanguage}
-                            albumCover={albumCover}
-                            setAlbumCover={setAlbumCover}
-                            generatedMusicResult={generatedMusicResult}
-                            setGeneratedMusicResult={setGeneratedMusicResult}
-                            finalPrompt={finalPrompt}
-                            setFinalPrompt={setFinalPrompt}
-                        />
-                    )}
-                </>
-            )}
-            {createMode === 'select' && (
-                <>
-                    {pageNumber === 0 && (
-                        <LyricLab
-                            createMode={createMode}
-                            setCreateMode={setCreateMode}
-                            lyricData={lyricData}
-                            setLyricData={setLyricData}
-                            lyricStory={lyricStory}
-                            setLyricStory={setLyricStory}
-                            generatedLyric={generatedLyric}
-                            setGeneratedLyric={setGeneratedLyric}
-                            onSkip={() => setSkip('lyrics')}
-                            setPageNumber={setPageNumber}
-                            melodyData={melodyData}
-                            tempo={tempo}
-                            SelectedWrap={SelectedWrap}
-                            SelectedItem={SelectedItem}
-                            isLyricPage={isLyricPage}
-                            selectedLanguage={selectedLanguage}
-                            setSelectedLanguage={setSelectedLanguage}
-                            createPossibleCount={createPossibleCount}
-                            albumCover={albumCover}
-                            setAlbumCover={setAlbumCover}
-                        ></LyricLab>
-                    )}
-                    {pageNumber === 1 && (
-                        <MelodyMaker
-                            lyricData={lyricData}
-                            lyricStory={lyricStory}
-                            melodyData={melodyData}
-                            setMelodyData={setMelodyData}
-                            melodyDetail={melodyDetail}
-                            setMelodyDetail={setMelodyDetail}
-                            tempo={tempo}
-                            setTempo={setTempo}
-                            generatedLyric={generatedLyric}
-                            generatedMusicResult={generatedMusicResult}
-                            setGeneratedMusicResult={setGeneratedMusicResult}
-                            onSkip={() => setSkip('melody')}
-                            setPageNumber={setPageNumber}
-                            SelectedWrap={SelectedWrap}
-                            SelectedItem={SelectedItem}
-                            isMelodyPage={isMelodyPage}
-                            selectedLanguage={selectedLanguage}
-                            setSelectedLanguage={setSelectedLanguage}
-                            createPossibleCount={createPossibleCount}
-                            albumCover={albumCover}
-                            setAlbumCover={setAlbumCover}
-                            finalPrompt={finalPrompt}
-                            setFinalPrompt={setFinalPrompt}
-                        ></MelodyMaker>
-                    )}
-                </>
-            )}
-        </div>
+      <GetStarted
+        handler={() => setPageNumber(0)}
+        createPossibleCount={createPossibleCount}
+        setCreateMode={setCreateMode}
+        setSelectedLanguage={setSelectedLanguage}
+      />
     );
+
+  const isLyricPage = pageNumber === 0;
+  const isMelodyPage = pageNumber === 1;
+  return (
+    <div className="music_create">
+      <Title />
+      <Progress pageNumber={pageNumber} />
+      <DescriptionBanner pageNumber={pageNumber} />
+      {createMode === "chatbot" && (
+        <>
+          {pageNumber === 0 && (
+            <LyricChatBot
+              createLoading={createLoading}
+              setCreateLoading={setCreateLoading}
+              lyricData={lyricData}
+              setLyricData={setLyricData}
+              lyricStory={lyricStory}
+              setLyricStory={setLyricStory}
+              setGeneratedLyric={setGeneratedLyric}
+              generatedLyric={generatedLyric}
+              setPageNumber={setPageNumber}
+              selectedLanguage={selectedLanguage}
+            />
+          )}
+          {pageNumber === 1 && (
+            <MelodyChatBot
+              createLoading={createLoading}
+              setCreateLoading={setCreateLoading}
+              lyricData={lyricData}
+              melodyData={melodyData}
+              setMelodyData={setMelodyData}
+              lyricStory={lyricStory}
+              setLyricStory={setLyricStory}
+              generatedLyric={generatedLyric}
+              setPageNumber={setPageNumber}
+              selectedLanguage={selectedLanguage}
+              albumCover={albumCover}
+              setAlbumCover={setAlbumCover}
+              generatedMusicResult={generatedMusicResult}
+              setGeneratedMusicResult={setGeneratedMusicResult}
+              finalPrompt={finalPrompt}
+              setFinalPrompt={setFinalPrompt}
+            />
+          )}
+        </>
+      )}
+      {createMode === "select" && (
+        <>
+          {pageNumber === 0 && (
+            <LyricLab
+              createMode={createMode}
+              setCreateMode={setCreateMode}
+              lyricData={lyricData}
+              setLyricData={setLyricData}
+              lyricStory={lyricStory}
+              setLyricStory={setLyricStory}
+              generatedLyric={generatedLyric}
+              setGeneratedLyric={setGeneratedLyric}
+              onSkip={() => setSkip("lyrics")}
+              setPageNumber={setPageNumber}
+              melodyData={melodyData}
+              tempo={tempo}
+              SelectedWrap={SelectedWrap}
+              SelectedItem={SelectedItem}
+              isLyricPage={isLyricPage}
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+              createPossibleCount={createPossibleCount}
+              albumCover={albumCover}
+              setAlbumCover={setAlbumCover}
+            ></LyricLab>
+          )}
+          {pageNumber === 1 && (
+            <MelodyMaker
+              lyricData={lyricData}
+              lyricStory={lyricStory}
+              melodyData={melodyData}
+              setMelodyData={setMelodyData}
+              melodyDetail={melodyDetail}
+              setMelodyDetail={setMelodyDetail}
+              tempo={tempo}
+              setTempo={setTempo}
+              generatedLyric={generatedLyric}
+              generatedMusicResult={generatedMusicResult}
+              setGeneratedMusicResult={setGeneratedMusicResult}
+              onSkip={() => setSkip("melody")}
+              setPageNumber={setPageNumber}
+              SelectedWrap={SelectedWrap}
+              SelectedItem={SelectedItem}
+              isMelodyPage={isMelodyPage}
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+              createPossibleCount={createPossibleCount}
+              albumCover={albumCover}
+              setAlbumCover={setAlbumCover}
+              finalPrompt={finalPrompt}
+              setFinalPrompt={setFinalPrompt}
+            ></MelodyMaker>
+          )}
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Create;
 
 const Title = () => {
-    return <h1 className="title">Recommended Music Source</h1>;
+  return <h1 className="title">Recommended Music Source</h1>;
 };
 
 const Progress = ({ pageNumber }) => {
-    const pages = [
-        'Lyrics Lab',
-        'Melody Maker',
-        // "Alubum Cover Studio",
-        // "Preview & Finalize",
-    ];
+  const pages = [
+    "Lyrics Lab",
+    "Melody Maker",
+    // "Alubum Cover Studio",
+    // "Preview & Finalize",
+  ];
 
-    return (
-        <div className="progress mb40">
-            {pages.map((item, index, { length }) => (
-                <React.Fragment key={item}>
-                    <div className="progress__item">
-                        <div className={`progress__square ${pageNumber >= index ? 'enable' : ''}`}></div>
-                        <p className={`progress__text ${pageNumber >= index ? 'enable' : ''}`}>{item}</p>
-                    </div>
-                    {length - 1 > index && (
-                        <span className={`progress__arrow ${pageNumber >= index ? 'enable' : ''}`}></span>
-                    )}
-                </React.Fragment>
-            ))}
-        </div>
-    );
+  return (
+    <div className="progress mb40">
+      {pages.map((item, index, { length }) => (
+        <React.Fragment key={item}>
+          <div className="progress__item">
+            <div
+              className={`progress__square ${
+                pageNumber >= index ? "enable" : ""
+              }`}
+            ></div>
+            <p
+              className={`progress__text ${
+                pageNumber >= index ? "enable" : ""
+              }`}
+            >
+              {item}
+            </p>
+          </div>
+          {length - 1 > index && (
+            <span
+              className={`progress__arrow ${
+                pageNumber >= index ? "enable" : ""
+              }`}
+            ></span>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
 };
 
 const SelectedWrap = ({ children, title }) => {
-    const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-    const handleToggle = () => {
-        setIsActive((prev) => !prev);
-    };
-    return (
-        <div className={`selected-wrap ${isActive ? 'active' : ''}`}>
-            <h2 className="wrap-title" onClick={handleToggle}>
-                {title}
-            </h2>
-            <div className="wrap-content">{children}</div>
-        </div>
-    );
+  const handleToggle = () => {
+    setIsActive((prev) => !prev);
+  };
+  return (
+    <div className={`selected-wrap ${isActive ? "active" : ""}`}>
+      <h2 className="wrap-title" onClick={handleToggle}>
+        {title}
+      </h2>
+      <div className="wrap-content">{children}</div>
+    </div>
+  );
 };
 
 const SelectedItem = ({ title, value, multiple }) => {
-    return (
-        <div className={`selected-item ${multiple ? 'multiple' : ''}`}>
-            <p className="item-title">{title}</p>
-            <div className="item-value">
-                {value?.length > 0 ? (
-                    value.map((item) => {
-                        if (!multiple) {
-                            return (
-                                <span className={`values`} key={item}>
-                                    {item}
-                                </span>
-                            );
-                        } else {
-                            return <button className="values multiple">{item}</button>;
-                        }
-                    })
-                ) : (
-                    <p className="values">-</p>
-                )}
-            </div>
-        </div>
-    );
+  return (
+    <div className={`selected-item ${multiple ? "multiple" : ""}`}>
+      <p className="item-title">{title}</p>
+      <div className="item-value">
+        {value?.length > 0 ? (
+          value.map((item) => {
+            if (!multiple) {
+              return (
+                <span className={`values`} key={item}>
+                  {item}
+                </span>
+              );
+            } else {
+              return <button className="values multiple">{item}</button>;
+            }
+          })
+        ) : (
+          <p className="values">-</p>
+        )}
+      </div>
+    </div>
+  );
 };

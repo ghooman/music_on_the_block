@@ -107,7 +107,7 @@ const Albums = () => {
   const page = searchParams.get("page");
   const search = searchParams.get("search");
 
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(true);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
   return (
@@ -134,7 +134,9 @@ const Albums = () => {
           page={page}
         />
       </ContentWrap>
-      {/* {true && <AlbumsCreateModal />} */}
+      {showCreateModal && (
+        <AlbumsCreateModal setShowCreateModal={setShowCreateModal} />
+      )}
     </div>
   );
 };

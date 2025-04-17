@@ -19,12 +19,13 @@ const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
         <div className="album-create-modal__image-box">
           <img
             className="album-create-modal__image"
-            src=""
+            src={defaultAlbumsLogo}
             alt="albums_cover_image"
           />
           <button>
             <img
               className="album-create-modal__button-image"
+              src={UploadButtonImage}
               alt="button_icon"
             />
           </button>
@@ -34,11 +35,10 @@ const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
           <input
             className="album-create-modal__name-box__input"
             placeholder="Please enter the album name"
-          >
-            <span className="album-create-modal__name-box__input__length">
-              {albumsName?.length || 0}/40
-            </span>
-          </input>
+          />
+          <span className="album-create-modal__name-box__input__length">
+            {albumsName?.length || 0}/40
+          </span>
         </div>
         <div className="album-create-modal__button-box">
           <button className="album-create-modal__button__cancel">Cancel</button>

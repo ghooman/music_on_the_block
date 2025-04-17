@@ -445,7 +445,7 @@ const MelodyChatBot = ({
           language: selectedLanguage,
           feelings: "",
           genre: lyricData?.lyric_genre || "",
-          style: lyricData?.lyric_stylistic || "",
+          // style: lyricData?.lyric_stylistic || "",
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(", ") : "",
           my_story: lyricStory,
         },

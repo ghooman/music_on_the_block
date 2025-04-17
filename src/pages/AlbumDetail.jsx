@@ -453,10 +453,10 @@ function AlbumDetail() {
                   <dt>Genre</dt>
                   <dd>{album?.genre || "-"}</dd>
                 </dl>
-                <dl>
+                {/* <dl>
                   <dt>Stylistic</dt>
                   <dd>{album?.Stylistic || "-"}</dd>
-                </dl>
+                </dl> */}
                 <dl>
                   <dt>Gender</dt>
                   <dd>{album?.gender || "-"}</dd>

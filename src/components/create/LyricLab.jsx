@@ -50,19 +50,6 @@ const stylePreset = {
   Passionate: ["Passionate"],
 };
 
-const stylisticPreset = {
-  Poetic: ["Poetic"],
-  Emotional: ["Emotional"],
-  Bold: ["Bold"],
-  Soft: ["Soft"],
-  Clear: ["Clear"],
-  Deep: ["Deep"],
-  Fun: ["Fun"],
-  Calm: ["Calm"],
-  Storytelling: ["Storytelling"],
-  Philosophical: ["Philosophical"],
-};
-
 // OpenAI 클라이언트 초기화
 const client = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY, // .env 파일 등에 저장된 API 키 사용
@@ -149,9 +136,6 @@ const LyricsLab = ({
     (lyricData?.lyric_genre &&
       lyricData.lyric_genre.length > 0 &&
       lyricData.lyric_genre[0].trim() !== "") ||
-    (lyricData?.lyric_stylistic &&
-      lyricData.lyric_stylistic.length > 0 &&
-      lyricData.lyric_stylistic[0].trim() !== "") ||
     (lyricStory && lyricStory.trim() !== "");
 
   // 가사 생성 함수 (로딩 상태 관리는 외부에서 처리)
@@ -162,7 +146,6 @@ const LyricsLab = ({
       input: `출력원하는언어:${selectedLanguage},
         느낌:${lyricData?.lyric_tag.join(",")},
         장르:${lyricData?.lyric_genre.join(",")},
-        양식:${lyricData?.lyric_stylistic.join(",")},
         추가적인 나의 이야기:${lyricStory}
         `,
     });
@@ -223,16 +206,6 @@ const LyricsLab = ({
             selected={lyricData?.lyric_genre}
             preset={genrePreset}
           />
-          <SelectItem
-            mainTitle="Select a Stylistic"
-            subTitle="Popular Stylistic"
-            setter={setLyricData}
-            objKey="lyric_stylistic"
-            selected={lyricData?.lyric_stylistic}
-            preset={stylisticPreset}
-            multiple
-            add
-          />
           <SelectItemInputOnly
             value={lyricStory}
             setter={setLyricStory}
@@ -247,10 +220,7 @@ const LyricsLab = ({
           <SelectedWrap title="Lyrics Lab">
             <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
             <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
-            <SelectedItem
-              title="Stylistic"
-              value={lyricData?.lyric_stylistic}
-            />
+
             <div className="lyrics-lab__selected-item">
               <p className="lyrics-lab__selected-item--title">Your Story</p>
               <p className="lyrics-lab__selected-item--text">

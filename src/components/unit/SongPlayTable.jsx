@@ -1,27 +1,33 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
+import NoneContent from './NoneContent';
+
 import './AlbumsTable.scss';
 
-import halfHeartIcon from '../../assets/images/icon/half-heart.svg';
-import songImg from '../../assets/images/intro/intro-demo-img2.png';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import NoneContent from './NoneContent';
+
 import track3 from '../../assets/music/MusicOnTheBlock_v1.mp3';
 
 /**
  *
  * @param {Array} songList : 곡의 데이터 리스트입니다.
- * @param {Component} children : 페이지네이션을 넣는 것을 권장드립니다! (부모 컴포넌트에서 페이지네이션 조작을 위해)
+ * @param {boolean} deleteOption : 삭제 옵션
+ * @param {boolean} releaseOption : 릴리즈 옵션
+ * @param {function} handleDelete : 삭제 핸들러
+ * @param {function} handleRelease : 릴리즈 핸들러
  * @returns
  */
 
 const SongPlayTable = ({
     songList = [],
+    deleteOption = true,
+    releaseOption = true,
+    handleDelete = true,
+    handleRelease = true,
     // children
 }) => {
     const [activeSong, setActiveSong] = useState(null);
-
     const audioRef = useRef(null);
 
     const handleRowClick = (album) => {
@@ -64,6 +70,8 @@ const SongPlayTable = ({
                             <th>Artist</th>
                             <th className="albums-table__song-title">Song Title</th>
                             <th>Details</th>
+                            {deleteOption && <th>Delete</th>}
+                            {releaseOption && <th>Release</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -102,11 +110,42 @@ const SongPlayTable = ({
                                                 <Link
                                                     className="albums-table__detail-btn"
                                                     to={`/song-detail/${album.id}`}
+                                                    onClick={(e) => e.stopPropagation()}
                                                 >
                                                     Detail
                                                 </Link>
                                             </div>
                                         </td>
+                                        {deleteOption && handleDelete && (
+                                            <td>
+                                                <div className="td-content">
+                                                    <button
+                                                        className="albums-table__detail-btn delete"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDelete();
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
+                                        {releaseOption && handleRelease && (
+                                            <td>
+                                                <div className="td-content">
+                                                    <button
+                                                        className="albums-table__detail-btn release"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleRelease();
+                                                        }}
+                                                    >
+                                                        Release
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
                                 ))}
                             </>
@@ -114,9 +153,6 @@ const SongPlayTable = ({
                     </tbody>
                 </table>
                 {songList?.length === 0 && <NoneContent message={'There are no songs created yet.'} height={300} />}
-                {/* {songList?.length > 0 && (
-                    <Pagination totalCount={totalCount} viewCount={viewCount} page={page} setPage={setPage} />
-                )} */}
             </div>
         </>
     );

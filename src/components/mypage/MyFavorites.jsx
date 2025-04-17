@@ -25,6 +25,7 @@ import { getLikeList } from '../../api/getLikeAndUnLikeList';
 
 // Context
 import { AuthContext } from '../../contexts/AuthContext';
+import SongPlayTable from '../unit/SongPlayTable';
 
 const subCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -59,7 +60,8 @@ const MyFavorites = () => {
                     <Filter songsSort />
                     <Search />
                 </ContentWrap.SubWrap>
-                <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable>
+                {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}
+                <SongPlayTable songList={favoritesSongsList?.data_list} />
                 <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={10} page={page} />
             </ContentWrap>
             {isLoading && <Loading />}

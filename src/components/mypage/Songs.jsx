@@ -11,6 +11,7 @@ import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 // 🧩 유닛 컴포넌트
 import Filter from '../unit/Filter';
 import AlbumsTable from '../unit/AlbumsTable';
+import SongPlayTable from '../unit/SongPlayTable';
 import AlbumItem from '../unit/AlbumItem';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
@@ -24,7 +25,10 @@ import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnRelease
 
 // 🎨 스타일
 import './Songs.scss';
-import SongPlayTable from '../unit/SongPlayTable';
+import axios from 'axios';
+
+// 환경변수
+const serverApi = process.env.REACT_APP_SERVER_API;
 
 const topAlbumsCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -56,6 +60,7 @@ const Songs = ({ token }) => {
         { refetchOnWindowFocus: false, enabled: !!token }
     );
 
+    // 송 리스트 get API
     const { data: songsList, isLoading: songsListLoading } = useQuery(
         ['songs_list', { token, page, songsSort, search, releaseType }],
         async () => {
@@ -70,6 +75,36 @@ const Songs = ({ token }) => {
         },
         { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
     );
+
+    //=============
+    // 삭제
+    //=============
+    const handleDelete = async (id) => {
+        try {
+            const res = await axios.post(`${serverApi}/api/music/${id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    //=============
+    // 릴리즈
+    //=============
+    const handleRelease = async (id) => {
+        try {
+            const res = await axios.post(`${serverApi}/api/music/${id}/release`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <div className="songs">
@@ -109,7 +144,13 @@ const Songs = ({ token }) => {
                     <Filter songsSort />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
-                <SongPlayTable songList={songsList?.data_list} />
+                <SongPlayTable
+                    songList={songsList?.data_list}
+                    deleteOption={true}
+                    releaseOption={releaseType === 'Unrelease songs'}
+                    handleDelete={handleDelete}
+                    handleRelease={handleRelease}
+                />
                 <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={10} page={page} />
             </ContentWrap>
             {(topSongLoading || songsListLoading) && <Loading />}

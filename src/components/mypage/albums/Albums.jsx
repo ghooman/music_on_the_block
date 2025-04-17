@@ -37,12 +37,13 @@ const Albums = () => {
   };
   // 앨범 목록 조회
   const fetchAlbumsList = async () => {
+    if (!token) return;
     const response = await getAlbumsList(token, page, search, albumSort);
     setAlbumsList(response.data.data_list);
   };
   useEffect(() => {
     fetchAlbumsList();
-  }, []);
+  }, [token, page]);
 
   return (
     <div className="albums">

@@ -1,9 +1,15 @@
 import MoreHoriz from "../../../assets/images/icon/more-horiz.svg";
 import defaultAlbumImage from "../../../assets/images/mypage/albums-upload-logo.png";
+import { useNavigate } from "react-router-dom";
 import "./AlbumsItem.scss";
-const AlbumsItem = ({ album, handleAlbumClick }) => {
+const AlbumsItem = ({ album, handleAlbumDetailClick }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="albums-item">
+    <div
+      className="albums-item"
+      onClick={() => navigate(`/my-page/albums-detail/${album?.id}`)}
+    >
       <div className="albums-item__info">
         <h1>{album?.album_name}</h1>
         <p>{album?.name}</p>
@@ -14,7 +20,7 @@ const AlbumsItem = ({ album, handleAlbumClick }) => {
           className="albums-item__cover-button"
           onClick={(e) => {
             e.stopPropagation(); // 버블링 방지
-            handleAlbumClick(album);
+            handleAlbumDetailClick(album);
           }}
         >
           <img src={MoreHoriz} alt="more_content" />

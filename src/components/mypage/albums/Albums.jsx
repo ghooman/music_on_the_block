@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
 import ContentWrap from "../../unit/ContentWrap";
@@ -22,7 +22,6 @@ const Albums = () => {
   const { token } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
   const search = searchParams.get("search");
@@ -30,7 +29,7 @@ const Albums = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
-  const handleAlbumClick = (album) => {
+  const handleAlbumDetailClick = (album) => {
     setSelectedAlbum(album);
     setShowDetailModal(true);
   };
@@ -66,7 +65,7 @@ const Albums = () => {
             <AlbumsItem
               key={album?.id}
               album={album}
-              handleAlbumClick={handleAlbumClick}
+              handleAlbumDetailClick={handleAlbumDetailClick}
             />
           ))}
         </div>

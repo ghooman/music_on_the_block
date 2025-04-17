@@ -22,7 +22,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CollectionDetail from "./pages/CollectionDetail";
 import NftItemDetail from "./pages/NftItemDetail";
 import SongList from "./pages/SongList";
-import AlbumsDetail from "./components/mypage/AlbumsDetail";
+import AlbumsDetail from "./components/mypage/albums/AlbumsDetail";
 import EditAlbumSongs from "./components/mypage/EditAlbumSongs";
 function Layout({ children }) {
   return (
@@ -74,20 +74,28 @@ function App() {
               }
             />
             <Route
-              path="/chatbot"
-              element={
-                <Layout>
-                  <ChatBot />
-                </Layout>
-              }
-            />
-            <Route
               path="/my-page/:path"
               element={
                 <Layout>
                   <ProtectedRoute>
                     <MyPage isMyProfile={true} />
                   </ProtectedRoute>
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-page/albums-detail/:id"
+              element={
+                <Layout>
+                  <AlbumsDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-page/edit-album-songs"
+              element={
+                <Layout>
+                  <EditAlbumSongs />
                 </Layout>
               }
             />
@@ -154,22 +162,6 @@ function App() {
               element={
                 <Layout>
                   <NftItemDetail />
-                </Layout>
-              }
-            />
-            <Route
-              path="/my-page/albums-detail"
-              element={
-                <Layout>
-                  <AlbumsDetail />
-                </Layout>
-              }
-            />
-            <Route
-              path="/my-page/edit-album-songs"
-              element={
-                <Layout>
-                  <EditAlbumSongs />
                 </Layout>
               }
             />

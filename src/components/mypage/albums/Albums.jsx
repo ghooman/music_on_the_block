@@ -31,7 +31,6 @@ const Albums = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
 
   const handleAlbumClick = (album) => {
-    console.log(album);
     setSelectedAlbum(album);
     setShowDetailModal(true);
   };

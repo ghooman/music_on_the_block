@@ -178,7 +178,7 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
 
             <div className="create__btn">
                 {isRegistered ? (
-                    <ExpandedButton
+                    <button
                         className={`create__get-started--button ${
                             createPossibleCount === 0 || activeIndex === null ? 'disabled' : ''
                         }`}
@@ -196,7 +196,7 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
               ? "General Create"
               : "Select Format"} */}
                         Create
-                    </ExpandedButton>
+                    </button>
                 ) : (
                     <WalletConnect onConnect={handleWalletConnect} />
                 )}

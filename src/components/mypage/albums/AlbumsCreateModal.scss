@@ -1,0 +1,167 @@
+.albums-create-modal {
+  padding: 20px;
+  color: #fff;
+
+  &__title {
+    color: var(--Text-music-title, #f1f1f1);
+    font-family: Orbitron400;
+    font-size: 14px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.42px;
+    margin-bottom: 12px;
+  }
+
+  &__size-info {
+    color: var(--Text-music-sub, #aaa);
+    font-family: Inter300;
+    font-size: 8px;
+    font-style: normal;
+    line-height: 100%; /* 8px */
+    margin: 12px 0 8px 0;
+  }
+
+  &__image-box {
+    margin-top: 8px;
+    margin-bottom: 24px;
+    width: 192px;
+    height: 192px;
+    background-color: #1b1b1b;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  &__button-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  &__name {
+    color: var(--Text-music-title, #f1f1f1);
+    font-family: Orbitron400;
+    font-size: 14px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.42px;
+    margin-bottom: 12px;
+  }
+
+  &__name-box {
+    position: relative;
+    margin-top: 12px;
+    margin-bottom: 24px;
+
+    &__input {
+      display: flex;
+      padding: 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 12px;
+      border: 1px solid var(--Color-04, #383838);
+      background: var(--Dark-Color-01, #0b0b0c);
+      color: var(--Text-music-un, #565656);
+      font-family: "Noto Sans KR";
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 350;
+      line-height: normal;
+      &:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &__length {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--Text-music-un, #565656);
+        font-family: Inter400;
+        font-size: 12px;
+        font-style: normal;
+        line-height: normal;
+      }
+    }
+  }
+
+  &__button-box {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    button {
+      // flex: 1;
+      height: 46px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+
+  &__button {
+    &__cancel {
+      width: 84px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      display: flex;
+      padding: 8px 10px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Orbitron600;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.48px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &__create {
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(90deg, #a4ef00 0%, #a4ef00 100%);
+      border: none;
+      color: #000;
+
+      &:hover {
+        background: linear-gradient(90deg, #8dd400 0%, #a4ef00 100%);
+      }
+    }
+  }
+}

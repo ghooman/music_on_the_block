@@ -107,7 +107,7 @@ const Albums = () => {
   const page = searchParams.get("page");
   const search = searchParams.get("search");
 
-  const [showCreateModal, setShowCreateModal] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
   return (
@@ -116,7 +116,10 @@ const Albums = () => {
         <SubBanner.LeftImages src={subBannerImage4} />
         <SubBanner.Title text="Create Your Own Album" />
         <SubBanner.Message text="Gather your favorite tracks and organise them into a single. You can showcase your musical world!" />
-        <SubBanner.Button title="Create Album" />
+        <SubBanner.Button
+          title="Create Album"
+          handler={() => setShowCreateModal(true)}
+        />
       </SubBanner>
       <ContentWrap title="Albums List">
         <ContentWrap.SubWrap gap={8}>

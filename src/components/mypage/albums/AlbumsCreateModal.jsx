@@ -3,10 +3,10 @@ import { useState } from "react";
 import "./AlbumsCreateModal.scss";
 
 import UploadButtonImage from "../../../assets/images/icon/picture1.svg";
-import defaultAlbumsLogo from "../../../assets/images/mypage/albums-upload-logo.png";
+import defaultAlbumsImage from "../../../assets/images/mypage/albums-upload-logo.png";
 
 const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
-  const [albumsLogo, setAlbumsLogo] = useState(null);
+  const [albumsImage, setAlbumsImage] = useState(null);
   const [albumsName, setAlbumsName] = useState("");
 
   return (
@@ -19,7 +19,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status }) => {
         <div className="albums-create-modal__image-box">
           <img
             className="albums-create-modal__image"
-            src={defaultAlbumsLogo}
+            src={defaultAlbumsImage}
             alt="albums_cover_image"
           />
           <button>

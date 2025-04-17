@@ -11,18 +11,18 @@ import AlbumsCreateModal from "./AlbumsCreateModal";
 import AlbumsDetailsModal from "./AlbumsDetailsModal";
 import NoneContent from "../../../components/unit/NoneContent";
 import NoDataImage from "../../../assets/images/mypage/albums-no-data.svg";
+import Loading from "../../../components/IntroLogo2";
 
 import subBannerImage4 from "../../../assets/images/create/subbanner-bg4.png";
 import "./Albums.scss";
 import { getAlbumsList } from "../../../api/AlbumsListApi";
+import { useQuery } from "react-query";
 
 const Albums = () => {
   const { token } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-  const [albumsList, setAlbumsList] = useState([]);
 
-  // 현재 albumSort는 url에 없음 기준나올때 추가
   const albumSort = searchParams.get("album_sort");
   const page = searchParams.get("page");
   const search = searchParams.get("search");
@@ -36,14 +36,14 @@ const Albums = () => {
     setShowDetailModal(true);
   };
   // 앨범 목록 조회
-  const fetchAlbumsList = async () => {
-    if (!token) return;
-    const response = await getAlbumsList(token, page, search, albumSort);
-    setAlbumsList(response.data.data_list);
-  };
-  useEffect(() => {
-    fetchAlbumsList();
-  }, [token, page, search, albumSort]);
+  const {
+    data: albumsList,
+    isLoading,
+    refetch,
+  } = useQuery(["album_list", { token, page, search, albumSort }], async () => {
+    const { data } = await getAlbumsList(token, page, search, albumSort);
+    return data;
+  });
 
   return (
     <div className="albums">
@@ -63,7 +63,7 @@ const Albums = () => {
         </ContentWrap.SubWrap>
 
         <div className="albums-list">
-          {albumsList?.map((album, index) => (
+          {albumsList?.data_list?.map((album, index) => (
             <AlbumsItem
               key={album?.id}
               album={album}
@@ -71,7 +71,7 @@ const Albums = () => {
             />
           ))}
         </div>
-        {(!albumsList || albumsList?.length === 0) && (
+        {(!albumsList?.data_list || albumsList?.data_list.length === 0) && (
           <NoneContent
             message={"There are no albums created yet."}
             image={NoDataImage}
@@ -79,7 +79,7 @@ const Albums = () => {
           />
         )}
         <Pagination
-          totalCount={albumsList?.length}
+          totalCount={albumsList?.total_cnt}
           viewCount={12}
           page={page}
         />
@@ -87,17 +87,16 @@ const Albums = () => {
       {showCreateModal && (
         <AlbumsCreateModal
           setShowCreateModal={setShowCreateModal}
-          onAlbumCreated={fetchAlbumsList}
+          onAlbumCreated={refetch}
         />
       )}
       {showDetailModal && selectedAlbum && (
         <AlbumsDetailsModal
-          token={token}
-          album={selectedAlbum}
           setShowDetailModal={setShowDetailModal}
-          onAlbumCreated={fetchAlbumsList}
+          album={selectedAlbum}
         />
       )}
+      {isLoading && <Loading />}
     </div>
   );
 };

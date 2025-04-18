@@ -2,7 +2,7 @@
 import ModalWrap from "../../ModalWrap";
 import { useState, useRef, useContext, useEffect } from "react";
 import "./AlbumsCreateModal.scss";
-import { createAlbumsList } from "../../../api/AlbumsListApi";
+import { createAlbumsList, updateAlbumsList } from "../../../api/AlbumsListApi";
 
 import UploadButtonImage from "../../../assets/images/icon/picture1.svg";
 import defaultAlbumsImage from "../../../assets/images/mypage/albums-upload-logo.png";
@@ -121,6 +121,73 @@ const AlbumsCreateModal = ({
     }
   };
 
+  const handleUpdateAlbum = async () => {
+    setErrorMessage("");
+    if (!albumsName.trim()) {
+      setErrorMessage("앨범 이름을 입력해주세요.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      let response;
+
+      // 이미지 업데이트가 있는 경우 먼저 처리
+      if (albumsImage?.file) {
+        const imageFormData = new FormData();
+        imageFormData.append("cover_image", albumsImage.file);
+        imageFormData.append("payload", JSON.stringify({}));
+
+        console.log("이미지 업데이트 API 호출 전 FormData:");
+        for (let [key, value] of imageFormData.entries()) {
+          console.log(`${key}: ${value instanceof File ? value.name : value}`);
+        }
+
+        response = await updateAlbumsList(albumData.id, imageFormData, token);
+      }
+
+      // 이름 업데이트 처리
+      const nameFormData = new FormData();
+      nameFormData.append(
+        "payload",
+        JSON.stringify({
+          album_name: albumsName,
+        })
+      );
+      nameFormData.append("cover_image", "");
+
+      console.log("이름 업데이트 API 호출 전 FormData:");
+      for (let [key, value] of nameFormData.entries()) {
+        console.log(`${key}: ${value instanceof File ? value.name : value}`);
+      }
+
+      response = await updateAlbumsList(albumData.id, nameFormData, token);
+
+      if (response.status === 200 || response.status === 201) {
+        await onAlbumCreated();
+        setShowCreateModal(false);
+      } else {
+        setErrorMessage("앨범 수정에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setErrorMessage(`앨범 수정 실패: ${error.response.data.message}`);
+      } else {
+        setErrorMessage("앨범 수정에 실패했습니다. 다시 시도해주세요.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (status === "edit") {
+      await handleUpdateAlbum();
+    } else {
+      await handleCreateAlbum();
+    }
+  };
+
   return (
     <ModalWrap
       onClose={setShowCreateModal}
@@ -182,7 +249,7 @@ const AlbumsCreateModal = ({
           </button>
           <button
             className="albums-create-modal__button__create"
-            onClick={handleCreateAlbum}
+            onClick={handleSubmit}
             disabled={isLoading}
           >
             {isLoading ? "Loading..." : status === "edit" ? "Edit" : "Create"}

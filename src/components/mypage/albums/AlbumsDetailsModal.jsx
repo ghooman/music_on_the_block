@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ModalWrap from "../../ModalWrap";
 import "./AlbumsDetailsModal.scss";
 
@@ -10,14 +11,53 @@ const AlbumsDetailsModal = ({
   token,
   onAlbumCreated,
   onEditClick,
+  isFromAlbumDetail: isFromAlbumDetailProp,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [isFromAlbumDetail, setIsFromAlbumDetail] = useState(
+    isFromAlbumDetailProp || false
+  );
+
+  // 컴포넌트 마운트 시 현재 경로를 확인
+  useEffect(() => {
+    // 콘솔에 현재 경로 출력 (디버깅용)
+    console.log("현재 경로:", location.pathname);
+    // prop으로 전달받은 값이 있으면 우선 사용, 없으면 경로로 판단
+    setIsFromAlbumDetail(
+      isFromAlbumDetailProp || location.pathname.includes("/album/")
+    );
+    console.log(
+      "isFromAlbumDetail 설정됨:",
+      isFromAlbumDetailProp || location.pathname.includes("/album/")
+    );
+  }, [location, isFromAlbumDetailProp]);
 
   const handleDeleteAlbum = async () => {
-    await deleteAlbumsList(album?.id, token);
-    await onAlbumCreated();
-    setDeleteSuccess(true);
+    try {
+      await deleteAlbumsList(album?.id, token);
+      // 삭제 성공
+      setDeleteSuccess(true);
+      console.log("앨범 삭제 성공, isFromAlbumDetail:", isFromAlbumDetail);
+    } catch (error) {
+      console.error("앨범 삭제 실패:", error);
+    }
+  };
+
+  const handleOkClick = () => {
+    console.log("OK 버튼 클릭, isFromAlbumDetail:", isFromAlbumDetail);
+
+    if (isFromAlbumDetail) {
+      // AlbumDetail에서 호출된 경우 Albums 페이지로 이동
+      console.log("페이지 이동 시도", isFromAlbumDetail);
+      navigate("/my-page/music?category=Albums&page=1");
+    } else {
+      // Albums에서 호출된 경우 목록 새로고침
+      if (onAlbumCreated) onAlbumCreated();
+    }
+    setShowDetailModal(false);
   };
 
   // 초기 상태: 앨범 상세 정보 표시
@@ -113,7 +153,7 @@ const AlbumsDetailsModal = ({
           <div className="albums-details-modal__button-box">
             <button
               className="albums-details-modal__button__ok"
-              onClick={() => setShowDetailModal(false)}
+              onClick={handleOkClick}
             >
               Ok
             </button>

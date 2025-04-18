@@ -30,7 +30,7 @@ export const createAlbumsList = async (formData, token) => {
       headers,
     });
     console.log("API 응답 성공:", response.data);
-    getAlbumsList(token, 1, "", "");
+    // getAlbumsList(token, 1, "", "");
     return response;
   } catch (error) {
     console.error("API 호출 실패:", error);
@@ -74,15 +74,34 @@ export const getAlbumsList = async (
  * @returns {Promise} axios PUT 요청 반환
  */
 export const updateAlbumsList = async (albumId, formData, token) => {
-  const headers = {};
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
+  // FormData 내용 로깅
+  console.log("API 호출 전 FormData:");
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value instanceof File ? value.name : value}`);
   }
 
-  return axios.put(`${serverApi}/api/music/album/${albumId}`, formData, {
-    headers,
-  });
+  try {
+    const response = await axios.post(
+      `${serverApi}/api/music/album/bundle/${albumId}`,
+      formData,
+      {
+        headers,
+      }
+    );
+    console.log("API 응답 성공:", response.data);
+    return response;
+  } catch (error) {
+    console.error("API 호출 실패:", error);
+    if (error.response) {
+      console.error("응답 상태:", error.response.status);
+      console.error("응답 데이터:", error.response.data);
+    }
+    throw error;
+  }
 };
 
 /**

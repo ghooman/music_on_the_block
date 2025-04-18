@@ -12,6 +12,29 @@ import ExpandedButton from "./ExpandedButton";
 import CreateLoading from "../CreateLoading";
 import { RemainCountButton } from "../unit/RemainCountButton";
 import { generateKoreanPdf } from "../../utils/pdfGenerator";
+/* ---------- 상수 및 유틸 함수 ---------- */
+const MAX_LYRICS_LENGTH = 1000;
+
+/** 1,000자(공백 포함) 초과 시 자동 압축 */
+const trimLyrics = (text = "", max = MAX_LYRICS_LENGTH) => {
+  if (text.length <= max) return text;
+
+  // 줄 단위 분리 후 뒤에서부터 제거
+  const lines = text.split("\n");
+  while (lines.join("\n").length > max && lines.length) {
+    lines.pop();
+  }
+
+  let trimmed = lines.join("\n");
+  if (trimmed.length > max) {
+    trimmed = trimmed.slice(0, max);
+    const lastSpace = trimmed.lastIndexOf(" ");
+    if (lastSpace > 0) trimmed = trimmed.slice(0, lastSpace);
+  }
+  return trimmed + " …";
+};
+
+/* ---------- 프리셋 ---------- */
 const tagPreset = {
   Love: ["Love"],
   Moon: ["Moon"],
@@ -115,8 +138,12 @@ const LyricsLab = ({
   7. Default Simplicity for Insufficient Tags
      - If the user does not select or provide sufficient tags or details, create simple, straightforward lyrics using a basic structure.
   
-  Your overall goal is to deliver engaging, well-structured song lyrics that align with the user's request, without any extra commentary.
-  
+  8. Length Limit
+     - The total length of the generated lyrics, including spaces and line breaks, must never exceed 1,000 characters.
+     - If your draft exceeds this limit, compress or remove less‑important lines until the final output is ≤1,000 characters.
+     - Under no circumstances may you output more than 1,000 characters.
+
+Your overall goal is to deliver engaging, well‑structured song lyrics that align with the user's request, without any extra commentary.
 `;
 
   /**
@@ -157,7 +184,8 @@ const LyricsLab = ({
     ) {
       throw new Error("필수 정보가 부족합니다. 모든 항목을 채워주세요.");
     } else {
-      setCreatedLyrics(response.output_text);
+      const safeLyrics = trimLyrics(response.output_text);
+      setCreatedLyrics(safeLyrics);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -275,6 +303,13 @@ const LyricsLab = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
+          <p
+            className={`generated-lyrics__confirm-buttons--text ${
+              createdLyrics?.length > 1000 ? "disabled" : ""
+            }`}
+          >
+            Lyric Length : {createdLyrics?.length} / 1000
+          </p>
           <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
@@ -284,7 +319,10 @@ const LyricsLab = ({
             EDIT
           </button>
           <button
-            className="generated-lyrics__confirm-buttons--button confirm"
+            className={`generated-lyrics__confirm-buttons--button confirm ${
+              createdLyrics?.length > 1000 ? "disabled" : ""
+            }`}
+            disabled={createdLyrics?.length > 1000}
             onClick={() => {
               setGeneratedLyric(createdLyrics);
               setPageNumber((prev) => prev + 1);

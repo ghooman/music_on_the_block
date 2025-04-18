@@ -6,7 +6,10 @@ import './AiServices.scss';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
-import AiCoverCreationIcon from '../../assets/images/icon/cover-creation-Icon.svg';
+
+import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
 
 import FilterDateModal from '../../components/unit/FilterDateModal';
 import PreparingModal from '../PreparingModal';
@@ -16,9 +19,9 @@ import { LineChart, PieChart } from '../unit/Chart';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const AiServiceTypeList = [
-    { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
-    { name: 'AI Singing Evaluation', image: SongwritingIcon, preparing: true },
-    { name: 'AI Cover Creation', image: AiCoverCreationIcon, preparing: true },
+    { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },
+    { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: true },
+    { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
 ];
 const AiStatusList = [
     { name: 'All' },
@@ -40,21 +43,21 @@ const AiServices = ({ username }) => {
             value: aiServiceData?.song_writing,
             color: 'hsl(252, 100%, 50%)',
             preparing: false,
-            image: LyricsAndSongwritingIcon,
+            image: generatedLyricSongwritingIcon,
         },
         {
             id: 'AI Singing Evaluation',
             value: aiServiceData?.singing_evaluation,
             color: 'hsl(162, 100%, 50%)',
             preparing: true,
-            image: SongwritingIcon,
+            image: generatedSigingEvaluationIcon,
         },
         {
             id: 'AI Cover Creation',
             value: aiServiceData?.cover_creation,
             color: 'hsl(342, 100%, 50%)',
             preparing: true,
-            image: AiCoverCreationIcon,
+            image: generatedCoverCreationIcon,
         },
     ];
 

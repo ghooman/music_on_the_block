@@ -9,6 +9,10 @@ import pencelIcon from '../../assets/images/icon/pencel.svg';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
+import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
+
 import checkIcon from '../../assets/images/check-icon.svg';
 
 /**

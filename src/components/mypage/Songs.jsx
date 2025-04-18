@@ -143,7 +143,7 @@ const Songs = ({ token }) => {
                     value={releaseType}
                 />
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter songsSort />
+                    <Filter songsSort={true} />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
                 <SongPlayTable

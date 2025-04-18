@@ -9,6 +9,7 @@ import pencelIcon from '../../assets/images/icon/pencel.svg';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
+import checkIcon from '../../assets/images/check-icon.svg';
 
 /**
  *
@@ -226,9 +227,13 @@ const FilterButton = ({ value, select, handleClick, icon }) => {
             className={`albums__filter-item-wrap--contents__item ${value === select && 'select'}`}
             onClick={handleClick}
         >
-            {icon && (
+            {icon ? (
                 <div className="icons">
                     <img src={icon} alt="icon" />
+                </div>
+            ) : (
+                <div className={`checkbox ${value === select && 'checked'}`}>
+                    {value === select && <img src={checkIcon} alt="icon" />}
                 </div>
             )}
             {value}

@@ -9,6 +9,7 @@ const AlbumsDetailsModal = ({
   album,
   token,
   onAlbumCreated,
+  onEditClick,
 }) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -37,7 +38,7 @@ const AlbumsDetailsModal = ({
             <div className="albums-details-modal__button-box__edit">
               <button
                 className="albums-details-modal__button__edit"
-                onClick={() => {}}
+                onClick={onEditClick}
               >
                 Edit Details
               </button>

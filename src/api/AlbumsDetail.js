@@ -9,17 +9,15 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @returns {Promise} axios GET 요청 반환
  */
 export const getMyAlbumBundleInfo = async (bundle_id, token) => {
-  console.log("bundle_id", bundle_id);
   try {
     const response = await axios.get(
-      `${serverApi}/api/music/my/album/bundle/${bundle_id}`,
+      `${serverApi}/api/music/my/album/bundle/${bundle_id}/detail`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-
     return response.data;
   } catch (error) {
     throw error;

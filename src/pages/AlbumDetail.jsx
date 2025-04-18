@@ -544,7 +544,7 @@ function AlbumDetail() {
                     </td>
                     <td>
                       {/* {formatLocalTime(item.create_dt)} */}
-                      10
+                      {item.play_cnt}
                     </td>
                     <td>{item.like}</td>
                     <td>

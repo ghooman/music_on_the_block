@@ -1,6 +1,6 @@
 // components/AlbumsCreateModal.js
 import ModalWrap from "../../ModalWrap";
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import "./AlbumsCreateModal.scss";
 import { createAlbumsList } from "../../../api/AlbumsListApi";
 
@@ -8,13 +8,29 @@ import UploadButtonImage from "../../../assets/images/icon/picture1.svg";
 import defaultAlbumsImage from "../../../assets/images/mypage/albums-upload-logo.png";
 import { AuthContext } from "../../../contexts/AuthContext";
 
-const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated }) => {
+const AlbumsCreateModal = ({
+  setShowCreateModal,
+  status,
+  onAlbumCreated,
+  albumData,
+}) => {
   const { token } = useContext(AuthContext);
   const [albumsImage, setAlbumsImage] = useState(null);
   const [albumsName, setAlbumsName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (status === "edit" && albumData) {
+      setAlbumsName(albumData.album_name || "");
+      if (albumData.cover_image) {
+        setAlbumsImage({
+          preview: albumData.cover_image,
+        });
+      }
+    }
+  }, [status, albumData]);
 
   const handleImageUpload = (e) => {
     setErrorMessage("");
@@ -60,27 +76,45 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated }) => {
       const formDataToSend = new FormData();
       formDataToSend.append(
         "payload",
-        JSON.stringify({ album_name: albumsName })
+        JSON.stringify({
+          album_name: albumsName,
+          album_id: status === "edit" ? albumData.id : undefined,
+        })
       );
 
       if (albumsImage?.file) {
         formDataToSend.append("cover_image", albumsImage.file);
       }
 
-      const response = await createAlbumsList(formDataToSend, token);
+      const response = await createAlbumsList(
+        formDataToSend,
+        token,
+        status === "edit"
+      );
 
       if (response.status === 200 || response.status === 201) {
-        // 생성 성공 후, 최신 리스트 조회
         await onAlbumCreated();
         setShowCreateModal(false);
       } else {
-        setErrorMessage("앨범 생성에 실패했습니다. 다시 시도해주세요.");
+        setErrorMessage(
+          status === "edit"
+            ? "앨범 수정에 실패했습니다."
+            : "앨범 생성에 실패했습니다. 다시 시도해주세요."
+        );
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        setErrorMessage(`앨범 생성 실패: ${error.response.data.message}`);
+        setErrorMessage(
+          `${status === "edit" ? "앨범 수정" : "앨범 생성"} 실패: ${
+            error.response.data.message
+          }`
+        );
       } else {
-        setErrorMessage("앨범 생성에 실패했습니다. 다시 시도해주세요.");
+        setErrorMessage(
+          status === "edit"
+            ? "앨범 수정에 실패했습니다."
+            : "앨범 생성에 실패했습니다. 다시 시도해주세요."
+        );
       }
     } finally {
       setIsLoading(false);
@@ -88,7 +122,10 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated }) => {
   };
 
   return (
-    <ModalWrap onClose={setShowCreateModal} title={"Create Album"}>
+    <ModalWrap
+      onClose={setShowCreateModal}
+      title={status === "edit" ? "Edit Album" : "Create Album"}
+    >
       <div className="albums-create-modal">
         <p className="albums-create-modal__title">Album Cover Image</p>
         <span className="albums-create-modal__size-info">
@@ -148,7 +185,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated }) => {
             onClick={handleCreateAlbum}
             disabled={isLoading}
           >
-            {isLoading ? "Creating..." : "Create"}
+            {isLoading ? "Loading..." : status === "edit" ? "Edit" : "Create"}
           </button>
         </div>
       </div>

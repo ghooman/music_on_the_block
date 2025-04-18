@@ -28,11 +28,20 @@ const Albums = () => {
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const handleAlbumDetailClick = (album) => {
     setSelectedAlbum(album);
     setShowDetailModal(true);
   };
+
+  const handleEditAlbum = (album) => {
+    setSelectedAlbum(album);
+    setEditMode(true);
+    setShowCreateModal(true);
+    setShowDetailModal(false);
+  };
+
   // 앨범 목록 조회
   const {
     data: albumsList,
@@ -86,6 +95,8 @@ const Albums = () => {
         <AlbumsCreateModal
           setShowCreateModal={setShowCreateModal}
           onAlbumCreated={refetch}
+          status={editMode ? "edit" : "create"}
+          albumData={editMode ? selectedAlbum : null}
         />
       )}
       {showDetailModal && selectedAlbum && (
@@ -94,6 +105,7 @@ const Albums = () => {
           album={selectedAlbum}
           token={token}
           onAlbumCreated={refetch}
+          onEditClick={() => handleEditAlbum(selectedAlbum)}
         />
       )}
       {isLoading && <Loading />}

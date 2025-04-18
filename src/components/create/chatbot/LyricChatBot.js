@@ -38,7 +38,6 @@ const LyricChatBot = ({
   const [isStatus, setIsStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
   const [mode, setMode] = useState("read");
 
-  
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -49,7 +48,7 @@ const LyricChatBot = ({
     setLoading(true);
     try {
       const response = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-nano",
         messages: [
           {
             role: "system",
@@ -326,15 +325,15 @@ const LyricChatBot = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
-          <ExpandedButton
+          <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
               setMode((prev) => (prev === "edit" ? "read" : "edit"))
             }
           >
             EDIT
-          </ExpandedButton>
-          <ExpandedButton
+          </button>
+          <button
             className="generated-lyrics__confirm-buttons--button confirm"
             onClick={() => {
               setGeneratedLyric(generatedLyric);
@@ -343,10 +342,10 @@ const LyricChatBot = ({
             }}
           >
             CONFIRM
-          </ExpandedButton>
+          </button>
         </div>
         <div className="generated-lyrics__download-buttons">
-          <ExpandedButton
+          <button
             className="generated-lyrics__download-buttons--button txt"
             onClick={() => {
               const element = document.createElement("a");
@@ -359,8 +358,8 @@ const LyricChatBot = ({
             }}
           >
             Download as text (.txt)
-          </ExpandedButton>
-          <ExpandedButton
+          </button>
+          <button
             className="generated-lyrics__download-buttons--button pdf"
             onClick={() => {
               // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
@@ -377,7 +376,7 @@ const LyricChatBot = ({
             }}
           >
             Download as pdf (.pdf)
-          </ExpandedButton>
+          </button>
         </div>
       </div>
     );

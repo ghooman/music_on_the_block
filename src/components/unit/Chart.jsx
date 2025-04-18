@@ -54,7 +54,12 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
                     {selectedItem !== 'All' && matchedData?.value}
                 </p>
                 <p className="chart__pie--text-per">
-                    {selectedItem !== 'All' ? ((matchedData?.value / total) * 100)?.toFixed(2) : 100}%
+                    {selectedItem !== 'All'
+                        ? isNaN(matchedData?.value / total)
+                            ? '-'
+                            : ((matchedData?.value / total) * 100)?.toFixed(2)
+                        : 100}
+                    %
                 </p>
             </div>
             {legends && (
@@ -76,55 +81,28 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
     );
 };
 
-export const LineChart = ({ height = '500px', width = '100%' }) => {
-    const data = [
+export const LineChart = ({ data, height = '500px', width = '100%' }) => {
+    const chartData = [
         {
             id: 'japan',
             color: 'hsl(162, 70%, 50%)',
-            data: [
-                {
-                    x: 'plane',
-                    y: 30,
-                },
-                {
-                    x: 'helicopter',
-                    y: 73,
-                },
-                {
-                    x: 'boat',
-                    y: 18,
-                },
-                {
-                    x: 'train',
-                    y: 72,
-                },
-                {
-                    x: 'subway',
-                    y: 92,
-                },
-                {
-                    x: 'bus',
-                    y: 32,
-                },
-                {
-                    x: 'car',
-                    y: 22,
-                },
-            ],
+            data: data,
         },
     ];
+
+    if (!data) return;
 
     return (
         <div style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
             <ResponsiveLine
-                data={data}
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-                curve="cardinal"
+                data={chartData}
+                margin={{ top: 50, right: 20, bottom: 50, left: 25 }}
+                curve="catmullRom"
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',
                     min: 0,
-                    max: 100,
+                    max: 5,
                     stacked: true,
                     reverse: false,
                 }}
@@ -144,12 +122,26 @@ export const LineChart = ({ height = '500px', width = '100%' }) => {
                 tooltip={() => null}
                 colors={() => '#00ffb3'}
                 theme={{
+                    axis: {
+                        ticks: {
+                            text: {
+                                fill: '#939699',
+                                fontSize: 12,
+                            },
+                        },
+                    },
                     grid: {
                         line: {
                             stroke: '#222',
                             strokeWidth: 2,
                         },
                     },
+                }}
+                axisLeft={{
+                    tickValues: [0, 1, 2, 3, 4, 5], // 직접 지정
+                    legend: 'Y Axis',
+                    legendOffset: -40,
+                    legendPosition: 'middle',
                 }}
             />
         </div>

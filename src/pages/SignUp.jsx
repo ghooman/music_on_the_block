@@ -436,6 +436,7 @@ function SignUp() {
       queryClient.invalidateQueries("userDetail");
     } catch (error) {
       console.error("회원가입 에러:", error);
+      alert("sign up error");
     }
   };
 
@@ -462,7 +463,7 @@ function SignUp() {
           setShowModal={setShowModal}
           message={"Congratulations on signing up!"}
           setIsRegistered={setIsRegistered}
-          link={"main"}
+          link={"/main"}
         />
       )}
     </div>

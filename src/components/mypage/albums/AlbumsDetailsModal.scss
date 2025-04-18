@@ -1,0 +1,169 @@
+.albums-details-modal {
+  padding: 20px;
+  color: #fff;
+
+  &__info {
+    margin-bottom: 24px;
+
+    &__title {
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Orbitron400;
+      font-size: 18px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.42px;
+      margin-bottom: 8px;
+    }
+
+    &__artist {
+      color: var(--Text-music-sub, #aaa);
+      font-family: Inter400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: normal;
+      margin-bottom: 4px;
+    }
+
+    &__songs {
+      color: var(--Text-music-sub, #aaa);
+      font-family: Inter300;
+      font-size: 12px;
+      font-style: normal;
+      line-height: normal;
+    }
+  }
+
+  &__delete-confirm {
+    margin-bottom: 24px;
+
+    &__text {
+      color: var(--Text-music-sub, #aaa);
+      font-family: Inter400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: normal;
+      margin-bottom: 8px;
+    }
+
+    &__question {
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Inter400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: normal;
+      margin-top: 24px;
+    }
+
+    &__album-name {
+      color: #cfff00;
+      font-weight: bold;
+      margin: 0 4px;
+    }
+  }
+
+  &__success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+
+    &__text {
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Inter400;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  &__button-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__edit {
+      display: flex;
+      gap: 16px;
+    }
+
+    button {
+      height: 40px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      padding: 8px 10px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-family: Orbitron600;
+      font-size: 16px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.48px;
+    }
+  }
+
+  &__button {
+    &__edit,
+    &__edit-songs {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--Text-music-title, #f1f1f1);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &__delete {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      color: #ff4444;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.2);
+      }
+    }
+
+    &__cancel {
+      width: 30%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--Text-music-title, #f1f1f1);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &__delete-confirm {
+      width: 70%;
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      color: #ff4444;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.2);
+      }
+    }
+
+    &__ok {
+      background: linear-gradient(90deg, #a4ef00 0%, #a4ef00 100%);
+      border: none;
+      color: #000;
+
+      &:hover {
+        background: linear-gradient(90deg, #8dd400 0%, #a4ef00 100%);
+      }
+    }
+  }
+}
+
+// 삭제 확인 모달의 버튼 박스 수평 배치
+.albums-details-modal__delete-confirm + .albums-details-modal__button-box {
+  flex-direction: row;
+}

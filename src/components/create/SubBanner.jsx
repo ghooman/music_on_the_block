@@ -30,8 +30,8 @@ SubBanner.SubMessage = ({ text }) => {
 
 SubBanner.Button = ({ title, handler }) => {
     return (
-        <ExpandedButton className="sub-banner__buttons" onClick={handler}>
+        <button className="sub-banner__buttons" onClick={handler}>
             {title}
-        </ExpandedButton>
+        </button>
     );
 };

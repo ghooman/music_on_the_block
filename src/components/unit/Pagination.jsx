@@ -6,13 +6,14 @@ import { useSearchParams } from 'react-router-dom';
  *
  * @param {number} totalCount : 데이터의 총 개수
  * @param {number} slice : 몇 개로 자를지
- * @param {function} handler : 페이지네이션 핸들러 함수
+ * @param {function} handler : 페이지네이션 핸들러 함수 (쿼리 파라미터 방식 사용하지 않을 경우)
  * @param {number | string} page : 현재 페이지 (state or query parameter) 1부터
  * @returns JSX
  */
 const Pagination = ({ totalCount = 1, viewCount = 1, handler, page = 1 }) => {
     const [pages, setPages] = useState([]);
-    const [_, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page_ = searchParams.get('page'); // 현재 쿼리파라미터에 page가 있는지 검사하기 위한 변수입니다.
     const nowPage = parseInt(page); // 문자열일 경우 버그 발생 가능성이 있어 정수형으로 파싱을 합니다.
     const max = pages?.length;
     const min = 1;
@@ -24,8 +25,10 @@ const Pagination = ({ totalCount = 1, viewCount = 1, handler, page = 1 }) => {
             array.push(i);
         }
         setPages(array);
+    }, [totalCount, viewCount]);
 
-        if (!handler) {
+    useEffect(() => {
+        if (!handler && !page_) {
             setSearchParams(
                 (prev) => {
                     return { ...Object.fromEntries(prev), page: 1 };
@@ -33,7 +36,7 @@ const Pagination = ({ totalCount = 1, viewCount = 1, handler, page = 1 }) => {
                 { replace: true }
             );
         }
-    }, [totalCount, viewCount]);
+    }, []);
 
     const handlePage = (page) => {
         if (page >= min && page <= max) {

@@ -33,7 +33,7 @@ const Create = () => {
   const [lyricData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],
-    lyric_stylistic: [],
+    // lyric_stylistic: [],
   });
   const [lyricStory, setLyricStory] = useState("");
   const [melodyData, setMelodyData] = useState({
@@ -276,11 +276,7 @@ const SelectedItem = ({ title, value, multiple }) => {
                 </span>
               );
             } else {
-              return (
-                <ExpandedButton className="values multiple">
-                  {item}
-                </ExpandedButton>
-              );
+              return <button className="values multiple">{item}</button>;
             }
           })
         ) : (

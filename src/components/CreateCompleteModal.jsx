@@ -23,12 +23,12 @@ const CreateCompleteModal = ({ setCreateCompleteModal }) => {
         <p className="create-complete__text">
           Successfully uploaded to the album!
         </p>
-        <ExpandedButton
+        <button
           className="create-complete__button"
           onClick={() => navigate("/")}
         >
           OK
-        </ExpandedButton>
+        </button>
       </div>
     </ModalWrap>
   );

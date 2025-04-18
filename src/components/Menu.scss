@@ -293,6 +293,10 @@
               height: 142px;
               padding: 8px 0;
               border: 1px solid #678300;
+              margin-top: 8px;
+              &.my-music{
+                height: 186px;
+              }
             }//menu__box__gnb-list__item__list--END--
           }
           .menu__box__gnb-list__item__btn{
@@ -388,7 +392,7 @@
           display: flex;
           flex-direction: column;
           gap: 8px;
-          margin-top: 8px;
+          
           height: 0;
           overflow: hidden;
           transition: 0.3s;

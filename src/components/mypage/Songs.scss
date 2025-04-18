@@ -1,9 +1,9 @@
-.albums {
+.songs {
     display: flex;
     flex-direction: column;
     gap: 24px;
 
-    .albums__title {
+    .songs__title {
         color: var(--primary-base, #cf0);
         font-family: Orbitron500;
         font-size: 24px;
@@ -22,7 +22,7 @@
             border-radius: 100%;
         }
     }
-    .albums__list {
+    .songs__list {
         display: flex;
         padding: 20px 16px 16px 16px;
         flex-direction: column;
@@ -32,19 +32,19 @@
         border-radius: 12px;
         border: 1px solid var(--Color-03, #222);
     }
-    .albums__body {
+    .songs__body {
         display: flex;
         gap: 16px;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
         text-transform: capitalize;
-        .albums__item {
+        .songs__item {
             display: flex;
             flex-direction: column;
             flex: 1;
             // width:calc(33.33% - 16px);
-            .albums__item-title {
+            .songs__item-title {
                 color: var(--primary-base, #cf0);
                 font-family: Orbitron400;
                 font-size: 18px;
@@ -53,11 +53,11 @@
                 letter-spacing: 0.54px;
                 margin-bottom: 16px;
             }
-            .albums__item-intro {
+            .songs__item-intro {
                 display: flex;
                 gap: 8px;
 
-                .albums__item__img-box {
+                .songs__item__img-box {
                     width: 160px;
                     height: 160px;
                     flex-shrink: 0;
@@ -70,11 +70,11 @@
                         object-fit: cover;
                     }
                 }
-                .albums__item-desc {
+                .songs__item-desc {
                     display: flex;
                     flex-direction: column;
                     gap: 8px;
-                    .albums__item-desc-text {
+                    .songs__item-desc-text {
                         align-self: stretch;
                         color: var(--Text-music-title, #f1f1f1);
                         font-family: Inter400;
@@ -83,11 +83,11 @@
                         line-height: 100%; /* 14px */
                         letter-spacing: 0.42px;
                     }
-                    .albums__item__icon-box {
+                    .songs__item__icon-box {
                         display: flex;
                         gap: 12px;
                         align-items: center;
-                        .albums__item__play-count {
+                        .songs__item__play-count {
                             display: flex;
                             gap: 4px;
                             span {
@@ -100,7 +100,7 @@
                             }
                         }
                     }
-                    .albums__item__user-info {
+                    .songs__item__user-info {
                         display: flex;
                         align-items: center;
                         img {
@@ -116,7 +116,7 @@
                             line-height: 100%; /* 12px */
                             letter-spacing: 0.36px;
                         }
-                        .albums__item__more-btn {
+                        .songs__item__more-btn {
                             margin-left: auto;
                         }
                     }
@@ -124,16 +124,16 @@
             }
         }
     }
-    .albums__my-albums {
+    .songs__my-songs {
         border-radius: 12px;
         border: 1px solid var(--Color-03, #222);
         padding: 20px 16px 16px 16px;
         margin-top: 50px;
-        .my-albums__header {
+        .my-songs__header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
-            .my-albums__title {
+            .my-songs__title {
                 gap: 16px;
                 flex: 1 0 0;
                 color: var(--primary-base, #cf0);
@@ -154,7 +154,7 @@
                     border-radius: 100%;
                 }
             }
-            .my-albums__more-btn {
+            .my-songs__more-btn {
                 width: 100px;
                 height: 30px;
                 background: #cf0;
@@ -184,9 +184,9 @@
                         top: 0;
                     }
                 }
-            } //my-albums__more-btn--END--
+            } //my-songs__more-btn--END--
         }
-        .my-albums__input {
+        .my-songs__input {
             margin-bottom: 20px;
             input {
                 display: flex;
@@ -202,10 +202,10 @@
     }
 }
 @media screen and (max-width: 768px) {
-    .albums .albums__list .albums__body {
+    .songs .songs__list .songs__body {
         flex-direction: column;
     }
-    .albums-table {
+    .songs-table {
         // min-width: 768px;
         // overflow: auto;
     }

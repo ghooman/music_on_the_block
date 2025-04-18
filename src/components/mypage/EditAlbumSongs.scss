@@ -1,0 +1,136 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+.edit-album-songs{
+    .edit-album-songs__title{
+        color: var(--primary-base, #CF0);
+        font-family: Orbitron500;
+        font-size: 30px;
+        font-style: normal;
+        line-height: normal;
+        margin-bottom: 32px;
+    }//edit-album-songs--END--
+    .unit-component-content-wrap__title{
+        display: none;
+    }//unit-component-content-wrap__title--END--
+    .unit-component-content-wrap{
+        padding: 0;
+    }
+
+    /* 기본 테이블 스타일은 그대로 두고, 체크박스만 커스텀 */
+    .checkbox{
+        width: 20px;
+        height: 20px;
+    }
+.styled-checkbox {
+    /* 기본 체크박스 숨기기 */
+    appearance: none;
+    margin: 0 auto;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #383838;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    background: #1A1A1A;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  
+    &:hover {
+      border-color: #6b7280;
+    }
+  
+    &:checked {
+      background-color: #CF0;
+      border-color: #CF0;
+    }
+  
+    /* 체크표시 */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 6px;
+      width: 3px;
+      height: 6px;
+      border: solid #000;
+      border-width: 0 2px 2px 0;
+      transform: scale(0) rotate(45deg);
+      transition: transform 0.15s ease;
+    }
+  
+    &:checked::after {
+      transform: scale(1) rotate(45deg);
+    }
+  }
+  
+    .add-delete-btn{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        button{
+            width: 100px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 4px;
+            background: var(--Color-03, #222);
+            transition: 0.3s;
+            &:hover{
+                background: #383838;
+            }
+        }
+    }//add-delete-btn--END--
+
+    .edit-btn{
+        margin-top: 16px;
+        width: 100px;
+        height: 34px;
+        background: #cf0;
+        position: relative;
+        top: 0;
+        margin-left: auto;
+        transition: 0.2s;
+        color: var(--Text-dark-title, #1a1a1a);
+        font-family: Orbitron600;
+        font-size: 12px;
+        font-style: normal;
+        line-height: normal;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: calc(100% - 2px);
+            transition: 0.2s;
+            border-radius: 8px;
+            height: 33px;
+            border: 1px solid #cf0;
+        }
+        &:hover {
+            top: 4px;
+            &::before {
+                top: 0;
+            }
+        }
+    }//edit-btn--END--
+
+}

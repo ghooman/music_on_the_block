@@ -50,19 +50,6 @@ const stylePreset = {
   Passionate: ["Passionate"],
 };
 
-const stylisticPreset = {
-  Poetic: ["Poetic"],
-  Emotional: ["Emotional"],
-  Bold: ["Bold"],
-  Soft: ["Soft"],
-  Clear: ["Clear"],
-  Deep: ["Deep"],
-  Fun: ["Fun"],
-  Calm: ["Calm"],
-  Storytelling: ["Storytelling"],
-  Philosophical: ["Philosophical"],
-};
-
 // OpenAI 클라이언트 초기화
 const client = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY, // .env 파일 등에 저장된 API 키 사용
@@ -149,20 +136,16 @@ const LyricsLab = ({
     (lyricData?.lyric_genre &&
       lyricData.lyric_genre.length > 0 &&
       lyricData.lyric_genre[0].trim() !== "") ||
-    (lyricData?.lyric_stylistic &&
-      lyricData.lyric_stylistic.length > 0 &&
-      lyricData.lyric_stylistic[0].trim() !== "") ||
     (lyricStory && lyricStory.trim() !== "");
 
   // 가사 생성 함수 (로딩 상태 관리는 외부에서 처리)
   const callGPT4oResponses = async () => {
     const response = await client.responses.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-nano",
       instructions,
       input: `출력원하는언어:${selectedLanguage},
         느낌:${lyricData?.lyric_tag.join(",")},
         장르:${lyricData?.lyric_genre.join(",")},
-        양식:${lyricData?.lyric_stylistic.join(",")},
         추가적인 나의 이야기:${lyricStory}
         `,
     });
@@ -223,16 +206,6 @@ const LyricsLab = ({
             selected={lyricData?.lyric_genre}
             preset={genrePreset}
           />
-          <SelectItem
-            mainTitle="Select a Stylistic"
-            subTitle="Popular Stylistic"
-            setter={setLyricData}
-            objKey="lyric_stylistic"
-            selected={lyricData?.lyric_stylistic}
-            preset={stylisticPreset}
-            multiple
-            add
-          />
           <SelectItemInputOnly
             value={lyricStory}
             setter={setLyricStory}
@@ -247,10 +220,7 @@ const LyricsLab = ({
           <SelectedWrap title="Lyrics Lab">
             <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
             <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
-            <SelectedItem
-              title="Stylistic"
-              value={lyricData?.lyric_stylistic}
-            />
+
             <div className="lyrics-lab__selected-item">
               <p className="lyrics-lab__selected-item--title">Your Story</p>
               <p className="lyrics-lab__selected-item--text">
@@ -262,13 +232,13 @@ const LyricsLab = ({
 
         <div className="button-wrap">
           <div className="button-wrap__left">{/* 필요 시 Skip 버튼 */}</div>
-          <ExpandedButton
+          <button
             className={!isAnyFieldFilled || loading ? "next" : "next enable"}
             onClick={handleGenerateLyrics}
             disabled={!isAnyFieldFilled || loading}
           >
             {loading ? "Loading" : "Generate"}
-          </ExpandedButton>
+          </button>
           {loading && <CreateLoading textTrue2={true} />}
         </div>
       </div>
@@ -305,15 +275,15 @@ const LyricsLab = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
-          <ExpandedButton
+          <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
               setMode((prev) => (prev === "edit" ? "read" : "edit"))
             }
           >
             EDIT
-          </ExpandedButton>
-          <ExpandedButton
+          </button>
+          <button
             className="generated-lyrics__confirm-buttons--button confirm"
             onClick={() => {
               setGeneratedLyric(createdLyrics);
@@ -322,10 +292,10 @@ const LyricsLab = ({
             }}
           >
             CONFIRM
-          </ExpandedButton>
+          </button>
         </div>
         <div className="generated-lyrics__download-buttons">
-          <ExpandedButton
+          <button
             className="generated-lyrics__download-buttons--button txt"
             onClick={() => {
               const element = document.createElement("a");
@@ -338,8 +308,8 @@ const LyricsLab = ({
             }}
           >
             Download as text (.txt)
-          </ExpandedButton>
-          <ExpandedButton
+          </button>
+          <button
             className="generated-lyrics__download-buttons--button pdf"
             onClick={() => {
               // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
@@ -356,7 +326,7 @@ const LyricsLab = ({
             }}
           >
             Download as pdf (.pdf)
-          </ExpandedButton>
+          </button>
         </div>
       </div>
     );

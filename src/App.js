@@ -12,7 +12,6 @@ import AlbumDetail from './pages/AlbumDetail';
 import SignUp from './pages/SignUp';
 import Nft from './pages/Nft';
 import NftList from './pages/NftList';
-import ChatBot from './pages/ChatBot';
 // 컴포넌트
 import Header from './components/Header';
 import Intro from './components/Intro';
@@ -23,6 +22,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
+import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
+import EditAlbumSongs from './components/mypage/EditAlbumSongs';
 function Layout({ children }) {
     return (
         <div>
@@ -73,20 +74,36 @@ function App() {
                             }
                         />
                         <Route
-                            path="/chatbot"
+                            path="/my-page/:path"
                             element={
                                 <Layout>
-                                    <ChatBot />
+                                    <ProtectedRoute>
+                                        <MyPage isMyProfile={true} />
+                                    </ProtectedRoute>
                                 </Layout>
                             }
                         />
                         <Route
-                            path="/my-page/:path"
+                            path="/my-page/albums-detail/:id"
                             element={
                                 <Layout>
-                                    {/* <ProtectedRoute> */}
-                                    <MyPage />
-                                    {/* </ProtectedRoute> */}
+                                    <AlbumsDetail />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/my-page/edit-album-songs/:id"
+                            element={
+                                <Layout>
+                                    <EditAlbumSongs />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="/profile"
+                            element={
+                                <Layout>
+                                    <MyPage isMyProfile={false} />
                                 </Layout>
                             }
                         />

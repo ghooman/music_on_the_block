@@ -9,6 +9,11 @@ import pencelIcon from '../../assets/images/icon/pencel.svg';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
+import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
+
+import checkIcon from '../../assets/images/check-icon.svg';
 
 /**
  *
@@ -19,34 +24,34 @@ import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
  * 프롭스 추가 시 변수도 추가해주어야 합니다.
  */
 
-const Filter = ({ period, types, songs, connections }) => {
+const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
-    const [filter, setFilter] = useState(false);
-
+    const [modal, setModal] = useState(false);
     const [paramsObj, setParamsObj] = useState({});
 
     const page = searchParamas.get('page');
 
     // 프롭스와 맞춰주세요
     const period_ = searchParamas.get('period');
-    const types_ = searchParamas.get('types');
-    const songs_ = searchParamas.get('songs');
-    const connections_ = searchParamas.get('connections');
+    const generateType_ = searchParamas.get('generate_type');
+    const songsSort_ = searchParamas.get('songs_sort');
+    const connectionsSort_ = searchParamas.get('connections_sort');
+    const albumSort_ = searchParamas.get('album_sort');
 
     // queries 변수에 값을 넣어야 filter 아이템이 표시됩니다.
-    const queries = [period_, types_, songs_, connections_];
+    const queries = [period_, generateType_, songsSort_, connectionsSort_, albumSort_];
 
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
             const parameters = { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
             return Object.fromEntries(Object.entries(parameters).filter(([key, value]) => value !== null));
         });
-        setFilter(false);
+        setModal(false);
     };
 
     return (
         <div className="albums__filter">
-            <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
+            <button className="albums__filter__btn" onClick={() => setModal((prev) => !prev)}>
                 <span>Filter</span>
             </button>
             {queries.map((item, index) => {
@@ -58,8 +63,8 @@ const Filter = ({ period, types, songs, connections }) => {
                 );
             })}
 
-            {filter && (
-                <ModalWrap title="Filter" onClose={setFilter}>
+            {modal && (
+                <ModalWrap title="Filter" onClose={setModal}>
                     <div className="albums__filter-modal">
                         {period && (
                             <FilterCategory
@@ -74,30 +79,30 @@ const Filter = ({ period, types, songs, connections }) => {
                                 }
                             />
                         )}
-                        {types && (
+                        {generateType && (
                             <FilterCategory
-                                value={types_}
+                                value={generateType_}
                                 setParamsObj={setParamsObj}
                                 title="types"
-                                filterName="types"
+                                filterName="generate_type"
                                 filterItems={
-                                    typeof types === 'boolean'
+                                    typeof generateType === 'boolean'
                                         ? [
                                               { name: 'Lyrics + Songwriting', icon: LyricsAndSongwritingIcon },
                                               { name: 'Songwriting', icon: SongwritingIcon },
                                           ]
-                                        : types
+                                        : generateType
                                 }
                             />
                         )}
-                        {songs && (
+                        {songsSort && (
                             <FilterCategory
-                                value={songs_}
+                                value={songsSort_}
                                 setParamsObj={setParamsObj}
                                 title="Sort by"
-                                filterName="songs"
+                                filterName="songs_sort"
                                 filterItems={
-                                    typeof songs === 'boolean'
+                                    typeof songsSort === 'boolean'
                                         ? [
                                               'Latest',
                                               'Oldest',
@@ -106,18 +111,18 @@ const Filter = ({ period, types, songs, connections }) => {
                                               'Most Played',
                                               'Least Played',
                                           ]
-                                        : songs
+                                        : songsSort
                                 }
                             />
                         )}
-                        {connections && (
+                        {connectionsSort && (
                             <FilterCategory
-                                value={connections_}
+                                value={connectionsSort_}
                                 setParamsObj={setParamsObj}
                                 title="Sort by"
-                                filterName="connections"
+                                filterName="connections_sort"
                                 filterItems={
-                                    typeof connections === 'boolean'
+                                    typeof connectionsSort === 'boolean'
                                         ? [
                                               'Highest Level',
                                               'Lowest Level',
@@ -126,7 +131,18 @@ const Filter = ({ period, types, songs, connections }) => {
                                               'Most Followers',
                                               'Least Followers',
                                           ]
-                                        : connections
+                                        : connectionsSort
+                                }
+                            />
+                        )}
+                        {albumSort && (
+                            <FilterCategory
+                                value={albumSort_}
+                                setParamsObj={setParamsObj}
+                                title="Sort by"
+                                filterName="album_sort"
+                                filterItems={
+                                    typeof albumSort === 'boolean' ? ['Most Songs', 'Fewest Songs'] : albumSort
                                 }
                             />
                         )}
@@ -136,8 +152,12 @@ const Filter = ({ period, types, songs, connections }) => {
                                 Reset
                             </button> */}
                             <button className="albums__filter-buttons--button view" onClick={handleQueryParameter}>
-                                View {Object.values(paramsObj).filter((item) => item).length} results
-                                <img src={pencelIcon} alt="icon" />
+                                {/* View {Object.values(paramsObj).filter((item) => item).length} results
+                                <img src={pencelIcon} alt="icon" /> */}
+                                APPLY +{' '}
+                                <div className="albums__filter-buttons--button-count">
+                                    {Object.values(paramsObj).filter((item) => item).length}
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -211,9 +231,13 @@ const FilterButton = ({ value, select, handleClick, icon }) => {
             className={`albums__filter-item-wrap--contents__item ${value === select && 'select'}`}
             onClick={handleClick}
         >
-            {icon && (
+            {icon ? (
                 <div className="icons">
                     <img src={icon} alt="icon" />
+                </div>
+            ) : (
+                <div className={`checkbox ${value === select && 'checked'}`}>
+                    {value === select && <img src={checkIcon} alt="icon" />}
                 </div>
             )}
             {value}

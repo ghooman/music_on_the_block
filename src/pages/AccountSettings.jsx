@@ -5,10 +5,14 @@ import axios from 'axios';
 import { useUserDetail } from '../hooks/useUserDetail';
 // 이미지
 import demoUser from '../assets/images/account/demo-user1.png';
+import defaultProfileImage from '../assets/images/header/logo.svg';
 import editIcon1 from '../assets/images/icon/picture1.svg';
-import editIcon2 from '../assets/images/icon/picture2.svg';
 import { AuthContext } from '../contexts/AuthContext';
-import { checkArtistName, checkEmail } from '../api/DuplicateCheck';
+import Modal from '../components/modal/Modal';
+import ErrorModal from '../components/modal/ErrorModal';
+import Loading from '../components/CreateLoading';
+
+// import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
 
 const AccountSettings = () => {
     const { data: userData, refetch } = useUserDetail();
@@ -18,7 +22,7 @@ const AccountSettings = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const [profileImg, setProfileImg] = useState(userData?.profile || demoUser);
+    const [profileImg, setProfileImg] = useState(userData?.profile || defaultProfileImage);
     const [selectedFile, setSelectedFile] = useState(null);
     const [bgImg, setBgImg] = useState('');
     const [userName, setUserName] = useState(userData?.name);
@@ -33,6 +37,9 @@ const AccountSettings = () => {
     const [socials, setSocials] = useState([]);
 
     const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorMessages, setErrorMessages] = useState({
         userName: [],
         email: [],
@@ -88,6 +95,7 @@ const AccountSettings = () => {
     // 업데이트 요청 전 닉네임, 이메일 변경 시 각각 형식 및 중복검사를 수행한 후
     // 모두 통과하면 서버에 수정 요청을 보내는 함수입니다.
     const updateUserInfo = async () => {
+        setIsLoading(true);
         // 초기화
         setErrorMessages({
             userName: [],
@@ -154,8 +162,8 @@ const AccountSettings = () => {
         try {
             const formData = new FormData();
             const payload = {
-                name: userName,
-                email: email,
+                name: userData?.name,
+                email: userData?.email,
                 introduce: intro,
                 wallet_address: userData?.wallet_address,
             };
@@ -167,7 +175,8 @@ const AccountSettings = () => {
                 formData.append('file', '');
             }
 
-            console.log('보내는 데이터:', [...formData.entries()]);
+            console.log(payload, '페이로드');
+            console.log('보내는 데이터:', [...formData.entries()], payload);
 
             const res = await axios.post(`${serverApi}/api/user/`, formData, {
                 headers: {
@@ -175,10 +184,14 @@ const AccountSettings = () => {
                 },
             });
             console.log('res:', res);
+            setShowModal(true);
             refetch();
             scrollToTop();
         } catch (error) {
             console.error('회원정보 수정 에러:', error);
+            setShowErrorModal(true);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -278,7 +291,7 @@ const AccountSettings = () => {
                                 onChange={(e) => setIntro(e.target.value)}
                                 maxLength={150}
                             />
-                            <button className="user-info__edit-btn">Change</button>
+                            {/* <button className="user-info__edit-btn">Change</button> */}
                         </div>
                         {errorMessages.intro.map((err, idx) => (
                             <span key={idx} className="user-info__error">
@@ -438,6 +451,9 @@ const AccountSettings = () => {
           ))}
         </div>
       </section> */}
+            {isLoading && <Loading />}
+            {showModal && <Modal title="Success" setShowModal={setShowModal} message="Successfully updated" />}
+            {showErrorModal && <ErrorModal title="Error" setShowErrorModal={setShowErrorModal} message="Update Fail" />}
         </div>
     );
 };

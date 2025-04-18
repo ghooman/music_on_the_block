@@ -130,6 +130,7 @@ function AlbumDetail() {
   const getLeaderboardData = async () => {
     try {
       const res = await axios.get(`${serverApi}/api/music/leader/board/rank`);
+      console.log("플레 데터 확인용 : :", res.data);
       setLeaderBoardData(res.data);
     } catch (error) {
       console.error("getLeaderboardData error:", error);
@@ -380,16 +381,16 @@ function AlbumDetail() {
                                 </div> */}
                 {!setIsLoggedIn && (
                   <div className="album-detail__song-detail__left__info__number">
+                    <p className="play">
+                      <img src={playIcon} alt="play Icon" />
+                      {album?.play_cnt || 0}
+                    </p>
                     <p className="love" onClick={handleLike}>
                       <img
                         src={album?.is_like ? halfHeartIcon : loveIcon}
                         alt="love Icon"
                       />
                       {album?.like || 0}
-                    </p>
-                    <p className="play">
-                      <img src={playIcon} alt="play Icon" />
-                      {album?.play_cnt || 0}
                     </p>
                     <p className="comment" onClick={handleScrollToComment}>
                       <img src={commentIcon} alt="comment Icon" />
@@ -399,6 +400,10 @@ function AlbumDetail() {
                 )}
                 {setIsLoggedIn && (
                   <div className="album-detail__song-detail__left__info__number">
+                    <p className="play">
+                      <img src={playIcon} alt="play Icon" />
+                      {album?.play_cnt || 0}
+                    </p>
                     <p className="love" onClick={handleLike}>
                       <img
                         src={album?.is_like ? halfHeartIcon : loveIcon}
@@ -408,10 +413,6 @@ function AlbumDetail() {
                       {setIsLoggedIn && (
                         <WalletConnect onConnect={handleWalletConnect} />
                       )}
-                    </p>
-                    <p className="play">
-                      <img src={playIcon} alt="play Icon" />
-                      {album?.play_cnt || 0}
                     </p>
                     <p className="comment" onClick={handleScrollToComment}>
                       <img src={commentIcon} alt="comment Icon" />
@@ -455,9 +456,9 @@ function AlbumDetail() {
                   <dd>{album?.genre || "-"}</dd>
                 </dl>
                 {/* <dl>
-                  <dt>Stylistic</dt>
-                  <dd>{album?.Stylistic || "-"}</dd>
-                </dl> */}
+                                    <dt>Stylistic</dt>
+                                    <dd>{album?.Stylistic || '-'}</dd>
+                                </dl> */}
                 <dl>
                   <dt>Gender</dt>
                   <dd>{album?.gender || "-"}</dd>
@@ -519,7 +520,7 @@ function AlbumDetail() {
                   <th>#</th>
                   <th>Artist</th>
                   <th>Song Title</th>
-                  <th>Date</th>
+                  <th>Play</th>
                   <th>Likes</th>
                   <th>Details</th>
                 </tr>
@@ -537,10 +538,14 @@ function AlbumDetail() {
                         {item.name}
                       </p>
                     </td>
-                    <td>
-                      <p>{item.title}</p>
+                    <td className="title">
+                      <p></p>
+                      {item.title}
                     </td>
-                    <td>{formatLocalTime(item.create_dt)}</td>
+                    <td>
+                      {/* {formatLocalTime(item.create_dt)} */}
+                      10
+                    </td>
                     <td>{item.like}</td>
                     <td>
                       <Link

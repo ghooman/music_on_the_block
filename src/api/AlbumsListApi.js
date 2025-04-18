@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const serverApi = process.env.REACT_APP_SERVER_API || "https://muble.xyz";
+const serverApi = process.env.REACT_APP_SERVER_API;
 
 /**
  * 앨범 생성 API 호출 함수

@@ -143,6 +143,7 @@ function AlbumDetail() {
         `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
       );
       setFavoriteGenreList(res.data);
+      console.log("favoriteGenreList", res.data);
     } catch (error) {
       console.error("getFavoriteGenre error:", error);
     }

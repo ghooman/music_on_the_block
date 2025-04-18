@@ -262,8 +262,9 @@
 
 // export default AlbumsDetail;
 
-import React, { useState, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { useSearchParams, useParams } from "react-router-dom";
 import ContentWrap from "../../unit/ContentWrap";
 import Filter from "../../unit/Filter";
 import Pagination from "../../unit/Pagination";
@@ -286,6 +287,8 @@ import track3 from "../../../assets/music/nisoft_song.mp3";
 import LyricsIcon from "../../../assets/images/icon/Lyrics-Icon.svg";
 import LyricsAndSongwritingIcon from "../../../assets/images/icon/Songwriting-Icon.svg";
 import SongwritingIcon from "../../../assets/images/icon/Composition-Icon.svg";
+
+import { getMyAlbumBundleInfo } from "../../../api/AlbumsDetail";
 
 // 더미 데이터
 const dummySongsList = {
@@ -321,7 +324,27 @@ const dummySongsList = {
   total_cnt: 3,
 };
 
-const AlbumsDetail = ({ token }) => {
+const AlbumsDetail = () => {
+  const { token } = useContext(AuthContext);
+  const { id } = useParams();
+  const [albumBundleInfo, setAlbumBundleInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("id", id);
+    const fetchAlbumBundleInfo = async () => {
+      try {
+        const response = await getMyAlbumBundleInfo(id, token);
+        console.log("앨범 번들 정보", response.data);
+      } catch (error) {
+        console.error("앨범 번들 정보 조회 실패:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAlbumBundleInfo();
+  }, []);
+
   const audioRef = useRef(null);
   const [activeSong, setActiveSong] = useState(null); // activeSong 상태 관리
 

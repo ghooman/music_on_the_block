@@ -1,148 +1,161 @@
 .create__lyric-lab {
-    .generated-lyrics__lyrics {
-        background-color: transparent;
-        width: 100%;
-        resize: none;
-        min-height: 600px;
-        max-height: 100%;
-        // overflow: auto;
-        // overflow: ;
-        &textarea {
-            // min-height: 600px;
-            // max-height: 600px;
-        }
+  .generated-lyrics__lyrics {
+    background-color: transparent;
+    width: 100%;
+    resize: none;
+    min-height: 600px;
+    max-height: 100%;
+    // overflow: auto;
+    // overflow: ;
+    &textarea {
+      // min-height: 600px;
+      // max-height: 600px;
+    }
+  }
+
+  .generated-lyrics__confirm-buttons {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+    align-items: center;
+    .generated-lyrics__confirm-buttons--text {
+      &.disabled {
+        color: red;
+      }
+    }
+  }
+
+  .generated-lyrics__confirm-buttons--button {
+    // 임시 클래스입니다.
+    width: 100%;
+    max-width: 210px;
+    height: 40px;
+    color: #000;
+    font-family: Orbitron700;
+    border-radius: 12px;
+    position: relative;
+    transition: 0.3s all;
+
+    &:hover {
+      transform: translateY(3px);
+      &::after {
+        transform: translateY(0px);
+      }
     }
 
-    .generated-lyrics__confirm-buttons {
-        margin-top: 40px;
-        margin-bottom: 40px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 32px;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transform: translateY(3px);
+      border-radius: 12px;
+      border-bottom: 1px solid;
+      transition: 0.3s all;
     }
 
-    .generated-lyrics__confirm-buttons--button {
-        // 임시 클래스입니다.
-        width: 100%;
-        max-width: 210px;
-        height: 40px;
-        color: #000;
-        font-family: Orbitron700;
-        border-radius: 12px;
-        position: relative;
-        transition: 0.3s all;
+    &.edit {
+      background-color: #66fcff;
+      &::after {
+        border-color: #66fcfcff;
+      }
+    }
+    &.confirm {
+      background-color: #cf0;
+      &::after {
+        border-color: #cf0;
+      }
+    }
+    &.disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      &::after {
+        border-color: #ccc;
+      }
+    }
+  }
 
-        &:hover {
-            transform: translateY(3px);
-            &::after {
-                transform: translateY(0px);
-            }
-        }
+  .generated-lyrics__download-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 
-        &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform: translateY(3px);
-            border-radius: 12px;
-            border-bottom: 1px solid;
-            transition: 0.3s all;
-        }
+  .generated-lyrics__download-buttons--button {
+    border-radius: 12px;
+    font-family: Orbitron600;
+    letter-spacing: 0.48px;
+    height: 40px;
+    position: relative;
+    transition: 0.3s all;
 
-        &.edit {
-            background-color: #66fcff;
-            &::after {
-                border-color: #66fcfcff;
-            }
-        }
-        &.confirm {
-            background-color: #cf0;
-            &::after {
-                border-color: #cf0;
-            }
-        }
+    &:hover {
+      transform: translateY(3px);
+      &::after {
+        transform: translateY(0px);
+      }
     }
 
-    .generated-lyrics__download-buttons {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 12px;
+      border-bottom: 1px solid;
+      transform: translateY(3px);
+      transition: 0.3s all;
     }
 
-    .generated-lyrics__download-buttons--button {
-        border-radius: 12px;
-        font-family: Orbitron600;
-        letter-spacing: 0.48px;
-        height: 40px;
-        position: relative;
-        transition: 0.3s all;
-
-        &:hover {
-            transform: translateY(3px);
-            &::after {
-                transform: translateY(0px);
-            }
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border-radius: 12px;
-            border-bottom: 1px solid;
-            transform: translateY(3px);
-            transition: 0.3s all;
-        }
-
-        &.txt {
-            color: #f1f1f1;
-            background-color: #383838;
-            &::after {
-                border-color: #383838;
-            }
-        }
-        &.pdf {
-            color: #1a1a1a;
-            background-color: #cf0;
-            &::after {
-                border-color: #cf0;
-            }
-        }
+    &.txt {
+      color: #f1f1f1;
+      background-color: #383838;
+      &::after {
+        border-color: #383838;
+      }
     }
+    &.pdf {
+      color: #1a1a1a;
+      background-color: #cf0;
+      &::after {
+        border-color: #cf0;
+      }
+    }
+  }
 
-    .mb16 {
-        margin-bottom: 16px;
+  .mb16 {
+    margin-bottom: 16px;
+  }
+  .mb40 {
+    margin-bottom: 40px;
+  }
+  .album-cover-preview {
+    margin-top: 36px;
+    h3 {
+      margin-bottom: 12px;
     }
-    .mb40 {
-        margin-bottom: 40px;
+    img {
+      margin-bottom: 12px;
+      width: 100%;
     }
-    .album-cover-preview {
-        margin-top: 36px;
-        h3 {
-            margin-bottom: 12px;
-        }
-        img {
-            margin-bottom: 12px;
-            width: 100%;
-        }
-        button {
-            margin-bottom: 12px;
-            float: right;
-        }
+    button {
+      margin-bottom: 12px;
+      float: right;
     }
+  }
 }
 
 @media screen and (max-width: 410px) {
-    .create__lyric-lab {
-        .generated-lyrics__lyrics {
-            font-size: 12px;
-        }
+  .create__lyric-lab {
+    .generated-lyrics__lyrics {
+      font-size: 12px;
     }
+  }
 }

@@ -117,7 +117,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <div className="menu__cover">
                     <dl className="menu__box">
                         <Link
-                            to="/my-page/service?category=AI Services"
+                            // to="/my-page/service?category=AI Services"
                             // onClick={() => handleSingleActive("my-page")}
                             // onClick={() => setPreparingModal(true)}
                             className="menu__box__title"
@@ -326,46 +326,14 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         </dd>
                     </dl>
 
-                    {/* <dl className="menu__box">
-            <dt className="menu__box__title">LIBRARY</dt>
-            <dd>
-              <div className="menu__box__gnb-list">
-                <div
-                  className={`menu__box__gnb-list__item artists ${
-                    activeSingle === "artists" ? "active" : ""
-                  }`}
-                >
-                  <Link
-                    to=""
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive("artists")}
-                  >
-                    <p className="icon"></p>Artists
-                  </Link>
-                </div>
-                <div
-                  className={`menu__box__gnb-list__item rewards ${
-                    activeSingle === "rewards" ? "active" : ""
-                  }`}
-                >
-                  <Link
-                    to=""
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive("rewards")}
-                  >
-                    <p className="icon"></p>Rewards & Payments
-                  </Link>
-                </div>
-              </div>
-            </dd>
-          </dl> */}
 
-                    {isLoggedIn && (
+
+
+                  {/* {isLoggedIn && (
                         <dl className="menu__box">
                             <dt className="menu__box__title">MY LIBRARY</dt>
                             <dd>
                                 <div className="menu__box__gnb-list">
-                                    {/* 일반 아이템 - My Page */}
                                     <div
                                         className={`menu__box__gnb-list__item my-page ${
                                             pathname.startsWith('/my-page/service') ? 'active' : ''
@@ -380,23 +348,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                                             <p className="icon"></p>My Page
                                         </Link>
                                     </div>
-
-                                    {/* 일반 아이템 - My Favorites */}
-                                    {/* <div
-                    className={`menu__box__gnb-list__item my-favorite ${
-                      activeSingle === "my-favorites" ? "active" : ""
-                    }`}
-                  >
-                    <Link
-                      to="/my-page?category=AI%20Services"
-                      className="menu__box__gnb-list__item__btn"
-                      onClick={() => handleSingleActive("my-favorites")}
-                      // onClick={() => setPreparingModal(true)}
-                    >
-                      <p className="icon"></p>My Favorites
-                    </Link>
-                  </div> */}
-                                    {/* AI Services - 슬라이드 탭 */}
                                     <div
                                         className={`menu__box__gnb-list__item my-music slide-tab ${
                                             activeMenus.includes('my-music') ? 'active' : ''
@@ -418,21 +369,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                                             <li
                                                 className={activeSubItem === 'Connections' ? 'active' : ''}
                                                 onClick={() => handleSubItemClick('Connections')}
-                                                // onClick={() => setPreparingModal(true)}
                                             >
                                                 <Link to="/my-page/music?category=Connections">Connections</Link>
                                             </li>
                                             <li
                                                 className={activeSubItem === 'Favorites' ? 'active' : ''}
                                                 onClick={() => handleSubItemClick('Favorites')}
-                                                // onClick={() => setPreparingModal(true)}
                                             >
                                                 <Link to="/my-page/music?category=Favorites">Favorites</Link>
                                             </li>
                                             <li
                                                 className={activeSubItem === 'Albums' ? 'active' : ''}
                                                 onClick={() => handleSubItemClick('Albums')}
-                                                // onClick={() => setPreparingModal(true)}
                                             >
                                                 <Link to="/my-page/music?category=Albums">Albums</Link>
                                             </li>
@@ -441,7 +389,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                                 </div>
                             </dd>
                         </dl>
-                    )}
+                    )} */}
+
+
+
 
                     {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

@@ -3,6 +3,30 @@
     top: -100%;
     left: -100%;
 }
+
+.selected-song-number{
+    margin-bottom: -12px;
+    color:#F1F1F1;
+    font-family: Orbitron500;
+    font-size: 18px;
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    p{
+        color:#AAA;
+        font-family: Orbitron500;
+        font-size: 18px;
+        font-style: normal;
+    }
+    span{
+        color:#a9d400;
+        font-family: Orbitron500;
+        font-size: 18px;
+        font-style: normal;
+    }
+}//selected-song-number--END--
+
 .albums-table {
     width: 100%;
     border-radius: 12px;
@@ -112,9 +136,13 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 16px;
+                    gap: 8px;
                     img {
                         margin: 0;
+                        width: 24px;
+                        height: 24px;
+                        overflow: hidden;
+                        border-radius: 100%;
                     }
                 }
                 .albums-table__song-btn {

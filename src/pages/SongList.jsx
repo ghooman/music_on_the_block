@@ -206,7 +206,7 @@ const SongList = () => {
                 />
                 <ContentWrap title="Song List">
                     <ContentWrap.SubWrap gap={8}>
-                        <Filter songsSort={true} generateType={true} />
+                        <Filter songsSort={true} />
                         <Search placeholder="Search by song title" reset={{ page: 1 }} />
                     </ContentWrap.SubWrap>
                     {songList.length > 0 ? (

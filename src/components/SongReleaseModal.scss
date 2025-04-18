@@ -23,12 +23,12 @@
             width: 100%;
             font-family: Orbitron600;
             font-size: 16px;
-            transition: 0.3s all;
+            transition: 0.2s all;
             border-radius: 12px;
             height: 40px;
 
             &:hover {
-                transform: translateY(3px);
+                transform: translateY(5px);
                 &::after {
                     transform: translateY(0px);
                 }
@@ -39,12 +39,13 @@
                 position: absolute;
                 width: 100%;
                 height: 100%;
+                box-sizing: border-box;
                 top: 0;
                 left: 0;
-                transform: translateY(3px);
+                transform: translateY(5px);
                 border-radius: 12px;
-                border-bottom: 1px solid;
-                transition: 0.3s all;
+                border: 1px solid;
+                transition: 0.2s all;
             }
 
             &.cancel-btn {

@@ -16,6 +16,7 @@ import playIcon from '../../../assets/images/play-icon2.svg';
 import stopIcon from '../../../assets/images/stop-icon.svg';
 import editIcon from '../../../assets/images/edit.svg';
 import defaultAlbumImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import defaultUserImage from '../../../assets/images/header/logo-png.png';
 import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
 import MoreHoriz from '../../../assets/images/icon/more-horiz.svg';
 import './AlbumsDetail.scss';
@@ -27,7 +28,6 @@ import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 import { getMyAlbumBundleInfo } from '../../../api/AlbumsDetail';
-import { useQuery } from 'react-query';
 
 // 더미 데이터
 const dummySongsList = {
@@ -193,7 +193,11 @@ const AlbumsDetail = () => {
                                         Artist
                                     </p>
                                     <p className="my-album-details__box__header__right__box__list__item__title-value">
-                                        <img src={albumBundleInfo?.user_profile} alt="user-img" className="user-img" />
+                                        <img
+                                            src={albumBundleInfo?.user_profile || defaultUserImage}
+                                            alt="user-img"
+                                            className="user-img"
+                                        />
                                         {albumBundleInfo?.name}
                                     </p>
                                 </div>

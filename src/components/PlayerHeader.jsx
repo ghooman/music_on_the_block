@@ -47,16 +47,16 @@ const PlayerHeader = ({
       </div>
       <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">
+          <p className="play">
+            <img src={playIcon} alt="play-icon" />
+            {selectedMusic?.play_cnt || 0}
+          </p>
           <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
             <img
               src={selectedMusic?.is_like ? halfHeartIcon : loveIcon}
               alt="like-heart-icon"
             />
             {selectedMusic?.like || 0}
-          </p>
-          <p className="play">
-            <img src={playIcon} alt="play-icon" />
-            {selectedMusic?.play_cnt || 0}
           </p>
           <p>|</p>
           <p className="name">

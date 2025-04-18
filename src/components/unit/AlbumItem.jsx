@@ -92,13 +92,13 @@ const AlbumItem = ({
           {track?.title}
         </p>
         <div className="album__content-list__list__item__right__love-play">
-          <p className="love">
-            <img src={track?.is_like ? halfHeartIcon : loveIcon} />
-            {track.like || 0}
-          </p>
           <p className="play">
             <img src={playIcon} />
             {track?.play_cnt || 0}
+          </p>
+          <p className="love">
+            <img src={track?.is_like ? halfHeartIcon : loveIcon} />
+            {track.like || 0}
           </p>
         </div>
         <div className="album__content-list__list__item__right__user">

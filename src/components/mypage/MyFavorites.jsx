@@ -58,7 +58,7 @@ const MyFavorites = () => {
                 <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
                 <ContentWrap.SubWrap gap={8}>
                     <Filter songsSort />
-                    <Search />
+                    <Search placeholder="Search By song title..." />
                 </ContentWrap.SubWrap>
                 {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}
                 <SongPlayTable songList={favoritesSongsList?.data_list} />

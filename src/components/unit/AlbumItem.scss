@@ -106,8 +106,8 @@
         gap: 8px;
         flex-direction: column;
         img {
-          width: 16px;
-          height: 16px;
+          width: 14px;
+          height: 14px;
         }
         p {
           &.play{
@@ -123,8 +123,8 @@
           line-height: 100%; /* 12px */
           &:nth-child(2) {
             img {
-              width: 14px;
-              height: 14px;
+              width: 16px;
+              height: 16px;
             }
           }
         }

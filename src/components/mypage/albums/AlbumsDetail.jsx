@@ -27,6 +27,7 @@ import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 import { getMyAlbumBundleInfo } from '../../../api/AlbumsDetail';
+import { useQuery } from 'react-query';
 
 // 더미 데이터
 const dummySongsList = {
@@ -72,7 +73,6 @@ const AlbumsDetail = () => {
         try {
             const response = await getMyAlbumBundleInfo(id, token);
             setAlbumBundleInfo(response);
-            console.log(albumBundleInfo, '앨범 번들번들');
         } catch (error) {
             console.error('앨범 번들 정보 조회 실패:', error);
         } finally {
@@ -166,11 +166,13 @@ const AlbumsDetail = () => {
                             >
                                 <img src={MoreHoriz} alt="more-horiz" />
                             </button>
-                            <img
-                                className="my-album-details__box__header__left__img-box__img"
-                                src={albumBundleInfo?.cover_image || defaultAlbumImage}
-                                alt="cover-img"
-                            />
+                            {!isLoading && (
+                                <img
+                                    className="my-album-details__box__header__left__img-box__img"
+                                    src={albumBundleInfo?.cover_image || defaultAlbumImage}
+                                    alt="cover-img"
+                                />
+                            )}
                         </div>
                     </article>
                     <article className="my-album-details__box__header__right">

@@ -11,7 +11,7 @@ const Nft = () => {
     return (
         <div className="nft">
             <NftExchange />
-            <Search />
+            <Search placeholder="Search" />
             <ContentWrap title="TOP NFTs" link="/nft/list">
                 <NftItemList data={[1, 2, 3, 4]} />
             </ContentWrap>

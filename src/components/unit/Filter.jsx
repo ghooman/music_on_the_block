@@ -21,8 +21,7 @@ import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 
 const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
-    const [filter, setFilter] = useState(false);
-
+    const [modal, setModal] = useState(false);
     const [paramsObj, setParamsObj] = useState({});
 
     const page = searchParamas.get('page');
@@ -42,12 +41,12 @@ const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort })
             const parameters = { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
             return Object.fromEntries(Object.entries(parameters).filter(([key, value]) => value !== null));
         });
-        setFilter(false);
+        setModal(false);
     };
 
     return (
         <div className="albums__filter">
-            <button className="albums__filter__btn" onClick={() => setFilter((prev) => !prev)}>
+            <button className="albums__filter__btn" onClick={() => setModal((prev) => !prev)}>
                 <span>Filter</span>
             </button>
             {queries.map((item, index) => {
@@ -59,8 +58,8 @@ const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort })
                 );
             })}
 
-            {filter && (
-                <ModalWrap title="Filter" onClose={setFilter}>
+            {modal && (
+                <ModalWrap title="Filter" onClose={setModal}>
                     <div className="albums__filter-modal">
                         {period && (
                             <FilterCategory
@@ -148,8 +147,12 @@ const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort })
                                 Reset
                             </button> */}
                             <button className="albums__filter-buttons--button view" onClick={handleQueryParameter}>
-                                View {Object.values(paramsObj).filter((item) => item).length} results
-                                <img src={pencelIcon} alt="icon" />
+                                {/* View {Object.values(paramsObj).filter((item) => item).length} results
+                                <img src={pencelIcon} alt="icon" /> */}
+                                APPLY +{' '}
+                                <div className="albums__filter-buttons--button-count">
+                                    {Object.values(paramsObj).filter((item) => item).length}
+                                </div>
                             </button>
                         </div>
                     </div>

@@ -144,7 +144,6 @@ function AlbumDetail() {
         `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
       );
       setFavoriteGenreList(res.data);
-      console.log("favoriteGenreList", res.data);
     } catch (error) {
       console.error("getFavoriteGenre error:", error);
     }
@@ -544,7 +543,7 @@ function AlbumDetail() {
                     </td>
                     <td>
                       {/* {formatLocalTime(item.create_dt)} */}
-                      {item.play_cnt}
+                      10
                     </td>
                     <td>{item.like}</td>
                     <td>

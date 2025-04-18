@@ -157,7 +157,7 @@ const Songs = ({ token }) => {
           value={releaseType}
         />
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort />
+          <Filter songsSort={true} />
           <Search
             placeholder="Search by song title..."
             handler={null}
@@ -174,7 +174,7 @@ const Songs = ({ token }) => {
         <Pagination
           totalCount={songsList?.total_cnt}
           handler={null}
-          viewCount={15}
+          viewCount={10}
           page={page}
         />
       </ContentWrap>

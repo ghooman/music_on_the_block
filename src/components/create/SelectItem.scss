@@ -139,9 +139,9 @@
             letter-spacing: 0.42px;
             border-radius: 12px;
             position: relative;
-            transition: 0.3s all;
+            transition: 0.2s all;
             &:hover {
-                transform: translateY(3px);
+                transform: translateY(5px);
                 &::after {
                     transform: translateY(0px);
                 }
@@ -149,15 +149,16 @@
 
             &::after {
                 content: '';
-                transition: 0.3s all;
+                box-sizing: border-box;
+                transition: 0.2s all;
                 position: absolute;
-                width: 100%;
+                width: calc(100%);
                 height: 100%;
                 top: 0;
                 left: 0;
-                transform: translateY(3px);
+                transform: translateY(5px);
                 border-radius: 12px;
-                border-bottom: 1px solid #cf0;
+                border: 1px solid #cf0;
             }
 
             input {

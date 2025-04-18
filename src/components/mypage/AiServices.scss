@@ -24,23 +24,24 @@
         justify-content: center;
 
         &:hover {
-            transform: translateY(3px);
+            transform: translateY(5px);
             &:after {
-                transform: translateY(-1px);
+                transform: translateY(0px);
             }
         }
         &:after {
             transition: 0.2s all;
             content: '';
             position: absolute;
+            box-sizing: border-box;
             height: 100%;
             width: 100%;
             // background-color: red;
             left: 0px;
             top: 0;
             border-radius: 12px;
-            border-bottom: 1px solid #383838;
-            transform: translateY(3px);
+            border: 1px solid #383838;
+            transform: translateY(5px);
         }
     }
     .ai__service-btn--image {

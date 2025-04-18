@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import './AiServices.scss';
 
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
+import AiCoverCreationIcon from '../../assets/images/icon/cover-creation-Icon.svg';
 
 import FilterDateModal from '../../components/unit/FilterDateModal';
-import Filter from '../unit/Filter';
 import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
 import { LineChart, PieChart } from '../unit/Chart';
-import axios from 'axios';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const AiServiceTypeList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
     { name: 'AI Singing Evaluation', image: SongwritingIcon, preparing: true },
-    { name: 'AI Cover Creation', image: LyricsIcon, preparing: true },
+    { name: 'AI Cover Creation', image: AiCoverCreationIcon, preparing: true },
 ];
 const AiStatusList = [
     { name: 'All' },
@@ -53,7 +54,7 @@ const AiServices = ({ username }) => {
             value: aiServiceData?.cover_creation,
             color: 'hsl(342, 100%, 50%)',
             preparing: true,
-            image: LyricsIcon,
+            image: AiCoverCreationIcon,
         },
     ];
 

@@ -236,7 +236,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
                                 {/* 일반 아이템 - Albums */}
                                 <div
-                                    className={`menu__box__gnb-list__item ${activeSingle === 'album' ? 'active' : ''}`}
+                                    className={`menu__box__gnb-list__item ${
+                                        pathname.startsWith('/main') ? 'active' : ''
+                                    }`}
                                 >
                                     <Link
                                         to="/main"
@@ -247,7 +249,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                                     </Link>
                                 </div>
                                 {/* 일반 아이템 - NFT MarketPlace */}
-                                <div className={`menu__box__gnb-list__item ${activeSingle === 'nft' ? 'active' : ''}`}>
+                                <div
+                                    className={`menu__box__gnb-list__item ${
+                                        pathname.startsWith('/nft') ? 'active' : ''
+                                    }`}
+                                >
                                     <Link
                                         to="/nft"
                                         className="menu__box__gnb-list__item__btn"
@@ -274,7 +280,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
                                 <div
                                     className={`menu__box__gnb-list__item shop ${
-                                        activeSingle === 'earn' ? 'active' : ''
+                                        pathname.startsWith('/earn') ? 'active' : ''
                                     }`}
                                 >
                                     <Link

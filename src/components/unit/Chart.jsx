@@ -97,7 +97,7 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
             <ResponsiveLine
                 data={chartData}
                 margin={{ top: 50, right: 20, bottom: 50, left: 25 }}
-                curve="cardinal"
+                curve="catmullRom"
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',
@@ -122,6 +122,14 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
                 tooltip={() => null}
                 colors={() => '#00ffb3'}
                 theme={{
+                    axis: {
+                        ticks: {
+                            text: {
+                                fill: '#939699',
+                                fontSize: 12,
+                            },
+                        },
+                    },
                     grid: {
                         line: {
                             stroke: '#222',

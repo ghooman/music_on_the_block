@@ -20,12 +20,50 @@
         line-height: normal;
         margin-bottom: 32px;
     }//edit-album-songs--END--
+    .edit-album-songs__title__album-name{
+        color:#F1F1F1;
+        font-family: Orbitron500;
+        font-size: 20px;
+        font-style: normal;
+        margin-bottom: 16px;
+    }//edit-album-songs__title__album-name--END--
     .unit-component-content-wrap__title{
         display: none;
     }//unit-component-content-wrap__title--END--
     .unit-component-content-wrap{
         padding: 0;
     }
+
+    .edit-album-songs__tab{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+        .edit-album-songs__tab__item{
+            border-radius: 12px 4px 12px 12px;
+            background: var(--Color-03, #222);
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            color: var(--Text-music-sub, #AAA);
+            font-family: Orbitron500;
+            font-size: 14px;
+            font-style: normal;
+            transition: 0.3s;
+            &.active{
+                border-radius: 12px 4px 12px 12px;
+                background: #CF0;
+                color: var(--Text-dark-title, #1A1A1A);
+                font-family: Orbitron500;
+                font-size: 14px;
+            }
+        }//edit-album-songs__tab__item--END--
+    }//edit-album-songs__tab--END--
+
+
 
     /* 기본 테이블 스타일은 그대로 두고, 체크박스만 커스텀 */
     .checkbox{

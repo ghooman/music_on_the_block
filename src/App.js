@@ -23,7 +23,7 @@ import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
-import EditAlbumSongs from './components/mypage/EditAlbumSongs';
+import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 function Layout({ children }) {
     return (
         <div>

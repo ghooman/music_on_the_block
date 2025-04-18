@@ -23,7 +23,6 @@
 //     // const [activeSong, setActiveSong] = useState(null);
 //     // const audioRef = useRef(null);
 
-
 //     // 테이블 행 클릭 시 해당 곡을 재생
 //     const handleRowClick = (album) => {
 //         if (!audioRef.current) {
@@ -108,20 +107,10 @@
 
 // export default SongPlayEditTable;
 
-
-
-
-
-
-
-
-
-
-
-import React, { useState } from 'react';
-import NoneContent     from './NoneContent';
+import React, { useEffect, useState } from 'react';
+import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
-import songTypeIcon    from '../../assets/images/icon/Songwriting-Icon.svg';
+import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 
 /**
  * SongPlayEditTable
@@ -130,26 +119,18 @@ import songTypeIcon    from '../../assets/images/icon/Songwriting-Icon.svg';
  * @param {React.Dispatch<React.SetStateAction<number|null>>} setActiveSong
  * @param {React.RefObject<HTMLAudioElement>} audioRef
  */
-const SongPlayEditTable = ({
-    songList = [],
-    activeSong,
-    setActiveSong,
-    audioRef,
-}) => {
+const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, audioRef, checkHandler }) => {
     /* ---------- 선택 체크박스 ---------- */
     const [selectedIds, setSelectedIds] = useState([]);
 
-    const allSelected =
-        songList.length > 0 && selectedIds.length === songList.length;
+    const allSelected = songList?.length > 0 && selectedIds?.length === songList?.length;
 
     const handleSelectAll = (e) => {
-        setSelectedIds(e.target.checked ? songList.map((s) => s.id) : []);
+        setSelectedIds(e.target?.checked ? songList.map((s) => s.id) : []);
     };
 
     const handleSelectOne = (id) => {
-        setSelectedIds((prev) =>
-            prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id],
-        );
+        setSelectedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
     };
 
     /* ---------- 재생 ---------- */
@@ -157,9 +138,7 @@ const SongPlayEditTable = ({
         if (!audioRef.current) return;
 
         if (activeSong === album.id) {
-            audioRef.current.paused
-                ? audioRef.current.play()
-                : audioRef.current.pause();
+            audioRef.current.paused ? audioRef.current.play() : audioRef.current.pause();
             setActiveSong(audioRef.current.paused ? null : album.id);
         } else {
             audioRef.current.pause();
@@ -170,92 +149,91 @@ const SongPlayEditTable = ({
         }
     };
 
-  /* ---------- 렌더 ---------- */
+    useEffect(() => {
+        checkHandler(selectedIds);
+    }, [selectedIds]);
+
+    /* ---------- 렌더 ---------- */
     return (
-    <>
-        <div className="audio-container">
-            <audio controls ref={audioRef} />
-        </div>
+        <>
+            <div className="audio-container">
+                <audio controls ref={audioRef} />
+            </div>
 
-        <div className='selected-song-number'>
-            Selected Songs 
-            <p>
-        (
-        <span>{selectedIds.length}</span>&nbsp;
-        {selectedIds.length === 1 ? 'Song' : 'Songs'}
-        )
-        </p>
-            {/* <p>(<span>3</span> Songs)</p> */}
-        </div>
+            <div className="selected-song-number">
+                {title}
+                <p>
+                    (<span>{selectedIds.length}</span>&nbsp;
+                    {selectedIds.length === 1 ? 'Song' : 'Songs'})
+                </p>
+                {/* <p>(<span>3</span> Songs)</p> */}
+            </div>
 
-        <div className="albums-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            <input
-                                type="checkbox"
-                                className="styled-checkbox"
-                                checked={allSelected}
-                                onChange={handleSelectAll}
-                            />
-                        </th>
-                        <th className="albums-table__song">Song</th>
-                        <th className="albums-table__type">Type</th>
-                        <th>Artist</th>
-                        <th className="albums-table__song-title">Song&nbsp;Title</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {songList.map((album, idx) => (
-                        <tr
-                            key={album.id}
-                            className={activeSong === album.id ? 'active' : ''}
-                            onClick={() => handleRowClick(album)}
-                        >
-                            <td
-                                onClick={(e) => e.stopPropagation()}
-                            >
+            <div className="albums-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
                                 <input
                                     type="checkbox"
                                     className="styled-checkbox"
-                                    checked={selectedIds.includes(album.id)}
-                                    onChange={(e) => {
-                                    e.stopPropagation();
-                                    handleSelectOne(album.id);
-                                    }}
+                                    checked={allSelected}
+                                    onChange={handleSelectAll}
                                 />
-                            </td>
-                            <td>
-                                <button className="albums-table__song-btn">
-                                    <img src={album.cover_image} alt="cover" />
-                                    <div className="loading-wave">
-                                    <div className="loading-bar" />
-                                    <div className="loading-bar" />
-                                    <div className="loading-bar" />
-                                    <div className="loading-bar" />
-                                    </div>
-                                </button>
-                            </td>
-
-                            <td>
-                                <img src={songTypeIcon} alt="type" />
-                            </td>
-                            <td>
-                                <div className="albums-table__artist">
-                                    <img src={album.cover_image}alt='user-img'/>{album.name}
-                                </div>
-                            </td>
-                            <td>{album.title}</td>
+                            </th>
+                            <th className="albums-table__song">Song</th>
+                            <th className="albums-table__type">Type</th>
+                            <th>Artist</th>
+                            <th className="albums-table__song-title">Song&nbsp;Title</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
 
-                {songList.length === 0 && (
-                    <NoneContent message="There are no songs created yet." height={300} />
-                )}
+                    <tbody>
+                        {songList?.map((album, idx) => (
+                            <tr
+                                key={album.id}
+                                className={activeSong === album.id ? 'active' : ''}
+                                onClick={() => handleRowClick(album)}
+                            >
+                                <td onClick={(e) => e.stopPropagation()}>
+                                    <input
+                                        type="checkbox"
+                                        className="styled-checkbox"
+                                        checked={selectedIds.includes(album.id)}
+                                        onChange={(e) => {
+                                            e.stopPropagation();
+                                            handleSelectOne(album.id);
+                                        }}
+                                    />
+                                </td>
+                                <td>
+                                    <button className="albums-table__song-btn">
+                                        <img src={album.cover_image} alt="cover" />
+                                        <div className="loading-wave">
+                                            <div className="loading-bar" />
+                                            <div className="loading-bar" />
+                                            <div className="loading-bar" />
+                                            <div className="loading-bar" />
+                                        </div>
+                                    </button>
+                                </td>
+
+                                <td>
+                                    <img src={songTypeIcon} alt="type" />
+                                </td>
+                                <td>
+                                    <div className="albums-table__artist">
+                                        <img src={album.cover_image} alt="user-img" />
+                                        {album.name}
+                                    </div>
+                                </td>
+                                <td>{album.title}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                {songList?.length === 0 && <NoneContent message="There are no songs created yet." height={300} />}
             </div>
         </>
     );

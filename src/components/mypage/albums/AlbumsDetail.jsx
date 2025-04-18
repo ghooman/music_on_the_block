@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { useSearchParams, useParams } from 'react-router-dom';
+import { useSearchParams, useParams, Link } from 'react-router-dom';
 import ContentWrap from '../../unit/ContentWrap';
 import Filter from '../../unit/Filter';
 import Pagination from '../../unit/Pagination';
@@ -228,10 +228,13 @@ const AlbumsDetail = () => {
                     <ContentWrap title="Favorites" border={false}>
                         <div className="my-album-details__box__body__sub-categories">
                             <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-                            <button className="my-album-details__box__body__sub-categories__edit-btn">
+                            <Link
+                                to={`/my-page/edit-album-songs/${id}`}
+                                className="my-album-details__box__body__sub-categories__edit-btn"
+                            >
                                 Edit Songs
                                 <img src={editIcon} alt="edit-icon" />
-                            </button>
+                            </Link>
                         </div>
 
                         {albumBundleInfo?.song_list?.length > 0 ? (

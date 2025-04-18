@@ -343,7 +343,7 @@ function AlbumDetail() {
                       //    - 그 외의 경우에는 내용 자체를 제거
                       ?.replace(/\(([^)]+)\)/g, (match, p1) => {
                         if (
-                          /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge)(?:\s*\d+)?$/i.test(
+                          /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
                             p1.trim()
                           )
                         ) {
@@ -353,7 +353,7 @@ function AlbumDetail() {
                       })
                       // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
                       ?.replace(
-                        /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook)(?:\s*\d+)?)/gi,
+                        /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
                         "\n$1"
                       )
                       ?.trim()}
@@ -519,7 +519,7 @@ function AlbumDetail() {
                   <th>#</th>
                   <th>Artist</th>
                   <th>Song Title</th>
-                  <th>Play</th>
+                  <th>Plays</th>
                   <th>Likes</th>
                   <th>Details</th>
                 </tr>
@@ -543,7 +543,7 @@ function AlbumDetail() {
                     </td>
                     <td>
                       {/* {formatLocalTime(item.create_dt)} */}
-                      10
+                      {item?.play_cnt}
                     </td>
                     <td>{item.like}</td>
                     <td>

@@ -74,8 +74,6 @@ const EditAlbumSongs = () => {
     const [iseditAlbumModal, setIsEditAlbumModal] = useState(false);
     const [activeSong, setActiveSong] = useState(null);
     const [albumsBundleData, setAlbumsBundleData] = useState(null); // 앨범 원본 데이터
-    const [checkedSeletedSongs, setCheckedSelectedSongs] = useState([]);
-    const [checkedAlbumSongs, setCheckedAlbumSongs] = useState([]);
 
     const { token } = useContext(AuthContext);
     const { id } = useParams();
@@ -113,8 +111,8 @@ const EditAlbumSongs = () => {
                     </ContentWrap.SubWrap>
                     <SongPlayEditTable
                         title="Selected Songs"
-                        checkHandler={setCheckedSelectedSongs}
                         songList={albumsBundleData}
+                        setSongList={setAlbumsBundleData}
                         activeSong={activeSong}
                         setActiveSong={setActiveSong}
                         audioRef={audioRef}
@@ -122,8 +120,8 @@ const EditAlbumSongs = () => {
                     <AddDeleteBtn />
                     <SongPlayEditTable
                         title="Album Songs"
-                        checkHandler={setCheckedAlbumSongs}
                         songList={albumsBundleData}
+                        setSongList={setAlbumsBundleData}
                         activeSong={activeSong}
                         setActiveSong={setActiveSong}
                         audioRef={audioRef}

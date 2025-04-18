@@ -119,18 +119,37 @@ import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
  * @param {React.Dispatch<React.SetStateAction<number|null>>} setActiveSong
  * @param {React.RefObject<HTMLAudioElement>} audioRef
  */
-const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, audioRef, checkHandler }) => {
+const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setActiveSong, audioRef }) => {
     /* ---------- 선택 체크박스 ---------- */
-    const [selectedIds, setSelectedIds] = useState([]);
+    // const [selectedIds, setSelectedIds] = useState([]);
 
-    const allSelected = songList?.length > 0 && selectedIds?.length === songList?.length;
+    // const allSelected = songList?.length > 0 && selectedIds?.length === songList?.length;
+
+    // const handleSelectAll = (e) => {
+    //     setSelectedIds(e.target?.checked ? songList.map((s) => s.id) : []);
+    // };
+
+    // const handleSelectOne = (id) => {
+    //     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
+    // };
+
+    // const handleSelectAll = (e) => {
+    //     setSelectedIds(e.target?.checked ? songList.map((s) => s.id) : []);
+    // };
 
     const handleSelectAll = (e) => {
-        setSelectedIds(e.target?.checked ? songList.map((s) => s.id) : []);
+        setSongList((prev) => {
+            const copy = [...prev];
+            return copy.map((item) => ({ ...item, check: item?.check ? false : true }));
+        });
     };
 
-    const handleSelectOne = (id) => {
-        setSelectedIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
+    const handleSelectOne = (index, check) => {
+        setSongList((prev) => {
+            const copy = [...prev];
+            copy[index].check = check ? false : true;
+            return copy;
+        });
     };
 
     /* ---------- 재생 ---------- */
@@ -149,10 +168,6 @@ const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, au
         }
     };
 
-    useEffect(() => {
-        checkHandler(selectedIds);
-    }, [selectedIds]);
-
     /* ---------- 렌더 ---------- */
     return (
         <>
@@ -163,8 +178,8 @@ const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, au
             <div className="selected-song-number">
                 {title}
                 <p>
-                    (<span>{selectedIds.length}</span>&nbsp;
-                    {selectedIds.length === 1 ? 'Song' : 'Songs'})
+                    {/* (<span>{selectedIds.length}</span>&nbsp;
+                    {selectedIds.length === 1 ? 'Song' : 'Songs'}) */}
                 </p>
                 {/* <p>(<span>3</span> Songs)</p> */}
             </div>
@@ -177,7 +192,7 @@ const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, au
                                 <input
                                     type="checkbox"
                                     className="styled-checkbox"
-                                    checked={allSelected}
+                                    // checked={allSelected}
                                     onChange={handleSelectAll}
                                 />
                             </th>
@@ -189,7 +204,7 @@ const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, au
                     </thead>
 
                     <tbody>
-                        {songList?.map((album, idx) => (
+                        {songList?.map((album, index) => (
                             <tr
                                 key={album.id}
                                 className={activeSong === album.id ? 'active' : ''}
@@ -199,10 +214,10 @@ const SongPlayEditTable = ({ title, songList = [], activeSong, setActiveSong, au
                                     <input
                                         type="checkbox"
                                         className="styled-checkbox"
-                                        checked={selectedIds.includes(album.id)}
+                                        checked={album?.check}
                                         onChange={(e) => {
                                             e.stopPropagation();
-                                            handleSelectOne(album.id);
+                                            handleSelectOne(index, album?.check);
                                         }}
                                     />
                                 </td>

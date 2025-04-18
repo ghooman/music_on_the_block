@@ -152,10 +152,6 @@ const AlbumsDetail = () => {
     setShowDetailModal(false);
   };
 
-  const handleEditSongs = () => {
-    setShowCreateModal(true);
-  };
-
   return (
     <div className="my-album-details">
       <p className="my-album-details__title">Album Details</p>

@@ -272,13 +272,15 @@ import Search from "../../unit/Search";
 import SubCategories from "../../unit/SubCategories";
 import SongPlayTable from "../../unit/SongPlayTable"; // SongPlayTable 추가
 import axios from "axios"; // axios 임포트
+import NoneContent from "../../../components/unit/NoneContent";
 
 // 이미지/아이콘들
 import songImg from "../../../assets/images/intro/intro-demo-img2.png";
 import playIcon from "../../../assets/images/play-icon2.svg";
 import stopIcon from "../../../assets/images/stop-icon.svg";
 import editIcon from "../../../assets/images/edit.svg";
-
+import defaultAlbumImage from "../../../assets/images/mypage/albums-upload-logo.png";
+import NoDataImage from "../../../assets/images/mypage/albums-no-data.svg";
 import "./AlbumsDetail.scss";
 import track2 from "../../../assets/music/MusicOnTheBlock_v1.mp3";
 import track3 from "../../../assets/music/nisoft_song.mp3";
@@ -287,7 +289,6 @@ import track3 from "../../../assets/music/nisoft_song.mp3";
 import LyricsIcon from "../../../assets/images/icon/Lyrics-Icon.svg";
 import LyricsAndSongwritingIcon from "../../../assets/images/icon/Songwriting-Icon.svg";
 import SongwritingIcon from "../../../assets/images/icon/Composition-Icon.svg";
-
 import { getMyAlbumBundleInfo } from "../../../api/AlbumsDetail";
 
 // 더미 데이터
@@ -335,7 +336,7 @@ const AlbumsDetail = () => {
     const fetchAlbumBundleInfo = async () => {
       try {
         const response = await getMyAlbumBundleInfo(id, token);
-        console.log("앨범 번들 정보", response.data);
+        setAlbumBundleInfo(response);
       } catch (error) {
         console.error("앨범 번들 정보 조회 실패:", error);
       } finally {
@@ -410,13 +411,16 @@ const AlbumsDetail = () => {
         <section className="my-album-details__box__header">
           <article className="my-album-details__box__header__left">
             <div className="my-album-details__box__header__left__img-box">
-              <img src={songImg} alt="cover-img" />
+              <img
+                src={albumBundleInfo?.cover_image || defaultAlbumImage}
+                alt="cover-img"
+              />
             </div>
           </article>
           <article className="my-album-details__box__header__right">
             <div className="my-album-details__box__header__right__box">
               <p className="my-album-details__box__header__right__box__title">
-                <span>title texttitle texttitle texttitle texttitle text</span>
+                <span>{albumBundleInfo?.album_name}</span>
                 <button className="my-album-details__box__header__right__box__title__edit-btn">
                   Edit Album
                   <img src={editIcon} alt="edit-icon" />
@@ -429,7 +433,7 @@ const AlbumsDetail = () => {
                   </p>
                   <p className="my-album-details__box__header__right__box__list__item__title-value">
                     <img src={songImg} alt="user-img" className="user-img" />
-                    user name
+                    {albumBundleInfo?.name}
                   </p>
                 </div>
                 <div className="my-album-details__box__header__right__box__list__item">
@@ -437,7 +441,7 @@ const AlbumsDetail = () => {
                     Songs
                   </p>
                   <p className="my-album-details__box__header__right__box__list__item__title-value">
-                    12
+                    {albumBundleInfo?.song_cnt}
                   </p>
                 </div>
               </div>
@@ -462,14 +466,28 @@ const AlbumsDetail = () => {
               handler={() => null}
               value={selected}
             />
-            <SongPlayTable
+            {/* <SongPlayTable
               songList={songsList?.data_list}
               // deleteOption={true}
               // releaseOption={releaseType === 'Unreleased songs'}
               activeSong={activeSong} // 상위 컴포넌트에서 관리하는 activeSong 전달
               setActiveSong={setActiveSong} // 상위 컴포넌트에서 관리하는 setActiveSong 전달
               audioRef={audioRef} // audioRef 전달
-            />
+            /> */}
+            {albumBundleInfo?.song_list?.length > 0 ? (
+              <SongPlayTable
+                songList={albumBundleInfo?.song_list}
+                activeSong={activeSong}
+                setActiveSong={setActiveSong}
+              />
+            ) : (
+              <NoneContent
+                image={NoDataImage}
+                title="No songs in this album"
+                message="This album is currently empty."
+                message2="Add songs to complete your album."
+              />
+            )}
           </ContentWrap>
         </section>
       </div>

@@ -437,16 +437,16 @@ const ListSlider = ({
                 {track.title}
               </p>
               <div className="swiper-music-list__item__right__love-play">
+                <p className="play">
+                  <img src={playIcon} alt="PlayIcon" />
+                  {track?.play_cnt || 0}
+                </p>
                 <p className="love" onClick={() => handleLikeClick(track)}>
                   <img
                     src={track.is_like ? halfHeartIcon : loveIcon}
                     alt="LikeIcon"
                   />
                   {track?.like || 0}
-                </p>
-                <p className="play">
-                  <img src={playIcon} alt="PlayIcon" />
-                  {track?.play_cnt || 0}
                 </p>
               </div>
               <div className="swiper-music-list__item__right__user">

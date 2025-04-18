@@ -10,8 +10,8 @@ import axios from 'axios';  // axios 임포트
 
 // 이미지/아이콘들
 import songImg from '../../assets/images/intro/intro-demo-img2.png';
-import playIcon from '../../assets/images/play-icon2.svg';
-import stopIcon from '../../assets/images/stop-icon.svg';
+import addIcon from '../../assets/images/add-icon.svg';
+import dellIcon from '../../assets/images/delete-icon.svg';
 import editIcon from '../../assets/images/edit.svg';
 
 import './EditAlbumSongs.scss';
@@ -22,6 +22,8 @@ import track3 from '../../assets/music/nisoft_song.mp3';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
+import SongPlayEditTable from '../unit/SongPlayEditTable';
+import EditAlbumModal from '../EditAlbumModal';
 
 // 더미 데이터
 const dummySongsList = {
@@ -58,8 +60,6 @@ const dummySongsList = {
 };
 
 const EditAlbumSongs = ({ token }) => {
-    const audioRef = useRef(null);
-    const [activeSong, setActiveSong] = useState(null); // activeSong 상태 관리
 
     const subCategoryList = [
         { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -68,116 +68,51 @@ const EditAlbumSongs = ({ token }) => {
     ];
     const [selected, setSelected] = useState(subCategoryList[0].name);
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const page = searchParams.get('page') || 1;
-    const search = searchParams.get('search') || '';
-    const songsSort = searchParams.get('songs_sort');
-    const releaseType = searchParams.get('release_type') || 'Unreleased songs';
+    const [iseditAlbumModal,  setIsEditAlbumModal]  = useState(false);
+    const [activeSong,  setActiveSong]  = useState(null);
+    const  audioRef = useRef(null);
 
-    // 더미 데이터 사용 (API 호출 대신 더미 데이터)
-    const songsList = dummySongsList;
-
-
-    const [isPlaying, setIsPlaying] = useState(false);
-
-    const handlePlayClick = () => {
-    if (!audioRef.current) return;
-
-    /* Stop 누른 상태 */
-    if (isPlaying) {
-        audioRef.current.pause();
-        audioRef.current.onended = null;
-        setIsPlaying(false);
-        setActiveSong(null);
-        return;
-    }
-
-    /* Play 시작 */
-    let currentIndex = 0;
-    setActiveSong(songsList.data_list[currentIndex].id);
-    setIsPlaying(true);
-
-    audioRef.current.src = songsList.data_list[currentIndex].music_url;
-    audioRef.current.play();
-
-    audioRef.current.onended = () => {
-        currentIndex += 1;
-        if (currentIndex < songsList.data_list.length) {
-        setActiveSong(songsList.data_list[currentIndex].id);
-        audioRef.current.src = songsList.data_list[currentIndex].music_url;
-        audioRef.current.play();
-        } else {
-        setIsPlaying(false);
-        setActiveSong(null);
-        }
-    };
-    };
-
+    
     return (
-        <div className="my-album-details">
-            <p className="my-album-details__title">Album Details</p>
-            <div className="my-album-details__box">
-                <section className="my-album-details__box__header">
-                    <article className="my-album-details__box__header__left">
-                        <div className="my-album-details__box__header__left__img-box">
-                            <img src={songImg} alt="cover-img" />
-                        </div>
-                    </article>
-                    <article className="my-album-details__box__header__right">
-                        <div className="my-album-details__box__header__right__box">
-                            <p className="my-album-details__box__header__right__box__title">
-                                <span>title texttitle texttitle texttitle texttitle text</span>
-                                <button className="my-album-details__box__header__right__box__title__edit-btn">
-                                    Edit Album
-                                    <img src={editIcon} alt="edit-icon" />
-                                </button>
-                            </p>
-                            <div className="my-album-details__box__header__right__box__list">
-                                <div className="my-album-details__box__header__right__box__list__item">
-                                    <p className="my-album-details__box__header__right__box__list__item__title">
-                                        Artist
-                                    </p>
-                                    <p className="my-album-details__box__header__right__box__list__item__title-value">
-                                        <img src={songImg} alt="user-img" className="user-img" />
-                                        user name
-                                    </p>
-                                </div>
-                                <div className="my-album-details__box__header__right__box__list__item">
-                                    <p className="my-album-details__box__header__right__box__list__item__title">
-                                        Songs
-                                    </p>
-                                    <p className="my-album-details__box__header__right__box__list__item__title-value">
-                                        12
-                                    </p>
-                                </div>
-                            </div>
-                            {/* Play 버튼 */}
-                            <button className="my-album-details__box__header__right__play-btn" onClick={handlePlayClick}>
-                                <img
-                                    src={isPlaying ? stopIcon : playIcon}
-                                    alt={isPlaying ? 'stop-icon' : 'play-icon'}
-                                />
-                                {isPlaying ? ' Stop' : ' Play'}
-                            </button>
-                        </div>
-                    </article>
-                </section>
-                <section className="my-album-details__box__body">
-                    <ContentWrap title="Favorites" border={false}>
-                        <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-                        <SongPlayTable
-                            songList={songsList?.data_list}
-                            // deleteOption={true}
-                            // releaseOption={releaseType === 'Unreleased songs'}
-                            activeSong={activeSong}  // 상위 컴포넌트에서 관리하는 activeSong 전달
-                            setActiveSong={setActiveSong}  // 상위 컴포넌트에서 관리하는 setActiveSong 전달
-                            audioRef={audioRef}  // audioRef 전달
-                        />
-                    </ContentWrap>
-                </section>
+        <>
+            <div className='edit-album-songs'>
+                <p className='edit-album-songs__title'>Edit album Songs</p>
+                <ContentWrap border={false}>
+                    <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+                    <ContentWrap.SubWrap gap={8}>
+                        <Filter songsSort />
+                        <Search placeholder="Search by Artist name or Song title..." handler={null} reset={{ page: 1 }} />
+                    </ContentWrap.SubWrap>
+                    <SongPlayEditTable
+                        songList={dummySongsList.data_list}
+                        activeSong={activeSong}
+                        setActiveSong={setActiveSong}
+                        audioRef={audioRef}
+                    />
+                    <AddDeleteBtn/>
+                    <SongPlayEditTable
+                        songList={dummySongsList.data_list}
+                        activeSong={activeSong}
+                        setActiveSong={setActiveSong}
+                        audioRef={audioRef}
+                    />
+                </ContentWrap>
+                <button className='edit-btn' onClick={()=>setIsEditAlbumModal(true)}>Edit</button>
             </div>
-        </div>
+            {iseditAlbumModal && <EditAlbumModal setIsEditAlbumModal={setIsEditAlbumModal}/>}
+            
+        </>
     );
 };
 
 export default EditAlbumSongs;
+
+
+const AddDeleteBtn = () => {
+    return (
+        <div className="add-delete-btn">
+            <button type="button"><img src={addIcon} alt='addIcon'/>Add</button>
+            <button type="button"><img src={dellIcon} alt='dellIcon'/>Delete</button>
+        </div>
+    );
+};

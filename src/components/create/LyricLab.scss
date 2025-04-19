@@ -19,12 +19,6 @@
     display: flex;
     justify-content: flex-end;
     gap: 32px;
-    align-items: center;
-    .generated-lyrics__confirm-buttons--text {
-      &.disabled {
-        color: red;
-      }
-    }
   }
 
   .generated-lyrics__confirm-buttons--button {
@@ -68,13 +62,6 @@
       background-color: #cf0;
       &::after {
         border-color: #cf0;
-      }
-    }
-    &.disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-      &::after {
-        border-color: #ccc;
       }
     }
   }

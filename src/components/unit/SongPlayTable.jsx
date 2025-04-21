@@ -29,51 +29,62 @@ const SongPlayTable = ({
     isTrigger,
 }) => {
     const [activeSong, setActiveSong] = useState(null);
-    const [triggerIndex, setTriggerIndex] = useState(0);
+    let triggerIndex = useRef(0);
     const audioRef = useRef(null);
 
-    // 테이블 행 클릭 시 해당 곡을 재생
-    const handleRowClick = (album) => {
-        setActiveSong(album);
+    // // 테이블 행 클릭 시 해당 곡을 재생
+    // const handleRowClick = (album) => {
+    //     if (!audioRef.current) {
+    //         console.warn('Audio element is not available.');
+    //         return;
+    //     }
 
-        // if (!audioRef.current) {
-        //     console.warn('Audio element is not available.');
-        //     return;
-        // }
+    //     if (activeSong === album.id) {
+    //         if (audioRef.current.paused) {
+    //             audioRef.current.play();
+    //         } else {
+    //             audioRef.current.pause();
+    //             setActiveSong(null);
+    //         }
+    //     } else {
+    //         audioRef.current.pause();
+    //         audioRef.current.currentTime = 0;
+    //         setActiveSong(album.id);
+    //         audioRef.current.src = album?.music_url;
+    //         audioRef.current.play();
+    //     }
+    // };
 
-        // if (activeSong === album.id) {
-        //     if (audioRef.current.paused) {
-        //         audioRef.current.play();
-        //     } else {
-        //         audioRef.current.pause();
-        //         setActiveSong(null);
-        //     }
-        // } else {
-        //     audioRef.current.pause();
-        //     audioRef.current.currentTime = 0;
-        //     setActiveSong(album.id);
-        //     audioRef.current.src = album?.music_url;
-        //     audioRef.current.play();
-        // }
-    };
-
-    useEffect(() => {}, [activeSong]);
+    useEffect(() => {
+        if (!activeSong) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.currentTime = 0;
+            audioRef.current.src = activeSong?.music_url;
+            audioRef.current.play();
+        }
+    }, [activeSong]);
 
     useEffect(() => {
         if (isTrigger === true) {
+            setActiveSong(songList[triggerIndex]);
         }
     }, [isTrigger]);
-
-    // 트리거 옵션 추가
-    // 트리거를 트루로 하면 0에서 시작해서 재생..
-    // 재생 끝나면 다음 트랙으로
-    // 언마운트 되지 않는 이상 트랙은 계속 기억 되고
-    // 끝으로 가는 경우...엔 0으로
 
     return (
         <>
             <div className="audio-container">
-                <audio controls ref={audioRef} />
+                <audio
+                    controls
+                    ref={audioRef}
+                    onEnded={() => {
+                        if (isTrigger) {
+                            setActiveSong(songList[++triggerIndex.current]);
+                        } else {
+                            setActiveSong(null);
+                        }
+                    }}
+                />
             </div>
 
             <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
@@ -96,8 +107,14 @@ const SongPlayTable = ({
                                 {songList?.map((album, index) => (
                                     <tr
                                         key={album.id}
-                                        className={activeSong === album.id ? 'active' : ''}
-                                        onClick={() => handleRowClick(album)}
+                                        className={activeSong?.id === album.id ? 'active' : ''}
+                                        onClick={() => {
+                                            if (activeSong?.id === album?.id) {
+                                                setActiveSong(null);
+                                            } else {
+                                                setActiveSong(album);
+                                            }
+                                        }}
                                     >
                                         <td>{index + 1}</td>
                                         <td>

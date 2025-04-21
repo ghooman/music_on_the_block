@@ -7,6 +7,8 @@ import Search from '../../unit/Search';
 import SubCategories from '../../unit/SubCategories';
 import SongPlayTable from '../../unit/SongPlayTable'; // SongPlayTable 추가
 import axios from 'axios'; // axios 임포트
+import { useQuery } from 'react-query';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 // 이미지/아이콘들
 import songImg from '../../../assets/images/intro/intro-demo-img2.png';
@@ -22,49 +24,14 @@ import track3 from '../../../assets/music/nisoft_song.mp3';
 import LyricsIcon from '../../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
+
 import SongPlayEditTable from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
-import { useQuery } from 'react-query';
-import { AuthContext } from '../../../contexts/AuthContext';
-
-// 더미 데이터
-const dummySongsList = {
-    data_list: [
-        {
-            id: 1,
-            title: 'Song 1',
-            name: 'Artist 1',
-            album: 'Album 1',
-            release_date: '2021-01-01',
-            cover_image: songImg,
-            music_url: track3,
-        },
-        {
-            id: 2,
-            title: 'Song 2',
-            name: 'Artist 2',
-            album: 'Album 2',
-            release_date: '2021-02-01',
-            cover_image: songImg,
-            music_url: track2,
-        },
-        {
-            id: 3,
-            title: 'Song 3Song 3Song 3Song 3Song 3Song 3Song 3Song 3Song 3',
-            name: 'Artist 3',
-            album: 'Album 3',
-            release_date: '2021-03-01',
-            cover_image: songImg,
-            music_url: track3,
-        },
-    ],
-    total_cnt: 3,
-};
+import { getMyMusicList } from '../../../api/getMyMusicList';
 
 const subCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
     { name: 'AI Singing Evaluation', image: LyricsIcon, preparing: true },
-    { name: 'AI Cover Creation', image: SongwritingIcon, preparing: true },
 ];
 
 const serverApi = process.env.REACT_APP_SERVER_API;
@@ -74,31 +41,149 @@ const EditAlbumSongs = () => {
     const [iseditAlbumModal, setIsEditAlbumModal] = useState(false);
     const [activeSong, setActiveSong] = useState(null);
     const [albumsBundleData, setAlbumsBundleData] = useState(null); // 앨범 원본 데이터
+    const [addBundleSongList, setAddBundleSongList] = useState([]);
+    const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
+    const [activeTab, setActiveTab] = useState('following');
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const { token } = useContext(AuthContext);
     const { id } = useParams();
     const audioRef = useRef(null);
+    const search = searchParams.get('search');
 
+    //=================
+    // 추가
+    //=================
+    const handleAdd = () => {
+        const copy = [...addBundleSongList];
+        const newCopy = copy.filter((item) => item.check === true);
+        setAddBundleSongList((prev) => prev.map((item) => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
+        const maps = new Map(newCopy.map((item) => [item.id, item]));
+        const arrays = Array.from(maps.values());
+
+        setAlbumbundleSongList((prev) => {
+            let copy = [...prev];
+            let checkReset = arrays.map((item) => ({ ...item, check: false }));
+            let maps = new Map([...copy, ...checkReset].map((item) => [item.id, item]));
+            return Array.from(maps.values());
+        });
+    };
+
+    //=================
+    // 삭제
+    //=================
+    const handleDelete = () => {
+        const copy = [...albumBundleSongList];
+        const newCopy = copy.filter((item) => !item.check);
+        setAlbumbundleSongList(newCopy);
+    };
+
+    //==================
+    // 앨범 수정 요청
+    //==================
+    const handleEdit = async () => {
+        const songIdArray = albumBundleSongList.map((item) => item.id);
+        try {
+            const res = await axios.post(`${serverApi}/api/music/album/bundle/${id}/song`, songIdArray, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            getAlbumsBundleData();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    //==================
+    // 앨범 데이터 가져오기
+    //==================
+    const getAlbumsBundleData = async () => {
+        try {
+            const res = await axios.get(`${serverApi}/api/music/my/album/bundle/${id}/detail`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setAlbumsBundleData(res.data);
+            setAlbumbundleSongList(res.data?.song_list.map((item) => ({ ...item, check: false })));
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    // 가진 곡
     useEffect(() => {
-        const getAlbumsBundleData = async () => {
+        const getAddBundleData = async () => {
+            let url;
+            switch (activeTab) {
+                case 'following':
+                    url = '/api/music/my/following/list/no/paging';
+                    break;
+                case 'mine':
+                    url = '/api/music/my/list/no/paging';
+                    break;
+                case 'liked':
+                    url = '/api/music/my/like/list/no/paging';
+                    break;
+                default:
+                    url = '';
+            }
             try {
-                const res = await axios.get(`${serverApi}/api/music/my/album/bundle/${id}/detail`, {
+                const res = await axios.get(`${serverApi + url}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setAlbumsBundleData(res.data.song_list);
+                setAddBundleSongList(res.data.filter((item) => !!item.music_url));
             } catch (e) {
                 console.error(e);
             }
         };
+        getAddBundleData();
+    }, [activeTab]);
+
+    // 현재 앨범 데이터
+    useEffect(() => {
         getAlbumsBundleData();
     }, [id]);
+
+    console.log(albumBundleSongList, '송 리스트');
 
     return (
         <>
             <div className="edit-album-songs">
                 <p className="edit-album-songs__title">Edit album Songs</p>
+                <p className="edit-album-songs__title__album-name">{albumsBundleData?.album_name}</p>
+                <div className="edit-album-songs__tab">
+                    <button
+                        className={`edit-album-songs__tab__item ${activeTab === 'recent' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('recent')}
+                    >
+                        Recently Played
+                    </button>
+
+                    <button
+                        className={`edit-album-songs__tab__item ${activeTab === 'liked' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('liked')}
+                    >
+                        Liked Songs
+                    </button>
+
+                    <button
+                        className={`edit-album-songs__tab__item ${activeTab === 'mine' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('mine')}
+                    >
+                        My Songs
+                    </button>
+
+                    <button
+                        className={`edit-album-songs__tab__item ${activeTab === 'following' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('following')}
+                    >
+                        Following
+                    </button>
+                </div>
                 <ContentWrap border={false}>
                     <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
                     <ContentWrap.SubWrap gap={8}>
@@ -111,17 +196,17 @@ const EditAlbumSongs = () => {
                     </ContentWrap.SubWrap>
                     <SongPlayEditTable
                         title="Selected Songs"
-                        songList={albumsBundleData}
-                        setSongList={setAlbumsBundleData}
+                        songList={addBundleSongList}
+                        setSongList={setAddBundleSongList}
                         activeSong={activeSong}
                         setActiveSong={setActiveSong}
                         audioRef={audioRef}
                     />
-                    <AddDeleteBtn />
+                    <AddDeleteBtn addHandler={handleAdd} deleteHandler={handleDelete} />
                     <SongPlayEditTable
                         title="Album Songs"
-                        songList={albumsBundleData}
-                        setSongList={setAlbumsBundleData}
+                        songList={albumBundleSongList}
+                        setSongList={setAlbumbundleSongList}
                         activeSong={activeSong}
                         setActiveSong={setActiveSong}
                         audioRef={audioRef}
@@ -131,21 +216,21 @@ const EditAlbumSongs = () => {
                     Edit
                 </button>
             </div>
-            {iseditAlbumModal && <EditAlbumModal setIsEditAlbumModal={setIsEditAlbumModal} />}
+            {iseditAlbumModal && <EditAlbumModal setIsEditAlbumModal={setIsEditAlbumModal} handleClick={handleEdit} />}
         </>
     );
 };
 
 export default EditAlbumSongs;
 
-const AddDeleteBtn = () => {
+const AddDeleteBtn = ({ addHandler, deleteHandler }) => {
     return (
         <div className="add-delete-btn">
-            <button type="button">
+            <button type="button" onClick={addHandler}>
                 <img src={addIcon} alt="addIcon" />
                 Add
             </button>
-            <button type="button">
+            <button type="button" onClick={deleteHandler}>
                 <img src={dellIcon} alt="dellIcon" />
                 Delete
             </button>

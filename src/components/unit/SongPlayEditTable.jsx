@@ -111,6 +111,7 @@ import React, { useEffect, useState } from 'react';
 import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import defaultUserImage from '../../assets/images/header/logo-png.png';
 
 /**
  * SongPlayEditTable
@@ -137,18 +138,24 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
     //     setSelectedIds(e.target?.checked ? songList.map((s) => s.id) : []);
     // };
 
+    const allCheck = songList?.length > 0 && songList?.every((item) => item.check);
+
     const handleSelectAll = (e) => {
         setSongList((prev) => {
             const copy = [...prev];
-            return copy.map((item) => ({ ...item, check: item?.check ? false : true }));
+            return copy.map((item) => ({ ...item, check: !allCheck }));
         });
     };
 
-    const handleSelectOne = (index, check) => {
+    const handleSelectOne = (id, check) => {
         setSongList((prev) => {
             const copy = [...prev];
-            copy[index].check = check ? false : true;
-            return copy;
+            return copy.map((item) => {
+                if (item.id === id) {
+                    return { ...item, check: check ? false : true };
+                }
+                return { ...item };
+            });
         });
     };
 
@@ -178,21 +185,21 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
             <div className="selected-song-number">
                 {title}
                 <p>
-                    {/* (<span>{selectedIds.length}</span>&nbsp;
-                    {selectedIds.length === 1 ? 'Song' : 'Songs'}) */}
+                    (<span>{songList?.filter((item) => item.check).length}</span>&nbsp;
+                    {songList?.filter((item) => item.check).length === 1 ? 'Song' : 'Songs'})
                 </p>
                 {/* <p>(<span>3</span> Songs)</p> */}
             </div>
 
-            <div className="albums-table">
+            <div className="albums-table scroll">
                 <table>
-                    <thead>
+                    <thead className="sticky">
                         <tr>
                             <th>
                                 <input
                                     type="checkbox"
                                     className="styled-checkbox"
-                                    // checked={allSelected}
+                                    checked={allCheck}
                                     onChange={handleSelectAll}
                                 />
                             </th>
@@ -202,7 +209,6 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                             <th className="albums-table__song-title">Song&nbsp;Title</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {songList?.map((album, index) => (
                             <tr
@@ -217,7 +223,7 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                                         checked={album?.check}
                                         onChange={(e) => {
                                             e.stopPropagation();
-                                            handleSelectOne(index, album?.check);
+                                            handleSelectOne(album.id, album?.check);
                                         }}
                                     />
                                 </td>
@@ -238,7 +244,7 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                                 </td>
                                 <td>
                                     <div className="albums-table__artist">
-                                        <img src={album.cover_image} alt="user-img" />
+                                        <img src={album.user_profile || defaultUserImage} alt="user-img" />
                                         {album.name}
                                     </div>
                                 </td>

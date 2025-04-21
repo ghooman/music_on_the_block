@@ -25,6 +25,7 @@ const SongPlayTable = ({
     activeSong,
     setActiveSong, // activeSong과 setActiveSong을 상위 컴포넌트에서 전달받습니다.
     audioRef,
+    isScroll, // 페이지네이션 X 스크롤 옵션
 }) => {
     // const [activeSong, setActiveSong] = useState(null);
     // const audioRef = useRef(null);
@@ -58,9 +59,9 @@ const SongPlayTable = ({
                 <audio controls ref={audioRef} />
             </div>
 
-            <div className="albums-table">
+            <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
                 <table>
-                    <thead>
+                    <thead className={`${isScroll ? 'sticky' : ''}`}>
                         <tr>
                             <th>#</th>
                             <th className="albums-table__song">Song</th>

@@ -13,7 +13,6 @@ import playIcon from "../assets/images/album/play-icon.svg";
 import commentIcon from "../assets/images/album/chat-icon.svg";
 import shareIcon from "../assets/images/album/share-icon.svg";
 import defaultCoverImg from "../assets/images/header/logo.svg";
-import track1 from "../assets/music/song01.mp3";
 import track2 from "../assets/music/nisoft_song.mp3";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -295,7 +294,7 @@ function AlbumDetail() {
             <div className="album-detail__song-detail__left">
               <section className="album-detail__audio">
                 <AudioPlayer
-                  src={album?.music_url || track1}
+                  src={album?.music_url}
                   onPlay={() => {
                     setIsPlaying(true);
                   }}

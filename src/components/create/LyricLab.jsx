@@ -26,21 +26,21 @@ const tagPreset = {
 };
 
 const moodPreset = {
-  Happy: "Happy",
-  Sad: "Sad",
-  Romantic: "Romantic",
-  Hopeful: "Hopeful",
-  Angry: "Angry",
-  Relaxed: "Relaxed",
-  Mysterious: "Mysterious",
-  Energetic: "Energetic",
-  Melancholic: "Melancholic",
-  Dreamy: "Dreamy",
-  Nostalgic: "Nostalgic",
-  Serene: "Serene",
-  Fun: "Fun",
-  Introspective: "Introspective",
-  Epic: "Epic",
+  Happy: ["Happy"],
+  Sad: ["Sad"],
+  Romantic: ["Romantic"],
+  Hopeful: ["Hopeful"],
+  Angry: ["Angry"],
+  Relaxed: ["Relaxed"],
+  Mysterious: ["Mysterious"],
+  Energetic: ["Energetic"],
+  Melancholic: ["Melancholic"],
+  Dreamy: ["Dreamy"],
+  Nostalgic: ["Nostalgic"],
+  Serene: ["Serene"],
+  Fun: ["Fun"],
+  Introspective: ["Introspective"],
+  Epic: ["Epic"],
 };
 
 const stylePreset = {

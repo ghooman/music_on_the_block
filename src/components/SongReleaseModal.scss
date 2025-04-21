@@ -7,10 +7,12 @@
         color: #aaa;
         // font-family: Inter400;
         font-size: 16px;
-
+        text-align: center;
         .point {
             font: inherit;
             color: #cf0;
+            margin-top: 8px;
+            display: block;
         }
     }
 

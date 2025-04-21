@@ -75,7 +75,7 @@ const LyricChatBot = ({
         }
       }
 
-      // [장르 추출]
+      // [감정 추출]
       if (locale.extraction.genreRegex.test(botMessage)) {
         const genreMatch = botMessage.match(locale.extraction.genreRegex);
         if (genreMatch && genreMatch[1]) {
@@ -240,11 +240,11 @@ const LyricChatBot = ({
             />
           </div>
           <div className="music__information__genre">
-            <h3>Lyric Genre</h3>
+            <h3>Lyric Mood</h3>
             <input
               type="text"
               value={lyricData.lyric_genre}
-              placeholder="POP, K-POP, ROCK, HIP-HOP ..."
+              placeholder="Love, Sad, Hope, Fun, ..."
               readOnly
             />
             <div className="music__information__stylistic">
@@ -325,6 +325,13 @@ const LyricChatBot = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
+          <p
+            className={`generated-lyrics__confirm-buttons--text ${
+              generatedLyric?.length > 1000 ? "disabled" : ""
+            }`}
+          >
+            Lyric Length : {generatedLyric?.length} / 1000
+          </p>
           <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
@@ -334,7 +341,10 @@ const LyricChatBot = ({
             EDIT
           </button>
           <button
-            className="generated-lyrics__confirm-buttons--button confirm"
+            className={`generated-lyrics__confirm-buttons--button confirm ${
+              generatedLyric?.length > 1000 ? "disabled" : ""
+            }`}
+            disabled={generatedLyric?.length > 1000}
             onClick={() => {
               setGeneratedLyric(generatedLyric);
               setPageNumber((prev) => prev + 1);

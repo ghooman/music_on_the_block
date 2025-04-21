@@ -26,6 +26,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 
 const serviceTabObj = [
     { name: 'AI Services', preparing: false },
+    { name: 'Songs', preparing: false },
     { name: 'Reward & Payments', preparing: true },
 ];
 const musicTabObj = [
@@ -263,8 +264,9 @@ const Templates = ({ userData, token, isMyProfile, children }) => {
             {category === 'AI Services' && <AiServices username={userData?.name} />}
             {/* {category === 'Reward & Payments' && <Reward />} */}
 
+            {category === 'Songs' && <Songs token={token} />}
             {/** music */}
-            {path === 'music' && category === 'Songs' && <Songs token={token} />}
+            {/* {path === 'music' && category === 'Songs' && <Songs token={token} />} */}
             {path === 'music' && category === 'Connections' && <Connections />}
             {path === 'music' && category === 'Favorites' && <MyFavorites />}
             {path === 'music' && category === 'Albums' && <Albums />}

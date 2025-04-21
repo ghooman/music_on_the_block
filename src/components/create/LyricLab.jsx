@@ -25,22 +25,22 @@ const tagPreset = {
   Strawberry: ["Strawberry"],
 };
 
-const genrePreset = {
-  "K-POP": ["K-POP"],
-  POP: ["POP"],
-  BALLAD: ["BALLAD"],
-  "R&B": ["R&B"],
-  SOUL: ["SOUL"],
-  "HIP-HOP": ["HIP-HOP"],
-  RAP: ["RAP"],
-  ROCK: ["ROCK"],
-  METAL: ["METAL"],
-  FOLK: ["FOLK"],
-  BLUES: ["BLUES"],
-  COUNTRY: ["COUNTRY"],
-  EDM: ["EDM"],
-  CLASSICAL: ["CLASSICAL"],
-  REGGAE: ["REGGAE"],
+const moodPreset = {
+  Happy: "Happy",
+  Sad: "Sad",
+  Romantic: "Romantic",
+  Hopeful: "Hopeful",
+  Angry: "Angry",
+  Relaxed: "Relaxed",
+  Mysterious: "Mysterious",
+  Energetic: "Energetic",
+  Melancholic: "Melancholic",
+  Dreamy: "Dreamy",
+  Nostalgic: "Nostalgic",
+  Serene: "Serene",
+  Fun: "Fun",
+  Introspective: "Introspective",
+  Epic: "Epic",
 };
 
 const stylePreset = {
@@ -199,12 +199,12 @@ const LyricsLab = ({
             />
           </SubBanner>
           <SelectItem
-            mainTitle="Select a Genre"
-            subTitle="Popular Genre"
+            mainTitle="Select a Mood"
+            subTitle="Popular Mood"
             setter={setLyricData}
             objKey="lyric_genre"
             selected={lyricData?.lyric_genre}
-            preset={genrePreset}
+            preset={moodPreset}
           />
           <SelectItemInputOnly
             value={lyricStory}
@@ -219,7 +219,7 @@ const LyricsLab = ({
         >
           <SelectedWrap title="Lyrics Lab">
             <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
-            <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
+            <SelectedItem title="Mood" value={lyricData?.lyric_genre} />
 
             <div className="lyrics-lab__selected-item">
               <p className="lyrics-lab__selected-item--title">Your Story</p>
@@ -275,6 +275,13 @@ const LyricsLab = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
+          <p
+            className={`generated-lyrics__confirm-buttons--text ${
+              createdLyrics?.length > 1000 ? "disabled" : ""
+            }`}
+          >
+            Lyric Length : {createdLyrics?.length} / 1000
+          </p>
           <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
@@ -284,7 +291,10 @@ const LyricsLab = ({
             EDIT
           </button>
           <button
-            className="generated-lyrics__confirm-buttons--button confirm"
+            className={`generated-lyrics__confirm-buttons--button confirm ${
+              createdLyrics?.length > 1000 ? "disabled" : ""
+            }`}
+            disabled={createdLyrics?.length > 1000}
             onClick={() => {
               setGeneratedLyric(createdLyrics);
               setPageNumber((prev) => prev + 1);

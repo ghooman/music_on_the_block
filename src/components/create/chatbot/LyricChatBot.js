@@ -325,6 +325,13 @@ const LyricChatBot = ({
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
+          <p
+            className={`generated-lyrics__confirm-buttons--text ${
+              generatedLyric?.length > 1000 ? "disabled" : ""
+            }`}
+          >
+            Lyric Length : {generatedLyric?.length} / 1000
+          </p>
           <button
             className="generated-lyrics__confirm-buttons--button edit"
             onClick={() =>
@@ -334,7 +341,10 @@ const LyricChatBot = ({
             EDIT
           </button>
           <button
-            className="generated-lyrics__confirm-buttons--button confirm"
+            className={`generated-lyrics__confirm-buttons--button confirm ${
+              generatedLyric?.length > 1000 ? "disabled" : ""
+            }`}
+            disabled={generatedLyric?.length > 1000}
             onClick={() => {
               setGeneratedLyric(generatedLyric);
               setPageNumber((prev) => prev + 1);

@@ -75,7 +75,7 @@ const LyricChatBot = ({
         }
       }
 
-      // [장르 추출]
+      // [감정 추출]
       if (locale.extraction.genreRegex.test(botMessage)) {
         const genreMatch = botMessage.match(locale.extraction.genreRegex);
         if (genreMatch && genreMatch[1]) {
@@ -240,11 +240,11 @@ const LyricChatBot = ({
             />
           </div>
           <div className="music__information__genre">
-            <h3>Lyric Genre</h3>
+            <h3>Lyric Mood</h3>
             <input
               type="text"
               value={lyricData.lyric_genre}
-              placeholder="POP, K-POP, ROCK, HIP-HOP ..."
+              placeholder="Love, Sad, Hope, Fun, ..."
               readOnly
             />
             <div className="music__information__stylistic">

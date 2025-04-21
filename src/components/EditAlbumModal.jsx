@@ -2,10 +2,15 @@ import { useEffect } from 'react';
 import ModalWrap from './ModalWrap';
 
 import './EditAlbumModal.scss';
+import { useNavigate } from 'react-router-dom';
 
-const EditAlbumModal = ({ setIsEditAlbumModal, handleClick }) => {
+const EditAlbumModal = ({ setIsEditAlbumModal, handleClick, songsCount, action }) => {
     const handler = async () => {
         await handleClick();
+        if (action) {
+            action();
+        }
+
         setIsEditAlbumModal(false);
     };
 
@@ -19,7 +24,7 @@ const EditAlbumModal = ({ setIsEditAlbumModal, handleClick }) => {
                 with the selected songs?
                 <br />
                 <br />
-                Songs: <span>0</span> songs
+                Songs: <span>{songsCount}</span> songs
             </p>
             <div className="edit-modal__btns">
                 <button onClick={() => setIsEditAlbumModal(false)}>Cancel</button>

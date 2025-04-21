@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
@@ -22,36 +22,53 @@ const SongPlayTable = ({
     releaseOption,
     handleDelete,
     handleRelease,
-    activeSong,
-    setActiveSong, // activeSong과 setActiveSong을 상위 컴포넌트에서 전달받습니다.
-    audioRef,
+    // activeSong,
+    // setActiveSong, // activeSong과 setActiveSong을 상위 컴포넌트에서 전달받습니다.
+    // audioRef,
     isScroll, // 페이지네이션 X 스크롤 옵션
+    isTrigger,
 }) => {
-    // const [activeSong, setActiveSong] = useState(null);
-    // const audioRef = useRef(null);
+    const [activeSong, setActiveSong] = useState(null);
+    const [triggerIndex, setTriggerIndex] = useState(0);
+    const audioRef = useRef(null);
 
     // 테이블 행 클릭 시 해당 곡을 재생
     const handleRowClick = (album) => {
-        if (!audioRef.current) {
-            console.warn('Audio element is not available.');
-            return;
-        }
+        setActiveSong(album);
 
-        if (activeSong === album.id) {
-            if (audioRef.current.paused) {
-                audioRef.current.play();
-            } else {
-                audioRef.current.pause();
-                setActiveSong(null);
-            }
-        } else {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            setActiveSong(album.id);
-            audioRef.current.src = album?.music_url;
-            audioRef.current.play();
-        }
+        // if (!audioRef.current) {
+        //     console.warn('Audio element is not available.');
+        //     return;
+        // }
+
+        // if (activeSong === album.id) {
+        //     if (audioRef.current.paused) {
+        //         audioRef.current.play();
+        //     } else {
+        //         audioRef.current.pause();
+        //         setActiveSong(null);
+        //     }
+        // } else {
+        //     audioRef.current.pause();
+        //     audioRef.current.currentTime = 0;
+        //     setActiveSong(album.id);
+        //     audioRef.current.src = album?.music_url;
+        //     audioRef.current.play();
+        // }
     };
+
+    useEffect(() => {}, [activeSong]);
+
+    useEffect(() => {
+        if (isTrigger === true) {
+        }
+    }, [isTrigger]);
+
+    // 트리거 옵션 추가
+    // 트리거를 트루로 하면 0에서 시작해서 재생..
+    // 재생 끝나면 다음 트랙으로
+    // 언마운트 되지 않는 이상 트랙은 계속 기억 되고
+    // 끝으로 가는 경우...엔 0으로
 
     return (
         <>

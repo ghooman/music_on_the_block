@@ -120,7 +120,7 @@
         font-family: orbitron600;
     }
 
-    $color1: #1a1a1a;
+    $color1: #555;
     $color2: #00ffb3;
     .radio {
         margin: 0.5rem;
@@ -137,7 +137,7 @@
                     width: 1.4em;
                     height: 1.4em;
                     position: relative;
-                    top: -0.2em;
+                    top: -2px;
                     margin-right: 1em;
                     vertical-align: top;
                     cursor: pointer;
@@ -237,7 +237,7 @@
             font-size: 14px;
             margin-top: 16px;
             .create__get-started--format-item-select-title {
-                color: var(--Text-music-sub, #aaa);
+                color:#aaa;
                 font-family: Inter400;
                 font-size: 14px;
             }

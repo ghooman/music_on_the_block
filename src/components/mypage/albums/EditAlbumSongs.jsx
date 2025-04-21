@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ContentWrap from '../../unit/ContentWrap';
 import Filter from '../../unit/Filter';
 import Pagination from '../../unit/Pagination';
@@ -27,7 +27,6 @@ import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
 
 import SongPlayEditTable from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
-import { getMyMusicList } from '../../../api/getMyMusicList';
 
 const subCategoryList = [
     { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -43,13 +42,15 @@ const EditAlbumSongs = () => {
     const [albumsBundleData, setAlbumsBundleData] = useState(null); // 앨범 원본 데이터
     const [addBundleSongList, setAddBundleSongList] = useState([]);
     const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
-    const [activeTab, setActiveTab] = useState('following');
     const [searchParams, setSearchParams] = useSearchParams();
 
     const { token } = useContext(AuthContext);
     const { id } = useParams();
+    const navigate = useNavigate();
     const audioRef = useRef(null);
     const search = searchParams.get('search');
+    const songsSort = searchParams.get('songs_sort');
+    const songsFilter = searchParams.get('songs_filter') || 'liked';
 
     //=================
     // 추가
@@ -116,7 +117,7 @@ const EditAlbumSongs = () => {
     useEffect(() => {
         const getAddBundleData = async () => {
             let url;
-            switch (activeTab) {
+            switch (songsFilter) {
                 case 'following':
                     url = '/api/music/my/following/list/no/paging';
                     break;
@@ -131,6 +132,10 @@ const EditAlbumSongs = () => {
             }
             try {
                 const res = await axios.get(`${serverApi + url}`, {
+                    params: {
+                        search: search,
+                        sort_by: songsSort,
+                    },
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -141,7 +146,7 @@ const EditAlbumSongs = () => {
             }
         };
         getAddBundleData();
-    }, [activeTab]);
+    }, [songsFilter, search, songsSort]);
 
     // 현재 앨범 데이터
     useEffect(() => {
@@ -156,30 +161,37 @@ const EditAlbumSongs = () => {
                 <p className="edit-album-songs__title">Edit album Songs</p>
                 <p className="edit-album-songs__title__album-name">{albumsBundleData?.album_name}</p>
                 <div className="edit-album-songs__tab">
-                    <button
+                    {/* <button
                         className={`edit-album-songs__tab__item ${activeTab === 'recent' ? 'active' : ''}`}
                         onClick={() => setActiveTab('recent')}
                     >
                         Recently Played
-                    </button>
-
+                    </button> */}
                     <button
-                        className={`edit-album-songs__tab__item ${activeTab === 'liked' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('liked')}
+                        className={`edit-album-songs__tab__item ${songsFilter === 'liked' ? 'active' : ''}`}
+                        onClick={() => {
+                            setSearchParams({ songs_filter: 'liked' });
+                        }}
                     >
                         Liked Songs
                     </button>
 
                     <button
-                        className={`edit-album-songs__tab__item ${activeTab === 'mine' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('mine')}
+                        className={`edit-album-songs__tab__item ${songsFilter === 'mine' ? 'active' : ''}`}
+                        // onClick={() => setActiveTab('mine')}
+                        onClick={() => {
+                            setSearchParams({ songs_filter: 'mine' });
+                        }}
                     >
                         My Songs
                     </button>
 
                     <button
-                        className={`edit-album-songs__tab__item ${activeTab === 'following' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('following')}
+                        className={`edit-album-songs__tab__item ${songsFilter === 'following' ? 'active' : ''}`}
+                        // onClick={() => setActiveTab('following')}
+                        onClick={() => {
+                            setSearchParams({ songs_filter: 'following' });
+                        }}
                     >
                         Following
                     </button>
@@ -191,7 +203,7 @@ const EditAlbumSongs = () => {
                         <Search
                             placeholder="Search by Artist name or Song title..."
                             handler={null}
-                            reset={{ page: 1 }}
+                            defaultValue={search}
                         />
                     </ContentWrap.SubWrap>
                     <SongPlayEditTable
@@ -216,7 +228,14 @@ const EditAlbumSongs = () => {
                     Edit
                 </button>
             </div>
-            {iseditAlbumModal && <EditAlbumModal setIsEditAlbumModal={setIsEditAlbumModal} handleClick={handleEdit} />}
+            {iseditAlbumModal && (
+                <EditAlbumModal
+                    setIsEditAlbumModal={setIsEditAlbumModal}
+                    handleClick={handleEdit}
+                    songsCount={albumBundleSongList?.length}
+                    action={() => navigate(`/my-page/albums-detail/${id}`)}
+                />
+            )}
         </>
     );
 };

@@ -6,6 +6,7 @@ import { NftGraph } from '../components/nft/NftGraph';
 import Search from '../components/unit/Search';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/Nft.scss';
+import { Link } from 'react-router-dom';
 
 const Nft = () => {
     return (
@@ -45,7 +46,10 @@ const NftExchange = () => {
                 <br />
                 Connect AI-generated creations with the world
             </p>
-            <button className="nft__exchange--button">Mint NFT</button>
+            <div className='nft__exchange--btns'>
+                <Link className="nft__exchange--button mint">Mint NFT</Link>
+                <Link className="nft__exchange--button">Sell Nft</Link>
+            </div>
         </div>
     );
 };

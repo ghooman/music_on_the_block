@@ -6,6 +6,7 @@ import './NftTable.scss';
 const dummy = [
     {
         id: 1,
+        grade: 'Legend',
         nft_name: 'NFT NAME',
         collection: 'COLLECTION NAME',
         price: 12,
@@ -15,6 +16,7 @@ const dummy = [
     },
     {
         id: 2,
+        grade: 'Legend',
         nft_name: 'NFT NAME',
         collection: 'COLLECTION NAME',
         price: 17,
@@ -24,6 +26,7 @@ const dummy = [
     },
     {
         id: 3,
+        grade: 'Legend',
         nft_name: 'NFT NAME',
         collection: 'COLLECTION NAME',
         price: 210,
@@ -33,7 +36,7 @@ const dummy = [
     },
 ];
 
-const NftTable = ({ nftList, saleAction = true, handleSell, cancelOption, handleCancel }) => {
+const NftTable = ({ nftList, saleAction = true, handleSell, handleCancel }) => {
     return (
         <div className="unit-component-nft-table">
             <table>
@@ -41,6 +44,7 @@ const NftTable = ({ nftList, saleAction = true, handleSell, cancelOption, handle
                     <tr>
                         <th>#</th>
                         <th>Type</th>
+                        <th>Grade</th>
                         <th>Item</th>
                         <th>Collection</th>
                         <th>Price</th>
@@ -58,6 +62,7 @@ const NftTable = ({ nftList, saleAction = true, handleSell, cancelOption, handle
                                     <img src={songTypeIcon} alt="music" />
                                 </div>
                             </td>
+                            <td>{nft?.grade}</td>
                             <td>{nft?.nft_name}</td>
                             <td>{nft?.collection}</td>
                             <td>

@@ -23,33 +23,33 @@ const dummyData = [
         number: 30,
         type: 'LYRIC',
         item: 'Item Name (#123_1)',
-        username: 'Yolkhead',
-        quantity: 100,
+        username: {
+            name: 'user',
+            picture: dummy_userImage,
+        },
         price: '100.000',
-        totalVolume: '100.000',
-        transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
         details: 'Details',
     },
     {
         number: 30,
         type: 'COMPOSITION',
         item: 'Item Name (#123_1)',
-        username: 'Yolkhead',
-        quantity: 100,
+        username: {
+            name: 'Yolkhead',
+            picture: dummy_userImage,
+        },
         price: '100.000',
-        totalVolume: '100.000',
-        transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
         details: 'Details',
     },
     {
         number: 30,
         type: 'SONG',
         item: 'Item Name (#123_1)',
-        username: 'Yolkhead',
-        quantity: 100,
+        username: {
+            name: 'Alice',
+            picture: dummy_userImage,
+        },
         price: '100.000',
-        totalVolume: '100.000',
-        transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
         details: 'Details',
     },
 ];
@@ -79,13 +79,14 @@ const CollectionInfo = () => {
         <div className="collection-detail-info-wrap">
             <div className="collection-detail-info">
                 <div className="collection-detail-info__data">
+                    <img className="collection-detail-info__data--image" src={dummy_collectionImage} alt="images" />
                     <div className="collection-detail-info__data--texts">
                         <h1 className="texts__title">Collection Name</h1>
                         <div className="texts__user">
                             <img src={dummy_userImage} alt="images" />
                             YolkHead
                         </div>
-                        <div className="texts__desc">
+                        {/* <div className="texts__desc">
                             <p className="texts__desc--title">Collection Description:</p>
                             <p className="texts__desc--text">
                                 "A collection that captures time, moments completed through art" is not just a mere
@@ -93,12 +94,11 @@ const CollectionInfo = () => {
                                 story. Collecting something is a precious act that imbues the object with deep affection
                                 and meaning.
                             </p>
-                        </div>
+                        </div> */}
                         <div className="collection-detail-info__like">
                             <img src={likeImage} alt="like" /> 22,353
                         </div>
                     </div>
-                    <img className="collection-detail-info__data--image" src={dummy_collectionImage} alt="images" />
                 </div>
                 <div className="collection-detail-info__stats">
                     <CollectionInfo.StatsItem title="NFT Items" value={2} suffix="ITEMS" />
@@ -172,8 +172,8 @@ const NFTItems = () => {
 
 const History = () => {
     return (
-        <ContentWrap title="Activities">
-            <InfoRowWrap row={3}>
+        <ContentWrap title="History">
+            {/* <InfoRowWrap row={3}>
                 <InfoRowWrap.UserItem
                     title="Most Purchased Artist"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
@@ -186,7 +186,7 @@ const History = () => {
                     title="Most Recently Traded Artist"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
                 />
-            </InfoRowWrap>
+            </InfoRowWrap> */}
             <ContentWrap.SubWrap gap={8}>
                 <FilterItems />
                 <Search />
@@ -197,10 +197,7 @@ const History = () => {
                         'Type',
                         'Item',
                         'Artist Name',
-                        'Quantity',
                         'Price(MOB)',
-                        'Total Volume(MOB)',
-                        'Transaction Date',
                         'Details',
                     ]}
                 />

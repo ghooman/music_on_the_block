@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
@@ -11,56 +11,83 @@ import defaultImage from '../../assets/images/header/logo-png.png';
  *
  * @param {Array} songList : 곡의 데이터 리스트입니다.
  * @param {boolean} deleteOption : 삭제 옵션
- * @param {boolean} releaseOption : 릴리즈 옵션
  * @param {function} handleDelete : 삭제 핸들러
+ * @param {boolean} releaseOption : 릴리즈 옵션
  * @param {function} handleRelease : 릴리즈 핸들러
+ * @param {boolean} mintOption : 민트 옵션
+ * @param {function} handleMint : 민트 핸들러
+ * @param {boolean} sellOption : 판매 옵션
+ * @param {function} handleSell : 판매 핸들러
+ *
+ * @param {boolean} isContinue : 자동 재생 여부
+ * @param {boolean} isScroll : 스크롤옵션
+ * @param {boolean} isTrigger : 자동 재생 트리거
+ * @param {function} setIsTrigger : 자동 재생 트리거 핸들러
  * @returns
  */
 const SongPlayTable = ({
     songList = [],
+    //== 삭제
     deleteOption,
-    releaseOption,
     handleDelete,
+    //== 릴리즈
+    releaseOption,
     handleRelease,
-    activeSong,
-    setActiveSong, // activeSong과 setActiveSong을 상위 컴포넌트에서 전달받습니다.
-    audioRef,
+    //== 민트
+    mintOption,
+    handleMint,
+    //== 셀
+    sellOption,
+    handleSell,
+    //== 그외 옵션
+    isContinue = true,
+    isScroll,
+    isTrigger,
+    setIsTrigger,
 }) => {
-    // const [activeSong, setActiveSong] = useState(null);
-    // const audioRef = useRef(null);
+    const [activeSong, setActiveSong] = useState(null);
+    let triggerIndex = useRef(0);
+    const audioRef = useRef(null);
 
-    // 테이블 행 클릭 시 해당 곡을 재생
-    const handleRowClick = (album) => {
-        if (!audioRef.current) {
-            console.warn('Audio element is not available.');
-            return;
-        }
-
-        if (activeSong === album.id) {
-            if (audioRef.current.paused) {
-                audioRef.current.play();
-            } else {
-                audioRef.current.pause();
-                setActiveSong(null);
-            }
-        } else {
+    useEffect(() => {
+        if (!activeSong) {
             audioRef.current.pause();
+        } else {
             audioRef.current.currentTime = 0;
-            setActiveSong(album.id);
-            audioRef.current.src = album?.music_url;
+            audioRef.current.src = activeSong?.music_url;
             audioRef.current.play();
         }
-    };
+    }, [activeSong]);
+
+    useEffect(() => {
+        if (isTrigger === true) {
+            setActiveSong(songList[0]);
+        } else {
+            setActiveSong(null);
+        }
+    }, [isTrigger]);
 
     return (
         <>
             <div className="audio-container">
-                <audio controls ref={audioRef} />
+                <audio
+                    controls
+                    ref={audioRef}
+                    onEnded={() => {
+                        if (isContinue) {
+                            setActiveSong(
+                                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
+                            );
+                        } else {
+                            setActiveSong(null);
+                        }
+                    }}
+                />
             </div>
 
-            <div className="albums-table">
+            <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
                 <table>
-                    <thead>
+                    <thead className={`${isScroll ? 'sticky' : ''}`}>
                         <tr>
                             <th>#</th>
                             <th className="albums-table__song">Song</th>
@@ -70,6 +97,8 @@ const SongPlayTable = ({
                             <th>Details</th>
                             {deleteOption && <th>Delete</th>}
                             {releaseOption && <th>Release</th>}
+                            {mintOption && <th>NFT Mint</th>}
+                            {sellOption && <th>Sell NFT</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -78,8 +107,17 @@ const SongPlayTable = ({
                                 {songList?.map((album, index) => (
                                     <tr
                                         key={album.id}
-                                        className={activeSong === album.id ? 'active' : ''}
-                                        onClick={() => handleRowClick(album)}
+                                        className={activeSong?.id === album.id ? 'active' : ''}
+                                        onClick={() => {
+                                            if (activeSong?.id === album?.id) {
+                                                setActiveSong(null);
+                                            } else {
+                                                setActiveSong(album);
+                                                if (isTrigger && setIsTrigger) {
+                                                    triggerIndex.current = index;
+                                                }
+                                            }
+                                        }}
                                     >
                                         <td>{index + 1}</td>
                                         <td>
@@ -145,6 +183,36 @@ const SongPlayTable = ({
                                                         }}
                                                     >
                                                         Release
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
+                                        {mintOption && handleMint && (
+                                            <td>
+                                                <div className="td-content">
+                                                    <button
+                                                        className="albums-table__detail-btn mint"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleMint(album);
+                                                        }}
+                                                    >
+                                                        Mint
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
+                                        {sellOption && handleSell && (
+                                            <td>
+                                                <div className="td-content">
+                                                    <button
+                                                        className="albums-table__detail-btn sell"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleSell(album);
+                                                        }}
+                                                    >
+                                                        Sell
                                                     </button>
                                                 </div>
                                             </td>

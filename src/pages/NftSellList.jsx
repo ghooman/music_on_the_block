@@ -1,0 +1,56 @@
+import axios from 'axios';
+
+import ContentWrap from '../components/unit/ContentWrap';
+import Filter from '../components/unit/Filter';
+import Search from '../components/unit/Search';
+import SongPlayTable from '../components/unit/SongPlayTable';
+import Pagination from '../components/unit/Pagination';
+import { useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
+
+const serverApi = process.env.REACT_APP_SERVER_API;
+
+const NftSellList = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const page = searchParams.get('page');
+    const search = searchParams.get('search');
+    const songsSort = searchParams.get('songs_sort');
+
+    // 더미
+    const { data: songList } = useQuery(
+        ['nft_sell_list', { page, search, songsSort }],
+        async () => {
+            const res = await axios.get(`${serverApi}/api/music/all/list`, {
+                params: {
+                    page: page,
+                    search_keyword: search,
+                    sort_by: songsSort,
+                },
+            });
+            return res.data;
+        },
+        { refetchOnMount: false }
+    );
+
+    const handleSell = () => {
+        alert('판매!');
+        // 판매 함수 정의 해주세염
+    };
+
+    return (
+        <div>
+            <ContentWrap title="Sell NFT">
+                <ContentWrap.SubWrap gap={8}>
+                    <ContentWrap.SubTitle subTitle={'Sell one of your NFTs'} />
+                    <Filter songsSort={true} />
+                    <Search placeholder="Search" />
+                </ContentWrap.SubWrap>
+                <SongPlayTable songList={songList?.data_list} sellOption={true} handleSell={() => handleSell()} />
+                <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
+            </ContentWrap>
+        </div>
+    );
+};
+
+export default NftSellList;

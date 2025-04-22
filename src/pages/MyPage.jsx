@@ -110,8 +110,8 @@ const UserProfile = () => {
     const serviceTabObj = [
         { name: 'AI Services', preparing: false },
         { name: 'Songs', preparing: false },
-        { name: 'Albums', preparing: false },
-        { name: 'NFT MarketPlace', preparing: false },
+        { name: 'Albums', preparing: true },
+        { name: 'NFT MarketPlace', preparing: true },
     ];
 
     const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -209,8 +209,8 @@ const UserProfile = () => {
             <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
             {category === 'AI Services' && <AiServices username={username} />}
             {category === 'Songs' && <SongsUser username={username} />}
-            {category === 'Albums' && <Albums />}
-            {category === 'NFT MarketPlace' && <NftMarketPlace />}
+            {/* {category === 'Albums' && <Albums />} */}
+            {/* {category === 'NFT MarketPlace' && <NftMarketPlace />} */}
             {unFollowModal && isLoggedIn && (
                 <UnFollowModal
                     setUnFollowModal={setUnFollowModal}

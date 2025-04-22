@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
@@ -22,45 +22,74 @@ const SongPlayTable = ({
     releaseOption,
     handleDelete,
     handleRelease,
-    activeSong,
-    setActiveSong, // activeSong과 setActiveSong을 상위 컴포넌트에서 전달받습니다.
-    audioRef,
+    // activeSong,
+    // setActiveSong, // activeSong과 setActiveSong을 상위 컴포넌트에서 전달받습니다.
+    // audioRef,
+    isScroll, // 페이지네이션 X 스크롤 옵션
+    isTrigger,
 }) => {
-    // const [activeSong, setActiveSong] = useState(null);
-    // const audioRef = useRef(null);
+    const [activeSong, setActiveSong] = useState(null);
+    let triggerIndex = useRef(0);
+    const audioRef = useRef(null);
 
-    // 테이블 행 클릭 시 해당 곡을 재생
-    const handleRowClick = (album) => {
-        if (!audioRef.current) {
-            console.warn('Audio element is not available.');
-            return;
-        }
+    // // 테이블 행 클릭 시 해당 곡을 재생
+    // const handleRowClick = (album) => {
+    //     if (!audioRef.current) {
+    //         console.warn('Audio element is not available.');
+    //         return;
+    //     }
 
-        if (activeSong === album.id) {
-            if (audioRef.current.paused) {
-                audioRef.current.play();
-            } else {
-                audioRef.current.pause();
-                setActiveSong(null);
-            }
-        } else {
+    //     if (activeSong === album.id) {
+    //         if (audioRef.current.paused) {
+    //             audioRef.current.play();
+    //         } else {
+    //             audioRef.current.pause();
+    //             setActiveSong(null);
+    //         }
+    //     } else {
+    //         audioRef.current.pause();
+    //         audioRef.current.currentTime = 0;
+    //         setActiveSong(album.id);
+    //         audioRef.current.src = album?.music_url;
+    //         audioRef.current.play();
+    //     }
+    // };
+
+    useEffect(() => {
+        if (!activeSong) {
             audioRef.current.pause();
+        } else {
             audioRef.current.currentTime = 0;
-            setActiveSong(album.id);
-            audioRef.current.src = album?.music_url;
+            audioRef.current.src = activeSong?.music_url;
             audioRef.current.play();
         }
-    };
+    }, [activeSong]);
+
+    useEffect(() => {
+        if (isTrigger === true) {
+            setActiveSong(songList[triggerIndex]);
+        }
+    }, [isTrigger]);
 
     return (
         <>
             <div className="audio-container">
-                <audio controls ref={audioRef} />
+                <audio
+                    controls
+                    ref={audioRef}
+                    onEnded={() => {
+                        if (isTrigger) {
+                            setActiveSong(songList[++triggerIndex.current]);
+                        } else {
+                            setActiveSong(null);
+                        }
+                    }}
+                />
             </div>
 
-            <div className="albums-table">
+            <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
                 <table>
-                    <thead>
+                    <thead className={`${isScroll ? 'sticky' : ''}`}>
                         <tr>
                             <th>#</th>
                             <th className="albums-table__song">Song</th>
@@ -78,8 +107,14 @@ const SongPlayTable = ({
                                 {songList?.map((album, index) => (
                                     <tr
                                         key={album.id}
-                                        className={activeSong === album.id ? 'active' : ''}
-                                        onClick={() => handleRowClick(album)}
+                                        className={activeSong?.id === album.id ? 'active' : ''}
+                                        onClick={() => {
+                                            if (activeSong?.id === album?.id) {
+                                                setActiveSong(null);
+                                            } else {
+                                                setActiveSong(album);
+                                            }
+                                        }}
                                     >
                                         <td>{index + 1}</td>
                                         <td>

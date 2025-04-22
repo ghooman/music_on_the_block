@@ -1002,20 +1002,9 @@
 
 //song-detail--END--
 
-.rhap_progress-bar{
-  .rhap_download-progress{
-    &:last-child{
-      display: none;
-    }
-  }
-}
 .rhap_download-progress {
   width: 100% !important;
   background: #333;
-  max-width: 214px;
-  .rhap_download-progress{
-
-  }
 } //rhap_download-progress--END--
 .rhap_progress-filled {
   background: #a9d400;

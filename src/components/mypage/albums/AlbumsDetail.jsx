@@ -242,6 +242,7 @@ const AlbumsDetail = () => {
                                 songList={albumBundleInfo?.song_list}
                                 activeSong={activeSong}
                                 setActiveSong={setActiveSong}
+                                isScroll={true}
                             />
                         ) : (
                             <NoneContent

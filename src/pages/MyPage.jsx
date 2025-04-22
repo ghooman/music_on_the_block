@@ -21,6 +21,7 @@ import Connections from '../components/mypage/Connections';
 import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
+import SongsUser from '../components/mypage/SongsUser';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -139,7 +140,7 @@ const UserProfile = () => {
     // 언팔로잉은 언팔로잉 모달에서 진행합니다.
 
     useEffect(() => {
-        if (username === userData.name) {
+        if (username === userData?.name) {
             navigate('/my-page/service', { replace: true });
         }
     }, []);
@@ -184,9 +185,10 @@ const Templates = ({ userData, token, isMyProfile, children }) => {
 
     const tabs = path === 'music' ? musicTabObj : serviceTabObj;
     const category = searchParams.get('category');
+    const username = searchParams.get('username');
 
     const handleServiceClick = (service) => {
-        setSearchParams({ category: service });
+        setSearchParams({ category: service, ...(username ? { username } : null) });
     };
 
     useEffect(() => {
@@ -246,27 +248,26 @@ const Templates = ({ userData, token, isMyProfile, children }) => {
             <nav className="mypage__nav">
                 {tabs.map((service) => (
                     <button
-                        key={service.name}
-                        className={`mypage__nav-item ${category === service.name ? 'active' : ''}`}
+                        key={service?.name}
+                        className={`mypage__nav-item ${category === service?.name ? 'active' : ''}`}
                         onClick={() => {
                             if (service.preparing) {
                                 setPreparingModal(true);
                                 return;
                             }
-                            handleServiceClick(service.name);
+                            handleServiceClick(service?.name);
                         }}
                     >
-                        {service.name}
+                        {service?.name}
                     </button>
                 ))}
             </nav>
             {/** service */}
             {category === 'AI Services' && <AiServices username={userData?.name} />}
-            {/* {category === 'Reward & Payments' && <Reward />} */}
+            {path !== 'music' && category === 'Songs' && <SongsUser username={userData?.name} />}
 
-            {category === 'Songs' && <Songs token={token} />}
             {/** music */}
-            {/* {path === 'music' && category === 'Songs' && <Songs token={token} />} */}
+            {path === 'music' && category === 'Songs' && <Songs token={token} />}
             {path === 'music' && category === 'Connections' && <Connections />}
             {path === 'music' && category === 'Favorites' && <MyFavorites />}
             {path === 'music' && category === 'Albums' && <Albums />}

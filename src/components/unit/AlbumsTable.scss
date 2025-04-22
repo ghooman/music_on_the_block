@@ -270,6 +270,16 @@
                             color: #f1f1f1;
                             background-color: #00150b;
                         }
+
+                        &.mint {
+                            color: #1a1a1a;
+                            background-color: #00d293;
+                        }
+
+                        &.sell {
+                            color: #1a1a1a;
+                            background-color: #5a9bf6;
+                        }
                     }
                 }
             }

@@ -10,7 +10,6 @@ import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover
 
 // 🧩 유닛 컴포넌트
 import Filter from '../unit/Filter';
-import AlbumsTable from '../unit/AlbumsTable';
 import SongPlayTable from '../unit/SongPlayTable';
 import AlbumItem from '../unit/AlbumItem';
 import ContentWrap from '../unit/ContentWrap';
@@ -32,16 +31,6 @@ import axios from 'axios';
 // 환경변수
 const serverApi = process.env.REACT_APP_SERVER_API;
 
-const topAlbumsCategoryList = [
-    {
-        name: 'AI Lyrics & Songwriting',
-        image: generatedLyricSongwritingIcon,
-        preparing: false,
-    },
-    { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: true },
-    { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
-];
-
 const myAlbumsCategoryList = [
     { name: 'Unreleased songs', preparing: false },
     { name: 'Released songs', preparing: false },
@@ -49,7 +38,6 @@ const myAlbumsCategoryList = [
 
 const Songs = ({ token }) => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList[0].name);
     const [deleteMusic, setDeleteMusic] = useState(null);
     const [releaseMusic, setReleaseMusic] = useState(null);
 
@@ -114,27 +102,7 @@ const Songs = ({ token }) => {
 
     return (
         <div className="songs">
-            <ContentWrap title="Top Songs">
-                <SubCategories
-                    categories={topAlbumsCategoryList}
-                    handler={setTopAlbumsCategory}
-                    value={topAlbumsCategory}
-                />
-                <div className="songs__body">
-                    <div className="songs__item">
-                        <p className="songs__item-title">Top Like</p>
-                        <AlbumItem track={topSongsData?.top_like} />
-                    </div>
-                    <div className="songs__item">
-                        <p className="songs__item-title">Top Plays</p>
-                        <AlbumItem track={topSongsData?.top_plays} />
-                    </div>
-                    <div className="songs__item">
-                        <p className="songs__item-title">Top Comments</p>
-                        <AlbumItem track={topSongsData?.top_comments} />
-                    </div>
-                </div>
-            </ContentWrap>
+            <TopSongsTemplates topSongsData={topSongsData} />
             <ContentWrap title="Songs">
                 {/* <SubCategories
                     categories={myAlbumsCategoryList}
@@ -175,3 +143,41 @@ const Songs = ({ token }) => {
 };
 
 export default Songs;
+
+export const TopSongsTemplates = ({ topSongsData }) => {
+    const topAlbumsCategoryList = [
+        {
+            name: 'AI Lyrics & Songwriting',
+            image: generatedLyricSongwritingIcon,
+            preparing: false,
+        },
+        { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: true },
+        { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
+    ];
+
+    const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList?.[0].name);
+
+    return (
+        <ContentWrap title="Top Songs">
+            <SubCategories
+                categories={topAlbumsCategoryList}
+                handler={setTopAlbumsCategory}
+                value={topAlbumsCategory}
+            />
+            <div className="songs__body">
+                <div className="songs__item">
+                    <p className="songs__item-title">Top Like</p>
+                    <AlbumItem track={topSongsData?.top_like} />
+                </div>
+                <div className="songs__item">
+                    <p className="songs__item-title">Top Plays</p>
+                    <AlbumItem track={topSongsData?.top_plays} />
+                </div>
+                <div className="songs__item">
+                    <p className="songs__item-title">Top Comments</p>
+                    <AlbumItem track={topSongsData?.top_comments} />
+                </div>
+            </div>
+        </ContentWrap>
+    );
+};

@@ -46,8 +46,9 @@ const EditAlbumSongs = () => {
 
     const { token } = useContext(AuthContext);
     const { id } = useParams();
-    const navigate = useNavigate();
     const audioRef = useRef(null);
+    const navigate = useNavigate();
+
     const search = searchParams.get('search');
     const songsSort = searchParams.get('songs_sort');
     const songsFilter = searchParams.get('songs_filter') || 'liked';
@@ -77,6 +78,7 @@ const EditAlbumSongs = () => {
         const copy = [...albumBundleSongList];
         const newCopy = copy.filter((item) => !item.check);
         setAlbumbundleSongList(newCopy);
+        setActiveSong(null);
     };
 
     //==================
@@ -115,6 +117,7 @@ const EditAlbumSongs = () => {
 
     // 가진 곡
     useEffect(() => {
+        setActiveSong(null);
         const getAddBundleData = async () => {
             let url;
             switch (songsFilter) {
@@ -133,7 +136,7 @@ const EditAlbumSongs = () => {
             try {
                 const res = await axios.get(`${serverApi + url}`, {
                     params: {
-                        search: search,
+                        search_keyword: search,
                         sort_by: songsSort,
                     },
                     headers: {
@@ -152,6 +155,16 @@ const EditAlbumSongs = () => {
     useEffect(() => {
         getAlbumsBundleData();
     }, [id]);
+
+    useEffect(() => {
+        if (!activeSong) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.currentTime = 0;
+            audioRef.current.src = activeSong?.music_url;
+            audioRef.current.play();
+        }
+    }, [activeSong]);
 
     console.log(albumBundleSongList, '송 리스트');
 
@@ -196,6 +209,14 @@ const EditAlbumSongs = () => {
                         Following
                     </button>
                 </div>
+                {/**
+                 * 음악 재생
+                 * 컴포넌트를 두 개 사용하는 이유로 플레이어를 외부로 뺍니다. (중복 재생 이슈를 막기 위해)
+                 */}
+                <div className="audio-container">
+                    <audio controls ref={audioRef} />
+                </div>
+
                 <ContentWrap border={false}>
                     <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
                     <ContentWrap.SubWrap gap={8}>
@@ -212,7 +233,6 @@ const EditAlbumSongs = () => {
                         setSongList={setAddBundleSongList}
                         activeSong={activeSong}
                         setActiveSong={setActiveSong}
-                        audioRef={audioRef}
                     />
                     <AddDeleteBtn addHandler={handleAdd} deleteHandler={handleDelete} />
                     <SongPlayEditTable
@@ -221,7 +241,6 @@ const EditAlbumSongs = () => {
                         setSongList={setAlbumbundleSongList}
                         activeSong={activeSong}
                         setActiveSong={setActiveSong}
-                        audioRef={audioRef}
                     />
                 </ContentWrap>
                 <button className="edit-btn" onClick={() => setIsEditAlbumModal(true)}>

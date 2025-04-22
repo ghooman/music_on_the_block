@@ -12,6 +12,9 @@ import AlbumDetail from './pages/AlbumDetail';
 import SignUp from './pages/SignUp';
 import Nft from './pages/Nft';
 import NftList from './pages/NftList';
+import NftMintList from './pages/NftMintList';
+import NftSellList from './pages/NftSellList';
+
 // 컴포넌트
 import Header from './components/Header';
 import Intro from './components/Intro';
@@ -25,6 +28,7 @@ import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
 import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 import MintNftSellDetail from './pages/MintNftSellDetail';
+import MintNftSellDetail2 from './pages/MintNftSellDetail2';
 function Layout({ children }) {
     return (
         <div>
@@ -88,7 +92,9 @@ function App() {
                             path="/my-page/albums-detail/:id"
                             element={
                                 <Layout>
-                                    <AlbumsDetail />
+                                    <ProtectedRoute>
+                                        <AlbumsDetail />
+                                    </ProtectedRoute>
                                 </Layout>
                             }
                         />
@@ -96,7 +102,9 @@ function App() {
                             path="/my-page/edit-album-songs/:id"
                             element={
                                 <Layout>
-                                    <EditAlbumSongs />
+                                    <ProtectedRoute>
+                                        <EditAlbumSongs />
+                                    </ProtectedRoute>
                                 </Layout>
                             }
                         />
@@ -151,6 +159,22 @@ function App() {
                             }
                         />
                         <Route
+                            path="nft/mint/list"
+                            element={
+                                <Layout>
+                                    <NftMintList />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="nft/sell/list"
+                            element={
+                                <Layout>
+                                    <NftSellList />
+                                </Layout>
+                            }
+                        />
+                        <Route
                             path="nft/collection/detail"
                             element={
                                 <Layout>
@@ -171,6 +195,14 @@ function App() {
                             element={
                                 <Layout>
                                     <MintNftSellDetail/>
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="sell/detail"
+                            element={
+                                <Layout>
+                                    <MintNftSellDetail2/>
                                 </Layout>
                             }
                         />

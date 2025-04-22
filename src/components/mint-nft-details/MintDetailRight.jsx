@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './MintDetailRight.scss';
+
+import lyricsIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+
 const formatLocalTime = (v) => v; // 더미
 const formatTime      = (v) => v; // 더미
 
@@ -20,6 +23,7 @@ const MintDetailRight = ({ album, tagArray, albumDuration}) => {
                 </div>
 
                 <div className="album-detail__mint-detail__right__info-box">
+                    <dl className='type'><dt>Type</dt>    <dd><img src={lyricsIcon} alt='type-icon'/>Lyrics + Songwriting</dd></dl>
                     <dl><dt>Detail</dt>             <dd>{album.detail}</dd></dl>
                     <dl><dt>Language</dt>           <dd>{album.language}</dd></dl>
                     <dl><dt>Genre</dt>              <dd>{album.genre}</dd></dl>

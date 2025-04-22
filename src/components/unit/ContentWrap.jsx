@@ -23,3 +23,7 @@ export default ContentWrap;
 ContentWrap.SubWrap = ({ gap = 16, children }) => {
     return <div style={{ display: 'flex', flexDirection: 'column', gap }}>{children}</div>;
 };
+
+ContentWrap.SubTitle = ({ subTitle }) => {
+    return <p className="unit-component-content-wrap__sub-title">{subTitle}</p>;
+};

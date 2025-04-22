@@ -53,10 +53,10 @@ const albumDuration     = '3:02';
 // Swiper 최소 옵션
 
 // ────────────────────────────────
-function MintNftSellDetail() {
+function MintNftSellDetail2() {
 
     const location = useLocation();
-    const [isSellNft, setIsSellNft] = useState(false);
+    const [isSellNft, setIsSellNft] = useState(true);
     const [isActive, setIsActive] = useState(false); // track active state for the title
     const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin
     const handleTitleClick = () => {
@@ -183,4 +183,4 @@ function MintNftSellDetail() {
     );
 }
 
-export default MintNftSellDetail;
+export default MintNftSellDetail2;

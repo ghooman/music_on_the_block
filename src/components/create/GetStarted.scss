@@ -137,7 +137,7 @@
                     width: 1.4em;
                     height: 1.4em;
                     position: relative;
-                    top: -2px;
+                    top: -0.2px;
                     margin-right: 1em;
                     vertical-align: top;
                     cursor: pointer;
@@ -237,7 +237,7 @@
             font-size: 14px;
             margin-top: 16px;
             .create__get-started--format-item-select-title {
-                color:#aaa;
+                color: var(--Text-music-sub, #aaa);
                 font-family: Inter400;
                 font-size: 14px;
             }

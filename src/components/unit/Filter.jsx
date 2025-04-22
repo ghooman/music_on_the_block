@@ -24,7 +24,7 @@ import checkIcon from '../../assets/images/check-icon.svg';
  * 프롭스 추가 시 변수도 추가해주어야 합니다.
  */
 
-const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort }) => {
+const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort, nftSort }) => {
     const [searchParamas, setSearchParams] = useSearchParams();
     const [modal, setModal] = useState(false);
     const [paramsObj, setParamsObj] = useState({});
@@ -37,9 +37,10 @@ const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort })
     const songsSort_ = searchParamas.get('songs_sort');
     const connectionsSort_ = searchParamas.get('connections_sort');
     const albumSort_ = searchParamas.get('album_sort');
+    const nftSort_ = searchParamas.get('nft_sort');
 
     // queries 변수에 값을 넣어야 filter 아이템이 표시됩니다.
-    const queries = [period_, generateType_, songsSort_, connectionsSort_, albumSort_];
+    const queries = [period_, generateType_, songsSort_, connectionsSort_, albumSort_, nftSort_];
 
     const handleQueryParameter = () => {
         setSearchParams((prev) => {
@@ -146,6 +147,20 @@ const Filter = ({ period, generateType, songsSort, connectionsSort, albumSort })
                                 }
                             />
                         )}
+                        {nftSort && (
+                            <FilterCategory
+                                value={nftSort_}
+                                setParamsObj={setParamsObj}
+                                title="Sort by"
+                                filterName="nft_sort"
+                                filterItems={
+                                    typeof nftSort === 'boolean'
+                                        ? ['Latest', 'Oldest', 'Highest price', 'Lowest price']
+                                        : nftSort
+                                }
+                            />
+                        )}
+
                         <div className="albums__filter-buttons">
                             {/* <button className="albums__filter-buttons--button reset">
                                 <img src={resetIcon} alt="icon" />
@@ -231,13 +246,12 @@ const FilterButton = ({ value, select, handleClick, icon }) => {
             className={`albums__filter-item-wrap--contents__item ${value === select && 'select'}`}
             onClick={handleClick}
         >
-            {icon ? (
+            <div className={`checkbox ${value === select && 'checked'}`}>
+                {value === select && <img src={checkIcon} alt="icon" />}
+            </div>
+            {icon && (
                 <div className="icons">
                     <img src={icon} alt="icon" />
-                </div>
-            ) : (
-                <div className={`checkbox ${value === select && 'checked'}`}>
-                    {value === select && <img src={checkIcon} alt="icon" />}
                 </div>
             )}
             {value}

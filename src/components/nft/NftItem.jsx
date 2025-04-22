@@ -231,7 +231,7 @@ const NftItem = ({ item }) => {
       <Title title={item.title} />
       <div className="nft-item__prices col">
         <PriceItems title="Price" value={`${item.price} MOB`} />
-        <PriceItems title="NFT Quantity" value={item.quantity} />
+        {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}
       </div>
     </Link>
   );
@@ -274,10 +274,10 @@ const Images = ({ music, item }) => {
       <img src={item.image} alt={item.title || item.desc} />
       {music && (
         <>
-          <div className="nft-item__images--type">
+          {/* <div className="nft-item__images--type">
             <img src={getTypeIcon(item.type)} alt={item.type} />
-          </div>
-          <div className="nft-item__images--genre">{item.genre}</div>
+          </div> */}
+          {/* <div className="nft-item__images--genre">{item.genre}</div> */}
           <div className="nft-item__images--running-time">{item.duration}</div>
         </>
       )}

@@ -12,6 +12,9 @@ import AlbumDetail from './pages/AlbumDetail';
 import SignUp from './pages/SignUp';
 import Nft from './pages/Nft';
 import NftList from './pages/NftList';
+import NftMintList from './pages/NftMintList';
+import NftSellList from './pages/NftSellList';
+
 // 컴포넌트
 import Header from './components/Header';
 import Intro from './components/Intro';
@@ -23,7 +26,7 @@ import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
-import EditAlbumSongs from './components/mypage/EditAlbumSongs';
+import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 function Layout({ children }) {
     return (
         <div>
@@ -84,18 +87,22 @@ function App() {
                             }
                         />
                         <Route
-                            path="/my-page/albums-detail/:id"
+                            path="/albums-detail/:id"
                             element={
                                 <Layout>
+                                    {/* <ProtectedRoute> */}
                                     <AlbumsDetail />
+                                    {/* </ProtectedRoute> */}
                                 </Layout>
                             }
                         />
                         <Route
-                            path="/my-page/edit-album-songs/:id"
+                            path="/edit-album-songs/:id"
                             element={
                                 <Layout>
-                                    <EditAlbumSongs />
+                                    <ProtectedRoute>
+                                        <EditAlbumSongs />
+                                    </ProtectedRoute>
                                 </Layout>
                             }
                         />
@@ -146,6 +153,22 @@ function App() {
                             element={
                                 <Layout>
                                     <NftList />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="nft/mint/list"
+                            element={
+                                <Layout>
+                                    <NftMintList />
+                                </Layout>
+                            }
+                        />
+                        <Route
+                            path="nft/sell/list"
+                            element={
+                                <Layout>
+                                    <NftSellList />
                                 </Layout>
                             }
                         />

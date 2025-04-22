@@ -1,0 +1,84 @@
+.unit-component-nft-table {
+    width: 100%;
+    border-radius: 12px;
+    overflow: auto;
+    border: 1px solid #222;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th {
+        background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
+        color: #a9d400;
+
+        font-family: Orbitron400;
+        font-size: 14px;
+    }
+
+    th,
+    td {
+        text-align: center;
+        padding: 8px 12px;
+    }
+
+    td {
+        color: #aaa;
+        font-family: Inter400;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .unit-component-nft-table__type-image {
+        width: 18px;
+        height: 18px;
+        margin: auto;
+        border-radius: 100%;
+        background-color: #222;
+        padding: 2px;
+        img {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    .unit-component-nft-table__price {
+        display: flex;
+        gap: 4px;
+        width: fit-content;
+        margin: auto;
+        color: #aaa;
+        font: inherit;
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .unit-component-nft-table__button {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 12px;
+        font-family: Inter500;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+
+        &.button-details {
+            color: #aaa;
+            background-color: #222;
+        }
+        &.button-sell {
+            background: #5a9bf6;
+            color: #1a1a1a;
+        }
+        &.button-cancel {
+            background-color: #df1919;
+            color: #1a1a1a;
+        }
+        &.button-sold {
+            color: #1a1a1a;
+            background-color: #cf0;
+        }
+    }
+}

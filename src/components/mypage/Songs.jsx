@@ -104,7 +104,7 @@ const Songs = ({ token }) => {
         <div className="songs">
             <TopSongsTemplates topSongsData={topSongsData} />
             <ContentWrap title="Songs">
-                <SubCategories
+                {/* <SubCategories
                     categories={myAlbumsCategoryList}
                     handler={(value) => {
                         setSearchParams((prev) => {
@@ -113,7 +113,7 @@ const Songs = ({ token }) => {
                         });
                     }}
                     value={releaseType}
-                />
+                /> */}
                 <ContentWrap.SubWrap gap={8}>
                     <Filter songsSort={true} />
                     <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />

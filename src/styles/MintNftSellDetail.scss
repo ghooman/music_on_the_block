@@ -1,4 +1,4 @@
-.song-detail {
+.mint-detail {
   .album-detail__title {
     margin-bottom: 32px;
     dt {
@@ -18,11 +18,370 @@
       letter-spacing: 0.72px;
     }
   } //album-detail__title--END--
-  .album-detail__song-detail {
+
+
+
+  .level-quantity-box{
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    .level-quantity-box__dl{
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--Color-04, #383838);
+      background: var(--Dark-Color-01, #0B0B0C);
+      dt{
+        color: var(--primary-base, #CF0);
+        font-family: Orbitron400;
+        font-size: 10px;
+        font-style: normal;
+        line-height: normal;
+        margin-bottom: 10px;
+      }
+      dd{
+        color: var(--Text-music-title, #F1F1F1);
+        font-family: Orbitron600;
+        font-size: 14px;
+        font-style: normal;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--Text-music-title, #F1F1F1);
+        font-family: Inter400;
+        font-size: 14px;
+        font-style: normal;
+        img{
+          width: 24px;
+          height: 24px;
+          object-fit: cover;
+        }
+        &.quantity{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          p{
+            color: var(--Text-music-sub, #AAA);
+            font-family: Orbitron400;
+            font-size: 12px;
+          }
+        }
+      }
+    }//level-quantity-box__dl--END--
+  }//level-quantity-box--END--
+
+  .sell-nft-input-box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .sell-nft-input-box__title{
+      color: var(--Color-10, #FFF);
+      font-family: Orbitron400;
+      font-size: 16px;
+    }//sell-nft-input-box__title--END--
+    .sell-nft-input-box__value{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      .sell-nft-input-box__value__btn{
+        gap: 8px;
+        img{
+          width: 20px;
+          height: 20px;
+          object-fit: cover;
+          border-radius: 100%;
+        }
+        color: var(--Text-music-title, #F1F1F1);
+        font-family: Orbitron600;
+        font-size: 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: right;
+        width: 100px;
+        height: 38px;
+        background: #383838;
+        position: relative;
+        top: -2px;
+        transition: 0.2s;
+        color: var(--Text-music-title, #F1F1F1);
+        font-family: Orbitron600;
+        font-size: 16px;
+        border-radius: 12px;
+        &::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: calc(100% - 2px);
+            transition: 0.2s;
+            border-radius: 12px;
+            height: 36px;
+            border: 1px solid #383838;
+        }
+        &:hover{
+            top: 0px;
+            &::before{
+                top: 0px;
+            }
+        }
+      }//sell-nft-input-box__value__btn--END--
+    }//sell-nft-input-box__value--END--
+  }//sell-nft-input-box--END--
+
+  .sell-nft-select-box{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .sell-nft-select-box__title{
+      color: var(--Color-10, #FFF);
+      font-family: Orbitron400;
+      font-size: 16px;
+    }//sell-nft-select-box__title--END--
+
+    .sell-nft-select-box__value-box{
+      width: 100%;
+      position: relative;
+      img{
+        width: 20px;
+        height: 20px;
+        object-fit: cover;
+      }
+      &.active{
+        .sell-nft-select-box__value-box__title{
+          border: 1px solid #CF0;
+          &::after{
+            transform: translate(0,-50%) rotate(180deg);
+          }
+        }
+        .sell-nft-select-box__value-box__list{
+          border: 1px solid var(--primary-400, #678300);   
+          height: 178px;     
+          opacity: 1;
+          li{
+            opacity: 1;
+          }
+        }
+      }
+      .sell-nft-select-box__value-box__title{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 42px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: 1px solid #383838;
+        background: #0B0B0C;
+        color:#F1F1F1;
+        font-family: Inter400;
+        font-size: 14px;
+        cursor: pointer;
+        position: relative;
+        &::after{
+          content: '';
+          display: block;
+          width: 14px;
+          height: 14px;
+          background: url('../assets/images/arrow_down.svg') center no-repeat;
+          position: absolute;
+          top: 50%;
+          right: 16px;
+          transform: translate(0,-50%);
+          transition: 0.3s;
+        }
+      }//sell-nft-select-box__value-box__title--END--
+      .sell-nft-select-box__value-box__list{
+        position: absolute;
+        top: 50px;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        background: var(--Dark-Color-01, #0B0B0C);
+        transition: 0.3s;
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+        li{
+          cursor: pointer;
+          width: 100%;
+          padding: 12px;
+          transition: 0.3s;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color:#F1F1F1;
+          font-family: Inter400;
+          font-size: 14px;
+          opacity: 0;
+          transition: 0.4s;
+          &:hover{
+            background:#222;
+          }
+        }
+      }//sell-nft-select-box__value-box__list--END--
+    }//sell-nft-select-box__value-box--END--
+
+  }//sell-nft-select-box--END--
+
+
+
+
+
+
+
+
+
+
+  .filter-create{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    .create-btn{
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 12px;
+      background: var(--Color-03, #222);
+      padding: 0 12px;
+      color: #AAA;
+      font-family: Inter500;
+      font-size: 12px;
+      white-space:nowrap;
+      transition: 0.3s;
+      border: 1px solid transparent;
+      &:hover{
+        border: 1px solid #a9d400;
+      }
+    }//create-btn--END--
+  }//filter-create--END--
+  .nft-item-collection-wrap{
+    max-height: 380px;
+    overflow: auto;
+  }//nft-item-collection-wrap--END--
+
+  .selected-collection-bottom{
+    display: flex;
+    gap: 16px;
+    .selected-collection-bottom__left{
+      width: 320px;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }//selected-collection-bottom__left--END--
+    .selected-collection-bottom__right{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      .selected-collection-bottom__right__dl{
+        width: 100%;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--Color-04, #383838);
+        background: var(--Dark-Color-01, #0B0B0C);
+        dt{
+          color: var(--primary-base, #CF0);
+          font-family: Orbitron400;
+          font-size: 10px;
+          font-style: normal;
+          line-height: normal;
+          margin-bottom: 10px;
+        }
+        dd{
+          color: var(--Text-music-title, #F1F1F1);
+          font-family: Orbitron600;
+          font-size: 14px;
+          font-style: normal;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--Text-music-title, #F1F1F1);
+          font-family: Inter400;
+          font-size: 14px;
+          font-style: normal;
+          img{
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+          }
+          &.quantity{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            p{
+              color: var(--Text-music-sub, #AAA);
+              font-family: Orbitron400;
+              font-size: 12px;
+            }
+          }
+        }
+      }//selected-collection-bottom__right__dl--END--
+      .selected-collection-bottom__right__two-dl{
+        width: 100%;
+        display: flex;
+        gap: 16px;
+      }//selected-collection-bottom__right__two-dl--eND--
+      .selected-collection-bottom__right__mint-btn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: right;
+        width: 100%;
+        height: 40px;
+        background: #00FFB3;
+        position: relative;
+        top: 0;
+        transition: 0.2s;
+        color:#1A1A1A;
+        font-family: Orbitron600;
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        border-radius: 12px;
+        &::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: calc(100% - 2px);
+            transition: 0.2s;
+            border-radius: 12px;
+            height: 38px;
+            border: 1px solid #00FFB3;
+        }
+        &:hover{
+            top: 4px;
+            &::before{
+                top: 0;
+            }
+        }
+
+      }//selected-collection-bottom__right__mint-btn--END--
+    }//selected-collection-bottom__right--END--
+  }//selected-collection-bottom--END--
+
+
+
+  .album-detail__mint-detail {
     padding: 16px;
     border-radius: 12px;
     border: 1px solid #222;
-    .album-detail__song-detail__title {
+    margin-bottom: 16px;
+    .album-detail__mint-detail__title {
       color: #cf0;
       font-family: Orbitron400;
       font-size: 24px;
@@ -42,15 +401,15 @@
         border-radius: 100%;
         background: #cf0;
       }
-    } //album-detail__song-detail__title--END--
-    .album-detail__song-detail__bot {
+    } //album-detail__mint-detail__title--END--
+    .album-detail__mint-detail__bot {
       display: flex;
       gap: 16px;
-      .album-detail__song-detail__left {
+      .album-detail__mint-detail__left {
         width: 420px;
         flex-shrink: 0;
         position: relative;
-        .album-detail__song-detail__left__img__lyrics-btn {
+        .album-detail__mint-detail__left__img__lyrics-btn {
           position: absolute;
           right: 16px;
           bottom: 16px;
@@ -63,7 +422,7 @@
           font-style: normal;
           line-height: normal;
         }
-        .album-detail__song-detail__left__img {
+        .album-detail__mint-detail__left__img {
           width: 100%;
           height: 420px;
           border-radius: 24px;
@@ -72,7 +431,7 @@
           position: relative;
           cursor: pointer;
           &.active {
-            .album-detail__song-detail__left__img__txt {
+            .album-detail__mint-detail__left__img__txt {
               opacity: 1;
             }
           }
@@ -82,7 +441,7 @@
             object-fit: cover;
             border-radius: 20px;
           }
-          .album-detail__song-detail__left__img__txt {
+          .album-detail__mint-detail__left__img__txt {
             position: absolute;
             top: 0;
             left: 0;
@@ -116,9 +475,9 @@
                 opacity: 0.6;
               }
             }
-          } //album-detail__song-detail__left__img__txt--END--
-        } //album-detail__song-detail__left__img--END--
-        .album-detail__song-detail__left__info {
+          } //album-detail__mint-detail__left__img__txt--END--
+        } //album-detail__mint-detail__left__img--END--
+        .album-detail__mint-detail__left__info {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -134,7 +493,7 @@
             font-style: normal;
             line-height: 100%; /* 12px */
           }
-          .album-detail__song-detail__left__info__number {
+          .album-detail__mint-detail__left__info__number {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -178,26 +537,26 @@
               font-style: normal;
               line-height: 100%; /* 12px */
             }
-          } //album-detail__song-detail__left__info__number--END--
-        } //album-detail__song-detail__left__info--END--
-      } //album-detail__song-detail__left--END--
-      .album-detail__song-detail__right {
+          } //album-detail__mint-detail__left__info__number--END--
+        } //album-detail__mint-detail__left__info--END--
+      } //album-detail__mint-detail__left--END--
+      .album-detail__mint-detail__right {
         flex: 1;
         flex-shrink: 0;
-        .album-detail__song-detail__right__title {
+        .album-detail__mint-detail__right__title {
           color: #f1f1f1;
           font-family: Orbitron500;
           font-size: 20px;
           font-style: normal;
           line-height: 100%; /* 20px */
           margin-bottom: 24px;
-        } //album-detail__song-detail__right__title--END--
-        .album-detail__song-detail__right__type {
+        } //album-detail__mint-detail__right__title--END--
+        .album-detail__mint-detail__right__type {
           display: flex;
           align-items: center;
           gap: 16px;
           flex-wrap: wrap;
-          .album-detail__song-detail__right__type__item {
+          .album-detail__mint-detail__right__type__item {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -225,9 +584,9 @@
               border-right: 1px solid #00ffb3;
               border-radius: 12px 12px 12px;
             }
-          } //album-detail__song-detail__right__type__item--END--
-        } //album-detail__song-detail__right__type--END--
-        .album-detail__song-detail__right__info-box {
+          } //album-detail__mint-detail__right__type__item--END--
+        } //album-detail__mint-detail__right__type--END--
+        .album-detail__mint-detail__right__info-box {
           display: flex;
           flex-direction: column;
           gap: 12px;
@@ -239,7 +598,20 @@
             border-radius: 6px;
             height: 36px;
             overflow: hidden;
-            &.artist {
+            &.type{
+              dd{
+                display: flex;
+                align-items: center;
+                justify-content: start;
+                flex-direction: row;
+                gap: 8px;
+                img{
+                  width: 14px;
+                  height: 14px;
+                }
+              }
+            }
+            &.artist{
               dd {
                 display: flex;
                 align-items: center;
@@ -318,10 +690,10 @@
               }
             }
           }
-        } //album-detail__song-detail__right__info-box--END--
-      } //album-detail__song-detail__right--END--
-    } //album-detail__song-detail__bot--END--
-  } //album-detail__song-detail--END--
+        } //album-detail__mint-detail__right__info-box--END--
+      } //album-detail__mint-detail__right--END--
+    } //album-detail__mint-detail__bot--END--
+  } //album-detail__mint-detail--END--
 
   .album-detail__audio {
     border-radius: 12px;
@@ -782,7 +1154,7 @@
     }
   } //album-detail__slide__title--END--
 
-  .song-detail-slide {
+  .mint-detail-slide {
     padding: 16px 0 40px;
     .swiper-button-prev {
       width: 24px;
@@ -997,10 +1369,10 @@
         } //album__content-list__list__item__right__user--END--
       } //album__content-list__list__item__right--END-
     } //album__content-list__list__item--END--
-  } //song-detail-slide--END--
+  } //mint-detail-slide--END--
 } //album-detail__slide--END--
 
-//song-detail--END--
+//mint-detail--END--
 
 .rhap_progress-bar{
   .rhap_download-progress{
@@ -1032,10 +1404,10 @@
 }
 
 @media screen and (max-width: 930px) {
-  .song-detail {
-    .album-detail__song-detail {
-      .album-detail__song-detail__bot {
-        .album-detail__song-detail__left {
+  .mint-detail {
+    .album-detail__mint-detail {
+      .album-detail__mint-detail__bot {
+        .album-detail__mint-detail__left {
           width: 40%;
         }
       }
@@ -1044,23 +1416,35 @@
 }
 
 @media screen and (max-width: 768px) {
-  .song-detail {
+  .mint-detail {
     .album-detail__title {
       dt {
         font-size: 24px;
       }
     }
-    .album-detail__song-detail {
-      .album-detail__song-detail__bot {
+    .filter-create{
+      flex-direction: column;
+      align-items: start;
+    }
+    .selected-collection-bottom{
+      flex-direction: column;
+      .selected-collection-bottom__left{
+        margin: 0 auto;
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+    .album-detail__mint-detail {
+      .album-detail__mint-detail__bot {
         flex-direction: column;
-        .album-detail__song-detail__left {
+        .album-detail__mint-detail__left {
           width: 100%;
-          .album-detail__song-detail__left__img {
+          .album-detail__mint-detail__left__img {
             height: 320px;
           }
         }
-        .album-detail__song-detail__right {
-          .album-detail__song-detail__right__info-box {
+        .album-detail__mint-detail__right {
+          .album-detail__mint-detail__right__info-box {
             dl {
               // &:nth-child(5) {
               //   dt {
@@ -1097,7 +1481,7 @@
       }
     }
     .album-detail__slide {
-      .song-detail-slide {
+      .mint-detail-slide {
         .swiper-button-prev,
         .swiper-button-next {
           display: none;
@@ -1108,7 +1492,18 @@
 }
 
 @media screen and (max-width: 480px) {
-  .song-detail {
+  .mint-detail {
+    .selected-collection-bottom{
+      .selected-collection-bottom__left{
+        max-width: 100%;
+      }
+      .selected-collection-bottom__right{
+        .selected-collection-bottom__right__two-dl{
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    }
     .album-detail__slide {
       .album-detail__slide__title {
         dt {

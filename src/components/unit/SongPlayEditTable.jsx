@@ -107,7 +107,7 @@
 
 // export default SongPlayEditTable;
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
@@ -120,7 +120,7 @@ import defaultUserImage from '../../assets/images/header/logo-png.png';
  * @param {React.Dispatch<React.SetStateAction<number|null>>} setActiveSong
  * @param {React.RefObject<HTMLAudioElement>} audioRef
  */
-const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setActiveSong, audioRef }) => {
+const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setActiveSong }) => {
     /* ---------- 선택 체크박스 ---------- */
     // const [selectedIds, setSelectedIds] = useState([]);
 
@@ -159,29 +159,25 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
         });
     };
 
-    /* ---------- 재생 ---------- */
-    const handleRowClick = (album) => {
-        if (!audioRef.current) return;
+    // /* ---------- 재생 ---------- */
+    // const handleRowClick = (album) => {
+    //     if (!audioRef.current) return;
 
-        if (activeSong === album.id) {
-            audioRef.current.paused ? audioRef.current.play() : audioRef.current.pause();
-            setActiveSong(audioRef.current.paused ? null : album.id);
-        } else {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            audioRef.current.src = album.music_url;
-            audioRef.current.play();
-            setActiveSong(album.id);
-        }
-    };
+    //     if (activeSong === album.id) {
+    //         audioRef.current.paused ? audioRef.current.play() : audioRef.current.pause();
+    //         setActiveSong(audioRef.current.paused ? null : album.id);
+    //     } else {
+    //         audioRef.current.pause();
+    //         audioRef.current.currentTime = 0;
+    //         audioRef.current.src = album.music_url;
+    //         audioRef.current.play();
+    //         setActiveSong(album.id);
+    //     }
+    // };
 
     /* ---------- 렌더 ---------- */
     return (
         <>
-            <div className="audio-container">
-                <audio controls ref={audioRef} />
-            </div>
-
             <div className="selected-song-number">
                 {title}
                 <p>
@@ -213,8 +209,14 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                         {songList?.map((album, index) => (
                             <tr
                                 key={album.id}
-                                className={activeSong === album.id ? 'active' : ''}
-                                onClick={() => handleRowClick(album)}
+                                className={activeSong?.id === album?.id ? 'active' : ''}
+                                onClick={() => {
+                                    if (activeSong?.id === album?.id) {
+                                        setActiveSong(null);
+                                    } else {
+                                        setActiveSong(album);
+                                    }
+                                }}
                             >
                                 <td onClick={(e) => e.stopPropagation()}>
                                     <input

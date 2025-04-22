@@ -68,6 +68,10 @@ const AlbumsDetail = () => {
     const { id } = useParams();
     const [albumBundleInfo, setAlbumBundleInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    // 더미 데이터 사용 (API 호출 대신 더미 데이터)
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     const fetchAlbumBundleInfo = async () => {
         try {
@@ -96,53 +100,11 @@ const AlbumsDetail = () => {
         { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
     ];
     const [selected, setSelected] = useState(subCategoryList[0].name);
-
     const [searchParams, setSearchParams] = useSearchParams();
     const page = searchParams.get('page') || 1;
     const search = searchParams.get('search') || '';
     const songsSort = searchParams.get('songs_sort');
     const releaseType = searchParams.get('release_type') || 'Unreleased songs';
-
-    // 더미 데이터 사용 (API 호출 대신 더미 데이터)
-    const songsList = dummySongsList;
-
-    const [isPlaying, setIsPlaying] = useState(false);
-
-    const handlePlayClick = () => {
-        if (!audioRef.current) return;
-
-        /* Stop 누른 상태 */
-        if (isPlaying) {
-            audioRef.current.pause();
-            audioRef.current.onended = null;
-            setIsPlaying(false);
-            setActiveSong(null);
-            return;
-        }
-
-        /* Play 시작 */
-        let currentIndex = 0;
-        setActiveSong(songsList.data_list[currentIndex].id);
-        setIsPlaying(true);
-
-        audioRef.current.src = songsList.data_list[currentIndex].music_url;
-        audioRef.current.play();
-
-        audioRef.current.onended = () => {
-            currentIndex += 1;
-            if (currentIndex < songsList.data_list.length) {
-                setActiveSong(songsList.data_list[currentIndex].id);
-                audioRef.current.src = songsList.data_list[currentIndex].music_url;
-                audioRef.current.play();
-            } else {
-                setIsPlaying(false);
-                setActiveSong(null);
-            }
-        };
-    };
-
-    const [showDetailModal, setShowDetailModal] = useState(false);
-    const [showCreateModal, setShowCreateModal] = useState(false);
 
     const handleDetailModal = () => {
         setShowDetailModal(true);
@@ -213,7 +175,7 @@ const AlbumsDetail = () => {
                             {/* Play 버튼 */}
                             <button
                                 className="my-album-details__box__header__right__play-btn"
-                                onClick={handlePlayClick}
+                                onClick={() => setIsPlaying((prev) => !prev)}
                             >
                                 <img
                                     src={isPlaying ? stopIcon : playIcon}
@@ -243,6 +205,8 @@ const AlbumsDetail = () => {
                                 activeSong={activeSong}
                                 setActiveSong={setActiveSong}
                                 isScroll={true}
+                                isTrigger={isPlaying}
+                                setIsTrigger={setIsPlaying}
                             />
                         ) : (
                             <NoneContent

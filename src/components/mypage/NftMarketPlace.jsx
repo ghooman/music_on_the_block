@@ -6,6 +6,7 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 
 import './NftMarketPlace.scss';
+import NftTable from '../unit/NftTable';
 
 const subCategoryList = [
     { name: 'NFT items', preparing: false },
@@ -43,6 +44,7 @@ const NftItems = () => {
                     <Filter />
                     <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
+                <NftTable />
                 <Pagination />
             </ContentWrap>
         </>

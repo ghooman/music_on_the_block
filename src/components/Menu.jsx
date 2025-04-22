@@ -326,10 +326,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         </dd>
                     </dl>
 
-
-
-
-                  {/* {isLoggedIn && (
+                    {isLoggedIn && (
                         <dl className="menu__box">
                             <dt className="menu__box__title">MY LIBRARY</dt>
                             <dd>
@@ -384,15 +381,20 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                                             >
                                                 <Link to="/my-page/music?category=Albums">Albums</Link>
                                             </li>
+                                            <li
+                                                className={activeSubItem === 'NFT MarketPlace' ? 'active' : ''}
+                                                onClick={() => handleSubItemClick('NFT MarketPlace')}
+                                            >
+                                                <Link to="/my-page/music?category=NFT MarketPlace">
+                                                    NFT MarketPlace
+                                                </Link>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </dd>
                         </dl>
-                    )} */}
-
-
-
+                    )}
 
                     {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

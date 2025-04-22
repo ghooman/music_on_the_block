@@ -32,7 +32,7 @@ const SubCategories = ({ categories, handler, value }) => {
                                 setPreparingModal(true);
                                 return;
                             }
-                            handler(category.name);
+                            if (handler) handler(category.name);
                         }}
                     >
                         {category?.image && (

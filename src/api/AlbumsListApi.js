@@ -48,16 +48,11 @@ export const createAlbumsList = async (formData, token) => {
  * param {string} searchKeyword - 검색어
  * returns {Promise} axios GET 요청 반환
  */
-export const getAlbumsList = async (
-  token,
-  page = 1,
-  searchKeyword = '',
-  albumSort = ''
-) => {
+export const getAlbumsList = async (token, page = 1, searchKeyword = '', albumSort = '') => {
   const params = new URLSearchParams({});
   if (page) params.append('page', page);
   if (searchKeyword) params.append('search_keyword', searchKeyword);
-  if (albumSort) params.append('album_sort', albumSort);
+  if (albumSort) params.append('sort_by', albumSort);
 
   return axios.get(`${serverApi}/api/music/my/album/bundle/list?${params}`, {
     headers: {
@@ -85,13 +80,9 @@ export const updateAlbumsList = async (albumId, formData, token) => {
   }
 
   try {
-    const response = await axios.post(
-      `${serverApi}/api/music/album/bundle/${albumId}`,
-      formData,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${serverApi}/api/music/album/bundle/${albumId}`, formData, {
+      headers,
+    });
     console.log('API 응답 성공:', response.data);
     return response;
   } catch (error) {

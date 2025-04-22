@@ -32,7 +32,7 @@ import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/intro/mob-album-cover.png';
 // import defaultCoverImg from "../assets/images/header/logo.svg";
 
-import track1 from '../assets/music/song01.mp3';
+// import track1 from '../assets/music/song01.mp3';
 import track2 from '../assets/music/nisoft_song.mp3';
 
 import AudioPlayer from 'react-h5-audio-player';
@@ -266,9 +266,29 @@ const NftItemDetailInfo = () => {
         <>
             <div className="nft-item-detail-info-wrap">
                 <section className="nft-item-detail__song-detail">
-                    <p className="nft-item-detail__song-detail__title">Song Detail</p>
+                    {/* <p className="nft-item-detail__song-detail__title">Song Detail</p> */}
                     <div className="nft-item-detail__song-detail__bot">
                         <div className="nft-item-detail__song-detail__left">
+                            <section className="album-detail__audio">
+                                <AudioPlayer
+                                    src={track2}
+                                    onPlay={() => {
+                                        console.log('PLAY!');
+                                        setIsPlaying(true);
+                                    }}
+                                    onPause={() => {
+                                        console.log('PAUSE!');
+                                        setIsPlaying(false);
+                                    }}
+                                    onEnded={() => {
+                                        console.log('ENDED!');
+                                        setIsPlaying(false);
+                                    }}
+                                />
+                                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
+                                    <img src={defaultCoverImg} alt="album cover" />
+                                </p>
+                            </section>
                             <div
                                 className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                                 onClick={handleClick}
@@ -288,31 +308,36 @@ const NftItemDetailInfo = () => {
                                     <img src={defaultCoverImg} alt="기본 이미지" />
                                 )}
                                 <div className="nft-item-detail__song-detail__left__img__txt">
-                                    <pre>{album?.lyrics}</pre>
+                                    <pre>
+                                        {album?.lyrics}
+                                    </pre>
                                 </div>
                                 <button className="nft-item-detail__song-detail__left__img__lyric-btn">Lyrics</button>
                             </div>
                             <div className="nft-item-detail__song-detail__left__info">
                                 <div className="nft-item-detail__song-detail__left__info__number">
-                                    <button className="love" onClick={handleLike}>
-                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                                        {album?.like || 0}
-                                    </button>
-                                    <button className="comment" onClick={handleScrollToComment}>
-                                        <img src={commentIcon} />
-                                        {album?.comment_cnt || 0}
-                                    </button>
                                     <p className="play">
                                         <img src={playIcon} />
                                         {album?.play_cnt || 0}
                                     </p>
+                                    <p className="love" 
+                                        // onClick={handleLike}
+                                    >
+                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                                        {album?.like || 0}
+                                    </p>
+                                    {/* <button className="comment" onClick={handleScrollToComment}>
+                                        <img src={commentIcon} />
+                                        {album?.comment_cnt || 0}
+                                    </button> */}
+
                                 </div>
-                                <button
+                                {/* <button
                                     className="nft-item-detail__song-detail__left__info__share-btn"
                                     onClick={() => setShareModal(true)}
                                 >
                                     <img src={shareIcon} />
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                         <div className="nft-item-detail__song-detail__right">
@@ -349,7 +374,7 @@ const NftItemDetailInfo = () => {
                                     </dd>
                                 </dl> */}
                                 <dl className="artist">
-                                    <dt>Username</dt>
+                                    <dt>Artist</dt>
                                     <dd>
                                         <p className="user">
                                             <img src={album?.user_profile || coverImg2} />
@@ -362,18 +387,18 @@ const NftItemDetailInfo = () => {
                                 </dl>
                             </div>
                             <div className="nft-item-detail__song-detail__right__value-box">
-                                <dl>
+                                {/* <dl>
                                     <dt>NFT Quantity</dt>
                                     <dd>10 / 100</dd>
-                                </dl>
+                                </dl> */}
                                 <dl>
                                     <dt>Price</dt>
                                     <dd>
-                                        100 MOB<span>$1,000</span>
+                                        <span>$1,000</span>100 MOB
                                     </dd>
                                 </dl>
                             </div>
-                            <div className="nft-item-detail__song-detail__right__time-box">
+                            {/* <div className="nft-item-detail__song-detail__right__time-box">
                                 <p className="nft-item-detail__song-detail__right__time-box__title">Sale End Date</p>
                                 <p className="nft-item-detail__song-detail__right__time-box__utc">
                                     Sat, 04 Nov 2023 14:40:00 UTC+9
@@ -388,33 +413,12 @@ const NftItemDetailInfo = () => {
                                     <span>:</span>
                                     <p>00</p>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="nft-item-detail__song-detail__right__btn-box">
                                 <button className="nft-item-detail__song-detail__right__btn-box__btn">Buy NFT</button>
                             </div>
                         </div>
                     </div>
-                </section>
-
-                <section className="album-detail__audio">
-                    <AudioPlayer
-                        src={track1}
-                        onPlay={() => {
-                            console.log('PLAY!');
-                            setIsPlaying(true);
-                        }}
-                        onPause={() => {
-                            console.log('PAUSE!');
-                            setIsPlaying(false);
-                        }}
-                        onEnded={() => {
-                            console.log('ENDED!');
-                            setIsPlaying(false);
-                        }}
-                    />
-                    <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                        <img src={defaultCoverImg} alt="album cover" />
-                    </p>
                 </section>
             </div>
         </>

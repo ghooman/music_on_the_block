@@ -46,7 +46,14 @@ const NftSellList = () => {
                     <Filter songsSort={true} />
                     <Search placeholder="Search" />
                 </ContentWrap.SubWrap>
-                <SongPlayTable songList={songList?.data_list} sellOption={true} handleSell={() => handleSell()} />
+                <SongPlayTable
+                    songList={songList?.data_list}
+                    likesOption={true}
+                    playsOption={true}
+                    artistOption={false}
+                    sellOption={true}
+                    handleSell={() => handleSell()}
+                />
                 <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
             </ContentWrap>
         </div>

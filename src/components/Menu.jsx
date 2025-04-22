@@ -61,6 +61,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     // 하위 메뉴 아이템 클릭 시 활성화 (슬라이드 탭 안의 <li>)
     const handleSubItemClick = (subItemName) => {
         setActiveSubItem(subItemName);
+        setActiveMenus([]); // 슬라이드 탭들 비활성화
         setActive(false);
     };
 
@@ -347,7 +348,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                                     </div>
                                     <div
                                         className={`menu__box__gnb-list__item my-music slide-tab ${
-                                            activeMenus.includes('my-music') ? 'active' : ''
+                                            activeMenus.includes('my-music') || pathname.startsWith('/my-page/music')
+                                                ? 'active'
+                                                : ''
                                         }`}
                                     >
                                         <button

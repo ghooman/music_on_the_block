@@ -46,7 +46,14 @@ const NftMintList = () => {
                     <Filter songsSort={true} />
                     <Search placeholder="Search" />
                 </ContentWrap.SubWrap>
-                <SongPlayTable songList={songList?.data_list} mintOption={true} handleMint={() => handleMint()} />
+                <SongPlayTable
+                    songList={songList?.data_list}
+                    likesOption={true}
+                    playsOption={true}
+                    artistOption={false}
+                    mintOption={true}
+                    handleMint={() => handleMint()}
+                />
                 <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
             </ContentWrap>
         </div>

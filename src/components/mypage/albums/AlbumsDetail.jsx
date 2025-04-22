@@ -191,7 +191,7 @@ const AlbumsDetail = () => {
                         <div className="my-album-details__box__body__sub-categories">
                             <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
                             <Link
-                                to={`/my-page/edit-album-songs/${id}`}
+                                to={`/edit-album-songs/${id}`}
                                 className="my-album-details__box__body__sub-categories__edit-btn"
                             >
                                 Edit Songs

@@ -33,6 +33,11 @@ const NftMintList = () => {
         { refetchOnMount: false }
     );
 
+    const handleMint = () => {
+        alert('민트!');
+        // 민트 함수 정의 해주세염
+    };
+
     return (
         <div>
             <ContentWrap title="Mint an NFT">
@@ -41,7 +46,7 @@ const NftMintList = () => {
                     <Filter songsSort={true} />
                     <Search placeholder="Search" />
                 </ContentWrap.SubWrap>
-                <SongPlayTable songList={songList?.data_list} mintOption={true} handleMint={() => alert('민트!')} />
+                <SongPlayTable songList={songList?.data_list} mintOption={true} handleMint={() => handleMint()} />
                 <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
             </ContentWrap>
         </div>

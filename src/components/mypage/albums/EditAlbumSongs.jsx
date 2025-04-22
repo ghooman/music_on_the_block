@@ -252,7 +252,7 @@ const EditAlbumSongs = () => {
                     setIsEditAlbumModal={setIsEditAlbumModal}
                     handleClick={handleEdit}
                     songsCount={albumBundleSongList?.length}
-                    action={() => navigate(`/my-page/albums-detail/${id}`)}
+                    action={() => navigate(`/albums-detail/${id}`)}
                 />
             )}
         </>

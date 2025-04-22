@@ -89,17 +89,17 @@ function App() {
                             }
                         />
                         <Route
-                            path="/my-page/albums-detail/:id"
+                            path="/albums-detail/:id"
                             element={
                                 <Layout>
-                                    <ProtectedRoute>
-                                        <AlbumsDetail />
-                                    </ProtectedRoute>
+                                    {/* <ProtectedRoute> */}
+                                    <AlbumsDetail />
+                                    {/* </ProtectedRoute> */}
                                 </Layout>
                             }
                         />
                         <Route
-                            path="/my-page/edit-album-songs/:id"
+                            path="/edit-album-songs/:id"
                             element={
                                 <Layout>
                                     <ProtectedRoute>

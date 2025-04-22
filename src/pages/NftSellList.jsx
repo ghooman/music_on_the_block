@@ -33,6 +33,11 @@ const NftSellList = () => {
         { refetchOnMount: false }
     );
 
+    const handleSell = () => {
+        alert('판매!');
+        // 판매 함수 정의 해주세염
+    };
+
     return (
         <div>
             <ContentWrap title="Sell NFT">
@@ -41,7 +46,7 @@ const NftSellList = () => {
                     <Filter songsSort={true} />
                     <Search placeholder="Search" />
                 </ContentWrap.SubWrap>
-                <SongPlayTable songList={songList?.data_list} sellOption={true} handleSell={() => alert('판매!')} />
+                <SongPlayTable songList={songList?.data_list} sellOption={true} handleSell={() => handleSell()} />
                 <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
             </ContentWrap>
         </div>

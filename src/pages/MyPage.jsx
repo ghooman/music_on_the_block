@@ -22,20 +22,9 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
+import NftMarketPlace from '../components/mypage/NftMarketPlace';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
-
-const serviceTabObj = [
-    { name: 'AI Services', preparing: false },
-    { name: 'Songs', preparing: false },
-    { name: 'Reward & Payments', preparing: true },
-];
-const musicTabObj = [
-    { name: 'Songs', preparing: false },
-    { name: 'Connections', preparing: false },
-    { name: 'Favorites', preparing: false },
-    { name: 'Albums', preparing: false },
-];
 
 /**
  *
@@ -44,41 +33,86 @@ const musicTabObj = [
  */
 
 const MyPage = ({ isMyProfile }) => {
-    // 분기 설정
-
     if (isMyProfile) return <MyProfile />;
     else return <UserProfile />;
 };
 
 export default MyPage;
 
-//==================================================
-//==================================================
-//=================데이터 정의=========================
-//==================================================
-//==================================================
-
+//=================
+// 마이 페이지
+//=================
 const MyProfile = () => {
     // 데이터 정의
     const { token } = useContext(AuthContext);
     const { data: userData } = useUserDetail();
+    const { path } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const category = searchParams.get('category');
+
+    const serviceTabObj = [
+        { name: 'AI Services', preparing: false },
+        { name: 'Songs', preparing: false },
+    ];
+    const musicTabObj = [
+        { name: 'Songs', preparing: false },
+        { name: 'Connections', preparing: false },
+        { name: 'Favorites', preparing: false },
+        { name: 'Albums', preparing: false },
+        { name: 'NFT MarketPlace', preparing: false },
+    ];
+
+    const tabList = path === 'service' ? serviceTabObj : musicTabObj;
+
+    const handleTab = (tab) => {
+        if (tab === category) return;
+        setSearchParams({ category: tab });
+    };
+
+    useEffect(() => {
+        if (!category) {
+            setSearchParams({ category: 'AI Services' }, { replace: true });
+        }
+    }, []);
+
     return (
-        <Templates userData={userData} token={token} isMyProfile>
-            <Templates.TokenAmount mic={0} mob={0} />
-        </Templates>
+        <div className="mypage">
+            <ProfileInfo userData={userData} token={token} isMyProfile>
+                <ProfileInfo.TokenAmount mic={0} mob={0} />
+            </ProfileInfo>
+            <Tabs tabs={tabList} select={category} handleTab={handleTab} />
+            {category === 'AI Services' && <AiServices username={userData.name} />}
+            {category === 'Songs' && <Songs token={token} />}
+            {category === 'Connections' && <Connections />}
+            {category === 'Favorites' && <MyFavorites />}
+            {category === 'Albums' && <Albums />}
+            {category === 'NFT MarketPlace' && <NftMarketPlace />}
+        </div>
     );
 };
 
+//=================
+// 다른 사람 페이지
+//=================
 const UserProfile = () => {
     // 데이터 정의
     const { walletAddress, token, setIsLoggedIn, setWalletAddress, isLoggedIn } = useContext(AuthContext);
     const { data: userData } = useUserDetail();
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [unFollowModal, setUnFollowModal] = useState(false);
 
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const username = searchParams.get('username');
+    const category = searchParams.get('category');
+
+    const serviceTabObj = [
+        { name: 'AI Services', preparing: false },
+        { name: 'Songs', preparing: false },
+        { name: 'Albums', preparing: false },
+        { name: 'NFT MarketPlace', preparing: false },
+    ];
 
     const handleWalletConnect = (loggedIn, walletAddress) => {
         setIsLoggedIn(loggedIn);
@@ -87,6 +121,7 @@ const UserProfile = () => {
         }
     };
 
+    // 프로필 데이터
     const {
         data: profileData,
         refetch,
@@ -137,30 +172,45 @@ const UserProfile = () => {
         }
     };
 
-    // 언팔로잉은 언팔로잉 모달에서 진행합니다.
+    // 탭 핸들러
+    const handleTab = (tab) => {
+        if (tab === category) return;
+        setSearchParams((prev) => {
+            return { category: tab, username: username };
+        });
+    };
 
     useEffect(() => {
         if (username === userData?.name) {
             navigate('/my-page/service', { replace: true });
+        } else if (!username) {
+            navigate('/', { replace: true });
+        } else if (!category) {
+            setSearchParams({ category: 'AI Services', username: username }, { replace: true });
         }
     }, []);
 
     return (
-        <>
-            <Templates userData={profileData}>
+        <div className="mypage">
+            <ProfileInfo userData={profileData}>
                 {isLoggedIn && !isLoading ? (
                     <>
                         {profileData?.is_follow && (
-                            <Templates.UnFollowingButton handleUnFollowing={() => setUnFollowModal(true)} />
+                            <ProfileInfo.UnFollowingButton handleUnFollowing={() => setUnFollowModal(true)} />
                         )}
                         {!profileData?.is_follow && (
-                            <Templates.FollowingButton handleFollowing={() => handleFollowing()} />
+                            <ProfileInfo.FollowingButton handleFollowing={() => handleFollowing()} />
                         )}
                     </>
                 ) : (
                     <WalletConnect onConnect={handleWalletConnect} />
                 )}
-            </Templates>
+            </ProfileInfo>
+            <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
+            {category === 'AI Services' && <AiServices username={username} />}
+            {category === 'Songs' && <SongsUser username={username} />}
+            {category === 'Albums' && <Albums />}
+            {category === 'NFT MarketPlace' && <NftMarketPlace />}
             {unFollowModal && isLoggedIn && (
                 <UnFollowModal
                     setUnFollowModal={setUnFollowModal}
@@ -168,117 +218,62 @@ const UserProfile = () => {
                     handleClick={handleUnFollowing}
                 />
             )}
-        </>
-    );
-};
-
-//==================================================
-//==================================================
-//=================구현부============================
-//==================================================
-//==================================================
-
-const Templates = ({ userData, token, isMyProfile, children }) => {
-    const { path } = useParams();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [isPreparingModal, setPreparingModal] = useState(false);
-
-    const tabs = path === 'music' ? musicTabObj : serviceTabObj;
-    const category = searchParams.get('category');
-    const username = searchParams.get('username');
-
-    const handleServiceClick = (service) => {
-        setSearchParams({ category: service, ...(username ? { username } : null) });
-    };
-
-    useEffect(() => {
-        if (!category || category !== tabs[0].name) {
-            setSearchParams(
-                (prev) => {
-                    return { category: tabs[0].name, ...Object.fromEntries(prev) };
-                },
-                { replace: true }
-            );
-        }
-    }, []);
-
-    return (
-        <div className="mypage">
-            {/* 프로필 섹션 */}
-            <div className="mypage__profile">
-                <div className="mypage__profile-bg">
-                    <img src={demoBg} alt="profile-bg" />
-                </div>
-                <div className="mypage__profile-info">
-                    <div className="mypage__profile-edit-box">
-                        <div className="mypage__profile-img">
-                            <img src={userData?.profile || defaultCoverImg} alt="profile-img" />
-                        </div>
-                        <div className="mypage__profile-info-box">
-                            <p className="mypage__username">{userData?.name}</p>
-                            <div className="mypage__stats">
-                                <div className="stats__info">
-                                    {/* <img src={demoFlag} alt="flag" /> */}
-                                    {/* <span className="neon">Kor</span> */}
-                                    <div>
-                                        <span>Level</span>
-                                        <span className="neon">{userData?.level}</span>
-                                    </div>
-                                    <div>
-                                        <span>Songs</span>
-                                        <span className="neon">{userData?.total_songs}</span>
-                                    </div>
-                                    <div>
-                                        <span>Followers</span>
-                                        <span className="neon">{userData?.followers}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {isMyProfile && (
-                            <Link to="/account-setting" className="mypage__profile-edit">
-                                <img src={gearImg} alt="gear" />
-                            </Link>
-                        )}
-                    </div>
-                    <p className="mypage__bio">{userData?.introduce || 'No introduction'}</p>
-                    {children}
-                </div>
-            </div>
-            <nav className="mypage__nav">
-                {tabs.map((service) => (
-                    <button
-                        key={service?.name}
-                        className={`mypage__nav-item ${category === service?.name ? 'active' : ''}`}
-                        onClick={() => {
-                            if (service.preparing) {
-                                setPreparingModal(true);
-                                return;
-                            }
-                            handleServiceClick(service?.name);
-                        }}
-                    >
-                        {service?.name}
-                    </button>
-                ))}
-            </nav>
-            {/** service */}
-            {category === 'AI Services' && <AiServices username={userData?.name} />}
-            {path !== 'music' && category === 'Songs' && <SongsUser username={userData?.name} />}
-
-            {/** music */}
-            {path === 'music' && category === 'Songs' && <Songs token={token} />}
-            {path === 'music' && category === 'Connections' && <Connections />}
-            {path === 'music' && category === 'Favorites' && <MyFavorites />}
-            {path === 'music' && category === 'Albums' && <Albums />}
-
-            {/** */}
-            {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
         </div>
     );
 };
 
-Templates.TokenAmount = ({ mic, mob }) => {
+//==================================================
+//==================================================
+//=================컴포넌트===========================
+//==================================================
+//==================================================
+
+const ProfileInfo = ({ userData, isMyProfile, children }) => {
+    return (
+        <div className="mypage__profile">
+            <div className="mypage__profile-bg">
+                <img src={demoBg} alt="profile-bg" />
+            </div>
+            <div className="mypage__profile-info">
+                <div className="mypage__profile-edit-box">
+                    <div className="mypage__profile-img">
+                        <img src={userData?.profile || defaultCoverImg} alt="profile-img" />
+                    </div>
+                    <div className="mypage__profile-info-box">
+                        <p className="mypage__username">{userData?.name}</p>
+                        <div className="mypage__stats">
+                            <div className="stats__info">
+                                {/* <img src={demoFlag} alt="flag" /> */}
+                                {/* <span className="neon">Kor</span> */}
+                                <div>
+                                    <span>Level</span>
+                                    <span className="neon">{userData?.level}</span>
+                                </div>
+                                <div>
+                                    <span>Songs</span>
+                                    <span className="neon">{userData?.total_songs}</span>
+                                </div>
+                                <div>
+                                    <span>Followers</span>
+                                    <span className="neon">{userData?.followers}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {isMyProfile && (
+                        <Link to="/account-setting" className="mypage__profile-edit">
+                            <img src={gearImg} alt="gear" />
+                        </Link>
+                    )}
+                </div>
+                <p className="mypage__bio">{userData?.introduce || 'No introduction'}</p>
+                {children}
+            </div>
+        </div>
+    );
+};
+
+ProfileInfo.TokenAmount = ({ mic, mob }) => {
     return (
         <div className="mypage__exp">
             <div className="mypage__exp-box">
@@ -299,7 +294,7 @@ Templates.TokenAmount = ({ mic, mob }) => {
     );
 };
 
-Templates.FollowingButton = ({ handleFollowing }) => {
+ProfileInfo.FollowingButton = ({ handleFollowing }) => {
     return (
         <button className="mypage__follow-btn follow" onClick={handleFollowing}>
             FOLLOW
@@ -307,10 +302,34 @@ Templates.FollowingButton = ({ handleFollowing }) => {
     );
 };
 
-Templates.UnFollowingButton = ({ handleUnFollowing }) => {
+ProfileInfo.UnFollowingButton = ({ handleUnFollowing }) => {
     return (
         <button className="mypage__follow-btn unfollow" onClick={handleUnFollowing}>
             UNFOLLOW
         </button>
+    );
+};
+
+const Tabs = ({ tabs, handleTab, select }) => {
+    const [preparingModal, setPreparingModal] = useState(false);
+
+    return (
+        <nav className="mypage__nav">
+            {tabs?.map((service) => (
+                <button
+                    key={service?.name}
+                    className={`mypage__nav-item ${select === service?.name ? 'active' : ''}`}
+                    onClick={() => {
+                        if (service.preparing) {
+                            setPreparingModal(true);
+                            return;
+                        } else if (handleTab) handleTab(service?.name);
+                    }}
+                >
+                    {service?.name}
+                </button>
+            ))}
+            {preparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
+        </nav>
     );
 };

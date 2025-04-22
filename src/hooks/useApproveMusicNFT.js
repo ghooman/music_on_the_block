@@ -9,7 +9,7 @@ export const useApproveMusicNFT = () => {
 
   const approveMusicNFT = async () => {
     try {
-      console.log("nft어프로브 실행");
+      console.log("approveMusicNFT 실행");
       const transaction = prepareContractCall({
         contract: musicNftContract,
         method: "function approve(address to, uint256 tokenId)",

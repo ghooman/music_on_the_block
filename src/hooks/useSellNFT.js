@@ -8,7 +8,7 @@ export const useSellNFT = () => {
 
   const sellMusicNft = async () => {
     try {
-      console.log("nft어프로브 실행");
+      console.log("sellMusicNft 실행");
       const transaction = prepareContractCall({
         contract: marketPlaceContract,
         method:

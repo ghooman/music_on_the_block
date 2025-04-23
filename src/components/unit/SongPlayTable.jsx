@@ -207,7 +207,7 @@ const SongPlayTable = ({
                                         {mintOption && handleMint && (
                                             <td>
                                                 <div className="td-content">
-                                                    <button
+                                                    {/* <button
                                                         className="albums-table__detail-btn mint"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
@@ -215,14 +215,20 @@ const SongPlayTable = ({
                                                         }}
                                                     >
                                                         Mint
-                                                    </button>
+                                                    </button> */}
+                                                    <Link
+                                                        className="albums-table__detail-btn mint"
+                                                        to='/mint/detail'
+                                                    >
+                                                        Mint
+                                                    </Link>
                                                 </div>
                                             </td>
                                         )}
                                         {sellOption && handleSell && (
                                             <td>
                                                 <div className="td-content">
-                                                    <button
+                                                    {/* <button
                                                         className="albums-table__detail-btn sell"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
@@ -230,7 +236,13 @@ const SongPlayTable = ({
                                                         }}
                                                     >
                                                         Sell
-                                                    </button>
+                                                    </button> */}
+                                                    <Link
+                                                        className="albums-table__detail-btn sell"
+                                                        to='/sell/detail'
+                                                    >
+                                                        Sell
+                                                    </Link>
                                                 </div>
                                             </td>
                                         )}

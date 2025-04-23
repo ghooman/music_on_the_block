@@ -17,6 +17,7 @@ import dummy_userImage from '../assets/images/account/demo-user1.png';
 import '../styles/CollectionDetail.scss';
 import { NftGraph } from '../components/nft/NftGraph';
 import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
+import SubCategories from '../components/unit/SubCategories';
 
 const dummyData = [
     {
@@ -158,9 +159,17 @@ const Overview = () => {
 };
 
 const NFTItems = () => {
+
+    const subCategoryList = [
+        { name: 'All',},
+        { name: 'For Sell',},
+    ];
+    const [selected, setSelected] = useState(subCategoryList[0].name);
+
     return (
         <ContentWrap title="NFT Items">
             <ContentWrap.SubWrap gap={8}>
+                <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
                 <FilterItems />
                 <Search />
             </ContentWrap.SubWrap>

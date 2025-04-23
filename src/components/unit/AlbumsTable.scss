@@ -74,6 +74,7 @@
                 font-style: normal;
                 line-height: normal;
                 white-space: nowrap;
+
                 &:last-child {
                     padding-right: 0;
                 }
@@ -82,7 +83,7 @@
                     width: 54px;
                 }
                 &.albums-table__song-title {
-                    width: 440px;
+                    width: 330px;
                 }
             }
         }
@@ -138,6 +139,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+
                 &:first-child {
                     width: 40px;
                 }
@@ -153,7 +155,7 @@
                 .albums-table__artist {
                     display: flex;
                     align-items: center;
-                    justify-content: center;
+                    justify-content: start;
                     gap: 8px;
                     img {
                         margin: 0;

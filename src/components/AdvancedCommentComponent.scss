@@ -45,6 +45,17 @@
   background: #121212 !important;
   border: 1px solid #777 !important;
   border-radius: 4px;
+  font-size: 14px !important;
+  max-width: 340px !important;
+  p{
+    margin: 16px 0 !important;
+  }
+  .deleteBtns{
+    button{
+      flex: 1;
+      height: 34px;
+    }
+  }
 }
 
 .comment-title {

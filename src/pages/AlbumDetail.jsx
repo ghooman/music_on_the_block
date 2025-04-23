@@ -199,6 +199,10 @@ function AlbumDetail() {
 
     // 진행바 혹은 이미지 클릭 시 활성화 상태 관리
     const [isActive, setIsActive] = useState(false);
+    useEffect(() => {
+        // URL 의 :id 파라미터가 변하면 isActive 초기화
+        setIsActive(false);
+    }, [id]);
     const handleClick = () => {
         setIsActive((prev) => !prev);
     };
@@ -274,7 +278,7 @@ function AlbumDetail() {
                     <dd>Lyrics+Songwriting</dd>
                 </dl>
                 <section className="album-detail__song-detail">
-                    <p className="album-detail__song-detail__title">Song Detail</p>
+                    <p className="album-detail__song-detail__title">Song Details</p>
                     <div className="album-detail__song-detail__bot">
                         <div className="album-detail__song-detail__left">
                             <section className="album-detail__audio">

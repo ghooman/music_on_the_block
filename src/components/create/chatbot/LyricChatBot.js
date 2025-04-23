@@ -38,6 +38,26 @@ const LyricChatBot = ({
   const [isStatus, setIsStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
   const [mode, setMode] = useState('read');
 
+  // 초기 가사 placeholder
+  const initialKorLyricPlaceholder = [
+    '고양이가 주인공인 밝은 분위기의 가사',
+    '이별후 슬픔을 겪고 있는 애잔한 발라드',
+    '공부할때 듣기 좋은 노래',
+    '친구들과 함께 놀고 싶을때 들으면 좋을 노래',
+  ];
+
+  const initialEngLyricPlaceholder = [
+    'A cheerful and positive lyric with a cat as the main character',
+    'A sad ballad about heartbreak',
+    'A song that is good to listen to while studying',
+    'A song that is perfect for hanging out with friends',
+  ];
+  // 선택된 언어에 따라서 목록중 랜덤으로 하나
+  const initialLyricPlaceholder =
+    selectedLanguage === 'KOR'
+      ? initialKorLyricPlaceholder[Math.floor(Math.random() * initialKorLyricPlaceholder.length)]
+      : initialEngLyricPlaceholder[Math.floor(Math.random() * initialEngLyricPlaceholder.length)];
+
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -259,7 +279,7 @@ const LyricChatBot = ({
               value={userInput}
               onChange={handleUserInput}
               onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
+              placeholder={initialLyricPlaceholder}
             />
             <button onClick={handleSendMessage}>Send</button>
           </div>

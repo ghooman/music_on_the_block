@@ -1,7 +1,7 @@
 // locales/koLyric.js
 const koLyric = {
   chatbot: {
-    initialMessage: '만들고 싶은 가사의 감정을 알려주세요!',
+    initialMessage: '어떠한 가사를 만들고 싶으신가요?',
     systemMessage:
       '당신은 노래 제작에 특화된 전문가입니다. 지금부터 사용자가 맞춤형 노래 제작을 위해 아래 단계를 진행할 수 있도록 도와주세요.\n\n' +
       '1. 먼저, 사용자가 원하는 노래의 감정(예: 사랑, 슬픔, 열정적인, 희망찬)를 선택하도록 요청합니다.\n' +

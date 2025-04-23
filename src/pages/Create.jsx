@@ -32,7 +32,7 @@ const Create = () => {
 
   const [lyricData, setLyricData] = useState({
     lyric_tag: [],
-    lyric_genre: '',
+    lyric_genre: [],
     // lyric_stylistic: [],
   });
   const [lyricStory, setLyricStory] = useState('');

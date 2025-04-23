@@ -74,6 +74,7 @@
                 font-style: normal;
                 line-height: normal;
                 white-space: nowrap;
+
                 &:last-child {
                     padding-right: 0;
                 }
@@ -82,7 +83,7 @@
                     width: 54px;
                 }
                 &.albums-table__song-title {
-                    width: 440px;
+                    width: 330px;
                 }
             }
         }
@@ -138,6 +139,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+
                 &:first-child {
                     width: 40px;
                 }

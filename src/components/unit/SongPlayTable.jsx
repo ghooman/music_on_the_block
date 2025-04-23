@@ -18,6 +18,9 @@ import defaultImage from '../../assets/images/header/logo-png.png';
  * @param {function} handleMint : 민트 핸들러
  * @param {boolean} sellOption : 판매 옵션
  * @param {function} handleSell : 판매 핸들러
+ * @param {boolean} likesOption : 좋아요 수 표시 여부
+ * @param {boolean} playsOption : 플레이 수 표시 여부
+ * @param {boolean} artistOption : 아티스트 표시 여부
  *
  * @param {boolean} isContinue : 자동 재생 여부
  * @param {boolean} isScroll : 스크롤옵션
@@ -39,6 +42,12 @@ const SongPlayTable = ({
     //== 셀
     sellOption,
     handleSell,
+    //== 좋아요
+    likesOption,
+    //== 플레이
+    playsOption,
+    //== 아티스트
+    artistOption = true,
     //== 그외 옵션
     isContinue = true,
     isScroll,
@@ -67,6 +76,8 @@ const SongPlayTable = ({
         }
     }, [isTrigger]);
 
+    console.log(songList, '송 리스트');
+
     return (
         <>
             <div className="audio-container">
@@ -92,8 +103,10 @@ const SongPlayTable = ({
                             <th>#</th>
                             <th className="albums-table__song">Song</th>
                             <th className="albums-table__type">Type</th>
-                            <th>Artist</th>
+                            {artistOption && <th>Artist</th>}
                             <th className="albums-table__song-title">Song Title</th>
+                            {playsOption && <th>Plays</th>}
+                            {likesOption && <th>Likes</th>}
                             <th>Details</th>
                             {deleteOption && <th>Delete</th>}
                             {releaseOption && <th>Release</th>}
@@ -134,18 +147,22 @@ const SongPlayTable = ({
                                         <td>
                                             <img src={songTypeIcon} />
                                         </td>
-                                        <td>
-                                            <div className="albums-table__artist">
-                                                <img
-                                                    className="albums-table__artist-img"
-                                                    src={album.user_profule || defaultImage}
-                                                    alt="profile"
-                                                />
+                                        {artistOption && (
+                                            <td>
+                                                <div className="albums-table__artist">
+                                                    <img
+                                                        className="albums-table__artist-img"
+                                                        src={album.user_profule || defaultImage}
+                                                        alt="profile"
+                                                    />
 
-                                                {album.name}
-                                            </div>
-                                        </td>
+                                                    {album.name}
+                                                </div>
+                                            </td>
+                                        )}
                                         <td>{album.title}</td>
+                                        {playsOption && <td>{album?.play_cnt?.toLocaleString()}</td>}
+                                        {likesOption && <td>{album?.like?.toLocaleString()}</td>}
                                         <td>
                                             <div className="td-content">
                                                 <Link

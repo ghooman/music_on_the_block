@@ -63,9 +63,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'Yolkhead',
         },
-        quantity: '100.000',
         price: '100.000',
-        totalVolume: '100,000',
         transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
     },
     {
@@ -74,9 +72,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'CryptoWhale',
         },
-        quantity: '50.000',
         price: '98.500',
-        totalVolume: '49,250',
         transactionDate: 'Sat, 04 Nov 2023 14:35:00 UTC+9',
     },
     {
@@ -85,9 +81,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'MusicLover',
         },
-        quantity: '75.000',
         price: '99.000',
-        totalVolume: '74,250',
         transactionDate: 'Sat, 04 Nov 2023 14:30:00 UTC+9',
     },
     {
@@ -96,9 +90,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'NFTKing',
         },
-        quantity: '120.000',
         price: '101.000',
-        totalVolume: '121,200',
         transactionDate: 'Sat, 04 Nov 2023 14:25:00 UTC+9',
     },
     {
@@ -107,9 +99,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'BlockMaster',
         },
-        quantity: '85.000',
         price: '97.500',
-        totalVolume: '82,875',
         transactionDate: 'Sat, 04 Nov 2023 14:20:00 UTC+9',
     },
     {
@@ -118,9 +108,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'SoundCollector',
         },
-        quantity: '95.000',
         price: '102.000',
-        totalVolume: '96,900',
         transactionDate: 'Sat, 04 Nov 2023 14:15:00 UTC+9',
     },
     {
@@ -129,9 +117,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'MelodyHunter',
         },
-        quantity: '110.000',
         price: '103.500',
-        totalVolume: '113,850',
         transactionDate: 'Sat, 04 Nov 2023 14:10:00 UTC+9',
     },
     {
@@ -140,9 +126,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'BeatMaker',
         },
-        quantity: '65.000',
         price: '98.000',
-        totalVolume: '63,700',
         transactionDate: 'Sat, 04 Nov 2023 14:05:00 UTC+9',
     },
     {
@@ -151,9 +135,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'RhythmTrader',
         },
-        quantity: '130.000',
         price: '104.000',
-        totalVolume: '135,200',
         transactionDate: 'Sat, 04 Nov 2023 14:00:00 UTC+9',
     },
     {
@@ -162,9 +144,7 @@ const dummyData2 = [
             picture: dummy_userImage,
             name: 'SongMaster',
         },
-        quantity: '70.000',
         price: '99.500',
-        totalVolume: '69,650',
         transactionDate: 'Sat, 04 Nov 2023 13:55:00 UTC+9',
     },
 ];
@@ -242,9 +222,9 @@ const NftItemDetailInfo = () => {
     // tags 문자열이 존재하면, 쉼표로 구분된 배열로 변환 후 불필요한 공백을 제거합니다.
     const tagArray = tagString
         ? tagString
-              .split(',')
-              .map((t) => t.trim())
-              .filter(Boolean)
+                .split(',')
+                .map((t) => t.trim())
+                .filter(Boolean)
         : [];
 
     // 좋아요 , 좋아요 취소 버튼 클릭
@@ -265,6 +245,7 @@ const NftItemDetailInfo = () => {
     return (
         <>
             <div className="nft-item-detail-info-wrap">
+                <p className='nft-item-detail-info-wrap__title'>NFT Item Details</p>
                 <section className="nft-item-detail__song-detail">
                     {/* <p className="nft-item-detail__song-detail__title">Song Detail</p> */}
                     <div className="nft-item-detail__song-detail__bot">
@@ -344,7 +325,7 @@ const NftItemDetailInfo = () => {
                             <p className="nft-item-detail__song-detail__right__title">
                                 {album?.title || 'Genosper Album'}
                             </p>
-                            <div className="nft-item-detail__song-detail__right__type">
+                            {/* <div className="nft-item-detail__song-detail__right__type">
                                 {(tagArray.length > 0 ? tagArray : ['Pop', 'Rock', 'Electronic', 'Jazz']).map(
                                     (type, index) => (
                                         <div key={index} className="nft-item-detail__song-detail__right__type__item">
@@ -352,19 +333,23 @@ const NftItemDetailInfo = () => {
                                         </div>
                                     )
                                 )}
-                            </div>
+                            </div> */}
                             <div className="nft-item-detail__song-detail__right__info-box">
                                 <dl>
                                     <dt>Item ID</dt>
-                                    <dd>#0001</dd>
+                                    <dd>Item ID (#0001)</dd>
                                 </dl>
                                 <dl>
                                     <dt>Collection</dt>
                                     <dd>Collection Name</dd>
                                 </dl>
+                                <dl className='Sell'>
+                                    <dt>Sell Status</dt>
+                                    <dd>Sell</dd>
+                                </dl>
                                 <dl>
-                                    <dt>Sale Status</dt>
-                                    <dd>Ended</dd>
+                                    <dt>Mint NFT date</dt>
+                                    <dd>Mint NFT date</dd>
                                 </dl>
                                 {/* <dl>
                                     <dt>Creation Data</dt>
@@ -380,9 +365,9 @@ const NftItemDetailInfo = () => {
                                             <img src={album?.user_profile || coverImg2} />
                                             {album?.name || '-'}
                                         </p>
-                                        <Link className="see-more-btn" to="/my-page">
+                                        {/* <Link className="see-more-btn" to="/my-page">
                                             See More
-                                        </Link>
+                                        </Link> */}
                                     </dd>
                                 </dl>
                             </div>
@@ -391,7 +376,7 @@ const NftItemDetailInfo = () => {
                                     <dt>NFT Quantity</dt>
                                     <dd>10 / 100</dd>
                                 </dl> */}
-                                <dl>
+                                <dl className='nft-item-detail__song-detail__right__value-box__price'>
                                     <dt>Price</dt>
                                     <dd>
                                         <span>$1,000</span>100 MOB
@@ -415,7 +400,9 @@ const NftItemDetailInfo = () => {
                                 </div>
                             </div> */}
                             <div className="nft-item-detail__song-detail__right__btn-box">
-                                <button className="nft-item-detail__song-detail__right__btn-box__btn">Buy NFT</button>
+                                {/* <button className="nft-item-detail__song-detail__right__btn-box__btn">Buy NFT</button> */}
+                                <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">Sell NFT</button>
+                                {/* <button className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft">Cancel NFT</button> */}
                             </div>
                         </div>
                     </div>
@@ -430,15 +417,16 @@ const TrackInformation = () => {
         <>
             <ContentWrap title="Activity">
                 <NftOverview title="Content Information">
-                    <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
-                    <NftOverviewItem title="Item Name" value="Boom Song Box" isTwo />
                     <NftOverviewItem title="Tags" value="Winter, Night, Moon, Love, Promise" isLong />
-                    <NftOverviewItem title="Item ID" value="#0007" />
+                    <NftOverviewItem title="creation date" value="Wed, 16 Apr 2025 21:50:12 UTC+9" isLong />
+                    <NftOverviewItem title="Detail" value="Boom Song Box" isTwo />
+                    <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
                     <NftOverviewItem title="Genre" value="POP" />
-                    <NftOverviewItem title="Mood" value="Romantic" />
-                    <NftOverviewItem title="Track Length" value="2:18" />
-                    <NftOverviewItem title="Likes" value="175" />
-                    <NftOverviewItem title="Views" value="127" />
+                    <NftOverviewItem title="Musical Instrument" value="드럼,베이스" />
+                    <NftOverviewItem title="Language" value="KOR" />
+                    <NftOverviewItem title="Tempo" value="110" />
+                    <NftOverviewItem title="Song Length" value="3:01" />
+                    <NftOverviewItem title="Genre" value="K-POP" />
                 </NftOverview>
             </ContentWrap>
             <ContentWrap title="Recommended NFTs">
@@ -452,14 +440,12 @@ const TransactionStatistics = () => {
     return (
         <ContentWrap title="Transaction Statistics">
             <NftOverview title="Key Information Related to Transactions">
-                <NftOverviewItem title="Remaining Quantity of NFT" value="10" isTwo />
                 <NftOverviewItem title="Price" value="1,000" isTwo />
-                <NftOverviewItem title="Recent Transaction Date" value="Sat, 04 Nov 2023 14:40:00 UTC+9" isLong />
+                <NftOverviewItem title="Recent Transaction Date" value="Sat, 04 Nov 2023 14:40:00 UTC+9" isTwo  />
             </NftOverview>
             <NftOverview title="Transaction Statistics">
-                <NftOverviewItem title="NFT Issuance Quantity" value="100" />
-                <NftOverviewItem title="Number of Transactions" value="90" />
-                <NftOverviewItem title="Total Volume" value="157,652 MOB" />
+                <NftOverviewItem title="Number of Transactions" value="90" isTwo/>
+                <NftOverviewItem title="Total Volume" value="157,652 MOB" isTwo/>
                 <NftOverviewItem title="Average Price" value="100 MOB" />
                 <NftOverviewItem title="Highest Price" value="175 MOB" />
                 <NftOverviewItem title="Lowest Price" value="189 MOB" />
@@ -474,7 +460,7 @@ const TransactionStatistics = () => {
 const History = () => {
     return (
         <ContentWrap title="Information">
-            <InfoRowWrap row={3}>
+            {/* <InfoRowWrap row={3}>
                 <InfoRowWrap.UserItem
                     title="Most Purchased Artist"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
@@ -487,13 +473,13 @@ const History = () => {
                     title="Most Recently Traded Artist"
                     value={{ picture: dummy_userImage, username: 'YolkHead' }}
                 />
-            </InfoRowWrap>
+            </InfoRowWrap> */}
             <ContentWrap.SubWrap gap={8}>
                 <FilterItems />
                 <Search />
                 <CustomTable
                     data={dummyData2}
-                    headers={['#', ' Artist Name', 'Quantity', 'Price (MOB)', 'Total Volume (MOB)', 'Transaction Date']}
+                    headers={['#', ' Artist Name', 'Price (MOB)', 'Transaction Date']}
                 />
             </ContentWrap.SubWrap>
             <Pagination />

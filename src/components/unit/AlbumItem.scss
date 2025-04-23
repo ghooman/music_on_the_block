@@ -87,7 +87,7 @@
       // padding: 8px 0;
       flex: 1;
       .album__content-list__list__item__right__title {
-        color: var(--Text-music-title, #f1f1f1);
+        color: #f1f1f1;
         font-family: Inter400;
         font-size: 14px;
         font-style: normal;
@@ -99,6 +99,7 @@
         text-overflow: ellipsis;
         word-break: break-word;
         min-height: 34px;
+        width: 140px;
       } //album__content-list__list__item__right__title--END--
       .album__content-list__list__item__right__love-play {
         display: flex;
@@ -206,7 +207,15 @@
 
 
 
-
+  @media screen and (max-width: 980px) {
+    .album__content-list__list__item{
+      .album__content-list__list__item__right{
+        .album__content-list__list__item__right__title{
+          width: auto;
+        }
+      }
+    }
+  }
 
 
 

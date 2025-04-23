@@ -6,6 +6,8 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 
 import './NftMarketPlace.scss';
+import NftTable from '../unit/NftTable';
+import { useSearchParams } from 'react-router-dom';
 
 const subCategoryList = [
     { name: 'NFT items', preparing: false },
@@ -29,20 +31,37 @@ const NftMarketPlace = () => {
 export default NftMarketPlace;
 
 const NftItems = () => {
+    const [searchParamas, setSearchParams] = useSearchParams();
+
+    const page = searchParamas.get('page');
+    const search = searchParamas.get('search');
+    const nftSort = searchParamas.get('nft_sort');
+    const nftFilter = searchParamas.get('nft_filter') || 'All';
+
     return (
         <>
             <div className="nft-market-place__button-wrap">
                 {nftFilterItemList.map((item) => (
-                    <button key={item} className="nft-market-place__button-wrap--button">
+                    <button
+                        key={item}
+                        className={`nft-market-place__button-wrap--button ${nftFilter === item ? 'selected' : ''}`}
+                        onClick={() => {
+                            if (nftFilter === item) return;
+                            setSearchParams((prev) => {
+                                return { ...Object.fromEntries(prev), nft_filter: item };
+                            });
+                        }}
+                    >
                         {item}
                     </button>
                 ))}
             </div>
             <ContentWrap title="NFTs list">
                 <ContentWrap.SubWrap gap={8}>
-                    <Filter />
+                    <Filter nftSort={true} />
                     <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
                 </ContentWrap.SubWrap>
+                <NftTable />
                 <Pagination />
             </ContentWrap>
         </>

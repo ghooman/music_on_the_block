@@ -1,14 +1,14 @@
 // components/AlarmModal.js
-import "./AlarmModal.scss";
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import closeIcon from "../assets/images/close.svg";
-import { AuthContext } from "../contexts/AuthContext";
+import './AlarmModal.scss';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import closeIcon from '../assets/images/close.svg';
+import { AuthContext } from '../contexts/AuthContext';
 
 const AlarmModal = () => {
-  const WS_URL = "wss://muble.xyz/ws/album_status/";
-  const albumIdStorageKey = "generatedAlbumId";
-  const albumTimerStorageKey = "generatedAlbumTimerStart";
+  const WS_URL = 'wss://muble.xyz/ws/album_status/';
+  const albumIdStorageKey = 'generatedAlbumId';
+  const albumTimerStorageKey = 'generatedAlbumTimerStart';
   const RECONNECT_INTERVAL = 3000;
 
   const getStoredAlbumData = () => {
@@ -28,7 +28,7 @@ const AlarmModal = () => {
   };
 
   const item = localStorage.getItem(albumIdStorageKey);
-  console.log("item", item);
+  console.log('item', item);
   const { walletAddress } = useContext(AuthContext);
   const location = useLocation();
 
@@ -37,36 +37,27 @@ const AlarmModal = () => {
   const [storedAlbumData, setStoredAlbumData] = useState(getStoredAlbumData());
   const [isClosed, setIsClosed] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   const socketRef = useRef(null);
   const hasTimerStartedRef = useRef(false);
 
-  console.log("albumPk", albumPk);
+  console.log('albumPk', albumPk);
 
   const shouldRenderModal =
-    storedAlbumData ||
-    (albumPk && walletAddress?.address === albumWalletAddress);
+    storedAlbumData || (albumPk && walletAddress?.address === albumWalletAddress);
 
-  console.log("storedAlbumData", storedAlbumData);
+  console.log('storedAlbumData', storedAlbumData);
 
-  const formatTime = (sec) =>
-    `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(
-      sec % 60
-    ).padStart(2, "0")}`;
+  const formatTime = sec =>
+    `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
 
   useEffect(() => {
-    if (
-      storedAlbumData &&
-      !isError &&
-      !albumPk &&
-      !hasTimerStartedRef.current
-    ) {
+    if (storedAlbumData && !isError && !albumPk && !hasTimerStartedRef.current) {
       const storedStart = localStorage.getItem(albumTimerStorageKey);
       const startTime = storedStart ? parseInt(storedStart) : Date.now();
-      if (!storedStart)
-        localStorage.setItem(albumTimerStorageKey, startTime.toString());
+      if (!storedStart) localStorage.setItem(albumTimerStorageKey, startTime.toString());
       setElapsedSeconds(Math.floor((Date.now() - startTime) / 1000));
       hasTimerStartedRef.current = true;
     }
@@ -76,9 +67,7 @@ const AlarmModal = () => {
     let timer;
     if (storedAlbumData && !albumPk && !isError) {
       timer = setInterval(() => {
-        const storedStart = parseInt(
-          localStorage.getItem(albumTimerStorageKey)
-        );
+        const storedStart = parseInt(localStorage.getItem(albumTimerStorageKey));
         const diffSeconds = Math.floor((Date.now() - storedStart) / 1000);
         setElapsedSeconds(diffSeconds);
       }, 1000);
@@ -103,37 +92,37 @@ const AlarmModal = () => {
     const socket = new WebSocket(WS_URL);
     socketRef.current = socket;
 
-    socket.onopen = () => console.log("웹 소켓 연결됨");
+    socket.onopen = () => console.log('웹 소켓 연결됨');
 
-    socket.onmessage = (e) => {
+    socket.onmessage = e => {
       try {
         const data = JSON.parse(e.data);
-        console.log("웹소켓", data);
+        console.log('웹소켓', data);
         if (!data?.status) return;
 
-        if (data.status === "complt" || data.status === "fail") {
+        if (data.status === 'complt' || data.status === 'fail') {
           setAlbumPk(data.pk);
           setAlbumWalletAddress(data.wallet_address);
           localStorage.removeItem(albumIdStorageKey);
           localStorage.removeItem(albumTimerStorageKey);
           setStoredAlbumData(null);
 
-          if (data.status === "fail") {
+          if (data.status === 'fail') {
             setIsError(true);
-            setErrorMessage(data.message?.message || "Unknown error");
+            setErrorMessage(data.message?.message || 'Unknown error');
           }
         } else {
-          console.log("현재 상태:", data.status);
+          console.log('현재 상태:', data.status);
         }
       } catch (err) {
-        console.error("메시지 파싱 에러:", err);
+        console.error('메시지 파싱 에러:', err);
       }
     };
 
-    socket.onerror = (err) => console.error("웹 소켓 에러 발생:", err);
+    socket.onerror = err => console.error('웹 소켓 에러 발생:', err);
 
-    socket.onclose = (e) => {
-      console.error("웹 소켓 연결 끊김:", e);
+    socket.onclose = e => {
+      console.error('웹 소켓 연결 끊김:', e);
       if (!e.wasClean) {
         setTimeout(() => connectWebSocket(), RECONNECT_INTERVAL);
       }
@@ -146,7 +135,7 @@ const AlarmModal = () => {
     setAlbumPk(null);
     setStoredAlbumData(null);
     setIsError(false);
-    setErrorMessage("");
+    setErrorMessage('');
     setElapsedSeconds(0);
     localStorage.removeItem(albumIdStorageKey);
     localStorage.removeItem(albumTimerStorageKey);
@@ -162,21 +151,20 @@ const AlarmModal = () => {
   // }, [storedAlbumData]);
 
   const prevStoredAlbumData = useRef(null);
-  console.log("prevStoredAlbumData", prevStoredAlbumData.current);
+  console.log('prevStoredAlbumData', prevStoredAlbumData.current);
 
   useEffect(() => {
     // storedAlbumData가 "새로" 생긴 경우에만 초기화
     const isNewStart =
       storedAlbumData &&
-      (!prevStoredAlbumData.current ||
-        storedAlbumData.id !== prevStoredAlbumData.current.id);
+      (!prevStoredAlbumData.current || storedAlbumData.id !== prevStoredAlbumData.current.id);
 
     if (isNewStart) {
-      console.log("새로운 곡 생성 시작됨. 상태 초기화!");
+      console.log('새로운 곡 생성 시작됨. 상태 초기화!');
       setAlbumPk(null);
       setAlbumWalletAddress(null);
       setIsError(false);
-      setErrorMessage("");
+      setErrorMessage('');
       setElapsedSeconds(0);
     }
 
@@ -188,18 +176,16 @@ const AlarmModal = () => {
 
   return (
     <>
-      <div className={`alarm__modal ${isClosed ? "active" : ""}`}>
+      <div className={`alarm__modal ${isClosed ? 'active' : ''}`}>
         <div className="alarm__modal__item">
           <button className="alarm__modal__item__closed" onClick={handleClose}>
             <img src={closeIcon} alt="닫기" />
           </button>
           <p className="alarm__modal__item__title">
-            {storedAlbumData?.title || "AI Song Generation"}
+            {storedAlbumData?.title || 'AI Song Generation'}
           </p>
           <p
-            className={`alarm__modal__item__txt ${
-              isError ? "alarm__modal__item__txt--error" : ""
-            }`}
+            className={`alarm__modal__item__txt ${isError ? 'alarm__modal__item__txt--error' : ''}`}
           >
             {isError ? (
               <>
@@ -208,9 +194,9 @@ const AlarmModal = () => {
                 <span className="err-txt">{errorMessage}</span>
               </>
             ) : albumPk ? (
-              "Song generation completed!"
+              'Song generation completed!'
             ) : (
-              "The generation process may take up to 10 minutes."
+              'The generation process may take up to 10 minutes.'
             )}
           </p>
 
@@ -221,9 +207,7 @@ const AlarmModal = () => {
                   <div key={i} className={`bar bar${i + 1}`}></div>
                 ))}
               </div>
-              <p className="alarm__modal__item__timer">
-                {formatTime(elapsedSeconds)}
-              </p>
+              <p className="alarm__modal__item__timer">{formatTime(elapsedSeconds)}</p>
             </>
           )}
 
@@ -249,7 +233,7 @@ const AlarmModal = () => {
         </div>
       </div>
       <div
-        className={`alarm__modal__arr ${isClosed ? "active" : ""}`}
+        className={`alarm__modal__arr ${isClosed ? 'active' : ''}`}
         onClick={handleOverlayClick}
       ></div>
     </>

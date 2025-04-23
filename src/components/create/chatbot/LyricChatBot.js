@@ -269,7 +269,7 @@ const LyricChatBot = ({
             <h2>Music Information</h2>
           </div>
           <div className="music__information__tags">
-            <h3>Lyric Tags</h3>
+            <h3>Lyrics Tags</h3>
             <input
               type="text"
               value={lyricData.lyric_tag.join(', ')}
@@ -278,7 +278,7 @@ const LyricChatBot = ({
             />
           </div>
           <div className="music__information__genre">
-            <h3>Lyric Mood</h3>
+            <h3>Lyrics Mood</h3>
             <input
               type="text"
               value={lyricData.lyric_genre}
@@ -286,7 +286,7 @@ const LyricChatBot = ({
               readOnly
             />
             <div className="music__information__stylistic">
-              <h3>Lyric Stylistic</h3>
+              <h3>Lyrics Stylistic</h3>
               <input
                 type="text"
                 value={lyricData.lyric_stylistic}
@@ -296,11 +296,11 @@ const LyricChatBot = ({
             </div>
           </div>
           <div className="music__information__story">
-            <h3>Lyric Story</h3>
+            <h3>Lyrics Story</h3>
             <textarea value={lyricStory} placeholder="Enter your story here..." rows="4" readOnly />
           </div>
           <div className="music__information__lyric">
-            <h3>Final Lyric</h3>
+            <h3>Final Lyrics</h3>
             <div className="music__information__lyric--text">
               <textarea
                 value={generatedLyric}

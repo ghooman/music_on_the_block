@@ -18,6 +18,9 @@ import defaultImage from '../../assets/images/header/logo-png.png';
  * @param {function} handleMint : 민트 핸들러
  * @param {boolean} sellOption : 판매 옵션
  * @param {function} handleSell : 판매 핸들러
+ * @param {boolean} likesOption : 좋아요 수 표시 여부
+ * @param {boolean} playsOption : 플레이 수 표시 여부
+ * @param {boolean} artistOption : 아티스트 표시 여부
  *
  * @param {boolean} isContinue : 자동 재생 여부
  * @param {boolean} isScroll : 스크롤옵션

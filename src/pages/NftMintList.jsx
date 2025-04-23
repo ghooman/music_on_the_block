@@ -1,12 +1,14 @@
 import axios from 'axios';
+import { useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import ContentWrap from '../components/unit/ContentWrap';
 import Filter from '../components/unit/Filter';
 import Search from '../components/unit/Search';
 import SongPlayTable from '../components/unit/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
-import { useQuery } from 'react-query';
-import { useSearchParams } from 'react-router-dom';
+import Loading from '../components/IntroLogo2';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -18,7 +20,7 @@ const NftMintList = () => {
     const songsSort = searchParams.get('songs_sort');
 
     // 더미
-    const { data: songList } = useQuery(
+    const { data: songList, isLoading } = useQuery(
         ['nft_sell_list', { page, search, songsSort }],
         async () => {
             const res = await axios.get(`${serverApi}/api/music/all/list`, {
@@ -37,6 +39,10 @@ const NftMintList = () => {
         alert('민트!');
         // 민트 함수 정의 해주세염
     };
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [page]);
 
     return (
         <div>

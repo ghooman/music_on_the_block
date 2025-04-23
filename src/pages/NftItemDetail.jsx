@@ -247,7 +247,7 @@ const NftItemDetailInfo = () => {
             <div className="nft-item-detail-info-wrap">
                 <p className='nft-item-detail-info-wrap__title'>NFT Item Details</p>
                 <section className="nft-item-detail__song-detail">
-                    {/* <p className="nft-item-detail__song-detail__title">Song Detail</p> */}
+                    {/* <p className="nft-item-detail__song-detail__title">Song Details</p> */}
                     <div className="nft-item-detail__song-detail__bot">
                         <div className="nft-item-detail__song-detail__left">
                             <section className="album-detail__audio">

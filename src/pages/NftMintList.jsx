@@ -62,6 +62,7 @@ const NftMintList = () => {
                 />
                 <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
             </ContentWrap>
+            {isLoading && <Loading />}
         </div>
     );
 };

@@ -8,6 +8,7 @@ import Filter from '../components/unit/Filter';
 import Search from '../components/unit/Search';
 import SongPlayTable from '../components/unit/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
+import Loading from '../components/IntroLogo2';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -61,6 +62,7 @@ const NftSellList = () => {
                 />
                 <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
             </ContentWrap>
+            {isLoading && <Loading />}
         </div>
     );
 };

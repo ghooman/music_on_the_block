@@ -184,6 +184,12 @@ const Footer = ({ setIsLoggedIn }) => {
             <article className="footer__top__right">
               <div className="footer__top__right__menu">
                 <dl>
+                  <dt>Main</dt>
+                  <dd>
+                    <Link to="/main">Main</Link>
+                  </dd>
+                </dl>
+                <dl>
                   <dt>AI Service</dt>
                   <dd>
                     <Link to="/create">AI Lyrics & Songwriting</Link>
@@ -197,12 +203,6 @@ const Footer = ({ setIsLoggedIn }) => {
                     <Link onClick={() => setPreparingModal(true)}>
                       AI Cover Creation
                     </Link>
-                  </dd>
-                </dl>
-                <dl>
-                  <dt>Main</dt>
-                  <dd>
-                    <Link to="/main">Main</Link>
                   </dd>
                 </dl>
                 <dl>

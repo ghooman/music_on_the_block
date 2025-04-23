@@ -343,21 +343,6 @@ const NftItemDetailInfo = () => {
                                     <dt>Collection</dt>
                                     <dd>Collection Name</dd>
                                 </dl>
-                                <dl className='Sell'>
-                                    <dt>Sell Status</dt>
-                                    <dd>Sell</dd>
-                                </dl>
-                                <dl>
-                                    <dt>Mint NFT date</dt>
-                                    <dd>Mint NFT date</dd>
-                                </dl>
-                                {/* <dl>
-                                    <dt>Creation Data</dt>
-                                    <dd>
-                                        {formatUtcTime(album?.create_dt) || "-"}
-                                        <span>{formatLocalTime(album?.create_dt)}</span>
-                                    </dd>
-                                </dl> */}
                                 <dl className="artist">
                                     <dt>Artist</dt>
                                     <dd>
@@ -370,6 +355,25 @@ const NftItemDetailInfo = () => {
                                         </Link> */}
                                     </dd>
                                 </dl>
+                                <dl 
+                                    className='Unlisted'
+                                    // className='Listed'
+                                    // className='Sold'
+                                >
+                                    <dt>Sell Status</dt>
+                                    <dd>Unlisted</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Mint NFT date</dt>
+                                    <dd>Wed, 16 Apr 2025 21:50:12 UTC+9</dd>
+                                </dl>
+                                {/* <dl>
+                                    <dt>Creation Data</dt>
+                                    <dd>
+                                        {formatUtcTime(album?.create_dt) || "-"}
+                                        <span>{formatLocalTime(album?.create_dt)}</span>
+                                    </dd>
+                                </dl> */}
                             </div>
                             <div className="nft-item-detail__song-detail__right__value-box">
                                 {/* <dl>
@@ -379,7 +383,7 @@ const NftItemDetailInfo = () => {
                                 <dl className='nft-item-detail__song-detail__right__value-box__price'>
                                     <dt>Price</dt>
                                     <dd>
-                                        <span>$1,000</span>100 MOB
+                                        100 MOB<span>$1,000</span>
                                     </dd>
                                 </dl>
                             </div>

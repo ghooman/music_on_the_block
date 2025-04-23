@@ -199,6 +199,20 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             <dt className="menu__box__title">MENU</dt>
             <dd>
               <div className="menu__box__gnb-list">
+                {/* 일반 아이템 - Albums */}
+                <div
+                  className={`menu__box__gnb-list__item ${
+                    pathname.startsWith('/main') ? 'active' : ''
+                  }`}
+                >
+                  <Link
+                    to="/main"
+                    className="menu__box__gnb-list__item__btn main"
+                    onClick={() => handleSingleActive('album')}
+                  >
+                    <p className="icon"></p>Main
+                  </Link>
+                </div>
                 {/* AI Services - 슬라이드 탭 */}
                 <div
                   className={`menu__box__gnb-list__item ai-services slide-tab ${
@@ -235,20 +249,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   </ul>
                 </div>
 
-                {/* 일반 아이템 - Albums */}
-                <div
-                  className={`menu__box__gnb-list__item ${
-                    pathname.startsWith('/main') ? 'active' : ''
-                  }`}
-                >
-                  <Link
-                    to="/main"
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive('album')}
-                  >
-                    <p className="icon"></p>Main
-                  </Link>
-                </div>
                 {/* 일반 아이템 - NFT MarketPlace */}
                 <div
                   className={`menu__box__gnb-list__item ${
@@ -257,7 +257,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 >
                   <Link
                     to="/nft"
-                    className="menu__box__gnb-list__item__btn"
+                    className="menu__box__gnb-list__item__btn shop"
                     onClick={() => handleSingleActive('nft')}
                   >
                     <p className="icon"></p>NFT MarketPlace
@@ -287,7 +287,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   <Link
                     to="https://eco.musicontheblock.com"
                     target="_b"
-                    className="menu__box__gnb-list__item__btn"
+                    className="menu__box__gnb-list__item__btn earn"
                     onClick={() => handleSingleActive('earn')}
                   >
                     <p className="icon"></p>Eco System

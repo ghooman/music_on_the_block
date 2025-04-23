@@ -466,7 +466,7 @@ function AlbumDetail() {
                         <AdvancedCommentComponent id={id} />
                     </div>
                     <dl className="album-detail__rank-table__title">
-                        <dt>Albums Leaderboard Rank</dt>
+                        <dt>Songs Leaderboard Rank</dt>
                         <dd>Most Likes</dd>
                     </dl>
                     <div className="table-container">

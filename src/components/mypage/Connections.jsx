@@ -60,6 +60,8 @@ const Connections = () => {
     { refetchOnWindowFocus: false, enabled: !!token }
   );
 
+  console.log(connectionsData, '커넥션 데이터');
+
   //====================
   // 낙관적 업데이트 함수
   //====================
@@ -68,6 +70,7 @@ const Connections = () => {
       ['follow_list', { token, page, search, connectionsSort, connectionsType }],
       prevData => {
         const { data_list } = prevData;
+        console.log(data_list);
         const copy = [...data_list];
         copy.forEach(user => {
           if (user.user_id === id) {
@@ -92,6 +95,7 @@ const Connections = () => {
         },
       });
       queryUpdate(id);
+      console.log('성공');
     } catch (e) {
       console.error(e);
     }
@@ -109,6 +113,7 @@ const Connections = () => {
         },
       });
       queryUpdate(unFollowUserId);
+      console.log('성공');
     } catch (e) {
       console.error(e);
     }

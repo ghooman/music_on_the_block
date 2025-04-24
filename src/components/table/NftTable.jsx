@@ -61,15 +61,15 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
               <TableItem.Button title="Details" type="details" />
 
               {saleAction && item.status === 'sold' && (
-                <TableItem.Button title="sold" type="sold" />
+                <TableItem.Button title="Sold" type="sold" />
               )}
 
               {saleAction && item.status === 'sell' && (
-                <TableItem.Button title="sell" type="sell" handleClick={() => handleSell()} />
+                <TableItem.Button title="Sell" type="sell" handleClick={() => handleSell()} />
               )}
 
               {saleAction && item.status === 'cancel' && (
-                <TableItem.Button title="cancel" type="cancel" handleClick={() => handleCancel()} />
+                <TableItem.Button title="Cancel" type="cancel" handleClick={() => handleCancel()} />
               )}
             </TableItem>
           ))}

@@ -165,6 +165,16 @@
         background: #003321;
       }
     }
+    &.following {
+      color: #f1f1f1;
+
+      &::before {
+        border-color: #171816;
+      }
+      &::after {
+        background-color: #171816;
+      }
+    }
 
     &.unfollow {
       color: #f1f1f1;

@@ -18,12 +18,14 @@ import editIcon        from '../assets/images/edit.svg';
 import NftConfirmModal from '../components/NftConfirmModal';
 import NftConfirmSuccessModal from '../components/NftConfirmSuccessModal';
 import SongsBar from '../components/unit/SongsBar';
+import CreateCollectionModal from '../components/CreateCollectionModal';
 
 
 // ────────────────────────────────
 function MintNftSellDetail() {
 
     const [showModal, setShowModal] = useState(false);
+    const [showCollectionModal, setShowCollectionModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false); 
 
     return (
@@ -36,7 +38,9 @@ function MintNftSellDetail() {
                 <ContentWrap title="Select Collection" >
                     <div className='filter-create'>
                         <FilterItems />
-                        <button className='create-btn'>
+                        <button className='create-btn'
+                            onClick={()=>setShowCollectionModal(true)}
+                        >
                             Create New Collection
                             <img src={editIcon} alt='editIcon'/>
                         </button>
@@ -91,6 +95,11 @@ function MintNftSellDetail() {
                 <NftConfirmSuccessModal
                     setShowSuccessModal={setShowSuccessModal}
                     title='Your song has been minted as an NFT!'
+                />
+            }
+            {showCollectionModal &&
+                <CreateCollectionModal
+                    setShowCollectionModal={setShowCollectionModal}
                 />
             }
         </>

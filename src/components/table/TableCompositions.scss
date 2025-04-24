@@ -90,14 +90,88 @@
     position: relative;
     top: 0px;
     transition: 0.2s all;
-
+    z-index: 1;
     &:hover {
       top: 4px;
       &::before {
         top: 0px;
       }
     }
+    &.details {
+      &::before {
+        border-color: #222;
+      }
+      &::after{
+        border-color: #222;
+      }
+    }
+    &.sold {
+      &::before {
+        border: 1px solid #cf0;
+      }
+      &::after{
+        background:#cf0;
+      }
+    }
+    &.sell {
+      &::before {
+        border: 1px solid #5a9bf6;
+      }
+      &::after{
+        background:#5a9bf6;
+      }
+    }
+    &.cancel {
+      &::before {
+        border: 1px solid rgb(148, 148, 148);
+      }
+      &::after{
+        background: rgb(148, 148, 148);
+      }
+    }
+    &.delete {
+      &::before {
+        border: 1px solid #44000d;
+      }
+      &::after{
+        background: #44000d;
+      }
+    }
+    &.release{
+      &::before {
+        border: 1px solid #003321;
+      }
+      &::after{
+        background: #003321;
+      }
+    }
+    &.details{
+      &::before {
+        border: 1px solid #222;
+      }
+      &::after{
+        background: #222;
+      }
+    }
+    &.mint{
+      &::before {
+        border: 1px solid #00d293;
+      }
+      &::after{
+        background: #00d293;
+      }
+    }
 
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
     &::before {
       content: '';
       position: absolute;
@@ -108,6 +182,8 @@
       border: 1px solid;
       border-radius: 12px;
       transition: 0.2s all;
+      background: #000;
+      z-index: -1;
     }
 
     &.details {
@@ -121,7 +197,7 @@
       color: #f1f1f1;
       background-color: #44000d;
     }
-    &.follow {
+    &.follow,&.release {
       color: #f1f1f1;
       background-color: #003321;
     }

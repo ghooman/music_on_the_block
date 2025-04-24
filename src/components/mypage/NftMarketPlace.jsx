@@ -6,7 +6,7 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 
 import './NftMarketPlace.scss';
-import NftTable from '../unit/NftTable';
+import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
 
 const subCategoryList = [

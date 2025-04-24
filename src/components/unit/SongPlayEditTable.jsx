@@ -111,6 +111,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import NoneContent from './NoneContent';
 import './SongPlayEditTable.scss';
 import './AlbumsTable.scss';
+import typeImage from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
 
 /**
@@ -276,6 +277,7 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                 />
               </th>
               <th className="albums-table__song">Song</th>
+              <th>Type</th>
               <th className="albums-table__song-title">Song&nbsp;Title</th>
             </tr>
           </thead>
@@ -313,6 +315,9 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                       <div className="loading-bar" />
                     </div>
                   </button>
+                </td>
+                <td>
+                  <img src={typeImage} alt="type" />
                 </td>
                 <td>
                   {album.title}

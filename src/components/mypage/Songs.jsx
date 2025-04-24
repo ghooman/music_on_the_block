@@ -124,6 +124,8 @@ const Songs = ({ token }) => {
           releaseOption={releaseType === 'Unreleased songs'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
+          gradeOption={releaseType === 'Released songs'}
+          NftOption={true}
         />
         <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />
       </ContentWrap>

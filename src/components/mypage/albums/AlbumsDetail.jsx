@@ -10,6 +10,8 @@ import SongPlayTable from '../../unit/SongPlayTable'; // SongPlayTable 추가
 import NoneContent from '../../../components/unit/NoneContent';
 import AlbumsCreateModal from './AlbumsCreateModal';
 import AlbumsDetailsModal from './AlbumsDetailsModal';
+import Loading from '../../IntroLogo2';
+
 // 이미지/아이콘들
 import songImg from '../../../assets/images/intro/intro-demo-img2.png';
 import playIcon from '../../../assets/images/play-icon2.svg';
@@ -70,6 +72,8 @@ const AlbumsDetail = () => {
     setShowCreateModal(true);
     setShowDetailModal(false);
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="my-album-details">
@@ -179,6 +183,7 @@ const AlbumsDetail = () => {
                 title="No songs in this album"
                 message="This album is currently empty."
                 message2="Add songs to complete your album."
+                height={300}
               />
             )}
           </ContentWrap>

@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import NoneContent from './NoneContent';
-import './AlbumsTable.scss';
-import playIcon from '../../assets/images/play-icon2.svg';
-import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import track3 from '../../assets/music/MusicOnTheBlock_v1.mp3';
-import defaultImage from '../../assets/images/header/logo-png.png';
 import { TableBody, TableHeader, Table, TableItem } from '../table/TableCompositions';
+
+import playIcon from '../../assets/images/play-icon2.svg';
+import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+import defaultImage from '../../assets/images/header/logo-png.png';
+import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
+import grade2Icon from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
+import grade3Icon from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
+import grade4Icon from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
+import grade5Icon from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
+
+import './AlbumsTable.scss';
 
 /**
  *
@@ -49,6 +56,12 @@ const SongPlayTable = ({
   playsOption,
   //== 아티스트
   artistOption = true,
+
+  //== 등급
+  gradeOption,
+  //== NFT 여부
+  NftOption,
+
   //== 그외 옵션
   isContinue = true,
   isScroll,
@@ -212,6 +225,8 @@ const SongPlayTable = ({
               <th>#</th>
               <th className="albums-table__song">Song</th>
               <th className="albums-table__type">Type</th>
+              {gradeOption && <th>Grade</th>}
+              {NftOption && <th>NFT</th>}
               {artistOption && <th>Artist</th>}
               <th className="albums-table__song-title">Song Title</th>
               {playsOption && <th>Plays</th>}
@@ -254,8 +269,14 @@ const SongPlayTable = ({
                       </button>
                     </td>
                     <td>
-                      <img src={songTypeIcon} />
+                      <img src={songTypeIcon} alt="type" />
                     </td>
+                    {gradeOption && (
+                      <td>
+                        <img src={grade1Icon} alt="grade" />
+                      </td>
+                    )}
+                    {NftOption && <td>NFT</td>}
                     {artistOption && (
                       <td>
                         <div className="albums-table__artist">

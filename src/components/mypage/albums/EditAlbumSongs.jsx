@@ -29,6 +29,7 @@ import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
 import SongPlayEditTable from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
 import AlbumsNoticeModal from './AlbumsNoticeModal';
+import Loading from '../../IntroLogo2';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -46,6 +47,7 @@ const EditAlbumSongs = () => {
   const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [duplicateCount, setDuplicateCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { token, walletAddress } = useContext(AuthContext);
   const { address } = walletAddress || {};
@@ -135,6 +137,7 @@ const EditAlbumSongs = () => {
   useEffect(() => {
     setActiveSong(null);
     const getAddBundleData = async () => {
+      setIsLoading(true);
       let url;
       switch (songsFilter) {
         case 'following':
@@ -162,6 +165,8 @@ const EditAlbumSongs = () => {
         setAddBundleSongList(res.data.filter(item => !!item.music_url));
       } catch (e) {
         console.error(e);
+      } finally {
+        setIsLoading(false);
       }
     };
     getAddBundleData();
@@ -272,6 +277,7 @@ const EditAlbumSongs = () => {
         />
       )}
       {duplicateCount > 0 && <AlbumsNoticeModal setAlbumsNoticeModal={setDuplicateCount} />}
+      {isLoading && <Loading />}
     </>
   );
 };

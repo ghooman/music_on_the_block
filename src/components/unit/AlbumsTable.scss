@@ -145,6 +145,8 @@
         }
         img {
           margin: auto;
+          width: 20px;
+          height: 20px;
           &.albums-table__artist-img {
             width: 24px;
             height: 24px;
@@ -166,6 +168,27 @@
             object-fit: cover;
           }
         }
+
+        .albums-table__artist--edit-table {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          color: var(--Text-music-sub, #aaa);
+          text-align: center;
+          font-family: Inter400;
+          font-size: 12px;
+
+          img {
+            margin: 0;
+            width: 12px;
+            height: 12px;
+            overflow: hidden;
+            border-radius: 100%;
+            object-fit: cover;
+          }
+        }
+
         .albums-table__song-btn {
           width: 30px;
           height: 30px;

@@ -25,8 +25,10 @@ import LyricsIcon from '../../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
 
+// 컴포넌트
 import SongPlayEditTable from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
+import AlbumsNoticeModal from './AlbumsNoticeModal';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
@@ -43,6 +45,7 @@ const EditAlbumSongs = () => {
   const [addBundleSongList, setAddBundleSongList] = useState([]);
   const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [duplicateCount, setDuplicateCount] = useState(0);
 
   const { token } = useContext(AuthContext);
   const { id } = useParams();
@@ -57,15 +60,25 @@ const EditAlbumSongs = () => {
   // 추가
   //=================
   const handleAdd = () => {
+    let duplicateCount = 0;
+
     const copy = [...addBundleSongList];
     const newCopy = copy.filter(item => item.check === true);
-    setAddBundleSongList(prev => prev.map(item => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
-    const maps = new Map(newCopy.map(item => [item.id, item]));
-    const arrays = Array.from(maps.values());
+    const addBundleMaps = Array.from(new Map(newCopy.map(item => [item.id, item])).values());
+    const albumBundleMaps = new Map(albumBundleSongList.map(item => [item.id, item]));
 
+    addBundleMaps.forEach(item => {
+      const result = albumBundleMaps.get(item.id);
+      if (result) {
+        duplicateCount++;
+      }
+    });
+
+    setAddBundleSongList(prev => prev.map(item => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
+    setDuplicateCount(duplicateCount);
     setAlbumbundleSongList(prev => {
       let copy = [...prev];
-      let checkReset = arrays.map(item => ({ ...item, check: false }));
+      let checkReset = addBundleMaps.map(item => ({ ...item, check: false }));
       let maps = new Map([...copy, ...checkReset].map(item => [item.id, item]));
       return Array.from(maps.values());
     });
@@ -166,8 +179,6 @@ const EditAlbumSongs = () => {
     }
   }, [activeSong]);
 
-  console.log(albumBundleSongList, '송 리스트');
-
   return (
     <>
       <div className="edit-album-songs">
@@ -257,6 +268,7 @@ const EditAlbumSongs = () => {
           action={() => navigate(`/albums-detail/${id}`)}
         />
       )}
+      {duplicateCount > 0 && <AlbumsNoticeModal setAlbumsNoticeModal={setDuplicateCount} />}
     </>
   );
 };

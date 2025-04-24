@@ -25,253 +25,276 @@ import LyricsIcon from '../../../assets/images/icon/Lyrics-Icon.svg';
 import LyricsAndSongwritingIcon from '../../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
 
+// 컴포넌트
 import SongPlayEditTable from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
+import AlbumsNoticeModal from './AlbumsNoticeModal';
+import Loading from '../../IntroLogo2';
 
 const subCategoryList = [
-    { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
-    { name: 'AI Singing Evaluation', image: LyricsIcon, preparing: true },
+  { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
+  { name: 'AI Singing Evaluation', image: LyricsIcon, preparing: true },
 ];
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const EditAlbumSongs = () => {
-    const [selected, setSelected] = useState(subCategoryList[0].name);
-    const [iseditAlbumModal, setIsEditAlbumModal] = useState(false);
-    const [activeSong, setActiveSong] = useState(null);
-    const [albumsBundleData, setAlbumsBundleData] = useState(null); // 앨범 원본 데이터
-    const [addBundleSongList, setAddBundleSongList] = useState([]);
-    const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
-    const [searchParams, setSearchParams] = useSearchParams();
+  const [selected, setSelected] = useState(subCategoryList[0].name);
+  const [iseditAlbumModal, setIsEditAlbumModal] = useState(false);
+  const [activeSong, setActiveSong] = useState(null);
+  const [albumsBundleData, setAlbumsBundleData] = useState(null); // 앨범 원본 데이터
+  const [addBundleSongList, setAddBundleSongList] = useState([]);
+  const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [duplicateCount, setDuplicateCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const { token } = useContext(AuthContext);
-    const { id } = useParams();
-    const audioRef = useRef(null);
-    const navigate = useNavigate();
+  const { token, walletAddress } = useContext(AuthContext);
+  const { address } = walletAddress || {};
+  const { id } = useParams();
+  const audioRef = useRef(null);
+  const navigate = useNavigate();
 
-    const search = searchParams.get('search');
-    const songsSort = searchParams.get('songs_sort');
-    const songsFilter = searchParams.get('songs_filter') || 'liked';
+  const search = searchParams.get('search');
+  const songsSort = searchParams.get('songs_sort');
+  const songsFilter = searchParams.get('songs_filter') || 'liked';
 
-    //=================
-    // 추가
-    //=================
-    const handleAdd = () => {
-        const copy = [...addBundleSongList];
-        const newCopy = copy.filter((item) => item.check === true);
-        setAddBundleSongList((prev) => prev.map((item) => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
-        const maps = new Map(newCopy.map((item) => [item.id, item]));
-        const arrays = Array.from(maps.values());
+  //=================
+  // 추가
+  //=================
+  const handleAdd = () => {
+    let duplicateCount = 0;
+    const copy = [...addBundleSongList];
+    const newCopy = copy.filter(item => item.check === true);
+    const addBundleMaps = Array.from(new Map(newCopy.map(item => [item.id, item])).values());
+    const albumBundleMaps = new Map(albumBundleSongList.map(item => [item.id, item]));
 
-        setAlbumbundleSongList((prev) => {
-            let copy = [...prev];
-            let checkReset = arrays.map((item) => ({ ...item, check: false }));
-            let maps = new Map([...copy, ...checkReset].map((item) => [item.id, item]));
-            return Array.from(maps.values());
+    addBundleMaps.forEach(item => {
+      const result = albumBundleMaps.get(item.id);
+      if (result) {
+        duplicateCount++;
+      }
+    });
+    setAddBundleSongList(prev => prev.map(item => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
+    setDuplicateCount(duplicateCount);
+    setAlbumbundleSongList(prev => {
+      let copy = [...prev];
+      let checkReset = addBundleMaps.map(item => ({ ...item, check: false }));
+      let maps = new Map([...copy, ...checkReset].map(item => [item.id, item]));
+      return Array.from(maps.values());
+    });
+  };
+
+  //=================
+  // 삭제
+  //=================
+  const handleDelete = () => {
+    const copy = [...albumBundleSongList];
+    const newCopy = copy.filter(item => !item.check);
+    setAlbumbundleSongList(newCopy);
+    setActiveSong(null);
+  };
+
+  //==================
+  // 앨범 수정 요청
+  //==================
+  const handleEdit = async () => {
+    const songIdArray = albumBundleSongList.map(item => item.id);
+    try {
+      const res = await axios.post(`${serverApi}/api/music/album/bundle/${id}/song`, songIdArray, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      getAlbumsBundleData();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  //==================
+  // 앨범 데이터 가져오기
+  //==================
+  const getAlbumsBundleData = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/user/album/bundle/${id}/detail`, {
+        params: {
+          wallet_address: address,
+        },
+      });
+      if (res.data.is_owner === false) {
+        alert('Invalid access');
+        navigate('/');
+      }
+      setAlbumsBundleData(res.data);
+      setAlbumbundleSongList(res.data?.song_list.map(item => ({ ...item, check: false })));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // 가진 곡
+  useEffect(() => {
+    setActiveSong(null);
+    const getAddBundleData = async () => {
+      setIsLoading(true);
+      let url;
+      switch (songsFilter) {
+        case 'following':
+          url = '/api/music/my/following/list/no/paging';
+          break;
+        case 'mine':
+          url = '/api/music/my/list/no/paging';
+          break;
+        case 'liked':
+          url = '/api/music/my/like/list/no/paging';
+          break;
+        default:
+          url = '';
+      }
+      try {
+        const res = await axios.get(`${serverApi + url}`, {
+          params: {
+            search_keyword: search,
+            sort_by: songsSort,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+        setAddBundleSongList(res.data.filter(item => !!item.music_url));
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    getAddBundleData();
+  }, [songsFilter, search, songsSort]);
 
-    //=================
-    // 삭제
-    //=================
-    const handleDelete = () => {
-        const copy = [...albumBundleSongList];
-        const newCopy = copy.filter((item) => !item.check);
-        setAlbumbundleSongList(newCopy);
-        setActiveSong(null);
-    };
+  // 현재 앨범 데이터
+  useEffect(() => {
+    getAlbumsBundleData();
+  }, [id]);
 
-    //==================
-    // 앨범 수정 요청
-    //==================
-    const handleEdit = async () => {
-        const songIdArray = albumBundleSongList.map((item) => item.id);
-        try {
-            const res = await axios.post(`${serverApi}/api/music/album/bundle/${id}/song`, songIdArray, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            getAlbumsBundleData();
-        } catch (e) {
-            console.error(e);
-        }
-    };
+  useEffect(() => {
+    if (!activeSong) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.currentTime = 0;
+      audioRef.current.src = activeSong?.music_url;
+      audioRef.current.play();
+    }
+  }, [activeSong]);
 
-    //==================
-    // 앨범 데이터 가져오기
-    //==================
-    const getAlbumsBundleData = async () => {
-        try {
-            const res = await axios.get(`${serverApi}/api/music/my/album/bundle/${id}/detail`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setAlbumsBundleData(res.data);
-            setAlbumbundleSongList(res.data?.song_list.map((item) => ({ ...item, check: false })));
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
-    // 가진 곡
-    useEffect(() => {
-        setActiveSong(null);
-        const getAddBundleData = async () => {
-            let url;
-            switch (songsFilter) {
-                case 'following':
-                    url = '/api/music/my/following/list/no/paging';
-                    break;
-                case 'mine':
-                    url = '/api/music/my/list/no/paging';
-                    break;
-                case 'liked':
-                    url = '/api/music/my/like/list/no/paging';
-                    break;
-                default:
-                    url = '';
-            }
-            try {
-                const res = await axios.get(`${serverApi + url}`, {
-                    params: {
-                        search_keyword: search,
-                        sort_by: songsSort,
-                    },
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setAddBundleSongList(res.data.filter((item) => !!item.music_url));
-            } catch (e) {
-                console.error(e);
-            }
-        };
-        getAddBundleData();
-    }, [songsFilter, search, songsSort]);
-
-    // 현재 앨범 데이터
-    useEffect(() => {
-        getAlbumsBundleData();
-    }, [id]);
-
-    useEffect(() => {
-        if (!activeSong) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.currentTime = 0;
-            audioRef.current.src = activeSong?.music_url;
-            audioRef.current.play();
-        }
-    }, [activeSong]);
-
-    console.log(albumBundleSongList, '송 리스트');
-
-    return (
-        <>
-            <div className="edit-album-songs">
-                <p className="edit-album-songs__title">Edit album Songs</p>
-                <p className="edit-album-songs__title__album-name">{albumsBundleData?.album_name}</p>
-                <div className="edit-album-songs__tab">
-                    {/* <button
+  return (
+    <>
+      <div className="edit-album-songs">
+        <p className="edit-album-songs__title">Edit album Songs</p>
+        <p className="edit-album-songs__title__album-name">{albumsBundleData?.album_name}</p>
+        <div className="edit-album-songs__tab">
+          {/* <button
                         className={`edit-album-songs__tab__item ${activeTab === 'recent' ? 'active' : ''}`}
                         onClick={() => setActiveTab('recent')}
                     >
                         Recently Played
                     </button> */}
-                    <button
-                        className={`edit-album-songs__tab__item ${songsFilter === 'liked' ? 'active' : ''}`}
-                        onClick={() => {
-                            setSearchParams({ songs_filter: 'liked' });
-                        }}
-                    >
-                        Liked Songs
-                    </button>
+          <button
+            className={`edit-album-songs__tab__item ${songsFilter === 'liked' ? 'active' : ''}`}
+            onClick={() => {
+              setSearchParams({ songs_filter: 'liked' });
+            }}
+          >
+            Liked Songs
+          </button>
 
-                    <button
-                        className={`edit-album-songs__tab__item ${songsFilter === 'mine' ? 'active' : ''}`}
-                        // onClick={() => setActiveTab('mine')}
-                        onClick={() => {
-                            setSearchParams({ songs_filter: 'mine' });
-                        }}
-                    >
-                        My Songs
-                    </button>
+          <button
+            className={`edit-album-songs__tab__item ${songsFilter === 'mine' ? 'active' : ''}`}
+            // onClick={() => setActiveTab('mine')}
+            onClick={() => {
+              setSearchParams({ songs_filter: 'mine' });
+            }}
+          >
+            My Songs
+          </button>
 
-                    <button
-                        className={`edit-album-songs__tab__item ${songsFilter === 'following' ? 'active' : ''}`}
-                        // onClick={() => setActiveTab('following')}
-                        onClick={() => {
-                            setSearchParams({ songs_filter: 'following' });
-                        }}
-                    >
-                        Following
-                    </button>
-                </div>
-                {/**
-                 * 음악 재생
-                 * 컴포넌트를 두 개 사용하는 이유로 플레이어를 외부로 뺍니다. (중복 재생 이슈를 막기 위해)
-                 */}
-                <div className="audio-container">
-                    <audio controls ref={audioRef} />
-                </div>
+          <button
+            className={`edit-album-songs__tab__item ${songsFilter === 'following' ? 'active' : ''}`}
+            // onClick={() => setActiveTab('following')}
+            onClick={() => {
+              setSearchParams({ songs_filter: 'following' });
+            }}
+          >
+            Following
+          </button>
+        </div>
+        {/**
+         * 음악 재생
+         * 컴포넌트를 두 개 사용하는 이유로 플레이어를 외부로 뺍니다. (중복 재생 이슈를 막기 위해)
+         */}
+        <div className="audio-container">
+          <audio controls ref={audioRef} />
+        </div>
 
-                <ContentWrap border={false}>
-                    <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-                    <ContentWrap.SubWrap gap={8}>
-                        <Filter songsSort />
-                        <Search
-                            placeholder="Search by Artist name or Song title..."
-                            handler={null}
-                            defaultValue={search}
-                        />
-                    </ContentWrap.SubWrap>
-                    <SongPlayEditTable
-                        title="Selected Songs"
-                        songList={addBundleSongList}
-                        setSongList={setAddBundleSongList}
-                        activeSong={activeSong}
-                        setActiveSong={setActiveSong}
-                    />
-                    <AddDeleteBtn addHandler={handleAdd} deleteHandler={handleDelete} />
-                    <SongPlayEditTable
-                        title="Album Songs"
-                        songList={albumBundleSongList}
-                        setSongList={setAlbumbundleSongList}
-                        activeSong={activeSong}
-                        setActiveSong={setActiveSong}
-                    />
-                </ContentWrap>
-                <button className="edit-btn" onClick={() => setIsEditAlbumModal(true)}>
-                    Edit
-                </button>
-            </div>
-            {iseditAlbumModal && (
-                <EditAlbumModal
-                    setIsEditAlbumModal={setIsEditAlbumModal}
-                    handleClick={handleEdit}
-                    songsCount={albumBundleSongList?.length}
-                    action={() => navigate(`/albums-detail/${id}`)}
-                />
-            )}
-        </>
-    );
+        <ContentWrap border={false}>
+          <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+          <ContentWrap.SubWrap gap={8}>
+            <Filter songsSort />
+            <Search
+              placeholder="Search by Artist name or Song title..."
+              handler={null}
+              defaultValue={search}
+            />
+          </ContentWrap.SubWrap>
+          <div className="edit-table-wrap">
+            <SongPlayEditTable
+              title="Selected Songs"
+              songList={addBundleSongList}
+              setSongList={setAddBundleSongList}
+              activeSong={activeSong}
+              setActiveSong={setActiveSong}
+            />
+            <AddDeleteBtn addHandler={handleAdd} deleteHandler={handleDelete} />
+            <SongPlayEditTable
+              title="Album Songs"
+              songList={albumBundleSongList}
+              setSongList={setAlbumbundleSongList}
+              activeSong={activeSong}
+              setActiveSong={setActiveSong}
+            />
+          </div>
+        </ContentWrap>
+        <button className="edit-btn" onClick={() => setIsEditAlbumModal(true)}>
+          Edit
+        </button>
+      </div>
+      {iseditAlbumModal && (
+        <EditAlbumModal
+          setIsEditAlbumModal={setIsEditAlbumModal}
+          handleClick={handleEdit}
+          songsCount={albumBundleSongList?.length}
+          action={() => navigate(`/albums-detail/${id}`)}
+        />
+      )}
+      {duplicateCount > 0 && <AlbumsNoticeModal setAlbumsNoticeModal={setDuplicateCount} />}
+      {isLoading && <Loading />}
+    </>
+  );
 };
 
 export default EditAlbumSongs;
 
 const AddDeleteBtn = ({ addHandler, deleteHandler }) => {
-    return (
-        <div className="add-delete-btn">
-            <button type="button" onClick={addHandler}>
-                <img src={addIcon} alt="addIcon" />
-                Add
-            </button>
-            <button type="button" onClick={deleteHandler}>
-                <img src={dellIcon} alt="dellIcon" />
-                Delete
-            </button>
-        </div>
-    );
+  return (
+    <div className="add-delete-btn">
+      <button type="button" onClick={addHandler}>
+        Add
+        <img src={addIcon} alt="addIcon" />
+      </button>
+      <button type="button" onClick={deleteHandler}>
+        <img src={dellIcon} alt="dellIcon" />
+        Delete
+      </button>
+    </div>
+  );
 };

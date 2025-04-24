@@ -1,6 +1,6 @@
 // components/AlbumItem.jsx
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import './SongsBar.scss';
 
@@ -14,13 +14,36 @@ import demoImg from '../../assets/images/intro/intro-demo-img4.png';
 import loverIcon        from '../../assets/images/icon/heart.svg';
 import grade01Icon        from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
 import typeIcon        from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+import track1 from '../../assets/music/song01.mp3'; 
+
 const SongsBar = ({}) => {
 
     const [barActive, setBarActive] = useState(false);
+    const audioRef = useRef(null);           // 오디오 태그 접근용 ref
 
+    /* active 상태에 따라 재생/정지 */
+    useEffect(() => {
+        if (!audioRef.current) return;
+    
+        if (barActive) {
+            audioRef.current.play().catch(() => {});  // 자동 재생 실패 대비 try-catch
+        } else {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;         // 필요하면 처음으로
+        }
+    }, [barActive]);
 
     return (
         <>
+            {barActive && (
+                <div className="songs-bar-audio">
+                <audio
+                    ref={audioRef}
+                    src={track1}
+                    controls
+                />
+                </div>
+            )}
             <section
                 className={`songs-bar ${barActive ? 'active' : ''}`}
                 onClick={() => setBarActive((prev) => !prev)}

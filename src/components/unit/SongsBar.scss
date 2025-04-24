@@ -3,6 +3,12 @@
 
 
 
+.songs-bar-audio{
+  position: fixed;
+  left: -100%;
+  top: -100%;
+}//songs-bar-audio--END--
+
 
 .songs-bar{
   width: 100%;
@@ -15,7 +21,9 @@
   gap: 16px;
   cursor: pointer;
   margin-bottom: 16px;
+  transition: 0.3s;
   &:hover{
+    background: #232323;
     .songs-bar__play-box{
       .songs-bar__play-box__img{
           border: 1px solid #a9d400;

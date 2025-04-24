@@ -1,0 +1,69 @@
+.song-play-edit-table {
+  .song-play-edit-table__title {
+    margin-bottom: 8px;
+  }
+
+  .song-play-edit-table__table-wrap {
+  }
+
+  .song-play-edit-table__table {
+    border-radius: 12px;
+    border: 1px solid #222;
+    border-spacing: 0;
+
+    thead {
+      border-radius: 12px 12px 0px 0px;
+      background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
+
+      th {
+        padding: 12px;
+        color: #a9d400;
+        text-align: center;
+        font-family: Orbitron400;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+
+    tbody {
+      td {
+        padding: 12px;
+        color: #aaa;
+        font-family: Inter400;
+        font-size: 14px;
+      }
+      .type {
+        img {
+          margin: 0 auto;
+        }
+      }
+
+      .song {
+        img {
+          width: 30px;
+          height: 30px;
+          object-fit: cover;
+          border-radius: 2px;
+          margin: 0 auto;
+        }
+      }
+
+      .user {
+        display: flex;
+        gap: 4px;
+        color: #aaa;
+        font-family: Inter400;
+        font-size: 14px;
+
+        img {
+          width: 24px;
+          height: 24px;
+          object-fit: cover;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+}

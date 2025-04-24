@@ -101,7 +101,7 @@
                 font-size: 14px;
                 font-style: normal;
                 &::after {
-                  content: "";
+                  content: '';
                   display: block;
                   position: absolute;
                   right: -12px;
@@ -150,7 +150,7 @@
             justify-content: center;
             gap: 8px;
             &::before {
-              content: "";
+              content: '';
               position: absolute;
               left: 0;
               top: 4px;
@@ -166,6 +166,14 @@
                 top: 0;
               }
             }
+            // &:disabled {
+            //   &:hover {
+            //     top: 0px;
+            //     &::before {
+            //       top: 4px;
+            //     }
+            //   }
+            // }
           } //my-album-details__box__header__right__play-btn--END--
         } //my-album-details__box__header__right__box--END--
       } //my-album-details__box__header__right--END--

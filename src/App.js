@@ -30,187 +30,187 @@ import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 import MintNftSellDetail from './pages/MintNftSellDetail';
 import MintNftSellDetail2 from './pages/MintNftSellDetail2';
 function Layout({ children }) {
-    return (
-        <div>
-            <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-            <div className="inner">{children}</div>
-            <Footer />
-        </div>
-    );
+  return (
+    <div>
+      <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
+      <div className="inner">{children}</div>
+      <Footer />
+    </div>
+  );
 }
 
 const queryClient = new QueryClient();
 
 function App() {
-    const { pathname } = useLocation();
+  const { pathname } = useLocation();
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathname]);
-    return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <div className="App">
-                    <title>MUSIC ON THE BLOCK</title>
-                    <Routes>
-                        <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
-                        <Route
-                            path="main"
-                            element={
-                                <Layout>
-                                    <Album />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/create"
-                            element={
-                                <Layout>
-                                    <Create />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/song/list"
-                            element={
-                                <Layout>
-                                    <SongList />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/my-page/:path"
-                            element={
-                                <Layout>
-                                    <ProtectedRoute>
-                                        <MyPage isMyProfile={true} />
-                                    </ProtectedRoute>
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/albums-detail/:id"
-                            element={
-                                <Layout>
-                                    {/* <ProtectedRoute> */}
-                                    <AlbumsDetail />
-                                    {/* </ProtectedRoute> */}
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/edit-album-songs/:id"
-                            element={
-                                <Layout>
-                                    <ProtectedRoute>
-                                        <EditAlbumSongs />
-                                    </ProtectedRoute>
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/profile"
-                            element={
-                                <Layout>
-                                    <MyPage isMyProfile={false} />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/account-setting"
-                            element={
-                                <Layout>
-                                    <ProtectedRoute>
-                                        <AccountSettings />
-                                    </ProtectedRoute>
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/song-detail/:id"
-                            element={
-                                <Layout>
-                                    <AlbumDetail />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="/sign-up"
-                            element={
-                                <Layout>
-                                    <SignUp />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft"
-                            element={
-                                <Layout>
-                                    <Nft />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/list"
-                            element={
-                                <Layout>
-                                    <NftList />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/mint/list"
-                            element={
-                                <Layout>
-                                    <NftMintList />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/sell/list"
-                            element={
-                                <Layout>
-                                    <NftSellList />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/collection/detail"
-                            element={
-                                <Layout>
-                                    <CollectionDetail />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="nft/detail"
-                            element={
-                                <Layout>
-                                    <NftItemDetail />
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="mint/detail"
-                            element={
-                                <Layout>
-                                    <MintNftSellDetail/>
-                                </Layout>
-                            }
-                        />
-                        <Route
-                            path="sell/detail"
-                            element={
-                                <Layout>
-                                    <MintNftSellDetail2/>
-                                </Layout>
-                            }
-                        />
-                    </Routes>
-                </div>
-            </AuthProvider>
-        </QueryClientProvider>
-    );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <div className="App">
+          <title>MUSIC ON THE BLOCK</title>
+          <Routes>
+            <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
+            <Route
+              path="main"
+              element={
+                <Layout>
+                  <Album />
+                </Layout>
+              }
+            />
+            <Route
+              path="/create"
+              element={
+                <Layout>
+                  <Create />
+                </Layout>
+              }
+            />
+            <Route
+              path="/song/list"
+              element={
+                <Layout>
+                  <SongList />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-page"
+              element={
+                <Layout>
+                  <ProtectedRoute>
+                    <MyPage isMyProfile={true} />
+                  </ProtectedRoute>
+                </Layout>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Layout>
+                  <MyPage isMyProfile={false} />
+                </Layout>
+              }
+            />
+            <Route
+              path="/albums-detail/:id"
+              element={
+                <Layout>
+                  {/* <ProtectedRoute> */}
+                  <AlbumsDetail />
+                  {/* </ProtectedRoute> */}
+                </Layout>
+              }
+            />
+            <Route
+              path="/edit-album-songs/:id"
+              element={
+                <Layout>
+                  <ProtectedRoute>
+                    <EditAlbumSongs />
+                  </ProtectedRoute>
+                </Layout>
+              }
+            />
+            <Route
+              path="/account-setting"
+              element={
+                <Layout>
+                  <ProtectedRoute>
+                    <AccountSettings />
+                  </ProtectedRoute>
+                </Layout>
+              }
+            />
+            <Route
+              path="/song-detail/:id"
+              element={
+                <Layout>
+                  <AlbumDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="/sign-up"
+              element={
+                <Layout>
+                  <SignUp />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft"
+              element={
+                <Layout>
+                  <Nft />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/list"
+              element={
+                <Layout>
+                  <NftList />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/mint/list"
+              element={
+                <Layout>
+                  <NftMintList />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/sell/list"
+              element={
+                <Layout>
+                  <NftSellList />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/collection/detail"
+              element={
+                <Layout>
+                  <CollectionDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/detail"
+              element={
+                <Layout>
+                  <NftItemDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="mint/detail"
+              element={
+                <Layout>
+                  <MintNftSellDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="sell/detail"
+              element={
+                <Layout>
+                  <MintNftSellDetail2 />
+                </Layout>
+              }
+            />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;

@@ -81,8 +81,16 @@ const LyricChatBot = ({
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 
-      // [가사 추출] 응답온걸 바로 가사에 저장
-      setGeneratedLyric(botMessage);
+      // [가사 추출] 예외 경우 제외하고 가사저장
+      if (
+        !botMessage.includes(
+          'Cannot generate lyrics based on the provided input. Please try again.'
+        ) &&
+        !botMessage.includes('가사를 생성할 수 없습니다. 다시 입력해주세요.')
+      ) {
+        setGeneratedLyric(botMessage);
+      }
+
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
       console.log('response', response);
     } catch (error) {
@@ -168,7 +176,8 @@ const LyricChatBot = ({
               value={userInput}
               onChange={handleUserInput}
               onKeyPress={handleKeyPress}
-              placeholder={initialLyricPlaceholder}
+              // placeholder={initialLyricPlaceholder}
+              placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
             />
             <button onClick={handleSendMessage}>Send</button>
           </div>

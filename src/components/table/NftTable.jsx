@@ -34,7 +34,7 @@ const dummy = [
   },
 ];
 
-const NftTable = ({ nftList, saleAction = true, handleSell, handleCancel }) => {
+const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel }) => {
   return (
     <Table>
       <TableHeader>
@@ -48,7 +48,7 @@ const NftTable = ({ nftList, saleAction = true, handleSell, handleCancel }) => {
         {saleAction && <TableHeader.Col>Sale Action</TableHeader.Col>}
       </TableHeader>
       <TableBody>
-        {dummy.map((item, index) => (
+        {nftList.map((item, index) => (
           <TableItem>
             <TableItem.Indexs text={index + 1} />
             <TableItem.Type image={songTypeIcon} />

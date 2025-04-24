@@ -58,6 +58,7 @@ const NftSellList = () => {
           playsOption={true}
           artistOption={false}
           sellOption={true}
+          gradeOption={true}
           handleSell={() => handleSell()}
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />

@@ -39,6 +39,7 @@ const Filter = ({
   nftSort,
   gradeFilter,
   mintingFilter,
+  tokenFilter,
 }) => {
   const [searchParamas, setSearchParams] = useSearchParams();
   const [modal, setModal] = useState(false);
@@ -51,6 +52,7 @@ const Filter = ({
   const generateFilter_ = searchParamas.get('generate_filter');
   const gradeFilter_ = searchParamas.get('grade_filter');
   const mintingFilter_ = searchParamas.get('minting_filter');
+  const tokenFilter_ = searchParamas.get('token_filter');
   const songsSort_ = searchParamas.get('songs_sort');
   const connectionsSort_ = searchParamas.get('connections_sort');
   const albumSort_ = searchParamas.get('album_sort');
@@ -62,6 +64,7 @@ const Filter = ({
     generateFilter_,
     gradeFilter_,
     mintingFilter_,
+    tokenFilter_,
     songsSort_,
     connectionsSort_,
     albumSort_,
@@ -155,6 +158,18 @@ const Filter = ({
                 }
               />
             )}
+            {tokenFilter && (
+              <FilterCategory
+                value={tokenFilter_}
+                setParamsObj={setParamsObj}
+                title="Minting"
+                filterName="token_filter"
+                filterItems={
+                  typeof tokenFilter === 'boolean' ? ['MOB', 'POL', 'USDT', 'USDC'] : tokenFilter
+                }
+              />
+            )}
+
             {songsSort && (
               <FilterCategory
                 value={songsSort_}

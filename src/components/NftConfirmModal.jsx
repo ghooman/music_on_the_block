@@ -3,7 +3,7 @@ import ModalWrap from './ModalWrap';
 
 import './NftConfirmModal.scss';
 
-const NftConfirmModal = ({ setShowModal,title,confirmSellTxt,setShowSuccessModal }) => {
+const NftConfirmModal = ({ setShowModal,title,confirmSellTxt,confirmMintTxt,setShowSuccessModal }) => {
 
 
 
@@ -13,8 +13,11 @@ const NftConfirmModal = ({ setShowModal,title,confirmSellTxt,setShowSuccessModal
             
             <dl>
                 {confirmSellTxt && <dt>[Item Name]</dt>}
-                
-                <dd>Network gas fees may apply. No refund or cancellation after purchase.</dd>
+                {confirmMintTxt && <dt>Confirm minting: [Item Name]</dt>}
+                <dd>
+                    Network gas fees may apply. 
+                    No refund or cancellation after purchase.
+                </dd>
             </dl>
             <div className='confirm-modal__btns'>
                 <button 

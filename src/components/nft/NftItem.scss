@@ -26,7 +26,11 @@
     border-radius: 16px;
     background-color: #222;
     width: 100%;
-
+    border: 1px solid transparent;
+    transition: 0.3s;
+    &.active{
+        border: 1px solid #cf0;
+    }
     .nft-item__images {
         position: relative;
         border-radius: 12px;

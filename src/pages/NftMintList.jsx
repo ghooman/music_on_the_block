@@ -58,6 +58,7 @@ const NftMintList = () => {
           playsOption={true}
           artistOption={false}
           mintOption={true}
+          gradeOption={true}
           handleMint={() => handleMint()}
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />

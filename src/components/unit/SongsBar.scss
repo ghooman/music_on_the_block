@@ -3,6 +3,12 @@
 
 
 
+.songs-bar-audio{
+  position: fixed;
+  left: -100%;
+  top: -100%;
+}//songs-bar-audio--END--
+
 
 .songs-bar{
   width: 100%;
@@ -15,7 +21,9 @@
   gap: 16px;
   cursor: pointer;
   margin-bottom: 16px;
+  transition: 0.3s;
   &:hover{
+    background: #232323;
     .songs-bar__play-box{
       .songs-bar__play-box__img{
           border: 1px solid #a9d400;
@@ -192,3 +200,32 @@
     }//songs-bar__details-btn--END--
   }//songs-bar__value-box--END--
 }//songs-bar--END--
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  .songs-bar{
+    flex-direction: column;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .songs-bar{
+    width: 100%;
+    align-items: start;
+    .songs-bar__value-box{
+      width: 100%;
+      .songs-bar__value-box__item{
+        flex-direction: column;
+      }
+    }
+  }
+}

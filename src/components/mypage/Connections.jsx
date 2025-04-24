@@ -38,7 +38,6 @@ const Connections = () => {
 
   const {
     data: connectionsData,
-    refetch,
     isLoading,
     isFetching,
   } = useQuery(
@@ -139,7 +138,6 @@ const Connections = () => {
         {/* <AlbumsTable /> */}
         <UserTable
           userList={connectionsData?.data_list}
-          refetch={refetch}
           followOption={connectionsType === 'Followers'}
           unFollowOption={connectionsType === 'Following'}
           handleFollowing={id => handleFollowing(id)}

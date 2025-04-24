@@ -2,67 +2,54 @@
 import '../styles/MintNftSellDetail.scss';
 import React, { useState, useRef } from 'react';
 import { Link ,useLocation} from 'react-router-dom';
-import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../components/unit/ContentWrap';
-import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
-import Search from '../components/unit/Search';
-import FilterItems from '../components/unit/FilterItems';
+
 // 이미지·아이콘 ------------------------------------------------------
-import coverImg        from '../assets/images/black-img.jpg';
-import demoImg         from '../assets/images/intro/intro-demo-img4.png';
-import defaultCoverImg from '../assets/images/header/logo.svg';
-import track1          from '../assets/music/song01.mp3';
-
-import editIcon        from '../assets/images/edit.svg';
-
 import micIcon        from '../assets/images/icon/mic-icon.svg';
 import mobIcon        from '../assets/images/icon/mob-icon.svg';
 import polygonIcon        from '../assets/images/icon/polygon-icon.svg';
 import usdtIcon        from '../assets/images/icon/usdt-icon.svg';
 import usdcIcon        from '../assets/images/icon/usdc-icon.svg';
 
-import MintDetailSection from '../components/mint-nft-details/MintDetailSection';
+// import MintDetailSection from '../components/mint-nft-details/MintDetailSection';
 import NftConfirmModal from '../components/NftConfirmModal';
 import NftConfirmSuccessModal from '../components/NftConfirmSuccessModal';
 import SongsBar from '../components/unit/SongsBar';
 
 
-// ──────────────── 더미 데이터 ────────────────
-const album = {
-    title:              'he dances through his masks like breathing - Yolkhead',
-    music_url:          track1,
-    cover_image:        coverImg,
-    detail:             'This is a dummy song for UI layout only.',
-    language:           'English',
-    genre:              'Pop',
-    gender:             'Any',
-    musical_instrument: 'Guitar',
-    tempo:              '120 BPM',
-    create_dt:          '2025‑04‑22',
-    name:               'Dummy Artist',
-    user_profile:       defaultCoverImg,
-    play_cnt:           123,
-    like:               45,
-    comment_cnt:        6,
-    lyrics:             `# Verse 1
-    This is **dummy** lyrics.
-    [Chorus] Sing along!`,
-};
+// // ──────────────── 더미 데이터 ────────────────
+// const album = {
+//     title:              'he dances through his masks like breathing - Yolkhead',
+//     music_url:          track1,
+//     cover_image:        coverImg,
+//     detail:             'This is a dummy song for UI layout only.',
+//     language:           'English',
+//     genre:              'Pop',
+//     gender:             'Any',
+//     musical_instrument: 'Guitar',
+//     tempo:              '120 BPM',
+//     create_dt:          '2025‑04‑22',
+//     name:               'Dummy Artist',
+//     user_profile:       defaultCoverImg,
+//     play_cnt:           123,
+//     like:               45,
+//     comment_cnt:        6,
+//     lyrics:             `# Verse 1
+//     This is **dummy** lyrics.
+//     [Chorus] Sing along!`,
+// };
 
-const tagArray          = ['Pop', 'Bright', 'Happy'];
-const albumDuration     = '3:02';
+// const tagArray          = ['Pop', 'Bright', 'Happy'];
+// const albumDuration     = '3:02';
 
 
-// Swiper 최소 옵션
 
 // ────────────────────────────────
 function MintNftSellDetail2() {
 
     const [showModal, setShowModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false); 
-    const [sellPassModal, setSellPassModal] = useState(false); 
-    const location = useLocation();
 
     const [isActive, setIsActive] = useState(false); // track active state for the title
     const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin

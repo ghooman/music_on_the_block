@@ -40,6 +40,7 @@ import coverImg8 from "../../assets/images/demo/album05.svg";
 import coverImg9 from "../../assets/images/demo/album06.svg";
 
 import "./NftItem.scss";
+import { useState } from "react";
 
 const nftData = [
   {
@@ -211,12 +212,15 @@ export const NftItemList = ({ data }) => {
   );
 };
 
-export const CollectionItemList = ({ data }) => {
+export const CollectionItemList = ({ data , linkMove = true}) => {
   return (
     <div className="nft-item-collection-wrap">
       {data.map((item, index) => (
         <React.Fragment key={index}>
-          <CollectionItem item={collectionData[item - 1]} />
+          <CollectionItem 
+            item={collectionData[item - 1]} 
+            linkMove={linkMove}
+          />
         </React.Fragment>
       ))}
     </div>
@@ -237,9 +241,33 @@ const NftItem = ({ item }) => {
   );
 };
 
-export const CollectionItem = ({ item }) => {
+export const CollectionItem = ({ item, linkMove = true  }) => {
+  const Wrapper = linkMove ? Link : 'div';
+  const [isActive, setIsActive] = useState(false);
+
+  const handleClick = (e) => {
+    if (!linkMove) {
+      e.preventDefault();
+
+      if (!isActive) {
+        // 모든 기존 active 제거
+        document
+          .querySelectorAll('.nft-item.active')
+          .forEach((el) => el.classList.remove('active'));
+      }
+
+      // 내 상태 토글 & 클래스 토글
+      setIsActive((prev) => !prev);
+    }
+  };
   return (
-    <Link className="nft-item" to="/nft/collection/detail">
+    <Link 
+      // className="nft-item" 
+      // to="/nft/collection/detail"
+      className={`nft-item${!linkMove && isActive ? ' active' : ''}`}
+      {...(linkMove && { to: '/nft/collection/detail' })} 
+      onClick={handleClick}
+    >
       <Images item={item} />
       <CollectionTitle title={item.title} />
       <Username username={item.username} />

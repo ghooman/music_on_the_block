@@ -192,3 +192,32 @@
     }//songs-bar__details-btn--END--
   }//songs-bar__value-box--END--
 }//songs-bar--END--
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  .songs-bar{
+    flex-direction: column;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .songs-bar{
+    width: 100%;
+    align-items: start;
+    .songs-bar__value-box{
+      width: 100%;
+      .songs-bar__value-box__item{
+        flex-direction: column;
+      }
+    }
+  }
+}

@@ -422,15 +422,15 @@ const TrackInformation = () => {
             <ContentWrap title="Activity">
                 <NftOverview title="Content Information">
                     <NftOverviewItem title="Tags" value="Winter, Night, Moon, Love, Promise" isLong />
-                    <NftOverviewItem title="creation date" value="Wed, 16 Apr 2025 21:50:12 UTC+9" isLong />
-                    <NftOverviewItem title="Detail" value="Boom Song Box" isTwo />
+                    <NftOverviewItem title="Creation Date" value="Wed, 16 Apr 2025 21:50:12 UTC+9" isLong />
                     <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
+                    <NftOverviewItem title="Language" value="KOR" isTwo/>
                     <NftOverviewItem title="Genre" value="POP" />
+                    <NftOverviewItem title="Gender" value="남성" />
                     <NftOverviewItem title="Musical Instrument" value="드럼,베이스" />
-                    <NftOverviewItem title="Language" value="KOR" />
                     <NftOverviewItem title="Tempo" value="110" />
+                    <NftOverviewItem title="Detail" value="Boom Song Box"  />
                     <NftOverviewItem title="Song Length" value="3:01" />
-                    <NftOverviewItem title="Genre" value="K-POP" />
                 </NftOverview>
             </ContentWrap>
             <ContentWrap title="Recommended NFTs">

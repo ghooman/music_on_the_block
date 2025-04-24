@@ -87,10 +87,35 @@
     padding: 8px;
     font-family: Inter500;
     font-size: 12px;
+    position: relative;
+    top: 0px;
+    transition: 0.2s all;
+
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0px;
+      }
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      width: calc(100% - 2px);
+      height: calc(100% - 1px);
+      border: 1px solid;
+      border-radius: 12px;
+      transition: 0.2s all;
+    }
 
     &.details {
       color: #aaa;
       background-color: #222;
+      &::before {
+        border-color: #222;
+      }
     }
     &.delete {
       color: #f1f1f1;

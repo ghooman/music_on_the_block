@@ -176,7 +176,7 @@ export const TopSongsTemplates = ({ topSongsData }) => {
           <AlbumItem track={topSongsData?.top_plays} />
         </div>
         <div className="songs__item">
-          <p className="songs__item-title">Top Like</p>
+          <p className="songs__item-title">Top Likes</p>
           <AlbumItem track={topSongsData?.top_like} />
         </div>
         <div className="songs__item">

@@ -75,7 +75,7 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
           ))}
         </TableBody>
       </Table>
-      <NoneContent height={300} message="테이블 데이터 없음" />
+      {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet" />}
     </TableWrapper>
   );
 };

@@ -46,13 +46,21 @@ const NftExchange = () => {
         <br />
         Connect AI-generated creations with the world
       </p>
+
       <div className="nft__exchange--btns">
-        <Link className="nft__exchange--button mint" to="/nft/mint/list">
-          Mint NFT
-        </Link>
-        <Link className="nft__exchange--button" to="/nft/sell/list">
-          Sell NFT
-        </Link>
+        <div className='nft__exchange--btns__left'>
+          <Link className="nft__exchange--button my" to="/my-page?category=NFT MarketPlace">
+            My NFTs
+          </Link>          
+        </div>
+        <div className='nft__exchange--btns__right'>
+          <Link className="nft__exchange--button mint" to="/nft/mint/list">
+            Mint NFT
+          </Link>
+          <Link className="nft__exchange--button" to="/nft/sell/list">
+            Sell NFT
+          </Link>
+        </div>
       </div>
     </div>
   );

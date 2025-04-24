@@ -15,6 +15,8 @@ import { generateKoreanPdf } from '../../utils/pdfGenerator';
 const tagPreset = {
   Love: ['Love'],
   Moon: ['Moon'],
+  Happy: ['Happy'],
+  Sad: ['Sad'],
   Travel: ['Travel'],
   Winter: ['Winter'],
   Cafe: ['Cafe'],
@@ -25,24 +27,23 @@ const tagPreset = {
   Strawberry: ['Strawberry'],
 };
 
-const moodPreset = {
-  Happy: ['Happy'],
-  Sad: ['Sad'],
-  Romantic: ['Romantic'],
-  Hopeful: ['Hopeful'],
-  Angry: ['Angry'],
-  Relaxed: ['Relaxed'],
-  Mysterious: ['Mysterious'],
-  Energetic: ['Energetic'],
-  Melancholic: ['Melancholic'],
-  Dreamy: ['Dreamy'],
-  Nostalgic: ['Nostalgic'],
-  Serene: ['Serene'],
-  Fun: ['Fun'],
-  Introspective: ['Introspective'],
-  Epic: ['Epic'],
+const genrePreset = {
+  'K-POP': ['K-POP'],
+  POP: ['POP'],
+  BALLAD: ['BALLAD'],
+  'R&B': ['R&B'],
+  SOUL: ['SOUL'],
+  'HIP-HOP': ['HIP-HOP'],
+  RAP: ['RAP'],
+  ROCK: ['ROCK'],
+  METAL: ['METAL'],
+  FOLK: ['FOLK'],
+  BLUES: ['BLUES'],
+  COUNTRY: ['COUNTRY'],
+  EDM: ['EDM'],
+  CLASSICAL: ['CLASSICAL'],
+  REGGAE: ['REGGAE'],
 };
-
 const stylePreset = {
   Happy: ['Happy'],
   Sad: ['Sad'],
@@ -115,6 +116,9 @@ const LyricsLab = ({
   7. Default Simplicity for Insufficient Tags
      - If the user does not select or provide sufficient tags or details, create simple, straightforward lyrics using a basic structure.
   
+  8. Lyrics Length
+     - The lyrics should be 900~1,000 characters (including spaces) in length.
+
   Your overall goal is to deliver engaging, well-structured song lyrics that align with the user's request, without any extra commentary.
   
 `;
@@ -193,12 +197,12 @@ const LyricsLab = ({
             />
           </SubBanner>
           <SelectItem
-            mainTitle="Select a Mood"
-            subTitle="Popular Mood"
+            mainTitle="Select a Genre"
+            subTitle="Popular Genre"
             setter={setLyricData}
             objKey="lyric_genre"
             selected={lyricData?.lyric_genre}
-            preset={moodPreset}
+            preset={genrePreset}
           />
           <SelectItemInputOnly value={lyricStory} setter={setLyricStory} title="Your Story" />
         </SelectItemWrap>
@@ -206,7 +210,7 @@ const LyricsLab = ({
         <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <SelectedWrap title="Lyrics Lab">
             <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
-            <SelectedItem title="Mood" value={lyricData?.lyric_genre} />
+            <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
 
             <div className="lyrics-lab__selected-item">
               <p className="lyrics-lab__selected-item--title">Your Story</p>

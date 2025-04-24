@@ -421,7 +421,7 @@ const MelodyMaker = ({
       <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <SelectedWrap title="Lyrics Lab">
           <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
-          <SelectedItem title="Mood" value={lyricData?.lyric_genre} />
+          <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
 
           <div className="lyrics-lab__selected-item">
             <p className="lyrics-lab__selected-item--title">Story</p>

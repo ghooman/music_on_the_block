@@ -96,15 +96,95 @@
     position: relative;
     top: 0px;
     transition: 0.2s all;
-    text-transform: capitalize;
-
+    z-index: 1;
     &:hover {
       top: 4px;
       &::before {
         top: 0px;
       }
     }
+    &.details {
+      color: #aaa;
+      background-color: #222;
+      &::before {
+        border-color: #222;
+      }
+      &::after {
+        background-color: #222;
+      }
+    }
+    &.sold {
+      color: #1a1a1a;
+      background-color: #cf0;
+      &::before {
+        border: 1px solid #cf0;
+      }
+      &::after {
+        background: #cf0;
+      }
+    }
+    &.sell {
+      color: #1a1a1a;
+      background-color: #5a9bf6;
+      &::before {
+        border: 1px solid #5a9bf6;
+      }
+      &::after {
+        background: #5a9bf6;
+      }
+    }
+    &.cancel {
+      color: #1a1a1a;
+      background-color: #df1919;
+      &::before {
+        border: 1px solid #df1919;
+      }
+      &::after {
+        background: #df1919;
+      }
+    }
+    &.delete {
+      color: #f1f1f1;
+      background-color: #44000d;
+      &::before {
+        border: 1px solid #44000d;
+      }
+      &::after {
+        background: #44000d;
+      }
+    }
+    &.release {
+      color: #f1f1f1;
+      background-color: #003321;
+      &::before {
+        border: 1px solid #003321;
+      }
+      &::after {
+        background: #003321;
+      }
+    }
 
+    &.mint {
+      color: #1a1a1a;
+      background-color: #00d293;
+      &::before {
+        border: 1px solid #00d293;
+      }
+      &::after {
+        background: #00d293;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
     &::before {
       content: '';
       position: absolute;
@@ -115,6 +195,8 @@
       border: 1px solid;
       border-radius: 12px;
       transition: 0.2s all;
+      background: #000;
+      z-index: -1;
     }
 
     &.details {
@@ -131,7 +213,8 @@
         border-color: #44000d;
       }
     }
-    &.follow {
+    &.follow,
+    &.release {
       color: #f1f1f1;
       background-color: #003321;
       &::before {

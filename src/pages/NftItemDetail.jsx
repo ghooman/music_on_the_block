@@ -65,7 +65,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'Yolkhead',
     },
-    price: '100.000',
+    price: '100.000 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
   },
   {
@@ -74,7 +74,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'CryptoWhale',
     },
-    price: '98.500',
+    price: '98.500 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:35:00 UTC+9',
   },
   {
@@ -83,7 +83,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'MusicLover',
     },
-    price: '99.000',
+    price: '99.000 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:30:00 UTC+9',
   },
   {
@@ -92,7 +92,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'NFTKing',
     },
-    price: '101.000',
+    price: '101.000 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:25:00 UTC+9',
   },
   {
@@ -101,7 +101,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'BlockMaster',
     },
-    price: '97.500',
+    price: '97.500 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:20:00 UTC+9',
   },
   {
@@ -110,7 +110,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'SoundCollector',
     },
-    price: '102.000',
+    price: '102.000 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:15:00 UTC+9',
   },
   {
@@ -119,7 +119,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'MelodyHunter',
     },
-    price: '103.500',
+    price: '103.500 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:10:00 UTC+9',
   },
   {
@@ -128,7 +128,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'BeatMaker',
     },
-    price: '98.000',
+    price: '98.000 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:05:00 UTC+9',
   },
   {
@@ -137,7 +137,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'RhythmTrader',
     },
-    price: '104.000',
+    price: '104.000 MOB',
     transactionDate: 'Sat, 04 Nov 2023 14:00:00 UTC+9',
   },
   {
@@ -146,7 +146,7 @@ const dummyData2 = [
       picture: dummy_userImage,
       name: 'SongMaster',
     },
-    price: '99.500',
+    price: '99.500 MOB',
     transactionDate: 'Sat, 04 Nov 2023 13:55:00 UTC+9',
   },
 ];
@@ -495,7 +495,7 @@ const History = () => {
       </ContentWrap.SubWrap>
       <CustomTable
         data={dummyData2}
-        headers={['#', ' Artist Name', 'Price (MOB)', 'Transaction Date']}
+        headers={['#', ' Artist Name', 'Price', 'Transaction Date']}
       />
       {/* <SongPlayTable
         songList={[]}

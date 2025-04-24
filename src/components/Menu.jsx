@@ -199,6 +199,20 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             <dt className="menu__box__title">MENU</dt>
             <dd>
               <div className="menu__box__gnb-list">
+                {/* 일반 아이템 - Albums */}
+                <div
+                  className={`menu__box__gnb-list__item ${
+                    pathname.startsWith('/main') ? 'active' : ''
+                  }`}
+                >
+                  <Link
+                    to="/main"
+                    className="menu__box__gnb-list__item__btn main"
+                    onClick={() => handleSingleActive('album')}
+                  >
+                    <p className="icon"></p>Main
+                  </Link>
+                </div>
                 {/* AI Services - 슬라이드 탭 */}
                 <div
                   className={`menu__box__gnb-list__item ai-services slide-tab ${
@@ -235,20 +249,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   </ul>
                 </div>
 
-                {/* 일반 아이템 - Albums */}
-                <div
-                  className={`menu__box__gnb-list__item ${
-                    pathname.startsWith('/main') ? 'active' : ''
-                  }`}
-                >
-                  <Link
-                    to="/main"
-                    className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSingleActive('album')}
-                  >
-                    <p className="icon"></p>Main
-                  </Link>
-                </div>
                 {/* 일반 아이템 - NFT MarketPlace */}
                 <div
                   className={`menu__box__gnb-list__item ${
@@ -257,7 +257,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 >
                   <Link
                     to="/nft"
-                    className="menu__box__gnb-list__item__btn"
+                    className="menu__box__gnb-list__item__btn shop"
                     onClick={() => handleSingleActive('nft')}
                   >
                     <p className="icon"></p>NFT MarketPlace
@@ -287,7 +287,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   <Link
                     to="https://eco.musicontheblock.com"
                     target="_b"
-                    className="menu__box__gnb-list__item__btn"
+                    className="menu__box__gnb-list__item__btn earn"
                     onClick={() => handleSingleActive('earn')}
                   >
                     <p className="icon"></p>Eco System
@@ -327,18 +327,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             </dd>
           </dl>
 
-          {/* {isLoggedIn && (
+          {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
                 <div className="menu__box__gnb-list">
                   <div
                     className={`menu__box__gnb-list__item my-page ${
-                      pathname.startsWith('/my-page/service') ? 'active' : ''
+                      pathname.startsWith('/my-page') ? 'active' : ''
                     }`}
                   >
                     <Link
-                      to="/my-page/service?category=AI Services"
+                      to="/my-page?category=AI Services"
                       className="menu__box__gnb-list__item__btn"
                       onClick={() => handleSingleActive('my-page')}
                       // onClick={() => setPreparingModal(true)}
@@ -362,38 +362,38 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         className={activeSubItem === 'Songs' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Songs')}
                       >
-                        <Link to="/my-page/music?category=Songs">Songs</Link>
+                        <Link to="/my-page?category=Songs">Songs</Link>
                       </li>
                       <li
                         className={activeSubItem === 'Connections' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Connections')}
                       >
-                        <Link to="/my-page/music?category=Connections">Connections</Link>
+                        <Link to="/my-page?category=Connections">Connections</Link>
                       </li>
                       <li
                         className={activeSubItem === 'Favorites' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Favorites')}
                       >
-                        <Link to="/my-page/music?category=Favorites">Favorites</Link>
+                        <Link to="/my-page?category=Favorites">Favorites</Link>
                       </li>
                       <li
                         className={activeSubItem === 'Albums' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Albums')}
                       >
-                        <Link to="/my-page/music?category=Albums">Albums</Link>
+                        <Link to="/my-page?category=Albums">Albums</Link>
                       </li>
                       <li
                         className={activeSubItem === 'NFT MarketPlace' ? 'active' : ''}
                         onClick={() => handleSubItemClick('NFT MarketPlace')}
                       >
-                        <Link to="/my-page/music?category=NFT MarketPlace">NFT MarketPlace</Link>
+                        <Link to="/my-page?category=NFT MarketPlace">NFT MarketPlace</Link>
                       </li>
                     </ul>
                   </div>
                 </div>
               </dd>
             </dl>
-          )} */}
+          )}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

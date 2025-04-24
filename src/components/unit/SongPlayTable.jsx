@@ -1,11 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import NoneContent from './NoneContent';
-import './AlbumsTable.scss';
+import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
+
 import playIcon from '../../assets/images/play-icon2.svg';
-import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import track3 from '../../assets/music/MusicOnTheBlock_v1.mp3';
+import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import defaultImage from '../../assets/images/header/logo-png.png';
+import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
+import grade2Icon from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
+import grade3Icon from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
+import grade4Icon from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
+import grade5Icon from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
+
+import './AlbumsTable.scss';
 
 /**
  *
@@ -29,185 +37,310 @@ import defaultImage from '../../assets/images/header/logo-png.png';
  * @returns
  */
 const SongPlayTable = ({
-    songList = [],
-    //== 삭제
-    deleteOption,
-    handleDelete,
-    //== 릴리즈
-    releaseOption,
-    handleRelease,
-    //== 민트
-    mintOption,
-    handleMint,
-    //== 셀
-    sellOption,
-    handleSell,
-    //== 좋아요
-    likesOption,
-    //== 플레이
-    playsOption,
-    //== 아티스트
-    artistOption = true,
-    //== 그외 옵션
-    isContinue = true,
-    isScroll,
-    isTrigger,
-    setIsTrigger,
+  songList = [],
+  //== 삭제
+  deleteOption,
+  handleDelete,
+  //== 릴리즈
+  releaseOption,
+  handleRelease,
+  //== 민트
+  mintOption,
+  handleMint,
+  //== 셀
+  sellOption,
+  handleSell,
+  //== 좋아요
+  likesOption,
+  //== 플레이
+  playsOption,
+  //== 아티스트
+  artistOption = true,
+
+  //== 등급
+  gradeOption,
+  //== NFT 여부
+  nftOption,
+
+  //== 그외 옵션
+  isContinue = true,
+  isScroll,
+  isTrigger,
+  setIsTrigger,
 }) => {
-    const [activeSong, setActiveSong] = useState(null);
-    let triggerIndex = useRef(0);
-    const audioRef = useRef(null);
+  const [activeSong, setActiveSong] = useState(null);
+  const navigate = useNavigate();
+  let triggerIndex = useRef(0);
+  const audioRef = useRef(null);
 
-    useEffect(() => {
-        if (!activeSong) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.currentTime = 0;
-            audioRef.current.src = activeSong?.music_url;
-            audioRef.current.play();
-        }
-    }, [activeSong]);
+  useEffect(() => {
+    if (!activeSong) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.currentTime = 0;
+      audioRef.current.src = activeSong?.music_url;
+      audioRef.current.play();
+    }
+  }, [activeSong]);
 
-    useEffect(() => {
-        if (isTrigger === true) {
-            setActiveSong(songList[0]);
-        } else {
-            setActiveSong(null);
-        }
-    }, [isTrigger]);
+  useEffect(() => {
+    if (isTrigger === true) {
+      setActiveSong(songList[0]);
+    } else {
+      setActiveSong(null);
+    }
+  }, [isTrigger]);
 
-    console.log(songList, '송 리스트');
+  return (
+    <>
+      <div className="audio-container">
+        <audio
+          controls
+          ref={audioRef}
+          onEnded={() => {
+            if (isContinue) {
+              setActiveSong(
+                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
+              );
+            } else {
+              setActiveSong(null);
+            }
+          }}
+        />
+      </div>
+      <TableWrapper>
+        <Table>
+          <TableHeader>
+            <TableHeader.Col>#</TableHeader.Col>
+            <TableHeader.Col>Song</TableHeader.Col>
+            <TableHeader.Col>Type</TableHeader.Col>
+            {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
+            <TableHeader.Col>Song Title</TableHeader.Col>
+            {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
+            {likesOption && <TableHeader.Col>Likes</TableHeader.Col>}
+            <TableHeader.Col>Details</TableHeader.Col>
+            {deleteOption && <TableHeader.Col>Delete</TableHeader.Col>}
+            {releaseOption && <TableHeader.Col>Release</TableHeader.Col>}
+            {mintOption && <TableHeader.Col>NFT Mint</TableHeader.Col>}
+            {sellOption && <TableHeader.Col>Sell NFT</TableHeader.Col>}
+          </TableHeader>
+          <TableBody>
+            {songList &&
+              songList.length > 0 &&
+              songList.map((item, index) => (
+                <TableItem
+                  isHover={true}
+                  handleClick={() => {
+                    if (activeSong?.id === item?.id) {
+                      setActiveSong(null);
+                    } else {
+                      setActiveSong(item);
+                      if (isTrigger && setIsTrigger) {
+                        triggerIndex.current = index;
+                      }
+                    }
+                  }}
+                >
+                  <TableItem.Indexs text={index + 1} />
+                  <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
+                  <TableItem.Type image={songTypeIcon} />
+                  {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
+                  <TableItem.Text text={item.title} />
+                  {playsOption && <TableItem.Text text={item.play_cnt} />}
+                  {likesOption && <TableItem.Text text={item.like} />}
 
-    return (
-        <>
-            <div className="audio-container">
-                <audio
-                    controls
-                    ref={audioRef}
-                    onEnded={() => {
-                        if (isContinue) {
-                            setActiveSong(
-                                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
-                            );
-                        } else {
-                            setActiveSong(null);
+                  <TableItem.Button
+                    title="Details"
+                    type="details"
+                    handleClick={() => navigate(`/song-detail/${item.id}`)}
+                  />
+
+                  {deleteOption && handleDelete && (
+                    <TableItem.Button
+                      title="Delete"
+                      type="delete"
+                      handleClick={e => {
+                        e.stopPropagation();
+                        handleDelete(item);
+                      }}
+                    />
+                  )}
+
+                  {releaseOption && handleRelease && (
+                    <TableItem.Button
+                      title="Release"
+                      type="release"
+                      handleClick={e => {
+                        e.stopPropagation();
+                        handleRelease(item);
+                      }}
+                    />
+                  )}
+
+                  {mintOption && handleMint && (
+                    <TableItem.Button
+                      title="Mint"
+                      type="mint"
+                      handleClick={() => navigate('/mint/detail')}
+                    />
+                  )}
+
+                  {sellOption && handleSell && (
+                    <TableItem.Button
+                      title="Sell"
+                      type="sell"
+                      handleClick={() => navigate('/sell/detail')}
+                    />
+                  )}
+                </TableItem>
+              ))}
+          </TableBody>
+        </Table>
+        {songList.length <= 0 && (
+          <NoneContent message={'There are no songs created yet.'} height={300} />
+        )}
+      </TableWrapper>
+    </>
+  );
+
+  return (
+    <>
+      <div className="audio-container">
+        <audio
+          controls
+          ref={audioRef}
+          onEnded={() => {
+            if (isContinue) {
+              setActiveSong(
+                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
+              );
+            } else {
+              setActiveSong(null);
+            }
+          }}
+        />
+      </div>
+
+      <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
+        <table>
+          <thead className={`${isScroll ? 'sticky' : ''}`}>
+            <tr>
+              <th>#</th>
+              <th className="albums-table__song">Song</th>
+              <th className="albums-table__type">Type</th>
+              {gradeOption && <th>Grade</th>}
+              {nftOption && <th>NFT</th>}
+              {artistOption && <th>Artist</th>}
+              <th className="albums-table__song-title">Song Title</th>
+              {playsOption && <th>Plays</th>}
+              {likesOption && <th>Likes</th>}
+              <th>Details</th>
+              {deleteOption && <th>Delete</th>}
+              {releaseOption && <th>Release</th>}
+              {mintOption && <th>NFT Mint</th>}
+              {sellOption && <th>Sell NFT</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {songList && songList.length > 0 && (
+              <>
+                {songList?.map((album, index) => (
+                  <tr
+                    key={album.id}
+                    className={activeSong?.id === album.id ? 'active' : ''}
+                    onClick={() => {
+                      if (activeSong?.id === album?.id) {
+                        setActiveSong(null);
+                      } else {
+                        setActiveSong(album);
+                        if (isTrigger && setIsTrigger) {
+                          triggerIndex.current = index;
                         }
+                      }
                     }}
-                />
-            </div>
+                  >
+                    <td>{index + 1}</td>
+                    <td>
+                      <button className="albums-table__song-btn">
+                        <img src={album.cover_image} alt="images" />
+                        <div className="loading-wave">
+                          <div className="loading-bar"></div>
+                          <div className="loading-bar"></div>
+                          <div className="loading-bar"></div>
+                          <div className="loading-bar"></div>
+                        </div>
+                      </button>
+                    </td>
+                    <td>
+                      <img src={songTypeIcon} alt="type" />
+                    </td>
+                    {gradeOption && (
+                      <td>
+                        <img src={grade1Icon} alt="grade" />
+                      </td>
+                    )}
+                    {nftOption && <td>NFT</td>}
+                    {artistOption && (
+                      <td>
+                        <div className="albums-table__artist">
+                          <img
+                            className="albums-table__artist-img"
+                            src={album.user_profule || defaultImage}
+                            alt="profile"
+                          />
 
-            <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
-                <table>
-                    <thead className={`${isScroll ? 'sticky' : ''}`}>
-                        <tr>
-                            <th>#</th>
-                            <th className="albums-table__song">Song</th>
-                            <th className="albums-table__type">Type</th>
-                            {artistOption && <th>Artist</th>}
-                            <th className="albums-table__song-title">Song Title</th>
-                            {playsOption && <th>Plays</th>}
-                            {likesOption && <th>Likes</th>}
-                            <th>Details</th>
-                            {deleteOption && <th>Delete</th>}
-                            {releaseOption && <th>Release</th>}
-                            {mintOption && <th>NFT Mint</th>}
-                            {sellOption && <th>Sell NFT</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {songList && songList.length > 0 && (
-                            <>
-                                {songList?.map((album, index) => (
-                                    <tr
-                                        key={album.id}
-                                        className={activeSong?.id === album.id ? 'active' : ''}
-                                        onClick={() => {
-                                            if (activeSong?.id === album?.id) {
-                                                setActiveSong(null);
-                                            } else {
-                                                setActiveSong(album);
-                                                if (isTrigger && setIsTrigger) {
-                                                    triggerIndex.current = index;
-                                                }
-                                            }
-                                        }}
-                                    >
-                                        <td>{index + 1}</td>
-                                        <td>
-                                            <button className="albums-table__song-btn">
-                                                <img src={album.cover_image} alt="images" />
-                                                <div className="loading-wave">
-                                                    <div className="loading-bar"></div>
-                                                    <div className="loading-bar"></div>
-                                                    <div className="loading-bar"></div>
-                                                    <div className="loading-bar"></div>
-                                                </div>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <img src={songTypeIcon} />
-                                        </td>
-                                        {artistOption && (
-                                            <td>
-                                                <div className="albums-table__artist">
-                                                    <img
-                                                        className="albums-table__artist-img"
-                                                        src={album.user_profule || defaultImage}
-                                                        alt="profile"
-                                                    />
-
-                                                    {album.name}
-                                                </div>
-                                            </td>
-                                        )}
-                                        <td>{album.title}</td>
-                                        {playsOption && <td>{album?.play_cnt?.toLocaleString()}</td>}
-                                        {likesOption && <td>{album?.like?.toLocaleString()}</td>}
-                                        <td>
-                                            <div className="td-content">
-                                                <Link
-                                                    className="albums-table__detail-btn"
-                                                    to={`/song-detail/${album.id}`}
-                                                    onClick={(e) => e.stopPropagation()}
-                                                >
-                                                    Detail
-                                                </Link>
-                                            </div>
-                                        </td>
-                                        {deleteOption && handleDelete && (
-                                            <td>
-                                                <div className="td-content">
-                                                    <button
-                                                        className="albums-table__detail-btn delete"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleDelete(album);
-                                                        }}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        )}
-                                        {releaseOption && handleRelease && (
-                                            <td>
-                                                <div className="td-content">
-                                                    <button
-                                                        className="albums-table__detail-btn release"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleRelease(album);
-                                                        }}
-                                                    >
-                                                        Release
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        )}
-                                        {mintOption && handleMint && (
-                                            <td>
-                                                <div className="td-content">
-                                                    {/* <button
+                          {album.name}
+                        </div>
+                      </td>
+                    )}
+                    <td>{album.title}</td>
+                    {playsOption && <td>{album?.play_cnt?.toLocaleString()}</td>}
+                    {likesOption && <td>{album?.like?.toLocaleString()}</td>}
+                    <td>
+                      <div className="td-content">
+                        <Link
+                          className="albums-table__detail-btn"
+                          to={`/song-detail/${album.id}`}
+                          onClick={e => e.stopPropagation()}
+                        >
+                          Detail
+                        </Link>
+                      </div>
+                    </td>
+                    {deleteOption && handleDelete && (
+                      <td>
+                        <div className="td-content">
+                          <button
+                            className="albums-table__detail-btn delete"
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleDelete(album);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                    {releaseOption && handleRelease && (
+                      <td>
+                        <div className="td-content">
+                          <button
+                            className="albums-table__detail-btn release"
+                            onClick={e => {
+                              e.stopPropagation();
+                              handleRelease(album);
+                            }}
+                          >
+                            Release
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                    {mintOption && handleMint && (
+                      <td>
+                        <div className="td-content">
+                          {/* <button
                                                         className="albums-table__detail-btn mint"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
@@ -216,19 +349,16 @@ const SongPlayTable = ({
                                                     >
                                                         Mint
                                                     </button> */}
-                                                    <Link
-                                                        className="albums-table__detail-btn mint"
-                                                        to='/mint/detail'
-                                                    >
-                                                        Mint
-                                                    </Link>
-                                                </div>
-                                            </td>
-                                        )}
-                                        {sellOption && handleSell && (
-                                            <td>
-                                                <div className="td-content">
-                                                    {/* <button
+                          <Link className="albums-table__detail-btn mint" to="/mint/detail">
+                            Mint
+                          </Link>
+                        </div>
+                      </td>
+                    )}
+                    {sellOption && handleSell && (
+                      <td>
+                        <div className="td-content">
+                          {/* <button
                                                         className="albums-table__detail-btn sell"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
@@ -237,25 +367,24 @@ const SongPlayTable = ({
                                                     >
                                                         Sell
                                                     </button> */}
-                                                    <Link
-                                                        className="albums-table__detail-btn sell"
-                                                        to='/sell/detail'
-                                                    >
-                                                        Sell
-                                                    </Link>
-                                                </div>
-                                            </td>
-                                        )}
-                                    </tr>
-                                ))}
-                            </>
-                        )}
-                    </tbody>
-                </table>
-                {songList?.length === 0 && <NoneContent message={'There are no songs created yet.'} height={300} />}
-            </div>
-        </>
-    );
+                          <Link className="albums-table__detail-btn sell" to="/sell/detail">
+                            Sell
+                          </Link>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </>
+            )}
+          </tbody>
+        </table>
+        {songList?.length === 0 && (
+          <NoneContent message={'There are no songs created yet.'} height={300} />
+        )}
+      </div>
+    </>
+  );
 };
 
 export default SongPlayTable;

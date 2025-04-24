@@ -86,7 +86,7 @@ const LyricChatBot = ({
         !botMessage.includes(
           'Cannot generate lyrics based on the provided input. Please try again.'
         ) &&
-        !botMessage.includes('가사를 생성할 수 없습니다. 다시 입력해주세요.')
+        !botMessage.includes('가사 생성에 어울리지 않는 내용입니다. 다시 입력해주세요')
       ) {
         setGeneratedLyric(botMessage);
       }

@@ -1,0 +1,329 @@
+.table__wrapper {
+  border: 1px solid #222;
+  border-radius: 12px;
+}
+
+.table {
+  border-radius: 12px;
+  border: 1px solid #222;
+  border-spacing: 0;
+  table-layout: auto;
+  width: auto;
+  width: 100%;
+}
+
+.table__thead {
+  border-radius: 12px 12px 0px 0px;
+  background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
+}
+
+.table__thead--item {
+  padding: 8px;
+  color: #a9d400;
+  text-align: center;
+  font-family: Orbitron400;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.table__body {
+  &.hover {
+    cursor: pointer;
+    transition: 0.2s all;
+    &:hover {
+      background: #383838;
+      .table__body--item {
+        // song의 경우 호버시 이벤트
+        .song {
+          img {
+            border: 1px solid #a9d400;
+          }
+
+          &.active {
+            &::after {
+              opacity: 0;
+            }
+          }
+
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+
+.table__body--item {
+  padding: 8px;
+  text-align: center;
+
+  &.index {
+    width: 40px;
+  }
+
+  .text {
+    text-align: center;
+    overflow: hidden;
+    color: #aaa;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-family: Inter400;
+    font-size: 14px;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;  
+  }
+
+  .userinfo {
+    width: fit-content;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    img {
+      border-radius: 100%;
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+    }
+  }
+
+  .button {
+    border-radius: 12px;
+    width: 100%;
+    max-width: 100px;
+    margin: 0 auto;
+    padding: 8px;
+    font-family: Inter500;
+    font-size: 12px;
+    position: relative;
+    top: 0px;
+    transition: 0.2s all;
+    z-index: 1;
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0px;
+      }
+    }
+    &.details {
+      color: #aaa;
+      background-color: #222;
+      &::before {
+        border-color: #222;
+      }
+      &::after {
+        background-color: #222;
+      }
+    }
+    &.sold {
+      color: #1a1a1a;
+      background-color: #cf0;
+      &::before {
+        border: 1px solid #cf0;
+      }
+      &::after {
+        background: #cf0;
+      }
+    }
+    &.sell {
+      color: #1a1a1a;
+      background-color: #5a9bf6;
+      &::before {
+        border: 1px solid #5a9bf6;
+      }
+      &::after {
+        background: #5a9bf6;
+      }
+    }
+    &.cancel {
+      color: #1a1a1a;
+      background-color: #df1919;
+      &::before {
+        border: 1px solid #df1919;
+      }
+      &::after {
+        background: #df1919;
+      }
+    }
+    &.delete {
+      color: #f1f1f1;
+      background-color: #44000d;
+      &::before {
+        border: 1px solid #44000d;
+      }
+      &::after {
+        background: #44000d;
+      }
+    }
+
+    &.follow,
+    &.release {
+      color: #f1f1f1;
+      background-color: #003321;
+      &::before {
+        border: 1px solid #003321;
+      }
+      &::after {
+        background: #003321;
+      }
+    }
+    &.following {
+      color: #f1f1f1;
+
+      &::before {
+        border-color: #171816;
+      }
+      &::after {
+        background-color: #171816;
+      }
+    }
+
+    &.unfollow {
+      color: #f1f1f1;
+      background-color: #44000d;
+      &::before {
+        border-color: #44000d;
+      }
+      &::after {
+        background: #44000d;
+      }
+    }
+
+    &.mint {
+      color: #1a1a1a;
+      background-color: #00d293;
+      &::before {
+        border: 1px solid #00d293;
+      }
+      &::after {
+        background: #00d293;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      width: calc(100% - 2px);
+      height: calc(100% - 1px);
+      border: 1px solid;
+      border-radius: 12px;
+      transition: 0.2s all;
+      background: #000;
+      z-index: -1;
+    }
+  }
+
+  .type {
+    margin: 0 auto;
+    width: 18px;
+    border-radius: 100%;
+    background-color: #222;
+    padding: 2px;
+    img {
+      width: 14px;
+      height: 14px;
+      object-fit: cover;
+    }
+  }
+
+  .song {
+    margin: 0 auto;
+    width: 24px;
+    position: relative;
+    img {
+      border-radius: 2px;
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+      box-sizing: border-box;
+    }
+
+    &.active {
+      .loading-wave {
+        opacity: 1;
+      }
+    }
+    &::before {
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      background: url('../../assets/images/table-play-icon.svg') center no-repeat;
+      background-size: cover;
+      transition: 0.3s;
+      opacity: 0;
+    }
+    /* From Uiverse.io by mrpumps31232 */
+    .loading-wave {
+      width: 50px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      transition: 0.3s;
+      opacity: 0;
+    }
+
+    .loading-bar {
+      width: 2px;
+      height: 6px;
+      margin: 0 1px;
+      background-color: #fff;
+      border-radius: 5px;
+      animation: loading-wave-animation 1s ease-in-out infinite;
+    }
+
+    .loading-bar:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .loading-bar:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .loading-bar:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+  }
+}
+
+@keyframes loading-wave-animation {
+  0% {
+    height: 5px;
+  }
+
+  50% {
+    height: 18px;
+  }
+
+  100% {
+    height: 5px;
+  }
+}

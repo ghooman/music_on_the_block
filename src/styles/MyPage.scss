@@ -172,16 +172,16 @@
                         line-height: normal;
                         letter-spacing: 0.48px;
                         position: relative;
-                        &::after {
-                            position: absolute;
-                            content: '';
-                            width: 4px;
-                            height: 4px;
-                            top: -2px;
-                            right: -4px;
-                            background-color: #cf0;
-                            border-radius: 100%;
-                        }
+                        // &::after {
+                        //     position: absolute;
+                        //     content: '';
+                        //     width: 4px;
+                        //     height: 4px;
+                        //     top: -2px;
+                        //     right: -4px;
+                        //     background-color: #cf0;
+                        //     border-radius: 100%;
+                        // }
                     }
                     .exp-box__value {
                         color: var(--secondary-400, #007e56);

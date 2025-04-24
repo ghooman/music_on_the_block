@@ -348,46 +348,42 @@
                         background-size: cover;
                         transition: 0.2s;
                     }
-                } //menu__box__gnb-list__item__btn--END--
-                &.album {
-                    .menu__box__gnb-list__item__btn {
+                    &.main {
                         .icon {
                             background: url('../assets/images/menu/albums-icon.svg') center no-repeat;
                         }
-                    } //menu__box__gnb-list__item__btn--END--
-                    &.active,
-                    &:hover {
-                        .icon {
-                            background: url('../assets/images/menu/albums-icon-on.svg') center no-repeat;
+                        &.active,
+                        &:hover {
+                            .icon {
+                                background: url('../assets/images/menu/albums-icon-on.svg') center no-repeat;
+                            }
                         }
-                    }
-                } //album--END--
-                &.shop {
-                    .menu__box__gnb-list__item__btn {
+                    } //main--END--
+                    &.shop {
                         .icon {
                             background: url('../assets/images/menu/shop-icon.svg') center no-repeat;
                         }
-                    } //menu__box__gnb-list__item__btn--END--
-                    &.active,
-                    &:hover {
-                        .icon {
-                            background: url('../assets/images/menu/shop-icon-on.svg') center no-repeat;
+                        &.active,
+                        &:hover {
+                            .icon {
+                                background: url('../assets/images/menu/shop-icon-on.svg') center no-repeat;
+                            }
                         }
-                    }
-                } //shop--END--
-                &.earn {
-                    .menu__box__gnb-list__item__btn {
+                    } //shop--END--
+                    &.earn {
                         .icon {
                             background: url('../assets/images/menu/earn-icon.svg') center no-repeat;
                         }
-                    } //menu__box__gnb-list__item__btn--END--
-                    &.active,
-                    &:hover {
-                        .icon {
-                            background: url('../assets/images/menu/earn-icon-on.svg') center no-repeat;
+                        &.active,
+                        &:hover {
+                            .icon {
+                                background: url('../assets/images/menu/earn-icon-on.svg') center no-repeat;
+                            }
                         }
-                    }
-                } //earn--END--
+                    } //earn--END--
+                } //menu__box__gnb-list__item__btn--END--
+
+
                 .menu__box__gnb-list__item__list {
                     border-radius: 12px 4px 12px 12px;
                     background: #cf0;

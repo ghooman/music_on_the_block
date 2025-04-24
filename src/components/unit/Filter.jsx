@@ -7,11 +7,17 @@ import './Filter.scss';
 import resetIcon from '../../assets/images/icon/reset.svg';
 import pencelIcon from '../../assets/images/icon/pencel.svg';
 import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
-import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
 import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
 import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
+
+import LyricsAndSongwritingIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+import grade1Image from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
+import grade2Image from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
+import grade3Image from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
+import grade4Image from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
+import grade5Image from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
 
 import checkIcon from '../../assets/images/check-icon.svg';
 
@@ -112,7 +118,7 @@ const Filter = ({
                   typeof generateFilter === 'boolean'
                     ? [
                         { name: 'Lyrics + Songwriting', icon: LyricsAndSongwritingIcon },
-                        { name: 'Songwriting', icon: SongwritingIcon },
+                        // { name: 'Songwriting', icon: SongwritingIcon },
                       ]
                     : generateFilter
                 }
@@ -127,7 +133,13 @@ const Filter = ({
                 filterName="grade_filter"
                 filterItems={
                   typeof gradeFilter === 'boolean'
-                    ? ['New', 'Indie', 'Rising', 'Top', 'Legend']
+                    ? [
+                        { name: 'New', icon: grade1Image },
+                        { name: 'Indie', icon: grade2Image },
+                        { name: 'Rising', icon: grade3Image },
+                        { name: 'Top', icon: grade4Image },
+                        { name: 'Legend', icon: grade5Image },
+                      ]
                     : gradeFilter
                 }
               />
@@ -139,7 +151,7 @@ const Filter = ({
                 title="Minting"
                 filterName="minting_filter"
                 filterItems={
-                  typeof mintingFilter === 'boolean' ? ['listed', 'Unlitsted'] : mintingFilter
+                  typeof mintingFilter === 'boolean' ? ['Minted', 'Unminted'] : mintingFilter
                 }
               />
             )}

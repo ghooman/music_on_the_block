@@ -247,7 +247,7 @@ const NftItemDetailInfo = () => {
             <div className="nft-item-detail-info-wrap">
                 <p className='nft-item-detail-info-wrap__title'>NFT Item Details</p>
                 <section className="nft-item-detail__song-detail">
-                    {/* <p className="nft-item-detail__song-detail__title">Song Detail</p> */}
+                    {/* <p className="nft-item-detail__song-detail__title">Song Details</p> */}
                     <div className="nft-item-detail__song-detail__bot">
                         <div className="nft-item-detail__song-detail__left">
                             <section className="album-detail__audio">
@@ -343,21 +343,6 @@ const NftItemDetailInfo = () => {
                                     <dt>Collection</dt>
                                     <dd>Collection Name</dd>
                                 </dl>
-                                <dl className='Sell'>
-                                    <dt>Sell Status</dt>
-                                    <dd>Sell</dd>
-                                </dl>
-                                <dl>
-                                    <dt>Mint NFT date</dt>
-                                    <dd>Mint NFT date</dd>
-                                </dl>
-                                {/* <dl>
-                                    <dt>Creation Data</dt>
-                                    <dd>
-                                        {formatUtcTime(album?.create_dt) || "-"}
-                                        <span>{formatLocalTime(album?.create_dt)}</span>
-                                    </dd>
-                                </dl> */}
                                 <dl className="artist">
                                     <dt>Artist</dt>
                                     <dd>
@@ -370,6 +355,25 @@ const NftItemDetailInfo = () => {
                                         </Link> */}
                                     </dd>
                                 </dl>
+                                <dl 
+                                    className='Unlisted'
+                                    // className='Listed'
+                                    // className='Sold'
+                                >
+                                    <dt>Sell Status</dt>
+                                    <dd>Unlisted</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Mint NFT date</dt>
+                                    <dd>Wed, 16 Apr 2025 21:50:12 UTC+9</dd>
+                                </dl>
+                                {/* <dl>
+                                    <dt>Creation Data</dt>
+                                    <dd>
+                                        {formatUtcTime(album?.create_dt) || "-"}
+                                        <span>{formatLocalTime(album?.create_dt)}</span>
+                                    </dd>
+                                </dl> */}
                             </div>
                             <div className="nft-item-detail__song-detail__right__value-box">
                                 {/* <dl>
@@ -379,7 +383,7 @@ const NftItemDetailInfo = () => {
                                 <dl className='nft-item-detail__song-detail__right__value-box__price'>
                                     <dt>Price</dt>
                                     <dd>
-                                        <span>$1,000</span>100 MOB
+                                        100 MOB<span>$1,000</span>
                                     </dd>
                                 </dl>
                             </div>
@@ -418,15 +422,15 @@ const TrackInformation = () => {
             <ContentWrap title="Activity">
                 <NftOverview title="Content Information">
                     <NftOverviewItem title="Tags" value="Winter, Night, Moon, Love, Promise" isLong />
-                    <NftOverviewItem title="creation date" value="Wed, 16 Apr 2025 21:50:12 UTC+9" isLong />
-                    <NftOverviewItem title="Detail" value="Boom Song Box" isTwo />
+                    <NftOverviewItem title="Creation Date" value="Wed, 16 Apr 2025 21:50:12 UTC+9" isLong />
                     <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
+                    <NftOverviewItem title="Language" value="KOR" isTwo/>
                     <NftOverviewItem title="Genre" value="POP" />
+                    <NftOverviewItem title="Gender" value="남성" />
                     <NftOverviewItem title="Musical Instrument" value="드럼,베이스" />
-                    <NftOverviewItem title="Language" value="KOR" />
                     <NftOverviewItem title="Tempo" value="110" />
+                    <NftOverviewItem title="Detail" value="Boom Song Box"  />
                     <NftOverviewItem title="Song Length" value="3:01" />
-                    <NftOverviewItem title="Genre" value="K-POP" />
                 </NftOverview>
             </ContentWrap>
             <ContentWrap title="Recommended NFTs">

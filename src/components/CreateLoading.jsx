@@ -17,7 +17,7 @@ const CreateLoading = ({ textTrue, textTrue2 }) => {
           <div className="bar bar7"></div>
           <div className="bar bar8"></div>
         </div>
-        {/* {textTrue && <p className="middle__title">Song Lyrics In Progress</p>} */}
+        {textTrue && <p className="middle__title">Songs Lyrics In Progress</p>}
         {textTrue2 && <p className="middle__title">Lyrics In progress</p>}
       </div>
 

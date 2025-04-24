@@ -1,0 +1,123 @@
+// 프리페어링
+
+
+
+
+
+
+.confirm-modal{
+    width: 100%;
+    dl{
+        width: 100%;
+        margin-bottom: 16px;
+        dt{
+            color:#AAA;
+            font-family: Inter400;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        dd{
+            color: #CF0;
+            font-family: Inter400;
+            font-size: 16px;
+        }
+    }
+    .confirm-modal__btns{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        button{
+            &.confirm-modal__btns__cancel{
+                background: #383838;
+                color: #fff;
+                &::after{
+                    border: 1px solid #383838;
+                }
+            }
+            flex: 1;
+            width: 100%;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #cf0;
+            transition: 0.2s;
+            font-size: 14px;
+            border-radius: 12px;
+            color: #1a1a1a;
+            font-family: Orbitron600;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.48px;
+            position: relative;
+            top: 0;
+        
+            &:hover {
+                top: 5px;
+                &::after {
+                    top: -1px;
+                }
+            }
+        
+            &::after {
+                content: '';
+                position: absolute;
+                width: calc(100% - 2px);
+                height: 100%;
+                border: 1px solid #cf0;
+                top: 4px;
+                border-radius: 12px;
+                transition: 0.2s;
+            }
+        
+        }
+    }//confirm-modal__btns--END--
+}//confirm-modal--END--
+
+
+.preparing-btn {
+    width: 100%;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cf0;
+    transition: 0.2s;
+    font-size: 14px;
+    border-radius: 12px;
+    color: #1a1a1a;
+    font-family: Orbitron600;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.48px;
+    position: relative;
+    top: 0;
+
+    &:hover {
+        top: 5px;
+        &::after {
+            top: -1px;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: calc(100% - 2px);
+        height: 100%;
+        border: 1px solid #cf0;
+        top: 4px;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+
+    // &:hover {
+    //     box-shadow: 0px 0px 10px 0px #cf0;
+    // }
+} //preparing-btn--END--
+// 프리페어링

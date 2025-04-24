@@ -5,6 +5,10 @@ import profileDefaultImage from '../../assets/images/header/logo-png.png';
 import './TableCompositions.scss';
 
 // 테이블 태그
+export const TableWrapper = React.memo(({ children }) => {
+  return <div className="table-wrapper">{children}</div>;
+});
+
 export const Table = React.memo(({ children, style }) => {
   return (
     <table className="table" style={style}>
@@ -60,6 +64,14 @@ TableItem.Text = React.memo(({ text }) => {
   return (
     <td className="table__body--item">
       <p className="text">{text}</p>
+    </td>
+  );
+});
+
+TableItem.Date = React.memo(({ date }) => {
+  return (
+    <td className="table__body--item">
+      <p className="text">{date ? new Date(date).toLocaleString() : '-'}</p>
     </td>
   );
 });

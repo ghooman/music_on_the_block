@@ -1,4 +1,5 @@
-import { Table, TableHeader, TableBody, TableItem } from './TableCompositions';
+import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
+import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 
 const dummy = [
@@ -36,36 +37,46 @@ const dummy = [
 
 const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel }) => {
   return (
-    <Table>
-      <TableHeader>
-        <TableHeader.Col>#</TableHeader.Col>
-        <TableHeader.Col>Grade</TableHeader.Col>
-        <TableHeader.Col>Item</TableHeader.Col>
-        <TableHeader.Col>Collection</TableHeader.Col>
-        <TableHeader.Col>Price</TableHeader.Col>
-        <TableHeader.Col>Date</TableHeader.Col>
-        <TableHeader.Col>Details</TableHeader.Col>
-        {saleAction && <TableHeader.Col>Sale Action</TableHeader.Col>}
-      </TableHeader>
-      <TableBody>
-        {nftList.map((item, index) => (
-          <TableItem>
-            <TableItem.Indexs text={index + 1} />
-            <TableItem.Type image={songTypeIcon} />
-            <TableItem.Text text={item.nft_name} />
-            <TableItem.Text text={item.collection} />
-            <TableItem.Text text={item.price} />
-            <TableItem.Text text={item.create_dt} />
-            <TableItem.Button title="Details" type="details" />
-            {saleAction && item.status === 'sold' && <TableItem.Button title="sold" type="sold" />}
-            {saleAction && item.status === 'sell' && <TableItem.Button title="sell" type="sell" />}
-            {saleAction && item.status === 'cancel' && (
-              <TableItem.Button title="cancel" type="cancel" />
-            )}
-          </TableItem>
-        ))}
-      </TableBody>
-    </Table>
+    <TableWrapper>
+      <Table>
+        <TableHeader>
+          <TableHeader.Col>#</TableHeader.Col>
+          <TableHeader.Col>Grade</TableHeader.Col>
+          <TableHeader.Col>Item</TableHeader.Col>
+          <TableHeader.Col>Collection</TableHeader.Col>
+          <TableHeader.Col>Price</TableHeader.Col>
+          <TableHeader.Col>Date</TableHeader.Col>
+          <TableHeader.Col>Details</TableHeader.Col>
+          {saleAction && <TableHeader.Col>Sale Action</TableHeader.Col>}
+        </TableHeader>
+        <TableBody>
+          {nftList.map((item, index) => (
+            <TableItem>
+              <TableItem.Indexs text={index + 1} />
+              <TableItem.Type image={songTypeIcon} />
+              <TableItem.Text text={item.nft_name} />
+              <TableItem.Text text={item.collection} />
+              <TableItem.Text text={item.price} />
+              <TableItem.Date date={item.create_dt} />
+              <TableItem.Button title="Details" type="details" />
+
+              {saleAction && item.status === 'sold' && (
+                <TableItem.Button title="sold" type="sold" />
+              )}
+
+              {saleAction && item.status === 'sell' && (
+                <TableItem.Button title="sell" type="sell" handleClick={() => handleSell()} />
+              )}
+
+              {saleAction && item.status === 'cancel' && (
+                <TableItem.Button title="cancel" type="cancel" handleClick={() => handleCancel()} />
+              )}
+            </TableItem>
+          ))}
+        </TableBody>
+      </Table>
+      <NoneContent height={300} message="테이블 데이터 없음" />
+    </TableWrapper>
   );
 };
 

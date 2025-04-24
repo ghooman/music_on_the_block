@@ -10,7 +10,7 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import UnFollowModal from '../UnFollowModal';
-import UserTable from '../unit/UserTable';
+import UserTable from '../table/UserTable';
 import Loading from '../../components/IntroLogo2';
 
 import './Connections.scss';

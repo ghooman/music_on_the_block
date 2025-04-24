@@ -60,7 +60,7 @@ const SongPlayTable = ({
   //== 등급
   gradeOption,
   //== NFT 여부
-  NftOption,
+  nftOption,
 
   //== 그외 옵션
   isContinue = true,
@@ -93,112 +93,112 @@ const SongPlayTable = ({
 
   console.log(songList, '송 리스트');
 
-  // return (
-  //   <>
-  //     <div className="audio-container">
-  //       <audio
-  //         controls
-  //         ref={audioRef}
-  //         onEnded={() => {
-  //           if (isContinue) {
-  //             setActiveSong(
-  //               songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
-  //             );
-  //           } else {
-  //             setActiveSong(null);
-  //           }
-  //         }}
-  //       />
-  //     </div>
-  //     <Table>
-  //       <TableHeader>
-  //         <TableHeader.Col>#</TableHeader.Col>
-  //         <TableHeader.Col>Song</TableHeader.Col>
-  //         <TableHeader.Col>Type</TableHeader.Col>
-  //         {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
-  //         <TableHeader.Col>Song Title</TableHeader.Col>
-  //         {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
-  //         {likesOption && <TableHeader.Col>Likes</TableHeader.Col>}
-  //         <TableHeader.Col>Details</TableHeader.Col>
-  //         {deleteOption && <TableHeader.Col>Delete</TableHeader.Col>}
-  //         {releaseOption && <TableHeader.Col>Release</TableHeader.Col>}
-  //         {mintOption && <TableHeader.Col>NFT Mint</TableHeader.Col>}
-  //         {sellOption && <TableHeader.Col>Sell NFT</TableHeader.Col>}
-  //       </TableHeader>
-  //       <TableBody>
-  //         {songList &&
-  //           songList.length > 0 &&
-  //           songList.map((item, index) => (
-  //             <TableItem
-  //               isHover={true}
-  //               handleClick={() => {
-  //                 if (activeSong?.id === item?.id) {
-  //                   setActiveSong(null);
-  //                 } else {
-  //                   setActiveSong(item);
-  //                   if (isTrigger && setIsTrigger) {
-  //                     triggerIndex.current = index;
-  //                   }
-  //                 }
-  //               }}
-  //             >
-  //               <TableItem.Indexs text={index + 1} />
-  //               <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
-  //               <TableItem.Type image={songTypeIcon} />
-  //               {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
-  //               <TableItem.Text text={item.title} />
-  //               {playsOption && <TableItem.Text text={item.play_cnt} />}
-  //               {likesOption && <TableItem.Text text={item.like} />}
+  return (
+    <>
+      <div className="audio-container">
+        <audio
+          controls
+          ref={audioRef}
+          onEnded={() => {
+            if (isContinue) {
+              setActiveSong(
+                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
+              );
+            } else {
+              setActiveSong(null);
+            }
+          }}
+        />
+      </div>
+      <Table>
+        <TableHeader>
+          <TableHeader.Col>#</TableHeader.Col>
+          <TableHeader.Col>Song</TableHeader.Col>
+          <TableHeader.Col>Type</TableHeader.Col>
+          {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
+          <TableHeader.Col>Song Title</TableHeader.Col>
+          {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
+          {likesOption && <TableHeader.Col>Likes</TableHeader.Col>}
+          <TableHeader.Col>Details</TableHeader.Col>
+          {deleteOption && <TableHeader.Col>Delete</TableHeader.Col>}
+          {releaseOption && <TableHeader.Col>Release</TableHeader.Col>}
+          {mintOption && <TableHeader.Col>NFT Mint</TableHeader.Col>}
+          {sellOption && <TableHeader.Col>Sell NFT</TableHeader.Col>}
+        </TableHeader>
+        <TableBody>
+          {songList &&
+            songList.length > 0 &&
+            songList.map((item, index) => (
+              <TableItem
+                isHover={true}
+                handleClick={() => {
+                  if (activeSong?.id === item?.id) {
+                    setActiveSong(null);
+                  } else {
+                    setActiveSong(item);
+                    if (isTrigger && setIsTrigger) {
+                      triggerIndex.current = index;
+                    }
+                  }
+                }}
+              >
+                <TableItem.Indexs text={index + 1} />
+                <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
+                <TableItem.Type image={songTypeIcon} />
+                {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
+                <TableItem.Text text={item.title} />
+                {playsOption && <TableItem.Text text={item.play_cnt} />}
+                {likesOption && <TableItem.Text text={item.like} />}
 
-  //               <TableItem.Button
-  //                 title="Details"
-  //                 type="details"
-  //                 handleClick={() => navigate(`/song-detail/${item.id}`)}
-  //               />
+                <TableItem.Button
+                  title="Details"
+                  type="details"
+                  handleClick={() => navigate(`/song-detail/${item.id}`)}
+                />
 
-  //               {deleteOption && handleDelete && (
-  //                 <TableItem.Button
-  //                   title="Delete"
-  //                   type="delete"
-  //                   handleClick={e => {
-  //                     e.stopPropagation();
-  //                     handleDelete(item);
-  //                   }}
-  //                 />
-  //               )}
+                {deleteOption && handleDelete && (
+                  <TableItem.Button
+                    title="Delete"
+                    type="delete"
+                    handleClick={e => {
+                      e.stopPropagation();
+                      handleDelete(item);
+                    }}
+                  />
+                )}
 
-  //               {releaseOption && handleRelease && (
-  //                 <TableItem.Button
-  //                   title="Release"
-  //                   type="release"
-  //                   handleClick={e => {
-  //                     e.stopPropagation();
-  //                     handleRelease(item);
-  //                   }}
-  //                 />
-  //               )}
+                {releaseOption && handleRelease && (
+                  <TableItem.Button
+                    title="Release"
+                    type="release"
+                    handleClick={e => {
+                      e.stopPropagation();
+                      handleRelease(item);
+                    }}
+                  />
+                )}
 
-  //               {mintOption && handleMint && (
-  //                 <TableItem.Button
-  //                   title="Mint"
-  //                   type="mint"
-  //                   handleClick={() => navigate('/mint/detail')}
-  //                 />
-  //               )}
+                {mintOption && handleMint && (
+                  <TableItem.Button
+                    title="Mint"
+                    type="mint"
+                    handleClick={() => navigate('/mint/detail')}
+                  />
+                )}
 
-  //               {sellOption && handleSell && (
-  //                 <TableItem.Button
-  //                   title="Sell"
-  //                   type="sell"
-  //                   handleClick={() => navigate('/sell/detail')}
-  //                 />
-  //               )}
-  //             </TableItem>
-  //           ))}
-  //       </TableBody>
-  //     </Table>
-  //   </>
-  // );
+                {sellOption && handleSell && (
+                  <TableItem.Button
+                    title="Sell"
+                    type="sell"
+                    handleClick={() => navigate('/sell/detail')}
+                  />
+                )}
+              </TableItem>
+            ))}
+        </TableBody>
+      </Table>
+    </>
+  );
 
   return (
     <>
@@ -226,7 +226,7 @@ const SongPlayTable = ({
               <th className="albums-table__song">Song</th>
               <th className="albums-table__type">Type</th>
               {gradeOption && <th>Grade</th>}
-              {NftOption && <th>NFT</th>}
+              {nftOption && <th>NFT</th>}
               {artistOption && <th>Artist</th>}
               <th className="albums-table__song-title">Song Title</th>
               {playsOption && <th>Plays</th>}
@@ -276,7 +276,7 @@ const SongPlayTable = ({
                         <img src={grade1Icon} alt="grade" />
                       </td>
                     )}
-                    {NftOption && <td>NFT</td>}
+                    {nftOption && <td>NFT</td>}
                     {artistOption && (
                       <td>
                         <div className="albums-table__artist">

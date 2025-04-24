@@ -153,6 +153,8 @@
         background: #44000d;
       }
     }
+
+    &.follow,
     &.release {
       color: #f1f1f1;
       background-color: #003321;
@@ -161,6 +163,17 @@
       }
       &::after {
         background: #003321;
+      }
+    }
+
+    &.unfollow {
+      color: #f1f1f1;
+      background-color: #44000d;
+      &::before {
+        border-color: #44000d;
+      }
+      &::after {
+        background: #44000d;
       }
     }
 
@@ -197,73 +210,6 @@
       transition: 0.2s all;
       background: #000;
       z-index: -1;
-    }
-
-    &.details {
-      color: #aaa;
-      background-color: #222;
-      &::before {
-        border-color: #222;
-      }
-    }
-    &.delete {
-      color: #f1f1f1;
-      background-color: #44000d;
-      &::before {
-        border-color: #44000d;
-      }
-    }
-    &.follow,
-    &.release {
-      color: #f1f1f1;
-      background-color: #003321;
-      &::before {
-        border-color: #003321;
-      }
-    }
-    &.following {
-      color: #f1f1f1;
-      background-color: #171816;
-      &::before {
-        border-color: #171816;
-      }
-    }
-
-    &.unfollow {
-      color: #f1f1f1;
-      background-color: #44000d;
-      &::before {
-        border-color: #44000d;
-      }
-    }
-
-    &.sold {
-      color: #1a1a1a;
-      background-color: #cf0;
-      &::before {
-        border-color: #cf0;
-      }
-    }
-    &.sell {
-      color: #1a1a1a;
-      background-color: #5a9bf6;
-      &::before {
-        border-color: #5a9bf6;
-      }
-    }
-    &.mint {
-      color: #1a1a1a;
-      background-color: #00d293;
-      &::before {
-        border-color: #00d293;
-      }
-    }
-    &.cancel {
-      color: #1a1a1a;
-      background-color: #df1919;
-      &::before {
-        border-color: #df1919;
-      }
     }
   }
 

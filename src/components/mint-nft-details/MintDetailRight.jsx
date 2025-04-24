@@ -24,14 +24,14 @@ const MintDetailRight = ({ album, tagArray, albumDuration}) => {
 
                 <div className="album-detail__mint-detail__right__info-box">
                     <dl className='type'><dt>Type</dt>    <dd><img src={lyricsIcon} alt='type-icon'/>Lyrics + Songwriting</dd></dl>
-                    <dl><dt>Detail</dt>             <dd>{album.detail}</dd></dl>
                     <dl><dt>Language</dt>           <dd>{album.language}</dd></dl>
                     <dl><dt>Genre</dt>              <dd>{album.genre}</dd></dl>
                     <dl><dt>Gender</dt>             <dd>{album.gender}</dd></dl>
                     <dl><dt>Musical Instrument</dt> <dd>{album.musical_instrument}</dd></dl>
                     <dl><dt>Tempo</dt>              <dd>{album.tempo}</dd></dl>
-                    <dl><dt>Creation Date</dt>      <dd>{formatLocalTime(album.create_dt)}</dd></dl>
+                    <dl><dt>Detail</dt>             <dd>{album.detail}</dd></dl>
                     <dl><dt>Song Length</dt>        <dd>{formatTime(albumDuration)}</dd></dl>
+                    <dl><dt>Creation Date</dt>      <dd>{formatLocalTime(album.create_dt)}</dd></dl>
                     <dl className="artist">
                     <dt>Artist</dt>
                     <dd>

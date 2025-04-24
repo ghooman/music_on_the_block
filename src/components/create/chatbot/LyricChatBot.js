@@ -38,6 +38,26 @@ const LyricChatBot = ({
   const [isStatus, setIsStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
   const [mode, setMode] = useState('read');
 
+  // 초기 가사 placeholder
+  const initialKorLyricPlaceholder = [
+    '고양이가 주인공인 밝은 분위기의 가사',
+    '이별후 슬픔을 겪고 있는 애잔한 발라드',
+    '공부할때 듣기 좋은 노래',
+    '친구들과 함께 놀고 싶을때 들으면 좋을 노래',
+  ];
+
+  const initialEngLyricPlaceholder = [
+    'A cheerful and positive lyric with a cat as the main character',
+    'A sad ballad about heartbreak',
+    'A song that is good to listen to while studying',
+    'A song that is perfect for hanging out with friends',
+  ];
+  // 선택된 언어에 따라서 목록중 랜덤으로 하나
+  const initialLyricPlaceholder =
+    selectedLanguage === 'KOR'
+      ? initialKorLyricPlaceholder[Math.floor(Math.random() * initialKorLyricPlaceholder.length)]
+      : initialEngLyricPlaceholder[Math.floor(Math.random() * initialEngLyricPlaceholder.length)];
+
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -61,119 +81,8 @@ const LyricChatBot = ({
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 
-      // [태그 추출]
-      if (locale.extraction.tagRegex.test(botMessage)) {
-        const tagMatch = botMessage.match(locale.extraction.tagRegex);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
-            .trim()
-            .split(',')
-            .map(tag => tag.trim());
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_tag: extractedTags,
-          }));
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 태그 추출
-      else if (
-        locale.extraction.promptTagRegex &&
-        locale.extraction.promptTagRegex.test(botMessage)
-      ) {
-        const tagMatch = botMessage.match(locale.extraction.promptTagRegex);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
-            .trim()
-            .split(',')
-            .map(tag => tag.trim());
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_tag: extractedTags,
-          }));
-        }
-      }
-
-      // [감정 추출]
-      if (locale.extraction.genreRegex.test(botMessage)) {
-        const genreMatch = botMessage.match(locale.extraction.genreRegex);
-        if (genreMatch && genreMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_genre: genreMatch[1].trim(),
-          }));
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 감정 추출
-      else if (
-        locale.extraction.promptGenreRegex &&
-        locale.extraction.promptGenreRegex.test(botMessage)
-      ) {
-        const genreMatch = botMessage.match(locale.extraction.promptGenreRegex);
-        if (genreMatch && genreMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_genre: genreMatch[1].trim(),
-          }));
-        }
-      }
-
-      // [느낌/분위기 추출]
-      if (locale.extraction.stylisticRegex.test(botMessage)) {
-        const stylisticMatch = botMessage.match(locale.extraction.stylisticRegex);
-        if (stylisticMatch && stylisticMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_stylistic: stylisticMatch[1].trim(),
-          }));
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 느낌/분위기 추출
-      else if (
-        locale.extraction.promptStylisticRegex &&
-        locale.extraction.promptStylisticRegex.test(botMessage)
-      ) {
-        const stylisticMatch = botMessage.match(locale.extraction.promptStylisticRegex);
-        if (stylisticMatch && stylisticMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_stylistic: stylisticMatch[1].trim(),
-          }));
-        }
-      }
-
-      // [추가 요소/스토리 추출]
-      if (locale.extraction.storyRegex.test(botMessage)) {
-        const storyMatch = botMessage.match(locale.extraction.storyRegex);
-        if (storyMatch && storyMatch[1]) {
-          setLyricStory(storyMatch[1].trim());
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 추가 요소/스토리 추출
-      else if (
-        locale.extraction.promptStoryRegex &&
-        locale.extraction.promptStoryRegex.test(botMessage)
-      ) {
-        const storyMatch = botMessage.match(locale.extraction.promptStoryRegex);
-        if (storyMatch && storyMatch[1]) {
-          setLyricStory(storyMatch[1].trim());
-        }
-      }
-
-      // [가사 추출]
-      if (
-        botMessage.includes(selectedLanguage === 'ENG' ? 'Start Lyrics' : '가사 시작') &&
-        botMessage.includes(selectedLanguage === 'ENG' ? 'End Lyrics' : '가사 끝')
-      ) {
-        const lyricRegex = locale.extraction.lyricRegex;
-        const lyricMatch = botMessage.match(lyricRegex);
-        if (lyricMatch && lyricMatch[1]) {
-          let extractedLyric = lyricMatch[1].trim();
-          extractedLyric = extractedLyric
-            .replace(/(\(Verse\s*\d*\)|\(Chorus\)|\(Bridge\)|\(Outro\))/g, '\n$1')
-            .trim();
-          setGeneratedLyric(extractedLyric);
-        }
-      }
+      // [가사 추출] 응답온걸 바로 가사에 저장
+      setGeneratedLyric(botMessage);
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
       console.log('response', response);
     } catch (error) {
@@ -247,7 +156,7 @@ const LyricChatBot = ({
                     }
                     alt="profile"
                   />
-                  <p className="message__content--text">{msg.content}</p>
+                  <pre className="message__content--text">{msg.content}</pre>
                 </div>
               </div>
             ))}
@@ -259,56 +168,9 @@ const LyricChatBot = ({
               value={userInput}
               onChange={handleUserInput}
               onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
+              placeholder={initialLyricPlaceholder}
             />
             <button onClick={handleSendMessage}>Send</button>
-          </div>
-        </section>
-        <section className={`music__information ${isActive ? 'active' : ''}`}>
-          <div className="music__information__header" onClick={handleToggle}>
-            <h2>Music Information</h2>
-          </div>
-          <div className="music__information__tags">
-            <h3>Lyrics Tags</h3>
-            <input
-              type="text"
-              value={lyricData.lyric_tag.join(', ')}
-              placeholder="Enter tags separated by commas"
-              readOnly
-            />
-          </div>
-          <div className="music__information__genre">
-            <h3>Lyrics Mood</h3>
-            <input
-              type="text"
-              value={lyricData.lyric_genre}
-              placeholder="Love, Sad, Hope, Fun, ..."
-              readOnly
-            />
-            <div className="music__information__stylistic">
-              <h3>Lyrics Stylistic</h3>
-              <input
-                type="text"
-                value={lyricData.lyric_stylistic}
-                placeholder="Enter stylistic elements"
-                readOnly
-              />
-            </div>
-          </div>
-          <div className="music__information__story">
-            <h3>Lyrics Story</h3>
-            <textarea value={lyricStory} placeholder="Enter your story here..." rows="4" readOnly />
-          </div>
-          <div className="music__information__lyric">
-            <h3>Final Lyrics</h3>
-            <div className="music__information__lyric--text">
-              <textarea
-                value={generatedLyric}
-                placeholder="Enter your lyrics here..."
-                rows="10"
-                readOnly
-              />
-            </div>
           </div>
         </section>
         <div className="music__information__buttons">

@@ -81,119 +81,8 @@ const LyricChatBot = ({
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 
-      // [태그 추출]
-      if (locale.extraction.tagRegex.test(botMessage)) {
-        const tagMatch = botMessage.match(locale.extraction.tagRegex);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
-            .trim()
-            .split(',')
-            .map(tag => tag.trim());
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_tag: extractedTags,
-          }));
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 태그 추출
-      else if (
-        locale.extraction.promptTagRegex &&
-        locale.extraction.promptTagRegex.test(botMessage)
-      ) {
-        const tagMatch = botMessage.match(locale.extraction.promptTagRegex);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
-            .trim()
-            .split(',')
-            .map(tag => tag.trim());
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_tag: extractedTags,
-          }));
-        }
-      }
-
-      // [감정 추출]
-      if (locale.extraction.genreRegex.test(botMessage)) {
-        const genreMatch = botMessage.match(locale.extraction.genreRegex);
-        if (genreMatch && genreMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_genre: genreMatch[1].trim(),
-          }));
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 감정 추출
-      else if (
-        locale.extraction.promptGenreRegex &&
-        locale.extraction.promptGenreRegex.test(botMessage)
-      ) {
-        const genreMatch = botMessage.match(locale.extraction.promptGenreRegex);
-        if (genreMatch && genreMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_genre: genreMatch[1].trim(),
-          }));
-        }
-      }
-
-      // [느낌/분위기 추출]
-      if (locale.extraction.stylisticRegex.test(botMessage)) {
-        const stylisticMatch = botMessage.match(locale.extraction.stylisticRegex);
-        if (stylisticMatch && stylisticMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_stylistic: stylisticMatch[1].trim(),
-          }));
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 느낌/분위기 추출
-      else if (
-        locale.extraction.promptStylisticRegex &&
-        locale.extraction.promptStylisticRegex.test(botMessage)
-      ) {
-        const stylisticMatch = botMessage.match(locale.extraction.promptStylisticRegex);
-        if (stylisticMatch && stylisticMatch[1]) {
-          setLyricData(prevData => ({
-            ...prevData,
-            lyric_stylistic: stylisticMatch[1].trim(),
-          }));
-        }
-      }
-
-      // [추가 요소/스토리 추출]
-      if (locale.extraction.storyRegex.test(botMessage)) {
-        const storyMatch = botMessage.match(locale.extraction.storyRegex);
-        if (storyMatch && storyMatch[1]) {
-          setLyricStory(storyMatch[1].trim());
-        }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 추가 요소/스토리 추출
-      else if (
-        locale.extraction.promptStoryRegex &&
-        locale.extraction.promptStoryRegex.test(botMessage)
-      ) {
-        const storyMatch = botMessage.match(locale.extraction.promptStoryRegex);
-        if (storyMatch && storyMatch[1]) {
-          setLyricStory(storyMatch[1].trim());
-        }
-      }
-
-      // [가사 추출]
-      if (
-        botMessage.includes(selectedLanguage === 'ENG' ? 'Start Lyrics' : '가사 시작') &&
-        botMessage.includes(selectedLanguage === 'ENG' ? 'End Lyrics' : '가사 끝')
-      ) {
-        const lyricRegex = locale.extraction.lyricRegex;
-        const lyricMatch = botMessage.match(lyricRegex);
-        if (lyricMatch && lyricMatch[1]) {
-          let extractedLyric = lyricMatch[1].trim();
-          extractedLyric = extractedLyric
-            .replace(/(\(Verse\s*\d*\)|\(Chorus\)|\(Bridge\)|\(Outro\))/g, '\n$1')
-            .trim();
-          setGeneratedLyric(extractedLyric);
-        }
-      }
+      // [가사 추출] 응답온걸 바로 가사에 저장
+      setGeneratedLyric(botMessage);
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
       console.log('response', response);
     } catch (error) {
@@ -267,7 +156,7 @@ const LyricChatBot = ({
                     }
                     alt="profile"
                   />
-                  <p className="message__content--text">{msg.content}</p>
+                  <pre className="message__content--text">{msg.content}</pre>
                 </div>
               </div>
             ))}
@@ -282,53 +171,6 @@ const LyricChatBot = ({
               placeholder={initialLyricPlaceholder}
             />
             <button onClick={handleSendMessage}>Send</button>
-          </div>
-        </section>
-        <section className={`music__information ${isActive ? 'active' : ''}`}>
-          <div className="music__information__header" onClick={handleToggle}>
-            <h2>Music Information</h2>
-          </div>
-          <div className="music__information__tags">
-            <h3>Lyrics Tags</h3>
-            <input
-              type="text"
-              value={lyricData.lyric_tag.join(', ')}
-              placeholder="Enter tags separated by commas"
-              readOnly
-            />
-          </div>
-          <div className="music__information__genre">
-            <h3>Lyrics Mood</h3>
-            <input
-              type="text"
-              value={lyricData.lyric_genre}
-              placeholder="Love, Sad, Hope, Fun, ..."
-              readOnly
-            />
-            <div className="music__information__stylistic">
-              <h3>Lyrics Stylistic</h3>
-              <input
-                type="text"
-                value={lyricData.lyric_stylistic}
-                placeholder="Enter stylistic elements"
-                readOnly
-              />
-            </div>
-          </div>
-          <div className="music__information__story">
-            <h3>Lyrics Story</h3>
-            <textarea value={lyricStory} placeholder="Enter your story here..." rows="4" readOnly />
-          </div>
-          <div className="music__information__lyric">
-            <h3>Final Lyrics</h3>
-            <div className="music__information__lyric--text">
-              <textarea
-                value={generatedLyric}
-                placeholder="Enter your lyrics here..."
-                rows="10"
-                readOnly
-              />
-            </div>
           </div>
         </section>
         <div className="music__information__buttons">

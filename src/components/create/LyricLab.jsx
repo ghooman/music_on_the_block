@@ -15,6 +15,8 @@ import { generateKoreanPdf } from '../../utils/pdfGenerator';
 const tagPreset = {
   Love: ['Love'],
   Moon: ['Moon'],
+  Happy: ['Happy'],
+  Sad: ['Sad'],
   Travel: ['Travel'],
   Winter: ['Winter'],
   Cafe: ['Cafe'],
@@ -25,24 +27,23 @@ const tagPreset = {
   Strawberry: ['Strawberry'],
 };
 
-const moodPreset = {
-  Happy: ['Happy'],
-  Sad: ['Sad'],
-  Romantic: ['Romantic'],
-  Hopeful: ['Hopeful'],
-  Angry: ['Angry'],
-  Relaxed: ['Relaxed'],
-  Mysterious: ['Mysterious'],
-  Energetic: ['Energetic'],
-  Melancholic: ['Melancholic'],
-  Dreamy: ['Dreamy'],
-  Nostalgic: ['Nostalgic'],
-  Serene: ['Serene'],
-  Fun: ['Fun'],
-  Introspective: ['Introspective'],
-  Epic: ['Epic'],
+const genrePreset = {
+  'K-POP': ['K-POP'],
+  POP: ['POP'],
+  BALLAD: ['BALLAD'],
+  'R&B': ['R&B'],
+  SOUL: ['SOUL'],
+  'HIP-HOP': ['HIP-HOP'],
+  RAP: ['RAP'],
+  ROCK: ['ROCK'],
+  METAL: ['METAL'],
+  FOLK: ['FOLK'],
+  BLUES: ['BLUES'],
+  COUNTRY: ['COUNTRY'],
+  EDM: ['EDM'],
+  CLASSICAL: ['CLASSICAL'],
+  REGGAE: ['REGGAE'],
 };
-
 const stylePreset = {
   Happy: ['Happy'],
   Sad: ['Sad'],
@@ -196,12 +197,12 @@ const LyricsLab = ({
             />
           </SubBanner>
           <SelectItem
-            mainTitle="Select a Mood"
-            subTitle="Popular Mood"
+            mainTitle="Select a Genre"
+            subTitle="Popular Genre"
             setter={setLyricData}
             objKey="lyric_genre"
             selected={lyricData?.lyric_genre}
-            preset={moodPreset}
+            preset={genrePreset}
           />
           <SelectItemInputOnly value={lyricStory} setter={setLyricStory} title="Your Story" />
         </SelectItemWrap>
@@ -209,7 +210,7 @@ const LyricsLab = ({
         <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <SelectedWrap title="Lyrics Lab">
             <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
-            <SelectedItem title="Mood" value={lyricData?.lyric_genre} />
+            <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
 
             <div className="lyrics-lab__selected-item">
               <p className="lyrics-lab__selected-item--title">Your Story</p>

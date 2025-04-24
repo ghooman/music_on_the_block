@@ -47,7 +47,8 @@ const EditAlbumSongs = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [duplicateCount, setDuplicateCount] = useState(0);
 
-  const { token } = useContext(AuthContext);
+  const { token, walletAddress } = useContext(AuthContext);
+  const { address } = walletAddress || {};
   const { id } = useParams();
   const audioRef = useRef(null);
   const navigate = useNavigate();
@@ -61,7 +62,6 @@ const EditAlbumSongs = () => {
   //=================
   const handleAdd = () => {
     let duplicateCount = 0;
-
     const copy = [...addBundleSongList];
     const newCopy = copy.filter(item => item.check === true);
     const addBundleMaps = Array.from(new Map(newCopy.map(item => [item.id, item])).values());
@@ -73,7 +73,6 @@ const EditAlbumSongs = () => {
         duplicateCount++;
       }
     });
-
     setAddBundleSongList(prev => prev.map(item => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
     setDuplicateCount(duplicateCount);
     setAlbumbundleSongList(prev => {
@@ -116,11 +115,15 @@ const EditAlbumSongs = () => {
   //==================
   const getAlbumsBundleData = async () => {
     try {
-      const res = await axios.get(`${serverApi}/api/music/my/album/bundle/${id}/detail`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.get(`${serverApi}/api/music/user/album/bundle/${id}/detail`, {
+        params: {
+          wallet_address: address,
         },
       });
+      if (res.data.is_owner === false) {
+        alert('Invalid access');
+        navigate('/');
+      }
       setAlbumsBundleData(res.data);
       setAlbumbundleSongList(res.data?.song_list.map(item => ({ ...item, check: false })));
     } catch (e) {

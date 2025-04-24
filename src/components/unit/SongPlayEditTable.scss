@@ -34,6 +34,7 @@
         font-family: Inter400;
         font-size: 14px;
       }
+
       .type {
         img {
           margin: 0 auto;
@@ -47,21 +48,6 @@
           object-fit: cover;
           border-radius: 2px;
           margin: 0 auto;
-        }
-      }
-
-      .user {
-        display: flex;
-        gap: 4px;
-        color: #aaa;
-        font-family: Inter400;
-        font-size: 14px;
-
-        img {
-          width: 24px;
-          height: 24px;
-          object-fit: cover;
-          border-radius: 100%;
         }
       }
     }

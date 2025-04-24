@@ -81,7 +81,7 @@ const MyProfile = () => {
       {category === 'Songs' && <Songs token={token} />}
       {category === 'Connections' && <Connections />}
       {category === 'Favorites' && <MyFavorites />}
-      {category === 'Albums' && <Albums />}
+      {category === 'Albums' && <Albums username={userData.name} isCreate={true} />}
       {category === 'NFT MarketPlace' && <NftMarketPlace />}
     </div>
   );
@@ -205,7 +205,7 @@ const UserProfile = () => {
       <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
       {category === 'AI Services' && <AiServices username={username} />}
       {category === 'Songs' && <SongsUser username={username} />}
-      {category === 'Albums' && <Albums />}
+      {category === 'Albums' && <Albums username={username} isCreate={false} />}
       {category === 'NFT MarketPlace' && <NftMarketPlace />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NoneContent from './NoneContent';
 import './AlbumsTable.scss';
 import playIcon from '../../assets/images/play-icon2.svg';
@@ -56,6 +56,7 @@ const SongPlayTable = ({
   setIsTrigger,
 }) => {
   const [activeSong, setActiveSong] = useState(null);
+  const navigate = useNavigate();
   let triggerIndex = useRef(0);
   const audioRef = useRef(null);
 
@@ -128,7 +129,7 @@ const SongPlayTable = ({
   //                 }
   //               }}
   //             >
-  //               <TableItem.Text text={index + 1} />
+  //               <TableItem.Indexs text={index + 1} />
   //               <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
   //               <TableItem.Type image={songTypeIcon} />
   //               {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
@@ -136,14 +137,49 @@ const SongPlayTable = ({
   //               {playsOption && <TableItem.Text text={item.play_cnt} />}
   //               {likesOption && <TableItem.Text text={item.like} />}
 
-  //               <TableItem.Button title="Details" type="details" />
+  //               <TableItem.Button
+  //                 title="Details"
+  //                 type="details"
+  //                 handleClick={() => navigate(`/song-detail/${item.id}`)}
+  //               />
 
-  //               {deleteOption && handleDelete && <TableItem.Button title="Delete" type="delete" />}
-  //               {releaseOption && handleRelease && (
-  //                 <TableItem.Button title="Release" type="release" />
+  //               {deleteOption && handleDelete && (
+  //                 <TableItem.Button
+  //                   title="Delete"
+  //                   type="delete"
+  //                   handleClick={e => {
+  //                     e.stopPropagation();
+  //                     handleDelete(item);
+  //                   }}
+  //                 />
   //               )}
-  //               {mintOption && handleMint && <TableItem.Button title="Mint" type="mint" />}
-  //               {sellOption && handleSell && <TableItem.Button title="Sell" type="sell" />}
+
+  //               {releaseOption && handleRelease && (
+  //                 <TableItem.Button
+  //                   title="Release"
+  //                   type="release"
+  //                   handleClick={e => {
+  //                     e.stopPropagation();
+  //                     handleRelease(item);
+  //                   }}
+  //                 />
+  //               )}
+
+  //               {mintOption && handleMint && (
+  //                 <TableItem.Button
+  //                   title="Mint"
+  //                   type="mint"
+  //                   handleClick={() => navigate('/mint/detail')}
+  //                 />
+  //               )}
+
+  //               {sellOption && handleSell && (
+  //                 <TableItem.Button
+  //                   title="Sell"
+  //                   type="sell"
+  //                   handleClick={() => navigate('/sell/detail')}
+  //                 />
+  //               )}
   //             </TableItem>
   //           ))}
   //       </TableBody>

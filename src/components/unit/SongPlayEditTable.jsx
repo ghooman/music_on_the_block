@@ -110,7 +110,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import NoneContent from './NoneContent';
 import './SongPlayEditTable.scss';
-import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import './AlbumsTable.scss';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
 
 /**
@@ -250,6 +250,8 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
   //   </div>
   // );
 
+  console.log(songList, '곡 리스트');
+
   return (
     <div>
       <div className="selected-song-number">
@@ -274,8 +276,6 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                 />
               </th>
               <th className="albums-table__song">Song</th>
-              <th className="albums-table__type">Type</th>
-              <th>Artist</th>
               <th className="albums-table__song-title">Song&nbsp;Title</th>
             </tr>
           </thead>
@@ -314,17 +314,14 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
                     </div>
                   </button>
                 </td>
-
                 <td>
-                  <img src={songTypeIcon} alt="type" />
-                </td>
-                <td>
-                  <div className="albums-table__artist">
-                    {/* <img src={album.user_profile || defaultUserImage} alt="user-img" /> */}
+                  {album.title}
+                  <br />
+                  <div className="albums-table__artist--edit-table">
+                    <img src={album.user_profile || defaultUserImage} alt="profile" />
                     {album.name}
                   </div>
                 </td>
-                <td>{album.title}</td>
               </tr>
             ))}
           </tbody>

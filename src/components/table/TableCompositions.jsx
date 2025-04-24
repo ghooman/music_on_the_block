@@ -48,6 +48,14 @@ TableItem.Music = React.memo(() => {
   return <td></td>;
 });
 
+TableItem.Indexs = React.memo(({ text }) => {
+  return (
+    <td className="table__body--item index">
+      <p className="text">{text}</p>
+    </td>
+  );
+});
+
 TableItem.Text = React.memo(({ text }) => {
   return (
     <td className="table__body--item">

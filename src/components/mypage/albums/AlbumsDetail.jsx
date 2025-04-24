@@ -27,83 +27,40 @@ import track3 from '../../../assets/music/nisoft_song.mp3';
 import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
-import { getMyAlbumBundleInfo } from '../../../api/AlbumsDetail';
+import { getAlbumBundleDetail } from '../../../api/AlbumsDetail';
+import { useQuery } from 'react-query';
 
-// 더미 데이터
-const dummySongsList = {
-  data_list: [
-    {
-      id: 1,
-      title: 'Song 1',
-      name: 'Artist 1',
-      album: 'Album 1',
-      release_date: '2021-01-01',
-      cover_image: songImg,
-      music_url: track3,
-    },
-    {
-      id: 2,
-      title: 'Song 2',
-      name: 'Artist 2',
-      album: 'Album 2',
-      release_date: '2021-02-01',
-      cover_image: songImg,
-      music_url: track2,
-    },
-    {
-      id: 3,
-      title: 'Song 3Song 3Song 3Song 3Song 3Song 3Song 3Song 3Song 3',
-      name: 'Artist 3',
-      album: 'Album 3',
-      release_date: '2021-03-01',
-      cover_image: songImg,
-      music_url: track3,
-    },
-  ],
-  total_cnt: 3,
-};
+const subCategoryList = [
+  {
+    name: 'AI Lyrics & Songwriting',
+    image: generatedLyricSongwritingIcon,
+    preparing: false,
+  },
+  { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
+];
 
 const AlbumsDetail = () => {
-  const { token } = useContext(AuthContext);
+  const { token, walletAddress } = useContext(AuthContext);
+  const { address } = walletAddress || {};
   const { id } = useParams();
-  const [albumBundleInfo, setAlbumBundleInfo] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  // 더미 데이터 사용 (API 호출 대신 더미 데이터)
+  // const [albumBundleInfo, setAlbumBundleInfo] = useState(null);
+
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const fetchAlbumBundleInfo = async () => {
-    try {
-      const response = await getMyAlbumBundleInfo(id, token);
-      setAlbumBundleInfo(response);
-    } catch (error) {
-      console.error('앨범 번들 정보 조회 실패:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchAlbumBundleInfo();
-  }, []);
-
-  const audioRef = useRef(null);
+  const [selected] = useState(subCategoryList[0].name);
   const [activeSong, setActiveSong] = useState(null); // activeSong 상태 관리
+  const audioRef = useRef(null);
 
-  const subCategoryList = [
-    {
-      name: 'AI Lyrics & Songwriting',
-      image: generatedLyricSongwritingIcon,
-      preparing: false,
-    },
-    { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
-  ];
-  const [selected, setSelected] = useState(subCategoryList[0].name);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page') || 1;
-  const search = searchParams.get('search') || '';
-  const songsSort = searchParams.get('songs_sort');
-  const releaseType = searchParams.get('release_type') || 'Unreleased songs';
+  const {
+    data: albumBundleInfo,
+    isLoading,
+    refetch,
+  } = useQuery(['album_bundle_detail', { id, address }], async () => {
+    return await getAlbumBundleDetail({ bundle_id: id, address: address });
+  });
+
+  console.log(albumBundleInfo, '번들 인포');
 
   const handleDetailModal = () => {
     setShowDetailModal(true);
@@ -121,12 +78,14 @@ const AlbumsDetail = () => {
         <section className="my-album-details__box__header">
           <article className="my-album-details__box__header__left">
             <div className="my-album-details__box__header__left__img-box">
-              <button
-                className="my-album-details__box__header__left__img-box__button"
-                onClick={handleDetailModal}
-              >
-                <img src={MoreHoriz} alt="more-horiz" />
-              </button>
+              {albumBundleInfo?.is_owner && (
+                <button
+                  className="my-album-details__box__header__left__img-box__button"
+                  onClick={handleDetailModal}
+                >
+                  <img src={MoreHoriz} alt="more-horiz" />
+                </button>
+              )}
               {!isLoading && (
                 <img
                   className="my-album-details__box__header__left__img-box__img"
@@ -140,13 +99,15 @@ const AlbumsDetail = () => {
             <div className="my-album-details__box__header__right__box">
               <p className="my-album-details__box__header__right__box__title">
                 <span>{albumBundleInfo?.album_name}</span>
-                <button
-                  className="my-album-details__box__header__right__box__title__edit-btn"
-                  onClick={() => handleEditAlbum(albumBundleInfo)}
-                >
-                  Edit Album
-                  <img src={editIcon} alt="edit-icon" />
-                </button>
+                {albumBundleInfo?.is_owner && (
+                  <button
+                    className="my-album-details__box__header__right__box__title__edit-btn"
+                    onClick={() => handleEditAlbum(albumBundleInfo)}
+                  >
+                    Edit Album
+                    <img src={editIcon} alt="edit-icon" />
+                  </button>
+                )}
               </p>
               <div className="my-album-details__box__header__right__box__list">
                 <div className="my-album-details__box__header__right__box__list__item">
@@ -192,13 +153,15 @@ const AlbumsDetail = () => {
           <ContentWrap title="Favorites" border={false}>
             <div className="my-album-details__box__body__sub-categories">
               <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-              <Link
-                to={`/edit-album-songs/${id}`}
-                className="my-album-details__box__body__sub-categories__edit-btn"
-              >
-                Edit Songs
-                <img src={editIcon} alt="edit-icon" />
-              </Link>
+              {albumBundleInfo?.is_owner && (
+                <Link
+                  to={`/edit-album-songs/${id}`}
+                  className="my-album-details__box__body__sub-categories__edit-btn"
+                >
+                  Edit Songs
+                  <img src={editIcon} alt="edit-icon" />
+                </Link>
+              )}
             </div>
 
             {albumBundleInfo?.song_list?.length > 0 ? (
@@ -226,7 +189,7 @@ const AlbumsDetail = () => {
           setShowCreateModal={setShowCreateModal}
           status={'edit'}
           albumData={albumBundleInfo}
-          onAlbumCreated={fetchAlbumBundleInfo}
+          onAlbumCreated={refetch}
         />
       )}
       {showDetailModal && albumBundleInfo && (

@@ -52,6 +52,10 @@
   padding: 8px;
   text-align: center;
 
+  &.index {
+    width: 40px;
+  }
+
   .text {
     text-align: center;
     overflow: hidden;

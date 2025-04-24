@@ -17,18 +17,23 @@ import subBannerImage4 from '../../../assets/images/create/subbanner-bg4.png';
 import './Albums.scss';
 import { getAlbumsList } from '../../../api/AlbumsListApi';
 import { useQuery } from 'react-query';
+import axios from 'axios';
 
-const Albums = () => {
-  const { token } = useContext(AuthContext);
+const serverApi = process.env.REACT_APP_SERVER_API;
+
+const Albums = ({ username, isCreate }) => {
+  const { token, walletAddress } = useContext(AuthContext);
+  const { address } = walletAddress || {};
+
   const [searchParams] = useSearchParams();
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-  const albumSort = searchParams.get('album_sort');
-  const page = searchParams.get('page');
-  const search = searchParams.get('search');
-
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
+  const albumSort = searchParams.get('album_sort');
+  const page = searchParams.get('page');
+  const search = searchParams.get('search') || '';
 
   const handleAlbumDetailClick = album => {
     setSelectedAlbum(album);
@@ -42,30 +47,42 @@ const Albums = () => {
     setShowDetailModal(false);
   };
 
-  // 앨범 목록 조회
   const {
     data: albumsList,
     isLoading,
     refetch,
-  } = useQuery(['album_list', { token, page, search, albumSort }], async () => {
-    const { data } = await getAlbumsList(token, page, search, albumSort);
-    return data;
-  });
+  } = useQuery(
+    ['albums_data_by_username', { page, search, username, albumSort, address }],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/music/user/album/bundle/list`, {
+        params: {
+          name: username,
+          search_keyword: search,
+          sort_by: albumSort,
+          page: page,
+          wallet_address: address,
+        },
+      });
+
+      return res.data;
+    }
+  );
 
   return (
     <div className="albums">
-      <SubBanner>
-        <SubBanner.LeftImages src={subBannerImage4} />
-        <SubBanner.Title text="Create Your Own Album" />
-        <SubBanner.Message text="Gather your favorite tracks and organise them into a single. You can showcase your musical world!" />
-        <SubBanner.Button title="Create Album" handler={() => setShowCreateModal(true)} />
-      </SubBanner>
+      {isCreate && (
+        <SubBanner>
+          <SubBanner.LeftImages src={subBannerImage4} />
+          <SubBanner.Title text="Create Your Own Album" />
+          <SubBanner.Message text="Gather your favorite tracks and organise them into a single. You can showcase your musical world!" />
+          <SubBanner.Button title="Create Album" handler={() => setShowCreateModal(true)} />
+        </SubBanner>
+      )}
       <ContentWrap title="Albums List">
         <ContentWrap.SubWrap gap={8}>
           <Filter albumSort={true} />
           <Search placeholder="Search by album name..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
-
         <div className="albums-list">
           {albumsList?.data_list?.map((album, index) => (
             <AlbumsItem

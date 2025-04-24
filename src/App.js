@@ -39,7 +39,14 @@ function Layout({ children }) {
   );
 }
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 2,
+    },
+  },
+});
 
 function App() {
   const { pathname } = useLocation();

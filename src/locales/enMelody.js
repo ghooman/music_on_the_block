@@ -17,27 +17,34 @@ const enMelody = {
       "The conversation should proceed step-by-step reflecting the user's selections. Please ensure that the final prompt strictly adheres to the above format.",
   },
   extraction: {
-    tagRegex: /Tags\s*\(([^)]+)\)/,
-    titleRegex: /Song Title\s*\(([^)]+)\)/,
-    genreRegex: /Genre\s*\(([^)]+)\)/,
-    voiceRegex: /Voice\s*\(([^)]+)\)/,
-    instrumentRegex: /Instruments\s*\(([^)]+)\)/,
-    tempoRegex: /Tempo\s*\(([^)]+)\)/,
-    detailRegex: /Additional Elements\/Story\s*\(([^)]+)\)/,
+    tagRegex:
+      /Tags\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
+    titleRegex:
+      /Song Title\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
+    genreRegex:
+      /Genre\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
+    voiceRegex:
+      /Voice\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)))/,
+    instrumentRegex:
+      /Instruments\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements)))/,
+    tempoRegex:
+      /Tempo\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements)))/,
+    detailRegex:
+      /Additional Elements\/Story\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo)))/,
     promptTagRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tags|Tags:|\-\s*Tags|\-\s*Tags:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tags|Tags:|\-\s*Tags|\-\s*Tags:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptTitleRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Song Title|Song Title:|\-\s*Song Title|\-\s*Song Title:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Song Title|Song Title:|\-\s*Song Title|\-\s*Song Title:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptGenreRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Genre|Genre:|\-\s*Genre|\-\s*Genre:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Voice|Instruments|Tempo|Additional|Additional Elements))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Genre|Genre:|\-\s*Genre|\-\s*Genre:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Voice|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptVoiceRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Voice|Voice:|\-\s*Voice|\-\s*Voice:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Voice|Voice:|\-\s*Voice|\-\s*Voice:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptInstrumentRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Instruments|Instruments:|\-\s*Instruments|\-\s*Instruments:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Instruments|Instruments:|\-\s*Instruments|\-\s*Instruments:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements)))/i,
     promptTempoRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tempo|Tempo:|\-\s*Tempo|\-\s*Tempo:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tempo|Tempo:|\-\s*Tempo|\-\s*Tempo:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements)))/i,
     promptDetailRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Additional Elements\/Story|Additional Elements|Additional Elements:|\-\s*Additional Elements\/Story|\-\s*Additional Elements|\-\s*Additional Elements:)[\s:]*([^,\n]*?)(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Additional Elements\/Story|Additional Elements|Additional Elements:|\-\s*Additional Elements\/Story|\-\s*Additional Elements|\-\s*Additional Elements:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo)))/i,
   },
 };
 

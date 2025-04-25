@@ -44,7 +44,7 @@ import axios from 'axios';
 import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import { AuthContext } from '../contexts/AuthContext';
 import { formatUtcTime, formatLocalTime } from '../utils/getFormattedTime';
-import SongPlayTable from '../components/unit/SongPlayTable';
+import SongPlayTable from '../components/table/SongPlayTable';
 import Filter from '../components/unit/Filter';
 
 const dummyData = [
@@ -493,10 +493,7 @@ const History = () => {
         <Filter tokenFilter={true} nftSort={true} />
         <Search placeholder="Search" />
       </ContentWrap.SubWrap>
-      <CustomTable
-        data={dummyData2}
-        headers={['#', ' Artist Name', 'Price', 'Transaction Date']}
-      />
+      <CustomTable data={dummyData2} headers={['#', ' Artist Name', 'Price', 'Transaction Date']} />
       {/* <SongPlayTable
         songList={[]}
         likesOption={true}

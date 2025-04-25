@@ -448,11 +448,14 @@ const MelodyChatBot = ({
       const response = await client.images.generate({
         model: 'dall-e-3',
         prompt: `
-        [가사 데이터]
-        태그: ${lyricData?.lyric_tag.join(', ')}
-        장르: ${lyricData?.lyric_genre}
-        스타일: ${lyricData?.lyric_stylistic?.[0]}
-        
+        [멜로디 데이터]
+        타이틀: ${melody_title}
+        태그: ${melody_tag.join(', ')}
+        장르: ${melody_genre}
+        성별: ${melody_gender}
+        악기: ${melody_instrument}
+        템포: ${melody_tempo}
+
         [노래 스토리]
         ${lyricStory}
         
@@ -460,10 +463,11 @@ const MelodyChatBot = ({
         앨범 커버 디자인 : 
         - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
         - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-        - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyricData?.lyric_tag.join(', ')}"와 "${
-          lyricData?.lyric_genre
-        }"의 느낌을 표현할 것.
         - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
+        - 타이틀("${melody_title}")을 강조하여, 타이틀을 포함한 디자인을 생성할 것.
+        - 멜로디 태그("${melody_tag.join(', ')}")가 있을 경우 그에 대한 디자인 요소를 포함할 것.
+        - 멜로디 장르("${melody_genre}")가 있을 경우 그에 대한 디자인 요소를 포함할 것.
+        - 멜로디 세부 사항("${melody_detail}")이 있을 경우 그에 대한 디자인 요소를 포함할 것.
       `,
         size: '1024x1024',
         quality: 'standard',
@@ -513,7 +517,7 @@ const MelodyChatBot = ({
         album_lyrics_info: {
           language: selectedLanguage,
           feelings: '',
-          genre: lyricData?.lyric_genre || '',
+          genre: '',
           style: lyricData?.lyric_stylistic || '',
           form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(', ') : '',
           my_story: lyricStory,

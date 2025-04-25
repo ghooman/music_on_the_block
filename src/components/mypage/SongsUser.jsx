@@ -15,49 +15,49 @@ import { TopSongsTemplates } from './Songs';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const SongsUser = ({ username }) => {
-    const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-    const page = searchParams.get('page');
-    const search = searchParams.get('search');
-    const songsSort = searchParams.get('songs_sort');
+  const page = searchParams.get('page');
+  const search = searchParams.get('search');
+  const songsSort = searchParams.get('songs_sort');
 
-    const { data: topSongsData, isLoading: topSongLoading } = useQuery(
-        ['top_songs_data_by_username', { username }],
-        async () => {
-            const res = await axios.get(`${serverApi}/api/music/user/top/list?name=${username}`);
-            return res.data;
-        }
-    );
+  const { data: topSongsData, isLoading: topSongLoading } = useQuery(
+    ['top_songs_data_by_username', { username }],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/music/user/top/list?name=${username}`);
+      return res.data;
+    }
+  );
 
-    const { data: songList, isLoading: songListLoading } = useQuery(
-        ['song_list_by_username', { page, search, songsSort, username }],
-        async () => {
-            const res = await axios.get(`${serverApi}/api/music/user/all/list`, {
-                params: {
-                    page: page,
-                    search_keyword: search,
-                    sort_by: songsSort,
-                    name: username,
-                },
-            });
-            return res.data;
-        }
-    );
+  const { data: songList, isLoading: songListLoading } = useQuery(
+    ['song_list_by_username', { page, search, songsSort, username }],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/music/user/all/list`, {
+        params: {
+          page: page,
+          search_keyword: search,
+          sort_by: songsSort,
+          name: username,
+        },
+      });
+      return res.data;
+    }
+  );
 
-    return (
-        <div className="songs">
-            <TopSongsTemplates topSongsData={topSongsData} />
-            <ContentWrap title="Songs">
-                <ContentWrap.SubWrap gap={8}>
-                    <Filter songsSort={true} />
-                    <Search reset={{ page: 1 }} placeholder="Search by song title..." />
-                </ContentWrap.SubWrap>
-                <SongPlayTable songList={songList?.data_list} />
-                <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
-            </ContentWrap>
-            {(topSongLoading || songListLoading) && <Loading />}
-        </div>
-    );
+  return (
+    <div className="songs">
+      <TopSongsTemplates topSongsData={topSongsData} />
+      <ContentWrap title="Songs">
+        <ContentWrap.SubWrap gap={8}>
+          <Filter songsSort={true} />
+          <Search reset={{ page: 1 }} placeholder="Search by song title..." />
+        </ContentWrap.SubWrap>
+        <SongPlayTable songList={songList?.data_list} gradeOption={true} nftOption={true} />
+        <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
+      </ContentWrap>
+      {(topSongLoading || songListLoading) && <Loading />}
+    </div>
+  );
 };
 
 export default SongsUser;

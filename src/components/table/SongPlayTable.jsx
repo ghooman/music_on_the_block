@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import NoneContent from './NoneContent';
-import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
+import { TableBody, TableHeader, Table, TableItem } from '../table/TableCompositions';
 
 import playIcon from '../../assets/images/play-icon2.svg';
 import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
@@ -108,98 +108,93 @@ const SongPlayTable = ({
           }}
         />
       </div>
-      <TableWrapper>
-        <Table>
-          <TableHeader>
-            <TableHeader.Col>#</TableHeader.Col>
-            <TableHeader.Col>Song</TableHeader.Col>
-            <TableHeader.Col>Type</TableHeader.Col>
-            {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
-            <TableHeader.Col>Song Title</TableHeader.Col>
-            {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
-            {likesOption && <TableHeader.Col>Likes</TableHeader.Col>}
-            <TableHeader.Col>Details</TableHeader.Col>
-            {deleteOption && <TableHeader.Col>Delete</TableHeader.Col>}
-            {releaseOption && <TableHeader.Col>Release</TableHeader.Col>}
-            {mintOption && <TableHeader.Col>NFT Mint</TableHeader.Col>}
-            {sellOption && <TableHeader.Col>Sell NFT</TableHeader.Col>}
-          </TableHeader>
-          <TableBody>
-            {songList &&
-              songList.length > 0 &&
-              songList.map((item, index) => (
-                <TableItem
-                  isHover={true}
-                  handleClick={() => {
-                    if (activeSong?.id === item?.id) {
-                      setActiveSong(null);
-                    } else {
-                      setActiveSong(item);
-                      if (isTrigger && setIsTrigger) {
-                        triggerIndex.current = index;
-                      }
+      <Table>
+        <TableHeader>
+          <TableHeader.Col>#</TableHeader.Col>
+          <TableHeader.Col>Song</TableHeader.Col>
+          <TableHeader.Col>Type</TableHeader.Col>
+          {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
+          <TableHeader.Col>Song Title</TableHeader.Col>
+          {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
+          {likesOption && <TableHeader.Col>Likes</TableHeader.Col>}
+          <TableHeader.Col>Details</TableHeader.Col>
+          {deleteOption && <TableHeader.Col>Delete</TableHeader.Col>}
+          {releaseOption && <TableHeader.Col>Release</TableHeader.Col>}
+          {mintOption && <TableHeader.Col>NFT Mint</TableHeader.Col>}
+          {sellOption && <TableHeader.Col>Sell NFT</TableHeader.Col>}
+        </TableHeader>
+        <TableBody>
+          {songList &&
+            songList.length > 0 &&
+            songList.map((item, index) => (
+              <TableItem
+                isHover={true}
+                handleClick={() => {
+                  if (activeSong?.id === item?.id) {
+                    setActiveSong(null);
+                  } else {
+                    setActiveSong(item);
+                    if (isTrigger && setIsTrigger) {
+                      triggerIndex.current = index;
                     }
-                  }}
-                >
-                  <TableItem.Indexs text={index + 1} />
-                  <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
-                  <TableItem.Type image={songTypeIcon} />
-                  {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
-                  <TableItem.Text text={item.title} />
-                  {playsOption && <TableItem.Text text={item.play_cnt} />}
-                  {likesOption && <TableItem.Text text={item.like} />}
+                  }
+                }}
+              >
+                <TableItem.Indexs text={index + 1} />
+                <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
+                <TableItem.Type image={songTypeIcon} />
+                {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
+                <TableItem.Text text={item.title} />
+                {playsOption && <TableItem.Text text={item.play_cnt} />}
+                {likesOption && <TableItem.Text text={item.like} />}
 
+                <TableItem.Button
+                  title="Details"
+                  type="details"
+                  handleClick={() => navigate(`/song-detail/${item.id}`)}
+                />
+
+                {deleteOption && handleDelete && (
                   <TableItem.Button
-                    title="Details"
-                    type="details"
-                    handleClick={() => navigate(`/song-detail/${item.id}`)}
+                    title="Delete"
+                    type="delete"
+                    handleClick={e => {
+                      e.stopPropagation();
+                      handleDelete(item);
+                    }}
                   />
+                )}
 
-                  {deleteOption && handleDelete && (
-                    <TableItem.Button
-                      title="Delete"
-                      type="delete"
-                      handleClick={e => {
-                        e.stopPropagation();
-                        handleDelete(item);
-                      }}
-                    />
-                  )}
+                {releaseOption && handleRelease && (
+                  <TableItem.Button
+                    title="Release"
+                    type="release"
+                    handleClick={e => {
+                      e.stopPropagation();
+                      handleRelease(item);
+                    }}
+                  />
+                )}
 
-                  {releaseOption && handleRelease && (
-                    <TableItem.Button
-                      title="Release"
-                      type="release"
-                      handleClick={e => {
-                        e.stopPropagation();
-                        handleRelease(item);
-                      }}
-                    />
-                  )}
+                {mintOption && handleMint && (
+                  <TableItem.Button
+                    title="Mint"
+                    type="mint"
+                    handleClick={() => navigate('/mint/detail')}
+                  />
+                )}
 
-                  {mintOption && handleMint && (
-                    <TableItem.Button
-                      title="Mint"
-                      type="mint"
-                      handleClick={() => navigate('/mint/detail')}
-                    />
-                  )}
-
-                  {sellOption && handleSell && (
-                    <TableItem.Button
-                      title="Sell"
-                      type="sell"
-                      handleClick={() => navigate('/sell/detail')}
-                    />
-                  )}
-                </TableItem>
-              ))}
-          </TableBody>
-        </Table>
-        {songList.length <= 0 && (
-          <NoneContent message={'There are no songs created yet.'} height={300} />
-        )}
-      </TableWrapper>
+                {sellOption && handleSell && (
+                  <TableItem.Button
+                    title="Sell"
+                    type="sell"
+                    handleClick={() => navigate('/sell/detail')}
+                  />
+                )}
+              </TableItem>
+            ))}
+        </TableBody>
+      </Table>
     </>
   );
 

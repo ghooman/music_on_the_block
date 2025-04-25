@@ -24,6 +24,15 @@ const NftConfirmModal = ({ setShowModal,title,confirmSellTxt,confirmMintTxt,setS
                     className='confirm-modal__btns__cancel'
                     onClick={()=>setShowModal(false)}
                 >Cancel</button>
+                {confirmMintTxt && 
+                    <button className='confirm-modal__btns__ok'
+                        onClick={() => {
+                            setShowModal(false);
+                            setShowSuccessModal(true);
+                        }}
+                    >Mint</button>
+                }
+
                 {confirmSellTxt && 
                     <button className='confirm-modal__btns__ok'
                     onClick={() => {

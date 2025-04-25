@@ -39,8 +39,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     }
 
     &__messages {
-      background: url("../assets/images/chat-bot/chat-mob-bg.png") no-repeat
-        left bottom;
+      background: url('../assets/images/chat-bot/chat-mob-bg.png') no-repeat left bottom;
       flex: 1;
       padding: 20px;
       // background-color: $foreground;
@@ -80,6 +79,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               font-family: Inter400;
               font-size: 14px;
               padding: 12px;
+              white-space: break-spaces;
             }
           }
         }
@@ -150,7 +150,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         align-items: center;
         justify-content: center;
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           top: 4px;
@@ -190,8 +190,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       .music__information__header {
         &::before {
           border: 1px solid #fff;
-          background: url("../assets/images/arrow_drop_down2.svg") center
-            no-repeat;
+          background: url('../assets/images/arrow_drop_down2.svg') center no-repeat;
           transform: translate(0, -50%) rotate(180deg);
         }
       }
@@ -213,7 +212,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
 
       &::before {
-        content: "";
+        content: '';
         width: 24px;
         height: 24px;
         border: 1px solid #cf0;
@@ -222,7 +221,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         right: 16px;
         transform: translate(0, -50%);
         transition: 0.3s;
-        background: url("../assets/images/arrow_drop_down.svg") center no-repeat;
+        background: url('../assets/images/arrow_drop_down.svg') center no-repeat;
         background-size: contain;
       }
     }
@@ -289,7 +288,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         align-items: center;
         justify-content: center;
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           top: 4px;

@@ -124,7 +124,7 @@
     &.body-song {
       display: flex;
       justify-content: center;
-      width: 60px;
+      width: 80px;
     }
 
     &.head-title,
@@ -210,6 +210,12 @@
     &.body-title {
       .body-title__song-title {
         @include fonts(14px, 400, #aaa);
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* 최대 2줄 */
+        -webkit-box-orient: vertical;
+        word-break: break-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .body-title__artist {
         display: flex;

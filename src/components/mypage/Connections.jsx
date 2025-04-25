@@ -41,7 +41,7 @@ const Connections = () => {
     isLoading,
     isFetching,
   } = useQuery(
-    ['follow_list', { token, page, search, connectionsSort, connectionsType }],
+    ['follow_list', token, page, search, connectionsSort, connectionsType],
     async () => {
       const path = connectionsType === 'Following' ? 'following' : 'follower';
       const res = await axios.get(`${serverApi}/api/user/my/${path}/list`, {
@@ -66,7 +66,7 @@ const Connections = () => {
   //====================
   const queryUpdate = id => {
     queryClient.setQueryData(
-      ['follow_list', { token, page, search, connectionsSort, connectionsType }],
+      ['follow_list', token, page, search, connectionsSort, connectionsType],
       prevData => {
         const updatedDataList = prevData.data_list.map(user => {
           if (user.user_id === id) {

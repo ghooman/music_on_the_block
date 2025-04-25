@@ -77,7 +77,9 @@ const AlbumItem = ({
           className="album__content-list__list__item__left__img"
           style={{
             backgroundImage: `url(${
-              track?.cover_image === 'string' ? coverImg10 : track?.cover_image
+              track?.cover_image === 'string'
+                ? coverImg10
+                : track?.cover_image.replace('public', '140to140')
             })`,
           }}
         ></p>

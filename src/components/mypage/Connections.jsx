@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 
 import axios from 'axios';
@@ -63,51 +63,45 @@ const Connections = () => {
   // 낙관적 업데이트 함수
   //====================
   const queryUpdate = id => {
-    console.count('리랜더 쿼리 체인지');
     queryClient.setQueryData(
       ['follow_list', token, page, search, connectionsSort, connectionsType],
-      // prevData => {
-      //   const updatedDataList = prevData.data_list.map(user => {
-      //     if (user.user_id === id) {
-      //       return { ...user, is_follow: !user.is_follow };
-      //     }
-      //     return user;
-      //   });
-      //   return {
-      //     ...prevData,
-      //     data_list: updatedDataList,
-      //   };
-      // }
-
       prev => {
-        const copy = { ...prev };
-        const newDataList = copy.data_list.map(item => ({ ...item, is_follow: !item.is_follow }));
+        if (!prev?.data_list) return prev;
+
+        const newDataList = prev.data_list.map(user => {
+          if (user.user_id === id) {
+            return { ...user, is_follow: !user.is_follow };
+          }
+          return user;
+        });
+
         return {
-          ...copy,
-          data_list: newDataList,
+          ...prev,
+          data_list: [...newDataList],
         };
       }
     );
   };
 
-  console.count('리랜더');
-
   //====================
   // 핸들 팔로잉
   //====================
 
-  const handleFollowing = useCallback(async id => {
-    try {
-      const res = await axios.post(`${serverApi}/api/user/${id}/follow`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      queryUpdate(id);
-    } catch (e) {
-      console.error(e);
-    }
-  }, []);
+  const handleFollowing = useCallback(
+    async id => {
+      try {
+        const res = await axios.post(`${serverApi}/api/user/${id}/follow`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        queryUpdate(id);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [queryUpdate]
+  );
 
   //=====================
   // 핸들 언팔로잉

@@ -109,7 +109,10 @@ TableItem.Type = React.memo(({ image }) => {
 
 TableItem.Song = React.memo(({ image, active }) => {
   return (
-    <td className="table__body--item" style={{ width: 26 }}>
+    // <td className="table__body--item" style={{ width: 26 }}>
+      <td className={`table__body--item ${active ? 'active' : ''}`}
+          // style={{ width: 26 }
+        >
       <div className={`song ${active ? 'active' : ''}`}>
         <img src={image} alt="images" />
         <div className="loading-wave">

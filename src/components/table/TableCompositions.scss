@@ -27,6 +27,19 @@
 }
 
 .table__body {
+  .table__body--item {
+    img{
+      border: 1px solid transparent;
+      transition: 0.3s;
+    }
+    &.active{
+      .song{
+        img{
+          border: 1px solid #00d293;
+        }
+      }
+    }
+  }
   &.hover {
     cursor: pointer;
     transition: 0.2s all;

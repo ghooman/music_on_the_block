@@ -21,9 +21,8 @@ import track2 from '../../../assets/music/MusicOnTheBlock_v1.mp3';
 import track3 from '../../../assets/music/nisoft_song.mp3';
 
 // AI 관련 아이콘들
-import LyricsIcon from '../../../assets/images/icon/Lyrics-Icon.svg';
-import LyricsAndSongwritingIcon from '../../../assets/images/icon/Songwriting-Icon.svg';
-import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
+import lyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
+import coverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
 // 컴포넌트
 import SongPlayEditTable from '../../unit/SongPlayEditTable';
@@ -32,8 +31,8 @@ import AlbumsNoticeModal from './AlbumsNoticeModal';
 import Loading from '../../IntroLogo2';
 
 const subCategoryList = [
-  { name: 'AI Lyrics & Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
-  { name: 'AI Singing Evaluation', image: LyricsIcon, preparing: true },
+  { name: 'AI Lyrics & Songwriting', image: lyricSongwritingIcon, preparing: false },
+  { name: 'AI Singing Evaluation', image: coverCreationIcon, preparing: true },
 ];
 
 const serverApi = process.env.REACT_APP_SERVER_API;
@@ -253,6 +252,7 @@ const EditAlbumSongs = () => {
               setSongList={setAddBundleSongList}
               activeSong={activeSong}
               setActiveSong={setActiveSong}
+              count={addBundleSongList?.filter(item => item.check).length}
             />
             <AddDeleteBtn addHandler={handleAdd} deleteHandler={handleDelete} />
             <SongPlayEditTable
@@ -261,6 +261,8 @@ const EditAlbumSongs = () => {
               setSongList={setAlbumbundleSongList}
               activeSong={activeSong}
               setActiveSong={setActiveSong}
+              count={albumBundleSongList.length}
+              limit={500}
             />
           </div>
         </ContentWrap>

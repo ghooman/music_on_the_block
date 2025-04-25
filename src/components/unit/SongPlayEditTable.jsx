@@ -12,7 +12,15 @@ import defaultUserImage from '../../assets/images/header/logo-png.png';
  * @param {React.Dispatch<React.SetStateAction<number|null>>} setActiveSong
  * @param {React.RefObject<HTMLAudioElement>} audioRef
  */
-const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setActiveSong }) => {
+const SongPlayEditTable = ({
+  title,
+  songList = [],
+  setSongList,
+  activeSong,
+  setActiveSong,
+  count,
+  limit,
+}) => {
   const allCheck = songList?.length > 0 && songList?.every(item => item.check);
 
   const handleSelectAll = e => {
@@ -34,15 +42,13 @@ const SongPlayEditTable = ({ title, songList = [], setSongList, activeSong, setA
     });
   };
 
-  console.log(songList, '곡 리스트');
-
   return (
     <div className="song-play-edit-table">
       <div className="song-play-edit-table__selected">
         {title}
         <p className="song-play-edit-table__selected--numbers">
-          (<span>{songList?.filter(item => item.check).length}</span>&nbsp;
-          {songList?.filter(item => item.check).length === 1 ? 'Song' : 'Songs'})
+          (<span>{count || 0}</span>&nbsp;
+          {count === 1 ? 'Song' : 'Songs'} {limit ? <>/ {limit} Songs</> : ''} )
         </p>
       </div>
       {/** 테이블 시작 */}

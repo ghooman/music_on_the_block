@@ -38,11 +38,10 @@ const Connections = () => {
 
   const {
     data: connectionsData,
-    refetch,
     isLoading,
     isFetching,
   } = useQuery(
-    ['follow_list', { token, page, search, connectionsSort, connectionsType }],
+    ['follow_list', token, page, search, connectionsSort, connectionsType],
     async () => {
       const path = connectionsType === 'Following' ? 'following' : 'follower';
       const res = await axios.get(`${serverApi}/api/user/my/${path}/list`, {
@@ -64,21 +63,34 @@ const Connections = () => {
   // 낙관적 업데이트 함수
   //====================
   const queryUpdate = id => {
+    console.count('리랜더 쿼리 체인지');
     queryClient.setQueryData(
-      ['follow_list', { token, page, search, connectionsSort, connectionsType }],
-      prevData => {
-        const { data_list } = prevData;
-        const copy = [...data_list];
-        copy.forEach(user => {
-          if (user.user_id === id) {
-            user.is_follow = !user.is_follow;
-          }
-        });
-        prevData.data_list = copy;
-        return prevData;
+      ['follow_list', token, page, search, connectionsSort, connectionsType],
+      // prevData => {
+      //   const updatedDataList = prevData.data_list.map(user => {
+      //     if (user.user_id === id) {
+      //       return { ...user, is_follow: !user.is_follow };
+      //     }
+      //     return user;
+      //   });
+      //   return {
+      //     ...prevData,
+      //     data_list: updatedDataList,
+      //   };
+      // }
+
+      prev => {
+        const copy = { ...prev };
+        const newDataList = copy.data_list.map(item => ({ ...item, is_follow: !item.is_follow }));
+        return {
+          ...copy,
+          data_list: newDataList,
+        };
       }
     );
   };
+
+  console.count('리랜더');
 
   //====================
   // 핸들 팔로잉
@@ -134,7 +146,6 @@ const Connections = () => {
         {/* <AlbumsTable /> */}
         <UserTable
           userList={connectionsData?.data_list}
-          refetch={refetch}
           followOption={connectionsType === 'Followers'}
           unFollowOption={connectionsType === 'Following'}
           handleFollowing={id => handleFollowing(id)}

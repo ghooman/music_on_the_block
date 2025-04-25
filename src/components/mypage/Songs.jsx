@@ -126,6 +126,7 @@ const Songs = ({ token }) => {
           handleRelease={setReleaseMusic}
           gradeOption={releaseType === 'Released songs'}
           NftOption={true}
+          artistOption={false}
         />
         <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />
       </ContentWrap>

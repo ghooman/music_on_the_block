@@ -21,6 +21,39 @@
     letter-spacing: 0.48px;
     margin-bottom: 24px;
   }
+
+  .error-modal__button {
+    width: 100%;
+    border-radius: 12px;
+    background-color: #cf0;
+    position: relative;
+    top: 0;
+    transition: 0.2s all;
+    height: 40px;
+    color: #1a1a1a;
+    font-family: Orbitron600;
+    font-size: 16px;
+
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0px;
+      }
+    }
+
+    &::before {
+      transition: 0.2s all;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: calc(100% - 1px);
+      border-radius: 12px;
+      border: 1px solid #cf0;
+      top: 4px;
+      left: 0px;
+    }
+  }
+
   //   .create-complete__button {
   //     height: 48px;
   //     width: 100%;

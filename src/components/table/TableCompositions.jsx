@@ -6,7 +6,7 @@ import './TableCompositions.scss';
 
 // 테이블 태그
 export const TableWrapper = React.memo(({ children }) => {
-  return <div className="table-wrapper">{children}</div>;
+  return <div className="table__wrapper">{children}</div>;
 });
 
 export const Table = React.memo(({ children, style }) => {
@@ -101,6 +101,16 @@ TableItem.Type = React.memo(({ image }) => {
   return (
     <td className="table__body--item" style={{ width: 26 }}>
       <div className="type">
+        <img src={image} alt="icon" />
+      </div>
+    </td>
+  );
+});
+
+TableItem.Grade = React.memo(({ image }) => {
+  return (
+    <td className="table__body--item" style={{ width: 26 }}>
+      <div className="grade">
         <img src={image} alt="icon" />
       </div>
     </td>

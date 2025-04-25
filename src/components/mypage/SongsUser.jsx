@@ -52,7 +52,7 @@ const SongsUser = ({ username }) => {
           <Filter songsSort={true} />
           <Search reset={{ page: 1 }} placeholder="Search by song title..." />
         </ContentWrap.SubWrap>
-        <SongPlayTable songList={songList?.data_list} gradeOption={true} nftOption={true} />
+        <SongPlayTable songList={songList?.data_list} gradeOption={true} nftOption={true} artistOption={false}/>
         <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
       </ContentWrap>
       {(topSongLoading || songListLoading) && <Loading />}

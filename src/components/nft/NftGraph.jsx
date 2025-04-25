@@ -41,12 +41,12 @@ export const NftGraph = () => {
     return (
         <div className="nft-item__graph">
             <div className="nft-item__graph--img">
-                <p className="nft-item__graph--img__title">Transaction Volume</p>
+                <p className="nft-item__graph--img__title">Transaction Volume (14-Day Fixed)</p>
                 {/* <img src={graph1Img01} alt="Transaction Volume" /> */}
                 <BarChart data={sampleBarData} height={280} />
             </div>
             <div className="nft-item__graph--img">
-                <p className="nft-item__graph--img__title">NFT Issuance</p>
+                <p className="nft-item__graph--img__title">Average Price (14-Day Fixed)</p>
                 {/* <img src={graph1Img02} alt="NFT Issuance" /> */}
                 <SimpleLineChart data={sampleLineData} height={280} />
             </div>

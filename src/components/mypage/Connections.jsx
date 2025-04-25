@@ -41,7 +41,7 @@ const Connections = () => {
     isLoading,
     isFetching,
   } = useQuery(
-    ['follow_list', { token, page, search, connectionsSort, connectionsType }],
+    ['follow_list', token, page, search, connectionsSort, connectionsType],
     async () => {
       const path = connectionsType === 'Following' ? 'following' : 'follower';
       const res = await axios.get(`${serverApi}/api/user/my/${path}/list`, {
@@ -59,28 +59,38 @@ const Connections = () => {
     { refetchOnWindowFocus: false, enabled: !!token }
   );
 
-  console.log(connectionsData, '커넥션 데이터');
-
   //====================
   // 낙관적 업데이트 함수
   //====================
   const queryUpdate = id => {
+    console.count('리랜더 쿼리 체인지');
     queryClient.setQueryData(
-      ['follow_list', { token, page, search, connectionsSort, connectionsType }],
-      prevData => {
-        const updatedDataList = prevData.data_list.map(user => {
-          if (user.user_id === id) {
-            return { ...user, is_follow: !user.is_follow };
-          }
-          return user;
-        });
+      ['follow_list', token, page, search, connectionsSort, connectionsType],
+      // prevData => {
+      //   const updatedDataList = prevData.data_list.map(user => {
+      //     if (user.user_id === id) {
+      //       return { ...user, is_follow: !user.is_follow };
+      //     }
+      //     return user;
+      //   });
+      //   return {
+      //     ...prevData,
+      //     data_list: updatedDataList,
+      //   };
+      // }
+
+      prev => {
+        const copy = { ...prev };
+        const newDataList = copy.data_list.map(item => ({ ...item, is_follow: !item.is_follow }));
         return {
-          ...prevData,
-          data_list: updatedDataList,
+          ...copy,
+          data_list: newDataList,
         };
       }
     );
   };
+
+  console.count('리랜더');
 
   //====================
   // 핸들 팔로잉
@@ -94,7 +104,6 @@ const Connections = () => {
         },
       });
       queryUpdate(id);
-      console.log('성공');
     } catch (e) {
       console.error(e);
     }
@@ -112,7 +121,6 @@ const Connections = () => {
         },
       });
       queryUpdate(unFollowUserId);
-      console.log('성공');
     } catch (e) {
       console.error(e);
     }

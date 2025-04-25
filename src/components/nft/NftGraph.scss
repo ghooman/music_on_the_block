@@ -2,9 +2,12 @@
     display: flex;
     gap: 16px;
     margin-top: 16px;
-
+    *{
+        // color: #000;
+    }
     .nft-item__graph--img {
-        flex: 1;
+        // flex: 1;
+        width: 100%;
         // background: #222;
         // border-radius: 12px;
         // padding: 16px;
@@ -26,6 +29,11 @@
 
 
 
+@media screen and (max-width: 1000px) {
+    .nft-item__graph{
+        flex-direction: column;
+    }
+}
 
 @media screen and (max-width: 768px) {
     .nft-item__graph {

@@ -1,13 +1,22 @@
-import ModalWrap from "../ModalWrap";
+import ModalWrap from '../ModalWrap';
 
-import "./ErrorModal.scss";
+import './ErrorModal.scss';
 
-const ErrorModal = ({ title, setShowErrorModal, message }) => {
+const ErrorModal = ({ title, setShowErrorModal, message, button }) => {
+  const onClose = () => {
+    setShowErrorModal(false);
+  };
+
   return (
-    <ModalWrap onClose={setShowErrorModal} title={title || ""}>
+    <ModalWrap onClose={onClose} title={title || ''}>
       <div className="error-modal">
         <div className="error-modal__logo-box"></div>
-        <p className="error-modal__text">{message || "No Text"}</p>
+        <p className="error-modal__text">{message || 'No Text'}</p>
+        {button && (
+          <button className="error-modal__button" onClick={onClose}>
+            OK
+          </button>
+        )}
       </div>
     </ModalWrap>
   );

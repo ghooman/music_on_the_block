@@ -3,36 +3,36 @@ import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 
 const dummy = [
-  {
-    id: 1,
-    grade: 'Legend',
-    nft_name: 'NFT NAME',
-    collection: 'COLLECTION NAME',
-    price: 12,
-    adminssion_type: 'MOB',
-    create_dt: '2005-05-05',
-    status: 'sold',
-  },
-  {
-    id: 2,
-    grade: 'Legend',
-    nft_name: 'NFT NAME',
-    collection: 'COLLECTION NAME',
-    price: 17,
-    adminssion_type: 'MOB',
-    create_dt: '2005-05-05',
-    status: 'sell',
-  },
-  {
-    id: 3,
-    grade: 'Legend',
-    nft_name: 'NFT NAME',
-    collection: 'COLLECTION NAME',
-    price: 210,
-    adminssion_type: 'MOB',
-    create_dt: '2005-05-05',
-    status: 'cancel',
-  },
+  // {
+  //   id: 1,
+  //   grade: 'Legend',
+  //   nft_name: 'NFT NAME',
+  //   collection: 'COLLECTION NAME',
+  //   price: 12,
+  //   adminssion_type: 'MOB',
+  //   create_dt: '2005-05-05',
+  //   status: 'sold',
+  // },
+  // {
+  //   id: 2,
+  //   grade: 'Legend',
+  //   nft_name: 'NFT NAME',
+  //   collection: 'COLLECTION NAME',
+  //   price: 17,
+  //   adminssion_type: 'MOB',
+  //   create_dt: '2005-05-05',
+  //   status: 'sell',
+  // },
+  // {
+  //   id: 3,
+  //   grade: 'Legend',
+  //   nft_name: 'NFT NAME',
+  //   collection: 'COLLECTION NAME',
+  //   price: 210,
+  //   adminssion_type: 'MOB',
+  //   create_dt: '2005-05-05',
+  //   status: 'cancel',
+  // },
 ];
 
 const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel }) => {

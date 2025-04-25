@@ -27,8 +27,8 @@ import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
 import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
-import MintNftSellDetail from './pages/MintNftSellDetail';
-import MintNftSellDetail2 from './pages/MintNftSellDetail2';
+import MintNftDetail from './components/nft/MintNftDetail';
+import SellNftDetail from './components/nft/SellNftDetail';
 function Layout({ children }) {
   return (
     <div>
@@ -174,10 +174,26 @@ function App() {
               }
             />
             <Route
+              path="mint/detail/:id"
+              element={
+                <Layout>
+                  <MintNftDetail />
+                </Layout>
+              }
+            />
+            <Route
               path="nft/sell/list"
               element={
                 <Layout>
                   <NftSellList />
+                </Layout>
+              }
+            />
+            <Route
+              path="nft/sell/detail/:id"
+              element={
+                <Layout>
+                  <SellNftDetail />
                 </Layout>
               }
             />
@@ -194,22 +210,6 @@ function App() {
               element={
                 <Layout>
                   <NftItemDetail />
-                </Layout>
-              }
-            />
-            <Route
-              path="mint/detail"
-              element={
-                <Layout>
-                  <MintNftSellDetail />
-                </Layout>
-              }
-            />
-            <Route
-              path="sell/detail"
-              element={
-                <Layout>
-                  <MintNftSellDetail2 />
                 </Layout>
               }
             />

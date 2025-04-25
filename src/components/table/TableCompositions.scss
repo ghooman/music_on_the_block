@@ -139,9 +139,9 @@
     &.sold {
       color: #1a1a1a;
       background-color: #cf0;
-      &::before {
-        border: 1px solid #cf0;
-      }
+      // &::before {
+      //   border: 1px solid #cf0;
+      // }
       &::after {
         background: #cf0;
       }

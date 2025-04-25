@@ -10,6 +10,7 @@
   table-layout: auto;
   width: auto;
   width: 100%;
+  overflow: auto;
 }
 
 .table__thead {
@@ -70,6 +71,7 @@
 .table__body--item {
   padding: 8px;
   text-align: center;
+  max-width: 340px;
 
   &.index {
     width: 40px;
@@ -83,7 +85,8 @@
     text-overflow: ellipsis;
     font-family: Inter400;
     font-size: 14px;
-
+    max-width: 340px;
+    margin: 0 auto;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;

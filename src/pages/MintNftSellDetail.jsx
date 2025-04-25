@@ -21,9 +21,9 @@ import CreateCollectionModal from '../components/CreateCollectionModal';
 
 // ────────────────────────────────
 function MintNftSellDetail() {
-    const [showModal, setShowModal] = useState(false);
-    const [showCollectionModal, setShowCollectionModal] = useState(false);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   return (
     <>

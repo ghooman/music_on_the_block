@@ -152,7 +152,7 @@ const SongPlayTable = ({
                   <TableItem.Button
                     title="Details"
                     type="details"
-                    handleClick={() => navigate(`/song-detail/${item.id}`)}
+                    handleClick={() => navigate(`/song-detail/${item.id} `)}
                   />
 
                   {deleteOption && handleDelete && (
@@ -189,7 +189,7 @@ const SongPlayTable = ({
                     <TableItem.Button
                       title="Sell"
                       type="sell"
-                      handleClick={() => navigate('/sell/detail')}
+                      handleClick={() => navigate(`/nft/sell/detail/${item.id}`)}
                     />
                   )}
                 </TableItem>

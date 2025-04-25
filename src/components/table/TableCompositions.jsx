@@ -84,7 +84,7 @@ TableItem.Text = React.memo(({ text }) => {
 TableItem.Date = React.memo(({ date }) => {
   return (
     <td className="table__body--item">
-      <p className="text">{date ? new Date(date).toLocaleString() : '-'}</p>
+      <p className="text">{date ? new Date(date).toUTCString('') : '-'}</p>
     </td>
   );
 });

@@ -58,7 +58,7 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
               <TableItem.Grade grade={item.grade} />
               <TableItem.Text text={item.nft_name} />
               <TableItem.Text text={item.collection} />
-              <TableItem.Text text={item.price} />
+              <TableItem.Text text={item.price + ' ' + item.adminssion_type} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 

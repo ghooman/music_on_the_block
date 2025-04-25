@@ -29,6 +29,7 @@ import SongPlayEditTable from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
 import AlbumsNoticeModal from './AlbumsNoticeModal';
 import Loading from '../../IntroLogo2';
+import ErrorModal from '../../modal/ErrorModal';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: lyricSongwritingIcon, preparing: false },
@@ -45,6 +46,8 @@ const EditAlbumSongs = () => {
   const [addBundleSongList, setAddBundleSongList] = useState([]);
   const [albumBundleSongList, setAlbumbundleSongList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [errorMessage, setErrorMessage] = useState('');
   const [duplicateCount, setDuplicateCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,6 +77,12 @@ const EditAlbumSongs = () => {
         duplicateCount++;
       }
     });
+
+    if (albumBundleMaps.size + addBundleMaps.length > 500) {
+      setErrorMessage('No more songs can be added.');
+      return;
+    }
+
     setAddBundleSongList(prev => prev.map(item => ({ ...item, check: false }))); // 모든 데이터 체크 비활성화
     setDuplicateCount(duplicateCount);
     setAlbumbundleSongList(prev => {
@@ -276,6 +285,14 @@ const EditAlbumSongs = () => {
           handleClick={handleEdit}
           songsCount={albumBundleSongList?.length}
           action={() => navigate(`/albums-detail/${id}`)}
+        />
+      )}
+      {errorMessage && (
+        <ErrorModal
+          setShowErrorModal={setErrorMessage}
+          message={errorMessage}
+          title="Error"
+          button
         />
       )}
       {duplicateCount > 0 && <AlbumsNoticeModal setAlbumsNoticeModal={setDuplicateCount} />}

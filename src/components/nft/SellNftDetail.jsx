@@ -1,20 +1,20 @@
-import '../styles/MintNftSellDetail.scss';
+import './MintNftDetail.scss';
 import React, { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import 'react-h5-audio-player/lib/styles.css';
-import ContentWrap from '../components/unit/ContentWrap';
+import ContentWrap from '../unit/ContentWrap';
 
 // 이미지·아이콘 ------------------------------------------------------
-import micIcon from '../assets/images/icon/mic-icon.svg';
-import mobIcon from '../assets/images/icon/mob-icon.svg';
-import polygonIcon from '../assets/images/icon/polygon-icon.svg';
-import usdtIcon from '../assets/images/icon/usdt-icon.svg';
-import usdcIcon from '../assets/images/icon/usdc-icon.svg';
+import micIcon from '../../assets/images/icon/mic-icon.svg';
+import mobIcon from '../../assets/images/icon/mob-icon.svg';
+import polygonIcon from '../../assets/images/icon/polygon-icon.svg';
+import usdtIcon from '../../assets/images/icon/usdt-icon.svg';
+import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
 
 // import MintDetailSection from '../components/mint-nft-details/MintDetailSection';
-import NftConfirmModal from '../components/NftConfirmModal';
-import NftConfirmSuccessModal from '../components/NftConfirmSuccessModal';
-import SongsBar from '../components/unit/SongsBar';
+import NftConfirmModal from '../NftConfirmModal';
+import NftConfirmSuccessModal from '..//NftConfirmSuccessModal';
+import SongsBar from '../unit/SongsBar';
 
 // // ──────────────── 더미 데이터 ────────────────
 // const album = {

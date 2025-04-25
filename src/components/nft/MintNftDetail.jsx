@@ -1,26 +1,22 @@
-import '../styles/MintNftSellDetail.scss';
+import './MintNftDetail.scss';
 import React, { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import 'react-h5-audio-player/lib/styles.css';
-import ContentWrap from '../components/unit/ContentWrap';
-import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
-import Search from '../components/unit/Search';
-import FilterItems from '../components/unit/FilterItems';
+import ContentWrap from '../unit/ContentWrap';
+import { NftItemList, CollectionItemList } from './NftItem';
+import Search from '../unit/Search';
+import FilterItems from '../unit/FilterItems';
 // 이미지·아이콘 ------------------------------------------------------
-import coverImg from '../assets/images/black-img.jpg';
-import demoImg from '../assets/images/intro/intro-demo-img4.png';
-import defaultCoverImg from '../assets/images/header/logo.svg';
-import track1 from '../assets/music/song01.mp3';
 
-import editIcon from '../assets/images/edit.svg';
+import editIcon from '../../assets/images/edit.svg';
 
-import NftConfirmModal from '../components/NftConfirmModal';
-import NftConfirmSuccessModal from '../components/NftConfirmSuccessModal';
-import SongsBar from '../components/unit/SongsBar';
-import CreateCollectionModal from '../components/CreateCollectionModal';
+import NftConfirmModal from '../NftConfirmModal';
+import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
+import SongsBar from '../unit/SongsBar';
+import CreateCollectionModal from '../CreateCollectionModal';
 
 // ────────────────────────────────
-function MintNftSellDetail() {
+function MintNftDetail() {
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -93,4 +89,4 @@ function MintNftSellDetail() {
   );
 }
 
-export default MintNftSellDetail;
+export default MintNftDetail;

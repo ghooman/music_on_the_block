@@ -1,5 +1,6 @@
 import { ResponsivePie } from '@nivo/pie';
 import { ResponsiveLine } from '@nivo/line';
+import { ResponsiveBar } from '@nivo/bar';
 
 import './Chart.scss';
 
@@ -147,3 +148,121 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
         </div>
     );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+// components/unit/BarChart.jsx
+
+export const BarChart = ({ data, keys = ['value'], indexBy = 'date', height = 300 }) => {
+    return (
+        <div style={{ height }}>
+            <ResponsiveBar
+                data={data}
+                keys={['value']}
+                indexBy="date"
+                margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
+                padding={0.3}
+                valueScale={{ type: 'linear' }}
+                indexScale={{ type: 'band', round: true }}
+                colors="turquoise"
+                enableLabel={false}
+                /* ───── 축 & 눈금 ───── */
+                axisBottom={{ tickSize: 0, tickPadding: 12, legendOffset: 32 }}
+                axisLeft={{
+                    tickSize: 0,
+                    tickPadding: 8,
+                    tickValues: [0, 200, 400, 600, 800, 1000],
+                    legendOffset: -40,
+                }}
+                /* ───── 격자 ───── */
+                enableGridX={false}
+                enableGridY
+                gridYValues={[0, 200, 400, 600, 800, 1000]}
+                /* ───── 스타일 ───── */
+                theme={{
+                    textColor: '#fff',
+                    axis: {
+                    ticks: { text: { fill: '#888', fontSize: 12 }, line: { stroke: '#333' } },
+                    domain: { line: { stroke: '#444' } },
+                    },
+                    grid: { line: { stroke: '#222', strokeWidth: 1 } },
+                    tooltip: { container: { background: '#111', color: '#fff', fontSize: 12 } },
+                }}
+                /* ───── 호버 효과 ───── */
+                borderColor={{ from: 'color', modifiers: [['darker', 1.2]] }}
+                activeOpacity={1}
+                inactiveOpacity={0.5}
+            />
+        </div>
+    );
+};
+
+
+
+
+
+
+export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => (
+    <div style={{ height }}>
+        <ResponsiveLine
+            data={data}
+            margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
+            xScale={{ type: 'point' }}
+            yScale={{ type: 'linear', min: 0, max: 5000 }}   // 0~5000 고정
+            curve="monotoneX"
+            colors="#a78bfa"
+            lineWidth={2}
+            pointSize={0}
+            enablePoints={false}
+            useMesh
+            /* ───── 축 & 눈금 ───── */
+            axisTop={null}
+            axisRight={null}
+            axisBottom={{
+                tickSize: 0,
+                tickPadding: 12,
+                tickRotation: 0,
+                legend: '',
+                legendOffset: 32,
+            }}
+            axisLeft={{
+                tickSize: 0,
+                tickPadding: 8,
+                tickValues: [0, 1000, 2000, 3000, 4000, 5000], // 눈금 위치
+                legend: '',
+                legendOffset: -40,
+            }}
+            /* ───── 격자선 ───── */
+            enableGridX={false}
+            enableGridY={true}
+            gridYValues={[0, 1000, 2000, 3000, 4000, 5000]}
+            /* ───── 테마(색상) ───── */
+            theme={{
+                // background: '#000',
+                textColor: '#fff',
+                axis: {
+                ticks: {
+                    text: { fill: '#888', fontSize: 12 },
+                    line: { stroke: '#333' },
+                },
+                domain: { line: { stroke: '#444' } },
+                },
+                grid: { line: { stroke: '#222', strokeWidth: 1 } },
+                tooltip: {
+                container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
+                },
+            }}
+            tooltip={() => null}
+        />
+    </div>
+);
+

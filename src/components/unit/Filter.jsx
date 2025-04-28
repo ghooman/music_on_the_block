@@ -199,12 +199,12 @@ const Filter = ({
                 filterItems={
                   typeof connectionsSort === 'boolean'
                     ? [
-                        'Highest Level',
-                        'Lowest Level',
-                        'Most Songs',
-                        'Least Songs',
-                        'Most Followers',
-                        'Least Followers',
+                        'Highest Price First',
+                        'Lowest Price First',
+                        'Most NFT Items',
+                        'Least NFT Items',
+                        'Most Liked',
+                        'Least Liked',
                       ]
                     : connectionsSort
                 }

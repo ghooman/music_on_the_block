@@ -92,13 +92,25 @@ const AlarmModal = () => {
     const socket = new WebSocket(WS_URL);
     socketRef.current = socket;
 
-    socket.onopen = () => console.log('웹 소켓 연결됨');
+    socket.onopen = () => {
+      console.log('웹 소켓 연결됨');
+    };
 
     socket.onmessage = e => {
       try {
         const data = JSON.parse(e.data);
-        console.log('웹소켓', data);
-        if (!data?.status) return;
+        console.log('수신 데이터:', data);
+
+        // — 필터링 시작 —
+        // storedAlbumData?.id 와 walletAddress.address 가 존재할 때만 처리
+        if (
+          (storedAlbumData?.id && data.pk !== storedAlbumData.id) ||
+          (walletAddress?.address && data.wallet_address !== walletAddress.address)
+        ) {
+          // 내 앨범/내 지갑 주소 이벤트가 아니면 무시
+          return;
+        }
+        // — 필터링 끝 —
 
         if (data.status === 'complt' || data.status === 'fail') {
           setAlbumPk(data.pk);
@@ -119,7 +131,9 @@ const AlarmModal = () => {
       }
     };
 
-    socket.onerror = err => console.error('웹 소켓 에러 발생:', err);
+    socket.onerror = err => {
+      console.error('웹 소켓 에러 발생:', err);
+    };
 
     socket.onclose = e => {
       console.error('웹 소켓 연결 끊김:', e);

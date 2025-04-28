@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 import ContentWrap from '../components/unit/ContentWrap';
 import Filter from '../components/unit/Filter';
@@ -13,6 +14,7 @@ import Loading from '../components/IntroLogo2';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const NftMintList = () => {
+  const { token } = useContext(AuthContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get('page');
@@ -23,14 +25,18 @@ const NftMintList = () => {
   const { data: songList, isLoading } = useQuery(
     ['nft_sell_list', { page, search, songsSort }],
     async () => {
-      const res = await axios.get(`${serverApi}/api/music/all/list`, {
+      const res = await axios.get(`${serverApi}/api/nfts/mitable`, {
         params: {
           page: page,
           search_keyword: search,
           sort_by: songsSort,
         },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      return res.data;
+
+      return res?.data?.data;
     },
     { refetchOnMount: false }
   );
@@ -43,6 +49,8 @@ const NftMintList = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
+
+  console.log('songList', songList);
 
   return (
     <div>
@@ -61,7 +69,7 @@ const NftMintList = () => {
           gradeOption={true}
           handleMint={() => handleMint()}
         />
-        <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
+        <Pagination totalCount={songList?.total_cnt} viewCount={10} page={page} />
       </ContentWrap>
       {isLoading && <Loading />}
     </div>

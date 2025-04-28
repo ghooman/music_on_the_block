@@ -1,74 +1,141 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import ModalWrap from './ModalWrap';
 
 import './CreateCollectionModal.scss';
 import demoImg from '../assets/images/demo-cover-img.png';
 import loadIcon from '../assets/images/img-load-btn.svg';
+import { createNftCollection } from '../api/nfts/nftCollectionsApi';
 
-const CreateCollectionModal = ({setShowCollectionModal }) => {
+const CreateCollectionModal = ({ setShowCollectionModal }) => {
+  const { token } = useContext(AuthContext);
+  const [preview, setPreview] = useState(demoImg);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const [collectionName, setCollectionName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-        const [preview, setPreview] = useState(demoImg);   // 현재 표시할 이미지
-        const fileInputRef = useRef(null);                 // 숨겨둔 <input type="file">
-    
-        // 버튼 클릭 → 파일 선택창 열기
-        const openFileDialog = () => fileInputRef.current?.click();
-    
-        // 파일 선택 완료 시 이미지 교체
-        const handleFileChange = (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-    
-        // 새 미리보기 URL 생성 → state 갱신
-        const newUrl = URL.createObjectURL(file);
-        setPreview(newUrl);
-    
-        // 이전 URL 해제(메모리 관리)
-        return () => URL.revokeObjectURL(newUrl);
-        };
+  const handleFileChange = e => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    return (
-        <ModalWrap 
-            title='Create New Collection' 
-            onClose={() => setShowCollectionModal(false)} 
-            className="create-collection-modal"
+    // 파일 크기 체크 (4MB)
+    if (file.size > 4 * 1024 * 1024) {
+      setErrorMessage('Image size must be under 4MB');
+      return;
+    }
+
+    // 파일 형식 체크
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      setErrorMessage('Only jpg or png format is allowed');
+      return;
+    }
+
+    setSelectedFile(file);
+    const newUrl = URL.createObjectURL(file);
+    setPreview(newUrl);
+    setErrorMessage('');
+
+    return () => URL.revokeObjectURL(newUrl);
+  };
+
+  const handleCreateCollection = async () => {
+    if (!collectionName.trim()) {
+      setErrorMessage('Please enter a collection name');
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const formData = new FormData();
+      formData.append('payload', JSON.stringify({ name: collectionName.trim() }));
+
+      if (selectedFile && preview !== demoImg) {
+        formData.append('image', selectedFile);
+      }
+
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value instanceof File ? value.name : value);
+      }
+
+      const response = await createNftCollection(token, formData);
+      console.log('Collection created successfully:', response);
+      setShowCollectionModal(false);
+    } catch (error) {
+      console.error('Collection creation failed:', error);
+      setErrorMessage(
+        error.response?.data?.message || 'Failed to create collection. Please try again.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <ModalWrap
+      title="Create New Collection"
+      onClose={() => setShowCollectionModal(false)}
+      className="create-collection-modal"
+    >
+      <p className="create-collection-modal__small-txt">(jpg, png, under 4MB)</p>
+      <div className="create-collection-modal__img-load">
+        <img src={preview} alt="img-load" />
+        <button
+          type="button"
+          className="create-collection-modal__img-load__btn"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isLoading}
         >
-            <p className='create-collection-modal__small-txt'>
-            (jpg, png, under 4MB)
-            </p>
-            <div className='create-collection-modal__img-load'>
-                <img src={preview} alt='img-load' />
-                <button
-                    type='button'
-                    className='create-collection-modal__img-load__btn'
-                    onClick={openFileDialog}
-                >
-                    <img src={loadIcon} alt='loadIcon' />
-                </button>
-                <input
-                    type='file'
-                    accept='image/*'
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                />
-            </div>
-            <dl className='create-collection-modal__input-box'>
-                <dt>Collection name</dt>
-                <dd>
-                    <input placeholder='Please enter a collection name'/>
-                </dd>
-            </dl>
-            <div className='create-collection-modal__btns'>
-                <button 
-                    className='create-collection-modal__btns__cancel'
-                    onClick={()=>setShowCollectionModal(false)}
-                >Cancel</button>
-                <button className='create-collection-modal__btns__ok'
-                    onClick={()=>setShowCollectionModal(false)}
-                >Edit</button>
-            </div>
-        </ModalWrap>
-    );
+          <img src={loadIcon} alt="loadIcon" />
+        </button>
+        <input
+          type="file"
+          accept="image/jpeg,image/png"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
+      </div>
+      <dl className="create-collection-modal__input-box">
+        <dt>Collection name</dt>
+        <dd>
+          <input
+            placeholder="Please enter a collection name"
+            value={collectionName}
+            onChange={e => {
+              setCollectionName(e.target.value);
+              setErrorMessage('');
+            }}
+            disabled={isLoading}
+          />
+        </dd>
+      </dl>
+      {errorMessage && (
+        <p className="create-collection-modal__error" style={{ color: 'red', marginTop: '10px' }}>
+          {errorMessage}
+        </p>
+      )}
+      <div className="create-collection-modal__btns">
+        <button
+          className="create-collection-modal__btns__cancel"
+          onClick={() => setShowCollectionModal(false)}
+          disabled={isLoading}
+        >
+          Cancel
+        </button>
+        <button
+          className="create-collection-modal__btns__ok"
+          onClick={handleCreateCollection}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Creating...' : 'Create'}
+        </button>
+      </div>
+    </ModalWrap>
+  );
 };
 
 export default CreateCollectionModal;

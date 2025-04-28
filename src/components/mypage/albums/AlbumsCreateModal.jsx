@@ -1,29 +1,24 @@
 // components/AlbumsCreateModal.js
-import ModalWrap from "../../ModalWrap";
-import { useState, useRef, useContext, useEffect } from "react";
-import "./AlbumsCreateModal.scss";
-import { createAlbumsList, updateAlbumsList } from "../../../api/AlbumsListApi";
+import ModalWrap from '../../ModalWrap';
+import { useState, useRef, useContext, useEffect } from 'react';
+import './AlbumsCreateModal.scss';
+import { createAlbumsList, updateAlbumsList } from '../../../api/AlbumsListApi';
 
-import UploadButtonImage from "../../../assets/images/icon/picture1.svg";
-import defaultAlbumsImage from "../../../assets/images/mypage/albums-upload-logo.png";
-import { AuthContext } from "../../../contexts/AuthContext";
+import UploadButtonImage from '../../../assets/images/icon/picture1.svg';
+import defaultAlbumsImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import { AuthContext } from '../../../contexts/AuthContext';
 
-const AlbumsCreateModal = ({
-  setShowCreateModal,
-  status,
-  onAlbumCreated,
-  albumData,
-}) => {
+const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumData }) => {
   const { token } = useContext(AuthContext);
   const [albumsImage, setAlbumsImage] = useState(null);
-  const [albumsName, setAlbumsName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [albumsName, setAlbumsName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (status === "edit" && albumData) {
-      setAlbumsName(albumData.album_name || "");
+    if (status === 'edit' && albumData) {
+      setAlbumsName(albumData.album_name || '');
       if (albumData.cover_image) {
         setAlbumsImage({
           preview: albumData.cover_image,
@@ -32,20 +27,20 @@ const AlbumsCreateModal = ({
     }
   }, [status, albumData]);
 
-  const handleImageUpload = (e) => {
-    setErrorMessage("");
+  const handleImageUpload = e => {
+    setErrorMessage('');
     const file = e.target.files[0];
     if (!file) return;
 
     // 파일 크기 체크 (4MB)
     if (file.size > 4 * 1024 * 1024) {
-      setErrorMessage("이미지 크기는 4MB 이하이어야 합니다.");
+      setErrorMessage('이미지 크기는 4MB 이하이어야 합니다.');
       return;
     }
 
     // 파일 형식 체크
-    if (!["image/jpeg", "image/png"].includes(file.type)) {
-      setErrorMessage("jpg 또는 png 형식의 이미지만 업로드 가능합니다.");
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      setErrorMessage('jpg 또는 png 형식의 이미지만 업로드 가능합니다.');
       return;
     }
 
@@ -59,15 +54,15 @@ const AlbumsCreateModal = ({
     reader.readAsDataURL(file);
   };
 
-  const handleInputName = (e) => {
-    setErrorMessage("");
+  const handleInputName = e => {
+    setErrorMessage('');
     setAlbumsName(e.target.value);
   };
 
   const handleCreateAlbum = async () => {
-    setErrorMessage("");
+    setErrorMessage('');
     if (!albumsName.trim()) {
-      setErrorMessage("앨범 이름을 입력해주세요.");
+      setErrorMessage('앨범 이름을 입력해주세요.');
       return;
     }
 
@@ -75,45 +70,39 @@ const AlbumsCreateModal = ({
     try {
       const formDataToSend = new FormData();
       formDataToSend.append(
-        "payload",
+        'payload',
         JSON.stringify({
           album_name: albumsName,
-          album_id: status === "edit" ? albumData.id : undefined,
+          album_id: status === 'edit' ? albumData.id : undefined,
         })
       );
 
       if (albumsImage?.file) {
-        formDataToSend.append("cover_image", albumsImage.file);
+        formDataToSend.append('cover_image', albumsImage.file);
       }
 
-      const response = await createAlbumsList(
-        formDataToSend,
-        token,
-        status === "edit"
-      );
+      const response = await createAlbumsList(formDataToSend, token, status === 'edit');
 
       if (response.status === 200 || response.status === 201) {
         await onAlbumCreated();
         setShowCreateModal(false);
       } else {
         setErrorMessage(
-          status === "edit"
-            ? "앨범 수정에 실패했습니다."
-            : "앨범 생성에 실패했습니다. 다시 시도해주세요."
+          status === 'edit'
+            ? '앨범 수정에 실패했습니다.'
+            : '앨범 생성에 실패했습니다. 다시 시도해주세요.'
         );
       }
     } catch (error) {
       if (error.response?.data?.message) {
         setErrorMessage(
-          `${status === "edit" ? "앨범 수정" : "앨범 생성"} 실패: ${
-            error.response.data.message
-          }`
+          `${status === 'edit' ? '앨범 수정' : '앨범 생성'} 실패: ${error.response.data.message}`
         );
       } else {
         setErrorMessage(
-          status === "edit"
-            ? "앨범 수정에 실패했습니다."
-            : "앨범 생성에 실패했습니다. 다시 시도해주세요."
+          status === 'edit'
+            ? '앨범 수정에 실패했습니다.'
+            : '앨범 생성에 실패했습니다. 다시 시도해주세요.'
         );
       }
     } finally {
@@ -122,9 +111,9 @@ const AlbumsCreateModal = ({
   };
 
   const handleUpdateAlbum = async () => {
-    setErrorMessage("");
+    setErrorMessage('');
     if (!albumsName.trim()) {
-      setErrorMessage("앨범 이름을 입력해주세요.");
+      setErrorMessage('앨범 이름을 입력해주세요.');
       return;
     }
 
@@ -135,10 +124,10 @@ const AlbumsCreateModal = ({
       // 이미지 업데이트가 있는 경우 먼저 처리
       if (albumsImage?.file) {
         const imageFormData = new FormData();
-        imageFormData.append("cover_image", albumsImage.file);
-        imageFormData.append("payload", JSON.stringify({}));
+        imageFormData.append('cover_image', albumsImage.file);
+        imageFormData.append('payload', JSON.stringify({}));
 
-        console.log("이미지 업데이트 API 호출 전 FormData:");
+        console.log('이미지 업데이트 API 호출 전 FormData:');
         for (let [key, value] of imageFormData.entries()) {
           console.log(`${key}: ${value instanceof File ? value.name : value}`);
         }
@@ -149,14 +138,14 @@ const AlbumsCreateModal = ({
       // 이름 업데이트 처리
       const nameFormData = new FormData();
       nameFormData.append(
-        "payload",
+        'payload',
         JSON.stringify({
           album_name: albumsName,
         })
       );
-      nameFormData.append("cover_image", "");
+      nameFormData.append('cover_image', '');
 
-      console.log("이름 업데이트 API 호출 전 FormData:");
+      console.log('이름 업데이트 API 호출 전 FormData:');
       for (let [key, value] of nameFormData.entries()) {
         console.log(`${key}: ${value instanceof File ? value.name : value}`);
       }
@@ -167,13 +156,13 @@ const AlbumsCreateModal = ({
         await onAlbumCreated();
         setShowCreateModal(false);
       } else {
-        setErrorMessage("앨범 수정에 실패했습니다. 다시 시도해주세요.");
+        setErrorMessage('앨범 수정에 실패했습니다. 다시 시도해주세요.');
       }
     } catch (error) {
       if (error.response?.data?.message) {
         setErrorMessage(`앨범 수정 실패: ${error.response.data.message}`);
       } else {
-        setErrorMessage("앨범 수정에 실패했습니다. 다시 시도해주세요.");
+        setErrorMessage('앨범 수정에 실패했습니다. 다시 시도해주세요.');
       }
     } finally {
       setIsLoading(false);
@@ -181,7 +170,7 @@ const AlbumsCreateModal = ({
   };
 
   const handleSubmit = async () => {
-    if (status === "edit") {
+    if (status === 'edit') {
       await handleUpdateAlbum();
     } else {
       await handleCreateAlbum();
@@ -191,13 +180,11 @@ const AlbumsCreateModal = ({
   return (
     <ModalWrap
       onClose={setShowCreateModal}
-      title={status === "edit" ? "Edit Album" : "Create Album"}
+      title={status === 'edit' ? 'Edit Album' : 'Create Album'}
     >
       <div className="albums-create-modal">
         <p className="albums-create-modal__title">Album Cover Image</p>
-        <span className="albums-create-modal__size-info">
-          (jpg, png, under 4MB)
-        </span>
+        <span className="albums-create-modal__size-info">(jpg, png, under 4MB)</span>
 
         <div className="albums-create-modal__image-box">
           <img
@@ -210,7 +197,7 @@ const AlbumsCreateModal = ({
             accept="image/jpeg, image/png"
             onChange={handleImageUpload}
             ref={fileInputRef}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
           <button onClick={() => fileInputRef.current.click()}>
             <img
@@ -235,9 +222,7 @@ const AlbumsCreateModal = ({
           </span>
         </div>
 
-        {errorMessage && (
-          <p className="albums-create-modal__error-message">{errorMessage}</p>
-        )}
+        {errorMessage && <p className="albums-create-modal__error-message">{errorMessage}</p>}
 
         <div className="albums-create-modal__button-box">
           <button
@@ -252,7 +237,7 @@ const AlbumsCreateModal = ({
             onClick={handleSubmit}
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : status === "edit" ? "Edit" : "Create"}
+            {isLoading ? 'Loading...' : status === 'edit' ? 'Edit' : 'Create'}
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
 import { NftSlider } from '../components/nft/NftSlider';
@@ -7,8 +7,23 @@ import Search from '../components/unit/Search';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/Nft.scss';
 import { Link } from 'react-router-dom';
-
+import { getNftsMain } from '../api/nfts/nftsMainApi';
 const Nft = () => {
+  const [nftList, setNftList] = useState([]);
+  const [collectionList, setCollectionList] = useState([]);
+  useEffect(() => {
+    const fetchNftsMain = async () => {
+      try {
+        const response = await getNftsMain();
+        setNftList(response.nft_list);
+        setCollectionList(response.collection_list);
+      } catch (error) {
+        console.error('Failed to fetch NFTs:', error);
+      }
+    };
+
+    fetchNftsMain();
+  }, []);
   return (
     <div className="nft">
       <NftExchange />
@@ -48,12 +63,12 @@ const NftExchange = () => {
       </p>
 
       <div className="nft__exchange--btns">
-        <div className='nft__exchange--btns__left'>
+        <div className="nft__exchange--btns__left">
           <Link className="nft__exchange--button my" to="/my-page?category=NFT MarketPlace">
             My NFTs
-          </Link>          
+          </Link>
         </div>
-        <div className='nft__exchange--btns__right'>
+        <div className="nft__exchange--btns__right">
           <Link className="nft__exchange--button mint" to="/nft/mint/list">
             Mint NFT
           </Link>

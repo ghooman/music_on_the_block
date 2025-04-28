@@ -114,6 +114,7 @@ const SongPlayTable = ({
             <TableHeader.Col>#</TableHeader.Col>
             <TableHeader.Col>Song</TableHeader.Col>
             <TableHeader.Col>Type</TableHeader.Col>
+            <TableHeader.Col>Grade</TableHeader.Col>
             {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
             <TableHeader.Col>Song Title</TableHeader.Col>
             {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
@@ -144,6 +145,7 @@ const SongPlayTable = ({
                   <TableItem.Indexs text={index + 1} />
                   <TableItem.Song image={item.cover_image} active={item?.id === activeSong?.id} />
                   <TableItem.Type image={songTypeIcon} />
+                  <TableItem.Grade image={grade1Icon} />
                   {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
                   <TableItem.Text text={item.title} />
                   {playsOption && <TableItem.Text text={item.play_cnt} />}
@@ -152,7 +154,7 @@ const SongPlayTable = ({
                   <TableItem.Button
                     title="Details"
                     type="details"
-                    handleClick={() => navigate(`/song-detail/${item.id}`)}
+                    handleClick={() => navigate(`/song-detail/${item.id} `)}
                   />
 
                   {deleteOption && handleDelete && (
@@ -181,7 +183,7 @@ const SongPlayTable = ({
                     <TableItem.Button
                       title="Mint"
                       type="mint"
-                      handleClick={() => navigate('/mint/detail')}
+                      handleClick={() => navigate(`/mint/detail/${item.id}`)}
                     />
                   )}
 
@@ -189,7 +191,7 @@ const SongPlayTable = ({
                     <TableItem.Button
                       title="Sell"
                       type="sell"
-                      handleClick={() => navigate('/sell/detail')}
+                      handleClick={() => navigate(`/nft/sell/detail/${item.id}`)}
                     />
                   )}
                 </TableItem>

@@ -19,190 +19,197 @@
     }
   } //album-detail__title--END--
 
-  .mint-btn{
+  .mint-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     float: right;
     width: 100%;
     height: 40px;
-    background: #00FFB3;
+    background: #00ffb3;
     position: relative;
     top: 0;
     transition: 0.2s;
-    color:#1A1A1A;
+    color: #1a1a1a;
     font-family: Orbitron600;
     font-size: 16px;
     font-style: normal;
     line-height: normal;
     border-radius: 12px;
-    &::before{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 4px;
-        width: calc(100% - 2px);
-        transition: 0.2s;
-        border-radius: 12px;
-        height: 38px;
-        border: 1px solid #00FFB3;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: calc(100% - 2px);
+      transition: 0.2s;
+      border-radius: 12px;
+      height: 38px;
+      border: 1px solid #00ffb3;
     }
-    &:hover{
-        top: 4px;
-        &::before{
-            top: 0;
-        }
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0;
+      }
     }
+  }
+  .disabled {
+    border: 1px solid var(--secondary-600, #003321);
+    background: var(--black, #000);
+    &::before {
+      border: 1px solid #003321;
+      top: 0px;
+    }
+    &:hover {
+      top: 0px;
+      &::before {
+        top: 0px;
+      }
+    }
+  }
+  //mint-btn--END--
 
-  }//mint-btn--END--
-  
-  .sell-btn{
+  .sell-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     float: right;
     width: 200px;
     height: 40px;
-    background: #6458FF;
+    background: #6458ff;
     position: relative;
     top: 0;
     transition: 0.2s;
-    color:#fff;
+    color: #fff;
     font-family: Orbitron600;
     font-size: 16px;
     font-style: normal;
     line-height: normal;
     border-radius: 12px;
-    margin:16px 0 0 0 ;
-    &::before{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 4px;
-        width: calc(100% - 2px);
-        transition: 0.2s;
-        border-radius: 12px;
-        height: 38px;
-        border: 1px solid #6458FF;
+    margin: 16px 0 0 0;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: calc(100% - 2px);
+      transition: 0.2s;
+      border-radius: 12px;
+      height: 38px;
+      border: 1px solid #6458ff;
     }
-    &:hover{
-        top: 4px;
-        &::before{
-            top: 0;
-        }
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0;
+      }
     }
   }
 
-
-
-
-
-
-
-  .level-quantity-box{
+  .level-quantity-box {
     width: 100%;
     display: flex;
     gap: 16px;
-    .level-quantity-box__dl{
+    .level-quantity-box__dl {
       width: 100%;
       padding: 16px;
       border-radius: 12px;
       border: 1px solid var(--Color-04, #383838);
-      background: var(--Dark-Color-01, #0B0B0C);
-      dt{
-        color: var(--primary-base, #CF0);
+      background: var(--Dark-Color-01, #0b0b0c);
+      dt {
+        color: var(--primary-base, #cf0);
         font-family: Orbitron400;
         font-size: 16px;
         font-style: normal;
         line-height: normal;
         margin-bottom: 16px;
       }
-      dd{
-        color: var(--Text-music-title, #F1F1F1);
+      dd {
+        color: var(--Text-music-title, #f1f1f1);
         font-family: Orbitron600;
         font-size: 14px;
         font-style: normal;
         display: flex;
         align-items: center;
         gap: 8px;
-        color: var(--Text-music-title, #F1F1F1);
+        color: var(--Text-music-title, #f1f1f1);
         font-family: Inter400;
         font-size: 14px;
         font-style: normal;
         justify-content: space-between;
-        img{
+        img {
           width: 24px;
           height: 24px;
           object-fit: cover;
         }
-        p{
-          color:#F1F1F1;
+        p {
+          color: #f1f1f1;
           font-family: Orbitron400;
           font-size: 16px;
           font-style: normal;
-          span{
-            color:#AAA;
+          span {
+            color: #aaa;
             font-family: Orbitron400;
             font-size: 16px;
             font-style: normal;
           }
         }
-        .mic{
+        .mic {
           display: flex;
           align-items: center;
           gap: 8px;
-          img{
+          img {
             width: 20px;
             height: 20px;
             object-fit: cover;
           }
-          color: var(--Text-music-title, #F1F1F1);
+          color: var(--Text-music-title, #f1f1f1);
           font-family: Orbitron400;
           font-size: 16px;
         }
-        &.quantity{
+        &.quantity {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          p{
-            color: var(--Text-music-sub, #AAA);
+          p {
+            color: var(--Text-music-sub, #aaa);
             font-family: Orbitron400;
             font-size: 14px;
-
           }
         }
       }
-    }//level-quantity-box__dl--END--
-  }//level-quantity-box--END--
+    } //level-quantity-box__dl--END--
+  } //level-quantity-box--END--
 
-  .sell-nft-input-box__cover{
+  .sell-nft-input-box__cover {
     display: flex;
     align-items: center;
     gap: 16px;
   }
-  .sell-nft-input-box{
+  .sell-nft-input-box {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    .sell-nft-input-box__title{
-      color: var(--Color-10, #FFF);
+    .sell-nft-input-box__title {
+      color: var(--Color-10, #fff);
       font-family: Orbitron400;
       font-size: 16px;
-    }//sell-nft-input-box__title--END--
-    .sell-nft-input-box__value{
+    } //sell-nft-input-box__title--END--
+    .sell-nft-input-box__value {
       display: flex;
       align-items: center;
       gap: 16px;
-      .sell-nft-input-box__value__btn{
+      .sell-nft-input-box__value__btn {
         gap: 8px;
-        img{
+        img {
           width: 20px;
           height: 20px;
           object-fit: cover;
           border-radius: 100%;
         }
-        color: var(--Text-music-title, #F1F1F1);
+        color: var(--Text-music-title, #f1f1f1);
         font-family: Orbitron600;
         font-size: 16px;
 
@@ -216,68 +223,68 @@
         position: relative;
         top: -2px;
         transition: 0.2s;
-        color: var(--Text-music-title, #F1F1F1);
+        color: var(--Text-music-title, #f1f1f1);
         font-family: Orbitron600;
         font-size: 16px;
         border-radius: 12px;
-        &::before{
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 4px;
-            width: calc(100% - 2px);
-            transition: 0.2s;
-            border-radius: 12px;
-            height: 36px;
-            border: 1px solid #383838;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 4px;
+          width: calc(100% - 2px);
+          transition: 0.2s;
+          border-radius: 12px;
+          height: 36px;
+          border: 1px solid #383838;
         }
-        &:hover{
+        &:hover {
+          top: 0px;
+          &::before {
             top: 0px;
-            &::before{
-                top: 0px;
-            }
+          }
         }
-      }//sell-nft-input-box__value__btn--END--
-    }//sell-nft-input-box__value--END--
-  }//sell-nft-input-box--END--
+      } //sell-nft-input-box__value__btn--END--
+    } //sell-nft-input-box__value--END--
+  } //sell-nft-input-box--END--
 
-  .sell-nft-select-box{
+  .sell-nft-select-box {
     display: flex;
     flex-direction: column;
     gap: 16px;
     flex: 1;
-    
-    .sell-nft-select-box__title{
-      color: var(--Color-10, #FFF);
+
+    .sell-nft-select-box__title {
+      color: var(--Color-10, #fff);
       font-family: Orbitron400;
       font-size: 16px;
-    }//sell-nft-select-box__title--END--
+    } //sell-nft-select-box__title--END--
 
-    .sell-nft-select-box__value-box{
+    .sell-nft-select-box__value-box {
       width: 100%;
       position: relative;
-      img{
+      img {
         width: 20px;
         height: 20px;
         object-fit: cover;
       }
-      &.active{
-        .sell-nft-select-box__value-box__title{
-          border: 1px solid #CF0;
-          &::after{
-            transform: translate(0,-50%) rotate(180deg);
+      &.active {
+        .sell-nft-select-box__value-box__title {
+          border: 1px solid #cf0;
+          &::after {
+            transform: translate(0, -50%) rotate(180deg);
           }
         }
-        .sell-nft-select-box__value-box__list{
-          border: 1px solid var(--primary-400, #678300);   
-          height: 178px;     
+        .sell-nft-select-box__value-box__list {
+          border: 1px solid var(--primary-400, #678300);
+          height: 178px;
           opacity: 1;
-          li{
+          li {
             opacity: 1;
           }
         }
       }
-      .sell-nft-select-box__value-box__title{
+      .sell-nft-select-box__value-box__title {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -285,26 +292,26 @@
         padding: 0 16px;
         border-radius: 12px;
         border: 1px solid #383838;
-        background: #0B0B0C;
-        color:#F1F1F1;
+        background: #0b0b0c;
+        color: #f1f1f1;
         font-family: Inter400;
         font-size: 14px;
         cursor: pointer;
         position: relative;
-        &::after{
+        &::after {
           content: '';
           display: block;
           width: 14px;
           height: 14px;
-          background: url('../assets/images/arrow_down.svg') center no-repeat;
+          background: url('../../assets/images/arrow_down.svg') center no-repeat;
           position: absolute;
           top: 50%;
           right: 16px;
-          transform: translate(0,-50%);
+          transform: translate(0, -50%);
           transition: 0.3s;
         }
-      }//sell-nft-select-box__value-box__title--END--
-      .sell-nft-select-box__value-box__list{
+      } //sell-nft-select-box__value-box__title--END--
+      .sell-nft-select-box__value-box__list {
         position: absolute;
         top: 50px;
         left: 0;
@@ -313,12 +320,12 @@
         display: flex;
         flex-direction: column;
         border-radius: 12px;
-        background: var(--Dark-Color-01, #0B0B0C);
+        background: var(--Dark-Color-01, #0b0b0c);
         transition: 0.3s;
         opacity: 0;
         height: 0;
         overflow: hidden;
-        li{
+        li {
           cursor: pointer;
           width: 100%;
           padding: 12px;
@@ -326,35 +333,25 @@
           display: flex;
           align-items: center;
           gap: 8px;
-          color:#F1F1F1;
+          color: #f1f1f1;
           font-family: Inter400;
           font-size: 14px;
           opacity: 0;
           transition: 0.4s;
-          &:hover{
-            background:#222;
+          &:hover {
+            background: #222;
           }
         }
-      }//sell-nft-select-box__value-box__list--END--
-    }//sell-nft-select-box__value-box--END--
+      } //sell-nft-select-box__value-box__list--END--
+    } //sell-nft-select-box__value-box--END--
+  } //sell-nft-select-box--END--
 
-  }//sell-nft-select-box--END--
-
-
-
-
-
-
-
-
-
-
-  .filter-create{
+  .filter-create {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    .create-btn{
+    .create-btn {
       height: 34px;
       display: flex;
       align-items: center;
@@ -363,94 +360,91 @@
       border-radius: 12px;
       background: var(--Color-03, #222);
       padding: 0 12px;
-      color: #AAA;
+      color: #aaa;
       font-family: Inter500;
       font-size: 12px;
-      white-space:nowrap;
+      white-space: nowrap;
       transition: 0.3s;
       border: 1px solid transparent;
-      &:hover{
+      &:hover {
         border: 1px solid #a9d400;
       }
-    }//create-btn--END--
-  }//filter-create--END--
-  .nft-item-collection-wrap{
+    } //create-btn--END--
+  } //filter-create--END--
+  .nft-item-collection-wrap {
     max-height: 380px;
     overflow: auto;
-  }//nft-item-collection-wrap--END--
+  } //nft-item-collection-wrap--END--
 
-  .selected-collection-bottom{
+  .selected-collection-bottom {
     display: flex;
     gap: 16px;
-    .selected-collection-bottom__left{
+    .selected-collection-bottom__left {
       width: 320px;
       height: 220px;
       border-radius: 12px;
       overflow: hidden;
-      img{
+      img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
-    }//selected-collection-bottom__left--END--
-    .selected-collection-bottom__right{
+    } //selected-collection-bottom__left--END--
+    .selected-collection-bottom__right {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      .selected-collection-bottom__right__dl{
+      .selected-collection-bottom__right__dl {
         width: 100%;
         padding: 16px;
         border-radius: 12px;
         border: 1px solid var(--Color-04, #383838);
-        background: var(--Dark-Color-01, #0B0B0C);
-        dt{
-          color: var(--primary-base, #CF0);
+        background: var(--Dark-Color-01, #0b0b0c);
+        dt {
+          color: var(--primary-base, #cf0);
           font-family: Orbitron400;
           font-size: 16px;
           font-style: normal;
           line-height: normal;
           margin-bottom: 10px;
         }
-        dd{
-          color: var(--Text-music-title, #F1F1F1);
+        dd {
+          color: var(--Text-music-title, #f1f1f1);
           font-family: Orbitron600;
           font-size: 14px;
           font-style: normal;
           display: flex;
           align-items: center;
           gap: 8px;
-          color: var(--Text-music-title, #F1F1F1);
+          color: var(--Text-music-title, #f1f1f1);
           font-family: Inter400;
           font-size: 14px;
           font-style: normal;
-          img{
+          img {
             width: 24px;
             height: 24px;
             object-fit: cover;
           }
-          &.quantity{
+          &.quantity {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            p{
-              color: var(--Text-music-sub, #AAA);
+            p {
+              color: var(--Text-music-sub, #aaa);
               font-family: Orbitron400;
               font-size: 12px;
             }
           }
         }
-      }//selected-collection-bottom__right__dl--END--
-      .selected-collection-bottom__right__two-dl{
+      } //selected-collection-bottom__right__dl--END--
+      .selected-collection-bottom__right__two-dl {
         width: 100%;
         display: flex;
         gap: 16px;
-      }//selected-collection-bottom__right__two-dl--eND--
-
-    }//selected-collection-bottom__right--END--
-  }//selected-collection-bottom--END--
-
-
+      } //selected-collection-bottom__right__two-dl--eND--
+    } //selected-collection-bottom__right--END--
+  } //selected-collection-bottom--END--
 
   .album-detail__mint-detail {
     padding: 16px;
@@ -468,7 +462,7 @@
       position: relative;
       display: inline-block;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: -2px;
         left: -4px;
@@ -540,7 +534,7 @@
               white-space: pre-wrap;
               padding: 32px;
               &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -574,10 +568,10 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            p{
+            p {
               position: relative;
               cursor: pointer;
-              .tw-connect-wallet{
+              .tw-connect-wallet {
                 position: absolute;
                 top: 0 !important;
                 left: 0 !important;
@@ -592,17 +586,17 @@
                 background: transparent !important;
                 display: block;
               }
-              .tw-connected-wallet{
+              .tw-connected-wallet {
                 display: none;
                 opacity: 0;
                 z-index: -10 !important;
               }
-              &.play{
+              &.play {
                 cursor: auto;
               }
-
             }
-            button ,p{
+            button,
+            p {
               width: 66px;
               display: flex;
               align-items: center;
@@ -648,7 +642,7 @@
             padding: 0 12px;
             position: relative;
             &::before {
-              content: "";
+              content: '';
               display: block;
               position: absolute;
               bottom: -5px;
@@ -674,20 +668,20 @@
             border-radius: 6px;
             height: 36px;
             overflow: hidden;
-            &.type{
-              dd{
+            &.type {
+              dd {
                 display: flex;
                 align-items: center;
                 justify-content: start;
                 flex-direction: row;
                 gap: 8px;
-                img{
+                img {
                   width: 14px;
                   height: 14px;
                 }
               }
             }
-            &.artist{
+            &.artist {
               dd {
                 display: flex;
                 align-items: center;
@@ -708,7 +702,7 @@
               justify-content: center;
               position: relative;
               &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 top: 0;
                 right: -12px;
@@ -781,7 +775,7 @@
     // min-height: 136px;
     .album-detail__audio__cover {
       &::before {
-        content: "";
+        content: '';
         width: 100%;
         height: 100%;
         position: absolute;
@@ -792,14 +786,14 @@
         border-radius: 100%;
         z-index: 10;
       }
-      content: "";
+      content: '';
       width: 200px;
       height: 200px;
       position: absolute;
       top: 50%;
       left: 0%;
       transform: translate(-20%, -50%);
-      background: url("../assets/images/album/album-bg.png") center no-repeat;
+      background: url('../../assets/images/album/album-bg.png') center no-repeat;
       background-size: cover;
       z-index: 0;
       img {
@@ -826,7 +820,7 @@
         }
       }
     } //album-detail__audio__cover--END--
-    .rhap_volume-controls{
+    .rhap_volume-controls {
       position: relative;
       top: 6px;
     }
@@ -961,7 +955,7 @@
       position: relative;
       display: inline-block;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: -2px;
         left: -4px;
@@ -987,7 +981,7 @@
       border-radius: 10px 2px 10px 10px;
       border: 1px solid var(--primary-200, #a9d400);
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: 2px;
         right: 2px;
@@ -1014,7 +1008,7 @@
     border-radius: 10px 2px 10px 10px;
     border: 1px solid var(--primary-200, #a9d400);
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: 2px;
       right: 2px;
@@ -1211,7 +1205,7 @@
       display: inline-block;
       width: max-content;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: -2px;
         left: -4px;
@@ -1235,7 +1229,7 @@
     .swiper-button-prev {
       width: 24px;
       height: 24px;
-      background: url("../assets/images/album/prev-btn.svg") center no-repeat;
+      background: url('../../assets/images/album/prev-btn.svg') center no-repeat;
       background-size: cover;
       left: 38%;
       top: auto;
@@ -1248,7 +1242,7 @@
     .swiper-button-next {
       width: 24px;
       height: 24px;
-      background: url("../assets/images/album/next-btn.svg") center no-repeat;
+      background: url('../../assets/images/album/next-btn.svg') center no-repeat;
       background-size: cover;
       right: 38%;
       top: auto;
@@ -1286,12 +1280,11 @@
           gap: 8px;
           width: 128px;
           &::after {
-            content: "";
+            content: '';
             display: block;
             width: 76px;
             height: 16px;
-            background: url("../assets/images/album/time-img-w.svg") center
-              no-repeat;
+            background: url('../../assets/images/album/time-img-w.svg') center no-repeat;
             background-size: contain;
           }
         }
@@ -1420,7 +1413,7 @@
             align-items: center;
             justify-content: center;
             &::before {
-              content: "";
+              content: '';
               position: absolute;
               left: 0;
               top: 4px;
@@ -1439,7 +1432,7 @@
             // width: 24px;
             // height: 24px;
             // font-size: 0;
-            // background: url('../assets/images/album/more-icon.svg') center no-repeat;
+            // background: url('../../assets/images/album/more-icon.svg') center no-repeat;
             // background-size: contain;
           } //album__content-list__list__item__right__user__btn--END--
         } //album__content-list__list__item__right__user--END--
@@ -1450,9 +1443,9 @@
 
 //mint-detail--END--
 
-.rhap_progress-bar{
-  .rhap_download-progress{
-    &:last-child{
+.rhap_progress-bar {
+  .rhap_download-progress {
+    &:last-child {
       display: none;
     }
   }
@@ -1461,8 +1454,7 @@
   width: 100% !important;
   background: #333;
   max-width: 214px;
-  .rhap_download-progress{
-
+  .rhap_download-progress {
   }
 } //rhap_download-progress--END--
 .rhap_progress-filled {
@@ -1492,23 +1484,22 @@
 }
 
 @media screen and (max-width: 768px) {
-  
   .mint-detail {
     .album-detail__title {
       dt {
         font-size: 24px;
       }
     }
-    .level-quantity-box{
+    .level-quantity-box {
       flex-direction: column;
     }
-    .filter-create{
+    .filter-create {
       flex-direction: column;
       align-items: start;
     }
-    .selected-collection-bottom{
+    .selected-collection-bottom {
       flex-direction: column;
-      .selected-collection-bottom__left{
+      .selected-collection-bottom__left {
         margin: 0 auto;
         width: 100%;
         max-width: 320px;
@@ -1573,12 +1564,12 @@
 
 @media screen and (max-width: 480px) {
   .mint-detail {
-    .selected-collection-bottom{
-      .selected-collection-bottom__left{
+    .selected-collection-bottom {
+      .selected-collection-bottom__left {
         max-width: 100%;
       }
-      .selected-collection-bottom__right{
-        .selected-collection-bottom__right__two-dl{
+      .selected-collection-bottom__right {
+        .selected-collection-bottom__right__two-dl {
           flex-direction: column;
           gap: 10px;
         }

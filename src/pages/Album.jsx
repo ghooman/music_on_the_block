@@ -410,7 +410,9 @@ const ListSlider = ({
                 className="swiper-music-list__item__left__img"
                 style={{
                   backgroundImage: `url(${
-                    track.cover_image === 'string' ? coverImg10 : track.cover_image
+                    track.cover_image === 'string'
+                      ? coverImg10
+                      : track.cover_image.replace('public', '280to280')
                   })`,
                 }}
               ></div>

@@ -5,30 +5,12 @@ import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
 import Pagination from '../components/unit/Pagination';
-import FilterItems from '../components/unit/FilterItems';
 import Search from '../components/unit/Search';
-import { InfoRowWrap } from '../components/nft/InfoRow';
-import CustomTable from '../components/CustomTable';
 
-import coverImg from '../assets/images/intro/intro-demo-img.png';
-import coverImg2 from '../assets/images/intro/intro-demo-img2.png';
-import coverImg3 from '../assets/images/intro/intro-demo-img3.png';
-import coverImg4 from '../assets/images/demo/album01.svg';
-import coverImg5 from '../assets/images/demo/album02.svg';
-import coverImg6 from '../assets/images/demo/album03.svg';
-import coverImg7 from '../assets/images/demo/album04.svg';
-import coverImg8 from '../assets/images/demo/album05.svg';
-import coverImg9 from '../assets/images/demo/album06.svg';
-import likeImage from '../assets/images/like-icon/like-icon-on.svg';
-import unLikeImage from '../assets/images/like-icon/like-icon.svg';
-import dummy_collectionImage from '../assets/images/nft/collection01.png';
-import dummy_userImage from '../assets/images/account/demo-user1.png';
-import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
-import commentIcon from '../assets/images/album/chat-icon.svg';
-import shareIcon from '../assets/images/album/share-icon.svg';
+
 import defaultCoverImg from '../assets/images/intro/mob-album-cover.png';
 import defaultUserImg from '../assets/images/header/logo-png.png';
 
@@ -56,7 +38,12 @@ import NftHistoryTable from '../components/table/NftHistoryTable';
 
 const NftItemDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Track Information');
+  const [_, setSearchParams] = useSearchParams();
   const { id } = useParams();
+
+  useEffect(() => {
+    setSearchParams({});
+  }, [selectCategory]);
 
   return (
     <div className="nft-item-detail">
@@ -255,12 +242,21 @@ const NftItemDetailInfo = ({ id }) => {
                   </dd>
                 </dl>
                 <dl
-                  className="Unlisted"
-                  // className='Listed'
-                  // className='Sold'
+                  className={
+                    album?.now_sales_status === '보관'
+                      ? 'Unlisted'
+                      : album?.now_sales_status === '판매중'
+                      ? 'Listed'
+                      : ''
+                  }
+                  // className="Listed"
+                  // className="Sold"
                 >
                   <dt>Sell Status</dt>
-                  <dd>Unlisted</dd>
+                  <dd>
+                    {album?.now_sales_status === '보관' && 'Unlisted'}
+                    {album?.now_sales_status === '판매중' && 'Listed'}
+                  </dd>
                 </dl>
                 <dl>
                   <dt>Mint NFT date</dt>
@@ -306,17 +302,17 @@ const NftItemDetailInfo = ({ id }) => {
                 </div>
               </div> */}
               <div className="nft-item-detail__song-detail__right__btn-box">
-                {album?.is_owner && (
+                {!album?.is_owner && album?.now_sales_status === '판매중' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn">
                     Buy NFT
                   </button>
                 )}
-                {!album?.is_owner && (
+                {album?.is_owner && album?.now_sales_status === '보관' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
                     Sell NFT
                   </button>
                 )}
-                {!album?.is_owner && (
+                {album?.is_owner && album?.now_sales_status === '판매중' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft">
                     Cancel NFT
                   </button>
@@ -336,6 +332,7 @@ const TrackInformation = ({ id }) => {
   const getActivityData = async () => {
     try {
       const res = await getNftOverview({ nft_id: id });
+      console.log(res.data, '몽키디루피');
       setActivityData(res.data);
     } catch (e) {
       console.error(e, '에러!');
@@ -435,8 +432,8 @@ const TransactionStatistics = ({ id }) => {
       </NftOverview>
       <ContentWrap title="Graph List">
         <NftGraph
-          transactionCountData={statisticsData?.transaction_cnt_progress}
-          transactionPriceData={statisticsData?.transaction_price_progress}
+          barGraphData={statisticsData?.transaction_cnt_progress}
+          lineGraphData={statisticsData?.transaction_price_progress}
         />
       </ContentWrap>
     </ContentWrap>
@@ -459,7 +456,7 @@ const History = ({ id }) => {
           nft_id: id,
           page,
           sort_by: nftSort,
-          search_keyrword: search,
+          search_keyword: search,
           sales_token: tokenFilter,
         });
         console.log(res.data, '배고픔');

@@ -76,7 +76,10 @@ const Nft = () => {
             value={nftStatistics?.today_max_price?.toLocaleString()}
           />
         </InfoRowWrap>
-        <NftGraph />
+        <NftGraph
+          barGraphData={nftStatistics?.total_transaction_price_progress}
+          lineGraphData={nftStatistics?.create_nft_progress}
+        />
       </ContentWrap>
     </div>
   );

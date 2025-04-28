@@ -5,17 +5,17 @@ import './NftGraph.scss';
 
 import { BarChart, SimpleLineChart } from '../unit/Chart';
 
-export const NftGraph = ({ transactionCountData, transactionPriceData }) => {
+export const NftGraph = ({ barGraphData, lineGraphData }) => {
   const barData =
-    transactionCountData &&
-    Object?.entries(transactionCountData)?.map(([key, value]) => {
+    barGraphData &&
+    Object?.entries(barGraphData)?.map(([key, value]) => {
       return { date: key?.toUpperCase(), value: value };
     });
 
-  const lineData = transactionPriceData && [
+  const lineData = lineGraphData && [
     {
       id: 'Volume',
-      data: Object?.entries(transactionPriceData)?.map(([key, value]) => {
+      data: Object?.entries(lineGraphData)?.map(([key, value]) => {
         return { x: key, y: value };
       }),
     },

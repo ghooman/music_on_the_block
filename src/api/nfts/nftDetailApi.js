@@ -32,13 +32,13 @@ export const getNftStatistics = async ({ nft_id }) => {
   }
 };
 
-export const getNftsHistory = async ({ nft_id, page, sort_by, search_keyrword, sales_token }) => {
+export const getNftsHistory = async ({ nft_id, page, sort_by, search_keyword, sales_token }) => {
   try {
     const res = await axios.get(`${serverApi}/api/nfts/${nft_id}/activities`, {
       params: {
         page: page,
         sort_by: sort_by,
-        search_keyrword: search_keyrword,
+        search_keyword: search_keyword,
         sales_token: sales_token,
       },
     });

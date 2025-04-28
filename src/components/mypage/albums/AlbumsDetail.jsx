@@ -87,14 +87,14 @@ const AlbumsDetail = () => {
         <section className="my-album-details__box__header">
           <article className="my-album-details__box__header__left">
             <div className="my-album-details__box__header__left__img-box">
-              {albumBundleInfo?.is_owner && (
+              {/* {albumBundleInfo?.is_owner && (
                 <button
                   className="my-album-details__box__header__left__img-box__button"
                   onClick={handleDetailModal}
                 >
                   <img src={MoreHoriz} alt="more-horiz" />
                 </button>
-              )}
+              )} */}
               {!isLoading && (
                 <img
                   className="my-album-details__box__header__left__img-box__img"

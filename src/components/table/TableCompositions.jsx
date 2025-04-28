@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { formatUtcTime } from '../../utils/getFormattedTime';
+
 import profileDefaultImage from '../../assets/images/header/logo-png.png';
 import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
 import grade2Icon from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
@@ -84,7 +86,7 @@ TableItem.Text = React.memo(({ text }) => {
 TableItem.Date = React.memo(({ date }) => {
   return (
     <td className="table__body--item">
-      <p className="text">{date ? new Date(date).toUTCString('') : '-'}</p>
+      <p className="text">{date ? formatUtcTime(date) : '-'}</p>
     </td>
   );
 });

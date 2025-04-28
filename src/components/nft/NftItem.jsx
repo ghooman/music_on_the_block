@@ -206,16 +206,12 @@ export const NftItemList = ({ data }) => {
   );
 };
 
-export const CollectionItemList = ({ data, linkMove = true, setSelectedCollection }) => {
+export const CollectionItemList = ({ data, linkMove = true }) => {
   return (
     <div className="nft-item-collection-wrap">
-      {data?.map((item, index) => (
+      {data.map((item, index) => (
         <React.Fragment key={index}>
-          <CollectionItem
-            item={item}
-            linkMove={linkMove}
-            setSelectedCollection={setSelectedCollection}
-          />
+          <CollectionItem item={collectionData[item - 1]} linkMove={linkMove} />
         </React.Fragment>
       ))}
     </div>
@@ -236,7 +232,7 @@ const NftItem = ({ item }) => {
   );
 };
 
-export const CollectionItem = ({ item, linkMove = true, setSelectedCollection }) => {
+export const CollectionItem = ({ item, linkMove = true }) => {
   const Wrapper = linkMove ? Link : 'div';
   const [isActive, setIsActive] = useState(false);
 
@@ -247,9 +243,6 @@ export const CollectionItem = ({ item, linkMove = true, setSelectedCollection })
       if (!isActive) {
         // 모든 기존 active 제거
         document.querySelectorAll('.nft-item.active').forEach(el => el.classList.remove('active'));
-        setSelectedCollection(item);
-      } else {
-        setSelectedCollection(null);
       }
 
       // 내 상태 토글 & 클래스 토글
@@ -258,16 +251,18 @@ export const CollectionItem = ({ item, linkMove = true, setSelectedCollection })
   };
   return (
     <Link
+      // className="nft-item"
+      // to="/nft/collection/detail"
       className={`nft-item${!linkMove && isActive ? ' active' : ''}`}
       {...(linkMove && { to: '/nft/collection/detail' })}
       onClick={handleClick}
     >
       <Images item={item} />
-      <CollectionTitle title={item?.name} />
-      <Username username={item?.username || 'unKnown'} />
+      <CollectionTitle title={item.title} />
+      <Username username={item.username} />
       <div className="nft-item__prices raw">
-        <PriceItems title="Lowest Price" value={`${item?.min_price} MOB`} />
-        <PriceItems title="Total NFT Items" value={item?.nft_cnt} />
+        <PriceItems title="Lowest Price" value={`${item.highestPrice} MOB`} />
+        <PriceItems title="Total NFT Items" value={item.totalItems} />
       </div>
     </Link>
   );
@@ -293,14 +288,14 @@ const Images = ({ music, item }) => {
 
   return (
     <div className="nft-item__images">
-      <img src={item?.image} alt={item?.title || item?.desc} />
+      <img src={item.image} alt={item.title || item.desc} />
       {music && (
         <>
           {/* <div className="nft-item__images--type">
             <img src={getTypeIcon(item.type)} alt={item.type} />
           </div> */}
           {/* <div className="nft-item__images--genre">{item.genre}</div> */}
-          <div className="nft-item__images--running-time">{item?.duration}</div>
+          <div className="nft-item__images--running-time">{item.duration}</div>
         </>
       )}
     </div>

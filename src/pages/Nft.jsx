@@ -48,10 +48,10 @@ const Nft = () => {
     <div className="nft">
       <NftExchange />
       <Search placeholder="Search" />
-      <ContentWrap title="TOP NFTs" link="/nft/list">
+      <ContentWrap title="TOP NFTs" link="/nft/list?category=NFT+item&page=1">
         <NftItemList data={nftList} />
       </ContentWrap>
-      <ContentWrap title="Popular Collection" link="/nft/list">
+      <ContentWrap title="Popular Collection" link="/nft/list?category=Collection&page=1">
         <CollectionItemList data={collectionList} />
       </ContentWrap>
       <ContentWrap title="Popular Genre">

@@ -7,33 +7,9 @@ import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modul
 import graph1Img01 from '../../assets/images/nft/praph-img01.png';
 import graph1Img02 from '../../assets/images/nft/graph02-img.png';
 
-import nft01 from '../../assets/images/nft/nft01.png';
-import nft02 from '../../assets/images/nft/nft02.png';
-import nft03 from '../../assets/images/nft/nft03.png';
-import nft04 from '../../assets/images/nft/nft04.png';
-import nft05 from '../../assets/images/nft/nft05.png';
-import nft06 from '../../assets/images/nft/nft06.png';
-import nft07 from '../../assets/images/nft/nft07.png';
-import nft08 from '../../assets/images/nft/nft08.png';
-import collection01 from '../../assets/images/nft/collection01.png';
-import collection02 from '../../assets/images/nft/collection02.png';
-import collection03 from '../../assets/images/nft/collection03.png';
-import collection04 from '../../assets/images/nft/collection04.png';
 import lyricIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import compositionIcon from '../../assets/images/icon/Composition-Icon.svg';
 import songIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import loveIcon from '../../assets/images/like-icon/like-icon.svg';
-import playIcon from '../../assets/images/album/play-icon.svg';
-import defaultCoverImg from '../../assets/images/header/logo.svg';
-import coverImg from '../../assets/images/intro/intro-demo-img.png';
-import coverImg2 from '../../assets/images/intro/intro-demo-img2.png';
-import coverImg3 from '../../assets/images/intro/intro-demo-img3.png';
-import coverImg4 from '../../assets/images/demo/album01.svg';
-import coverImg5 from '../../assets/images/demo/album02.svg';
-import coverImg6 from '../../assets/images/demo/album03.svg';
-import coverImg7 from '../../assets/images/demo/album04.svg';
-import coverImg8 from '../../assets/images/demo/album05.svg';
-import coverImg9 from '../../assets/images/demo/album06.svg';
 
 import './NftItem.scss';
 import { useState } from 'react';

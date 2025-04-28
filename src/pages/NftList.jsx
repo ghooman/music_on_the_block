@@ -15,9 +15,9 @@ import { getNftCollections } from '../api/nfts/nftCollectionsApi';
 import '../styles/NftList.scss';
 
 const NftList = () => {
-  const [selectCategory, setSelectCategory] = useState('NFT item');
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const category = searchParams.get('category');
   const page = searchParams.get('page');
   const search = searchParams.get('search');
 
@@ -27,20 +27,24 @@ const NftList = () => {
   const connectionsSort = searchParams.get('connections_sort');
 
   useEffect(() => {
-    setSearchParams({ page: 1 });
-  }, [selectCategory]);
+    if (!category) {
+      setSearchParams({ category: 'NFT item', page: 1 }, { replace: true });
+    }
+  }, []);
 
   return (
     <div className="nft-list">
       <Categories
         categories={['NFT item', 'Collection']}
-        value={selectCategory}
-        onClick={setSelectCategory}
+        value={category}
+        onClick={category => {
+          setSearchParams({ category, page: 1 });
+        }}
       />
       <ContentWrap
-        title={` ${selectCategory === 'NFT item' ? 'NFT Item (List)' : 'NFT Collection (List)'}`}
+        title={` ${category === 'NFT item' ? 'NFT Item (List)' : 'NFT Collection (List)'}`}
       >
-        {selectCategory === 'NFT item' && (
+        {category === 'NFT item' && (
           <NFTList
             page={page}
             search={search}
@@ -49,7 +53,7 @@ const NftList = () => {
             tokenFilter={tokenFilter}
           />
         )}
-        {selectCategory === 'Collection' && (
+        {category === 'Collection' && (
           <CollectionList page={page} search={search} connectionsSort={connectionsSort} />
         )}
       </ContentWrap>

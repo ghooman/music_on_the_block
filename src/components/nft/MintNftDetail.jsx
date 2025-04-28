@@ -87,7 +87,7 @@ function MintNftDetail() {
       {showSuccessModal && (
         <NftConfirmSuccessModal
           setShowSuccessModal={setShowSuccessModal}
-          title="Your song has been minted as an NFT!"
+          title="To mint your song, create or select a collection."
         />
       )}
       {showCollectionModal && (

@@ -55,15 +55,16 @@
     }
   }
   .disabled {
-    background: #383838;
-    border: 1px solid #383838;
+    border: 1px solid var(--secondary-600, #003321);
+    background: var(--black, #000);
     &::before {
-      border: 1px solid #383838;
+      border: 1px solid #003321;
+      top: 0px;
     }
     &:hover {
-      top: 0;
+      top: 0px;
       &::before {
-        top: 4px;
+        top: 0px;
       }
     }
   }

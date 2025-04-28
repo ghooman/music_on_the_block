@@ -5,7 +5,7 @@ import './AlbumsCreateModal.scss';
 import { createAlbumsList, updateAlbumsList } from '../../../api/AlbumsListApi';
 
 import UploadButtonImage from '../../../assets/images/icon/picture1.svg';
-import defaultAlbumsImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import defaultAlbumsImage from '../../../assets/images/intro/mob-album-cover.png';
 import { AuthContext } from '../../../contexts/AuthContext';
 import AlbumsDeleteConfirmModal from './AlbumsDeleteConfirmModal';
 import { useNavigate } from 'react-router-dom';

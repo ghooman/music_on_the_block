@@ -58,7 +58,7 @@ const EditAlbumSongs = () => {
 
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
-  const songsFilter = searchParams.get('songs_filter') || 'liked';
+  const songsFilter = searchParams.get('songs_filter') || 'mine';
 
   //=================
   // 추가
@@ -206,14 +206,6 @@ const EditAlbumSongs = () => {
                     >
                         Recently Played
                     </button> */}
-          <button
-            className={`edit-album-songs__tab__item ${songsFilter === 'liked' ? 'active' : ''}`}
-            onClick={() => {
-              setSearchParams({ songs_filter: 'liked' });
-            }}
-          >
-            Liked Songs
-          </button>
 
           <button
             className={`edit-album-songs__tab__item ${songsFilter === 'mine' ? 'active' : ''}`}
@@ -224,7 +216,14 @@ const EditAlbumSongs = () => {
           >
             My Songs
           </button>
-
+          <button
+            className={`edit-album-songs__tab__item ${songsFilter === 'liked' ? 'active' : ''}`}
+            onClick={() => {
+              setSearchParams({ songs_filter: 'liked' });
+            }}
+          >
+            Liked Songs
+          </button>
           <button
             className={`edit-album-songs__tab__item ${songsFilter === 'following' ? 'active' : ''}`}
             // onClick={() => setActiveTab('following')}

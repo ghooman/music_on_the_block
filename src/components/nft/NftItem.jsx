@@ -67,7 +67,7 @@ const NftItem = ({ item }) => {
   }, [item]);
 
   return (
-    <Link className="nft-item" to="/nft/detail">
+    <Link className="nft-item" to={`/nft/detail/${item.id}`}>
       <Images music image={item.nft_image} duration={formatTime(duration)} />
       <NftTitle desc={item.nft_name} />
       <Title title={item.connect_collection_name} />

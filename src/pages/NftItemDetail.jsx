@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
@@ -30,7 +30,7 @@ import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/intro/mob-album-cover.png';
-// import defaultCoverImg from "../assets/images/header/logo.svg";
+import defaultUserImg from '../assets/images/header/logo-png.png';
 
 // import track1 from '../assets/music/song01.mp3';
 import track2 from '../assets/music/nisoft_song.mp3';
@@ -46,138 +46,44 @@ import { AuthContext } from '../contexts/AuthContext';
 import { formatUtcTime, formatLocalTime } from '../utils/getFormattedTime';
 import SongPlayTable from '../components/table/SongPlayTable';
 import Filter from '../components/unit/Filter';
-
-const dummyData = [
-  {
-    number: 1,
-    username: 'User Name',
-    quantity: 100,
-    price: '100.000',
-    totalVolume: '100.000',
-    transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
-  },
-];
-
-const dummyData2 = [
-  {
-    number: 30,
-    username: {
-      picture: dummy_userImage,
-      name: 'Yolkhead',
-    },
-    price: '100.000 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:40:00 UTC+9',
-  },
-  {
-    number: 29,
-    username: {
-      picture: dummy_userImage,
-      name: 'CryptoWhale',
-    },
-    price: '98.500 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:35:00 UTC+9',
-  },
-  {
-    number: 28,
-    username: {
-      picture: dummy_userImage,
-      name: 'MusicLover',
-    },
-    price: '99.000 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:30:00 UTC+9',
-  },
-  {
-    number: 27,
-    username: {
-      picture: dummy_userImage,
-      name: 'NFTKing',
-    },
-    price: '101.000 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:25:00 UTC+9',
-  },
-  {
-    number: 26,
-    username: {
-      picture: dummy_userImage,
-      name: 'BlockMaster',
-    },
-    price: '97.500 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:20:00 UTC+9',
-  },
-  {
-    number: 25,
-    username: {
-      picture: dummy_userImage,
-      name: 'SoundCollector',
-    },
-    price: '102.000 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:15:00 UTC+9',
-  },
-  {
-    number: 24,
-    username: {
-      picture: dummy_userImage,
-      name: 'MelodyHunter',
-    },
-    price: '103.500 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:10:00 UTC+9',
-  },
-  {
-    number: 23,
-    username: {
-      picture: dummy_userImage,
-      name: 'BeatMaker',
-    },
-    price: '98.000 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:05:00 UTC+9',
-  },
-  {
-    number: 22,
-    username: {
-      picture: dummy_userImage,
-      name: 'RhythmTrader',
-    },
-    price: '104.000 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 14:00:00 UTC+9',
-  },
-  {
-    number: 21,
-    username: {
-      picture: dummy_userImage,
-      name: 'SongMaster',
-    },
-    price: '99.500 MOB',
-    transactionDate: 'Sat, 04 Nov 2023 13:55:00 UTC+9',
-  },
-];
+import {
+  getNftDetail,
+  getNftOverview,
+  getNftsHistory,
+  getNftStatistics,
+} from '../api/nfts/nftDetailApi';
+import NftHistoryTable from '../components/table/NftHistoryTable';
 
 const NftItemDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Track Information');
+  const { id } = useParams();
 
   return (
     <div className="nft-item-detail">
-      <NftItemDetailInfo />
+      <NftItemDetailInfo id={id} />
       <Categories
         categories={['Track Information', 'Transaction Statistics', 'History']}
         value={selectCategory}
         onClick={setSelectCategory}
       />
-      {selectCategory === 'Track Information' && <TrackInformation />}
-      {selectCategory === 'Transaction Statistics' && <TransactionStatistics />}
-      {selectCategory === 'History' && <History />}
+      {selectCategory === 'Track Information' && <TrackInformation id={id} />}
+      {selectCategory === 'Transaction Statistics' && <TransactionStatistics id={id} />}
+      {selectCategory === 'History' && <History id={id} />}
     </div>
   );
 };
 
 export default NftItemDetail;
 
-const NftItemDetailInfo = () => {
+const NftItemDetailInfo = ({ id }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
-  const { id } = useParams();
+
   const { token, walletAddress } = useContext(AuthContext);
 
+  const [album, setAlbum] = useState(null);
   const [isActive, setIsActive] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleClick = () => {
     setIsActive(prev => !prev);
@@ -197,19 +103,11 @@ const NftItemDetailInfo = () => {
     }
   };
   // 앨범 관련 상태
-  const [album, setAlbum] = useState(null);
+
   // 앨범 상세 정보 가져오기
   const fetchAlbumDetail = async () => {
     try {
-      const response = await axios.get(
-        `${serverApi}/api/music/${id}?wallet_address=${walletAddress.address}`,
-        {
-          params: {
-            wallet_address: walletAddress.address,
-          },
-        }
-      );
-
+      const response = await getNftDetail({ nft_id: id, wallet_address: walletAddress?.address });
       console.log('앨범 상세 정보:', response.data);
       setAlbum(response.data);
     } catch (error) {
@@ -219,8 +117,6 @@ const NftItemDetailInfo = () => {
   useEffect(() => {
     fetchAlbumDetail();
   }, [id, walletAddress, token, serverApi]);
-
-  const [isPlaying, setIsPlaying] = useState(false);
 
   // album 객체에 tags 문자열이 존재하는지 확인합니다.
   const tagString = album?.tags;
@@ -289,12 +185,12 @@ const NftItemDetailInfo = () => {
                                     />
                                 )} */}
                 {album ? (
-                  <img src={album?.image || defaultCoverImg} alt="앨범 이미지" />
+                  <img src={album?.nft_image || defaultCoverImg} alt="앨범 이미지" />
                 ) : (
                   <img src={defaultCoverImg} alt="기본 이미지" />
                 )}
                 <div className="nft-item-detail__song-detail__left__img__txt">
-                  <pre>{album?.lyrics}</pre>
+                  <pre>{album?.nft_lyrics}</pre>
                 </div>
                 <button className="nft-item-detail__song-detail__left__img__lyric-btn">
                   Lyrics
@@ -327,9 +223,7 @@ const NftItemDetailInfo = () => {
               </div>
             </div>
             <div className="nft-item-detail__song-detail__right">
-              <p className="nft-item-detail__song-detail__right__title">
-                {album?.title || 'Genosper Album'}
-              </p>
+              <p className="nft-item-detail__song-detail__right__title">{album?.nft_name}</p>
               {/* <div className="nft-item-detail__song-detail__right__type">
                                 {(tagArray.length > 0 ? tagArray : ['Pop', 'Rock', 'Electronic', 'Jazz']).map(
                                     (type, index) => (
@@ -342,18 +236,18 @@ const NftItemDetailInfo = () => {
               <div className="nft-item-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Item ID</dt>
-                  <dd>Item ID (#0001)</dd>
+                  <dd>Item ID (# {album?.id})</dd>
                 </dl>
                 <dl>
                   <dt>Collection</dt>
-                  <dd>Collection Name</dd>
+                  <dd>{album?.connect_collection_name}</dd>
                 </dl>
                 <dl className="artist">
                   <dt>Artist</dt>
                   <dd>
                     <p className="user">
-                      <img src={album?.user_profile || coverImg2} />
-                      {album?.name || '-'}
+                      <img src={album?.user_profile || defaultUserImg} />
+                      {album?.user_name || '-'}
                     </p>
                     {/* <Link className="see-more-btn" to="/my-page">
                                             See More
@@ -370,7 +264,7 @@ const NftItemDetailInfo = () => {
                 </dl>
                 <dl>
                   <dt>Mint NFT date</dt>
-                  <dd>Wed, 16 Apr 2025 21:50:12 UTC+9</dd>
+                  <dd>{album?.create_dt}</dd>
                 </dl>
                 {/* <dl>
                                     <dt>Creation Data</dt>
@@ -388,32 +282,45 @@ const NftItemDetailInfo = () => {
                 <dl className="nft-item-detail__song-detail__right__value-box__price">
                   <dt>Price</dt>
                   <dd>
-                    100 MOB<span>$1,000</span>
+                    {album?.price} {album?.sales_token}
+                    <span>$1,000</span>
                   </dd>
                 </dl>
               </div>
               {/* <div className="nft-item-detail__song-detail__right__time-box">
-                                <p className="nft-item-detail__song-detail__right__time-box__title">Sale End Date</p>
-                                <p className="nft-item-detail__song-detail__right__time-box__utc">
-                                    Sat, 04 Nov 2023 14:40:00 UTC+9
-                                </p>
-                                <p className="nft-item-detail__song-detail__right__time-box__end">
-                                    Time Remaining Until End
-                                </p>
-                                <div className="nft-item-detail__song-detail__right__time-box__time">
-                                    <p>00</p>
-                                    <span>:</span>
-                                    <p>00</p>
-                                    <span>:</span>
-                                    <p>00</p>
-                                </div>
-                            </div> */}
+                <p className="nft-item-detail__song-detail__right__time-box__title">
+                  Sale End Date
+                </p>
+                <p className="nft-item-detail__song-detail__right__time-box__utc">
+                  Sat, 04 Nov 2023 14:40:00 UTC+9
+                </p>
+                <p className="nft-item-detail__song-detail__right__time-box__end">
+                  Time Remaining Until End
+                </p>
+                <div className="nft-item-detail__song-detail__right__time-box__time">
+                  <p>00</p>
+                  <span>:</span>
+                  <p>00</p>
+                  <span>:</span>
+                  <p>00</p>
+                </div>
+              </div> */}
               <div className="nft-item-detail__song-detail__right__btn-box">
-                {/* <button className="nft-item-detail__song-detail__right__btn-box__btn">Buy NFT</button> */}
-                <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
-                  Sell NFT
-                </button>
-                {/* <button className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft">Cancel NFT</button> */}
+                {album?.is_owner && (
+                  <button className="nft-item-detail__song-detail__right__btn-box__btn">
+                    Buy NFT
+                  </button>
+                )}
+                {!album?.is_owner && (
+                  <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
+                    Sell NFT
+                  </button>
+                )}
+                {!album?.is_owner && (
+                  <button className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft">
+                    Cancel NFT
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -423,56 +330,147 @@ const NftItemDetailInfo = () => {
   );
 };
 
-const TrackInformation = () => {
+const TrackInformation = ({ id }) => {
+  const [activityData, setActivityData] = useState();
+
+  const getActivityData = async () => {
+    try {
+      const res = await getNftOverview({ nft_id: id });
+      setActivityData(res.data);
+    } catch (e) {
+      console.error(e, '에러!');
+    }
+  };
+
+  useEffect(() => {
+    getActivityData();
+  }, []);
+
   return (
     <>
       <ContentWrap title="Activity">
         <NftOverview title="Content Information">
-          <NftOverviewItem title="Tags" value="Winter, Night, Moon, Love, Promise" isLong />
-          <NftOverviewItem title="Creation Date" value="Wed, 16 Apr 2025 21:50:12 UTC+9" isLong />
+          <NftOverviewItem title="Tags" value={activityData?.nft_tags || '-'} isLong />
+          <NftOverviewItem
+            title="Creation Date"
+            value={activityData?.nft_song_create_dt || '-'}
+            isLong
+          />
           <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
-          <NftOverviewItem title="Language" value="KOR" isTwo />
-          <NftOverviewItem title="Genre" value="POP" />
-          <NftOverviewItem title="Gender" value="남성" />
-          <NftOverviewItem title="Musical Instrument" value="드럼,베이스" />
-          <NftOverviewItem title="Tempo" value="110" />
-          <NftOverviewItem title="Detail" value="Boom Song Box" />
-          <NftOverviewItem title="Song Length" value="3:01" />
+          <NftOverviewItem title="Language" value={activityData?.nft_language || '-'} isTwo />
+          <NftOverviewItem title="Genre" value={activityData?.genre || '-'} />
+          <NftOverviewItem title="Gender" value={activityData?.nft_gender || '-'} />
+          <NftOverviewItem
+            title="Musical Instrument"
+            value={activityData?.nft_musical_instrument || '-'}
+          />
+          <NftOverviewItem title="Tempo" value={activityData?.nft_tempo || '-'} />
+          <NftOverviewItem title="Detail" value={activityData?.nft_detail || '-'} />
+          <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} />
         </NftOverview>
       </ContentWrap>
       <ContentWrap title="Recommended NFTs">
-        <NftItemList data={[1, 2, 3, 4]} />
+        <NftItemList data={activityData?.recommand_list} />
       </ContentWrap>
     </>
   );
 };
 
-const TransactionStatistics = () => {
+const TransactionStatistics = ({ id }) => {
+  const [statisticsData, setStatisticsData] = useState();
+
+  useEffect(() => {
+    const fetchStatisticsData = async () => {
+      try {
+        const res = await getNftStatistics({ nft_id: id });
+        setStatisticsData(res.data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchStatisticsData();
+  }, []);
+
   return (
     <ContentWrap title="Transaction Statistics">
       <NftOverview title="Key Information Related to Transactions">
-        <NftOverviewItem title="Price" value="1,000" isTwo />
+        <NftOverviewItem title="Price" value={statisticsData?.price} isTwo />
         <NftOverviewItem
           title="Recent Transaction Date"
-          value="Sat, 04 Nov 2023 14:40:00 UTC+9"
+          value={statisticsData?.last_transaction_date}
           isTwo
         />
       </NftOverview>
       <NftOverview title="Transaction Statistics">
-        <NftOverviewItem title="Number of Transactions" value="90" isTwo />
-        <NftOverviewItem title="Total Volume" value="157,652 MOB" isTwo />
-        <NftOverviewItem title="Average Price" value="100 MOB" />
-        <NftOverviewItem title="Highest Price" value="175 MOB" />
-        <NftOverviewItem title="Lowest Price" value="189 MOB" />
+        <NftOverviewItem
+          title="Number of Transactions"
+          value={statisticsData?.transaction_cnt?.toLocaleString()}
+          isTwo
+        />
+        <NftOverviewItem
+          title="Total Volume"
+          value={`${statisticsData?.total_price?.toLocaleString()} ${
+            statisticsData?.sales_token || ''
+          }`}
+          isTwo
+        />
+        <NftOverviewItem
+          title="Average Price"
+          value={`${statisticsData?.avg_price?.toLocaleString()} ${
+            statisticsData?.sales_token || ''
+          }`}
+        />
+        <NftOverviewItem
+          title="Highest Price"
+          value={`${statisticsData?.max_price?.toLocaleString()} ${
+            statisticsData?.sales_token || ''
+          }`}
+        />
+        <NftOverviewItem
+          title="Lowest Price"
+          value={`${statisticsData?.min_price?.toLocaleString()} ${
+            statisticsData?.sales_token || ''
+          }`}
+        />
       </NftOverview>
       <ContentWrap title="Graph List">
-        <NftGraph />
+        <NftGraph
+          transactionCountData={statisticsData?.transaction_cnt_progress}
+          transactionPriceData={statisticsData?.transaction_price_progress}
+        />
       </ContentWrap>
     </ContentWrap>
   );
 };
 
-const History = () => {
+const History = ({ id }) => {
+  const [historyData, setHistoryData] = useState();
+  const [searchParams] = useSearchParams();
+
+  const page = searchParams.get('page');
+  const search = searchParams.get('search');
+  const nftSort = searchParams.get('nft_sort');
+  const tokenFilter = searchParams.get('token_filter');
+
+  useEffect(() => {
+    const fetchHistoryData = async () => {
+      try {
+        const res = await getNftsHistory({
+          nft_id: id,
+          page,
+          sort_by: nftSort,
+          search_keyrword: search,
+          sales_token: tokenFilter,
+        });
+        console.log(res.data, '배고픔');
+        setHistoryData(res.data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchHistoryData();
+  }, [page, search, tokenFilter, nftSort, id]);
+
   return (
     <ContentWrap title="Information">
       {/* <InfoRowWrap row={3}>
@@ -493,7 +491,11 @@ const History = () => {
         <Filter tokenFilter={true} nftSort={true} />
         <Search placeholder="Search" />
       </ContentWrap.SubWrap>
-      <CustomTable data={dummyData2} headers={['#', ' Artist Name', 'Price', 'Transaction Date']} />
+      {/* <CustomTable
+        data={historyData?.data_list}
+        headers={['#', ' Artist Name', 'Price', 'Transaction Date']}
+      /> */}
+      <NftHistoryTable data={historyData?.data_list} />
       {/* <SongPlayTable
         songList={[]}
         likesOption={true}
@@ -504,7 +506,7 @@ const History = () => {
         handleMint={() => null}
       /> */}
 
-      <Pagination />
+      <Pagination totalCount={historyData?.total_cnt} viewCount={10} page={page} />
     </ContentWrap>
   );
 };

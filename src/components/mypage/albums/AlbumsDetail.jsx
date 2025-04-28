@@ -21,7 +21,7 @@ import songImg from '../../../assets/images/intro/intro-demo-img2.png';
 import playIcon from '../../../assets/images/play-icon2.svg';
 import stopIcon from '../../../assets/images/stop-icon.svg';
 import editIcon from '../../../assets/images/edit.svg';
-import defaultAlbumImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import defaultAlbumImage from '../../../assets/images/intro/mob-album-cover.png';
 import defaultUserImage from '../../../assets/images/header/logo-png.png';
 import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
 import MoreHoriz from '../../../assets/images/icon/more-horiz.svg';

@@ -13,51 +13,51 @@ import { useSearchParams } from 'react-router-dom';
  * @returns
  */
 const Search = ({ placeholder, handler, queryParameterName = 'search', defaultValue, reset }) => {
-    const [focus, setFocus] = useState(false);
-    const [_, setSearchParams] = useSearchParams();
+  const [focus, setFocus] = useState(false);
+  const [_, setSearchParams] = useSearchParams();
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const search = formData?.get('search').trim();
+  const handleSearch = e => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const search = formData?.get('search').trim();
 
-        if (handler) {
-            // 전달되는 함수 사용 방식 예) State로 검색 기능 제어 시
-            handler(search);
-        } else {
-            // 쿼리 파라미터 변경 방식
-            setSearchParams((prev) => {
-                if (!search) {
-                    const { [queryParameterName]: extracted, ...rest } = Object.fromEntries(prev);
-                    return { ...rest };
-                }
-                return {
-                    ...Object.fromEntries(prev),
-                    [queryParameterName]: search,
-                    ...reset,
-                };
-            });
+    if (handler) {
+      // 전달되는 함수 사용 방식 예) State로 검색 기능 제어 시
+      handler(search);
+    } else {
+      // 쿼리 파라미터 변경 방식
+      setSearchParams(prev => {
+        if (!search) {
+          const { [queryParameterName]: extracted, ...rest } = Object.fromEntries(prev);
+          return { ...rest };
         }
-    };
+        return {
+          ...Object.fromEntries(prev),
+          [queryParameterName]: search,
+          ...reset,
+        };
+      });
+    }
+  };
 
-    return (
-        <form onSubmit={(e) => handleSearch(e)}>
-            <label className={`unit-component-search ${focus ? 'focus' : ''}`}>
-                <input
-                    className="search__input"
-                    type="text"
-                    name="search"
-                    placeholder={placeholder}
-                    onFocus={() => setFocus(true)}
-                    onBlur={() => setFocus(false)}
-                    defaultValue={defaultValue}
-                />
-                <button className="search__button" type="submit">
-                    <img src={searchIcon} alt="search" />
-                </button>
-            </label>
-        </form>
-    );
+  return (
+    <form onSubmit={e => handleSearch(e)}>
+      <label className={`unit-component-search ${focus ? 'focus' : ''}`}>
+        <input
+          className="search__input"
+          type="text"
+          name="search"
+          placeholder={placeholder}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          defaultValue={defaultValue}
+        />
+        <button className="search__button" type="submit">
+          <img src={searchIcon} alt="search" />
+        </button>
+      </label>
+    </form>
+  );
 };
 
 export default Search;

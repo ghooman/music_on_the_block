@@ -1,135 +1,129 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Pagination,
-  Autoplay,
-} from "swiper/modules";
-import graph1Img01 from "../../assets/images/nft/praph-img01.png";
-import graph1Img02 from "../../assets/images/nft/graph02-img.png";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
+import graph1Img01 from '../../assets/images/nft/praph-img01.png';
+import graph1Img02 from '../../assets/images/nft/graph02-img.png';
 
-import nft01 from "../../assets/images/nft/nft01.png";
-import nft02 from "../../assets/images/nft/nft02.png";
-import nft03 from "../../assets/images/nft/nft03.png";
-import nft04 from "../../assets/images/nft/nft04.png";
-import nft05 from "../../assets/images/nft/nft05.png";
-import nft06 from "../../assets/images/nft/nft06.png";
-import nft07 from "../../assets/images/nft/nft07.png";
-import nft08 from "../../assets/images/nft/nft08.png";
-import collection01 from "../../assets/images/nft/collection01.png";
-import collection02 from "../../assets/images/nft/collection02.png";
-import collection03 from "../../assets/images/nft/collection03.png";
-import collection04 from "../../assets/images/nft/collection04.png";
-import lyricIcon from "../../assets/images/icon/Lyrics-Icon.svg";
-import compositionIcon from "../../assets/images/icon/Composition-Icon.svg";
-import songIcon from "../../assets/images/icon/Songwriting-Icon.svg";
-import loveIcon from "../../assets/images/like-icon/like-icon.svg";
-import playIcon from "../../assets/images/album/play-icon.svg";
-import defaultCoverImg from "../../assets/images/header/logo.svg";
-import coverImg from "../../assets/images/intro/intro-demo-img.png";
-import coverImg2 from "../../assets/images/intro/intro-demo-img2.png";
-import coverImg3 from "../../assets/images/intro/intro-demo-img3.png";
-import coverImg4 from "../../assets/images/demo/album01.svg";
-import coverImg5 from "../../assets/images/demo/album02.svg";
-import coverImg6 from "../../assets/images/demo/album03.svg";
-import coverImg7 from "../../assets/images/demo/album04.svg";
-import coverImg8 from "../../assets/images/demo/album05.svg";
-import coverImg9 from "../../assets/images/demo/album06.svg";
+import nft01 from '../../assets/images/nft/nft01.png';
+import nft02 from '../../assets/images/nft/nft02.png';
+import nft03 from '../../assets/images/nft/nft03.png';
+import nft04 from '../../assets/images/nft/nft04.png';
+import nft05 from '../../assets/images/nft/nft05.png';
+import nft06 from '../../assets/images/nft/nft06.png';
+import nft07 from '../../assets/images/nft/nft07.png';
+import nft08 from '../../assets/images/nft/nft08.png';
+import collection01 from '../../assets/images/nft/collection01.png';
+import collection02 from '../../assets/images/nft/collection02.png';
+import collection03 from '../../assets/images/nft/collection03.png';
+import collection04 from '../../assets/images/nft/collection04.png';
+import lyricIcon from '../../assets/images/icon/Lyrics-Icon.svg';
+import compositionIcon from '../../assets/images/icon/Composition-Icon.svg';
+import songIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import loveIcon from '../../assets/images/like-icon/like-icon.svg';
+import playIcon from '../../assets/images/album/play-icon.svg';
+import defaultCoverImg from '../../assets/images/header/logo.svg';
+import coverImg from '../../assets/images/intro/intro-demo-img.png';
+import coverImg2 from '../../assets/images/intro/intro-demo-img2.png';
+import coverImg3 from '../../assets/images/intro/intro-demo-img3.png';
+import coverImg4 from '../../assets/images/demo/album01.svg';
+import coverImg5 from '../../assets/images/demo/album02.svg';
+import coverImg6 from '../../assets/images/demo/album03.svg';
+import coverImg7 from '../../assets/images/demo/album04.svg';
+import coverImg8 from '../../assets/images/demo/album05.svg';
+import coverImg9 from '../../assets/images/demo/album06.svg';
 
-import "./NftItem.scss";
-import { useState } from "react";
+import './NftItem.scss';
+import { useState } from 'react';
 
 const nftData = [
   {
     id: 1,
     image: nft01,
-    desc: "Melodic Dreams - A fusion of sound and emotion",
-    title: "Melodic Dreams #001",
-    price: "0.23",
-    quantity: "10/100",
-    type: "Lyrics",
-    genre: "Pop",
-    duration: "3:45",
+    desc: 'Melodic Dreams - A fusion of sound and emotion',
+    title: 'Melodic Dreams #001',
+    price: '0.23',
+    quantity: '10/100',
+    type: 'Lyrics',
+    genre: 'Pop',
+    duration: '3:45',
   },
   {
     id: 2,
     image: nft02,
-    desc: "Rhythm of Nature - Organic beats and harmonies",
-    title: "Nature Rhythm #002",
-    price: "0.45",
-    quantity: "5/50",
-    type: "Composition",
-    genre: "Ambient",
-    duration: "4:20",
+    desc: 'Rhythm of Nature - Organic beats and harmonies',
+    title: 'Nature Rhythm #002',
+    price: '0.45',
+    quantity: '5/50',
+    type: 'Composition',
+    genre: 'Ambient',
+    duration: '4:20',
   },
   {
     id: 3,
     image: nft03,
-    desc: "Urban Pulse - City sounds reimagined",
-    title: "Urban Beats #003",
-    price: "0.32",
-    quantity: "15/150",
-    type: "Song",
-    genre: "Electronic",
-    duration: "3:15",
+    desc: 'Urban Pulse - City sounds reimagined',
+    title: 'Urban Beats #003',
+    price: '0.32',
+    quantity: '15/150',
+    type: 'Song',
+    genre: 'Electronic',
+    duration: '3:15',
   },
   {
     id: 4,
     image: nft04,
-    desc: "Digital Symphony - Future of music",
-    title: "Digital Symphony #004",
-    price: "0.28",
-    quantity: "20/200",
-    type: "Lyrics",
-    genre: "Classical",
-    duration: "5:30",
+    desc: 'Digital Symphony - Future of music',
+    title: 'Digital Symphony #004',
+    price: '0.28',
+    quantity: '20/200',
+    type: 'Lyrics',
+    genre: 'Classical',
+    duration: '5:30',
   },
   {
     id: 5,
     image: nft05,
-    desc: "Jazz Fusion - Modern meets traditional",
-    title: "Jazz Fusion #005",
-    price: "0.35",
-    quantity: "8/80",
-    type: "Composition",
-    genre: "Jazz",
-    duration: "4:15",
+    desc: 'Jazz Fusion - Modern meets traditional',
+    title: 'Jazz Fusion #005',
+    price: '0.35',
+    quantity: '8/80',
+    type: 'Composition',
+    genre: 'Jazz',
+    duration: '4:15',
   },
   {
     id: 6,
     image: nft06,
-    desc: "Rock Revolution - Power of sound",
-    title: "Rock Revolution #006",
-    price: "0.42",
-    quantity: "12/120",
-    type: "Song",
-    genre: "Rock",
-    duration: "3:50",
+    desc: 'Rock Revolution - Power of sound',
+    title: 'Rock Revolution #006',
+    price: '0.42',
+    quantity: '12/120',
+    type: 'Song',
+    genre: 'Rock',
+    duration: '3:50',
   },
   {
     id: 7,
     image: nft07,
-    desc: "Hip Hop Vibes - Street beats",
-    title: "Hip Hop Vibes #007",
-    price: "0.38",
-    quantity: "15/150",
-    type: "Lyrics",
-    genre: "Hip Hop",
-    duration: "3:30",
+    desc: 'Hip Hop Vibes - Street beats',
+    title: 'Hip Hop Vibes #007',
+    price: '0.38',
+    quantity: '15/150',
+    type: 'Lyrics',
+    genre: 'Hip Hop',
+    duration: '3:30',
   },
   {
     id: 8,
     image: nft08,
-    desc: "EDM Energy - Electronic dance music",
-    title: "EDM Energy #008",
-    price: "0.25",
-    quantity: "10/100",
-    type: "Composition",
-    genre: "EDM",
-    duration: "4:00",
+    desc: 'EDM Energy - Electronic dance music',
+    title: 'EDM Energy #008',
+    price: '0.25',
+    quantity: '10/100',
+    type: 'Composition',
+    genre: 'EDM',
+    duration: '4:00',
   },
 ];
 
@@ -137,66 +131,66 @@ const collectionData = [
   {
     id: 1,
     image: collection01,
-    title: "Melodic Masters",
-    username: "MusicMaster",
-    highestPrice: "0.85",
-    totalItems: "100",
+    title: 'Melodic Masters',
+    username: 'MusicMaster',
+    highestPrice: '0.85',
+    totalItems: '100',
   },
   {
     id: 2,
     image: collection02,
-    title: "Rhythm Raiders",
-    username: "BeatMaker",
-    highestPrice: "0.65",
-    totalItems: "75",
+    title: 'Rhythm Raiders',
+    username: 'BeatMaker',
+    highestPrice: '0.65',
+    totalItems: '75',
   },
   {
     id: 3,
     image: collection03,
-    title: "Sound Pioneers",
-    username: "AudioArtist",
-    highestPrice: "0.95",
-    totalItems: "150",
+    title: 'Sound Pioneers',
+    username: 'AudioArtist',
+    highestPrice: '0.95',
+    totalItems: '150',
   },
   {
     id: 4,
     image: collection04,
-    title: "Digital Beats",
-    username: "SoundDesigner",
-    highestPrice: "0.75",
-    totalItems: "120",
+    title: 'Digital Beats',
+    username: 'SoundDesigner',
+    highestPrice: '0.75',
+    totalItems: '120',
   },
   {
     id: 5,
     image: collection01,
-    title: "Melodic Masters",
-    username: "MusicMaster",
-    highestPrice: "0.85",
-    totalItems: "100",
+    title: 'Melodic Masters',
+    username: 'MusicMaster',
+    highestPrice: '0.85',
+    totalItems: '100',
   },
   {
     id: 6,
     image: collection02,
-    title: "Rhythm Raiders",
-    username: "BeatMaker",
-    highestPrice: "0.65",
-    totalItems: "75",
+    title: 'Rhythm Raiders',
+    username: 'BeatMaker',
+    highestPrice: '0.65',
+    totalItems: '75',
   },
   {
     id: 7,
     image: collection03,
-    title: "Sound Pioneers",
-    username: "AudioArtist",
-    highestPrice: "0.95",
-    totalItems: "150",
+    title: 'Sound Pioneers',
+    username: 'AudioArtist',
+    highestPrice: '0.95',
+    totalItems: '150',
   },
   {
     id: 8,
     image: collection04,
-    title: "Digital Beats",
-    username: "SoundDesigner",
-    highestPrice: "0.75",
-    totalItems: "120",
+    title: 'Digital Beats',
+    username: 'SoundDesigner',
+    highestPrice: '0.75',
+    totalItems: '120',
   },
 ];
 
@@ -212,14 +206,15 @@ export const NftItemList = ({ data }) => {
   );
 };
 
-export const CollectionItemList = ({ data , linkMove = true}) => {
+export const CollectionItemList = ({ data, linkMove = true, setSelectedCollection }) => {
   return (
     <div className="nft-item-collection-wrap">
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <React.Fragment key={index}>
-          <CollectionItem 
-            item={collectionData[item - 1]} 
+          <CollectionItem
+            item={item}
             linkMove={linkMove}
+            setSelectedCollection={setSelectedCollection}
           />
         </React.Fragment>
       ))}
@@ -241,39 +236,38 @@ const NftItem = ({ item }) => {
   );
 };
 
-export const CollectionItem = ({ item, linkMove = true  }) => {
+export const CollectionItem = ({ item, linkMove = true, setSelectedCollection }) => {
   const Wrapper = linkMove ? Link : 'div';
   const [isActive, setIsActive] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     if (!linkMove) {
       e.preventDefault();
 
       if (!isActive) {
         // 모든 기존 active 제거
-        document
-          .querySelectorAll('.nft-item.active')
-          .forEach((el) => el.classList.remove('active'));
+        document.querySelectorAll('.nft-item.active').forEach(el => el.classList.remove('active'));
+        setSelectedCollection(item);
+      } else {
+        setSelectedCollection(null);
       }
 
       // 내 상태 토글 & 클래스 토글
-      setIsActive((prev) => !prev);
+      setIsActive(prev => !prev);
     }
   };
   return (
-    <Link 
-      // className="nft-item" 
-      // to="/nft/collection/detail"
+    <Link
       className={`nft-item${!linkMove && isActive ? ' active' : ''}`}
-      {...(linkMove && { to: '/nft/collection/detail' })} 
+      {...(linkMove && { to: '/nft/collection/detail' })}
       onClick={handleClick}
     >
       <Images item={item} />
-      <CollectionTitle title={item.title} />
-      <Username username={item.username} />
+      <CollectionTitle title={item?.name} />
+      <Username username={item?.username || 'unKnown'} />
       <div className="nft-item__prices raw">
-        <PriceItems title="Lowest Price" value={`${item.highestPrice} MOB`} />
-        <PriceItems title="Total NFT Items" value={item.totalItems} />
+        <PriceItems title="Lowest Price" value={`${item?.min_price} MOB`} />
+        <PriceItems title="Total NFT Items" value={item?.nft_cnt} />
       </div>
     </Link>
   );
@@ -284,13 +278,13 @@ export const CollectionItem = ({ item, linkMove = true  }) => {
 //===========
 
 const Images = ({ music, item }) => {
-  const getTypeIcon = (type) => {
+  const getTypeIcon = type => {
     switch (type) {
-      case "Lyrics":
+      case 'Lyrics':
         return lyricIcon;
-      case "Composition":
+      case 'Composition':
         return compositionIcon;
-      case "Song":
+      case 'Song':
         return songIcon;
       default:
         return null;
@@ -299,14 +293,14 @@ const Images = ({ music, item }) => {
 
   return (
     <div className="nft-item__images">
-      <img src={item.image} alt={item.title || item.desc} />
+      <img src={item?.image} alt={item?.title || item?.desc} />
       {music && (
         <>
           {/* <div className="nft-item__images--type">
             <img src={getTypeIcon(item.type)} alt={item.type} />
           </div> */}
           {/* <div className="nft-item__images--genre">{item.genre}</div> */}
-          <div className="nft-item__images--running-time">{item.duration}</div>
+          <div className="nft-item__images--running-time">{item?.duration}</div>
         </>
       )}
     </div>

@@ -53,7 +53,22 @@
         top: 0;
       }
     }
-  } //mint-btn--END--
+  }
+  .disabled {
+    border: 1px solid var(--secondary-600, #003321);
+    background: var(--black, #000);
+    &::before {
+      border: 1px solid #003321;
+      top: 0px;
+    }
+    &:hover {
+      top: 0px;
+      &::before {
+        top: 0px;
+      }
+    }
+  }
+  //mint-btn--END--
 
   .sell-btn {
     display: flex;

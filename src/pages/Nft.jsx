@@ -8,11 +8,9 @@ import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/Nft.scss';
 import { Link } from 'react-router-dom';
 import { getNftsMain } from '../api/nfts/nftsMainApi';
-import PreparingModal from '../components/PreparingModal';
 const Nft = () => {
   const [nftList, setNftList] = useState([]);
   const [collectionList, setCollectionList] = useState([]);
-  const [showPreparingModal, setShowPreparingModal] = useState(false);
   useEffect(() => {
     const fetchNftsMain = async () => {
       try {
@@ -28,7 +26,7 @@ const Nft = () => {
   }, []);
   return (
     <div className="nft">
-      <NftExchange setShowPreparingModal={setShowPreparingModal} />
+      <NftExchange />
       <Search placeholder="Search" />
       <ContentWrap title="TOP NFTs" link="/nft/list">
         <NftItemList data={[1, 2, 3, 4]} />
@@ -48,14 +46,13 @@ const Nft = () => {
         </InfoRowWrap>
         <NftGraph />
       </ContentWrap>
-      {showPreparingModal && <PreparingModal setPreparingModal={setShowPreparingModal} />}
     </div>
   );
 };
 
 export default Nft;
 
-const NftExchange = ({ setShowPreparingModal }) => {
+const NftExchange = () => {
   return (
     <div className="nft__exchange">
       <h1 className="nft__exchange--title">NFT MarketPlace</h1>
@@ -72,15 +69,12 @@ const NftExchange = ({ setShowPreparingModal }) => {
           </Link>
         </div>
         <div className="nft__exchange--btns__right">
-          <button
-            className="nft__exchange--button mint"
-            onClick={() => setShowPreparingModal(true)}
-          >
+          <Link className="nft__exchange--button mint" to="/nft/mint/list">
             Mint NFT
-          </button>
-          <button className="nft__exchange--button" onClick={() => setShowPreparingModal(true)}>
+          </Link>
+          <Link className="nft__exchange--button" to="/nft/sell/list">
             Sell NFT
-          </button>
+          </Link>
         </div>
       </div>
     </div>

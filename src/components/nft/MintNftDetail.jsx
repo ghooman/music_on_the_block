@@ -29,16 +29,16 @@ function MintNftDetail() {
   const [sortBy, setSortBy] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const fetchMyNftCollections = async () => {
+    try {
+      const response = await getMyNftCollections(token, currentPage, sortBy, searchKeyword);
+      setMyNftCollections(response?.data_list);
+      // console.log('myNftCollections', myNftCollections);
+    } catch (error) {
+      console.error('나의 NFTS 컬렉션 조회 실패:', error);
+    }
+  };
   useEffect(() => {
-    const fetchMyNftCollections = async () => {
-      try {
-        const response = await getMyNftCollections(token, currentPage, sortBy, searchKeyword);
-        setMyNftCollections(response?.data_list);
-        // console.log('myNftCollections', myNftCollections);
-      } catch (error) {
-        console.error('나의 NFTS 컬렉션 조회 실패:', error);
-      }
-    };
     fetchMyNftCollections();
   }, [token, currentPage, sortBy, searchKeyword]);
 
@@ -93,7 +93,10 @@ function MintNftDetail() {
         />
       )}
       {showCollectionModal && (
-        <CreateCollectionModal setShowCollectionModal={setShowCollectionModal} />
+        <CreateCollectionModal
+          setShowCollectionModal={setShowCollectionModal}
+          fetchMyNftCollections={fetchMyNftCollections}
+        />
       )}
     </>
   );

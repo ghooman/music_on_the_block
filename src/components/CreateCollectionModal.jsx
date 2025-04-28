@@ -1,13 +1,13 @@
 import React, { useState, useRef, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import ModalWrap from './ModalWrap';
+import { createNftCollection } from '../api/nfts/nftCollectionsApi';
 
 import './CreateCollectionModal.scss';
 import demoImg from '../assets/images/demo-cover-img.png';
 import loadIcon from '../assets/images/img-load-btn.svg';
-import { createNftCollection } from '../api/nfts/nftCollectionsApi';
 
-const CreateCollectionModal = ({ setShowCollectionModal }) => {
+const CreateCollectionModal = ({ setShowCollectionModal, fetchMyNftCollections }) => {
   const { token } = useContext(AuthContext);
   const [preview, setPreview] = useState(demoImg);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -53,16 +53,21 @@ const CreateCollectionModal = ({ setShowCollectionModal }) => {
       const formData = new FormData();
       formData.append('payload', JSON.stringify({ name: collectionName.trim() }));
 
-      if (selectedFile && preview !== demoImg) {
+      if (selectedFile) {
         formData.append('image', selectedFile);
+      } else {
+        // 이미지가 없을 경우 demoImg를 사용
+        const response = await fetch(demoImg);
+        const blob = await response.blob();
+        formData.append('image', blob, 'demo-cover-img.png');
       }
 
       for (let [key, value] of formData.entries()) {
         console.log(`${key}:`, value instanceof File ? value.name : value);
       }
 
-      const response = await createNftCollection(token, formData);
-      console.log('Collection created successfully:', response);
+      await createNftCollection(token, formData);
+      await fetchMyNftCollections(token); // 컬렉션 생성 후 리스트 업데이트
       setShowCollectionModal(false);
     } catch (error) {
       console.error('Collection creation failed:', error);
@@ -127,9 +132,11 @@ const CreateCollectionModal = ({ setShowCollectionModal }) => {
           Cancel
         </button>
         <button
-          className="create-collection-modal__btns__ok"
+          className={`create-collection-modal__btns__ok ${
+            !isLoading ? 'create-collection-modal__btns__ok' : 'disabled'
+          } ${collectionName.trim() ? 'create-collection-modal__btns__ok' : 'disabled'}`}
           onClick={handleCreateCollection}
-          disabled={isLoading}
+          disabled={!collectionName.trim() || isLoading}
         >
           {isLoading ? 'Creating...' : 'Create'}
         </button>

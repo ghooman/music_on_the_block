@@ -68,16 +68,16 @@ const Connections = () => {
     queryClient.setQueryData(
       ['follow_list', { token, page, search, connectionsSort, connectionsType }],
       prevData => {
-        const { data_list } = prevData;
-        console.log(data_list);
-        const copy = [...data_list];
-        copy.forEach(user => {
+        const updatedDataList = prevData.data_list.map(user => {
           if (user.user_id === id) {
-            user.is_follow = !user.is_follow;
+            return { ...user, is_follow: !user.is_follow };
           }
+          return user;
         });
-        prevData.data_list = copy;
-        return prevData;
+        return {
+          ...prevData,
+          data_list: updatedDataList,
+        };
       }
     );
   };

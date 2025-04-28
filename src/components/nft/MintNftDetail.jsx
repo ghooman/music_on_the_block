@@ -1,7 +1,7 @@
 import './MintNftDetail.scss';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../unit/ContentWrap';
 import { NftItemList, CollectionItemList } from './NftItem';
@@ -20,6 +20,7 @@ import NoneContent from '../unit/NoneContent';
 // ────────────────────────────────
 function MintNftDetail() {
   const { token } = useContext(AuthContext);
+  const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -81,6 +82,7 @@ function MintNftDetail() {
           title="Confirm Mint"
           confirmSellTxt={false}
           confirmMintTxt={true}
+          songId={id}
           selectedCollection={selectedCollection}
         />
       )}

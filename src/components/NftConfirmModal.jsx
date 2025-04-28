@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
 import ModalWrap from './ModalWrap';
-
+import { mintNft } from '../api/nfts/nftMintApi';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import './NftConfirmModal.scss';
 
 const NftConfirmModal = ({
@@ -10,7 +11,22 @@ const NftConfirmModal = ({
   confirmMintTxt,
   setShowSuccessModal,
   selectedCollection,
+  songId,
 }) => {
+  const { token } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleMint = async () => {
+    setIsLoading(true);
+    const response = await mintNft(token, songId, selectedCollection?.id);
+    if (response.status === 'success') {
+      setShowModal(false);
+      setShowSuccessModal(true);
+    } else {
+      console.error('error', response);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <ModalWrap title={title} onClose={() => setShowModal(false)} className="confirm-modal">
       <dl>
@@ -26,11 +42,10 @@ const NftConfirmModal = ({
           <button
             className="confirm-modal__btns__ok"
             onClick={() => {
-              setShowModal(false);
-              setShowSuccessModal(true);
+              handleMint();
             }}
           >
-            Mint
+            {isLoading ? 'Minting...' : 'Mint'}
           </button>
         )}
 

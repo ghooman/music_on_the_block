@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
+// 컴포넌트 임포트
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
+import { NftGraph } from '../components/nft/NftGraph';
+import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
 import Pagination from '../components/unit/Pagination';
 import Filter from '../components/unit/Filter';
 import Search from '../components/unit/Search';
-
-import likeImage from '../assets/images/like-icon/like-icon-on.svg';
-import unLikeImage from '../assets/images/like-icon/like-icon.svg';
-
-import '../styles/CollectionDetail.scss';
-import { NftGraph } from '../components/nft/NftGraph';
-import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
 import SubCategories from '../components/unit/SubCategories';
+import CollectionHistoryTable from '../components/table/CollectionHistoryTable';
 
+// API 임포트
 import {
   getNftCollectionDetail,
   getNftCollectionOverview,
@@ -23,17 +21,28 @@ import {
   getNftCollectionHistory,
 } from '../api/nfts/nftCollectionsApi';
 
-import CollectionHistoryTable from '../components/table/CollectionHistoryTable';
+// 에셋 임포트
+import likeImage from '../assets/images/like-icon/like-icon-on.svg';
+import unLikeImage from '../assets/images/like-icon/like-icon.svg';
+
+// 스타일 임포트
+import '../styles/CollectionDetail.scss';
+
+/**
+ * 컬렉션 상세 정보 컴포넌트
+ */
 const CollectionDetail = () => {
+  // 상태 관리
   const [selectCategory, setSelectCategory] = useState('Overview');
   const [collectionDetail, setCollectionDetail] = useState(null);
   const [collectionNftList, setCollectionNftList] = useState(null);
   const [collectionNftListTotalCnt, setCollectionNftListTotalCnt] = useState(null);
   const [collectionHistory, setCollectionHistory] = useState(null);
   const [collectionHistoryTotalCnt, setCollectionHistoryTotalCnt] = useState(null);
+
+  // URL 파라미터
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
   const sort_by = searchParams.get('sort_by');
@@ -41,7 +50,9 @@ const CollectionDetail = () => {
   const nft_rating = searchParams.get('nft_rating');
   const salse_token = searchParams.get('salse_token');
 
-  // 컬렉션 기본 정보
+  /**
+   * 컬렉션 기본 정보 조회
+   */
   const fetchCollectionDetail = async () => {
     try {
       const response = await getNftCollectionDetail({ id });
@@ -50,7 +61,10 @@ const CollectionDetail = () => {
       console.error('Failed to fetch collection detail:', error);
     }
   };
-  // 컬렉션 NFT 리스트
+
+  /**
+   * 컬렉션 NFT 리스트 조회
+   */
   const fetchCollectionNftList = async () => {
     try {
       const response = await getNftCollectionNftList({
@@ -62,14 +76,16 @@ const CollectionDetail = () => {
         nft_rating,
         salse_token,
       });
-      console.log(response.data, '컬렉션 NFT 리스트');
       setCollectionNftList(response.data?.data_list);
       setCollectionNftListTotalCnt(response.data.total_cnt);
     } catch (error) {
       console.error('Failed to fetch collection NFT list:', error);
     }
   };
-  // 컬렉션 활동 기록
+
+  /**
+   * 컬렉션 활동 기록 조회
+   */
   const fetchCollectionHistory = async () => {
     try {
       const response = await getNftCollectionHistory({
@@ -81,17 +97,19 @@ const CollectionDetail = () => {
         nft_rating,
         salse_token,
       });
-      console.log(response.data, '컬렉션 활동 기록');
       setCollectionHistory(response.data?.data_list);
       setCollectionHistoryTotalCnt(response.data.total_cnt);
     } catch (error) {
       console.error('Failed to fetch collection history:', error);
     }
   };
+
+  // 컬렉션 기본 정보 조회
   useEffect(() => {
     fetchCollectionDetail();
   }, [id]);
 
+  // NFT Item 탭 선택 시 리스트 조회
   useEffect(() => {
     if (selectCategory === 'NFT Item') {
       fetchCollectionNftList();
@@ -127,8 +145,9 @@ const CollectionDetail = () => {
   );
 };
 
-export default CollectionDetail;
-
+/**
+ * 컬렉션 기본 정보 컴포넌트
+ */
 const CollectionInfo = ({ collectionDetail }) => {
   return (
     <div className="collection-detail-info-wrap">
@@ -161,6 +180,9 @@ const CollectionInfo = ({ collectionDetail }) => {
   );
 };
 
+/**
+ * 통계 항목 컴포넌트
+ */
 CollectionInfo.StatsItem = ({ title, value, suffix }) => {
   return (
     <div className="stats__item">
@@ -173,8 +195,12 @@ CollectionInfo.StatsItem = ({ title, value, suffix }) => {
   );
 };
 
+/**
+ * 개요 컴포넌트
+ */
 const Overview = ({ id }) => {
   const [collectionOverview, setCollectionOverview] = useState(null);
+
   useEffect(() => {
     const fetchCollectionOverview = async () => {
       const response = await getNftCollectionOverview({ id });
@@ -182,6 +208,7 @@ const Overview = ({ id }) => {
     };
     fetchCollectionOverview();
   }, [id]);
+
   return (
     <>
       <ContentWrap title="Overview">
@@ -234,11 +261,15 @@ const Overview = ({ id }) => {
   );
 };
 
+/**
+ * NFT 아이템 컴포넌트
+ */
 const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchCollectionNftList }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const subCategoryList = [{ name: 'All' }, { name: 'Unlisted' }, { name: 'Listed' }];
   const [selected, setSelected] = useState(subCategoryList[0].name);
 
+  // URL 파라미터
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
   const sort_by = searchParams.get('sort_by');
@@ -251,6 +282,9 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
     fetchCollectionNftList();
   }, [id, page, search, sort_by, ai_service, nft_rating, salse_token, now_sales_status]);
 
+  /**
+   * 검색어 입력 핸들러
+   */
   const handleSearch = keyword => {
     setSearchParams({
       ...Object.fromEntries(searchParams),
@@ -259,6 +293,9 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
     });
   };
 
+  /**
+   * 서브 카테고리 선택 핸들러
+   */
   const handleSubCategory = categoryName => {
     setSelected(categoryName);
 
@@ -275,6 +312,16 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
     setSearchParams(params);
   };
 
+  /**
+   * 페이지 변경 핸들러
+   */
+  const handlePageChange = newPage => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: newPage,
+    });
+  };
+
   return (
     <ContentWrap title="NFT Items">
       <ContentWrap.SubWrap gap={8}>
@@ -287,19 +334,19 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
         totalCount={collectionNftListTotalCnt}
         viewCount={12}
         page={page}
-        onChange={newPage =>
-          setSearchParams({
-            ...Object.fromEntries(searchParams),
-            page: newPage,
-          })
-        }
+        onChange={handlePageChange}
       />
     </ContentWrap>
   );
 };
 
+/**
+ * 히스토리 컴포넌트
+ */
 const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollectionHistory }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // URL 파라미터
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
   const sort_by = searchParams.get('sort_by');
@@ -310,6 +357,16 @@ const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollec
   useEffect(() => {
     fetchCollectionHistory();
   }, [id, page, search, sort_by, ai_service, nft_rating, salse_token]);
+
+  /**
+   * 페이지 변경 핸들러
+   */
+  const handlePageChange = newPage => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: newPage,
+    });
+  };
 
   return (
     <ContentWrap title="History">
@@ -322,8 +379,10 @@ const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollec
         totalCount={collectionHistoryTotalCnt}
         viewCount={10}
         page={page}
-        onChange={newPage => setSearchParams({ page: newPage })}
+        onChange={handlePageChange}
       />
     </ContentWrap>
   );
 };
+
+export default CollectionDetail;

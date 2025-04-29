@@ -24,7 +24,7 @@ const NftList = () => {
   const gradeFilter = searchParams.get('grade_filter');
   const tokenFilter = searchParams.get('token_filter');
   const songsSort = searchParams.get('songs_sort');
-  const connectionsSort = searchParams.get('connections_sort');
+  const collectionSort = searchParams.get('collection_sort');
 
   useEffect(() => {
     if (!category) {
@@ -54,7 +54,7 @@ const NftList = () => {
           />
         )}
         {category === 'Collection' && (
-          <CollectionList page={page} search={search} connectionsSort={connectionsSort} />
+          <CollectionList page={page} search={search} collectionSort={collectionSort} />
         )}
       </ContentWrap>
     </div>
@@ -98,7 +98,7 @@ const NFTList = ({ page, search, gradeFilter, songsSort }) => {
   );
 };
 
-const CollectionList = ({ page, search, connectionsSort }) => {
+const CollectionList = ({ page, search, collectionSort }) => {
   const [collectionData, setCollectionData] = useState();
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const CollectionList = ({ page, search, connectionsSort }) => {
         const response = await getNftCollections({
           page: page,
           search_keyword: search,
-          sort_by: connectionsSort,
+          sort_by: collectionSort,
         });
         setCollectionData(response.data);
       } catch (e) {
@@ -115,12 +115,12 @@ const CollectionList = ({ page, search, connectionsSort }) => {
       }
     };
     fetchCollectionList();
-  }, [page, search, connectionsSort]);
+  }, [page, search, collectionSort]);
 
   return (
     <>
       <ContentWrap.SubWrap gap={8}>
-        <Filter connectionsSort={true} />
+        <Filter collectionSort={true} />
         <Search placeholder="Search" />
       </ContentWrap.SubWrap>
       <CollectionItemList data={collectionData?.data_list} />

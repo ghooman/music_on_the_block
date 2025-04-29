@@ -1,6 +1,7 @@
 import './MintNftDetail.scss';
-import React, { useState, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useRef, useContext, useEffect } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../unit/ContentWrap';
 import { NftItemList, CollectionItemList } from './NftItem';
@@ -14,12 +15,36 @@ import NftConfirmModal from '../NftConfirmModal';
 import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
 import SongsBar from '../unit/SongsBar';
 import CreateCollectionModal from '../CreateCollectionModal';
-
+import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
+import NoneContent from '../unit/NoneContent';
+import Filter from '../unit/Filter';
 // ────────────────────────────────
 function MintNftDetail() {
+  const { token } = useContext(AuthContext);
+  const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [myNftCollections, setMyNftCollections] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
+  const [searchParamas, setSearchParams] = useSearchParams();
+
+  const fetchMyNftCollections = async () => {
+    try {
+      const response = await getMyNftCollections(token, currentPage, sortBy, searchKeyword);
+      setMyNftCollections(response?.data_list);
+      // console.log('myNftCollections', myNftCollections);
+    } catch (error) {
+      console.error('나의 NFTS 컬렉션 조회 실패:', error);
+    }
+  };
+  useEffect(() => {
+    fetchMyNftCollections();
+  }, [token, currentPage, sortBy, searchKeyword]);
 
   return (
     <>
@@ -30,41 +55,28 @@ function MintNftDetail() {
         <SongsBar />
         <ContentWrap title="Select Collection">
           <div className="filter-create">
-            <FilterItems />
+            <Filter connectionsSort={true} />
             <button className="create-btn" onClick={() => setShowCollectionModal(true)}>
               Create New Collection
               <img src={editIcon} alt="editIcon" />
             </button>
           </div>
-          <Search />
-          <CollectionItemList data={[1, 2, 3, 4, 5, 6]} linkMove={false} />
-          <button className="mint-btn" onClick={() => setShowModal(true)}>
+          <Search placeholder="Search Collection" />
+          {myNftCollections?.length === 0 ? (
+            <NoneContent message="There are no collections." height={300} />
+          ) : (
+            <CollectionItemList
+              data={myNftCollections}
+              linkMove={false}
+              setSelectedCollection={setSelectedCollection}
+            />
+          )}
+          <button
+            className={selectedCollection ? 'mint-btn' : 'mint-btn disabled'}
+            onClick={selectedCollection ? () => setShowModal(true) : null}
+          >
             Mint
           </button>
-          {/* <ContentWrap title="Selected Collection" >
-                        <section className='selected-collection-bottom'>
-                            <article className='selected-collection-bottom__left'>
-                                <img src={demoImg}/>
-                            </article>
-                            <article className='selected-collection-bottom__right'>
-                                <dl className='selected-collection-bottom__right__dl'>
-                                    <dt>Collection Name</dt>
-                                    <dd>Collection Name</dd>
-                                </dl>
-                                <div className='selected-collection-bottom__right__two-dl'>
-                                    <dl className='selected-collection-bottom__right__dl'>
-                                        <dt>Artist Name</dt>
-                                        <dd><img src={defaultCoverImg} alt='user-img'/>User Name</dd>
-                                    </dl>
-                                    <dl className='selected-collection-bottom__right__dl'>
-                                        <dt>Number of NFT Items</dt>
-                                        <dd className='quantity'>12<p>quantity</p></dd>
-                                    </dl>
-                                </div>
-
-                            </article>
-                        </section>
-                    </ContentWrap> */}
         </ContentWrap>
       </div>
       {showModal && (
@@ -74,16 +86,21 @@ function MintNftDetail() {
           title="Confirm Mint"
           confirmSellTxt={false}
           confirmMintTxt={true}
+          songId={id}
+          selectedCollection={selectedCollection}
         />
       )}
       {showSuccessModal && (
         <NftConfirmSuccessModal
           setShowSuccessModal={setShowSuccessModal}
-          title="Your song has been minted as an NFT!"
+          title="To mint your song, create or select a collection."
         />
       )}
       {showCollectionModal && (
-        <CreateCollectionModal setShowCollectionModal={setShowCollectionModal} />
+        <CreateCollectionModal
+          setShowCollectionModal={setShowCollectionModal}
+          fetchMyNftCollections={fetchMyNftCollections}
+        />
       )}
     </>
   );

@@ -32,7 +32,8 @@ export const NftItemList = ({ data }) => {
   );
 };
 
-export const CollectionItemList = ({ data, linkMove = true }) => {
+export const CollectionItemList = ({ data, linkMove = true, setSelectedCollection }) => {
+  console.log(data);
   return (
     <>
       <div className="nft-item-collection-wrap">
@@ -72,14 +73,14 @@ const NftItem = ({ item }) => {
       <NftTitle desc={item.nft_name} />
       <Title title={item.connect_collection_name} />
       <div className="nft-item__prices col">
-        <PriceItems title="Price" value={`${item.price} MOB`} />
+        <PriceItems title="Price" value={`${item?.price} MOB`} />
         {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}
       </div>
     </Link>
   );
 };
 
-export const CollectionItem = ({ item, linkMove = true }) => {
+export const CollectionItem = ({ item, linkMove = true, setSelectedCollection }) => {
   const Wrapper = linkMove ? Link : 'div';
   const [isActive, setIsActive] = useState(false);
 
@@ -92,6 +93,9 @@ export const CollectionItem = ({ item, linkMove = true }) => {
       if (!isActive) {
         // 모든 기존 active 제거
         document.querySelectorAll('.nft-item.active').forEach(el => el.classList.remove('active'));
+        setSelectedCollection(item);
+      } else {
+        setSelectedCollection(null);
       }
 
       // 내 상태 토글 & 클래스 토글
@@ -100,10 +104,8 @@ export const CollectionItem = ({ item, linkMove = true }) => {
   };
   return (
     <Link
-      // className="nft-item"
-      // to="/nft/collection/detail"
       className={`nft-item${!linkMove && isActive ? ' active' : ''}`}
-      {...(linkMove && { to: '/nft/collection/detail' })}
+      {...(linkMove && { to: `/nft/collection/detail/${item?.id}` })}
       onClick={handleClick}
     >
       <Images image={item.image} />

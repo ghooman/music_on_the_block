@@ -88,14 +88,13 @@ const Nft = () => {
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>
-      {showPreparingModal && <PreparingModal setShowPreparingModal={setShowPreparingModal} />}
     </div>
   );
 };
 
 export default Nft;
 
-const NftExchange = ({ navigate }) => {
+const NftExchange = () => {
   return (
     <div className="nft__exchange">
       <h1 className="nft__exchange--title">NFT MarketPlace</h1>
@@ -112,12 +111,12 @@ const NftExchange = ({ navigate }) => {
           </Link>
         </div>
         <div className="nft__exchange--btns__right">
-          <button className="nft__exchange--button mint" onClick={() => navigate('/nft/mint/list')}>
+          <Link className="nft__exchange--button mint" to="/nft/mint/list">
             Mint NFT
-          </button>
-          <button className="nft__exchange--button" onClick={() => navigate('/nft/sell/list')}>
+          </Link>
+          <Link className="nft__exchange--button" to="/nft/sell/list">
             Sell NFT
-          </button>
+          </Link>
         </div>
       </div>
     </div>

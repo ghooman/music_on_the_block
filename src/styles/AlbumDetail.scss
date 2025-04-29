@@ -33,7 +33,7 @@
       position: relative;
       display: inline-block;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: -2px;
         left: -4px;
@@ -105,7 +105,7 @@
               white-space: pre-wrap;
               padding: 32px;
               &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -139,10 +139,10 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            p{
+            p {
               position: relative;
               cursor: pointer;
-              .tw-connect-wallet{
+              .tw-connect-wallet {
                 position: absolute;
                 top: 0 !important;
                 left: 0 !important;
@@ -157,17 +157,17 @@
                 background: transparent !important;
                 display: block;
               }
-              .tw-connected-wallet{
+              .tw-connected-wallet {
                 display: none;
                 opacity: 0;
                 z-index: -10 !important;
               }
-              &.play{
+              &.play {
                 cursor: auto;
               }
-
             }
-            button ,p{
+            button,
+            p {
               width: 66px;
               display: flex;
               align-items: center;
@@ -213,7 +213,7 @@
             padding: 0 12px;
             position: relative;
             &::before {
-              content: "";
+              content: '';
               display: block;
               position: absolute;
               bottom: -5px;
@@ -260,7 +260,7 @@
               justify-content: center;
               position: relative;
               &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 top: 0;
                 right: -12px;
@@ -323,6 +323,111 @@
     } //album-detail__song-detail__bot--END--
   } //album-detail__song-detail--END--
 
+  .album-detail__control-button-wraps {
+    display: flex;
+    gap: 24px;
+  }
+  .album-detail__control-button {
+    width: 100%;
+    border-radius: 12px;
+    position: relative;
+    transition: 0.2s all;
+    top: 0px;
+    font-family: Orbitron600;
+    height: 40px;
+    // padding: 12px;
+    color: #1a1a1a;
+
+    &:disabled {
+      color: #565656 !important;
+      background-color: #000 !important;
+      &:hover {
+        top: 0px;
+        &::after {
+          top: 4px;
+        }
+      }
+      &::after {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid;
+      }
+    }
+
+    &:hover {
+      top: 4px;
+      &::after {
+        top: 0px;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 0;
+      transition: 0.2s all;
+      height: calc(100% - 1px);
+      width: calc(100% - 2px);
+      border-radius: 12px;
+      border: 1px solid red;
+    }
+
+    &.buy-button,
+    &.release-button {
+      background-color: #cf0;
+      &::after {
+        border-color: #cf0;
+      }
+      &:disabled {
+        border: 1px solid #2c3a00;
+        &::after {
+          border-color: #2c3a00;
+        }
+      }
+    }
+
+    &.mint-button {
+      background-color: #00ffb3;
+      &::after {
+        border-color: #00ffb3;
+      }
+      &:disabled {
+        border: 1px solid #003321;
+        &::after {
+          border-color: #003321;
+        }
+      }
+    }
+
+    &.sell-button {
+      background-color: #4ee1fb;
+      &::after {
+        border-color: #4ee1fb;
+      }
+      &:disabled {
+        border: 1px solid #126270;
+        &::after {
+          border-color: #126270;
+        }
+      }
+    }
+
+    &.cancel-button {
+      color: #bc0036;
+      background-color: #383838;
+      &::after {
+        border-color: #383838;
+      }
+      &:disabled {
+        border: 1px solid #44000d;
+        &::after {
+          border-color: #44000d;
+        }
+      }
+    }
+  }
+
   .album-detail__audio {
     border-radius: 12px;
     border: 1px solid var(--Color-03, #222);
@@ -333,7 +438,7 @@
     // min-height: 136px;
     .album-detail__audio__cover {
       &::before {
-        content: "";
+        content: '';
         width: 100%;
         height: 100%;
         position: absolute;
@@ -344,14 +449,14 @@
         border-radius: 100%;
         z-index: 10;
       }
-      content: "";
+      content: '';
       width: 200px;
       height: 200px;
       position: absolute;
       top: 50%;
       left: 0%;
       transform: translate(-20%, -50%);
-      background: url("../assets/images/album/album-bg.png") center no-repeat;
+      background: url('../assets/images/album/album-bg.png') center no-repeat;
       background-size: cover;
       z-index: 0;
       img {
@@ -378,7 +483,7 @@
         }
       }
     } //album-detail__audio__cover--END--
-    .rhap_volume-controls{
+    .rhap_volume-controls {
       position: relative;
       top: 6px;
     }
@@ -513,7 +618,7 @@
       position: relative;
       display: inline-block;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: -2px;
         left: -4px;
@@ -539,7 +644,7 @@
       border-radius: 10px 2px 10px 10px;
       border: 1px solid var(--primary-200, #a9d400);
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: 2px;
         right: 2px;
@@ -566,7 +671,7 @@
     border-radius: 10px 2px 10px 10px;
     border: 1px solid var(--primary-200, #a9d400);
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: 2px;
       right: 2px;
@@ -589,7 +694,7 @@
         background: #333;
       }
     }
-    .custom-table{
+    .custom-table {
       width: 100%;
       border-collapse: collapse;
       background: #111;
@@ -598,11 +703,7 @@
       min-width: 690px;
       // table-layout: fixed;
       thead {
-        background: linear-gradient(
-          0deg,
-          rgba(199, 240, 100, 0.2) 0%,
-          rgba(114, 138, 58, 0) 20%
-        );
+        background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
         tr {
           th {
             text-align: center;
@@ -617,7 +718,7 @@
         }
       }
       td {
-        &.title{
+        &.title {
           // width: 100px;
         }
         &.user-info {
@@ -649,7 +750,7 @@
         font-style: normal;
         line-height: normal;
         min-height: 60px;
-        &.title{
+        &.title {
           text-align: left;
         }
         &:nth-child(1) {
@@ -699,13 +800,12 @@
       display: inline-block;
       width: 20px;
       height: 20px;
-      background: url("../assets/images/album/love-icon.svg") no-repeat center;
+      background: url('../assets/images/album/love-icon.svg') no-repeat center;
       background-size: contain;
     }
 
     .heart.liked {
-      background: url("../assets/images/album/love-icon-on.svg") no-repeat
-        center;
+      background: url('../assets/images/album/love-icon-on.svg') no-repeat center;
       background-size: contain;
     }
 
@@ -716,32 +816,32 @@
       float: right;
       width: 100px;
       height: 24px;
-      background: #00FFB3;
+      background: #00ffb3;
       position: relative;
       top: 0;
       transition: 0.2s;
-      color:#1A1A1A;
+      color: #1a1a1a;
       font-family: Orbitron600;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
       border-radius: 8px;
-      &::before{
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 4px;
-          width: calc(100% - 2px);
-          transition: 0.2s;
-          border-radius: 8px;
-          height: 22px;
-          border: 1px solid #00FFB3;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: calc(100% - 2px);
+        transition: 0.2s;
+        border-radius: 8px;
+        height: 22px;
+        border: 1px solid #00ffb3;
       }
-      &:hover{
-          top: 4px;
-          &::before{
-              top: 0;
-          }
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0;
+        }
       }
     }
 
@@ -781,7 +881,7 @@
       display: inline-block;
       width: max-content;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: -2px;
         left: -4px;
@@ -805,7 +905,7 @@
     .swiper-button-prev {
       width: 24px;
       height: 24px;
-      background: url("../assets/images/album/prev-btn.svg") center no-repeat;
+      background: url('../assets/images/album/prev-btn.svg') center no-repeat;
       background-size: cover;
       left: 38%;
       top: auto;
@@ -818,7 +918,7 @@
     .swiper-button-next {
       width: 24px;
       height: 24px;
-      background: url("../assets/images/album/next-btn.svg") center no-repeat;
+      background: url('../assets/images/album/next-btn.svg') center no-repeat;
       background-size: cover;
       right: 38%;
       top: auto;
@@ -856,12 +956,11 @@
           gap: 8px;
           width: 128px;
           &::after {
-            content: "";
+            content: '';
             display: block;
             width: 76px;
             height: 16px;
-            background: url("../assets/images/album/time-img-w.svg") center
-              no-repeat;
+            background: url('../assets/images/album/time-img-w.svg') center no-repeat;
             background-size: contain;
           }
         }
@@ -990,7 +1089,7 @@
             align-items: center;
             justify-content: center;
             &::before {
-              content: "";
+              content: '';
               position: absolute;
               left: 0;
               top: 4px;
@@ -1020,9 +1119,9 @@
 
 //song-detail--END--
 
-.rhap_progress-bar{
-  .rhap_download-progress{
-    &:last-child{
+.rhap_progress-bar {
+  .rhap_download-progress {
+    &:last-child {
       display: none;
     }
   }
@@ -1031,8 +1130,7 @@
   width: 100% !important;
   background: #333;
   max-width: 214px;
-  .rhap_download-progress{
-
+  .rhap_download-progress {
   }
 } //rhap_download-progress--END--
 .rhap_progress-filled {

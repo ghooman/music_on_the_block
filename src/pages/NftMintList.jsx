@@ -24,7 +24,7 @@ const NftMintList = () => {
 
   // 더미
   const { data: songList, isLoading } = useQuery(
-    ['nft_sell_list', { page, search, songsSort, gradeFilter }],
+    ['nft_mint_list', { page, search, songsSort, gradeFilter }],
     async () => {
       const res = await axios.get(`${serverApi}/api/nfts/mitable`, {
         params: {
@@ -52,7 +52,7 @@ const NftMintList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
-  console.log('songList', songList);
+  if (isLoading) return <Loading />;
 
   return (
     <div>
@@ -73,7 +73,6 @@ const NftMintList = () => {
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={10} page={page} />
       </ContentWrap>
-      {isLoading && <Loading />}
     </div>
   );
 };

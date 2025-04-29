@@ -77,11 +77,11 @@ const MyProfile = () => {
         <ProfileInfo.TokenAmount mic={0} mob={0} />
       </ProfileInfo>
       <Tabs tabs={serviceTabObj} select={category} handleTab={handleTab} />
-      {category === 'AI Services' && <AiServices username={userData.name} />}
+      {category === 'AI Services' && <AiServices username={userData?.name} />}
       {category === 'Songs' && <Songs token={token} />}
       {category === 'Connections' && <Connections />}
       {category === 'Favorites' && <MyFavorites />}
-      {category === 'Albums' && <Albums username={userData.name} isCreate={true} />}
+      {category === 'Albums' && <Albums username={userData?.name} isCreate={true} />}
       {/* {category === 'NFT MarketPlace' && <NftMarketPlace />} */}
     </div>
   );

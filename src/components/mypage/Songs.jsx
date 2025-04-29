@@ -122,10 +122,12 @@ const Songs = ({ token }) => {
           songList={songsList?.data_list}
           deleteOption={true}
           releaseOption={releaseType === 'Unreleased songs'}
+          gradeOption={releaseType === 'Released songs'}
+          nftOption={releaseType === 'Released songs'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
-          gradeOption={releaseType === 'Released songs'}
-          NftOption={true}
+          playsOption={true}
+          likesOption={true}
           artistOption={false}
         />
         <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />

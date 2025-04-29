@@ -33,22 +33,24 @@ const Connections = () => {
   const queryClient = useQueryClient();
   const page = searchParamas.get('page') || 1;
   const search = searchParamas.get('search') || '';
-  const connectionsSort = searchParamas.get('connections_sort') || 'Latest';
   const connectionsType = searchParamas.get('connections_type') || 'Following';
+
+  const gradeFilter = searchParamas.get('grade_filter');
+  const userSort = searchParamas.get('user_sort');
 
   const {
     data: connectionsData,
     isLoading,
     isFetching,
   } = useQuery(
-    ['follow_list', token, page, search, connectionsSort, connectionsType],
+    ['follow_list', token, page, search, userSort, connectionsType],
     async () => {
       const path = connectionsType === 'Following' ? 'following' : 'follower';
       const res = await axios.get(`${serverApi}/api/user/my/${path}/list`, {
         params: {
           page,
           search_keyword: search,
-          sort_by: connectionsSort,
+          sort_by: userSort,
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -64,7 +66,7 @@ const Connections = () => {
   //====================
   const queryUpdate = id => {
     queryClient.setQueryData(
-      ['follow_list', token, page, search, connectionsSort, connectionsType],
+      ['follow_list', token, page, search, userSort, connectionsType],
       prev => {
         if (!prev?.data_list) return prev;
 
@@ -127,14 +129,14 @@ const Connections = () => {
           categories={categories}
           handler={value =>
             setSearchParams(prev => {
-              const { connections_sort, search, ...rest } = Object.fromEntries(prev);
+              const { collection_sort, search, ...rest } = Object.fromEntries(prev);
               return { ...rest, connections_type: value, page: 1 };
             })
           }
           value={connectionsType}
         />
         <ContentWrap.SubWrap gap={8}>
-          <Filter connectionsSort={true} />
+          <Filter userSort={true} gradeFilter={true} />
           <Search placeholder="Search by Artist name..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         {/* <AlbumsTable /> */}

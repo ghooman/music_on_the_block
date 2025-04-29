@@ -271,6 +271,8 @@ function AlbumDetail() {
     }
   };
 
+  console.log(album, '곡의 데이터');
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -458,6 +460,33 @@ function AlbumDetail() {
                     </Link>
                   </dd>
                 </dl>
+                {album?.is_owner && (
+                  <div className="album-detail__control-button-wraps">
+                    <button
+                      className="album-detail__control-button release-button"
+                      disabled={album?.is_release}
+                    >
+                      Release
+                    </button>
+                    <button
+                      className="album-detail__control-button mint-button"
+                      disabled={album?.is_nft || !album?.is_release}
+                    >
+                      Mint
+                    </button>
+                    <button className="album-detail__control-button sell-button" disabled>
+                      Sell
+                    </button>
+                    <button className="album-detail__control-button cancel-button" disabled>
+                      Cancel
+                    </button>
+                  </div>
+                )}
+                {album?.is_owner && (
+                  <button className="album-detail__control-button buy-button" disabled>
+                    Buy NFT
+                  </button>
+                )}
               </div>
             </div>
           </div>

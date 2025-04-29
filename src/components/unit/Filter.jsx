@@ -32,14 +32,17 @@ import checkIcon from '../../assets/images/check-icon.svg';
 
 const Filter = ({
   period,
+  // 필터링 옵션
   generateFilter,
-  songsSort,
-  connectionsSort,
-  albumSort,
-  nftSort,
   gradeFilter,
   mintingFilter,
   tokenFilter,
+  // 정렬 옵션
+  songsSort,
+  albumSort,
+  nftSort,
+  collectionSort,
+  userSort,
 }) => {
   const [searchParamas, setSearchParams] = useSearchParams();
   const [modal, setModal] = useState(false);
@@ -48,27 +51,34 @@ const Filter = ({
   const page = searchParamas.get('page');
 
   // 프롭스와 맞춰주세요
+
   const period_ = searchParamas.get('period');
+  //필터
   const generateFilter_ = searchParamas.get('generate_filter');
   const gradeFilter_ = searchParamas.get('grade_filter');
   const mintingFilter_ = searchParamas.get('minting_filter');
   const tokenFilter_ = searchParamas.get('token_filter');
+  // 정렬
   const songsSort_ = searchParamas.get('songs_sort');
-  const connectionsSort_ = searchParamas.get('connections_sort');
+  const collectionSort_ = searchParamas.get('collection_sort');
   const albumSort_ = searchParamas.get('album_sort');
   const nftSort_ = searchParamas.get('nft_sort');
+  const userSort_ = searchParamas.get('user_sort');
 
   // queries 변수에 값을 넣어야 filter 아이템이 표시됩니다.
   const queries = [
     period_,
+    //필터
     generateFilter_,
     gradeFilter_,
     mintingFilter_,
     tokenFilter_,
+    //정렬
     songsSort_,
-    connectionsSort_,
+    collectionSort_,
     albumSort_,
     nftSort_,
+    userSort_,
   ];
 
   const handleQueryParameter = () => {
@@ -190,14 +200,14 @@ const Filter = ({
                 }
               />
             )}
-            {connectionsSort && (
+            {collectionSort && (
               <FilterCategory
-                value={connectionsSort_}
+                value={collectionSort_}
                 setParamsObj={setParamsObj}
                 title="Sort by"
-                filterName="connections_sort"
+                filterName="collection_sort"
                 filterItems={
-                  typeof connectionsSort === 'boolean'
+                  typeof collectionSort === 'boolean'
                     ? [
                         'Highest Price First',
                         'Lowest Price First',
@@ -206,7 +216,7 @@ const Filter = ({
                         'Most Liked',
                         'Least Liked',
                       ]
-                    : connectionsSort
+                    : collectionSort
                 }
               />
             )}
@@ -234,7 +244,26 @@ const Filter = ({
                 }
               />
             )}
-
+            {userSort && (
+              <FilterCategory
+                value={userSort_}
+                setParamsObj={setParamsObj}
+                title="Sort by"
+                filterName="user_sort"
+                filterItems={
+                  typeof userSort === 'boolean'
+                    ? [
+                        'Highest Level',
+                        'Lowest Level',
+                        'Most Songs',
+                        'Least Songs',
+                        'Most Followers',
+                        'Least Followers',
+                      ]
+                    : userSort
+                }
+              />
+            )}
             <div className="albums__filter-buttons">
               {/* <button className="albums__filter-buttons--button reset">
                                 <img src={resetIcon} alt="icon" />

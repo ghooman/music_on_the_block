@@ -46,6 +46,7 @@ const Nft = () => {
         </InfoRowWrap>
         <NftGraph />
       </ContentWrap>
+      {showPreparingModal && <PreparingModal setShowPreparingModal={setShowPreparingModal} />}
     </div>
   );
 };

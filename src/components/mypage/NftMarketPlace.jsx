@@ -11,7 +11,7 @@ import './NftMarketPlace.scss';
 import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
+import { getMyNftCollections, getNftCollections } from '../../api/nfts/nftCollectionsApi';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getNftsList } from '../../api/nfts/nftsListApi';
 
@@ -26,6 +26,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { token } = useContext(AuthContext);
+  const usernameQuery = searchParams.get('username');
   const tab = searchParams.get('tab') || subCategoryList?.[0].name;
 
   return (
@@ -37,7 +38,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
           setSearchParams({
             category: 'NFT MarketPlace',
             tab: category,
-            ...(username ? { username: username } : null),
+            ...(usernameQuery ? { username: usernameQuery } : null),
           });
         }}
         value={tab}
@@ -124,8 +125,13 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
   const { data, isLoading } = useQuery(
     ['collection_data', token, page, search, collectionSort],
     async () => {
-      const res = await getMyNftCollections(token, page, collectionSort, search);
-      return res;
+      const res = await getNftCollections({
+        page: page,
+        search_keyword: search,
+        sort_by: collectionSort,
+        user_name: username,
+      });
+      return res.data;
     },
     {
       refetchOnWindowFocus: false,

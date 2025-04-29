@@ -40,7 +40,11 @@ export const CollectionItemList = ({ data, linkMove = true, setSelectedCollectio
         {data &&
           data.map((item, index) => (
             <React.Fragment key={index}>
-              <CollectionItem item={item} linkMove={linkMove} />
+              <CollectionItem
+                item={item}
+                linkMove={linkMove}
+                setSelectedCollection={setSelectedCollection}
+              />
             </React.Fragment>
           ))}
       </div>

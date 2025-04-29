@@ -1,7 +1,7 @@
 // components/AlbumDetail.js
 import '../styles/AlbumDetail.scss';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
@@ -29,12 +29,14 @@ import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
 import { WalletConnect } from '../components/WalletConnect';
+import SongReleaseModal from '../components/SongReleaseModal';
 
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
   const listenTime = useRef(0);
+  const navigate = useNavigate();
 
   // 앨범 상세 정보 상태 및 로딩 상태
   const [album, setAlbum] = useState(null);
@@ -49,6 +51,7 @@ function AlbumDetail() {
   // 모달 관련 상태
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
+  const [isReleaseModal, setIsReleaseModal] = useState(false);
 
   // 플레이어 상태 및 재생 관련 변수
   const [isPlaying, setIsPlaying] = useState(false);
@@ -271,6 +274,14 @@ function AlbumDetail() {
     }
   };
 
+  const handleRelease = async () => {
+    const res = await axios.post(`${serverApi}/api/music/${id}/release`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    fetchAlbumDetail();
+  };
   console.log(album, '곡의 데이터');
 
   return (
@@ -464,26 +475,39 @@ function AlbumDetail() {
                   <div className="album-detail__control-button-wraps">
                     <button
                       className="album-detail__control-button release-button"
+                      onClick={() => setIsReleaseModal(true)}
                       disabled={album?.is_release}
                     >
                       Release
                     </button>
                     <button
                       className="album-detail__control-button mint-button"
+                      onClick={() => navigate(`/mint/detail/${album?.id}`)}
                       disabled={album?.is_nft || !album?.is_release}
                     >
                       Mint
                     </button>
-                    <button className="album-detail__control-button sell-button" disabled>
+                    <button
+                      className="album-detail__control-button sell-button"
+                      onClick={() => navigate(`/nft/detail/${album?.id}`)}
+                      disabled={!album?.is_nft || !album?.is_release}
+                    >
                       Sell
                     </button>
-                    <button className="album-detail__control-button cancel-button" disabled>
+                    <button
+                      className="album-detail__control-button cancel-button"
+                      onClick={() => navigate(`/nft/detail/${album?.id}`)}
+                      disabled={!album?.is_nft || !album?.is_release}
+                    >
                       Cancel
                     </button>
                   </div>
                 )}
-                {album?.is_owner && (
-                  <button className="album-detail__control-button buy-button" disabled>
+                {!album?.is_owner && (
+                  <button
+                    className="album-detail__control-button buy-button"
+                    disabled={!album?.is_nft || !album?.is_release}
+                  >
                     Buy NFT
                   </button>
                 )}
@@ -585,6 +609,13 @@ function AlbumDetail() {
         />
       )}
       {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
+      {isReleaseModal && (
+        <SongReleaseModal
+          songData={album}
+          setSongReleaseModal={setIsReleaseModal}
+          handler={handleRelease}
+        />
+      )}
     </>
   );
 }

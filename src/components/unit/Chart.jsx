@@ -3,6 +3,7 @@ import { ResponsiveLine } from '@nivo/line';
 import { ResponsiveBar } from '@nivo/bar';
 
 import './Chart.scss';
+import { useEffect, useState } from 'react';
 
 // 차트는 다시 작성하겠습니다.
 
@@ -155,6 +156,16 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
 // components/unit/BarChart.jsx
 
 export const BarChart = ({ data, keys = ['value'], indexBy = 'date', height = 300 }) => {
+  const [maxValue, setMaxValue] = useState(0);
+
+  useEffect(() => {
+    let max = 0;
+    data.forEach(item => {
+      if (item.value > max) max = item.value;
+    });
+    setMaxValue(max);
+  }, [data]);
+
   return (
     <div style={{ height }}>
       <ResponsiveBar
@@ -166,6 +177,7 @@ export const BarChart = ({ data, keys = ['value'], indexBy = 'date', height = 30
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors="turquoise"
+        maxValue={maxValue + 9}
         enableLabel={false}
         /* ───── 축 & 눈금 ───── */
         axisBottom={{ tickSize: 0, tickPadding: 12, legendOffset: 32 }}

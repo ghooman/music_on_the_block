@@ -23,6 +23,7 @@ import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
 import NftMarketPlace from '../components/mypage/NftMarketPlace';
+import Loading from '../components/IntroLogo2';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -46,7 +47,6 @@ const MyProfile = () => {
   // 데이터 정의
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
-  const { path } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const category = searchParams.get('category');
@@ -57,7 +57,7 @@ const MyProfile = () => {
     { name: 'Connections', preparing: false },
     { name: 'Favorites', preparing: false },
     { name: 'Albums', preparing: false },
-    { name: 'NFT MarketPlace', preparing: true },
+    { name: 'NFT MarketPlace', preparing: false },
   ];
 
   const handleTab = tab => {
@@ -82,7 +82,7 @@ const MyProfile = () => {
       {category === 'Connections' && <Connections />}
       {category === 'Favorites' && <MyFavorites />}
       {category === 'Albums' && <Albums username={userData?.name} isCreate={true} />}
-      {/* {category === 'NFT MarketPlace' && <NftMarketPlace />} */}
+      {category === 'NFT MarketPlace' && <NftMarketPlace username={userData?.name} isMyProfile />}
     </div>
   );
 };
@@ -121,7 +121,7 @@ const UserProfile = () => {
   const {
     data: profileData,
     refetch,
-    isLoading,
+    isFetching,
   } = useQuery(
     ['user_profile', username, walletAddress],
     async () => {
@@ -130,7 +130,11 @@ const UserProfile = () => {
       );
       return res.data;
     },
-    { refetchOnWindowFocus: false, enabled: username !== userData?.name }
+    {
+      refetchOnWindowFocus: false,
+      enabled: username !== userData?.name,
+      retry: 0,
+    }
   );
 
   // 팔로잉
@@ -178,7 +182,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (username === userData?.name) {
-      navigate('/my-page/service', { replace: true });
+      navigate('/my-page', { replace: true });
     } else if (!username) {
       navigate('/', { replace: true });
     } else if (!category) {
@@ -189,7 +193,7 @@ const UserProfile = () => {
   return (
     <div className="mypage">
       <ProfileInfo userData={profileData}>
-        {isLoggedIn && !isLoading ? (
+        {isLoggedIn && !isFetching ? (
           <>
             {profileData?.is_follow && (
               <ProfileInfo.UnFollowingButton handleUnFollowing={() => setUnFollowModal(true)} />
@@ -206,7 +210,7 @@ const UserProfile = () => {
       {category === 'AI Services' && <AiServices username={username} />}
       {category === 'Songs' && <SongsUser username={username} />}
       {category === 'Albums' && <Albums username={username} isCreate={false} />}
-      {category === 'NFT MarketPlace' && <NftMarketPlace />}
+      {category === 'NFT MarketPlace' && <NftMarketPlace username={username} />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal
           setUnFollowModal={setUnFollowModal}

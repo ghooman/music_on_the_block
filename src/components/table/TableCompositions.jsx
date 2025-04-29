@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatUtcTime } from '../../utils/getFormattedTime';
+import { formatUtcTime, formatLocalTime } from '../../utils/getFormattedTime';
 
 import profileDefaultImage from '../../assets/images/header/logo-png.png';
 import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
@@ -86,7 +86,7 @@ TableItem.Text = React.memo(({ text }) => {
 TableItem.Date = React.memo(({ date }) => {
   return (
     <td className="table__body--item">
-      <p className="text">{date ? formatUtcTime(date) : '-'}</p>
+      <p className="text">{date ? formatLocalTime(date) : '-'}</p>
     </td>
   );
 });

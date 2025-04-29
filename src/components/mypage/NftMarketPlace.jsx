@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ContentWrap from '../unit/ContentWrap';
 import Filter from '../unit/Filter';
 import Pagination from '../unit/Pagination';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import CollectionTable from '../table/CollectionTable';
+import Loading from '../IntroLogo2';
 
 import './NftMarketPlace.scss';
 import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
+import { AuthContext } from '../../contexts/AuthContext';
+import { getNftsList } from '../../api/nfts/nftsListApi';
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
@@ -17,27 +22,64 @@ const subCategoryList = [
 
 const nftFilterItemList = ['All', 'Unlisted', 'Listed', 'Sold'];
 
-const NftMarketPlace = () => {
-  const [type, setType] = useState(subCategoryList?.[0].name);
+const NftMarketPlace = ({ username, isMyProfile }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const { token } = useContext(AuthContext);
+  const tab = searchParams.get('tab') || subCategoryList?.[0].name;
 
   return (
     <div className="nft-market-place">
-      <SubCategories categories={subCategoryList} handler={setType} value={type} />
-      {type === 'NFT items' && <NftItems />}
-      {type === 'Collection' && <CollectionItems />}
+      <SubCategories
+        categories={subCategoryList}
+        handler={category => {
+          if (category === tab) return;
+          setSearchParams({
+            category: 'NFT MarketPlace',
+            tab: category,
+            ...(username ? { username: username } : null),
+          });
+        }}
+        value={tab}
+      />
+      {tab === 'NFT items' && (
+        <NftItems token={token} username={username} isMyProfile={isMyProfile} />
+      )}
+      {tab === 'Collection' && (
+        <CollectionItems token={token} username={username} isMyProfile={isMyProfile} />
+      )}
     </div>
   );
 };
 
 export default NftMarketPlace;
 
-const NftItems = () => {
-  const [searchParamas, setSearchParams] = useSearchParams();
+const NftItems = ({ token, username, isMyProfile }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = searchParamas.get('page');
-  const search = searchParamas.get('search');
-  const nftSort = searchParamas.get('nft_sort');
-  const nftFilter = searchParamas.get('nft_filter') || 'All';
+  const page = searchParams.get('page');
+  const search = searchParams.get('search');
+  const gradeFilter = searchParams.get('grade_filter');
+  const tokenFilter = searchParams.get('token_filter');
+  const nftSort = searchParams.get('nft_sort');
+  const nftFilter = searchParams.get('nft_filter') || 'All';
+
+  const { data, isLoading } = useQuery(
+    ['nfts_data', page, nftFilter, search, gradeFilter, tokenFilter, nftSort, username],
+    async () => {
+      const res = await getNftsList({
+        page: page,
+        now_sales_status: nftFilter,
+        ai_service: '',
+        search_keyword: search,
+        nft_rating: gradeFilter,
+        sales_token: tokenFilter,
+        sort_by: nftSort,
+        user_name: username,
+      });
+      return res.data;
+    }
+  );
 
   return (
     <>
@@ -64,22 +106,41 @@ const NftItems = () => {
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
           <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
-        <NftTable />
-        <Pagination />
+        <NftTable saleOption={isMyProfile} nftList={data?.data_list} />
+        <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
+        {isLoading && <Loading />}
       </ContentWrap>
     </>
   );
 };
 
-const CollectionItems = () => {
+const CollectionItems = ({ token, username, isMyProfile }) => {
+  const [searchParamas, setSearchParams] = useSearchParams();
+
+  const page = searchParamas.get('page');
+  const search = searchParamas.get('search');
+  const collectionSort = searchParamas.get('collection_sort');
+
+  const { data, isLoading } = useQuery(
+    ['collection_data', token, page, search, collectionSort],
+    async () => {
+      const res = await getMyNftCollections(token, page, collectionSort, search);
+      return res;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
   return (
     <ContentWrap title="Collection list">
       <ContentWrap.SubWrap gap={8}>
-        <Filter />
+        <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
         <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
       </ContentWrap.SubWrap>
-      <CollectionTable />
-      <Pagination />
+      <CollectionTable collectionList={data?.data_list} />
+      <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
+      {isLoading && <Loading />}
     </ContentWrap>
   );
 };

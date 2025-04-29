@@ -414,15 +414,14 @@
     }
 
     &.cancel-button {
-      color: #bc0036;
-      background-color: #383838;
+      background-color: #df1919;
       &::after {
-        border-color: #383838;
+        border-color: #df1919;
       }
       &:disabled {
-        border: 1px solid #44000d;
+        border: 1px solid #7d0021;
         &::after {
-          border-color: #44000d;
+          border-color: #7d0021;
         }
       }
     }

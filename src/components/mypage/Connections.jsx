@@ -43,7 +43,7 @@ const Connections = () => {
     isLoading,
     isFetching,
   } = useQuery(
-    ['follow_list', token, page, search, userSort, connectionsType],
+    ['follow_list', token, page, search, userSort, connectionsType, gradeFilter],
     async () => {
       const path = connectionsType === 'Following' ? 'following' : 'follower';
       const res = await axios.get(`${serverApi}/api/user/my/${path}/list`, {
@@ -51,6 +51,7 @@ const Connections = () => {
           page,
           search_keyword: search,
           sort_by: userSort,
+          user_rating: gradeFilter,
         },
         headers: {
           Authorization: `Bearer ${token}`,

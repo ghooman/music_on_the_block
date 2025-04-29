@@ -192,9 +192,14 @@ const Overview = ({ id }) => {
             title="Total Volume"
             value={'$ ' + collectionOverview?.total_transaction_price}
           />
+        </NftOverview>
+        <NftOverview title="Price Informations">
           <NftOverviewItem
-            title="Average Price"
-            value={'$ ' + collectionOverview?.avg_transaction_price}
+            title="Lowest Price"
+            value={
+              collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
+            }
+            subValue={'$0'}
           />
           <NftOverviewItem
             title="Highest Price"
@@ -204,11 +209,8 @@ const Overview = ({ id }) => {
             subValue={'$0'}
           />
           <NftOverviewItem
-            title="Lowest Price"
-            value={
-              collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
-            }
-            subValue={'$0'}
+            title="Average Price"
+            value={'$ ' + collectionOverview?.avg_transaction_price}
           />
           <NftOverviewItem
             title="Recent Transaction Date"
@@ -234,7 +236,7 @@ const Overview = ({ id }) => {
 
 const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchCollectionNftList }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const subCategoryList = [{ name: 'All' }, { name: 'For Sell' }];
+  const subCategoryList = [{ name: 'All' }, { name: 'Unlisted' }, { name: 'Listed' }];
   const [selected, setSelected] = useState(subCategoryList[0].name);
 
   const page = searchParams.get('page') || 1;
@@ -243,10 +245,11 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
   const ai_service = searchParams.get('ai_service');
   const nft_rating = searchParams.get('nft_rating');
   const salse_token = searchParams.get('salse_token');
+  const now_sales_status = searchParams.get('now_sales_status');
 
   useEffect(() => {
     fetchCollectionNftList();
-  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token]);
+  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token, now_sales_status]);
 
   const handleSearch = keyword => {
     setSearchParams({
@@ -256,10 +259,26 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
     });
   };
 
+  const handleSubCategory = categoryName => {
+    setSelected(categoryName);
+
+    const params = { ...Object.fromEntries(searchParams), page: 1 };
+
+    if (categoryName === 'All') {
+      delete params.now_sales_status;
+    } else if (categoryName === 'Listed') {
+      params.now_sales_status = 'true';
+    } else if (categoryName === 'Unlisted') {
+      params.now_sales_status = 'false';
+    }
+
+    setSearchParams(params);
+  };
+
   return (
     <ContentWrap title="NFT Items">
       <ContentWrap.SubWrap gap={8}>
-        <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+        <SubCategories categories={subCategoryList} handler={handleSubCategory} value={selected} />
         <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" value={search || ''} onChange={handleSearch} />
       </ContentWrap.SubWrap>

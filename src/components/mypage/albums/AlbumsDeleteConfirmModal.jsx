@@ -79,7 +79,7 @@ const Complete = ({ onClose }) => {
           Album deleted successfully.
         </p>
         <div className="albums-delete-confirm-modal__buttons">
-          <button className="confirm-button delete-button ok-button" onClick={onClose}>
+          <button className="confirm-button ok-button" onClick={onClose}>
             OK
           </button>
         </div>

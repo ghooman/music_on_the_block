@@ -123,7 +123,7 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
   const collectionSort = searchParamas.get('collection_sort');
 
   const { data, isLoading } = useQuery(
-    ['collection_data', token, page, search, collectionSort],
+    ['collection_data', token, page, search, collectionSort, username],
     async () => {
       const res = await getNftCollections({
         page: page,

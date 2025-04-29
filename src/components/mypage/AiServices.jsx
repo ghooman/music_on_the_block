@@ -14,7 +14,7 @@ import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover
 import FilterDateModal from '../../components/unit/FilterDateModal';
 import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
-import { LineChart, PieChart } from '../unit/Chart';
+import { BarChart, LineChart, PieChart } from '../unit/Chart';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -37,6 +37,9 @@ const AiServices = ({ username }) => {
     AiServiceTypeList[0].name
   );
   const [selectedStatusChartItem, setSelectedStatusItem] = useState(AiStatusList[0]?.name);
+
+  const [dailyUsageData, setDailyUsageData] = useState([]);
+  const [songRatingCountData, setSongRatingCountData] = useState();
 
   const [aiServiceData, setAiServiceData] = useState();
   const aiServiceChartData = [
@@ -79,8 +82,6 @@ const AiServices = ({ username }) => {
     },
   ];
 
-  const [dailyUsageData, setDailyUsageData] = useState([]);
-
   useEffect(() => {
     if (!username) return;
 
@@ -102,6 +103,14 @@ const AiServices = ({ username }) => {
       }
     };
 
+    const getSongRatingCount = async () => {
+      try {
+        const res = await axios.get(`${serverApi}/api/user/song/rating/count?user`);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     const getDailyUsageData = async () => {
       try {
         const res = await axios.get(
@@ -114,6 +123,7 @@ const AiServices = ({ username }) => {
       }
     };
 
+    getSongRatingCount();
     getAiServiceData();
     getStatusData();
     getDailyUsageData();
@@ -214,10 +224,17 @@ const AiServices = ({ username }) => {
       </section>
 
       <section className="ai__period">
-        <p className="period__title">AI Work Trends by Period (14-Day Fixed)</p>
+        <p className="period__title">Graph List</p>
         <div className="period__menu"></div>
         <div className="period__chart">
-          <LineChart data={dailyUsageData} />
+          <div className="period__chart--item">
+            <p>Song Grade Distribution</p>
+            <LineChart data={dailyUsageData} />
+          </div>
+          <div className="period__chart--item">
+            <p>Al Work Trends By Period (7-Dats Fixed)</p>
+            <BarChart data={dailyUsageData} />
+          </div>
         </div>
       </section>
       {openModal && <FilterDateModal setOpenModal={setOpenModal} />}

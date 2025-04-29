@@ -15,8 +15,8 @@ const Nft = () => {
     const fetchNftsMain = async () => {
       try {
         const response = await getNftsMain();
-        setNftList(response.nft_list);
-        setCollectionList(response.collection_list);
+        setNftList(response?.data?.nft_list);
+        setCollectionList(response?.data?.nft_collection_list);
       } catch (error) {
         console.error('Failed to fetch NFTs:', error);
       }
@@ -29,10 +29,10 @@ const Nft = () => {
       <NftExchange />
       <Search placeholder="Search" />
       <ContentWrap title="TOP NFTs" link="/nft/list">
-        <NftItemList data={[1, 2, 3, 4]} />
+        <NftItemList data={nftList} />
       </ContentWrap>
       <ContentWrap title="Popular Collection" link="/nft/list">
-        <CollectionItemList data={[1, 2, 3]} />
+        <CollectionItemList data={collectionList} />
       </ContentWrap>
       <ContentWrap title="Popular Genre">
         <NftSlider />

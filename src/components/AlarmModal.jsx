@@ -28,7 +28,7 @@ const AlarmModal = () => {
   };
 
   const item = localStorage.getItem(albumIdStorageKey);
-  console.log('item', item);
+  // console.log('item', item);
   const { walletAddress } = useContext(AuthContext);
   const location = useLocation();
 
@@ -43,12 +43,12 @@ const AlarmModal = () => {
   const socketRef = useRef(null);
   const hasTimerStartedRef = useRef(false);
 
-  console.log('albumPk', albumPk);
+  // console.log('albumPk', albumPk);
 
   const shouldRenderModal =
     storedAlbumData || (albumPk && walletAddress?.address === albumWalletAddress);
 
-  console.log('storedAlbumData', storedAlbumData);
+  // console.log('storedAlbumData', storedAlbumData);
 
   const formatTime = sec =>
     `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
@@ -93,13 +93,13 @@ const AlarmModal = () => {
     socketRef.current = socket;
 
     socket.onopen = () => {
-      console.log('웹 소켓 연결됨');
+      // console.log('웹 소켓 연결됨');
     };
 
     socket.onmessage = e => {
       try {
         const data = JSON.parse(e.data);
-        console.log('수신 데이터:', data);
+        // console.log('수신 데이터:', data);
 
         // — 필터링 시작 —
         // storedAlbumData?.id 와 walletAddress.address 가 존재할 때만 처리
@@ -124,7 +124,7 @@ const AlarmModal = () => {
             setErrorMessage(data.message?.message || 'Unknown error');
           }
         } else {
-          console.log('현재 상태:', data.status);
+          // console.log('현재 상태:', data.status);
         }
       } catch (err) {
         console.error('메시지 파싱 에러:', err);
@@ -136,7 +136,7 @@ const AlarmModal = () => {
     };
 
     socket.onclose = e => {
-      console.error('웹 소켓 연결 끊김:', e);
+      // console.error('웹 소켓 연결 끊김:', e);
       if (!e.wasClean) {
         setTimeout(() => connectWebSocket(), RECONNECT_INTERVAL);
       }
@@ -165,7 +165,7 @@ const AlarmModal = () => {
   // }, [storedAlbumData]);
 
   const prevStoredAlbumData = useRef(null);
-  console.log('prevStoredAlbumData', prevStoredAlbumData.current);
+  // console.log('prevStoredAlbumData', prevStoredAlbumData.current);
 
   useEffect(() => {
     // storedAlbumData가 "새로" 생긴 경우에만 초기화

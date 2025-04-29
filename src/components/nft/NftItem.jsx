@@ -199,7 +199,7 @@ export const NftItemList = ({ data }) => {
     <div className="nft-item-wrap">
       {data.map((item, index) => (
         <React.Fragment key={index}>
-          <NftItem item={nftData[item - 1]} />
+          <NftItem item={item} />
         </React.Fragment>
       ))}
     </div>
@@ -207,6 +207,7 @@ export const NftItemList = ({ data }) => {
 };
 
 export const CollectionItemList = ({ data, linkMove = true, setSelectedCollection }) => {
+  console.log(data);
   return (
     <div className="nft-item-collection-wrap">
       {data?.map((item, index) => (
@@ -226,10 +227,10 @@ const NftItem = ({ item }) => {
   return (
     <Link className="nft-item" to="/nft/detail">
       <Images music item={item} />
-      <Desc desc={item.desc} />
-      <Title title={item.title} />
+      <Desc desc={item?.nft_name} />
+      <Title title={item?.connect_collection_name} />
       <div className="nft-item__prices col">
-        <PriceItems title="Price" value={`${item.price} MOB`} />
+        <PriceItems title="Price" value={`${item?.price} MOB`} />
         {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}
       </div>
     </Link>
@@ -259,12 +260,12 @@ export const CollectionItem = ({ item, linkMove = true, setSelectedCollection })
   return (
     <Link
       className={`nft-item${!linkMove && isActive ? ' active' : ''}`}
-      {...(linkMove && { to: '/nft/collection/detail' })}
+      {...(linkMove && { to: `/nft/collection/detail/${item?.id}` })}
       onClick={handleClick}
     >
       <Images item={item} />
-      <CollectionTitle title={item?.name} />
-      <Username username={item?.username || 'unKnown'} />
+      <CollectionTitle title={item?.name || item?.nft_name} />
+      <Username username={item?.username || item?.user_name} />
       <div className="nft-item__prices raw">
         <PriceItems title="Lowest Price" value={`${item?.min_price} MOB`} />
         <PriceItems title="Total NFT Items" value={item?.nft_cnt} />
@@ -293,7 +294,7 @@ const Images = ({ music, item }) => {
 
   return (
     <div className="nft-item__images">
-      <img src={item?.image} alt={item?.title || item?.desc} />
+      <img src={item?.image || item?.nft_image} alt={item?.title || item?.desc} />
       {music && (
         <>
           {/* <div className="nft-item__images--type">

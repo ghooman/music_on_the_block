@@ -51,14 +51,22 @@ export const createNftCollection = async (token, formData) => {
  * param {string} searchKeyword - 검색어
  * returns {Promise} axios GET 요청 반환
  */
+
 export const getMyNftCollections = async (token, page = 1, sortBy = '', searchKeyword = '') => {
   try {
+    // params 객체를 조건부로 구성
+    const params = {};
+    if (page) params.page = page;
+    if (sortBy) params.sort_by = sortBy;
+    if (searchKeyword) params.search_keyword = searchKeyword;
+
     const response = await axios.get(`${serverApi}/api/nfts/my/collections`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params,
     });
-    // console.log('getMyNftCollections', response.data.data);
+
     return response.data.data;
   } catch (error) {
     throw new Error('API 호출 실패: 나의 NFTS 컬렉션 조회 실패');

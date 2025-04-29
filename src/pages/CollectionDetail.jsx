@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 // 컴포넌트 임포트
 import Categories from '../components/nft/Categories';
@@ -12,6 +13,7 @@ import Filter from '../components/unit/Filter';
 import Search from '../components/unit/Search';
 import SubCategories from '../components/unit/SubCategories';
 import CollectionHistoryTable from '../components/table/CollectionHistoryTable';
+import Loading from '../components/IntroLogo2';
 
 // API 임포트
 import {
@@ -39,81 +41,24 @@ import '../styles/CollectionDetail.scss';
 const CollectionDetail = () => {
   // 상태 관리
   const [selectCategory, setSelectCategory] = useState('Overview');
-  const [collectionDetail, setCollectionDetail] = useState(null);
-  const [collectionNftList, setCollectionNftList] = useState(null);
-  const [collectionNftListTotalCnt, setCollectionNftListTotalCnt] = useState(null);
-  const [collectionHistory, setCollectionHistory] = useState(null);
-  const [collectionHistoryTotalCnt, setCollectionHistoryTotalCnt] = useState(null);
 
   // URL 파라미터
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page') || 1;
-  const search = searchParams.get('search');
-  const sort_by = searchParams.get('sort_by');
-  const ai_service = searchParams.get('ai_service');
-  const nft_rating = searchParams.get('nft_rating');
-  const salse_token = searchParams.get('salse_token');
 
   // 컨텍스트 사용
   const { token, walletAddress } = useContext(AuthContext);
 
-  /**
-   * 컬렉션 기본 정보 조회
-   */
-  const fetchCollectionDetail = async () => {
-    try {
+  // 컬렉션 상세 정보 조회
+  const { data: collectionDetail, refetch: refetchCollectionDetail } = useQuery(
+    ['collectionDetail', id, walletAddress?.address],
+    async () => {
       const response = await getNftCollectionDetail({ id, wallet_address: walletAddress?.address });
-      setCollectionDetail(response.data);
-      console.log('컬렉션 상세 정보', response.data);
-    } catch (error) {
-      console.error('Failed to fetch collection detail:', error);
+      return response.data;
     }
-  };
+  );
 
-  /**
-   * 컬렉션 NFT 리스트 조회
-   */
-  const fetchCollectionNftList = async () => {
-    try {
-      const response = await getNftCollectionNftList({
-        id,
-        page,
-        sort_by,
-        search_keyword: search,
-        ai_service,
-        nft_rating,
-        salse_token,
-      });
-      setCollectionNftList(response.data?.data_list);
-      setCollectionNftListTotalCnt(response.data.total_cnt);
-    } catch (error) {
-      console.error('Failed to fetch collection NFT list:', error);
-    }
-  };
-
-  /**
-   * 컬렉션 활동 기록 조회
-   */
-  const fetchCollectionHistory = async () => {
-    try {
-      const response = await getNftCollectionHistory({
-        id,
-        page,
-        sort_by,
-        search_keyword: search,
-        ai_service,
-        nft_rating,
-        salse_token,
-      });
-      setCollectionHistory(response.data?.data_list);
-      setCollectionHistoryTotalCnt(response.data.total_cnt);
-    } catch (error) {
-      console.error('Failed to fetch collection history:', error);
-    }
-  };
-
-  // 컬렉션 좋아요 , 싫어요 기능
+  // 컬렉션 좋아요, 싫어요 기능
   const toggleLike = async () => {
     if (!token || !walletAddress) return;
     try {
@@ -123,23 +68,11 @@ const CollectionDetail = () => {
         await likeNftCollection({ id, wallet_address: walletAddress.address, token });
       }
       // 좋아요 상태 갱신
-      fetchCollectionDetail();
+      refetchCollectionDetail();
     } catch (err) {
       console.error('like toggle failed', err);
     }
   };
-
-  // 컬렉션 기본 정보 조회
-  useEffect(() => {
-    fetchCollectionDetail();
-  }, [id]);
-
-  // NFT Item 탭 선택 시 리스트 조회
-  useEffect(() => {
-    if (selectCategory === 'NFT Item') {
-      fetchCollectionNftList();
-    }
-  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token, selectCategory]);
 
   /**
    * 카테고리 변경 핸들러 - 탭 변경 시 파라미터 초기화
@@ -159,22 +92,8 @@ const CollectionDetail = () => {
         onClick={handleCategoryChange}
       />
       {selectCategory === 'Overview' && <Overview id={id} />}
-      {selectCategory === 'NFT Item' && (
-        <NFTItems
-          id={id}
-          collectionNftList={collectionNftList}
-          collectionNftListTotalCnt={collectionNftListTotalCnt}
-          fetchCollectionNftList={fetchCollectionNftList}
-        />
-      )}
-      {selectCategory === 'History' && (
-        <History
-          id={id}
-          collectionHistory={collectionHistory}
-          fetchCollectionHistory={fetchCollectionHistory}
-          collectionHistoryTotalCnt={collectionHistoryTotalCnt}
-        />
-      )}
+      {selectCategory === 'NFT Item' && <NFTItems id={id} />}
+      {selectCategory === 'History' && <History id={id} />}
     </div>
   );
 };
@@ -237,15 +156,10 @@ CollectionInfo.StatsItem = ({ title, value, suffix }) => {
  * 개요 컴포넌트
  */
 const Overview = ({ id }) => {
-  const [collectionOverview, setCollectionOverview] = useState(null);
-
-  useEffect(() => {
-    const fetchCollectionOverview = async () => {
-      const response = await getNftCollectionOverview({ id });
-      setCollectionOverview(response.data);
-    };
-    fetchCollectionOverview();
-  }, [id]);
+  const { data: collectionOverview, isLoading } = useQuery(['collectionOverview', id], async () => {
+    const response = await getNftCollectionOverview({ id });
+    return response.data;
+  });
 
   return (
     <>
@@ -295,6 +209,7 @@ const Overview = ({ id }) => {
       <ContentWrap title="Top NFTs in this Collection">
         <NftItemList data={collectionOverview?.popular_list} />
       </ContentWrap>
+      {isLoading && <Loading />}
     </>
   );
 };
@@ -302,7 +217,7 @@ const Overview = ({ id }) => {
 /**
  * NFT 아이템 컴포넌트
  */
-const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchCollectionNftList }) => {
+const NFTItems = ({ id }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const subCategoryList = [{ name: 'All' }, { name: 'Unlisted' }, { name: 'Listed' }];
   const [selected, setSelected] = useState(subCategoryList[0].name);
@@ -316,9 +231,33 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
   const salse_token = searchParams.get('salse_token');
   const now_sales_status = searchParams.get('now_sales_status');
 
-  useEffect(() => {
-    fetchCollectionNftList();
-  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token, now_sales_status]);
+  // useQuery를 사용하여 NFT 리스트 데이터 가져오기
+  const { data, isLoading } = useQuery(
+    [
+      'collectionNftList',
+      id,
+      page,
+      search,
+      sort_by,
+      ai_service,
+      nft_rating,
+      salse_token,
+      now_sales_status,
+    ],
+    async () => {
+      const response = await getNftCollectionNftList({
+        id,
+        page,
+        sort_by,
+        search_keyword: search,
+        ai_service,
+        nft_rating,
+        salse_token,
+        now_sales_status,
+      });
+      return response.data;
+    }
+  );
 
   /**
    * 검색어 입력 핸들러
@@ -367,13 +306,14 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
         <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" value={search || ''} onChange={handleSearch} />
       </ContentWrap.SubWrap>
-      <NftItemList data={collectionNftList || []} />
+      <NftItemList data={data?.data_list || []} />
       <Pagination
-        totalCount={collectionNftListTotalCnt}
+        totalCount={data?.total_cnt}
         viewCount={12}
         page={page}
         onChange={handlePageChange}
       />
+      {isLoading && <Loading />}
     </ContentWrap>
   );
 };
@@ -381,7 +321,7 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
 /**
  * 히스토리 컴포넌트
  */
-const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollectionHistory }) => {
+const History = ({ id }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // URL 파라미터
@@ -392,9 +332,22 @@ const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollec
   const nft_rating = searchParams.get('nft_rating');
   const salse_token = searchParams.get('salse_token');
 
-  useEffect(() => {
-    fetchCollectionHistory();
-  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token]);
+  // useQuery를 사용하여 히스토리 데이터 가져오기
+  const { data, isLoading } = useQuery(
+    ['collectionHistory', id, page, search, sort_by, ai_service, nft_rating, salse_token],
+    async () => {
+      const response = await getNftCollectionHistory({
+        id,
+        page,
+        sort_by,
+        search_keyword: search,
+        ai_service,
+        nft_rating,
+        salse_token,
+      });
+      return response.data;
+    }
+  );
 
   /**
    * 페이지 변경 핸들러
@@ -411,14 +364,15 @@ const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollec
       <ContentWrap.SubWrap gap={8}>
         <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" />
-        <CollectionHistoryTable data={collectionHistory} />
+        <CollectionHistoryTable data={data?.data_list} />
       </ContentWrap.SubWrap>
       <Pagination
-        totalCount={collectionHistoryTotalCnt}
+        totalCount={data?.total_cnt}
         viewCount={10}
         page={page}
         onChange={handlePageChange}
       />
+      {isLoading && <Loading />}
     </ContentWrap>
   );
 };

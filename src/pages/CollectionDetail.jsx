@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
@@ -18,6 +19,8 @@ import '../styles/CollectionDetail.scss';
 import { NftGraph } from '../components/nft/NftGraph';
 import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
 import SubCategories from '../components/unit/SubCategories';
+
+import { getNftCollectionDetail, getNftCollectionOverview } from '../api/nfts/nftCollectionsApi';
 
 const dummyData = [
   {
@@ -57,60 +60,67 @@ const dummyData = [
 
 const CollectionDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Overview');
+  const [collectionDetail, setCollectionDetail] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchCollectionDetail = async () => {
+      try {
+        const response = await getNftCollectionDetail({ id });
+        setCollectionDetail(response.data);
+        setIsOwner(response?.data?.is_owner);
+      } catch (error) {
+        console.error('Failed to fetch collection detail:', error);
+      }
+    };
+    fetchCollectionDetail();
+  }, [id]);
 
   return (
     <div className="collection-detail">
-      <CollectionInfo />
+      <CollectionInfo collectionDetail={collectionDetail} />
       <Categories
         categories={['Overview', 'NFT Item', 'History']}
         value={selectCategory}
         onClick={setSelectCategory}
       />
-      {selectCategory === 'Overview' && <Overview />}
-      {selectCategory === 'NFT Item' && <NFTItems />}
-      {selectCategory === 'History' && <History />}
+      {selectCategory === 'Overview' && <Overview id={id} />}
+      {selectCategory === 'NFT Item' && <NFTItems id={id} />}
+      {selectCategory === 'History' && <History id={id} />}
     </div>
   );
 };
 
 export default CollectionDetail;
 
-const CollectionInfo = () => {
+const CollectionInfo = ({ collectionDetail }) => {
   return (
     <div className="collection-detail-info-wrap">
       <div className="collection-detail-info">
         <div className="collection-detail-info__data">
           <img
             className="collection-detail-info__data--image"
-            src={dummy_collectionImage}
+            src={collectionDetail?.image}
             alt="images"
           />
           <div className="collection-detail-info__data--texts">
-            <h1 className="texts__title">Collection Name</h1>
+            <h1 className="texts__title">{collectionDetail?.name}</h1>
             <div className="texts__user">
-              <img src={dummy_userImage} alt="images" />
-              YolkHead
+              <img
+                className="texts__user--image"
+                src={collectionDetail?.user_profile}
+                alt="images"
+              />
+              {collectionDetail?.user_name}
             </div>
-            {/* <div className="texts__desc">
-                            <p className="texts__desc--title">Collection Description:</p>
-                            <p className="texts__desc--text">
-                                "A collection that captures time, moments completed through art" is not just a mere
-                                assembly of objects. It is a trace of accumulated time, pieces that complete a single
-                                story. Collecting something is a precious act that imbues the object with deep affection
-                                and meaning.
-                            </p>
-                        </div> */}
+
             <div className="collection-detail-info__like">
-              <img src={likeImage} alt="like" /> 22,353
+              <img src={collectionDetail?.is_like ? likeImage : unLikeImage} alt="like" />
+              {collectionDetail?.like}
             </div>
           </div>
         </div>
-        {/* <div className="collection-detail-info__stats">
-                    <CollectionInfo.StatsItem title="NFT Items" value={2} suffix="ITEMS" />
-                    <CollectionInfo.StatsItem title="Highest Price" value={10.39} suffix="MOB" />
-                    <CollectionInfo.StatsItem title="Lowest Price" value={0.01} suffix="MOB" />
-                    <CollectionInfo.StatsItem title="Total Volume" value={10} suffix="MOB" />
-                </div> */}
       </div>
     </div>
   );
@@ -128,30 +138,35 @@ CollectionInfo.StatsItem = ({ title, value, suffix }) => {
   );
 };
 
-const Overview = () => {
+const Overview = ({ id }) => {
+  const [collectionOverview, setCollectionOverview] = useState(null);
+  useEffect(() => {
+    const fetchCollectionOverview = async () => {
+      const response = await getNftCollectionOverview({ id });
+      setCollectionOverview(response.data);
+    };
+    fetchCollectionOverview();
+  }, [id]);
   return (
     <>
       <ContentWrap title="Overview">
         <NftOverview title="Detail">
-          {/* <NftOverviewItem 
-                        title="two" 
-                        value="100 MOB" 
-                        isTwo
-                    />
-                    <NftOverviewItem 
-                        title="two" 
-                        value="100 MOB" 
-                        isTwo
-                    /> */}
-          <NftOverviewItem title="NFT Items" value="1,573" />
-          <NftOverviewItem title="Number of Transactions" value="125" />
-          <NftOverviewItem title="Total Volume" value="342,453" />
-          <NftOverviewItem title="Average Price" value="100 MOB" />
-          <NftOverviewItem title="Highest Price" value="100 MOB" />
-          <NftOverviewItem title="Lowest Price" value="100 MOB" />
+          <NftOverviewItem title="NFT Items" value={collectionOverview?.nft_cnt} />
+          <NftOverviewItem title="Number of Transactions" value={0} />
+          <NftOverviewItem
+            title="Total Volume"
+            value={collectionOverview?.total_transaction_price}
+          />
+          <NftOverviewItem
+            title="Average Price"
+            value={'$' + collectionOverview?.avg_transaction_price}
+            sub_value={0}
+          />
+          <NftOverviewItem title="Highest Price" value="100 MOB" sub_value={0} />
+          <NftOverviewItem title="Lowest Price" value="100 MOB" sub_value={0} />
           <NftOverviewItem
             title="Recent Transaction Date"
-            value="Sat, 04 Nov 2023 14:40:00 UTC+9"
+            value={collectionOverview?.last_transaction_date}
             isLong
           />
         </NftOverview>

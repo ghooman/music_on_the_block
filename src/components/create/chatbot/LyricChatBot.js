@@ -230,7 +230,7 @@ const LyricChatBot = ({
               generatedLyric?.length > 1000 ? 'disabled' : ''
             }`}
           >
-            Lyric Length : {generatedLyric?.length} / 1000
+            Lyrics Length : {generatedLyric?.length} / 1000
           </p>
           <div className="generated-lyrics__confirm-buttons--button-wrap">
             <button

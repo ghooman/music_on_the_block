@@ -5,7 +5,7 @@ import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
 import Pagination from '../components/unit/Pagination';
-import FilterItems from '../components/unit/FilterItems';
+import Filter from '../components/unit/Filter';
 import Search from '../components/unit/Search';
 
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
@@ -256,24 +256,11 @@ const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchColle
     });
   };
 
-  const handleFilter = (filterType, value) => {
-    setSearchParams({
-      ...Object.fromEntries(searchParams),
-      [filterType]: value,
-      page: 1,
-    });
-  };
-
   return (
     <ContentWrap title="NFT Items">
       <ContentWrap.SubWrap gap={8}>
         <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-        <FilterItems
-          onSortChange={value => handleFilter('sort_by', value)}
-          onAiServiceChange={value => handleFilter('ai_service', value)}
-          onRatingChange={value => handleFilter('nft_rating', value)}
-          onTokenChange={value => handleFilter('salse_token', value)}
-        />
+        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" value={search || ''} onChange={handleSearch} />
       </ContentWrap.SubWrap>
       <NftItemList data={collectionNftList || []} />
@@ -308,7 +295,7 @@ const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollec
   return (
     <ContentWrap title="History">
       <ContentWrap.SubWrap gap={8}>
-        <FilterItems />
+        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" />
         <CollectionHistoryTable data={collectionHistory} />
       </ContentWrap.SubWrap>

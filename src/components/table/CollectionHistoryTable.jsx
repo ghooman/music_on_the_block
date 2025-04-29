@@ -40,7 +40,7 @@ const CollectionHistoryTable = ({ data }) => {
                 <TableItem.Button
                   title="Details"
                   type="details"
-                  onClick={() => {
+                  handleClick={() => {
                     navigate(`/song-detail/${item?.song_id}`);
                   }}
                 />

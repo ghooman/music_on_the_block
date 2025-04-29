@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 .main__header {
   .main__header__mobile-detail-btn {
     display: none;
@@ -123,17 +113,15 @@
     flex-direction: column;
     gap: 16px;
     z-index: 1;
-    .play{
-      img{
+    .play {
+      img {
         width: 14px;
         height: 14px;
       }
-
     }
     img {
       width: 16px;
       height: 16px;
-
     }
     .main__header__cover-info__love-play {
       display: flex;
@@ -194,10 +182,8 @@
     } //main__header__cover-info--END--
   } //main__header__cover-info--END--
 
-
-
   // 오디오 라이브러리 ==============START===============
-  .rhap_container{
+  .rhap_container {
     padding: 10px 3px 10px 0;
   }
   .rhap_main {
@@ -220,11 +206,11 @@
       cursor: auto;
     }
   }
-  .rhap_additional-controls{
+  .rhap_additional-controls {
     display: none !important;
   }
-  .rhap_button-clear{
-    &.rhap_volume-button{
+  .rhap_button-clear {
+    &.rhap_volume-button {
       margin-top: -12px;
     }
   }
@@ -256,12 +242,12 @@
   } //.rhap_progress-filled--END--
 
   .rhap_button-clear {
-    &.rhap_skip-button{
-      svg{
+    &.rhap_skip-button {
+      svg {
         font-size: 38px;
       }
     }
-    &.rhap_play-pause-button{
+    &.rhap_play-pause-button {
       position: relative;
       top: 2px;
       left: 2px;
@@ -283,37 +269,24 @@
     }
   }
   // 오디오 라이브러리 ==============END===============
-
-
-
 } //main__header--END--
 
-
-
 @media screen and (max-width: 980px) {
-
-    .main__header {
-      width: calc(100% - 32px);
+  .main__header {
+    width: calc(100% - 32px);
+    top: 96px;
+    &.scrolled {
       top: 96px;
-      &.scrolled {
-        top: 96px;
-      }
     }
   }
-  
+}
 
-
-
-
-  @media screen and (max-width: 768px) {
-
-
-
+@media screen and (max-width: 768px) {
   .main__header {
     padding: 16px 16px 32px;
     gap: 0;
     height: auto;
-    .rhap_stacked .rhap_controls-section{
+    .rhap_stacked .rhap_controls-section {
       margin-top: 32px;
       margin-bottom: 16px;
     }
@@ -324,7 +297,6 @@
       right: 16px;
       z-index: 1;
       width: 100%;
-
     } //main__header__mobile-detail-btn--END--
     .main__header__cover-info__btn {
       // display: none !important;
@@ -366,13 +338,10 @@
     .rhap_container {
       margin-top: 60px;
     }
-    .rhap_volume-controls{
+    .rhap_volume-controls {
       width: 100px;
       right: 20px;
-      bottom:16px;
+      bottom: 16px;
     }
   }
-
-
-
-  }
+}

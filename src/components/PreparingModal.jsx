@@ -3,14 +3,14 @@ import ModalWrap from './ModalWrap';
 
 import './PreparingModal.scss';
 
-const PreparingModal = ({ setPreparingModal }) => {
-    return (
-        <ModalWrap title="PREPARING" onClose={() => setPreparingModal(false)} className="preparing">
-            <button className="preparing-btn" onClick={() => setPreparingModal(false)}>
-                OK
-            </button>
-        </ModalWrap>
-    );
+const PreparingModal = ({ setShowPreparingModal }) => {
+  return (
+    <ModalWrap title="PREPARING" onClose={() => setShowPreparingModal(false)} className="preparing">
+      <button className="preparing-btn" onClick={() => setShowPreparingModal(false)}>
+        OK
+      </button>
+    </ModalWrap>
+  );
 };
 
 export default PreparingModal;

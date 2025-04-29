@@ -103,6 +103,74 @@ export const getNftCollectionDetail = async ({ id, wallet_address }) => {
 
 export const getNftCollectionOverview = async ({ id }) => {
   const response = await axios.get(`${serverApi}/api/nfts/collections/${id}/overview`, {});
-  console.log(response.data, '컬렉션 오버뷰 조회 데이터');
+  return response.data;
+};
+/**
+ * 컬렉션 상세 NFT LIST 조회 API 호출
+ * param {number} id - 컬렉션 ID
+ * param {number} page - 페이지 번호
+ * param {string} ai_service - 서비스 타입
+ * param {string} nft_rating - 평점
+ * param {string} salse_token - 판매 토큰
+ * param {string} sort_by - 정렬 기준
+ * param {string} search_keyword - 검색어
+ * returns {Promise} axios GET 요청 반환
+ */
+
+export const getNftCollectionNftList = async ({
+  id,
+  page,
+  sort_by,
+  search_keyword,
+  ai_service,
+  nft_rating,
+  salse_token,
+}) => {
+  const response = await axios.get(`${serverApi}/api/nfts/collections/${id}/nfts`, {
+    params: {
+      page,
+      sort_by,
+      search_keyword,
+      ai_service,
+      nft_rating,
+      salse_token,
+    },
+  });
+
+  return response.data;
+};
+
+/**
+ * 컬렉션 상세 활동 기록(history) 조회 API 호출
+ * param {number} id - 컬렉션 ID
+ * param {number} page - 페이지 번호
+ * param {string} ai_service - 서비스 타입
+ * param {string} nft_rating - 평점
+ * param {string} salse_token - 판매 토큰
+ * param {string} sort_by - 정렬 기준
+ * param {string} search_keyword - 검색어
+ * returns {Promise} axios GET 요청 반환
+ */
+
+export const getNftCollectionHistory = async ({
+  id,
+  page,
+  sort_by,
+  search_keyword,
+  ai_service,
+  nft_rating,
+  salse_token,
+}) => {
+  const response = await axios.get(`${serverApi}/api/nfts/collections/${id}/activities`, {
+    params: {
+      page,
+      sort_by,
+      search_keyword,
+      ai_service,
+      nft_rating,
+      salse_token,
+    },
+  });
+
   return response.data;
 };

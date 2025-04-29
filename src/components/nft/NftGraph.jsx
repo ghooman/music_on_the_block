@@ -5,7 +5,7 @@ import './NftGraph.scss';
 
 import { BarChart, SimpleLineChart } from '../unit/Chart';
 
-export const NftGraph = ({ barGraphData, lineGraphData }) => {
+export const NftGraph = ({ barTitle, barGraphData, lineTitle, lineGraphData }) => {
   const barData =
     barGraphData &&
     Object?.entries(barGraphData)?.map(([key, value]) => {
@@ -16,7 +16,7 @@ export const NftGraph = ({ barGraphData, lineGraphData }) => {
     {
       id: 'Volume',
       data: Object?.entries(lineGraphData)?.map(([key, value]) => {
-        return { x: key, y: value };
+        return { x: key?.toUpperCase(), y: value };
       }),
     },
   ];
@@ -24,13 +24,13 @@ export const NftGraph = ({ barGraphData, lineGraphData }) => {
   return (
     <div className="nft-item__graph">
       <div className="nft-item__graph--img">
-        <p className="nft-item__graph--img__title">Transaction Volume (7-Day Fixed)</p>
-        {/* <img src={graph1Img01} alt="Transaction Volume" /> */}
+        <p className="nft-item__graph--img__title">
+          {barTitle || 'Transaction Volume'} (7-Day Fixed)
+        </p>
         {barData && <BarChart data={barData} height={280} />}
       </div>
       <div className="nft-item__graph--img">
-        <p className="nft-item__graph--img__title">Average Price (7-Day Fixed)</p>
-        {/* <img src={graph1Img02} alt="NFT Issuance" /> */}
+        <p className="nft-item__graph--img__title">{lineTitle || 'Average Price'} (7-Day Fixed)</p>
         {lineData && <SimpleLineChart data={lineData} height={280} />}
       </div>
     </div>

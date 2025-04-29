@@ -159,11 +159,23 @@ const Overview = ({ id }) => {
           />
           <NftOverviewItem
             title="Average Price"
-            value={'$' + collectionOverview?.avg_transaction_price}
+            value={'$ ' + collectionOverview?.avg_transaction_price}
             sub_value={0}
           />
-          <NftOverviewItem title="Highest Price" value="100 MOB" sub_value={0} />
-          <NftOverviewItem title="Lowest Price" value="100 MOB" sub_value={0} />
+          <NftOverviewItem
+            title="Highest Price"
+            value={
+              collectionOverview?.max_price + ' ' + (collectionOverview?.max_price_token || 'MOB')
+            }
+            sub_value={'$ 0'}
+          />
+          <NftOverviewItem
+            title="Lowest Price"
+            value={
+              collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
+            }
+            sub_value={'$ 0'}
+          />
           <NftOverviewItem
             title="Recent Transaction Date"
             value={collectionOverview?.last_transaction_date}

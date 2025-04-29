@@ -1,6 +1,6 @@
 // src/contexts/AuthContext.jsx
-import React, { createContext, useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext(null);
 
@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
           const receivedToken = response.data.token;
           setToken(receivedToken);
           // console.log("receivedToken:", receivedToken);
-          localStorage.setItem("auth_token", receivedToken);
+          localStorage.setItem('auth_token', receivedToken);
         } catch (error) {
-          console.error("토큰 발급 에러:", error);
+          console.error('토큰 발급 에러:', error);
         }
       };
       getToken();
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             setIsRegistered(true);
           }
         } catch (error) {
-          console.log("로그인 에러");
+          console.log('로그인 에러');
         }
       }
     };
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     setWalletAddress(null);
     setIsLoggedIn(false);
     setIsRegistered(false);
-    localStorage.removeItem("auth_token");
+    localStorage.removeItem('auth_token');
   }, []);
 
   return (

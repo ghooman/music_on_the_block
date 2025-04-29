@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 // 컴포넌트 임포트
@@ -19,12 +19,17 @@ import {
   getNftCollectionOverview,
   getNftCollectionNftList,
   getNftCollectionHistory,
+  likeNftCollection,
+  likeNftCollectionCancel,
 } from '../api/nfts/nftCollectionsApi';
+
+// 컨텍스트 임포트
+import { AuthContext } from '../contexts/AuthContext';
 
 // 에셋 임포트
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
 import unLikeImage from '../assets/images/like-icon/like-icon.svg';
-
+import defaultCoverImg from '../assets/images/header/logo-png.png';
 // 스타일 임포트
 import '../styles/CollectionDetail.scss';
 
@@ -42,7 +47,7 @@ const CollectionDetail = () => {
 
   // URL 파라미터
   const { id } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
   const sort_by = searchParams.get('sort_by');
@@ -50,13 +55,17 @@ const CollectionDetail = () => {
   const nft_rating = searchParams.get('nft_rating');
   const salse_token = searchParams.get('salse_token');
 
+  // 컨텍스트 사용
+  const { token, walletAddress } = useContext(AuthContext);
+
   /**
    * 컬렉션 기본 정보 조회
    */
   const fetchCollectionDetail = async () => {
     try {
-      const response = await getNftCollectionDetail({ id });
+      const response = await getNftCollectionDetail({ id, wallet_address: walletAddress?.address });
       setCollectionDetail(response.data);
+      console.log('컬렉션 상세 정보', response.data);
     } catch (error) {
       console.error('Failed to fetch collection detail:', error);
     }
@@ -104,6 +113,22 @@ const CollectionDetail = () => {
     }
   };
 
+  // 컬렉션 좋아요 , 싫어요 기능
+  const toggleLike = async () => {
+    if (!token || !walletAddress) return;
+    try {
+      if (collectionDetail?.is_like) {
+        await likeNftCollectionCancel({ id, wallet_address: walletAddress.address, token });
+      } else {
+        await likeNftCollection({ id, wallet_address: walletAddress.address, token });
+      }
+      // 좋아요 상태 갱신
+      fetchCollectionDetail();
+    } catch (err) {
+      console.error('like toggle failed', err);
+    }
+  };
+
   // 컬렉션 기본 정보 조회
   useEffect(() => {
     fetchCollectionDetail();
@@ -116,13 +141,22 @@ const CollectionDetail = () => {
     }
   }, [id, page, search, sort_by, ai_service, nft_rating, salse_token, selectCategory]);
 
+  /**
+   * 카테고리 변경 핸들러 - 탭 변경 시 파라미터 초기화
+   */
+  const handleCategoryChange = category => {
+    setSelectCategory(category);
+    // 탭 변경 시 검색 파라미터 초기화 (id는 유지)
+    setSearchParams({ page: 1 });
+  };
+
   return (
     <div className="collection-detail">
-      <CollectionInfo collectionDetail={collectionDetail} />
+      <CollectionInfo collectionDetail={collectionDetail} onLikeToggle={toggleLike} />
       <Categories
         categories={['Overview', 'NFT Item', 'History']}
         value={selectCategory}
-        onClick={setSelectCategory}
+        onClick={handleCategoryChange}
       />
       {selectCategory === 'Overview' && <Overview id={id} />}
       {selectCategory === 'NFT Item' && (
@@ -148,7 +182,7 @@ const CollectionDetail = () => {
 /**
  * 컬렉션 기본 정보 컴포넌트
  */
-const CollectionInfo = ({ collectionDetail }) => {
+const CollectionInfo = ({ collectionDetail, onLikeToggle }) => {
   return (
     <div className="collection-detail-info-wrap">
       <div className="collection-detail-info">
@@ -163,14 +197,18 @@ const CollectionInfo = ({ collectionDetail }) => {
             <div className="texts__user">
               <img
                 className="texts__user--image"
-                src={collectionDetail?.user_profile}
+                src={collectionDetail?.user_profile || defaultCoverImg}
                 alt="images"
               />
               {collectionDetail?.user_name}
             </div>
 
             <div className="collection-detail-info__like">
-              <img src={collectionDetail?.is_like ? likeImage : unLikeImage} alt="like" />
+              <img
+                src={collectionDetail?.is_like ? likeImage : unLikeImage}
+                alt="like"
+                onClick={onLikeToggle}
+              />
               {collectionDetail?.like}
             </div>
           </div>

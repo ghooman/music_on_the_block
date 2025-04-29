@@ -6,12 +6,14 @@ import { NftGraph } from '../components/nft/NftGraph';
 import Search from '../components/unit/Search';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/Nft.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getNftsMain, getNftsStatistics } from '../api/nfts/nftsMainApi';
+
 const Nft = () => {
   const [nftList, setNftList] = useState([]);
   const [collectionList, setCollectionList] = useState([]);
   const [nftStatistics, setNftStatistics] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     //=================
@@ -47,7 +49,10 @@ const Nft = () => {
   return (
     <div className="nft">
       <NftExchange />
-      <Search placeholder="Search" />
+      <Search
+        placeholder="Search"
+        handler={search => navigate(`/nft/list?category?=NFT+item&page=1&search=${search}`)}
+      />
       <ContentWrap title="TOP NFTs" link="/nft/list?category=NFT+item&page=1">
         <NftItemList data={nftList} />
       </ContentWrap>

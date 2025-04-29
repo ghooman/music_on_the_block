@@ -332,7 +332,6 @@ const TrackInformation = ({ id }) => {
   const getActivityData = async () => {
     try {
       const res = await getNftOverview({ nft_id: id });
-      console.log(res.data, '몽키디루피');
       setActivityData(res.data);
     } catch (e) {
       console.error(e, '에러!');
@@ -391,41 +390,45 @@ const TransactionStatistics = ({ id }) => {
   return (
     <ContentWrap title="Transaction Statistics">
       <NftOverview title="Key Information Related to Transactions">
-        <NftOverviewItem title="Price" value={statisticsData?.price} isTwo />
+        <NftOverviewItem
+          title="Price"
+          value={statisticsData?.price?.toLocaleString() || '-'}
+          isTwo
+        />
         <NftOverviewItem
           title="Recent Transaction Date"
-          value={statisticsData?.last_transaction_date}
+          value={statisticsData?.last_transaction_date || '-'}
           isTwo
         />
       </NftOverview>
       <NftOverview title="Transaction Statistics">
         <NftOverviewItem
           title="Number of Transactions"
-          value={statisticsData?.transaction_cnt?.toLocaleString()}
+          value={statisticsData?.transaction_cnt?.toLocaleString() || '-'}
           isTwo
         />
         <NftOverviewItem
           title="Total Volume"
-          value={`${statisticsData?.total_price?.toLocaleString()} ${
+          value={`${statisticsData?.total_price?.toLocaleString() || '-'} ${
             statisticsData?.sales_token || ''
           }`}
           isTwo
         />
         <NftOverviewItem
           title="Average Price"
-          value={`${statisticsData?.avg_price?.toLocaleString()} ${
+          value={`${statisticsData?.avg_price?.toLocaleString() || '-'} ${
             statisticsData?.sales_token || ''
           }`}
         />
         <NftOverviewItem
           title="Highest Price"
-          value={`${statisticsData?.max_price?.toLocaleString()} ${
+          value={`${statisticsData?.max_price?.toLocaleString() || '-'} ${
             statisticsData?.sales_token || ''
           }`}
         />
         <NftOverviewItem
           title="Lowest Price"
-          value={`${statisticsData?.min_price?.toLocaleString()} ${
+          value={`${statisticsData?.min_price?.toLocaleString() || '-'} ${
             statisticsData?.sales_token || ''
           }`}
         />
@@ -492,7 +495,7 @@ const History = ({ id }) => {
         data={historyData?.data_list}
         headers={['#', ' Artist Name', 'Price', 'Transaction Date']}
       /> */}
-      <NftHistoryTable data={historyData?.data_list} />
+      <NftHistoryTable data={historyData?.data_list || []} />
       {/* <SongPlayTable
         songList={[]}
         likesOption={true}

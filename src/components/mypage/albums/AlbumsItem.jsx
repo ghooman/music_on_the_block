@@ -1,5 +1,5 @@
 import MoreHoriz from '../../../assets/images/icon/more-horiz.svg';
-import defaultAlbumImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import defaultAlbumImage from '../../../assets/images/intro/mob-album-cover.png';
 import { useNavigate } from 'react-router-dom';
 import './AlbumsItem.scss';
 const AlbumsItem = ({ album, handleAlbumDetailClick }) => {

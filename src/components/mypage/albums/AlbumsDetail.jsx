@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { useSearchParams, useParams, Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+
+// 컴포넌트
+
 import ContentWrap from '../../unit/ContentWrap';
 import Filter from '../../unit/Filter';
 import Pagination from '../../unit/Pagination';
 import Search from '../../unit/Search';
 import SubCategories from '../../unit/SubCategories';
-import SongPlayTable from '../../unit/SongPlayTable'; // SongPlayTable 추가
+import SongPlayTable from '../../table/SongPlayTable'; // SongPlayTable 추가
 import NoneContent from '../../../components/unit/NoneContent';
 import AlbumsCreateModal from './AlbumsCreateModal';
 import AlbumsDetailsModal from './AlbumsDetailsModal';
@@ -17,7 +21,7 @@ import songImg from '../../../assets/images/intro/intro-demo-img2.png';
 import playIcon from '../../../assets/images/play-icon2.svg';
 import stopIcon from '../../../assets/images/stop-icon.svg';
 import editIcon from '../../../assets/images/edit.svg';
-import defaultAlbumImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import defaultAlbumImage from '../../../assets/images/intro/mob-album-cover.png';
 import defaultUserImage from '../../../assets/images/header/logo-png.png';
 import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
 import MoreHoriz from '../../../assets/images/icon/more-horiz.svg';
@@ -25,12 +29,13 @@ import './AlbumsDetail.scss';
 import track2 from '../../../assets/music/MusicOnTheBlock_v1.mp3';
 import track3 from '../../../assets/music/nisoft_song.mp3';
 
+// API
+import { getAlbumBundleDetail } from '../../../api/AlbumsDetail';
+
 // AI 관련 아이콘들
 import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
-import { getAlbumBundleDetail } from '../../../api/AlbumsDetail';
-import { useQuery } from 'react-query';
 
 const subCategoryList = [
   {
@@ -82,14 +87,14 @@ const AlbumsDetail = () => {
         <section className="my-album-details__box__header">
           <article className="my-album-details__box__header__left">
             <div className="my-album-details__box__header__left__img-box">
-              {albumBundleInfo?.is_owner && (
+              {/* {albumBundleInfo?.is_owner && (
                 <button
                   className="my-album-details__box__header__left__img-box__button"
                   onClick={handleDetailModal}
                 >
                   <img src={MoreHoriz} alt="more-horiz" />
                 </button>
-              )}
+              )} */}
               {!isLoading && (
                 <img
                   className="my-album-details__box__header__left__img-box__img"

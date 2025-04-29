@@ -5,7 +5,6 @@ import Filter from '../../unit/Filter';
 import Pagination from '../../unit/Pagination';
 import Search from '../../unit/Search';
 import SubCategories from '../../unit/SubCategories';
-import SongPlayTable from '../../unit/SongPlayTable'; // SongPlayTable 추가
 import axios from 'axios'; // axios 임포트
 import { useQuery } from 'react-query';
 import { AuthContext } from '../../../contexts/AuthContext';
@@ -59,7 +58,7 @@ const EditAlbumSongs = () => {
 
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
-  const songsFilter = searchParams.get('songs_filter') || 'liked';
+  const songsFilter = searchParams.get('songs_filter') || 'mine';
 
   //=================
   // 추가
@@ -207,6 +206,7 @@ const EditAlbumSongs = () => {
                     >
                         Recently Played
                     </button> */}
+
           <button
             className={`edit-album-songs__tab__item ${songsFilter === 'mine' ? 'active' : ''}`}
             // onClick={() => setActiveTab('mine')}
@@ -216,7 +216,6 @@ const EditAlbumSongs = () => {
           >
             My Songs
           </button>
-
           <button
             className={`edit-album-songs__tab__item ${songsFilter === 'liked' ? 'active' : ''}`}
             onClick={() => {
@@ -225,7 +224,6 @@ const EditAlbumSongs = () => {
           >
             Liked Songs
           </button>
-
           <button
             className={`edit-album-songs__tab__item ${songsFilter === 'following' ? 'active' : ''}`}
             // onClick={() => setActiveTab('following')}
@@ -240,7 +238,7 @@ const EditAlbumSongs = () => {
          * 음악 재생
          * 컴포넌트를 두 개 사용하는 이유로 플레이어를 외부로 뺍니다. (중복 재생 이슈를 막기 위해)
          */}
-        <div className="audio-container">
+        <div className="audio-container" style={{ display: 'none' }}>
           <audio controls ref={audioRef} />
         </div>
 

@@ -1,8 +1,23 @@
 import React from 'react';
 
+import { formatUtcTime } from '../../utils/getFormattedTime';
+
 import profileDefaultImage from '../../assets/images/header/logo-png.png';
+import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
+import grade2Icon from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
+import grade3Icon from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
+import grade4Icon from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
+import grade5Icon from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
 
 import './TableCompositions.scss';
+
+const gradeImages = {
+  New: grade1Icon,
+  Indie: grade2Icon,
+  Rising: grade3Icon,
+  Top: grade4Icon,
+  Legend: grade5Icon,
+};
 
 // 테이블 태그
 export const TableWrapper = React.memo(({ children }) => {
@@ -26,9 +41,9 @@ export const TableHeader = React.memo(({ children }) => {
   );
 });
 
-TableHeader.Col = React.memo(({ style, children }) => {
+TableHeader.Col = React.memo(({ style, children, width }) => {
   return (
-    <th className="table__thead--item" style={style}>
+    <th className="table__thead--item" style={{ ...style, width }}>
       {children}
     </th>
   );
@@ -71,7 +86,7 @@ TableItem.Text = React.memo(({ text }) => {
 TableItem.Date = React.memo(({ date }) => {
   return (
     <td className="table__body--item">
-      <p className="text">{date ? new Date(date).toLocaleString() : '-'}</p>
+      <p className="text">{date ? formatUtcTime(date) : '-'}</p>
     </td>
   );
 });
@@ -89,7 +104,7 @@ TableItem.UserInfo = React.memo(({ image, name }) => {
 
 TableItem.Button = React.memo(({ title, handleClick, type = 'details' }) => {
   return (
-    <td className="table__body--item">
+    <td className="table__body--item" style={{ width: 100 }}>
       <button className={`button ${type}`} onClick={handleClick}>
         {title}
       </button>
@@ -107,22 +122,19 @@ TableItem.Type = React.memo(({ image }) => {
   );
 });
 
-TableItem.Grade = React.memo(({ image }) => {
+TableItem.Grade = React.memo(({ grade }) => {
   return (
     <td className="table__body--item" style={{ width: 26 }}>
       <div className="grade">
-        <img src={image} alt="icon" />
+        <img src={gradeImages[grade]} alt="icon" />
       </div>
     </td>
   );
 });
 
-TableItem.Song = React.memo(({ image, active }) => {
+TableItem.Song = React.memo(({ image, active, width }) => {
   return (
-    // <td className="table__body--item" style={{ width: 26 }}>
-      <td className={`table__body--item ${active ? 'active' : ''}`}
-          // style={{ width: 26 }
-        >
+    <td className={`table__body--item ${active ? 'active' : ''}`} style={{ width }}>
       <div className={`song ${active ? 'active' : ''}`}>
         <img src={image} alt="images" />
         <div className="loading-wave">

@@ -13,6 +13,7 @@ import mobIcon from '../assets/images/icon/mob-icon.svg';
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
+import { useTokenBalance } from '../hooks/useTokenBalance';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
@@ -111,6 +112,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
 
+  const { mobBalance } = useTokenBalance();
+
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
@@ -168,7 +171,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{mobBalance}</p>
                           <span>
                             <img src={mobIcon} alt="mob icon" />
                             MOB
@@ -327,7 +330,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             </dd>
           </dl>
 
-          {/* {isLoggedIn && (
+          {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
@@ -393,7 +396,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 </div>
               </dd>
             </dl>
-          )} */}
+          )}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

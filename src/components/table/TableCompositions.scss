@@ -5,7 +5,6 @@
 
 .table {
   border-radius: 12px;
-  border: 1px solid #222;
   border-spacing: 0;
   table-layout: auto;
   width: auto;
@@ -29,13 +28,13 @@
 
 .table__body {
   .table__body--item {
-    img{
+    img {
       border: 1px solid transparent;
       transition: 0.3s;
     }
-    &.active{
-      .song{
-        img{
+    &.active {
+      .song {
+        img {
           border: 1px solid #00d293;
         }
       }
@@ -92,7 +91,7 @@
     // -webkit-line-clamp: 2;
     // overflow: hidden;
     // text-overflow: ellipsis;
-    // line-clamp: 2;  
+    // line-clamp: 2;
 
     /* 멀티라인 클램프 핵심 */
     display: -webkit-box;
@@ -161,11 +160,11 @@
       &::after {
         background: #cf0;
       }
-      &::before{
+      &::before {
         opacity: 0 !important;
       }
-      &:hover{
-          top: 0px !important;
+      &:hover {
+        top: 0px !important;
       }
     }
     &.sell {
@@ -268,9 +267,9 @@
     }
   }
 
-  .grade{
+  .grade {
     // margin: 0 auto;
-    img{
+    img {
       margin: 0 auto;
     }
   }

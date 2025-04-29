@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import ContentWrap from '../components/unit/ContentWrap';
 import Filter from '../components/unit/Filter';
 import Search from '../components/unit/Search';
-import SongPlayTable from '../components/unit/SongPlayTable';
+import SongPlayTable from '../components/table/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
 import Loading from '../components/IntroLogo2';
 

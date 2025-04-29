@@ -1,9 +1,9 @@
-import { createThirdwebClient, defineChain, getContract } from "thirdweb";
+import { createThirdwebClient, defineChain, getContract } from 'thirdweb';
 import {
   MARKET_PLACE_CONTRACT_ADDRESS,
   MOB_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
-} from "./contractAddresses";
+} from './contractAddresses';
 
 const client = createThirdwebClient({
   clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID,

@@ -33,7 +33,6 @@ export const NftItemList = ({ data }) => {
 };
 
 export const CollectionItemList = ({ data, linkMove = true, setSelectedCollection }) => {
-  console.log(data);
   return (
     <>
       <div className="nft-item-collection-wrap">
@@ -87,8 +86,6 @@ const NftItem = ({ item }) => {
 export const CollectionItem = ({ item, linkMove = true, setSelectedCollection }) => {
   const Wrapper = linkMove ? Link : 'div';
   const [isActive, setIsActive] = useState(false);
-
-  console.log(item, '컬렉션 아이템');
 
   const handleClick = e => {
     if (!linkMove) {

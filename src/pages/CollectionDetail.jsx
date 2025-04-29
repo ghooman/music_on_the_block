@@ -155,26 +155,25 @@ const Overview = ({ id }) => {
           <NftOverviewItem title="Number of Transactions" value={0} />
           <NftOverviewItem
             title="Total Volume"
-            value={collectionOverview?.total_transaction_price}
+            value={'$ ' + collectionOverview?.total_transaction_price}
           />
           <NftOverviewItem
             title="Average Price"
             value={'$ ' + collectionOverview?.avg_transaction_price}
-            sub_value={0}
           />
           <NftOverviewItem
             title="Highest Price"
             value={
               collectionOverview?.max_price + ' ' + (collectionOverview?.max_price_token || 'MOB')
             }
-            sub_value={'$ 0'}
+            subValue={'$0'}
           />
           <NftOverviewItem
             title="Lowest Price"
             value={
               collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
             }
-            sub_value={'$ 0'}
+            subValue={'$0'}
           />
           <NftOverviewItem
             title="Recent Transaction Date"
@@ -183,11 +182,16 @@ const Overview = ({ id }) => {
           />
         </NftOverview>
       </ContentWrap>
-      <ContentWrap title="Graph">
-        <NftGraph />
+      <ContentWrap title="Graph List">
+        <NftGraph
+          barTitle="Number of Transactions"
+          barGraphData={collectionOverview?.total_transaction_price_progress}
+          lineTitle="NFT Price Change Trend"
+          lineGraphData={collectionOverview?.avg_transaction_price_progress}
+        />
       </ContentWrap>
-      <ContentWrap title="Recommended NFTs">
-        <NftItemList data={[1, 2, 3, 4]} />
+      <ContentWrap title="Top NFTs in this Collection">
+        <NftItemList data={collectionOverview?.popular_list} />
       </ContentWrap>
     </>
   );

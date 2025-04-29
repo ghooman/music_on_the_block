@@ -10,7 +10,7 @@ import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover
 
 // 🧩 유닛 컴포넌트
 import Filter from '../unit/Filter';
-import SongPlayTable from '../unit/SongPlayTable';
+import SongPlayTable from '../table/SongPlayTable';
 import AlbumItem from '../unit/AlbumItem';
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';

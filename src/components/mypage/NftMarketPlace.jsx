@@ -4,6 +4,7 @@ import Filter from '../unit/Filter';
 import Pagination from '../unit/Pagination';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
+import CollectionTable from '../table/CollectionTable';
 
 import './NftMarketPlace.scss';
 import NftTable from './../table/NftTable';
@@ -77,6 +78,8 @@ const CollectionItems = () => {
         <Filter />
         <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
       </ContentWrap.SubWrap>
+      <CollectionTable />
+      <Pagination />
     </ContentWrap>
   );
 };

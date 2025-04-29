@@ -10,76 +10,76 @@ import { useSearchParams } from 'react-router-dom';
  * @param {number | string} page : 현재 페이지 (state or query parameter) 1부터
  * @returns JSX
  */
-const Pagination = ({ totalCount = 1, viewCount = 1, handler, page = 1 }) => {
-    const [pages, setPages] = useState([]);
-    const [searchParams, setSearchParams] = useSearchParams();
-    const page_ = searchParams.get('page'); // 현재 쿼리파라미터에 page가 있는지 검사하기 위한 변수입니다.
-    const nowPage = parseInt(page); // 문자열일 경우 버그 발생 가능성이 있어 정수형으로 파싱을 합니다.
-    const max = pages?.length;
-    const min = 1;
+const Pagination = ({ totalCount = 0, viewCount = 1, handler, page = 1 }) => {
+  const [pages, setPages] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page_ = searchParams.get('page'); // 현재 쿼리파라미터에 page가 있는지 검사하기 위한 변수입니다.
+  const nowPage = parseInt(page); // 문자열일 경우 버그 발생 가능성이 있어 정수형으로 파싱을 합니다.
+  const max = pages?.length;
+  const min = 1;
 
-    useEffect(() => {
-        let array = [];
-        const count = Math.ceil(totalCount / viewCount);
-        for (let i = 1; i <= count; i++) {
-            array.push(i);
-        }
-        setPages(array);
-    }, [totalCount, viewCount]);
+  useEffect(() => {
+    let array = [];
+    const count = Math.ceil(totalCount / viewCount);
+    for (let i = 1; i <= count; i++) {
+      array.push(i);
+    }
+    setPages(array);
+  }, [totalCount, viewCount]);
 
-    useEffect(() => {
-        if (!handler && !page_) {
-            setSearchParams(
-                (prev) => {
-                    return { ...Object.fromEntries(prev), page: 1 };
-                },
-                { replace: true }
-            );
-        }
-    }, []);
+  useEffect(() => {
+    if (!handler && !page_) {
+      setSearchParams(
+        prev => {
+          return { ...Object.fromEntries(prev), page: 1 };
+        },
+        { replace: true }
+      );
+    }
+  }, []);
 
-    const handlePage = (page) => {
-        if (page >= min && page <= max) {
-            if (handler) {
-                // State로 페이지 조작할 때
-                handler(page);
-                return;
-            } else {
-                // 쿼리파라미터로 조작 시
-                setSearchParams((prev) => {
-                    return { ...Object.fromEntries(prev), page: page };
-                });
-            }
-        }
-    };
+  const handlePage = page => {
+    if (page >= min && page <= max) {
+      if (handler) {
+        // State로 페이지 조작할 때
+        handler(page);
+        return;
+      } else {
+        // 쿼리파라미터로 조작 시
+        setSearchParams(prev => {
+          return { ...Object.fromEntries(prev), page: page };
+        });
+      }
+    }
+  };
 
-    if (totalCount === 0 || !viewCount) return;
+  if (totalCount === 0 || !viewCount) return;
 
-    return (
-        <div className="unit-component-pagination">
-            <div className="unit-component-pagination-content">
-                <div
-                    className="unit-component-pagination-content__page prev"
-                    onClick={() => handlePage(nowPage - 1)}
-                ></div>
-                {pages
-                    .slice(Math.floor((nowPage - 1) / 5) * 5, 5 + Math.floor((nowPage - 1) / 5) * 5)
-                    .map((item, index) => (
-                        <button
-                            key={index}
-                            className={`unit-component-pagination-content__page ${nowPage === item && 'enable'}`}
-                            onClick={() => handlePage(item)}
-                        >
-                            {item}
-                        </button>
-                    ))}
-                <div
-                    className="unit-component-pagination-content__page next"
-                    onClick={() => handlePage(nowPage + 1)}
-                ></div>
-            </div>
-        </div>
-    );
+  return (
+    <div className="unit-component-pagination">
+      <div className="unit-component-pagination-content">
+        <div
+          className="unit-component-pagination-content__page prev"
+          onClick={() => handlePage(nowPage - 1)}
+        ></div>
+        {pages
+          .slice(Math.floor((nowPage - 1) / 5) * 5, 5 + Math.floor((nowPage - 1) / 5) * 5)
+          .map((item, index) => (
+            <button
+              key={index}
+              className={`unit-component-pagination-content__page ${nowPage === item && 'enable'}`}
+              onClick={() => handlePage(item)}
+            >
+              {item}
+            </button>
+          ))}
+        <div
+          className="unit-component-pagination-content__page next"
+          onClick={() => handlePage(nowPage + 1)}
+        ></div>
+      </div>
+    </div>
+  );
 };
 
 export default Pagination;

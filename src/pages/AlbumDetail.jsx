@@ -471,7 +471,7 @@ function AlbumDetail() {
           </div>
           <dl className="album-detail__rank-table__title">
             <dt>Songs Leaderboard Rank</dt>
-            <dd>Most Likes</dd>
+            <dd>Most Plays</dd>
           </dl>
           <div className="table-container">
             <table className="custom-table">

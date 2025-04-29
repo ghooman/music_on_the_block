@@ -10,11 +10,14 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * params {string} wallet_address - 지갑 주소 // 좋아요 확인용
  * returns {Promise} axios GET 요청 반환
  */
-export const getNftCollections = async token => {
+export const getNftCollections = async ({ page, search_keyword, sort_by, wallet_address }) => {
   try {
     const response = await axios.get(`${serverApi}/api/nfts/collections/list`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+      params: {
+        page: page,
+        search_keyword,
+        sort_by,
+        wallet_address,
       },
     });
     return response.data;

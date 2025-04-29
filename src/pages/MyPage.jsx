@@ -57,7 +57,7 @@ const MyProfile = () => {
     { name: 'Connections', preparing: false },
     { name: 'Favorites', preparing: false },
     { name: 'Albums', preparing: false },
-    { name: 'NFT MarketPlace', preparing: false },
+    { name: 'NFT MarketPlace', preparing: true },
   ];
 
   const handleTab = tab => {
@@ -82,7 +82,7 @@ const MyProfile = () => {
       {category === 'Connections' && <Connections />}
       {category === 'Favorites' && <MyFavorites />}
       {category === 'Albums' && <Albums username={userData.name} isCreate={true} />}
-      {category === 'NFT MarketPlace' && <NftMarketPlace />}
+      {/* {category === 'NFT MarketPlace' && <NftMarketPlace />} */}
     </div>
   );
 };

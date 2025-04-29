@@ -327,7 +327,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             </dd>
           </dl>
 
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
@@ -393,7 +393,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 </div>
               </dd>
             </dl>
-          )}
+          )} */}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

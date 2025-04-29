@@ -126,7 +126,7 @@ TableItem.Grade = React.memo(({ grade }) => {
   return (
     <td className="table__body--item" style={{ width: 26 }}>
       <div className="grade">
-        <img src={gradeImages[grade]} alt="icon" />
+        <img src={gradeImages[grade] || grade1Icon} alt="icon" />
       </div>
     </td>
   );

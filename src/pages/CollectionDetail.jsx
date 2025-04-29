@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
@@ -7,75 +7,96 @@ import { NftItemList } from '../components/nft/NftItem';
 import Pagination from '../components/unit/Pagination';
 import FilterItems from '../components/unit/FilterItems';
 import Search from '../components/unit/Search';
-import { InfoRowWrap } from '../components/nft/InfoRow';
-import CustomTable from '../components/CustomTable';
 
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
 import unLikeImage from '../assets/images/like-icon/like-icon.svg';
-import dummy_collectionImage from '../assets/images/nft/collection01.png';
-import dummy_userImage from '../assets/images/account/demo-user1.png';
 
 import '../styles/CollectionDetail.scss';
 import { NftGraph } from '../components/nft/NftGraph';
 import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
 import SubCategories from '../components/unit/SubCategories';
 
-import { getNftCollectionDetail, getNftCollectionOverview } from '../api/nfts/nftCollectionsApi';
+import {
+  getNftCollectionDetail,
+  getNftCollectionOverview,
+  getNftCollectionNftList,
+  getNftCollectionHistory,
+} from '../api/nfts/nftCollectionsApi';
 
-const dummyData = [
-  {
-    number: 30,
-    type: 'LYRIC',
-    item: 'Item Name (#123_1)',
-    username: {
-      name: 'user',
-      picture: dummy_userImage,
-    },
-    price: '100.000',
-    details: 'Details',
-  },
-  {
-    number: 30,
-    type: 'COMPOSITION',
-    item: 'Item Name (#123_1)',
-    username: {
-      name: 'Yolkhead',
-      picture: dummy_userImage,
-    },
-    price: '100.000',
-    details: 'Details',
-  },
-  {
-    number: 30,
-    type: 'SONG',
-    item: 'Item Name (#123_1)',
-    username: {
-      name: 'Alice',
-      picture: dummy_userImage,
-    },
-    price: '100.000',
-    details: 'Details',
-  },
-];
-
+import CollectionHistoryTable from '../components/table/CollectionHistoryTable';
 const CollectionDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Overview');
   const [collectionDetail, setCollectionDetail] = useState(null);
-  const [isOwner, setIsOwner] = useState(false);
+  const [collectionNftList, setCollectionNftList] = useState(null);
+  const [collectionNftListTotalCnt, setCollectionNftListTotalCnt] = useState(null);
+  const [collectionHistory, setCollectionHistory] = useState(null);
+  const [collectionHistoryTotalCnt, setCollectionHistoryTotalCnt] = useState(null);
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
 
+  const page = searchParams.get('page') || 1;
+  const search = searchParams.get('search');
+  const sort_by = searchParams.get('sort_by');
+  const ai_service = searchParams.get('ai_service');
+  const nft_rating = searchParams.get('nft_rating');
+  const salse_token = searchParams.get('salse_token');
+
+  // 컬렉션 기본 정보
+  const fetchCollectionDetail = async () => {
+    try {
+      const response = await getNftCollectionDetail({ id });
+      setCollectionDetail(response.data);
+    } catch (error) {
+      console.error('Failed to fetch collection detail:', error);
+    }
+  };
+  // 컬렉션 NFT 리스트
+  const fetchCollectionNftList = async () => {
+    try {
+      const response = await getNftCollectionNftList({
+        id,
+        page,
+        sort_by,
+        search_keyword: search,
+        ai_service,
+        nft_rating,
+        salse_token,
+      });
+      console.log(response.data, '컬렉션 NFT 리스트');
+      setCollectionNftList(response.data?.data_list);
+      setCollectionNftListTotalCnt(response.data.total_cnt);
+    } catch (error) {
+      console.error('Failed to fetch collection NFT list:', error);
+    }
+  };
+  // 컬렉션 활동 기록
+  const fetchCollectionHistory = async () => {
+    try {
+      const response = await getNftCollectionHistory({
+        id,
+        page,
+        sort_by,
+        search_keyword: search,
+        ai_service,
+        nft_rating,
+        salse_token,
+      });
+      console.log(response.data, '컬렉션 활동 기록');
+      setCollectionHistory(response.data?.data_list);
+      setCollectionHistoryTotalCnt(response.data.total_cnt);
+    } catch (error) {
+      console.error('Failed to fetch collection history:', error);
+    }
+  };
   useEffect(() => {
-    const fetchCollectionDetail = async () => {
-      try {
-        const response = await getNftCollectionDetail({ id });
-        setCollectionDetail(response.data);
-        setIsOwner(response?.data?.is_owner);
-      } catch (error) {
-        console.error('Failed to fetch collection detail:', error);
-      }
-    };
     fetchCollectionDetail();
   }, [id]);
+
+  useEffect(() => {
+    if (selectCategory === 'NFT Item') {
+      fetchCollectionNftList();
+    }
+  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token, selectCategory]);
 
   return (
     <div className="collection-detail">
@@ -86,8 +107,22 @@ const CollectionDetail = () => {
         onClick={setSelectCategory}
       />
       {selectCategory === 'Overview' && <Overview id={id} />}
-      {selectCategory === 'NFT Item' && <NFTItems id={id} />}
-      {selectCategory === 'History' && <History id={id} />}
+      {selectCategory === 'NFT Item' && (
+        <NFTItems
+          id={id}
+          collectionNftList={collectionNftList}
+          collectionNftListTotalCnt={collectionNftListTotalCnt}
+          fetchCollectionNftList={fetchCollectionNftList}
+        />
+      )}
+      {selectCategory === 'History' && (
+        <History
+          id={id}
+          collectionHistory={collectionHistory}
+          fetchCollectionHistory={fetchCollectionHistory}
+          collectionHistoryTotalCnt={collectionHistoryTotalCnt}
+        />
+      )}
     </div>
   );
 };
@@ -197,49 +232,92 @@ const Overview = ({ id }) => {
   );
 };
 
-const NFTItems = () => {
+const NFTItems = ({ id, collectionNftList, collectionNftListTotalCnt, fetchCollectionNftList }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const subCategoryList = [{ name: 'All' }, { name: 'For Sell' }];
   const [selected, setSelected] = useState(subCategoryList[0].name);
+
+  const page = searchParams.get('page') || 1;
+  const search = searchParams.get('search');
+  const sort_by = searchParams.get('sort_by');
+  const ai_service = searchParams.get('ai_service');
+  const nft_rating = searchParams.get('nft_rating');
+  const salse_token = searchParams.get('salse_token');
+
+  useEffect(() => {
+    fetchCollectionNftList();
+  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token]);
+
+  const handleSearch = keyword => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      search: keyword,
+      page: 1,
+    });
+  };
+
+  const handleFilter = (filterType, value) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      [filterType]: value,
+      page: 1,
+    });
+  };
 
   return (
     <ContentWrap title="NFT Items">
       <ContentWrap.SubWrap gap={8}>
         <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-        <FilterItems />
-        <Search />
+        <FilterItems
+          onSortChange={value => handleFilter('sort_by', value)}
+          onAiServiceChange={value => handleFilter('ai_service', value)}
+          onRatingChange={value => handleFilter('nft_rating', value)}
+          onTokenChange={value => handleFilter('salse_token', value)}
+        />
+        <Search placeholder="Search" value={search || ''} onChange={handleSearch} />
       </ContentWrap.SubWrap>
-      <NftItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />
-      <Pagination />
+      <NftItemList data={collectionNftList || []} />
+      <Pagination
+        totalCount={collectionNftListTotalCnt}
+        viewCount={12}
+        page={page}
+        onChange={newPage =>
+          setSearchParams({
+            ...Object.fromEntries(searchParams),
+            page: newPage,
+          })
+        }
+      />
     </ContentWrap>
   );
 };
 
-const History = () => {
+const History = ({ id, collectionHistory, collectionHistoryTotalCnt, fetchCollectionHistory }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || 1;
+  const search = searchParams.get('search');
+  const sort_by = searchParams.get('sort_by');
+  const ai_service = searchParams.get('ai_service');
+  const nft_rating = searchParams.get('nft_rating');
+  const salse_token = searchParams.get('salse_token');
+
+  useEffect(() => {
+    fetchCollectionHistory();
+  }, [id, page, search, sort_by, ai_service, nft_rating, salse_token]);
+
   return (
     <ContentWrap title="History">
-      {/* <InfoRowWrap row={3}>
-                <InfoRowWrap.UserItem
-                    title="Most Purchased Artist"
-                    value={{ picture: dummy_userImage, username: 'YolkHead' }}
-                />
-                <InfoRowWrap.UserItem
-                    title="Highest Bidding UArtister"
-                    value={{ picture: dummy_userImage, username: 'YolkHead' }}
-                />
-                <InfoRowWrap.UserItem
-                    title="Most Recently Traded Artist"
-                    value={{ picture: dummy_userImage, username: 'YolkHead' }}
-                />
-            </InfoRowWrap> */}
       <ContentWrap.SubWrap gap={8}>
         <FilterItems />
-        <Search />
-        <CustomTable
-          data={dummyData}
-          headers={['#', 'Type', 'Item', 'Artist Name', 'Price(MOB)', 'Details']}
-        />
+        <Search placeholder="Search" />
+        <CollectionHistoryTable data={collectionHistory} />
       </ContentWrap.SubWrap>
-      <Pagination />
+      <Pagination
+        totalCount={collectionHistoryTotalCnt}
+        viewCount={10}
+        page={page}
+        onChange={newPage => setSearchParams({ page: newPage })}
+      />
     </ContentWrap>
   );
 };

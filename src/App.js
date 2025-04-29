@@ -174,18 +174,18 @@ function App() {
               }
             />
             <Route
-              path="mint/detail/:id"
-              element={
-                <Layout>
-                  <MintNftDetail />
-                </Layout>
-              }
-            />
-            <Route
               path="nft/sell/list"
               element={
                 <Layout>
                   <NftSellList />
+                </Layout>
+              }
+            />
+            <Route
+              path="mint/detail/:id"
+              element={
+                <Layout>
+                  <MintNftDetail />
                 </Layout>
               }
             />

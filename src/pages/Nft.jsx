@@ -50,7 +50,7 @@ const Nft = () => {
 
   return (
     <div className="nft">
-      <NftExchange />
+      <NftExchange navigate={navigate} />
       <Search
         placeholder="Search"
         handler={search => navigate(`/nft/list?category?=NFT+item&page=1&search=${search}`)}
@@ -88,14 +88,14 @@ const Nft = () => {
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>
-      {showPreparingModal && <PreparingModal setPreparingModal={setShowPreparingModal} />}
+      {showPreparingModal && <PreparingModal setShowPreparingModal={setShowPreparingModal} />}
     </div>
   );
 };
 
 export default Nft;
 
-const NftExchange = ({ setShowPreparingModal }) => {
+const NftExchange = ({ navigate }) => {
   return (
     <div className="nft__exchange">
       <h1 className="nft__exchange--title">NFT MarketPlace</h1>
@@ -112,13 +112,10 @@ const NftExchange = ({ setShowPreparingModal }) => {
           </Link>
         </div>
         <div className="nft__exchange--btns__right">
-          <button
-            className="nft__exchange--button mint"
-            onClick={() => setShowPreparingModal(true)}
-          >
+          <button className="nft__exchange--button mint" onClick={() => navigate('/nft/mint/list')}>
             Mint NFT
           </button>
-          <button className="nft__exchange--button" onClick={() => setShowPreparingModal(true)}>
+          <button className="nft__exchange--button" onClick={() => navigate('/nft/sell/list')}>
             Sell NFT
           </button>
         </div>

@@ -206,7 +206,7 @@ function App() {
               }
             />
             <Route
-              path="nft/detail"
+              path="nft/detail/:id"
               element={
                 <Layout>
                   <NftItemDetail />

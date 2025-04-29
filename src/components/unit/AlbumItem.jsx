@@ -20,7 +20,6 @@ const AlbumItem = ({
   formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`,
 }) => {
   const [runningTime, setRunningTime] = useState();
-  console.log(track, '트랙 데이텅미');
 
   useEffect(() => {
     if (!track) return;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import NoneContent from './NoneContent';
 import './SongPlayEditTable.scss';
-import './AlbumsTable.scss';
 import typeImage from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
 

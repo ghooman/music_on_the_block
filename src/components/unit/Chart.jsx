@@ -7,262 +7,248 @@ import './Chart.scss';
 // 차트는 다시 작성하겠습니다.
 
 export const PieChart = ({ height, width, data, selectedItem, legends }) => {
-    const total = data ? data.reduce((a, b) => a + b.value, 0) : 0;
+  const total = data ? data.reduce((a, b) => a + b.value, 0) : 0;
 
-    const getColor = (datum) => {
-        const hslString = datum?.data?.color;
-        const hslRegex = /hsl\(\s*(\d+),\s*([\d.]+)%?,\s*([\d.]+)%?\s*\)/;
-        const match = hslString.match(hslRegex);
-        const lightness = selectedItem === datum?.id ? 50 : 10;
-        if (!match) return hslString; // 유효하지 않으면 원본 반환
-        const [_, h, s] = match;
-        if (selectedItem === 'All') {
-            return `hsl(${h}, 100%, ${50}%)`;
-        }
-        return `hsl(${h}, 100%, ${lightness}%)`;
-    };
+  const getColor = datum => {
+    const hslString = datum?.data?.color;
+    const hslRegex = /hsl\(\s*(\d+),\s*([\d.]+)%?,\s*([\d.]+)%?\s*\)/;
+    const match = hslString.match(hslRegex);
+    const lightness = selectedItem === datum?.id ? 50 : 10;
+    if (!match) return hslString; // 유효하지 않으면 원본 반환
+    const [_, h, s] = match;
+    if (selectedItem === 'All') {
+      return `hsl(${h}, 100%, ${50}%)`;
+    }
+    return `hsl(${h}, 100%, ${lightness}%)`;
+  };
 
-    const matchedData = data.find((item) => item.id === selectedItem);
+  const matchedData = data.find(item => item.id === selectedItem);
 
-    return (
-        <div className="chart__pie" style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
-            <ResponsivePie
-                sortByValue={true}
-                activeId={matchedData?.id}
-                tooltip={() => null}
-                data={data}
-                margin={{ top: 10, right: 10, bottom: 30, left: 10 }}
-                innerRadius={0.5}
-                padAngle={2}
-                cornerRadius={15}
-                activeOuterRadiusOffset={8}
-                borderWidth={0}
-                borderColor={{
-                    from: 'color',
-                    modifiers: [['darker', 0.2]],
-                }}
-                arcLinkLabelsSkipAngle={10}
-                arcLinkLabelsTextColor="#333333"
-                arcLinkLabelsThickness={2}
-                arcLabelsSkipAngle={10}
-                enableArcLabels={false}
-                enableArcLinkLabels={false}
-                colors={(datum) => getColor(datum)}
-            />
-            <div className="chart__pie--text">
-                <p className="chart__pie--text-value" style={{ color: matchedData?.color }}>
-                    {selectedItem === 'All' && total}
-                    {selectedItem !== 'All' && matchedData?.value}
-                </p>
-                <p className="chart__pie--text-per">
-                    {selectedItem !== 'All'
-                        ? isNaN(matchedData?.value / total)
-                            ? '-'
-                            : ((matchedData?.value / total) * 100)?.toFixed(2)
-                        : 100}
-                    %
-                </p>
+  return (
+    <div
+      className="chart__pie"
+      style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}
+    >
+      <ResponsivePie
+        sortByValue={true}
+        activeId={matchedData?.id}
+        tooltip={() => null}
+        data={data}
+        margin={{ top: 10, right: 10, bottom: 30, left: 10 }}
+        innerRadius={0.5}
+        padAngle={2}
+        cornerRadius={15}
+        activeOuterRadiusOffset={8}
+        borderWidth={0}
+        borderColor={{
+          from: 'color',
+          modifiers: [['darker', 0.2]],
+        }}
+        arcLinkLabelsSkipAngle={10}
+        arcLinkLabelsTextColor="#333333"
+        arcLinkLabelsThickness={2}
+        arcLabelsSkipAngle={10}
+        enableArcLabels={false}
+        enableArcLinkLabels={false}
+        colors={datum => getColor(datum)}
+      />
+      <div className="chart__pie--text">
+        <p className="chart__pie--text-value" style={{ color: matchedData?.color }}>
+          {selectedItem === 'All' && total}
+          {selectedItem !== 'All' && matchedData?.value}
+        </p>
+        <p className="chart__pie--text-per">
+          {selectedItem !== 'All'
+            ? isNaN(matchedData?.value / total)
+              ? '-'
+              : ((matchedData?.value / total) * 100)?.toFixed(2)
+            : 100}
+          %
+        </p>
+      </div>
+      {legends && (
+        <div className="chart__pie--legends">
+          {data?.map((item, index) => (
+            <div className="chart__pie--legends__item" key={`legends-${index}`}>
+              <div
+                className="chart__pie--legends__item--square"
+                style={{ backgroundColor: item.color }}
+              ></div>
+              <div className="chart__pie--legends__item--label-image">
+                <img src={item.image} alt={item.id} />
+              </div>
             </div>
-            {legends && (
-                <div className="chart__pie--legends">
-                    {data?.map((item, index) => (
-                        <div className="chart__pie--legends__item" key={`legends-${index}`}>
-                            <div
-                                className="chart__pie--legends__item--square"
-                                style={{ backgroundColor: item.color }}
-                            ></div>
-                            <div className="chart__pie--legends__item--label-image">
-                                <img src={item.image} alt={item.id} />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export const LineChart = ({ data, height = '500px', width = '100%' }) => {
-    const chartData = [
-        {
-            id: 'japan',
-            color: 'hsl(162, 70%, 50%)',
-            data: data,
-        },
-    ];
+  const chartData = [
+    {
+      id: 'japan',
+      color: 'hsl(162, 70%, 50%)',
+      data: data,
+    },
+  ];
 
-    if (!data) return;
+  if (!data) return;
 
-    return (
-        <div style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
-            <ResponsiveLine
-                data={chartData}
-                margin={{ top: 50, right: 20, bottom: 50, left: 25 }}
-                curve="catmullRom"
-                xScale={{ type: 'point' }}
-                yScale={{
-                    type: 'linear',
-                    min: 0,
-                    max: 5,
-                    stacked: true,
-                    reverse: false,
-                }}
-                yFormat=" >-.2f"
-                axisTop={null}
-                axisRight={null}
-                enableGridX={false}
-                pointSize={10}
-                pointColor={{ theme: 'background' }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: 'serieColor' }}
-                pointLabel="data.yFormatted"
-                pointLabelYOffset={-12}
-                enableTouchCrosshair={true}
-                useMesh={true}
-                enableArea={true}
-                tooltip={() => null}
-                colors={() => '#00ffb3'}
-                theme={{
-                    axis: {
-                        ticks: {
-                            text: {
-                                fill: '#939699',
-                                fontSize: 12,
-                            },
-                        },
-                    },
-                    grid: {
-                        line: {
-                            stroke: '#222',
-                            strokeWidth: 2,
-                        },
-                    },
-                }}
-                axisLeft={{
-                    tickValues: [0, 1, 2, 3, 4, 5], // 직접 지정
-                    legend: 'Y Axis',
-                    legendOffset: -40,
-                    legendPosition: 'middle',
-                }}
-            />
-        </div>
-    );
+  return (
+    <div style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
+      <ResponsiveLine
+        data={chartData}
+        margin={{ top: 50, right: 20, bottom: 50, left: 25 }}
+        curve="catmullRom"
+        xScale={{ type: 'point' }}
+        yScale={{
+          type: 'linear',
+          min: 0,
+          max: 5,
+          stacked: true,
+          reverse: false,
+        }}
+        yFormat=" >-.2f"
+        axisTop={null}
+        axisRight={null}
+        enableGridX={false}
+        pointSize={10}
+        pointColor={{ theme: 'background' }}
+        pointBorderWidth={2}
+        pointBorderColor={{ from: 'serieColor' }}
+        pointLabel="data.yFormatted"
+        pointLabelYOffset={-12}
+        enableTouchCrosshair={true}
+        useMesh={true}
+        enableArea={true}
+        tooltip={() => null}
+        colors={() => '#00ffb3'}
+        theme={{
+          axis: {
+            ticks: {
+              text: {
+                fill: '#939699',
+                fontSize: 12,
+              },
+            },
+          },
+          grid: {
+            line: {
+              stroke: '#222',
+              strokeWidth: 2,
+            },
+          },
+        }}
+        axisLeft={{
+          tickValues: [0, 1, 2, 3, 4, 5], // 직접 지정
+          legend: 'Y Axis',
+          legendOffset: -40,
+          legendPosition: 'middle',
+        }}
+      />
+    </div>
+  );
 };
-
-
-
-
-
-
-
-
-
-
-
 
 // components/unit/BarChart.jsx
 
 export const BarChart = ({ data, keys = ['value'], indexBy = 'date', height = 300 }) => {
-    return (
-        <div style={{ height }}>
-            <ResponsiveBar
-                data={data}
-                keys={['value']}
-                indexBy="date"
-                margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
-                padding={0.3}
-                valueScale={{ type: 'linear' }}
-                indexScale={{ type: 'band', round: true }}
-                colors="turquoise"
-                enableLabel={false}
-                /* ───── 축 & 눈금 ───── */
-                axisBottom={{ tickSize: 0, tickPadding: 12, legendOffset: 32 }}
-                axisLeft={{
-                    tickSize: 0,
-                    tickPadding: 8,
-                    tickValues: [0, 200, 400, 600, 800, 1000],
-                    legendOffset: -40,
-                }}
-                /* ───── 격자 ───── */
-                enableGridX={false}
-                enableGridY
-                gridYValues={[0, 200, 400, 600, 800, 1000]}
-                /* ───── 스타일 ───── */
-                theme={{
-                    textColor: '#fff',
-                    axis: {
-                    ticks: { text: { fill: '#888', fontSize: 12 }, line: { stroke: '#333' } },
-                    domain: { line: { stroke: '#444' } },
-                    },
-                    grid: { line: { stroke: '#222', strokeWidth: 1 } },
-                    tooltip: { container: { background: '#111', color: '#fff', fontSize: 12 } },
-                }}
-                /* ───── 호버 효과 ───── */
-                borderColor={{ from: 'color', modifiers: [['darker', 1.2]] }}
-                activeOpacity={1}
-                inactiveOpacity={0.5}
-            />
-        </div>
-    );
+  return (
+    <div style={{ height }}>
+      <ResponsiveBar
+        data={data}
+        keys={['value']}
+        indexBy="date"
+        margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
+        padding={0.3}
+        valueScale={{ type: 'linear' }}
+        indexScale={{ type: 'band', round: true }}
+        colors="turquoise"
+        enableLabel={false}
+        /* ───── 축 & 눈금 ───── */
+        axisBottom={{ tickSize: 0, tickPadding: 12, legendOffset: 32 }}
+        axisLeft={{
+          tickSize: 0,
+          tickPadding: 8,
+          // tickValues: [0, 200, 400, 600, 800, 1000],
+          legendOffset: -40,
+        }}
+        /* ───── 격자 ───── */
+        enableGridX={false}
+        enableGridY
+        // gridYValues={[0, 200, 400, 600, 800, 1000]}
+        /* ───── 스타일 ───── */
+        theme={{
+          textColor: '#fff',
+          axis: {
+            ticks: { text: { fill: '#888', fontSize: 12 }, line: { stroke: '#333' } },
+            domain: { line: { stroke: '#444' } },
+          },
+          grid: { line: { stroke: '#222', strokeWidth: 1 } },
+          tooltip: { container: { background: '#111', color: '#fff', fontSize: 12 } },
+        }}
+        /* ───── 호버 효과 ───── */
+        borderColor={{ from: 'color', modifiers: [['darker', 1.2]] }}
+        activeOpacity={1}
+        inactiveOpacity={0.5}
+      />
+    </div>
+  );
 };
 
-
-
-
-
-
 export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => (
-    <div style={{ height }}>
-        <ResponsiveLine
-            data={data}
-            margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
-            xScale={{ type: 'point' }}
-            yScale={{ type: 'linear', min: 0, max: 5000 }}   // 0~5000 고정
-            curve="monotoneX"
-            colors="#a78bfa"
-            lineWidth={2}
-            pointSize={0}
-            enablePoints={false}
-            useMesh
-            /* ───── 축 & 눈금 ───── */
-            axisTop={null}
-            axisRight={null}
-            axisBottom={{
-                tickSize: 0,
-                tickPadding: 12,
-                tickRotation: 0,
-                legend: '',
-                legendOffset: 32,
-            }}
-            axisLeft={{
-                tickSize: 0,
-                tickPadding: 8,
-                tickValues: [0, 1000, 2000, 3000, 4000, 5000], // 눈금 위치
-                legend: '',
-                legendOffset: -40,
-            }}
-            /* ───── 격자선 ───── */
-            enableGridX={false}
-            enableGridY={true}
-            gridYValues={[0, 1000, 2000, 3000, 4000, 5000]}
-            /* ───── 테마(색상) ───── */
-            theme={{
-                // background: '#000',
-                textColor: '#fff',
-                axis: {
-                ticks: {
-                    text: { fill: '#888', fontSize: 12 },
-                    line: { stroke: '#333' },
-                },
-                domain: { line: { stroke: '#444' } },
-                },
-                grid: { line: { stroke: '#222', strokeWidth: 1 } },
-                tooltip: {
-                container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
-                },
-            }}
-            tooltip={() => null}
-        />
-    </div>
+  <div style={{ height }}>
+    <ResponsiveLine
+      data={data}
+      margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
+      xScale={{ type: 'point' }}
+      yScale={{ type: 'linear', min: 0, max: 5000 }} // 0~5000 고정
+      curve="monotoneX"
+      colors="#a78bfa"
+      lineWidth={2}
+      pointSize={0}
+      enablePoints={false}
+      useMesh
+      /* ───── 축 & 눈금 ───── */
+      axisTop={null}
+      axisRight={null}
+      axisBottom={{
+        tickSize: 0,
+        tickPadding: 12,
+        tickRotation: 0,
+        legend: '',
+        legendOffset: 32,
+      }}
+      axisLeft={{
+        tickSize: 0,
+        tickPadding: 8,
+        tickValues: [0, 1000, 2000, 3000, 4000, 5000], // 눈금 위치
+        legend: '',
+        legendOffset: -40,
+      }}
+      /* ───── 격자선 ───── */
+      enableGridX={false}
+      enableGridY={true}
+      gridYValues={[0, 1000, 2000, 3000, 4000, 5000]}
+      /* ───── 테마(색상) ───── */
+      theme={{
+        // background: '#000',
+        textColor: '#fff',
+        axis: {
+          ticks: {
+            text: { fill: '#888', fontSize: 12 },
+            line: { stroke: '#333' },
+          },
+          domain: { line: { stroke: '#444' } },
+        },
+        grid: { line: { stroke: '#222', strokeWidth: 1 } },
+        tooltip: {
+          container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
+        },
+      }}
+      tooltip={() => null}
+    />
+  </div>
 );
-

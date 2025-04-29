@@ -18,13 +18,13 @@ import Search from '../unit/Search';
 import Pagination from '../unit/Pagination';
 import SubCategories from '../unit/SubCategories';
 import Loading from '../../components/IntroLogo2';
+import SongPlayTable from '../table/SongPlayTable';
 
 // API 모듈
 import { getLikeList } from '../../api/getLikeAndUnLikeList';
 
 // Context
 import { AuthContext } from '../../contexts/AuthContext';
-import SongPlayTable from '../unit/SongPlayTable';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },

@@ -3,36 +3,36 @@ import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 
 const dummy = [
-  // {
-  //   id: 1,
-  //   grade: 'Legend',
-  //   nft_name: 'NFT NAME',
-  //   collection: 'COLLECTION NAME',
-  //   price: 12,
-  //   adminssion_type: 'MOB',
-  //   create_dt: '2005-05-05',
-  //   status: 'sold',
-  // },
-  // {
-  //   id: 2,
-  //   grade: 'Legend',
-  //   nft_name: 'NFT NAME',
-  //   collection: 'COLLECTION NAME',
-  //   price: 17,
-  //   adminssion_type: 'MOB',
-  //   create_dt: '2005-05-05',
-  //   status: 'sell',
-  // },
-  // {
-  //   id: 3,
-  //   grade: 'Legend',
-  //   nft_name: 'NFT NAME',
-  //   collection: 'COLLECTION NAME',
-  //   price: 210,
-  //   adminssion_type: 'MOB',
-  //   create_dt: '2005-05-05',
-  //   status: 'cancel',
-  // },
+  {
+    id: 1,
+    grade: 'Legend',
+    nft_name: 'NFT NAME',
+    collection: 'COLLECTION NAME',
+    price: 12,
+    adminssion_type: 'MOB',
+    create_dt: '2005-05-05',
+    status: 'sold',
+  },
+  {
+    id: 2,
+    grade: 'Legend',
+    nft_name: 'NFT NAME',
+    collection: 'COLLECTION NAME',
+    price: 17,
+    adminssion_type: 'MOB',
+    create_dt: '2005-05-05',
+    status: 'sell',
+  },
+  {
+    id: 3,
+    grade: 'Legend',
+    nft_name: 'NFT NAME',
+    collection: 'COLLECTION NAME',
+    price: 210,
+    adminssion_type: 'MOB',
+    create_dt: '2005-05-05',
+    status: 'cancel',
+  },
 ];
 
 const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel }) => {
@@ -41,6 +41,7 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
       <Table>
         <TableHeader>
           <TableHeader.Col>#</TableHeader.Col>
+          <TableHeader.Col>Type</TableHeader.Col>
           <TableHeader.Col>Grade</TableHeader.Col>
           <TableHeader.Col>Item</TableHeader.Col>
           <TableHeader.Col>Collection</TableHeader.Col>
@@ -54,9 +55,10 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
             <TableItem>
               <TableItem.Indexs text={index + 1} />
               <TableItem.Type image={songTypeIcon} />
+              <TableItem.Grade grade={item.grade} />
               <TableItem.Text text={item.nft_name} />
               <TableItem.Text text={item.collection} />
-              <TableItem.Text text={item.price} />
+              <TableItem.Text text={item.price + ' ' + item.adminssion_type} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 
@@ -65,11 +67,23 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
               )}
 
               {saleAction && item.status === 'sell' && (
-                <TableItem.Button title="Sell" type="sell" handleClick={() => handleSell()} />
+                <TableItem.Button
+                  title="Sell"
+                  type="sell"
+                  handleClick={() => {
+                    if (handleSell) handleSell();
+                  }}
+                />
               )}
 
               {saleAction && item.status === 'cancel' && (
-                <TableItem.Button title="Cancel" type="cancel" handleClick={() => handleCancel()} />
+                <TableItem.Button
+                  title="Cancel"
+                  type="cancel"
+                  handleClick={() => {
+                    if (handleCancel) handleCancel();
+                  }}
+                />
               )}
             </TableItem>
           ))}

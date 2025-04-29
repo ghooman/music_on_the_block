@@ -5,8 +5,10 @@ import './AlbumsCreateModal.scss';
 import { createAlbumsList, updateAlbumsList } from '../../../api/AlbumsListApi';
 
 import UploadButtonImage from '../../../assets/images/icon/picture1.svg';
-import defaultAlbumsImage from '../../../assets/images/mypage/albums-upload-logo.png';
+import defaultAlbumsImage from '../../../assets/images/intro/mob-album-cover.png';
 import { AuthContext } from '../../../contexts/AuthContext';
+import AlbumsDeleteConfirmModal from './AlbumsDeleteConfirmModal';
+import { useNavigate } from 'react-router-dom';
 
 const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumData }) => {
   const { token } = useContext(AuthContext);
@@ -14,6 +16,8 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
   const [albumsName, setAlbumsName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteAlbums, setDeleteAlbums] = useState(false);
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -177,71 +181,92 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
     }
   };
 
+  if (deleteAlbums) {
+    return (
+      <AlbumsDeleteConfirmModal
+        setAlbumsDeleteConfirmModal={setDeleteAlbums}
+        albumData={albumData}
+        setShowCreateModal={setShowCreateModal}
+        completeAction={() => navigate('/my-page?category=Albums')}
+      />
+    );
+  }
+
   return (
-    <ModalWrap
-      onClose={setShowCreateModal}
-      title={status === 'edit' ? 'Edit Album' : 'Create Album'}
-    >
-      <div className="albums-create-modal">
-        <p className="albums-create-modal__title">Album Cover Image</p>
-        <span className="albums-create-modal__size-info">(jpg, png, under 4MB)</span>
+    <>
+      <ModalWrap
+        onClose={setShowCreateModal}
+        title={status === 'edit' ? 'Edit Album' : 'Create Album'}
+      >
+        <div className="albums-create-modal">
+          <p className="albums-create-modal__title">Album Cover Image</p>
+          <span className="albums-create-modal__size-info">(jpg, png, under 4MB)</span>
 
-        <div className="albums-create-modal__image-box">
-          <img
-            className="albums-create-modal__image"
-            src={albumsImage?.preview || defaultAlbumsImage}
-            alt="albums_cover_image"
-          />
-          <input
-            type="file"
-            accept="image/jpeg, image/png"
-            onChange={handleImageUpload}
-            ref={fileInputRef}
-            style={{ display: 'none' }}
-          />
-          <button onClick={() => fileInputRef.current.click()}>
+          <div className="albums-create-modal__image-box">
             <img
-              className="albums-create-modal__button-image"
-              src={UploadButtonImage}
-              alt="button_icon"
+              className="albums-create-modal__image"
+              src={albumsImage?.preview || defaultAlbumsImage}
+              alt="albums_cover_image"
             />
-          </button>
-        </div>
+            <input
+              type="file"
+              accept="image/jpeg, image/png"
+              onChange={handleImageUpload}
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+            />
+            <button onClick={() => fileInputRef.current.click()}>
+              <img
+                className="albums-create-modal__button-image"
+                src={UploadButtonImage}
+                alt="button_icon"
+              />
+            </button>
+          </div>
 
-        <p className="albums-create-modal__name">Album Name</p>
-        <div className="albums-create-modal__name-box">
-          <input
-            className="albums-create-modal__name-box__input"
-            placeholder="Please enter the album name"
-            value={albumsName}
-            onChange={handleInputName}
-            maxLength={40}
-          />
-          <span className="albums-create-modal__name-box__input__length">
-            {albumsName.length}/40
-          </span>
-        </div>
+          <p className="albums-create-modal__name">Album Name</p>
+          <div className="albums-create-modal__name-box">
+            <input
+              className="albums-create-modal__name-box__input"
+              placeholder="Please enter the album name"
+              value={albumsName}
+              onChange={handleInputName}
+              maxLength={40}
+            />
+            <span className="albums-create-modal__name-box__input__length">
+              {albumsName.length}/40
+            </span>
+          </div>
 
-        {errorMessage && <p className="albums-create-modal__error-message">{errorMessage}</p>}
+          {errorMessage && <p className="albums-create-modal__error-message">{errorMessage}</p>}
 
-        <div className="albums-create-modal__button-box">
-          <button
-            className="albums-create-modal__button__cancel"
-            onClick={() => setShowCreateModal(false)}
-            disabled={isLoading}
-          >
-            Cancel
-          </button>
-          <button
-            className="albums-create-modal__button__create"
-            onClick={handleSubmit}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Loading...' : status === 'edit' ? 'Edit' : 'Create'}
-          </button>
+          <div className="albums-create-modal__button-box">
+            <button
+              className="albums-create-modal__button cancel-button"
+              onClick={() => setShowCreateModal(false)}
+              disabled={isLoading}
+            >
+              Cancel
+            </button>
+            <button
+              className="albums-create-modal__button create-button"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Loading...' : status === 'edit' ? 'Edit' : 'Create'}
+            </button>
+          </div>
+          {status === 'edit' && (
+            <button
+              className="albums-create-modal__button delete-button"
+              onClick={() => setDeleteAlbums(true)}
+            >
+              Delete
+            </button>
+          )}
         </div>
-      </div>
-    </ModalWrap>
+      </ModalWrap>
+    </>
   );
 };
 

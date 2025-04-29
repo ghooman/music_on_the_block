@@ -9,7 +9,6 @@ import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import './PlayerHeader.scss';
 
-
 const PlayerHeader = ({
   selectedMusic,
   isPlaying,
@@ -21,7 +20,7 @@ const PlayerHeader = ({
   getTracks,
   handleGetMusicList,
   setIsPlaying,
-  audioRef
+  audioRef,
 }) => {
   return (
     <div
@@ -37,13 +36,11 @@ const PlayerHeader = ({
             backgroundImage: `url(${
               selectedMusic?.cover_image === 'string'
                 ? coverImg10
-                : selectedMusic?.cover_image
+                : selectedMusic?.cover_image.replace('public', '140to140')
             })`,
           }}
         ></p>
-        <p className="main__header__title">
-          {selectedMusic?.title || 'Select an Album'}
-        </p>
+        <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
       </div>
       <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">
@@ -52,10 +49,7 @@ const PlayerHeader = ({
             {selectedMusic?.play_cnt || 0}
           </p>
           <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
-            <img
-              src={selectedMusic?.is_like ? halfHeartIcon : loveIcon}
-              alt="like-heart-icon"
-            />
+            <img src={selectedMusic?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
             {selectedMusic?.like || 0}
           </p>
           <p>|</p>

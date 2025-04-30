@@ -141,7 +141,7 @@ const NftItemDetailInfo = ({ id }) => {
             <div className="nft-item-detail__song-detail__left">
               <section className="album-detail__audio">
                 <AudioPlayer
-                  src={track2}
+                  src={album?.nft_music_url}
                   onPlay={() => {
                     console.log('PLAY!');
                     setIsPlaying(true);
@@ -156,7 +156,7 @@ const NftItemDetailInfo = ({ id }) => {
                   }}
                 />
                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img src={defaultCoverImg} alt="album cover" />
+                  <img src={album?.nft_image} alt="album cover" />
                 </p>
               </section>
               <div
@@ -187,7 +187,7 @@ const NftItemDetailInfo = ({ id }) => {
               <div className="nft-item-detail__song-detail__left__info">
                 <div className="nft-item-detail__song-detail__left__info__number">
                   <p className="play">
-                    <img src={playIcon} />
+                    <img src={playIcon} alt="play" />
                     {album?.play_cnt || 0}
                   </p>
                   <p
@@ -243,7 +243,7 @@ const NftItemDetailInfo = ({ id }) => {
                 </dl>
                 <dl>
                   <dt>Mint NFT date</dt>
-                  <dd>{album?.create_dt}</dd>
+                  <dd>{formatLocalTime(album?.create_dt)}</dd>
                 </dl>
                 {/* <dl>
                                     <dt>Creation Data</dt>
@@ -286,26 +286,16 @@ const NftItemDetailInfo = ({ id }) => {
               </div> */}
               <div className="nft-item-detail__song-detail__right__btn-box">
                 {!album?.is_owner && album?.now_sales_status === 'Listed' && (
-                  <button
-                    className="nft-item-detail__song-detail__right__btn-box__btn"
-                    onClick={() => {
-                      navigate(`/mint/detail/${album?.song_id}/buy`);
-                    }}
-                  >
+                  <button className="nft-item-detail__song-detail__right__btn-box__btn">
                     Buy NFT
                   </button>
                 )}
                 {album?.is_owner && album?.now_sales_status === 'Unlisted' && (
-                  <button
-                    className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
-                    onClick={() => {
-                      navigate(`/nft/sell/list?page=1`);
-                    }}
-                  >
+                  <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
                     Sell NFT
                   </button>
                 )}
-                {album?.is_owner && album?.now_sales_status === '판매중' && (
+                {album?.is_owner && album?.now_sales_status === 'Listed' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft">
                     Cancel NFT
                   </button>
@@ -335,6 +325,8 @@ const TrackInformation = ({ id }) => {
     getActivityData();
   }, []);
 
+  console.log(activityData, '액티비티 데이터');
+
   return (
     <>
       <ContentWrap title="Activity">
@@ -342,7 +334,11 @@ const TrackInformation = ({ id }) => {
           <NftOverviewItem title="Tags" value={activityData?.nft_tags || '-'} isLong />
           <NftOverviewItem
             title="Creation Date"
-            value={activityData?.nft_song_create_dt || '-'}
+            value={
+              activityData?.nft_song_create_dt
+                ? formatLocalTime(activityData?.nft_song_create_dt)
+                : '-'
+            }
             isLong
           />
           <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
@@ -358,9 +354,11 @@ const TrackInformation = ({ id }) => {
           <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} />
         </NftOverview>
       </ContentWrap>
+      {/* {activityData?.recommand_list && ( */}
       <ContentWrap title="Recommended NFTs">
         <NftItemList data={activityData?.recommand_list} />
       </ContentWrap>
+      {/* )} */}
     </>
   );
 };
@@ -390,7 +388,11 @@ const TransactionStatistics = ({ id }) => {
         />
         <NftOverviewItem
           title="Recent Transaction Date"
-          value={statisticsData?.last_transaction_date || '-'}
+          value={
+            statisticsData?.last_transaction_date
+              ? formatLocalTime(statisticsData?.last_transaction_date)
+              : '-'
+          }
           isTwo
         />
       </NftOverview>
@@ -455,7 +457,6 @@ const History = ({ id }) => {
           search_keyword: search,
           sales_token: tokenFilter,
         });
-        console.log(res.data, '배고픔');
         setHistoryData(res.data);
       } catch (e) {
         console.error(e);

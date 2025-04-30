@@ -2,40 +2,16 @@ import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableC
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 
-const dummy = [
-  {
-    id: 1,
-    grade: 'Legend',
-    nft_name: 'NFT NAME',
-    collection: 'COLLECTION NAME',
-    price: 12,
-    adminssion_type: 'MOB',
-    create_dt: '2005-05-05',
-    status: 'sold',
-  },
-  {
-    id: 2,
-    grade: 'Legend',
-    nft_name: 'NFT NAME',
-    collection: 'COLLECTION NAME',
-    price: 17,
-    adminssion_type: 'MOB',
-    create_dt: '2005-05-05',
-    status: 'sell',
-  },
-  {
-    id: 3,
-    grade: 'Legend',
-    nft_name: 'NFT NAME',
-    collection: 'COLLECTION NAME',
-    price: 210,
-    adminssion_type: 'MOB',
-    create_dt: '2005-05-05',
-    status: 'cancel',
-  },
-];
-
-const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => {
+const NftTable = ({
+  nftList = [],
+  collectionOption = true,
+  saleOption,
+  handleSell,
+  handleCancel,
+  saleStatusOption,
+  buyerOption,
+  sellerOption,
+}) => {
   return (
     <TableWrapper>
       <Table>
@@ -44,21 +20,33 @@ const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => 
           <TableHeader.Col>Type</TableHeader.Col>
           <TableHeader.Col>Grade</TableHeader.Col>
           <TableHeader.Col>Item</TableHeader.Col>
-          <TableHeader.Col>Collection</TableHeader.Col>
+          {collectionOption && <TableHeader.Col>Collection</TableHeader.Col>}
+          {buyerOption && <TableHeader.Col>Buyer</TableHeader.Col>}
+          {sellerOption && <TableHeader.Col>Seller</TableHeader.Col>}
           <TableHeader.Col>Price</TableHeader.Col>
           <TableHeader.Col>Date</TableHeader.Col>
           <TableHeader.Col>Details</TableHeader.Col>
           {saleOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
+          {saleStatusOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
         </TableHeader>
         <TableBody>
           {nftList.map((item, index) => (
             <TableItem>
               <TableItem.Indexs text={index + 1} />
               <TableItem.Type image={songTypeIcon} />
-              <TableItem.Grade grade={item.grade} />
+              <TableItem.Grade grade={item.nft_rating} />
               <TableItem.Text text={item.nft_name} />
-              <TableItem.Text text={item.collection} />
-              <TableItem.Text text={item.price + ' ' + item.adminssion_type} />
+              {collectionOption && <TableItem.Text text={item.collection} />}
+              {buyerOption && (
+                <TableItem.UserInfo
+                  image={item?.seller_user_profile}
+                  name={item?.seller_user_name}
+                />
+              )}
+              {sellerOption && (
+                <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
+              )}
+              <TableItem.Text text={item.price + ' ' + item.sales_token} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 
@@ -85,6 +73,7 @@ const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => 
                   }}
                 />
               )}
+              {saleStatusOption && <TableItem.Text text="" />}
             </TableItem>
           ))}
         </TableBody>

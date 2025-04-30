@@ -107,6 +107,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               font-family: Inter400;
               font-size: 14px;
               padding: 12px;
+              // white-space: break-spaces;
             }
           }
         }
@@ -126,45 +127,68 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         // padding: 10px 12px;
         border: none;
         // border-radius: 8px;
-        margin-right: 10px;
         font-size: 14px;
         // background-color: $input-bg;
         color: #fff;
         outline: none;
       }
+    }
+    &__textarea {
+      padding: 12px;
+      transition: 0.2s all;
+      border: 1px solid #cf0;
+      border-radius: 12px;
 
-      button {
-        width: 100px;
-        height: 30px;
-        background: #cf0;
-        position: relative;
-        top: 0;
-        transition: 0.2s;
-        color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
-        font-size: 12px;
-        font-style: normal;
-        line-height: normal;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 4px;
-          width: calc(100% - 2px);
-          transition: 0.2s;
-          border-radius: 8px;
-          height: 29px;
-          border: 1px solid #cf0;
+      textarea {
+        resize: none;
+        color: #f1f1f1;
+        font-family: Inter400;
+        font-size: 14px;
+        all: unset;
+        width: 100%;
+        &::-webkit-scrollbar-button {
+          display: none;
         }
-        &:hover {
-          top: 4px;
-          &::before {
-            top: 0;
-          }
+        &::-webkit-scrollbar-track {
+          border-radius: 0px 12px 12px 0px;
+        }
+      }
+    }
+
+    &__button {
+      width: 100px;
+      height: 30px;
+      background: #cf0;
+      transition: 0.2s;
+      color: var(--Text-dark-title, #1a1a1a);
+      font-family: Orbitron600;
+      font-size: 12px;
+      font-style: normal;
+      line-height: normal;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: 16px;
+      margin-left: auto;
+      transition: 0.2s all;
+      top: 0px;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: calc(100% - 2px);
+        transition: 0.2s all;
+        border-radius: 8px;
+        height: 29px;
+        border: 1px solid #cf0;
+      }
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0;
         }
       }
     }

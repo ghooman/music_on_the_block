@@ -246,11 +246,7 @@ const EditAlbumSongs = () => {
           <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
           <ContentWrap.SubWrap gap={8}>
             <Filter songsSort />
-            <Search
-              placeholder="Search by Artist name or Song title..."
-              handler={null}
-              defaultValue={search}
-            />
+            <Search placeholder="Search by Artist name or Song title..." handler={null} />
           </ContentWrap.SubWrap>
           <div className="edit-table-wrap">
             <SongPlayEditTable

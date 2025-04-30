@@ -1,14 +1,26 @@
 .mint-detail {
   .album-detail__title {
     margin-bottom: 32px;
+    position: relative;
     dt {
-      color: #cf0;
-      font-family: Orbitron600;
-      font-size: 30px;
+      padding-left: 8px;
+      color: var(--primary-base, #cf0);
+      font-family: Orbitron400;
+      font-size: 24px;
       font-style: normal;
       line-height: normal;
-      letter-spacing: 0.9px;
+      letter-spacing: 0.72px;
     }
+    &::before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background-color: #cf0;
+      border-radius: 100%;
+      top: 0px;
+    }
+
     dd {
       color: #f1f1f1;
       font-family: Inter400;

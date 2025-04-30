@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
@@ -63,6 +63,7 @@ const NftItemDetail = () => {
 export default NftItemDetail;
 
 const NftItemDetailInfo = ({ id }) => {
+  const navigate = useNavigate();
   const serverApi = process.env.REACT_APP_SERVER_API;
 
   const { token, walletAddress } = useContext(AuthContext);
@@ -211,15 +212,6 @@ const NftItemDetailInfo = ({ id }) => {
             </div>
             <div className="nft-item-detail__song-detail__right">
               <p className="nft-item-detail__song-detail__right__title">{album?.nft_name}</p>
-              {/* <div className="nft-item-detail__song-detail__right__type">
-                                {(tagArray.length > 0 ? tagArray : ['Pop', 'Rock', 'Electronic', 'Jazz']).map(
-                                    (type, index) => (
-                                        <div key={index} className="nft-item-detail__song-detail__right__type__item">
-                                            {type}
-                                        </div>
-                                    )
-                                )}
-                            </div> */}
               <div className="nft-item-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Item ID</dt>
@@ -294,7 +286,12 @@ const NftItemDetailInfo = ({ id }) => {
               </div> */}
               <div className="nft-item-detail__song-detail__right__btn-box">
                 {!album?.is_owner && album?.now_sales_status === 'Listed' && (
-                  <button className="nft-item-detail__song-detail__right__btn-box__btn">
+                  <button
+                    className="nft-item-detail__song-detail__right__btn-box__btn"
+                    onClick={() => {
+                      navigate('/nft/buy');
+                    }}
+                  >
                     Buy NFT
                   </button>
                 )}

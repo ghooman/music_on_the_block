@@ -50,7 +50,7 @@ function MintNftDetail() {
     <>
       <div className="mint-detail">
         <dl className="album-detail__title">
-          <dt>Mint Details</dt>
+          <dt>Mint NFT</dt>
         </dl>
         <SongsBar />
         <ContentWrap title="Select Collection">

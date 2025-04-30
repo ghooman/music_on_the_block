@@ -38,3 +38,40 @@ export const getNftsList = async ({
     throw new Error('getNftsList Error', e);
   }
 };
+
+/**
+ *
+ * @param {string | number} page : 페이지
+ * @param {string} user_name : 유저네임
+ * @param {string} nft_rating : 등급
+ * @param {string} sales_token : 토큰 종류
+ * @param {string} sort_by : 정렬
+ * @param {string} search_keyword : 검색어
+ * @returns
+ */
+export const getNftTransactionHistory = async ({
+  page,
+  user_name,
+  nft_rating,
+  ai_service,
+  sales_token,
+  sort_by,
+  search_keyword,
+}) => {
+  try {
+    const res = await axios.get(`${serverApi}/api/nfts/transaction/history`, {
+      params: {
+        page,
+        user_name,
+        nft_rating,
+        ai_service,
+        sales_token,
+        sort_by,
+        search_keyword,
+      },
+    });
+    return res.data;
+  } catch (e) {
+    throw new Error('getNftTransactionHistory', e);
+  }
+};

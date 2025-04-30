@@ -323,6 +323,22 @@
     } //album-detail__song-detail__bot--END--
   } //album-detail__song-detail--END--
 
+  .album-detail__control-guide {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .album-detail__control-guide--text {
+    font-family: Inter600;
+    color: #fff;
+  }
+  .album-detail__control-guide--icon {
+    width: 16px;
+    height: 16px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
   .album-detail__control-button-wraps {
     display: flex;
     gap: 24px;
@@ -341,6 +357,7 @@
     &:disabled {
       color: #565656 !important;
       background-color: #000 !important;
+      cursor: default;
       &:hover {
         top: 0px;
         &::after {

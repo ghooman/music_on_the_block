@@ -5,23 +5,35 @@ import Pagination from '../unit/Pagination';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import CollectionTable from '../table/CollectionTable';
+import CollectionHistoryTable from '../table/CollectionHistoryTable';
 import Loading from '../IntroLogo2';
 
 import './NftMarketPlace.scss';
 import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { getMyNftCollections, getNftCollections } from '../../api/nfts/nftCollectionsApi';
+import {
+  getMyNftCollections,
+  getNftCollectionHistory,
+  getNftCollections,
+} from '../../api/nfts/nftCollectionsApi';
 import { AuthContext } from '../../contexts/AuthContext';
-import { getNftsList } from '../../api/nfts/nftsListApi';
+import { getNftsList, getNftTransactionHistory } from '../../api/nfts/nftsListApi';
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
   { name: 'Collection', preparing: false },
+  { name: 'History', preparing: false },
 ];
 
-const nftFilterItemList = ['All', 'Unlisted', 'Listed', 'Sold'];
+const nftFilterItemList = ['All', 'Unlisted', 'Listed'];
 
+/**
+ *
+ * @param {string} username : 유저네임
+ * @param {boolean} isMyProfile : 나의 프로필인지 남의 프로필인지 확인하는 프롭스
+ * @returns
+ */
 const NftMarketPlace = ({ username, isMyProfile }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -49,6 +61,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
       {tab === 'Collection' && (
         <CollectionItems token={token} username={username} isMyProfile={isMyProfile} />
       )}
+      {tab === 'History' && <History username={username} isMyProfile={isMyProfile} />}
     </div>
   );
 };
@@ -116,11 +129,11 @@ const NftItems = ({ token, username, isMyProfile }) => {
 };
 
 const CollectionItems = ({ token, username, isMyProfile }) => {
-  const [searchParamas, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = searchParamas.get('page');
-  const search = searchParamas.get('search');
-  const collectionSort = searchParamas.get('collection_sort');
+  const page = searchParams.get('page');
+  const search = searchParams.get('search');
+  const collectionSort = searchParams.get('collection_sort');
 
   const { data, isLoading } = useQuery(
     ['collection_data', token, page, search, collectionSort, username],
@@ -147,6 +160,49 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
       <CollectionTable collectionList={data?.data_list} />
       <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
       {isLoading && <Loading />}
+    </ContentWrap>
+  );
+};
+
+const History = ({ username }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = searchParams.get('page');
+  const search = searchParams.get('search');
+  const gradeFilter = searchParams.get('grade_filter');
+  const tokenFilter = searchParams.get('token_filter');
+  const nftSort = searchParams.get('nft_sort');
+
+  const { data, isLoading } = useQuery(
+    ['nft_transaction_history_data', page, search, gradeFilter, tokenFilter, username, nftSort],
+    async () => {
+      const response = await getNftTransactionHistory({
+        page: page,
+        search_keyword: search,
+        nft_rating: gradeFilter,
+        sales_token: tokenFilter,
+        sort_by: nftSort,
+        user_name: username,
+      });
+      return response.data;
+    }
+  );
+
+  return (
+    <ContentWrap title="History">
+      {isLoading && <Loading />}
+      <ContentWrap.SubWrap gap={8}>
+        <Filter gradeFilter={true} tokenFilter={true} buySellFilter={true} nftSort={true} />
+        <Search placeholder="Search" />
+      </ContentWrap.SubWrap>
+      <NftTable
+        nftList={data?.data_list}
+        collectionOption={false}
+        buyerOption={true}
+        sellerOption={true}
+        saleStatusOption={true}
+      />
+      <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
     </ContentWrap>
   );
 };

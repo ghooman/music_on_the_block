@@ -75,9 +75,9 @@ TableItem.Indexs = React.memo(({ text }) => {
   );
 });
 
-TableItem.Text = React.memo(({ text }) => {
+TableItem.Text = React.memo(({ text, color }) => {
   return (
-    <td className="table__body--item">
+    <td className="table__body--item" style={{ color }}>
       <p className="text">{text}</p>
     </td>
   );

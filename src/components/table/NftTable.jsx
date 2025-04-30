@@ -34,12 +34,19 @@ const NftTable = ({
             <TableItem>
               <TableItem.Indexs text={index + 1} />
               <TableItem.Type image={songTypeIcon} />
-              <TableItem.Grade grade={item.grade} />
+              <TableItem.Grade grade={item.nft_rating} />
               <TableItem.Text text={item.nft_name} />
               {collectionOption && <TableItem.Text text={item.collection} />}
-              {buyerOption && <TableItem.UserInfo />}
-              {sellerOption && <TableItem.UserInfo />}
-              <TableItem.Text text={item.price + ' ' + item.adminssion_type} />
+              {buyerOption && (
+                <TableItem.UserInfo
+                  image={item?.seller_user_profile}
+                  name={item?.seller_user_name}
+                />
+              )}
+              {sellerOption && (
+                <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
+              )}
+              <TableItem.Text text={item.price + ' ' + item.sales_token} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 

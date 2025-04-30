@@ -56,6 +56,8 @@ const NftItem = ({ item }) => {
   const [duration, setDuration] = useState('');
   const formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
+  console.log(item, '음원 데이터');
+
   useEffect(() => {
     if (!item) return;
     const audio = new Audio(item.nft_music_url);

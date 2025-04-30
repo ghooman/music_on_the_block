@@ -386,8 +386,6 @@ const TransactionStatistics = ({ id }) => {
     fetchStatisticsData();
   }, []);
 
-  console.log(statisticsData, '스테이스틱스 데이');
-
   return (
     <ContentWrap title="Transaction Statistics">
       <NftOverview title="Key Information Related to Transactions">

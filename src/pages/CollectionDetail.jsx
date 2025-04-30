@@ -60,7 +60,7 @@ const CollectionDetail = () => {
   }, [id]);
 
   useEffect(() => {
-    setSearchParams({});
+    setSearchParams({}, { replace: true });
   }, [selectCategory]);
 
   return (

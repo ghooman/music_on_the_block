@@ -276,9 +276,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   }`}
                 >
                   <Link
-                    to="/nft"
+                    // to="/nft"
                     className="menu__box__gnb-list__item__btn shop"
-                    onClick={() => handleSingleActive('nft')}
+                    // onClick={() => handleSingleActive('nft')}
+                    onClick={() => setPreparingModal(true)}
                   >
                     <p className="icon"></p>NFT MarketPlace
                   </Link>

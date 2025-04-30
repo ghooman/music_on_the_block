@@ -8,7 +8,7 @@ const ErrorModal = ({ title, setShowErrorModal, message, button }) => {
   };
 
   return (
-    <ModalWrap onClose={onClose} title={title || ''}>
+    <ModalWrap onClose={onClose} title={title || 'Error'}>
       <div className="error-modal">
         <div className="error-modal__logo-box"></div>
         <p className="error-modal__text">{message || 'No Text'}</p>

@@ -1,0 +1,37 @@
+.buy-nft-modal {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+
+  .buy-nft-modal__text {
+    color: var(--Text-music-sub, #aaa);
+    font-family: Inter400;
+    font-size: 16px;
+  }
+  .buy-nft-modal__list {
+  }
+  .buy-nft-modal__list--item {
+  }
+
+  .buy-nft-modal__checkbox-wrap {
+    display: flex;
+    gap: 8px;
+  }
+  .buy-nft-modal__checkbox {
+  }
+  .buy-nft-modal__checkbox--message {
+    color: #cf0;
+    font-family: Inter400;
+    font-size: 16px;
+  }
+  .buy-nft-modal__button-wrap {
+    display: flex;
+    gap: 24px;
+  }
+  .buy-nft-modal__button {
+    &.cancel-button {
+    }
+    &.buy-button {
+    }
+  }
+}

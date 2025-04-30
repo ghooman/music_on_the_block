@@ -18,6 +18,7 @@ import CreateCollectionModal from '../CreateCollectionModal';
 import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
 import NoneContent from '../unit/NoneContent';
 import Filter from '../unit/Filter';
+import BuyNftModal from './BuyNftModal';
 // ────────────────────────────────
 function MintNftDetail() {
   const { token } = useContext(AuthContext);
@@ -73,6 +74,8 @@ function MintNftDetail() {
           >
             {status === 'mint' ? 'Mint' : 'Buy'}
           </button>
+          {status === 'mint' && <Mint />}
+          {status === 'buy' && <Buy />}
         </ContentWrap>
       </div>
       {showModal && (
@@ -98,8 +101,17 @@ function MintNftDetail() {
           fetchMyNftCollections={fetchMyNftCollections}
         />
       )}
+      <BuyNftModal />
     </>
   );
 }
 
 export default MintNftDetail;
+
+const Buy = () => {
+  return <button className="mint-btn">Buy</button>;
+};
+
+const Mint = () => {
+  return <button className="mint-btn">Mint</button>;
+};

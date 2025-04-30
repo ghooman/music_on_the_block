@@ -253,6 +253,7 @@ const NFTItems = ({ id }) => {
   const { data, isLoading } = useQuery(
     [
       'collection_nft_list_data',
+      id,
       page,
       search,
       grade_filter,

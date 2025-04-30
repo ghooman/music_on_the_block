@@ -112,7 +112,7 @@ const NftConfirmModal = ({
         await approveMusicNFT(thirdwebId);
       }
 
-      // 3. 판매 리스팅 생성
+      // // 3. 판매 리스팅 생성
       // const currencyAddress = ContractAddress();
       // const now = Math.floor(Date.now() / 1000);
       // const tenYearsLater = now + 10 * 365 * 24 * 60 * 60;

@@ -23,6 +23,7 @@ export const mintNft = async (token, song_id, collection_id) => {
     console.log('mintNft', response);
     return response.data;
   } catch (error) {
+    console.error('민팅 에러', error);
     throw new Error('NFT 민팅 요청 실패');
   }
 };

@@ -42,7 +42,7 @@ const NftItemDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    setSearchParams({});
+    setSearchParams({}, { replace: true });
   }, [selectCategory]);
 
   return (
@@ -242,21 +242,12 @@ const NftItemDetailInfo = ({ id }) => {
                   </dd>
                 </dl>
                 <dl
-                  className={
-                    album?.now_sales_status === '보관'
-                      ? 'Unlisted'
-                      : album?.now_sales_status === '판매중'
-                      ? 'Listed'
-                      : ''
-                  }
+                  className={album?.now_sales_status}
                   // className="Listed"
                   // className="Sold"
                 >
                   <dt>Sell Status</dt>
-                  <dd>
-                    {album?.now_sales_status === '보관' && 'Unlisted'}
-                    {album?.now_sales_status === '판매중' && 'Listed'}
-                  </dd>
+                  <dd>{album?.now_sales_status}</dd>
                 </dl>
                 <dl>
                   <dt>Mint NFT date</dt>
@@ -302,12 +293,12 @@ const NftItemDetailInfo = ({ id }) => {
                 </div>
               </div> */}
               <div className="nft-item-detail__song-detail__right__btn-box">
-                {!album?.is_owner && album?.now_sales_status === '판매중' && (
+                {!album?.is_owner && album?.now_sales_status === 'Listed' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn">
                     Buy NFT
                   </button>
                 )}
-                {album?.is_owner && album?.now_sales_status === '보관' && (
+                {album?.is_owner && album?.now_sales_status === 'Unlisted' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
                     Sell NFT
                   </button>

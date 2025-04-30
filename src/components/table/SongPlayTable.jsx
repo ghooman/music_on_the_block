@@ -113,6 +113,7 @@ const SongPlayTable = ({
             <TableHeader.Col>Song</TableHeader.Col>
             <TableHeader.Col>Type</TableHeader.Col>
             <TableHeader.Col>Grade</TableHeader.Col>
+            {nftOption && <TableHeader.Col>NFT</TableHeader.Col>}
             {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
             <TableHeader.Col>Song Title</TableHeader.Col>
             {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
@@ -148,10 +149,11 @@ const SongPlayTable = ({
                   />
                   <TableItem.Type image={songTypeIcon} />
                   <TableItem.Grade grade={'New'} />
+                  {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
                   {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
                   <TableItem.Text text={item.title} />
-                  {playsOption && <TableItem.Text text={item.play_cnt} />}
-                  {likesOption && <TableItem.Text text={item.like} />}
+                  {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
+                  {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
 
                   <TableItem.Button
                     title="Details"

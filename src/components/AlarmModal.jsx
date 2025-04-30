@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/AuthContext';
 const AlarmModal = () => {
   const WS_URL = 'wss://muble.xyz/ws/album_status/';
   const albumIdStorageKey = 'generatedAlbumId';
-  const albumTimerStorageKey = 'generatedAlbumTimerStart';
+  const albumTimerStorageKeyBase = 'generatedAlbumTimerStart';
   const RECONNECT_INTERVAL = 3000;
 
   const getStoredAlbumData = () => {
@@ -43,6 +43,14 @@ const AlarmModal = () => {
   const socketRef = useRef(null);
   const hasTimerStartedRef = useRef(false);
 
+  // 앨범 ID를 포함한 타이머 키 생성 - 각 사용자의 타이머가 분리되도록 함
+  const getTimerKey = () => {
+    if (storedAlbumData?.id) {
+      return `${albumTimerStorageKeyBase}_${storedAlbumData.id}`;
+    }
+    return albumTimerStorageKeyBase;
+  };
+
   // console.log('albumPk', albumPk);
 
   const shouldRenderModal =
@@ -50,26 +58,89 @@ const AlarmModal = () => {
 
   // console.log('storedAlbumData', storedAlbumData);
 
-  const formatTime = sec =>
-    `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
+  const formatTime = sec => {
+    try {
+      if (sec === undefined || sec === null || isNaN(sec)) {
+        return '00:00';
+      }
+      return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(
+        Math.floor(sec % 60)
+      ).padStart(2, '0')}`;
+    } catch (err) {
+      console.error('시간 포맷팅 오류:', err);
+      return '00:00';
+    }
+  };
 
+  // 타이머 초기화 함수 - 여러 곳에서 재사용
+  const initializeTimer = () => {
+    if (!storedAlbumData) return;
+
+    const timerKey = getTimerKey();
+    const storedStart = localStorage.getItem(timerKey);
+    if (storedStart) {
+      try {
+        const startTime = parseInt(storedStart);
+        if (!isNaN(startTime)) {
+          setElapsedSeconds(Math.floor((Date.now() - startTime) / 1000));
+        } else {
+          // 저장된 값이 유효하지 않은 경우
+          const newStartTime = Date.now();
+          localStorage.setItem(timerKey, newStartTime.toString());
+          setElapsedSeconds(0);
+        }
+      } catch (err) {
+        console.error('타이머 초기화 오류:', err);
+        const newStartTime = Date.now();
+        localStorage.setItem(timerKey, newStartTime.toString());
+        setElapsedSeconds(0);
+      }
+    } else {
+      // 저장된 값이 없는 경우
+      const newStartTime = Date.now();
+      localStorage.setItem(timerKey, newStartTime.toString());
+      setElapsedSeconds(0);
+    }
+    hasTimerStartedRef.current = true;
+  };
+
+  // 컴포넌트 마운트 시 한 번만 실행되는 초기화 로직
   useEffect(() => {
     if (storedAlbumData && !isError && !albumPk && !hasTimerStartedRef.current) {
-      const storedStart = localStorage.getItem(albumTimerStorageKey);
-      const startTime = storedStart ? parseInt(storedStart) : Date.now();
-      if (!storedStart) localStorage.setItem(albumTimerStorageKey, startTime.toString());
-      setElapsedSeconds(Math.floor((Date.now() - startTime) / 1000));
-      hasTimerStartedRef.current = true;
+      initializeTimer();
+    }
+  }, []); // 빈 의존성 배열로 최초 마운트 시에만 실행
+
+  // storedAlbumData 변경 시 타이머 초기화 (새 곡 시작 시)
+  useEffect(() => {
+    if (storedAlbumData && !isError && !albumPk && !hasTimerStartedRef.current) {
+      initializeTimer();
     }
   }, [storedAlbumData, isError, albumPk]);
 
+  // 타이머 업데이트 로직
   useEffect(() => {
     let timer;
     if (storedAlbumData && !albumPk && !isError) {
       timer = setInterval(() => {
-        const storedStart = parseInt(localStorage.getItem(albumTimerStorageKey));
-        const diffSeconds = Math.floor((Date.now() - storedStart) / 1000);
-        setElapsedSeconds(diffSeconds);
+        const timerKey = getTimerKey();
+        const storedStart = localStorage.getItem(timerKey);
+        if (!storedStart) {
+          initializeTimer();
+        } else {
+          try {
+            const startTime = parseInt(storedStart);
+            if (!isNaN(startTime)) {
+              const diffSeconds = Math.floor((Date.now() - startTime) / 1000);
+              setElapsedSeconds(diffSeconds);
+            } else {
+              initializeTimer();
+            }
+          } catch (err) {
+            console.error('타이머 계산 오류:', err);
+            initializeTimer();
+          }
+        }
       }, 1000);
     }
     return () => clearInterval(timer);
@@ -78,12 +149,64 @@ const AlarmModal = () => {
   useEffect(() => {
     if (albumPk || isError) {
       hasTimerStartedRef.current = false;
-      localStorage.removeItem(albumTimerStorageKey);
+      // 특정 앨범의 타이머만 제거
+      if (storedAlbumData?.id) {
+        localStorage.removeItem(getTimerKey());
+      } else {
+        localStorage.removeItem(albumTimerStorageKeyBase);
+      }
     }
   }, [albumPk, isError]);
 
+  const prevStoredAlbumData = useRef(null);
+  const isInitialMount = useRef(true);
+  // console.log('prevStoredAlbumData', prevStoredAlbumData.current);
+
   useEffect(() => {
-    setStoredAlbumData(getStoredAlbumData());
+    // 첫 마운트 시에는 실행하지 않음
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      prevStoredAlbumData.current = storedAlbumData;
+      return;
+    }
+
+    // storedAlbumData가 "새로" 생긴 경우에만 초기화 (null에서 새 값으로 변경된 경우)
+    const isNewStart =
+      storedAlbumData &&
+      (!prevStoredAlbumData.current ||
+        (prevStoredAlbumData.current && storedAlbumData.id !== prevStoredAlbumData.current.id));
+
+    // null → 값 생성 경우만 새 곡 생성으로 간주
+    const isActuallyNew = !prevStoredAlbumData.current && storedAlbumData;
+
+    if (isNewStart && isActuallyNew) {
+      console.log('새로운 곡 생성 시작됨. 상태 초기화!');
+      setAlbumPk(null);
+      setAlbumWalletAddress(null);
+      setIsError(false);
+      setErrorMessage('');
+      setElapsedSeconds(0);
+      // 새 타이머 시작 - 앨범 ID를 포함한 키 사용
+      const timerKey = `${albumTimerStorageKeyBase}_${storedAlbumData.id}`;
+      localStorage.setItem(timerKey, Date.now().toString());
+    }
+
+    // 이전 값 업데이트
+    prevStoredAlbumData.current = storedAlbumData;
+  }, [storedAlbumData]);
+
+  useEffect(() => {
+    // 페이지 이동 후 데이터를 다시 가져올 때 조용히 처리
+    const quietlyFetchData = () => {
+      const data = getStoredAlbumData();
+      if (data) {
+        setStoredAlbumData(data);
+        // 이미 storedAlbumData가 있었다면 prevStoredAlbumData도 초기화해서 "새로운 곡" 메시지 방지
+        prevStoredAlbumData.current = data;
+      }
+    };
+
+    quietlyFetchData();
     connectWebSocket();
     return () => socketRef.current?.close();
   }, [location]);
@@ -102,12 +225,12 @@ const AlarmModal = () => {
         // console.log('수신 데이터:', data);
 
         // — 필터링 시작 —
-        // storedAlbumData?.id 와 walletAddress.address 가 존재할 때만 처리
-        if (
-          (storedAlbumData?.id && data.pk !== storedAlbumData.id) ||
-          (walletAddress?.address && data.wallet_address !== walletAddress.address)
-        ) {
-          // 내 앨범/내 지갑 주소 이벤트가 아니면 무시
+        // 내 앨범 ID와 일치하거나 내 지갑 주소와 일치하는 경우만 처리
+        const isMyAlbum = storedAlbumData?.id && data.pk === storedAlbumData.id;
+        const isMyWallet = walletAddress?.address && data.wallet_address === walletAddress.address;
+
+        if (!isMyAlbum && !isMyWallet) {
+          // 내 데이터가 아니면 무시
           return;
         }
         // — 필터링 끝 —
@@ -116,7 +239,12 @@ const AlarmModal = () => {
           setAlbumPk(data.pk);
           setAlbumWalletAddress(data.wallet_address);
           localStorage.removeItem(albumIdStorageKey);
-          localStorage.removeItem(albumTimerStorageKey);
+          // 앨범 ID별 타이머 키 제거
+          if (storedAlbumData?.id) {
+            localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
+          } else {
+            localStorage.removeItem(albumTimerStorageKeyBase);
+          }
           setStoredAlbumData(null);
 
           if (data.status === 'fail') {
@@ -124,6 +252,7 @@ const AlarmModal = () => {
             setErrorMessage(data.message?.message || 'Unknown error');
           }
         } else {
+          // 상태 업데이트가 있을 때 타이머는 유지
           // console.log('현재 상태:', data.status);
         }
       } catch (err) {
@@ -152,39 +281,13 @@ const AlarmModal = () => {
     setErrorMessage('');
     setElapsedSeconds(0);
     localStorage.removeItem(albumIdStorageKey);
-    localStorage.removeItem(albumTimerStorageKey);
-  };
-
-  // useEffect(() => {
-  //   if (storedAlbumData && isError) {
-  //     console.log("자동으로 isError 초기화됨");
-  //     setIsError(false);
-  //     setErrorMessage("");
-  //     setElapsedSeconds(0);
-  //   }
-  // }, [storedAlbumData]);
-
-  const prevStoredAlbumData = useRef(null);
-  // console.log('prevStoredAlbumData', prevStoredAlbumData.current);
-
-  useEffect(() => {
-    // storedAlbumData가 "새로" 생긴 경우에만 초기화
-    const isNewStart =
-      storedAlbumData &&
-      (!prevStoredAlbumData.current || storedAlbumData.id !== prevStoredAlbumData.current.id);
-
-    if (isNewStart) {
-      console.log('새로운 곡 생성 시작됨. 상태 초기화!');
-      setAlbumPk(null);
-      setAlbumWalletAddress(null);
-      setIsError(false);
-      setErrorMessage('');
-      setElapsedSeconds(0);
+    // 앨범 ID별 타이머 키가 있으면 제거
+    if (storedAlbumData?.id) {
+      localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
+    } else {
+      localStorage.removeItem(albumTimerStorageKeyBase);
     }
-
-    // 이전 값 업데이트
-    prevStoredAlbumData.current = storedAlbumData;
-  }, [storedAlbumData]);
+  };
 
   if (!shouldRenderModal) return null;
 

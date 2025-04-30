@@ -60,7 +60,12 @@ const MyFavorites = () => {
           <Search placeholder="Search By song title..." />
         </ContentWrap.SubWrap>
         {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}
-        <SongPlayTable songList={favoritesSongsList?.data_list} />
+        <SongPlayTable
+          songList={favoritesSongsList?.data_list}
+          nftOption={true}
+          playsOption={true}
+          likesOption={true}
+        />
         <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={15} page={page} />
       </ContentWrap>
       {isLoading && <Loading />}

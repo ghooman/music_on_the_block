@@ -101,14 +101,17 @@
       font-style: normal;
       font-weight: 350;
       line-height: normal;
+      color: #f1f1f1;
+      transition: 0.2s all;
+
       &:focus {
         outline: none;
-        border-color: rgba(255, 255, 255, 0.3);
+        border-color: #cf0;
       }
 
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-      }
+      // &::placeholder {
+      //   color: rgba(255, 255, 255, 0.5);
+      // }
 
       &__length {
         position: absolute;
@@ -171,14 +174,22 @@
       }
     }
 
-    &.cancel-button,
-    &.delete-button {
+    &.cancel-button {
       background-color: #383838;
       color: #f1f1f1;
       &::after {
         border-color: #383838;
       }
     }
+
+    &.delete-button {
+      color: #1a1a1a;
+      background-color: #df1919;
+      &::after {
+        border-color: #df1919;
+      }
+    }
+
     &.create-button {
       width: 800px;
       background-color: #cf0;

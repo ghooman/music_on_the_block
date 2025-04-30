@@ -23,6 +23,8 @@ const UserTable = ({
 }) => {
   const navigate = useNavigate();
 
+  console.log(userList, '유저 리스트');
+
   return (
     <TableWrapper>
       <Table>

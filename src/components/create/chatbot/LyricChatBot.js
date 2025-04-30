@@ -223,33 +223,36 @@ const LyricChatBot = ({
             />
           </pre>
         )}
+
         <div className="generated-lyrics__confirm-buttons">
           <p
             className={`generated-lyrics__confirm-buttons--text ${
               generatedLyric?.length > 1000 ? 'disabled' : ''
             }`}
           >
-            Lyric Length : {generatedLyric?.length} / 1000
+            Lyrics Length : {generatedLyric?.length} / 1000
           </p>
-          <button
-            className="generated-lyrics__confirm-buttons--button edit"
-            onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-          >
-            EDIT
-          </button>
-          <button
-            className={`generated-lyrics__confirm-buttons--button confirm ${
-              generatedLyric?.length > 1000 ? 'disabled' : ''
-            }`}
-            disabled={generatedLyric?.length > 1000}
-            onClick={() => {
-              setGeneratedLyric(generatedLyric);
-              setPageNumber(prev => prev + 1);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          >
-            CONFIRM
-          </button>
+          <div className="generated-lyrics__confirm-buttons--button-wrap">
+            <button
+              className="generated-lyrics__confirm-buttons--button edit"
+              onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
+            >
+              EDIT
+            </button>
+            <button
+              className={`generated-lyrics__confirm-buttons--button confirm ${
+                generatedLyric?.length > 1000 ? 'disabled' : ''
+              }`}
+              disabled={generatedLyric?.length > 1000}
+              onClick={() => {
+                setGeneratedLyric(generatedLyric);
+                setPageNumber(prev => prev + 1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              CONFIRM
+            </button>
+          </div>
         </div>
         <div className="generated-lyrics__download-buttons">
           <button

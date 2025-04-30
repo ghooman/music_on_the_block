@@ -1,89 +1,95 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
+// 컴포넌트 임포트
 import Categories from '../components/nft/Categories';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList } from '../components/nft/NftItem';
-import Pagination from '../components/unit/Pagination';
-import FilterItems from '../components/unit/FilterItems';
-import Search from '../components/unit/Search';
-import { InfoRowWrap } from '../components/nft/InfoRow';
-import CustomTable from '../components/CustomTable';
-
-import likeImage from '../assets/images/like-icon/like-icon-on.svg';
-import unLikeImage from '../assets/images/like-icon/like-icon.svg';
-import dummy_collectionImage from '../assets/images/nft/collection01.png';
-import dummy_userImage from '../assets/images/account/demo-user1.png';
-
-import '../styles/CollectionDetail.scss';
 import { NftGraph } from '../components/nft/NftGraph';
 import { NftOverview, NftOverviewItem } from '../components/nft/NftOverview';
+import Pagination from '../components/unit/Pagination';
+import Filter from '../components/unit/Filter';
+import Search from '../components/unit/Search';
 import SubCategories from '../components/unit/SubCategories';
+import CollectionHistoryTable from '../components/table/CollectionHistoryTable';
+import Loading from '../components/IntroLogo2';
 
-import { getNftCollectionDetail, getNftCollectionOverview } from '../api/nfts/nftCollectionsApi';
+// API 임포트
+import {
+  getNftCollectionDetail,
+  getNftCollectionOverview,
+  getNftCollectionNftList,
+  getNftCollectionHistory,
+  likeNftCollection,
+  likeNftCollectionCancel,
+} from '../api/nfts/nftCollectionsApi';
 
-const dummyData = [
-  {
-    number: 30,
-    type: 'LYRIC',
-    item: 'Item Name (#123_1)',
-    username: {
-      name: 'user',
-      picture: dummy_userImage,
-    },
-    price: '100.000',
-    details: 'Details',
-  },
-  {
-    number: 30,
-    type: 'COMPOSITION',
-    item: 'Item Name (#123_1)',
-    username: {
-      name: 'Yolkhead',
-      picture: dummy_userImage,
-    },
-    price: '100.000',
-    details: 'Details',
-  },
-  {
-    number: 30,
-    type: 'SONG',
-    item: 'Item Name (#123_1)',
-    username: {
-      name: 'Alice',
-      picture: dummy_userImage,
-    },
-    price: '100.000',
-    details: 'Details',
-  },
-];
+// 컨텍스트 임포트
+import { AuthContext } from '../contexts/AuthContext';
 
+// 에셋 임포트
+import likeImage from '../assets/images/like-icon/like-icon-on.svg';
+import unLikeImage from '../assets/images/like-icon/like-icon.svg';
+import defaultCoverImg from '../assets/images/header/logo-png.png';
+// 스타일 임포트
+import '../styles/CollectionDetail.scss';
+
+/**
+ * 컬렉션 상세 정보 컴포넌트
+ */
 const CollectionDetail = () => {
+  // 상태 관리
   const [selectCategory, setSelectCategory] = useState('Overview');
-  const [collectionDetail, setCollectionDetail] = useState(null);
-  const [isOwner, setIsOwner] = useState(false);
-  const { id } = useParams();
 
-  useEffect(() => {
-    const fetchCollectionDetail = async () => {
-      try {
-        const response = await getNftCollectionDetail({ id });
-        setCollectionDetail(response.data);
-        setIsOwner(response?.data?.is_owner);
-      } catch (error) {
-        console.error('Failed to fetch collection detail:', error);
+  // URL 파라미터
+  const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // 컨텍스트 사용
+  const { token, walletAddress } = useContext(AuthContext);
+
+  // 컬렉션 상세 정보 조회
+  const { data: collectionDetail, refetch: refetchCollectionDetail } = useQuery(
+    ['collectionDetail', id, walletAddress?.address],
+    async () => {
+      const response = await getNftCollectionDetail({ id, wallet_address: walletAddress?.address });
+      return response.data;
+    }
+  );
+
+  // 컬렉션 좋아요, 싫어요 기능
+  const toggleLike = async () => {
+    if (!token || !walletAddress) return;
+    try {
+      if (collectionDetail?.is_like) {
+        await likeNftCollectionCancel({ id, wallet_address: walletAddress.address, token });
+      } else {
+        await likeNftCollection({ id, wallet_address: walletAddress.address, token });
       }
-    };
-    fetchCollectionDetail();
-  }, [id]);
+      // 좋아요 상태 갱신
+      refetchCollectionDetail();
+    } catch (err) {
+      console.error('like toggle failed', err);
+    }
+  };
+
+  /**
+   * 카테고리 변경 핸들러 - 탭 변경 시 파라미터 초기화
+   */
+  const handleCategoryChange = category => {
+    setSelectCategory(category);
+    // 탭 변경 시 검색 파라미터 초기화 (id는 유지)
+    setSearchParams({ page: 1 });
+  };
 
   return (
     <div className="collection-detail">
-      <CollectionInfo collectionDetail={collectionDetail} />
+      <CollectionInfo collectionDetail={collectionDetail} onLikeToggle={toggleLike} />
       <Categories
         categories={['Overview', 'NFT Item', 'History']}
         value={selectCategory}
-        onClick={setSelectCategory}
+        onClick={handleCategoryChange}
       />
       {selectCategory === 'Overview' && <Overview id={id} />}
       {selectCategory === 'NFT Item' && <NFTItems id={id} />}
@@ -92,9 +98,10 @@ const CollectionDetail = () => {
   );
 };
 
-export default CollectionDetail;
-
-const CollectionInfo = ({ collectionDetail }) => {
+/**
+ * 컬렉션 기본 정보 컴포넌트
+ */
+const CollectionInfo = ({ collectionDetail, onLikeToggle }) => {
   return (
     <div className="collection-detail-info-wrap">
       <div className="collection-detail-info">
@@ -109,14 +116,18 @@ const CollectionInfo = ({ collectionDetail }) => {
             <div className="texts__user">
               <img
                 className="texts__user--image"
-                src={collectionDetail?.user_profile}
+                src={collectionDetail?.user_profile || defaultCoverImg}
                 alt="images"
               />
               {collectionDetail?.user_name}
             </div>
 
             <div className="collection-detail-info__like">
-              <img src={collectionDetail?.is_like ? likeImage : unLikeImage} alt="like" />
+              <img
+                src={collectionDetail?.is_like ? likeImage : unLikeImage}
+                alt="like"
+                onClick={onLikeToggle}
+              />
               {collectionDetail?.like}
             </div>
           </div>
@@ -126,6 +137,9 @@ const CollectionInfo = ({ collectionDetail }) => {
   );
 };
 
+/**
+ * 통계 항목 컴포넌트
+ */
 CollectionInfo.StatsItem = ({ title, value, suffix }) => {
   return (
     <div className="stats__item">
@@ -138,15 +152,15 @@ CollectionInfo.StatsItem = ({ title, value, suffix }) => {
   );
 };
 
+/**
+ * 개요 컴포넌트
+ */
 const Overview = ({ id }) => {
-  const [collectionOverview, setCollectionOverview] = useState(null);
-  useEffect(() => {
-    const fetchCollectionOverview = async () => {
-      const response = await getNftCollectionOverview({ id });
-      setCollectionOverview(response.data);
-    };
-    fetchCollectionOverview();
-  }, [id]);
+  const { data: collectionOverview, isLoading } = useQuery(['collectionOverview', id], async () => {
+    const response = await getNftCollectionOverview({ id });
+    return response.data;
+  });
+
   return (
     <>
       <ContentWrap title="Overview">
@@ -155,26 +169,27 @@ const Overview = ({ id }) => {
           <NftOverviewItem title="Number of Transactions" value={0} />
           <NftOverviewItem
             title="Total Volume"
-            value={collectionOverview?.total_transaction_price}
+            value={'$ ' + collectionOverview?.total_transaction_price}
           />
+        </NftOverview>
+        <NftOverview title="Price Informations">
           <NftOverviewItem
-            title="Average Price"
-            value={'$ ' + collectionOverview?.avg_transaction_price}
-            sub_value={0}
+            title="Lowest Price"
+            value={
+              collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
+            }
+            subValue={'$0'}
           />
           <NftOverviewItem
             title="Highest Price"
             value={
               collectionOverview?.max_price + ' ' + (collectionOverview?.max_price_token || 'MOB')
             }
-            sub_value={'$ 0'}
+            subValue={'$0'}
           />
           <NftOverviewItem
-            title="Lowest Price"
-            value={
-              collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
-            }
-            sub_value={'$ 0'}
+            title="Average Price"
+            value={'$ ' + collectionOverview?.avg_transaction_price}
           />
           <NftOverviewItem
             title="Recent Transaction Date"
@@ -183,59 +198,183 @@ const Overview = ({ id }) => {
           />
         </NftOverview>
       </ContentWrap>
-      <ContentWrap title="Graph">
-        <NftGraph />
+      <ContentWrap title="Graph List">
+        <NftGraph
+          barTitle="Number of Transactions"
+          barGraphData={collectionOverview?.total_transaction_price_progress}
+          lineTitle="NFT Price Change Trend"
+          lineGraphData={collectionOverview?.avg_transaction_price_progress}
+        />
       </ContentWrap>
-      <ContentWrap title="Recommended NFTs">
-        <NftItemList data={[1, 2, 3, 4]} />
+      <ContentWrap title="Top NFTs in this Collection">
+        <NftItemList data={collectionOverview?.popular_list} />
       </ContentWrap>
+      {isLoading && <Loading />}
     </>
   );
 };
 
-const NFTItems = () => {
-  const subCategoryList = [{ name: 'All' }, { name: 'For Sell' }];
+/**
+ * NFT 아이템 컴포넌트
+ */
+const NFTItems = ({ id }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const subCategoryList = [{ name: 'All' }, { name: 'Unlisted' }, { name: 'Listed' }];
   const [selected, setSelected] = useState(subCategoryList[0].name);
+
+  // URL 파라미터
+  const page = searchParams.get('page') || 1;
+  const search = searchParams.get('search');
+  const sort_by = searchParams.get('sort_by');
+  const ai_service = searchParams.get('ai_service');
+  const nft_rating = searchParams.get('nft_rating');
+  const salse_token = searchParams.get('salse_token');
+  const now_sales_status = searchParams.get('now_sales_status');
+
+  // useQuery를 사용하여 NFT 리스트 데이터 가져오기
+  const { data, isLoading } = useQuery(
+    [
+      'collectionNftList',
+      id,
+      page,
+      search,
+      sort_by,
+      ai_service,
+      nft_rating,
+      salse_token,
+      now_sales_status,
+    ],
+    async () => {
+      const response = await getNftCollectionNftList({
+        id,
+        page,
+        sort_by,
+        search_keyword: search,
+        ai_service,
+        nft_rating,
+        salse_token,
+        now_sales_status,
+      });
+      return response.data;
+    }
+  );
+
+  /**
+   * 검색어 입력 핸들러
+   */
+  const handleSearch = keyword => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      search: keyword,
+      page: 1,
+    });
+  };
+
+  /**
+   * 서브 카테고리 선택 핸들러
+   */
+  const handleSubCategory = categoryName => {
+    setSelected(categoryName);
+
+    const params = { ...Object.fromEntries(searchParams), page: 1 };
+
+    if (categoryName === 'All') {
+      delete params.now_sales_status;
+    } else if (categoryName === 'Listed') {
+      params.now_sales_status = 'true';
+    } else if (categoryName === 'Unlisted') {
+      params.now_sales_status = 'false';
+    }
+
+    setSearchParams(params);
+  };
+
+  /**
+   * 페이지 변경 핸들러
+   */
+  const handlePageChange = newPage => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: newPage,
+    });
+  };
 
   return (
     <ContentWrap title="NFT Items">
       <ContentWrap.SubWrap gap={8}>
-        <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-        <FilterItems />
-        <Search />
+        <SubCategories categories={subCategoryList} handler={handleSubCategory} value={selected} />
+        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
+        <Search placeholder="Search" value={search || ''} onChange={handleSearch} />
       </ContentWrap.SubWrap>
-      <NftItemList data={[1, 2, 3, 4, 5, 6, 7, 8]} />
-      <Pagination />
+      <NftItemList data={data?.data_list || []} />
+      <Pagination
+        totalCount={data?.total_cnt}
+        viewCount={12}
+        page={page}
+        onChange={handlePageChange}
+      />
+      {isLoading && <Loading />}
     </ContentWrap>
   );
 };
 
-const History = () => {
+/**
+ * 히스토리 컴포넌트
+ */
+const History = ({ id }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // URL 파라미터
+  const page = searchParams.get('page') || 1;
+  const search = searchParams.get('search');
+  const sort_by = searchParams.get('sort_by');
+  const ai_service = searchParams.get('ai_service');
+  const nft_rating = searchParams.get('nft_rating');
+  const salse_token = searchParams.get('salse_token');
+
+  // useQuery를 사용하여 히스토리 데이터 가져오기
+  const { data, isLoading } = useQuery(
+    ['collectionHistory', id, page, search, sort_by, ai_service, nft_rating, salse_token],
+    async () => {
+      const response = await getNftCollectionHistory({
+        id,
+        page,
+        sort_by,
+        search_keyword: search,
+        ai_service,
+        nft_rating,
+        salse_token,
+      });
+      return response.data;
+    }
+  );
+
+  /**
+   * 페이지 변경 핸들러
+   */
+  const handlePageChange = newPage => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: newPage,
+    });
+  };
+
   return (
     <ContentWrap title="History">
-      {/* <InfoRowWrap row={3}>
-                <InfoRowWrap.UserItem
-                    title="Most Purchased Artist"
-                    value={{ picture: dummy_userImage, username: 'YolkHead' }}
-                />
-                <InfoRowWrap.UserItem
-                    title="Highest Bidding UArtister"
-                    value={{ picture: dummy_userImage, username: 'YolkHead' }}
-                />
-                <InfoRowWrap.UserItem
-                    title="Most Recently Traded Artist"
-                    value={{ picture: dummy_userImage, username: 'YolkHead' }}
-                />
-            </InfoRowWrap> */}
       <ContentWrap.SubWrap gap={8}>
-        <FilterItems />
-        <Search />
-        <CustomTable
-          data={dummyData}
-          headers={['#', 'Type', 'Item', 'Artist Name', 'Price(MOB)', 'Details']}
-        />
+        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
+        <Search placeholder="Search" />
+        <CollectionHistoryTable data={data?.data_list} />
       </ContentWrap.SubWrap>
-      <Pagination />
+      <Pagination
+        totalCount={data?.total_cnt}
+        viewCount={10}
+        page={page}
+        onChange={handlePageChange}
+      />
+      {isLoading && <Loading />}
     </ContentWrap>
   );
 };
+
+export default CollectionDetail;

@@ -58,12 +58,18 @@
         border-color: #383838;
       }
     }
-    &.ok-button,
-    &.delete-button {
+    &.ok-button {
       color: #1a1a1a;
       background-color: #cf0;
       &::after {
         border-color: #cf0;
+      }
+    }
+    &.delete-button {
+      color: #1a1a1a;
+      background-color: #df1919;
+      &::after {
+        border-color: #df1919;
       }
     }
   }

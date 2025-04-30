@@ -20,16 +20,18 @@ const NftMintList = () => {
   const page = searchParams.get('page');
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
+  const gradeFilter = searchParams.get('grade_filter');
 
   // 더미
   const { data: songList, isLoading } = useQuery(
-    ['nft_sell_list', { page, search, songsSort }],
+    ['nft_mint_list', { page, search, songsSort, gradeFilter }],
     async () => {
       const res = await axios.get(`${serverApi}/api/nfts/mitable`, {
         params: {
           page: page,
           search_keyword: search,
           sort_by: songsSort,
+          nft_rating: gradeFilter,
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,14 +52,14 @@ const NftMintList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
-  console.log('songList', songList);
+  if (isLoading) return <Loading />;
 
   return (
     <div>
       <ContentWrap title="Mint an NFT">
         <ContentWrap.SubWrap gap={8}>
           <ContentWrap.SubTitle subTitle="Mint one of your songs" />
-          <Filter songsSort={true} gradeFilter={true} generateFilter={true} />
+          <Filter songsSort={true} gradeFilter={true} />
           <Search placeholder="Search" />
         </ContentWrap.SubWrap>
         <SongPlayTable
@@ -71,7 +73,6 @@ const NftMintList = () => {
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={10} page={page} />
       </ContentWrap>
-      {isLoading && <Loading />}
     </div>
   );
 };

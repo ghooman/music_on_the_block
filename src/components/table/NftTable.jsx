@@ -35,7 +35,7 @@ const dummy = [
   },
 ];
 
-const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel }) => {
+const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => {
   return (
     <TableWrapper>
       <Table>
@@ -48,7 +48,7 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
           <TableHeader.Col>Price</TableHeader.Col>
           <TableHeader.Col>Date</TableHeader.Col>
           <TableHeader.Col>Details</TableHeader.Col>
-          {saleAction && <TableHeader.Col>Sale Action</TableHeader.Col>}
+          {saleOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
         </TableHeader>
         <TableBody>
           {nftList.map((item, index) => (
@@ -62,11 +62,11 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 
-              {saleAction && item.status === 'sold' && (
+              {saleOption && item.status === 'sold' && (
                 <TableItem.Button title="Sold" type="sold" />
               )}
 
-              {saleAction && item.status === 'sell' && (
+              {saleOption && item.status === 'sell' && (
                 <TableItem.Button
                   title="Sell"
                   type="sell"
@@ -76,7 +76,7 @@ const NftTable = ({ nftList = dummy, saleAction = true, handleSell, handleCancel
                 />
               )}
 
-              {saleAction && item.status === 'cancel' && (
+              {saleOption && item.status === 'cancel' && (
                 <TableItem.Button
                   title="Cancel"
                   type="cancel"

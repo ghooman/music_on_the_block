@@ -12,7 +12,7 @@ import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import loverIcon from '../../assets/images/icon/heart.svg';
 import typeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 
-const SongsBar = ({ songId }) => {
+const SongsBar = ({}) => {
   const { token, walletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
@@ -40,7 +40,7 @@ const SongsBar = ({ songId }) => {
 
     try {
       const response = await axios.get(
-        `${serverApi}/api/music/${songId || id}?wallet_address=${walletAddress?.address}`
+        `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
       );
       setAlbum(response.data);
       // 앨범 재생 시간 계산
@@ -58,7 +58,7 @@ const SongsBar = ({ songId }) => {
 
   useEffect(() => {
     fetchAlbumDetail();
-  }, [id, songId]);
+  }, [id]);
 
   return (
     <>

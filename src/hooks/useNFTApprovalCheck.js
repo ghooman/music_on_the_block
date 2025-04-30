@@ -4,6 +4,7 @@ import { musicNftContract } from '../contract/contracts';
 import { MARKET_PLACE_CONTRACT_ADDRESS } from '../contract/contractAddresses';
 
 export const useNFTApprovalCheck = () => {
+  console.log('1번 실행');
   const walletAddress = useWalletAddress();
 
   const { data: nftApprovalCheckData } = useReadContract({
@@ -11,6 +12,6 @@ export const useNFTApprovalCheck = () => {
     method: 'function isApprovedForAll(address owner, address operator) view returns (bool)',
     params: [walletAddress, MARKET_PLACE_CONTRACT_ADDRESS],
   });
-
+  console.log('nftApprovalCheckData', nftApprovalCheckData);
   return nftApprovalCheckData;
 };

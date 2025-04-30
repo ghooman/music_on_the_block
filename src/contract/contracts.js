@@ -3,28 +3,55 @@ import {
   MARKET_PLACE_CONTRACT_ADDRESS,
   MOB_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
+  POL_CONTRACT_ADDRESS,
+  USDT_CONTRACT_ADDRESS,
+  USDC_CONTRACT_ADDRESS,
 } from './contractAddresses';
 
 const client = createThirdwebClient({
   clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID,
 });
 
-// mob
+const chain = defineChain(137); // Polygon 메인넷
+
+// mob token
 export const mobContract = getContract({
   client,
-  chain: defineChain(137),
+  chain,
   address: MOB_CONTRACT_ADDRESS,
 });
 
-// music nft
+// POL token (ERC-20이 아닐 수 있음)
+export const polContract = getContract({
+  client,
+  chain,
+  address: POL_CONTRACT_ADDRESS,
+});
+
+// USDT token
+export const usdtContract = getContract({
+  client,
+  chain,
+  address: USDT_CONTRACT_ADDRESS,
+});
+
+// USDC token
+export const usdcContract = getContract({
+  client,
+  chain,
+  address: USDC_CONTRACT_ADDRESS,
+});
+
+// music NFT
 export const musicNftContract = getContract({
   client,
-  chain: defineChain(137),
+  chain,
   address: MUSIC_NFT_CONTRACT_ADDRESS,
 });
 
+// marketplace
 export const marketPlaceContract = getContract({
   client,
-  chain: defineChain(137),
+  chain,
   address: MARKET_PLACE_CONTRACT_ADDRESS,
 });

@@ -181,3 +181,36 @@ export const getNftCollectionHistory = async ({
 
   return response.data;
 };
+/**
+ * 컬렉션 좋아요 기능 API 호출
+ * param {number} id - 컬렉션 ID
+ * parma {string} wallet_address - 지갑 주소
+ * parma {string} token - 인증 토큰
+ * returns {Promise} axios POST 요청 반환
+ */
+
+export const likeNftCollection = async ({ id, wallet_address, token }) => {
+  const response = await axios.post(
+    `${serverApi}/api/nfts/collections/${id}/like?wallet_address=${wallet_address}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  console.log('좋아요', response.data);
+  return response.data;
+};
+
+/**
+ * 컬렉션 좋아요 취소 기능 API 호출
+ * param {number} id - 컬렉션 ID
+ * parma {string} wallet_address - 지갑 주소
+ * parma {string} token - 인증 토큰
+ * returns {Promise} axios POST 요청 반환
+ */
+
+export const likeNftCollectionCancel = async ({ id, wallet_address, token }) => {
+  const response = await axios.post(
+    `${serverApi}/api/nfts/collections/${id}/like/cancel?wallet_address=${wallet_address}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  console.log('캔슬', response.data);
+  return response.data;
+};

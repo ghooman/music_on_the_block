@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 // 컴포넌트 임포트
 import Categories from '../components/nft/Categories';
@@ -20,15 +21,19 @@ import {
   getNftCollectionOverview,
   getNftCollectionNftList,
   getNftCollectionHistory,
+  likeNftCollection,
+  likeNftCollectionCancel,
 } from '../api/nfts/nftCollectionsApi';
+
+// 컨텍스트 임포트
+import { AuthContext } from '../contexts/AuthContext';
 
 // 에셋 임포트
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
 import unLikeImage from '../assets/images/like-icon/like-icon.svg';
-
+import defaultCoverImg from '../assets/images/header/logo-png.png';
 // 스타일 임포트
 import '../styles/CollectionDetail.scss';
-import { useQuery } from 'react-query';
 
 /**
  * 컬렉션 상세 정보 컴포넌트
@@ -36,40 +41,55 @@ import { useQuery } from 'react-query';
 const CollectionDetail = () => {
   // 상태 관리
   const [selectCategory, setSelectCategory] = useState('Overview');
-  const [collectionDetail, setCollectionDetail] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
 
   // URL 파라미터
   const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  /**
-   * 컬렉션 기본 정보 조회
-   */
-  const fetchCollectionDetail = async () => {
+  // 컨텍스트 사용
+  const { token, walletAddress } = useContext(AuthContext);
+
+  // 컬렉션 상세 정보 조회
+  const { data: collectionDetail, refetch: refetchCollectionDetail } = useQuery(
+    ['collectionDetail', id, walletAddress?.address],
+    async () => {
+      const response = await getNftCollectionDetail({ id, wallet_address: walletAddress?.address });
+      return response.data;
+    }
+  );
+
+  // 컬렉션 좋아요, 싫어요 기능
+  const toggleLike = async () => {
+    if (!token || !walletAddress) return;
     try {
-      const response = await getNftCollectionDetail({ id });
-      setCollectionDetail(response.data);
-    } catch (error) {
-      console.error('Failed to fetch collection detail:', error);
+      if (collectionDetail?.is_like) {
+        await likeNftCollectionCancel({ id, wallet_address: walletAddress.address, token });
+      } else {
+        await likeNftCollection({ id, wallet_address: walletAddress.address, token });
+      }
+      // 좋아요 상태 갱신
+      refetchCollectionDetail();
+    } catch (err) {
+      console.error('like toggle failed', err);
     }
   };
 
-  // 컬렉션 기본 정보 조회
-  useEffect(() => {
-    fetchCollectionDetail();
-  }, [id]);
-
-  useEffect(() => {
-    setSearchParams({}, { replace: true });
-  }, [selectCategory]);
+  /**
+   * 카테고리 변경 핸들러 - 탭 변경 시 파라미터 초기화
+   */
+  const handleCategoryChange = category => {
+    setSelectCategory(category);
+    // 탭 변경 시 검색 파라미터 초기화 (id는 유지)
+    setSearchParams({ page: 1 });
+  };
 
   return (
     <div className="collection-detail">
-      <CollectionInfo collectionDetail={collectionDetail} />
+      <CollectionInfo collectionDetail={collectionDetail} onLikeToggle={toggleLike} />
       <Categories
         categories={['Overview', 'NFT Item', 'History']}
         value={selectCategory}
-        onClick={setSelectCategory}
+        onClick={handleCategoryChange}
       />
       {selectCategory === 'Overview' && <Overview id={id} />}
       {selectCategory === 'NFT Item' && <NFTItems id={id} />}
@@ -81,7 +101,7 @@ const CollectionDetail = () => {
 /**
  * 컬렉션 기본 정보 컴포넌트
  */
-const CollectionInfo = ({ collectionDetail }) => {
+const CollectionInfo = ({ collectionDetail, onLikeToggle }) => {
   return (
     <div className="collection-detail-info-wrap">
       <div className="collection-detail-info">
@@ -96,14 +116,18 @@ const CollectionInfo = ({ collectionDetail }) => {
             <div className="texts__user">
               <img
                 className="texts__user--image"
-                src={collectionDetail?.user_profile}
+                src={collectionDetail?.user_profile || defaultCoverImg}
                 alt="images"
               />
               {collectionDetail?.user_name}
             </div>
 
             <div className="collection-detail-info__like">
-              <img src={collectionDetail?.is_like ? likeImage : unLikeImage} alt="like" />
+              <img
+                src={collectionDetail?.is_like ? likeImage : unLikeImage}
+                alt="like"
+                onClick={onLikeToggle}
+              />
               {collectionDetail?.like}
             </div>
           </div>
@@ -132,15 +156,10 @@ CollectionInfo.StatsItem = ({ title, value, suffix }) => {
  * 개요 컴포넌트
  */
 const Overview = ({ id }) => {
-  const [collectionOverview, setCollectionOverview] = useState(null);
-
-  useEffect(() => {
-    const fetchCollectionOverview = async () => {
-      const response = await getNftCollectionOverview({ id });
-      setCollectionOverview(response.data);
-    };
-    fetchCollectionOverview();
-  }, [id]);
+  const { data: collectionOverview, isLoading } = useQuery(['collectionOverview', id], async () => {
+    const response = await getNftCollectionOverview({ id });
+    return response.data;
+  });
 
   return (
     <>
@@ -190,6 +209,7 @@ const Overview = ({ id }) => {
       <ContentWrap title="Top NFTs in this Collection">
         <NftItemList data={collectionOverview?.popular_list} />
       </ContentWrap>
+      {isLoading && <Loading />}
     </>
   );
 };

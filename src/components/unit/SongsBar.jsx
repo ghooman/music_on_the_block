@@ -58,7 +58,7 @@ const SongsBar = ({ songId }) => {
 
   useEffect(() => {
     fetchAlbumDetail();
-  }, [id]);
+  }, [id, songId]);
 
   return (
     <>

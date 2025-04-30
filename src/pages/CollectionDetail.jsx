@@ -32,6 +32,10 @@ import { AuthContext } from '../contexts/AuthContext';
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
 import unLikeImage from '../assets/images/like-icon/like-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
+
+// 유틸 함수 임포트
+import { formatLocalTime } from '../utils/getFormattedTime';
+
 // 스타일 임포트
 import '../styles/CollectionDetail.scss';
 
@@ -80,7 +84,7 @@ const CollectionDetail = () => {
   const handleCategoryChange = category => {
     setSelectCategory(category);
     // 탭 변경 시 검색 파라미터 초기화 (id는 유지)
-    setSearchParams({ page: 1 });
+    setSearchParams({}, { replace: true });
   };
 
   return (
@@ -161,6 +165,8 @@ const Overview = ({ id }) => {
     return response.data;
   });
 
+  console.log('컨펌펌', collectionOverview);
+
   return (
     <>
       <ContentWrap title="Overview">
@@ -193,7 +199,11 @@ const Overview = ({ id }) => {
           />
           <NftOverviewItem
             title="Recent Transaction Date"
-            value={collectionOverview?.last_transaction_date}
+            value={
+              collectionOverview?.last_transaction_date
+                ? formatLocalTime(collectionOverview?.last_transaction_date)
+                : '-'
+            }
             isLong
           />
         </NftOverview>

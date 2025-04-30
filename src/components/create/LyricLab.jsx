@@ -268,25 +268,27 @@ const LyricsLab = ({
           >
             Lyrics Length : {createdLyrics?.length} / 1000
           </p>
-          <button
-            className="generated-lyrics__confirm-buttons--button edit"
-            onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-          >
-            EDIT
-          </button>
-          <button
-            className={`generated-lyrics__confirm-buttons--button confirm ${
-              createdLyrics?.length > 1000 ? 'disabled' : ''
-            }`}
-            disabled={createdLyrics?.length > 1000}
-            onClick={() => {
-              setGeneratedLyric(createdLyrics);
-              setPageNumber(prev => prev + 1);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          >
-            CONFIRM
-          </button>
+          <div className="generated-lyrics__confirm-buttons--button-wrap">
+            <button
+              className="generated-lyrics__confirm-buttons--button edit"
+              onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
+            >
+              EDIT
+            </button>
+            <button
+              className={`generated-lyrics__confirm-buttons--button confirm ${
+                createdLyrics?.length > 1000 ? 'disabled' : ''
+              }`}
+              disabled={createdLyrics?.length > 1000}
+              onClick={() => {
+                setGeneratedLyric(createdLyrics);
+                setPageNumber(prev => prev + 1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              CONFIRM
+            </button>
+          </div>
         </div>
         <div className="generated-lyrics__download-buttons">
           <button

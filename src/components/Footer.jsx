@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./Footer.scss";
+import React, { useState, useEffect } from 'react';
+import './Footer.scss';
 import {
   BrowserRouter,
   Link,
@@ -8,37 +8,31 @@ import {
   Routes,
   useLocation,
   // useNavigate,
-} from "react-router-dom";
+} from 'react-router-dom';
 // import LogoHansung from "../assets/images/";
-import Album from "../pages/Album";
+import Album from '../pages/Album';
 
 //이미지
-import logo from "../assets/images/full-logo-png.png";
-import sns01 from "../assets/images/footer/sns-x.svg";
-import sns02 from "../assets/images/footer/sns-discode.svg";
-import sns03 from "../assets/images/footer/sns-you.svg";
-import sns04 from "../assets/images/footer/sns04.svg";
-import sns05 from "../assets/images/footer/mideum-icon.svg";
+import logo from '../assets/images/full-logo-png.png';
+import sns01 from '../assets/images/footer/sns-x.svg';
+import sns02 from '../assets/images/footer/sns-discode.svg';
+import sns03 from '../assets/images/footer/sns-you.svg';
+import sns04 from '../assets/images/footer/sns04.svg';
+import sns05 from '../assets/images/footer/mideum-icon.svg';
 // import sns05 from "../assets/images/footer/sns05.svg";
-import sns06 from "../assets/images/footer/sns06.svg";
-import musicTokenIcon from "../assets/images/icon/mob-icon01.svg";
-import baseCoin from "../assets/images/coin/base-coin-icon.svg";
-import polygonCoin from "../assets/images/coin/polygon-coin-icon.svg";
-import opBNBCoin from "../assets/images/coin/opBNB-coin-icon.svg";
+import sns06 from '../assets/images/footer/sns06.svg';
+import musicTokenIcon from '../assets/images/icon/mob-icon01.svg';
+import baseCoin from '../assets/images/coin/base-coin-icon.svg';
+import polygonCoin from '../assets/images/coin/polygon-coin-icon.svg';
+import opBNBCoin from '../assets/images/coin/opBNB-coin-icon.svg';
 
-import Menu from "./Menu";
-import MyPage from "../pages/MyPage";
+import Menu from './Menu';
+import MyPage from '../pages/MyPage';
 
 //스와이프
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Pagination,
-  Autoplay,
-} from "swiper/modules";
-import PreparingModal from "./PreparingModal";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
+import PreparingModal from './PreparingModal';
 
 const Footer = ({ setIsLoggedIn }) => {
   const [transactions, setTransactions] = useState([]);
@@ -55,50 +49,50 @@ const Footer = ({ setIsLoggedIn }) => {
       // { id: 6, coin: "opBNBCoin", hash: "0x7fA0123456bc789d", method: "Transfer", block: "#57,773,717", coinLogo: opBNBCoin, },
       {
         id: 1,
-        coin: "polygonCoin",
-        hash: "0xeC9123456789b354",
-        method: "Transfer",
-        block: "#57,773,712",
+        coin: 'polygonCoin',
+        hash: '0xeC9123456789b354',
+        method: 'Transfer',
+        block: '#57,773,712',
         coinLogo: polygonCoin,
       },
       {
         id: 2,
-        coin: "polygonCoin",
-        hash: "0xaB1234567890cdef",
-        method: "Transfer",
-        block: "#18,542,124",
+        coin: 'polygonCoin',
+        hash: '0xaB1234567890cdef',
+        method: 'Transfer',
+        block: '#18,542,124',
         coinLogo: polygonCoin,
       },
       {
         id: 3,
-        coin: "polygonCoin",
-        hash: "0xcdE987654321abcd",
-        method: "Transfer",
-        block: "#65,845,542",
+        coin: 'polygonCoin',
+        hash: '0xcdE987654321abcd',
+        method: 'Transfer',
+        block: '#65,845,542',
         coinLogo: polygonCoin,
       },
       {
         id: 4,
-        coin: "polygonCoin",
-        hash: "0xffA567890123bcde",
-        method: "Transfer",
-        block: "#48,383,545",
+        coin: 'polygonCoin',
+        hash: '0xffA567890123bcde',
+        method: 'Transfer',
+        block: '#48,383,545',
         coinLogo: polygonCoin,
       },
       {
         id: 5,
-        coin: "polygonCoin",
-        hash: "0x123abcdef9876543",
-        method: "Transfer",
-        block: "#65,124,356",
+        coin: 'polygonCoin',
+        hash: '0x123abcdef9876543',
+        method: 'Transfer',
+        block: '#65,124,356',
         coinLogo: polygonCoin,
       },
       {
         id: 6,
-        coin: "polygonCoin",
-        hash: "0x7fA0123456bc789d",
-        method: "Transfer",
-        block: "#17,125,458",
+        coin: 'polygonCoin',
+        hash: '0x7fA0123456bc789d',
+        method: 'Transfer',
+        block: '#17,125,458',
         coinLogo: polygonCoin,
       },
     ];
@@ -106,14 +100,14 @@ const Footer = ({ setIsLoggedIn }) => {
   }, []);
 
   // 해시 값 포맷팅 함수 (앞 5자리 + ... + 끝 4자리)
-  const formatHash = (hash) => {
+  const formatHash = hash => {
     return `${hash.slice(0, 5)}...${hash.slice(-4)}`;
   };
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState("English");
+  const [selectedLang, setSelectedLang] = useState('English');
 
-  const handleSelect = (lang) => {
+  const handleSelect = lang => {
     setSelectedLang(lang);
     setIsOpen(false);
   };
@@ -195,20 +189,21 @@ const Footer = ({ setIsLoggedIn }) => {
                     <Link to="/create">AI Lyrics & Songwriting</Link>
                   </dd>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>
-                      AI Singing Evaluation
-                    </Link>
+                    <Link onClick={() => setPreparingModal(true)}>AI Singing Evaluation</Link>
                   </dd>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>
-                      AI Cover Creation
-                    </Link>
+                    <Link onClick={() => setPreparingModal(true)}>AI Cover Creation</Link>
                   </dd>
                 </dl>
                 <dl>
                   <dt>NFT MarketPlace</dt>
                   <dd>
-                    <Link to="/nft">NFT MarketPlace</Link>
+                    <Link
+                      // to="/nft"
+                      onClick={() => setPreparingModal(true)}
+                    >
+                      NFT MarketPlace
+                    </Link>
                   </dd>
                 </dl>
                 <dl>
@@ -270,11 +265,8 @@ const Footer = ({ setIsLoggedIn }) => {
                 modules={[Pagination, Navigation, Autoplay]}
                 className="footer__bottom__slide"
               >
-                {transactions.map((item) => (
-                  <SwiperSlide
-                    key={item.id}
-                    className="footer__bottom__slide__item"
-                  >
+                {transactions.map(item => (
+                  <SwiperSlide key={item.id} className="footer__bottom__slide__item">
                     <div className="footer__bottom__slide__item__left">
                       <div className="footer__bottom__slide__item__left__hash">
                         <img src={item.coinLogo} alt={item.coin} />
@@ -287,9 +279,7 @@ const Footer = ({ setIsLoggedIn }) => {
                         </dl>
                       </div>
                     </div>
-                    <div className="footer__bottom__slide__item__right">
-                      {item.block}
-                    </div>
+                    <div className="footer__bottom__slide__item__right">{item.block}</div>
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -297,9 +287,7 @@ const Footer = ({ setIsLoggedIn }) => {
           </section>
         </div>
       </div>
-      {isPreparingModal && (
-        <PreparingModal setPreparingModal={setPreparingModal} />
-      )}
+      {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
     </>
   );
 };

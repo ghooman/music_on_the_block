@@ -1,7 +1,7 @@
 import './MintNftDetail.scss';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../unit/ContentWrap';
 import { NftItemList, CollectionItemList } from './NftItem';
@@ -17,6 +17,7 @@ import SongsBar from '../unit/SongsBar';
 import CreateCollectionModal from '../CreateCollectionModal';
 import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
 import NoneContent from '../unit/NoneContent';
+import Filter from '../unit/Filter';
 // ────────────────────────────────
 function MintNftDetail() {
   const { token } = useContext(AuthContext);
@@ -29,6 +30,9 @@ function MintNftDetail() {
   const [sortBy, setSortBy] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedCollection, setSelectedCollection] = useState(null);
+
+  const [searchParamas, setSearchParams] = useSearchParams();
+
   const fetchMyNftCollections = async () => {
     try {
       const response = await getMyNftCollections(token, currentPage, sortBy, searchKeyword);
@@ -51,7 +55,7 @@ function MintNftDetail() {
         <SongsBar />
         <ContentWrap title="Select Collection">
           <div className="filter-create">
-            <FilterItems />
+            <Filter connectionsSort={true} />
             <button className="create-btn" onClick={() => setShowCollectionModal(true)}>
               Create New Collection
               <img src={editIcon} alt="editIcon" />
@@ -59,7 +63,7 @@ function MintNftDetail() {
           </div>
           <Search placeholder="Search Collection" />
           {myNftCollections?.length === 0 ? (
-            <NoneContent message="There are no collections." />
+            <NoneContent message="There are no collections." height={300} />
           ) : (
             <CollectionItemList
               data={myNftCollections}

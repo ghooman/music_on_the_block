@@ -8,11 +8,13 @@ import Pagination from '../components/unit/Pagination';
 import Search from '../components/unit/Search';
 import FilterItems from '../components/unit/FilterItems';
 import Filter from '../components/unit/Filter';
+import Loading from '../components/IntroLogo2';
 
 import { getNftsList } from '../api/nfts/nftsListApi';
 import { getNftCollections } from '../api/nfts/nftCollectionsApi';
 
 import '../styles/NftList.scss';
+import { useQuery } from 'react-query';
 
 const NftList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,11 +26,14 @@ const NftList = () => {
   const gradeFilter = searchParams.get('grade_filter');
   const tokenFilter = searchParams.get('token_filter');
   const songsSort = searchParams.get('songs_sort');
-  const connectionsSort = searchParams.get('connections_sort');
+  const collectionSort = searchParams.get('collection_sort');
 
   useEffect(() => {
     if (!category) {
-      setSearchParams({ category: 'NFT item', page: 1 }, { replace: true });
+      setSearchParams(
+        { category: 'NFT item', page: 1, ...(search ? { search: search } : null) },
+        { replace: true }
+      );
     }
   }, []);
 
@@ -54,7 +59,7 @@ const NftList = () => {
           />
         )}
         {category === 'Collection' && (
-          <CollectionList page={page} search={search} connectionsSort={connectionsSort} />
+          <CollectionList page={page} search={search} collectionSort={collectionSort} />
         )}
       </ContentWrap>
     </div>
@@ -67,24 +72,20 @@ export default NftList;
 //======컴포넌트=====
 //=================
 
-const NFTList = ({ page, search, gradeFilter, songsSort }) => {
-  const [nftData, setNftData] = useState();
-
-  useEffect(() => {
-    const fetchNftList = async () => {
-      try {
-        const response = await getNftsList({
-          page: page,
-          search_keyword: search,
-          sort_by: songsSort,
-        });
-        setNftData(response.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchNftList();
-  }, [page, search]);
+const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter }) => {
+  const { data, isLoading } = useQuery(
+    ['nft_list_all', page, search, gradeFilter, songsSort, tokenFilter],
+    async () => {
+      const response = await getNftsList({
+        page: page,
+        search_keyword: search,
+        sort_by: songsSort,
+        nft_rating: gradeFilter,
+        sales_token: tokenFilter,
+      });
+      return response.data;
+    }
+  );
 
   return (
     <>
@@ -92,39 +93,35 @@ const NFTList = ({ page, search, gradeFilter, songsSort }) => {
         <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" />
       </ContentWrap.SubWrap>
-      <NftItemList data={nftData?.data_list} />
-      <Pagination totalCount={nftData?.total_cnt} viewCount={12} page={page} />
+      <NftItemList data={data?.data_list} />
+      <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
+      {isLoading && <Loading />}
     </>
   );
 };
 
-const CollectionList = ({ page, search, connectionsSort }) => {
-  const [collectionData, setCollectionData] = useState();
-
-  useEffect(() => {
-    const fetchCollectionList = async () => {
-      try {
-        const response = await getNftCollections({
-          page: page,
-          search_keyword: search,
-          sort_by: connectionsSort,
-        });
-        setCollectionData(response.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchCollectionList();
-  }, [page, search, connectionsSort]);
+const CollectionList = ({ page, search, collectionSort }) => {
+  const { data, isLoading } = useQuery(
+    ['collection_list_all', page, search, collectionSort],
+    async () => {
+      const response = await getNftCollections({
+        page: page,
+        search_keyword: search,
+        sort_by: collectionSort,
+      });
+      return response.data;
+    }
+  );
 
   return (
     <>
       <ContentWrap.SubWrap gap={8}>
-        <Filter connectionsSort={true} />
+        <Filter collectionSort={true} />
         <Search placeholder="Search" />
       </ContentWrap.SubWrap>
-      <CollectionItemList data={collectionData?.data_list} />
-      <Pagination totalCount={collectionData?.total_cnt} viewCount={9} page={page} />
+      <CollectionItemList data={data?.data_list} />
+      <Pagination totalCount={data?.total_cnt} viewCount={9} page={page} />
+      {isLoading && <Loading />}
     </>
   );
 };

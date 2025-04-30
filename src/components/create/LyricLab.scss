@@ -21,11 +21,20 @@
     justify-content: flex-end;
     gap: 32px;
     align-items: center;
-    .generated-lyrics__confirm-buttons--text {
-      &.disabled {
-        color: red;
-      }
+  }
+  .generated-lyrics__confirm-buttons--text {
+    width: 100%;
+    text-align: end;
+    &.disabled {
+      color: red;
     }
+  }
+
+  .generated-lyrics__confirm-buttons--button-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
   }
 
   .generated-lyrics__confirm-buttons--button {
@@ -149,6 +158,14 @@
     button {
       margin-bottom: 12px;
       float: right;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .create__lyric-lab {
+    .generated-lyrics__confirm-buttons {
+      flex-direction: column;
     }
   }
 }

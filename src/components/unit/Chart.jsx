@@ -3,6 +3,7 @@ import { ResponsiveLine } from '@nivo/line';
 import { ResponsiveBar } from '@nivo/bar';
 
 import './Chart.scss';
+import { useEffect, useState } from 'react';
 
 // 차트는 다시 작성하겠습니다.
 
@@ -85,10 +86,10 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
   );
 };
 
-export const LineChart = ({ data, height = '500px', width = '100%' }) => {
+export const LineChart = ({ data, height = 300, width = '100%' }) => {
   const chartData = [
     {
-      id: 'japan',
+      id: 'data',
       color: 'hsl(162, 70%, 50%)',
       data: data,
     },
@@ -97,11 +98,11 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
   if (!data) return;
 
   return (
-    <div style={{ maxHeight: height, maxWidth: width, height, width: '100%' }}>
+    <div style={{ height }}>
       <ResponsiveLine
         data={chartData}
-        margin={{ top: 50, right: 20, bottom: 50, left: 25 }}
-        curve="catmullRom"
+        margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
+        // curve="catmullRom"
         xScale={{ type: 'point' }}
         yScale={{
           type: 'linear',
@@ -122,7 +123,7 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
         pointLabelYOffset={-12}
         enableTouchCrosshair={true}
         useMesh={true}
-        enableArea={true}
+        // enableArea={true}
         tooltip={() => null}
         colors={() => '#00ffb3'}
         theme={{
@@ -143,9 +144,6 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
         }}
         axisLeft={{
           tickValues: [0, 1, 2, 3, 4, 5], // 직접 지정
-          legend: 'Y Axis',
-          legendOffset: -40,
-          legendPosition: 'middle',
         }}
       />
     </div>
@@ -154,7 +152,23 @@ export const LineChart = ({ data, height = '500px', width = '100%' }) => {
 
 // components/unit/BarChart.jsx
 
-export const BarChart = ({ data, keys = ['value'], indexBy = 'date', height = 300 }) => {
+export const BarChart = ({
+  data,
+  keys = ['value'],
+  indexBy = 'date',
+  height = 300,
+  width = '100%',
+}) => {
+  const [maxValue, setMaxValue] = useState(0);
+
+  useEffect(() => {
+    let max = 0;
+    data.forEach(item => {
+      if (item.value > max) max = item.value;
+    });
+    setMaxValue(max);
+  }, [data]);
+
   return (
     <div style={{ height }}>
       <ResponsiveBar
@@ -166,6 +180,7 @@ export const BarChart = ({ data, keys = ['value'], indexBy = 'date', height = 30
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors="turquoise"
+        maxValue={maxValue + 9}
         enableLabel={false}
         /* ───── 축 & 눈금 ───── */
         axisBottom={{ tickSize: 0, tickPadding: 12, legendOffset: 32 }}

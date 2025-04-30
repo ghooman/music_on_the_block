@@ -50,7 +50,7 @@ const Nft = () => {
 
   return (
     <div className="nft">
-      <NftExchange />
+      <NftExchange navigate={navigate} />
       <Search
         placeholder="Search"
         handler={search => navigate(`/nft/list?category?=NFT+item&page=1&search=${search}`)}
@@ -68,11 +68,11 @@ const Nft = () => {
         <InfoRowWrap row={4}>
           <InfoRowWrap.ValueItem
             title="Total Volume"
-            value={nftStatistics?.total_price?.toLocaleString()}
+            value={'$ ' + nftStatistics?.total_price?.toLocaleString()}
           />
           <InfoRowWrap.ValueItem
             title="Average Price"
-            value={nftStatistics?.avg_price?.toLocaleString()}
+            value={'$ ' + nftStatistics?.avg_price?.toLocaleString()}
           />
           <InfoRowWrap.ValueItem
             title="Number of NFTs Issued"
@@ -80,11 +80,13 @@ const Nft = () => {
           />
           <InfoRowWrap.ValueItem
             title="Highest Deal Today"
-            value={nftStatistics?.today_max_price?.toLocaleString()}
+            value={'$ ' + nftStatistics?.today_max_price?.toLocaleString()}
           />
         </InfoRowWrap>
         <NftGraph
+          barTitle="Number of Transactions"
           barGraphData={nftStatistics?.total_transaction_price_progress}
+          lineTitle="NFT Price Change Trend"
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>

@@ -10,6 +10,9 @@ import copyIcon from '../assets/images/menu/content-copy-icon.svg';
 import checkIcon from '../assets/images/check-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
+import polIcon from '../assets/images/icon/polygon-icon.svg';
+import usdtIcon from '../assets/images/icon/usdt-icon.svg';
+
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
@@ -176,6 +179,20 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             MIC
                           </span>
                         </div>
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>0</p>
+                          <span>
+                            <img src={polIcon} alt="mob icon" />
+                            POL
+                          </span>
+                        </div>
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>0</p>
+                          <span>
+                            <img src={usdtIcon} alt="mic icon" />
+                            USDT
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -254,6 +271,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     to="/nft"
                     className="menu__box__gnb-list__item__btn shop"
                     onClick={() => handleSingleActive('nft')}
+                    // onClick={() => setPreparingModal(true)}
                   >
                     <p className="icon"></p>NFT MarketPlace
                   </Link>

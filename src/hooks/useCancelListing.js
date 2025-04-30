@@ -4,8 +4,6 @@ import { useWalletAddress } from './useWalletAddress';
 import { marketPlaceContract } from '../contract/contracts';
 
 export const useCancelListing = () => {
-  const walletAddress = useWalletAddress();
-
   const { mutateAsync: sendAndConfirmTransaction } = useSendAndConfirmTransaction();
 
   const cancelListing = async () => {

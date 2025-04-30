@@ -143,7 +143,7 @@ const SongPlayTable = ({
                 >
                   <TableItem.Indexs text={index + 1} />
                   <TableItem.Song
-                    image={item.cover_image}
+                    image={item?.cover_image || item?.nft_image}
                     active={item?.id === activeSong?.id}
                     width={40}
                   />
@@ -151,7 +151,7 @@ const SongPlayTable = ({
                   <TableItem.Grade grade={'New'} />
                   {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
                   {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
-                  <TableItem.Text text={item.title} />
+                  <TableItem.Text text={item.title || item.nft_name} />
                   {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
                   {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
 

@@ -22,7 +22,6 @@ const NftSellList = () => {
   const songsSort = searchParams.get('songs_sort');
   const gradeFilter = searchParams.get('grade_filter');
 
-  // 더미
   const { data: songList, isLoading } = useQuery(
     ['nft_sell_list', { page, search, songsSort, gradeFilter }],
     async () => {
@@ -39,6 +38,7 @@ const NftSellList = () => {
       });
       return res.data;
     },
+
     { refetchOnMount: false }
   );
 
@@ -62,7 +62,7 @@ const NftSellList = () => {
           <Search placeholder="Search" />
         </ContentWrap.SubWrap>
         <SongPlayTable
-          songList={songList?.data_list}
+          songList={songList?.data?.data_list}
           likesOption={true}
           playsOption={true}
           artistOption={false}

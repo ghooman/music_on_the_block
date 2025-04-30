@@ -296,7 +296,12 @@ const NftItemDetailInfo = ({ id }) => {
                   </button>
                 )}
                 {album?.is_owner && album?.now_sales_status === 'Unlisted' && (
-                  <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
+                  <button
+                    className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
+                    onClick={() => {
+                      navigate(`/nft/sell/list?page=1`);
+                    }}
+                  >
                     Sell NFT
                   </button>
                 )}

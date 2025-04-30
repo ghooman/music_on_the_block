@@ -25,7 +25,7 @@ export const NftItemList = ({ data }) => {
             </React.Fragment>
           ))}
       </div>
-      {data?.length <= 0 && (
+      {(!data || data?.length <= 0) && (
         <NoneContent height={300} message="There are no NFT items to show you." />
       )}
     </>

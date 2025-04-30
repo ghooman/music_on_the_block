@@ -293,17 +293,17 @@ const NftItemDetailInfo = ({ id }) => {
                 </div>
               </div> */}
               <div className="nft-item-detail__song-detail__right__btn-box">
-                {!album?.is_owner && album?.now_sales_status === '판매중' && (
+                {!album?.is_owner && album?.now_sales_status === 'Listed' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn">
                     Buy NFT
                   </button>
                 )}
-                {album?.is_owner && album?.now_sales_status === '보관' && (
+                {album?.is_owner && album?.now_sales_status === 'Unlisted' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn sell-nft">
                     Sell NFT
                   </button>
                 )}
-                {album?.is_owner && album?.now_sales_status === '판매중' && (
+                {album?.is_owner && album?.now_sales_status === 'Listed' && (
                   <button className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft">
                     Cancel NFT
                   </button>
@@ -333,6 +333,8 @@ const TrackInformation = ({ id }) => {
     getActivityData();
   }, []);
 
+  console.log(activityData, '액티비티 데이터');
+
   return (
     <>
       <ContentWrap title="Activity">
@@ -360,9 +362,11 @@ const TrackInformation = ({ id }) => {
           <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} />
         </NftOverview>
       </ContentWrap>
+      {/* {activityData?.recommand_list && ( */}
       <ContentWrap title="Recommended NFTs">
         <NftItemList data={activityData?.recommand_list} />
       </ContentWrap>
+      {/* )} */}
     </>
   );
 };
@@ -381,6 +385,8 @@ const TransactionStatistics = ({ id }) => {
     };
     fetchStatisticsData();
   }, []);
+
+  console.log(statisticsData, '스테이스틱스 데이');
 
   return (
     <ContentWrap title="Transaction Statistics">

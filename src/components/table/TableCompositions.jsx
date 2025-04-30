@@ -9,14 +9,28 @@ import grade3Icon from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
 import grade4Icon from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
 import grade5Icon from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
 
+import user_grade1Icon from '../../assets/images/icon/grade-icon/user_Grade01-icon.svg';
+import user_grade2Icon from '../../assets/images/icon/grade-icon/user_Grade2-icon.svg';
+import user_grade3Icon from '../../assets/images/icon/grade-icon/user_Grade3-icon.svg';
+import user_grade4Icon from '../../assets/images/icon/grade-icon/user_Grade4-icon.svg';
+import user_grade5Icon from '../../assets/images/icon/grade-icon/user_Grade5-icon.svg';
+
 import './TableCompositions.scss';
 
-const gradeImages = {
+const gradeIcons = {
   New: grade1Icon,
   Indie: grade2Icon,
   Rising: grade3Icon,
   Top: grade4Icon,
   Legend: grade5Icon,
+};
+
+const userGradeIcons = {
+  New: user_grade1Icon,
+  Indie: user_grade2Icon,
+  Rising: user_grade3Icon,
+  Top: user_grade4Icon,
+  Legend: user_grade5Icon,
 };
 
 // 테이블 태그
@@ -126,7 +140,17 @@ TableItem.Grade = React.memo(({ grade }) => {
   return (
     <td className="table__body--item" style={{ width: 26 }}>
       <div className="grade">
-        <img src={gradeImages[grade] || grade1Icon} alt="icon" />
+        <img src={gradeIcons[grade] || grade1Icon} alt="icon" />
+      </div>
+    </td>
+  );
+});
+
+TableItem.UserGrade = React.memo(({ grade }) => {
+  return (
+    <td className="table__body--item" style={{ width: 26 }}>
+      <div className="grade">
+        <img src={userGradeIcons[grade] || user_grade1Icon} alt="icon" />
       </div>
     </td>
   );

@@ -120,14 +120,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       <div className={`menu ${active ? 'active' : ''} ${isBelowHeight ? 'small-height' : ''}`}>
         <div className="menu__cover">
           <dl className="menu__box">
-            <Link
-              // to="/my-page/service?category=AI Services"
-              // onClick={() => handleSingleActive("my-page")}
-              // onClick={() => setPreparingModal(true)}
-              className="menu__box__title"
-            >
-              My Pg
-            </Link>
             <dd>
               {/* {!login && (
                 <button
@@ -330,7 +322,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             </dd>
           </dl>
 
-          {/* {isLoggedIn && (
+          {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
@@ -396,7 +388,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 </div>
               </dd>
             </dl>
-          )} */}
+          )}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

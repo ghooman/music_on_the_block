@@ -1,18 +1,50 @@
 import { useReadContract } from 'thirdweb/react';
 import { useWalletAddress } from './useWalletAddress';
-import { mobContract } from '../contract/contracts';
+import { mobContract, polContract, usdtContract, usdcContract } from '../contract/contracts';
 
 export const useTokenBalance = () => {
   const walletAddress = useWalletAddress();
 
-  const { data: mobData, refetch: refetchMobData } = useReadContract({
+  // MOB
+  const { data: mobData, refetch: refetchMob } = useReadContract({
     contract: mobContract,
     method: 'function balanceOf(address account) view returns (uint256)',
     params: [walletAddress],
   });
-  console.log('mobData', mobData);
 
-  const mobBalance = mobData ? (Number(mobData) / 10 ** 18).toFixed(2) : '0.00';
+  // POL
+  const { data: polData, refetch: refetchPol } = useReadContract({
+    contract: polContract,
+    method: 'function balanceOf(address account) view returns (uint256)',
+    params: [walletAddress],
+  });
 
-  return { mobBalance };
+  // USDT
+  const { data: usdtData, refetch: refetchUsdt } = useReadContract({
+    contract: usdtContract,
+    method: 'function balanceOf(address account) view returns (uint256)',
+    params: [walletAddress],
+  });
+
+  // USDC
+  const { data: usdcData, refetch: refetchUsdc } = useReadContract({
+    contract: usdcContract,
+    method: 'function balanceOf(address account) view returns (uint256)',
+    params: [walletAddress],
+  });
+
+  const toEther = wei => (wei ? (Number(wei) / 10 ** 18).toFixed(2) : '0.00');
+
+  return {
+    mobBalance: toEther(mobData),
+    polBalance: toEther(polData),
+    usdtBalance: toEther(usdtData),
+    usdcBalance: toEther(usdcData),
+    refetchAll: () => {
+      refetchMob();
+      refetchPol();
+      refetchUsdt();
+      refetchUsdc();
+    },
+  };
 };

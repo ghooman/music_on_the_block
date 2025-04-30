@@ -289,7 +289,7 @@ const NftItemDetailInfo = ({ id }) => {
                   <button
                     className="nft-item-detail__song-detail__right__btn-box__btn"
                     onClick={() => {
-                      navigate('/nft/buy');
+                      navigate(`/mint/detail/${album?.song_id}/buy`);
                     }}
                   >
                     Buy NFT

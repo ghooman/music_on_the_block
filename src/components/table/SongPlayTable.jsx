@@ -187,7 +187,7 @@ const SongPlayTable = ({
                     <TableItem.Button
                       title="Mint"
                       type="mint"
-                      handleClick={() => navigate(`/mint/detail/${item.id}`)}
+                      handleClick={() => navigate(`/mint/detail/${item.id}/mint`)}
                     />
                   )}
 

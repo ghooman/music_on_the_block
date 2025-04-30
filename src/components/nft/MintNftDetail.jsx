@@ -21,7 +21,7 @@ import Filter from '../unit/Filter';
 // ────────────────────────────────
 function MintNftDetail() {
   const { token } = useContext(AuthContext);
-  const { id } = useParams();
+  const { id, status } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -30,14 +30,10 @@ function MintNftDetail() {
   const [sortBy, setSortBy] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectedCollection, setSelectedCollection] = useState(null);
-
-  const [searchParamas, setSearchParams] = useSearchParams();
-
   const fetchMyNftCollections = async () => {
     try {
       const response = await getMyNftCollections(token, currentPage, sortBy, searchKeyword);
       setMyNftCollections(response?.data_list);
-      // console.log('myNftCollections', myNftCollections);
     } catch (error) {
       console.error('나의 NFTS 컬렉션 조회 실패:', error);
     }
@@ -50,7 +46,7 @@ function MintNftDetail() {
     <>
       <div className="mint-detail">
         <dl className="album-detail__title">
-          <dt>Mint NFT</dt>
+          <dt>{status === 'mint' ? 'Mint NFT' : 'Buy NFT'}</dt>
         </dl>
         <SongsBar />
         <ContentWrap title="Select Collection">
@@ -75,7 +71,7 @@ function MintNftDetail() {
             className={selectedCollection ? 'mint-btn' : 'mint-btn disabled'}
             onClick={selectedCollection ? () => setShowModal(true) : null}
           >
-            Mint
+            {status === 'mint' ? 'Mint' : 'Buy'}
           </button>
         </ContentWrap>
       </div>

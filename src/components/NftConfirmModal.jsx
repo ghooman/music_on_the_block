@@ -29,6 +29,7 @@ const NftConfirmModal = ({
   nftName,
   selectedCoin,
   sellPrice,
+  sellPriceInWei,
   thirdwebId,
   // listingId,
 }) => {
@@ -37,6 +38,8 @@ const NftConfirmModal = ({
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  console.log('sellPriceInWei', sellPriceInWei);
 
   // 1번
   const nftApprovalCheckData = useNFTApprovalCheck();
@@ -117,7 +120,7 @@ const NftConfirmModal = ({
         await approveMusicNFT();
       }
 
-      // // 3. 판매 리스팅 생성
+      // 3. 판매 리스팅 생성
       const currencyAddress = ContractAddress();
       const now = Math.floor(Date.now() / 1000);
       const tenYearsLater = now + 10 * 365 * 24 * 60 * 60;
@@ -127,7 +130,7 @@ const NftConfirmModal = ({
         tokenId: thirdwebId,
         quantity: 1,
         currency: currencyAddress,
-        pricePerToken: sellPrice,
+        pricePerToken: sellPriceInWei,
         startTimestamp: now,
         endTimestamp: tenYearsLater,
         reserved: false,

@@ -18,7 +18,7 @@ export const useUserDetail = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('userDetail:', response.data);
+      // console.log('userDetail:', response.data);
       return response.data;
     },
     {

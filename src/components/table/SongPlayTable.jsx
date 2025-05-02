@@ -88,7 +88,6 @@ const SongPlayTable = ({
       setActiveSong(null);
     }
   }, [isTrigger]);
-
   return (
     <>
       <div className="audio-container" style={{ display: 'none' }}>
@@ -198,7 +197,7 @@ const SongPlayTable = ({
                     <TableItem.Button
                       title="Sell"
                       type="sell"
-                      handleClick={() => navigate(`/nft/sell/detail/${item.id}`)}
+                      handleClick={() => navigate(`/nft/sell/detail/${item.song_id}/${item.id}`)}
                     />
                   )}
                 </TableItem>

@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import { useNavigate } from 'react-router-dom';
+import NftConfirmModal from '../NftConfirmModal';
 
 const NftTable = ({
   nftList = [],
@@ -14,9 +16,10 @@ const NftTable = ({
   sellerOption,
 }) => {
   const navigate = useNavigate();
-
-  console.log(nftList, 'NFT 리스트');
-
+  const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
+  const [nftId, setNftId] = useState(null);
+  const [nftName, setNftName] = useState(null);
+  console.log(nftList, 'nftList');
   return (
     <TableWrapper>
       <Table>
@@ -53,7 +56,13 @@ const NftTable = ({
               )}
               <TableItem.Text text={item.price + ' ' + (item.sales_token || '')} />
               <TableItem.Date date={item.create_dt} />
-              <TableItem.Button title="Details" type="details" />
+              <TableItem.Button
+                title="Details"
+                type="details"
+                handleClick={() => {
+                  navigate(`/song-detail/${item?.song_id}`);
+                }}
+              />
 
               {saleOption && item.status === 'sold' && (
                 <TableItem.Button title="Sold" type="sold" />
@@ -68,20 +77,18 @@ const NftTable = ({
                       handleSell();
                       return;
                     }
-                    navigate(`/nft/sell/detail/${item.id}`);
+                    navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
                   }}
                 />
               )}
-
               {saleOption && item.now_sales_status === 'Listed' && (
                 <TableItem.Button
                   title="Cancel"
                   type="cancel"
                   handleClick={() => {
-                    if (handleCancel) {
-                      handleCancel();
-                      return;
-                    }
+                    setNftId(item?.id);
+                    setNftName(item?.nft_name);
+                    setShowNftConfirmModal(true);
                   }}
                 />
               )}
@@ -91,6 +98,18 @@ const NftTable = ({
         </TableBody>
       </Table>
       {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet" />}
+      {showNftConfirmModal && (
+        <NftConfirmModal
+          setShowModal={setShowNftConfirmModal}
+          setShowSuccessModal={setShowNftConfirmModal}
+          title="Confirm cancel NFT sale"
+          confirmSellTxt={false}
+          confirmMintTxt={false}
+          confirmCancelTxt={true}
+          nftId={nftId}
+          nftName={nftName}
+        />
+      )}
     </TableWrapper>
   );
 };

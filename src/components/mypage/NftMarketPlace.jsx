@@ -151,7 +151,7 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
       refetchOnWindowFocus: false,
     }
   );
-
+  console.log('collection_data', data);
   return (
     <ContentWrap title="Collection list">
       <ContentWrap.SubWrap gap={8}>

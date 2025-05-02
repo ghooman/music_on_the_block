@@ -195,7 +195,11 @@ const Overview = ({ id }) => {
                   }`
                 : '-'
             }
-            subValue={`$ ${collectionOverview?.min_price_dollar}`}
+            subValue={
+              collectionOverview?.min_price_dollar
+                ? `$ ${collectionOverview?.min_price_dollar}`
+                : ''
+            }
           />
           <NftOverviewItem
             title="Highest Price"
@@ -206,7 +210,11 @@ const Overview = ({ id }) => {
                   }`
                 : '-'
             }
-            subValue={`$ ${collectionOverview?.max_price_dollar}`}
+            subValue={
+              collectionOverview?.max_price_dollar
+                ? `$ ${collectionOverview?.max_price_dollar}`
+                : ''
+            }
           />
           <NftOverviewItem
             title="Average Price"

@@ -502,7 +502,11 @@ function AlbumDetail() {
                       <button
                         className="album-detail__control-button sell-button"
                         onClick={() => navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`)}
-                        disabled={!album?.is_nft || !album?.is_release}
+                        disabled={
+                          !album?.is_nft ||
+                          !album?.is_release ||
+                          album?.now_sales_status === 'Listed'
+                        }
                       >
                         Sell
                       </button>

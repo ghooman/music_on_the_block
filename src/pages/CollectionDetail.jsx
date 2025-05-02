@@ -175,7 +175,10 @@ const Overview = ({ id }) => {
             title="NFT Items"
             value={collectionOverview?.nft_cnt?.toLocaleString() || '-'}
           />
-          <NftOverviewItem title="Number of Transactions" value={0} />
+          <NftOverviewItem
+            title="Number of Transactions"
+            value={collectionOverview?.transaction_cnt?.toLocaleString() || '-'}
+          />
           <NftOverviewItem
             title="Total Volume"
             value={

@@ -285,7 +285,8 @@ function AlbumDetail() {
     });
     fetchAlbumDetail();
   };
-  console.log(album, '곡의 데이터');
+
+  console.log(album, '응');
 
   return (
     <>
@@ -502,15 +503,19 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button sell-button"
-                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
+                        onClick={() => navigate(`/nft/detail/${album?.nft_id}`)}
                         disabled={!album?.is_nft || !album?.is_release}
                       >
                         Sell
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
-                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
-                        disabled={!album?.is_nft || !album?.is_release}
+                        onClick={() => navigate(`/nft/detail/${album?.nft_id}`)}
+                        disabled={
+                          !album?.is_nft ||
+                          !album?.is_release ||
+                          album?.now_sales_status !== 'Listed'
+                        }
                       >
                         Cancel
                       </button>

@@ -76,7 +76,7 @@ const SongPlayTable = ({
       audioRef.current.pause();
     } else {
       audioRef.current.currentTime = 0;
-      audioRef.current.src = activeSong?.music_url;
+      audioRef.current.src = activeSong?.music_url || activeSong?.nft_music_url;
       audioRef.current.play();
     }
   }, [activeSong]);
@@ -145,13 +145,13 @@ const SongPlayTable = ({
                   <TableItem.Song
                     image={
                       item.cover_image?.replace('public', '140to140') ||
-                      item.nft_name?.replace('public', '140to140')
+                      item.nft_image?.replace('public', '140to140')
                     }
                     active={item?.id === activeSong?.id}
                     width={40}
                   />
                   <TableItem.Type image={songTypeIcon} />
-                  <TableItem.Grade grade={'New'} />
+                  <TableItem.Grade grade={item.rating} />
                   {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
                   {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
                   <TableItem.Text text={item.title || item.nft_name} />
@@ -209,189 +209,6 @@ const SongPlayTable = ({
           <NoneContent message={'There are no songs created yet.'} height={300} />
         )}
       </TableWrapper>
-    </>
-  );
-
-  return (
-    <>
-      <div className="audio-container">
-        <audio
-          controls
-          ref={audioRef}
-          onEnded={() => {
-            if (isContinue) {
-              setActiveSong(
-                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
-              );
-            } else {
-              setActiveSong(null);
-            }
-          }}
-        />
-      </div>
-
-      <div className={`albums-table ${isScroll ? 'scroll' : ''}`}>
-        <table>
-          <thead className={`${isScroll ? 'sticky' : ''}`}>
-            <tr>
-              <th>#</th>
-              <th className="albums-table__song">Song</th>
-              <th className="albums-table__type">Type</th>
-              {gradeOption && <th>Grade</th>}
-              {nftOption && <th>NFT</th>}
-              {artistOption && <th>Artist</th>}
-              <th className="albums-table__song-title">Song Title</th>
-              {playsOption && <th>Plays</th>}
-              {likesOption && <th>Likes</th>}
-              <th>Details</th>
-              {deleteOption && <th>Delete</th>}
-              {releaseOption && <th>Release</th>}
-              {mintOption && <th>NFT Mint</th>}
-              {sellOption && <th>Sell NFT</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {songList && songList.length > 0 && (
-              <>
-                {songList?.map((album, index) => (
-                  <tr
-                    key={album.id}
-                    className={activeSong?.id === album.id ? 'active' : ''}
-                    onClick={() => {
-                      if (activeSong?.id === album?.id) {
-                        setActiveSong(null);
-                      } else {
-                        setActiveSong(album);
-                        if (isTrigger && setIsTrigger) {
-                          triggerIndex.current = index;
-                        }
-                      }
-                    }}
-                  >
-                    <td>{index + 1}</td>
-                    <td>
-                      <button className="albums-table__song-btn">
-                        <img src={album.cover_image} alt="images" />
-                        <div className="loading-wave">
-                          <div className="loading-bar"></div>
-                          <div className="loading-bar"></div>
-                          <div className="loading-bar"></div>
-                          <div className="loading-bar"></div>
-                        </div>
-                      </button>
-                    </td>
-                    <td>
-                      <img src={songTypeIcon} alt="type" />
-                    </td>
-                    {gradeOption && (
-                      <td>
-                        <img src={grade1Icon} alt="grade" />
-                      </td>
-                    )}
-                    {nftOption && <td>NFT</td>}
-                    {artistOption && (
-                      <td>
-                        <div className="albums-table__artist">
-                          <img
-                            className="albums-table__artist-img"
-                            src={album.user_profule || defaultImage}
-                            alt="profile"
-                          />
-
-                          {album.name}
-                        </div>
-                      </td>
-                    )}
-                    <td>{album.title}</td>
-                    {playsOption && <td>{album?.play_cnt?.toLocaleString()}</td>}
-                    {likesOption && <td>{album?.like?.toLocaleString()}</td>}
-                    <td>
-                      <div className="td-content">
-                        <Link
-                          className="albums-table__detail-btn"
-                          to={`/song-detail/${album.id}`}
-                          onClick={e => e.stopPropagation()}
-                        >
-                          Detail
-                        </Link>
-                      </div>
-                    </td>
-                    {deleteOption && handleDelete && (
-                      <td>
-                        <div className="td-content">
-                          <button
-                            className="albums-table__detail-btn delete"
-                            onClick={e => {
-                              e.stopPropagation();
-                              handleDelete(album);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    )}
-                    {releaseOption && handleRelease && (
-                      <td>
-                        <div className="td-content">
-                          <button
-                            className="albums-table__detail-btn release"
-                            onClick={e => {
-                              e.stopPropagation();
-                              handleRelease(album);
-                            }}
-                          >
-                            Release
-                          </button>
-                        </div>
-                      </td>
-                    )}
-                    {mintOption && handleMint && (
-                      <td>
-                        <div className="td-content">
-                          {/* <button
-                                                        className="albums-table__detail-btn mint"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleMint(album);
-                                                        }}
-                                                    >
-                                                        Mint
-                                                    </button> */}
-                          <Link className="albums-table__detail-btn mint" to="/mint/detail">
-                            Mint
-                          </Link>
-                        </div>
-                      </td>
-                    )}
-                    {sellOption && handleSell && (
-                      <td>
-                        <div className="td-content">
-                          {/* <button
-                                                        className="albums-table__detail-btn sell"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleSell(album);
-                                                        }}
-                                                    >
-                                                        Sell
-                                                    </button> */}
-                          <Link className="albums-table__detail-btn sell" to="/sell/detail">
-                            Sell
-                          </Link>
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </>
-            )}
-          </tbody>
-        </table>
-        {songList?.length === 0 && (
-          <NoneContent message={'There are no songs created yet.'} height={300} />
-        )}
-      </div>
     </>
   );
 };

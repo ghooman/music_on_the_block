@@ -240,7 +240,7 @@ const NftItemDetailInfo = ({ id }) => {
                   <dt>Price</dt>
                   <dd>
                     {nftDetailData?.price} {nftDetailData?.sales_token}
-                    <span>$1,000</span>
+                    {nftDetailData?.price && <span>$ {nftDetailData.price * 0.03}</span>}
                   </dd>
                 </dl>
               </div>

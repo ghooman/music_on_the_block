@@ -78,13 +78,12 @@ const NftItems = ({ username, isMyProfile }) => {
   const nftSort = searchParams.get('nft_sort');
   const nftFilter = searchParams.get('nft_filter') || 'All';
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ['nfts_data', page, nftFilter, search, gradeFilter, tokenFilter, nftSort, username],
     async () => {
       const res = await getNftsList({
         page: page,
         now_sales_status: nftFilter,
-        ai_service: '',
         search_keyword: search,
         nft_rating: gradeFilter,
         sales_token: tokenFilter,
@@ -94,6 +93,8 @@ const NftItems = ({ username, isMyProfile }) => {
       return res.data;
     }
   );
+
+  console.log(data, '데이터가 진짜 없나요');
 
   return (
     <>
@@ -120,7 +121,11 @@ const NftItems = ({ username, isMyProfile }) => {
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
           <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
-        <NftTable saleOption={isMyProfile} nftList={data?.data_list} />
+        <NftTable
+          saleOption={isMyProfile}
+          nftList={data?.data_list}
+          onCancelSuccess={() => refetch()}
+        />
         <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
         {isLoading && <Loading />}
       </ContentWrap>
@@ -173,7 +178,7 @@ const History = ({ username }) => {
   const tokenFilter = searchParams.get('token_filter');
   const nftSort = searchParams.get('nft_sort');
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ['nft_transaction_history_data', page, search, gradeFilter, tokenFilter, username, nftSort],
     async () => {
       const response = await getNftTransactionHistory({
@@ -201,6 +206,7 @@ const History = ({ username }) => {
         buyerOption={true}
         sellerOption={true}
         saleStatusOption={true}
+        onCancelSuccess={() => refetch()}
       />
       <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
     </ContentWrap>

@@ -182,7 +182,7 @@ function App() {
               }
             />
             <Route
-              path="mint/detail/:id/:status"
+              path="mint/detail/:id/:nft_id/:status"
               element={
                 <Layout>
                   <MintNftDetail />

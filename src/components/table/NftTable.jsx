@@ -1,6 +1,7 @@
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import { useNavigate } from 'react-router-dom';
 
 const NftTable = ({
   nftList = [],
@@ -12,6 +13,10 @@ const NftTable = ({
   buyerOption,
   sellerOption,
 }) => {
+  const navigate = useNavigate();
+
+  console.log(nftList, 'NFT 리스트');
+
   return (
     <TableWrapper>
       <Table>
@@ -59,7 +64,11 @@ const NftTable = ({
                   title="Sell"
                   type="sell"
                   handleClick={() => {
-                    if (handleSell) handleSell();
+                    if (handleSell) {
+                      handleSell();
+                      return;
+                    }
+                    navigate(`/nft/sell/detail/${item.id}`);
                   }}
                 />
               )}
@@ -69,7 +78,10 @@ const NftTable = ({
                   title="Cancel"
                   type="cancel"
                   handleClick={() => {
-                    if (handleCancel) handleCancel();
+                    if (handleCancel) {
+                      handleCancel();
+                      return;
+                    }
                   }}
                 />
               )}

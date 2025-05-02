@@ -84,7 +84,6 @@ const NftItems = ({ username, isMyProfile }) => {
       const res = await getNftsList({
         page: page,
         now_sales_status: nftFilter,
-        ai_service: '',
         search_keyword: search,
         nft_rating: gradeFilter,
         sales_token: tokenFilter,
@@ -94,6 +93,8 @@ const NftItems = ({ username, isMyProfile }) => {
       return res.data;
     }
   );
+
+  console.log(data, '데이터가 진짜 없나요');
 
   return (
     <>

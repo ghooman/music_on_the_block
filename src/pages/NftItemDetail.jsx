@@ -243,36 +243,38 @@ const NftItemDetailInfo = ({ id }) => {
                 </dl>
               </div>
 
-              <div className="nft-item-detail__song-detail__right__btn-box">
-                {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
-                  <button
-                    className="nft-item-detail__song-detail__right__btn-box__btn"
-                    onClick={() => {
-                      navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
-                    }}
-                  >
-                    Buy NFT
-                  </button>
-                )}
-                {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
-                  <button
-                    className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
-                    onClick={() => {
-                      navigate(`/nft/sell/detail/${nftDetailData?.song_id}/${nftDetailData?.id}`);
-                    }}
-                  >
-                    Sell NFT
-                  </button>
-                )}
-                {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
-                  <button
-                    className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft"
-                    onClick={() => setCancelNft(true)}
-                  >
-                    Cancel NFT
-                  </button>
-                )}
-              </div>
+              {nftDetailData && (
+                <div className="nft-item-detail__song-detail__right__btn-box">
+                  {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
+                    <button
+                      className="nft-item-detail__song-detail__right__btn-box__btn"
+                      onClick={() => {
+                        navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
+                      }}
+                    >
+                      Buy NFT
+                    </button>
+                  )}
+                  {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
+                    <button
+                      className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
+                      onClick={() => {
+                        navigate(`/nft/sell/detail/${nftDetailData?.song_id}/${nftDetailData?.id}`);
+                      }}
+                    >
+                      Sell NFT
+                    </button>
+                  )}
+                  {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
+                    <button
+                      className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft"
+                      onClick={() => setCancelNft(true)}
+                    >
+                      Cancel NFT
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </section>

@@ -32,6 +32,7 @@ const NftConfirmModal = ({
   thirdwebId,
   // listingId,
 }) => {
+  console.log('sellPrice', sellPrice);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -113,27 +114,27 @@ const NftConfirmModal = ({
       // 2. 필요시 승인 진행
       if (!nftApprovalCheckData) {
         console.log('NFT not approved, starting approval process');
-        await approveMusicNFT(thirdwebId);
+        await approveMusicNFT();
       }
 
       // // 3. 판매 리스팅 생성
-      // const currencyAddress = ContractAddress();
-      // const now = Math.floor(Date.now() / 1000);
-      // const tenYearsLater = now + 10 * 365 * 24 * 60 * 60;
+      const currencyAddress = ContractAddress();
+      const now = Math.floor(Date.now() / 1000);
+      const tenYearsLater = now + 10 * 365 * 24 * 60 * 60;
 
-      // const nftParams = {
-      //   assetContract: MUSIC_NFT_CONTRACT_ADDRESS,
-      //   tokenId: thirdwebId,
-      //   quantity: 1,
-      //   currency: currencyAddress,
-      //   pricePerToken: sellPrice,
-      //   startTimestamp: now,
-      //   endTimestamp: tenYearsLater,
-      //   reserved: false,
-      // };
+      const nftParams = {
+        assetContract: MUSIC_NFT_CONTRACT_ADDRESS,
+        tokenId: thirdwebId,
+        quantity: 1,
+        currency: currencyAddress,
+        pricePerToken: sellPrice,
+        startTimestamp: now,
+        endTimestamp: tenYearsLater,
+        reserved: false,
+      };
 
-      // const listingResult = await sellNFT(nftParams);
-      // console.log('Listing created:', listingResult);
+      const listingResult = await sellNFT(nftParams);
+      console.log('Listing created:', listingResult);
 
       // 4. 서버에 판매 정보 등록
       // const serverResponse = await serverPostSellNft(listingResult);

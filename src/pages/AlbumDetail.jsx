@@ -126,7 +126,7 @@ function AlbumDetail() {
   const getLeaderboardData = async () => {
     try {
       const res = await axios.get(`${serverApi}/api/music/leader/board/rank`);
-      console.log('플레 데터 확인용 : :', res.data);
+      // console.log('플레 데터 확인용 : :', res.data);
       setLeaderBoardData(res.data);
     } catch (error) {
       console.error('getLeaderboardData error:', error);
@@ -285,7 +285,6 @@ function AlbumDetail() {
     });
     fetchAlbumDetail();
   };
-  console.log(album, '곡의 데이터');
 
   return (
     <>
@@ -502,7 +501,7 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button sell-button"
-                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
+                        onClick={() => navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`)}
                         disabled={!album?.is_nft || !album?.is_release}
                       >
                         Sell

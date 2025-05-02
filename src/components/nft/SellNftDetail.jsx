@@ -21,7 +21,7 @@ import SongsBar from '../unit/SongsBar';
 const serverApi = process.env.REACT_APP_SERVER_API;
 // ────────────────────────────────
 function MintNftSellDetail2() {
-  const { id } = useParams();
+  const { id, nft_id } = useParams(); // id : 앨범 id, nft_id : nft id
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -38,9 +38,9 @@ function MintNftSellDetail2() {
   };
 
   const { data: nftInfo, isLoading } = useQuery(
-    ['nft_info', { id }],
+    ['nft_info', { id, nft_id }],
     async () => {
-      const res = await axios.get(`${serverApi}/api/nfts/${id}/detail`, {
+      const res = await axios.get(`${serverApi}/api/nfts/${nft_id}/detail`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,6 +49,7 @@ function MintNftSellDetail2() {
     },
     { refetchOnMount: false }
   );
+  console.log('nftInfo', nftInfo);
 
   return (
     <>

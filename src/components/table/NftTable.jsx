@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import { useNavigate } from 'react-router-dom';
+import NftConfirmModal from '../NftConfirmModal';
+
 const NftTable = ({
   nftList = [],
   collectionOption = true,
@@ -13,6 +16,9 @@ const NftTable = ({
   sellerOption,
 }) => {
   const navigate = useNavigate();
+  const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
+  const [nftId, setNftId] = useState(null);
+  const [nftName, setNftName] = useState(null);
   console.log(nftList, 'nftList');
   return (
     <TableWrapper>
@@ -71,13 +77,14 @@ const NftTable = ({
                   }}
                 />
               )}
-
               {saleOption && item.now_sales_status === 'Listed' && (
                 <TableItem.Button
                   title="Cancel"
                   type="cancel"
                   handleClick={() => {
-                    if (handleCancel) handleCancel();
+                    setNftId(item?.id);
+                    setNftName(item?.nft_name);
+                    setShowNftConfirmModal(true);
                   }}
                 />
               )}
@@ -87,6 +94,18 @@ const NftTable = ({
         </TableBody>
       </Table>
       {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet" />}
+      {showNftConfirmModal && (
+        <NftConfirmModal
+          setShowModal={setShowNftConfirmModal}
+          setShowSuccessModal={setShowNftConfirmModal}
+          title="Confirm cancel NFT sale"
+          confirmSellTxt={false}
+          confirmMintTxt={false}
+          confirmCancelTxt={true}
+          nftId={nftId}
+          nftName={nftName}
+        />
+      )}
     </TableWrapper>
   );
 };

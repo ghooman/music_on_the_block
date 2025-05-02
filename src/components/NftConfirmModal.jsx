@@ -23,6 +23,7 @@ const NftConfirmModal = ({
   title,
   confirmSellTxt,
   confirmMintTxt,
+  confirmCancelTxt,
   setShowSuccessModal,
   selectedCollection,
   songId,
@@ -31,9 +32,11 @@ const NftConfirmModal = ({
   sellPrice,
   sellPriceInWei,
   thirdwebId,
+  nftId,
   // listingId,
 }) => {
   console.log('sellPrice', sellPrice);
+  console.log('nftId', nftId);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -88,18 +91,15 @@ const NftConfirmModal = ({
   const serverPostSellNft = async listingId => {
     try {
       const response = await axios.post(
-        `${serverApi}/api/nfts/my/sell/${thirdwebId}`,
-        {
-          price: sellPrice,
-          sales_token: selectedCoin.name,
-          listing_id: listingId,
-        },
+        `${serverApi}/api/nfts/my/sell/${thirdwebId}?price=${sellPrice}&sales_token=${selectedCoin.name}&listing_id=${listingId}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log('serverResponse', response);
       return response;
     } catch (error) {
       console.error('Server post error:', error);
@@ -140,8 +140,8 @@ const NftConfirmModal = ({
       console.log('Listing created:', listingResult);
 
       // 4. 서버에 판매 정보 등록
-      // const serverResponse = await serverPostSellNft(listingResult);
-      // console.log('Server response:', serverResponse);
+      const serverResponse = await serverPostSellNft(listingResult);
+      console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
       setShowModal(false);
@@ -159,10 +159,14 @@ const NftConfirmModal = ({
     return <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />;
   }
 
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
   return (
     <ModalWrap title={title} onClose={() => setShowModal(false)} className="confirm-modal">
       <dl>
-        {confirmSellTxt && <dt>[{selectedCollection?.name || nftName}]</dt>}
+        {(confirmSellTxt || confirmCancelTxt) && <dt>[{selectedCollection?.name || nftName}]</dt>}
         {confirmMintTxt && <dt>Confirm minting: [{selectedCollection?.name}]</dt>}
         <dd>Network gas fees may apply. No refund or cancellation after purchase.</dd>
       </dl>
@@ -179,6 +183,11 @@ const NftConfirmModal = ({
         {confirmSellTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleSell}>
             {isLoading ? 'Loading...' : 'Sell'}
+          </button>
+        )}
+        {confirmCancelTxt && (
+          <button className="confirm-modal__btns__ok" onClick={handleCancel}>
+            {isLoading ? 'Loading...' : 'Yes, Continue'}
           </button>
         )}
       </div>

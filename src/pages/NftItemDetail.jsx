@@ -110,6 +110,8 @@ const NftItemDetailInfo = ({ id }) => {
     mutate?.mutate();
   };
 
+  console.log(nftDetailData, 'nft detail data');
+
   return (
     <>
       <div className="nft-item-detail-info-wrap">
@@ -239,8 +241,10 @@ const NftItemDetailInfo = ({ id }) => {
                 <dl className="nft-item-detail__song-detail__right__value-box__price">
                   <dt>Price</dt>
                   <dd>
-                    {nftDetailData?.price} {nftDetailData?.sales_token}
-                    {nftDetailData?.price && <span>$ {nftDetailData.price * 0.03}</span>}
+                    {nftDetailData?.price
+                      ? `${nftDetailData?.price} ${nftDetailData?.sales_token}`
+                      : '-'}
+                    {/* {nftDetailData?.price && <span>$ {nftDetailData.price * 0.03}</span>} */}
                   </dd>
                 </dl>
               </div>

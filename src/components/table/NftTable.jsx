@@ -1,7 +1,7 @@
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-
+import { useNavigate } from 'react-router-dom';
 const NftTable = ({
   nftList = [],
   collectionOption = true,
@@ -12,6 +12,8 @@ const NftTable = ({
   buyerOption,
   sellerOption,
 }) => {
+  const navigate = useNavigate();
+  console.log(nftList, 'nftList');
   return (
     <TableWrapper>
       <Table>
@@ -48,7 +50,13 @@ const NftTable = ({
               )}
               <TableItem.Text text={item.price + ' ' + (item.sales_token || '')} />
               <TableItem.Date date={item.create_dt} />
-              <TableItem.Button title="Details" type="details" />
+              <TableItem.Button
+                title="Details"
+                type="details"
+                handleClick={() => {
+                  navigate(`/song-detail/${item?.song_id}`);
+                }}
+              />
 
               {saleOption && item.status === 'sold' && (
                 <TableItem.Button title="Sold" type="sold" />
@@ -59,7 +67,7 @@ const NftTable = ({
                   title="Sell"
                   type="sell"
                   handleClick={() => {
-                    if (handleSell) handleSell();
+                    navigate(`/nft/sell/detail/${item?.song_id}/${item?.id}`); // song_id, nft_id
                   }}
                 />
               )}

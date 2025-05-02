@@ -69,9 +69,9 @@ const NftConfirmModal = ({
     } catch (error) {
       const match = error.message.match(/{.*}/);
       setErrorMessage(
-        JSON.parse(match?.[0])?.message ||
-          error?.response?.data?.detail ||
+        error?.response?.data?.detail ||
           error?.message ||
+          JSON.parse(match?.[0])?.message ||
           'Error'
       );
     } finally {
@@ -159,9 +159,9 @@ const NftConfirmModal = ({
     } catch (error) {
       const match = error.message.match(/{.*}/);
       setErrorMessage(
-        (match && JSON.parse(match?.[0]))?.message ||
-          error?.response?.data?.detail ||
+        error?.response?.data?.detail ||
           error?.message ||
+          (match && JSON.parse(match?.[0]))?.message ||
           'Error'
       );
     } finally {

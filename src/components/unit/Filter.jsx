@@ -37,6 +37,7 @@ const Filter = ({
   gradeFilter,
   mintingFilter,
   tokenFilter,
+  buySellFilter,
   // 정렬 옵션
   songsSort,
   albumSort,
@@ -58,6 +59,7 @@ const Filter = ({
   const gradeFilter_ = searchParamas.get('grade_filter');
   const mintingFilter_ = searchParamas.get('minting_filter');
   const tokenFilter_ = searchParamas.get('token_filter');
+  const buySellFilter_ = searchParamas.get('buy_sell_filter');
   // 정렬
   const songsSort_ = searchParamas.get('songs_sort');
   const collectionSort_ = searchParamas.get('collection_sort');
@@ -73,6 +75,7 @@ const Filter = ({
     gradeFilter_,
     mintingFilter_,
     tokenFilter_,
+    buySellFilter_,
     //정렬
     songsSort_,
     collectionSort_,
@@ -172,14 +175,22 @@ const Filter = ({
               <FilterCategory
                 value={tokenFilter_}
                 setParamsObj={setParamsObj}
-                title="Minting"
+                title="Token"
                 filterName="token_filter"
                 filterItems={
                   typeof tokenFilter === 'boolean' ? ['MOB', 'POL', 'USDT', 'USDC'] : tokenFilter
                 }
               />
             )}
-
+            {buySellFilter && (
+              <FilterCategory
+                value={buySellFilter_}
+                setParamsObj={setParamsObj}
+                title="Sale Action"
+                filterName="buy_sell_filter"
+                filterItems={typeof buySellFilter === 'boolean' ? ['Buy', 'Sell'] : buySellFilter}
+              />
+            )}
             {songsSort && (
               <FilterCategory
                 value={songsSort_}

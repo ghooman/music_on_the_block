@@ -105,7 +105,16 @@ const AiServices = ({ username }) => {
 
     const getSongRatingCount = async () => {
       try {
-        const res = await axios.get(`${serverApi}/api/user/song/rating/count?user`);
+        const res = await axios.get(
+          `${serverApi}/api/user/song/rating/count?user_name=${username}`
+        );
+        console.log('등급별 카운트', res.data);
+        const data = Object.entries(res.data)?.map(([key, value]) => {
+          return { date: key, value: value };
+        });
+        console.log(data, '등급별 카운트2');
+
+        setSongRatingCountData(data);
       } catch (e) {
         console.error(e);
       }
@@ -116,7 +125,7 @@ const AiServices = ({ username }) => {
         const res = await axios.get(
           `${serverApi}/api/user/daily/ai/usage/statistics?name=${username}`
         );
-        const formatXY = res.data.map(item => ({ x: item.record_date, y: item.cnt }));
+        const formatXY = res.data?.map(item => ({ x: item.record_date, y: item.cnt }));
         setDailyUsageData(formatXY);
       } catch (e) {
         console.error(e);
@@ -133,7 +142,7 @@ const AiServices = ({ username }) => {
     <>
       {/** 차트 조작 버튼입니다. */}
       <div className="ai__services">
-        {AiServiceTypeList.map(item => (
+        {AiServiceTypeList?.map(item => (
           <button
             key={item.name}
             className={`ai__service-btn ${selectedServiceChartItem === item.name ? 'active' : ''}`}
@@ -229,11 +238,11 @@ const AiServices = ({ username }) => {
         <div className="period__chart">
           <div className="period__chart--item">
             <p>Song Grade Distribution</p>
-            <LineChart data={dailyUsageData} />
+            {dailyUsageData && <LineChart data={dailyUsageData} />}
           </div>
           <div className="period__chart--item">
             <p>Al Work Trends By Period (7-Dats Fixed)</p>
-            <BarChart data={dailyUsageData} />
+            {songRatingCountData && <BarChart data={songRatingCountData} />}
           </div>
         </div>
       </section>

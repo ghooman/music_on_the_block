@@ -12,9 +12,11 @@ import { useSearchParams } from 'react-router-dom';
  * @param {object} reset : 검색어 입력 시 초기화할 쿼리 파라미터
  * @returns
  */
-const Search = ({ placeholder, handler, queryParameterName = 'search', defaultValue, reset }) => {
+const Search = ({ placeholder, handler, queryParameterName = 'search', reset }) => {
   const [focus, setFocus] = useState(false);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const search = searchParams.get('search');
 
   const handleSearch = e => {
     e.preventDefault();
@@ -50,7 +52,7 @@ const Search = ({ placeholder, handler, queryParameterName = 'search', defaultVa
           placeholder={placeholder}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          defaultValue={defaultValue}
+          defaultValue={search}
         />
         <button className="search__button" type="submit">
           <img src={searchIcon} alt="search" />

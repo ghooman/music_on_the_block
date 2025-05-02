@@ -116,8 +116,8 @@ const LyricsLab = ({
   7. Default Simplicity for Insufficient Tags
      - If the user does not select or provide sufficient tags or details, create simple, straightforward lyrics using a basic structure.
   
-  8. Lyrics Length
-     - The lyrics should be 900~1,000 characters (including spaces) in length.
+8. Lyrics Length  
+   - The lyrics should be **limited to a maximum of 900 characters including spaces**.
 
   Your overall goal is to deliver engaging, well-structured song lyrics that align with the user's request, without any extra commentary.
   

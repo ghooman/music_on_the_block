@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import ContentWrap from '../unit/ContentWrap';
 import Filter from '../unit/Filter';
 import Pagination from '../unit/Pagination';
@@ -11,7 +11,7 @@ import './NftMarketPlace.scss';
 import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { getMyNftCollections, getNftCollections } from '../../api/nfts/nftCollectionsApi';
+import { getNftCollections } from '../../api/nfts/nftCollectionsApi';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getNftsList } from '../../api/nfts/nftsListApi';
 
@@ -55,7 +55,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
 
 export default NftMarketPlace;
 
-const NftItems = ({ token, username, isMyProfile }) => {
+const NftItems = ({ username, isMyProfile }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get('page');

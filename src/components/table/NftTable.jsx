@@ -36,6 +36,7 @@ const dummy = [
 ];
 
 const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => {
+  console.log(nftList, 'nftList');
   return (
     <TableWrapper>
       <Table>
@@ -57,8 +58,8 @@ const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => 
               <TableItem.Type image={songTypeIcon} />
               <TableItem.Grade grade={item.grade} />
               <TableItem.Text text={item.nft_name} />
-              <TableItem.Text text={item.collection} />
-              <TableItem.Text text={item.price + ' ' + item.adminssion_type} />
+              <TableItem.Text text={item.connect_collection_name} />
+              <TableItem.Text text={item.price + ' ' + (item.adminssion_type || '')} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 
@@ -66,7 +67,7 @@ const NftTable = ({ nftList = dummy, saleOption, handleSell, handleCancel }) => 
                 <TableItem.Button title="Sold" type="sold" />
               )}
 
-              {saleOption && item.status === 'sell' && (
+              {saleOption && item.status !== 'sold' && item.status !== 'cancel' && (
                 <TableItem.Button
                   title="Sell"
                   type="sell"

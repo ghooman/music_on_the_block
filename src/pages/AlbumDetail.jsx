@@ -494,7 +494,7 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button mint-button"
-                        onClick={() => navigate(`/mint/detail/${album?.id}`)}
+                        onClick={() => navigate(`/mint/detail/${album?.id}/mint`)}
                         disabled={album?.is_nft || !album?.is_release}
                       >
                         Mint
@@ -508,8 +508,12 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
-                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
-                        disabled={!album?.is_nft || !album?.is_release}
+                        onClick={() => navigate(`/nft/detail/${album?.nft_id}`)}
+                        disabled={
+                          !album?.is_nft ||
+                          !album?.is_release ||
+                          album?.now_sales_status !== 'Listed'
+                        }
                       >
                         Cancel
                       </button>
@@ -520,7 +524,7 @@ function AlbumDetail() {
                   <button
                     className="album-detail__control-button buy-button"
                     disabled={!album?.is_nft || !album?.is_release}
-                    onClick={() => navigate(`/mint/detail/${album?.id}/buy`)}
+                    onClick={() => navigate(`/mint/detail/${album?.id}/${album?.nft_id}/buy`)}
                   >
                     Buy NFT
                   </button>

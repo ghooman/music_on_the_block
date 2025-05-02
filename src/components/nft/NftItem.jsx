@@ -15,6 +15,8 @@ import './NftItem.scss';
 import { useState } from 'react';
 
 export const NftItemList = ({ data }) => {
+  console.log(data, 'ㅁㄴㄹ');
+
   return (
     <>
       <div className="nft-item-wrap">
@@ -78,7 +80,7 @@ const NftItem = ({ item }) => {
       <NftTitle desc={item.nft_name} />
       <Title title={item.connect_collection_name} />
       <div className="nft-item__prices col">
-        <PriceItems title="Price" value={`${item?.price} MOB`} />
+        <PriceItems title="Price" value={item.price ? `${item?.price} ${item.sales_token}` : '-'} />
         {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}
       </div>
     </Link>

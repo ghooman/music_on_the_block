@@ -165,37 +165,64 @@ const Overview = ({ id }) => {
     return response.data;
   });
 
-  console.log('컨펌펌', collectionOverview);
+  console.log(collectionOverview, '컬렉션 오버뷰');
 
   return (
     <>
       <ContentWrap title="Overview">
         <NftOverview title="Detail">
-          <NftOverviewItem title="NFT Items" value={collectionOverview?.nft_cnt} />
+          <NftOverviewItem
+            title="NFT Items"
+            value={collectionOverview?.nft_cnt?.toLocaleString() || '-'}
+          />
           <NftOverviewItem title="Number of Transactions" value={0} />
           <NftOverviewItem
             title="Total Volume"
-            value={'$ ' + collectionOverview?.total_transaction_price}
+            value={
+              collectionOverview?.total_transaction_price
+                ? `${collectionOverview?.total_transaction_price?.toLocaleString()}`
+                : '-'
+            }
           />
         </NftOverview>
         <NftOverview title="Price Informations">
           <NftOverviewItem
             title="Lowest Price"
             value={
-              collectionOverview?.min_price + ' ' + (collectionOverview?.min_price_token || 'MOB')
+              collectionOverview?.min_price
+                ? `${collectionOverview?.min_price?.toLocaleString()} ${
+                    collectionOverview?.min_price_token || ''
+                  }`
+                : '-'
             }
-            subValue={'$0'}
+            subValue={
+              collectionOverview?.min_price_dollar
+                ? `$ ${collectionOverview?.min_price_dollar}`
+                : ''
+            }
           />
           <NftOverviewItem
             title="Highest Price"
             value={
-              collectionOverview?.max_price + ' ' + (collectionOverview?.max_price_token || 'MOB')
+              collectionOverview?.max_price
+                ? `${collectionOverview?.max_price?.toLocaleString()} ${
+                    collectionOverview?.max_price_token
+                  }`
+                : '-'
             }
-            subValue={'$0'}
+            subValue={
+              collectionOverview?.max_price_dollar
+                ? `$ ${collectionOverview?.max_price_dollar}`
+                : ''
+            }
           />
           <NftOverviewItem
             title="Average Price"
-            value={'$ ' + collectionOverview?.avg_transaction_price}
+            value={
+              collectionOverview?.avg_transaction_price
+                ? `${collectionOverview?.avg_transaction_price?.toLocaleString()}`
+                : '-'
+            }
           />
           <NftOverviewItem
             title="Recent Transaction Date"
@@ -244,10 +271,13 @@ const NFTItems = ({ id }) => {
    * 서브 카테고리 선택 핸들러
    */
   const handleSubCategory = categoryName => {
-    setSearchParams(prev => {
-      const { search, ...rest } = Object.fromEntries(prev);
-      return { ...rest, now_sales_status: categoryName, page: 1 };
-    });
+    setSearchParams(
+      prev => {
+        const { search, ...rest } = Object.fromEntries(prev);
+        return { ...rest, now_sales_status: categoryName, page: 1 };
+      },
+      { replace: true }
+    );
   };
 
   const { data, isLoading } = useQuery(

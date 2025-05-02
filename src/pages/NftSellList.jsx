@@ -44,7 +44,6 @@ const NftSellList = () => {
 
   const handleSell = () => {
     alert('판매!');
-    // 판매 함수 정의 해주세염
   };
 
   useEffect(() => {

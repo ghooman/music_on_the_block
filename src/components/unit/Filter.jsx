@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ModalWrap from '../ModalWrap';
 
@@ -322,21 +322,23 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
 
   return (
     <FilterItemWrap title={title}>
-      {filterItems.map(item => {
+      {filterItems.map((item, index) => {
         if (typeof item === 'object') {
           // 이미지 넣을 경우
           return (
-            <FilterButton
-              value={item.name}
-              icon={item.icon}
-              select={selectItem}
-              handleClick={() =>
-                setSelectItem(prev => {
-                  if (prev === item.name) return null;
-                  else return item.name;
-                })
-              }
-            ></FilterButton>
+            <React.Fragment key={item + index}>
+              <FilterButton
+                value={item.name}
+                icon={item.icon}
+                select={selectItem}
+                handleClick={() =>
+                  setSelectItem(prev => {
+                    if (prev === item.name) return null;
+                    else return item.name;
+                  })
+                }
+              ></FilterButton>
+            </React.Fragment>
           );
         } else {
           return (

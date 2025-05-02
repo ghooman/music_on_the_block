@@ -165,8 +165,6 @@ const Overview = ({ id }) => {
     return response.data;
   });
 
-  console.log('컨펌펌', collectionOverview);
-
   return (
     <>
       <ContentWrap title="Overview">
@@ -244,10 +242,13 @@ const NFTItems = ({ id }) => {
    * 서브 카테고리 선택 핸들러
    */
   const handleSubCategory = categoryName => {
-    setSearchParams(prev => {
-      const { search, ...rest } = Object.fromEntries(prev);
-      return { ...rest, now_sales_status: categoryName, page: 1 };
-    });
+    setSearchParams(
+      prev => {
+        const { search, ...rest } = Object.fromEntries(prev);
+        return { ...rest, now_sales_status: categoryName, page: 1 };
+      },
+      { replace: true }
+    );
   };
 
   const { data, isLoading } = useQuery(

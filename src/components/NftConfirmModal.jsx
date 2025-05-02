@@ -67,8 +67,13 @@ const NftConfirmModal = ({
         console.error('error', response);
       }
     } catch (error) {
-      console.error('Mint error:', error.message);
-      setErrorMessage(error.message);
+      const match = error.message.match(/{.*}/);
+      setErrorMessage(
+        JSON.parse(match?.[0])?.message ||
+          error?.response?.data?.detail ||
+          error?.message ||
+          'Error'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -151,14 +156,23 @@ const NftConfirmModal = ({
       setShowModal(false);
       setShowSuccessModal(true);
     } catch (error) {
-      console.error('Error during NFT sale process:', error);
-      alert('에러 출력 대비용');
+      const match = error.message.match(/{.*}/);
+
+      console.log(error, '에러 매치');
+
+      setErrorMessage(
+        (match && JSON.parse(match?.[0]))?.message ||
+          error?.response?.data?.detail ||
+          error?.message ||
+          'Error'
+      );
     } finally {
       setIsLoading(false);
     }
   };
   // ===== NFT 판매 함수 끝 =====
 
+<<<<<<< HEAD
   if (errorMessage) {
     return <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />;
   }
@@ -196,7 +210,15 @@ const NftConfirmModal = ({
       setShowModal(false);
       setShowSuccessModal(true);
     }
+=======
+  const handleCancel = () => {
+    setShowModal(false);
+>>>>>>> d3955d11d61ea9ee6a7c16cec3004983cec99a10
   };
+
+  if (errorMessage) {
+    return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
+  }
 
   return (
     <ModalWrap title={title} onClose={() => setShowModal(false)} className="confirm-modal">

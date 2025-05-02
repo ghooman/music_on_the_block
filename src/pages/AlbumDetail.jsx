@@ -508,8 +508,12 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
-                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
-                        disabled={!album?.is_nft || !album?.is_release}
+                        onClick={() => navigate(`/nft/detail/${album?.nft_id}`)}
+                        disabled={
+                          !album?.is_nft ||
+                          !album?.is_release ||
+                          album?.now_sales_status !== 'Listed'
+                        }
                       >
                         Cancel
                       </button>

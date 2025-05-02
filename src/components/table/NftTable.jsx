@@ -74,7 +74,11 @@ const NftTable = ({
                   title="Sell"
                   type="sell"
                   handleClick={() => {
-                    navigate(`/nft/sell/detail/${item?.song_id}/${item?.id}`); // song_id, nft_id
+                    if (handleSell) {
+                      handleSell();
+                      return;
+                    }
+                    navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
                   }}
                 />
               )}

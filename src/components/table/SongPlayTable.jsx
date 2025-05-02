@@ -88,7 +88,6 @@ const SongPlayTable = ({
       setActiveSong(null);
     }
   }, [isTrigger]);
-
   return (
     <>
       <div className="audio-container" style={{ display: 'none' }}>
@@ -145,6 +144,7 @@ const SongPlayTable = ({
                   <TableItem.Song
                     image={
                       item.cover_image?.replace('public', '140to140') ||
+                      item.nft_image?.replace('public', '140to140') ||
                       item.nft_name?.replace('public', '140to140')
                     }
                     active={item?.id === activeSong?.id}
@@ -198,7 +198,7 @@ const SongPlayTable = ({
                     <TableItem.Button
                       title="Sell"
                       type="sell"
-                      handleClick={() => navigate(`/nft/sell/detail/${item.id}`)}
+                      handleClick={() => navigate(`/nft/sell/detail/${item.song_id}/${item.id}`)}
                     />
                   )}
                 </TableItem>

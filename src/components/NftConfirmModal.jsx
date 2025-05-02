@@ -33,6 +33,7 @@ const NftConfirmModal = ({
   thirdwebId,
   // listingId,
 }) => {
+  console.log('sellPrice', sellPrice);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);

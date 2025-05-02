@@ -190,7 +190,7 @@ function App() {
               }
             />
             <Route
-              path="nft/sell/detail/:id"
+              path="nft/sell/detail/:id/:nft_id"
               element={
                 <Layout>
                   <SellNftDetail />

@@ -10,15 +10,16 @@ const NftTable = ({
   collectionOption = true,
   saleOption,
   handleSell,
-  handleCancel,
   saleStatusOption,
   buyerOption,
   sellerOption,
+  onCancelSuccess,
 }) => {
   const navigate = useNavigate();
   const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
   const [nftId, setNftId] = useState(null);
   const [nftName, setNftName] = useState(null);
+  const [listingId, setListingId] = useState(null);
   console.log(nftList, 'nftList');
   return (
     <TableWrapper>
@@ -54,7 +55,7 @@ const NftTable = ({
               {sellerOption && (
                 <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
               )}
-              <TableItem.Text text={item.price + ' ' + (item.sales_token || '')} />
+              <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button
                 title="Details"
@@ -88,6 +89,7 @@ const NftTable = ({
                   handleClick={() => {
                     setNftId(item?.id);
                     setNftName(item?.nft_name);
+                    setListingId(item?.listing_id);
                     setShowNftConfirmModal(true);
                   }}
                 />
@@ -108,6 +110,8 @@ const NftTable = ({
           confirmCancelTxt={true}
           nftId={nftId}
           nftName={nftName}
+          listingId={listingId}
+          onSuccess={onCancelSuccess}
         />
       )}
     </TableWrapper>

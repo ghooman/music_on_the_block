@@ -78,7 +78,7 @@ const NftItems = ({ username, isMyProfile }) => {
   const nftSort = searchParams.get('nft_sort');
   const nftFilter = searchParams.get('nft_filter') || 'All';
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ['nfts_data', page, nftFilter, search, gradeFilter, tokenFilter, nftSort, username],
     async () => {
       const res = await getNftsList({
@@ -121,7 +121,11 @@ const NftItems = ({ username, isMyProfile }) => {
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
           <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
-        <NftTable saleOption={isMyProfile} nftList={data?.data_list} />
+        <NftTable
+          saleOption={isMyProfile}
+          nftList={data?.data_list}
+          onCancelSuccess={() => refetch()}
+        />
         <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
         {isLoading && <Loading />}
       </ContentWrap>
@@ -174,7 +178,7 @@ const History = ({ username }) => {
   const tokenFilter = searchParams.get('token_filter');
   const nftSort = searchParams.get('nft_sort');
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ['nft_transaction_history_data', page, search, gradeFilter, tokenFilter, username, nftSort],
     async () => {
       const response = await getNftTransactionHistory({
@@ -202,6 +206,7 @@ const History = ({ username }) => {
         buyerOption={true}
         sellerOption={true}
         saleStatusOption={true}
+        onCancelSuccess={() => refetch()}
       />
       <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
     </ContentWrap>

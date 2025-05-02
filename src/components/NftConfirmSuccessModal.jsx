@@ -2,12 +2,14 @@ import ModalWrap from './ModalWrap';
 import { useNavigate } from 'react-router-dom';
 import './NftConfirmSuccessModal.scss';
 
-const NftConfirmSuccessModal = ({ setShowSuccessModal, title }) => {
+const NftConfirmSuccessModal = ({ setShowSuccessModal, title, noRedirect }) => {
   const navigate = useNavigate();
 
   const handleClose = () => {
     setShowSuccessModal(false);
-    navigate('/nft');
+    if (!noRedirect) {
+      navigate('/nft');
+    }
   };
 
   return (

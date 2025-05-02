@@ -4,6 +4,7 @@ import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
+import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
 
 const NftTable = ({
   nftList = [],
@@ -17,10 +18,17 @@ const NftTable = ({
 }) => {
   const navigate = useNavigate();
   const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [nftId, setNftId] = useState(null);
   const [nftName, setNftName] = useState(null);
   const [listingId, setListingId] = useState(null);
   console.log(nftList, 'nftList');
+
+  const handleCancelSuccess = () => {
+    if (onCancelSuccess) onCancelSuccess();
+    setShowSuccessModal(true);
+  };
+
   return (
     <TableWrapper>
       <Table>
@@ -103,7 +111,7 @@ const NftTable = ({
       {showNftConfirmModal && (
         <NftConfirmModal
           setShowModal={setShowNftConfirmModal}
-          setShowSuccessModal={setShowNftConfirmModal}
+          setShowSuccessModal={handleCancelSuccess}
           title="Confirm cancel NFT sale"
           confirmSellTxt={false}
           confirmMintTxt={false}
@@ -112,6 +120,13 @@ const NftTable = ({
           nftName={nftName}
           listingId={listingId}
           onSuccess={onCancelSuccess}
+        />
+      )}
+      {showSuccessModal && (
+        <NftConfirmSuccessModal
+          setShowSuccessModal={setShowSuccessModal}
+          title="Your NFT sale has been cancelled successfully!"
+          noRedirect={true}
         />
       )}
     </TableWrapper>

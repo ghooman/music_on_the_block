@@ -79,6 +79,7 @@ const NftItemDetailInfo = ({ id }) => {
       return res.data;
     }
   );
+  console.log('nftDetailData', nftDetailData);
 
   const handleLikes = async () => {
     if (!nftDetailData?.is_like) {
@@ -223,19 +224,8 @@ const NftItemDetailInfo = ({ id }) => {
                   <dt>Mint NFT date</dt>
                   <dd>{formatLocalTime(nftDetailData?.create_dt)}</dd>
                 </dl>
-                {/* <dl>
-                                    <dt>Creation Data</dt>
-                                    <dd>
-                                        {formatUtcTime(album?.create_dt) || "-"}
-                                        <span>{formatLocalTime(album?.create_dt)}</span>
-                                    </dd>
-                                </dl> */}
               </div>
               <div className="nft-item-detail__song-detail__right__value-box">
-                {/* <dl>
-                                    <dt>NFT Quantity</dt>
-                                    <dd>10 / 100</dd>
-                                </dl> */}
                 <dl className="nft-item-detail__song-detail__right__value-box__price">
                   <dt>Price</dt>
                   <dd>
@@ -244,30 +234,13 @@ const NftItemDetailInfo = ({ id }) => {
                   </dd>
                 </dl>
               </div>
-              {/* <div className="nft-item-detail__song-detail__right__time-box">
-                <p className="nft-item-detail__song-detail__right__time-box__title">
-                  Sale End Date
-                </p>
-                <p className="nft-item-detail__song-detail__right__time-box__utc">
-                  Sat, 04 Nov 2023 14:40:00 UTC+9
-                </p>
-                <p className="nft-item-detail__song-detail__right__time-box__end">
-                  Time Remaining Until End
-                </p>
-                <div className="nft-item-detail__song-detail__right__time-box__time">
-                  <p>00</p>
-                  <span>:</span>
-                  <p>00</p>
-                  <span>:</span>
-                  <p>00</p>
-                </div>
-              </div> */}
+
               <div className="nft-item-detail__song-detail__right__btn-box">
                 {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
                   <button
                     className="nft-item-detail__song-detail__right__btn-box__btn"
                     onClick={() => {
-                      navigate(`/mint/detail/${nftDetailData?.song_id}/buy`);
+                      navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
                     }}
                   >
                     Buy NFT

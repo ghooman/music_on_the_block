@@ -524,7 +524,7 @@ function AlbumDetail() {
                   <button
                     className="album-detail__control-button buy-button"
                     disabled={!album?.is_nft || !album?.is_release}
-                    onClick={() => navigate(`/mint/detail/${album?.id}/buy`)}
+                    onClick={() => navigate(`/mint/detail/${album?.id}/${album?.nft_id}/buy`)}
                   >
                     Buy NFT
                   </button>

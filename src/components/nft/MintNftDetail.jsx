@@ -33,7 +33,7 @@ import editIcon from '../../assets/images/edit.svg';
 // ────────────────────────────────
 function MintNftDetail() {
   const { token, walletAddress } = useContext(AuthContext);
-  const { id, status } = useParams();
+  const { id, nft_id, status } = useParams();
   const { ref, inView } = useInView({ threshold: 1.0 });
 
   const [searchParams] = useSearchParams();
@@ -55,9 +55,9 @@ function MintNftDetail() {
 
   // NFT 검사
   const { data: nftData, isLoading: nftLoading } = useQuery(
-    ['nft_data_for_mint', id],
+    ['nft_data_for_mint', id, nft_id],
     async () => {
-      const res = await getNftDetail({ nft_id: id, wallet_address: walletAddress?.address });
+      const res = await getNftDetail({ nft_id: nft_id, wallet_address: walletAddress?.address });
       return res.data;
     },
     {

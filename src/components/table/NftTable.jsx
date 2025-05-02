@@ -54,7 +54,7 @@ const NftTable = ({
                 <TableItem.Button title="Sold" type="sold" />
               )}
 
-              {saleOption && item.status !== 'sold' && item.status !== 'cancel' && (
+              {saleOption && item.now_sales_status === 'Unlisted' && (
                 <TableItem.Button
                   title="Sell"
                   type="sell"
@@ -64,7 +64,7 @@ const NftTable = ({
                 />
               )}
 
-              {saleOption && item.status === 'cancel' && (
+              {saleOption && item.now_sales_status === 'Listed' && (
                 <TableItem.Button
                   title="Cancel"
                   type="cancel"

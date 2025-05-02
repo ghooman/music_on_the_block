@@ -2,8 +2,11 @@ import ModalWrap from '../ModalWrap';
 
 import './ErrorModal.scss';
 
-const ErrorModal = ({ title, setShowErrorModal, message, button }) => {
+const ErrorModal = ({ title, setShowErrorModal, message, button, action }) => {
   const onClose = () => {
+    if (action) {
+      action();
+    }
     setShowErrorModal(false);
   };
 

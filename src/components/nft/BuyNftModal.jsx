@@ -3,7 +3,7 @@ import ModalWrap from '../ModalWrap';
 
 import './BuyNftModal.scss';
 
-const BuyNftModal = ({ setBuyNftModal }) => {
+const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   const [agree, setAgree] = useState(false);
 
   const onClose = () => {

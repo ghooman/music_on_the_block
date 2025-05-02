@@ -66,6 +66,7 @@ function MintNftDetail() {
       return res.data;
     },
     {
+      enabled: status === 'buy',
       refetchOnWindowFocus: false,
       retry: 0,
       onError: e => {

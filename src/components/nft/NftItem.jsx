@@ -25,7 +25,7 @@ export const NftItemList = ({ data }) => {
             </React.Fragment>
           ))}
       </div>
-      {data?.length <= 0 && (
+      {(!data || data?.length <= 0) && (
         <NoneContent height={300} message="There are no NFT items to show you." />
       )}
     </>
@@ -55,6 +55,8 @@ export const CollectionItemList = ({ data, linkMove = true, setSelectedCollectio
 const NftItem = ({ item }) => {
   const [duration, setDuration] = useState('');
   const formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+
+  console.log(item, '음원 데이터');
 
   useEffect(() => {
     if (!item) return;

@@ -229,6 +229,31 @@ const UserProfile = () => {
 //==================================================
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
+  // return (
+  //   <div className="mypage__profile">
+  //     <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
+  //     <div className="profile__info">
+  //       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  //         <div className="profile__info--name-level">
+  //           <img
+  //             className="profile__info--profile-image"
+  //             src={userData?.profile || defaultCoverImg}
+  //             alt="profile"
+  //           />
+  //           <p className="profile__info--name-text">{userData?.name}</p>
+  //           <div className="profile__info--level">
+  //             <p></p>
+  //             <img src="" />
+  //             <p>{userData?.user_rating}</p>
+  //           </div>
+  //         </div>
+  //         {/** 프로필 수정 */}
+  //         <img src={gearImg} alt="edit" />
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <div className="mypage__profile">
       <div className="mypage__profile-bg">

@@ -1,0 +1,56 @@
+.album-guide-modal {
+  .album-guide-modal__text {
+    color: #aaa;
+    font-family: Inter400;
+  }
+  .album-guide-modal__button {
+    width: 100%;
+    border-radius: 12px;
+    background-color: #cf0;
+    transition: 0.2s all;
+    position: relative;
+    top: 0px;
+    height: 40px;
+    font-family: Orbitron600;
+    color: #1a1a1a;
+    margin-top: 24px;
+
+    &:hover {
+      top: 4px;
+      &::after {
+        top: 0px;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: calc(100% - 2px);
+      height: calc(100% - 1px);
+      top: 4px;
+      left: 0;
+      border-radius: 12px;
+      border: 1px solid #cf0;
+      transition: 0.2s all;
+    }
+  }
+
+  ul {
+    list-style: none;
+    // padding-left: 1.5em; /* 왼쪽 여백 */
+  }
+
+  ul li {
+    color: #aaa;
+    font-family: Inter400;
+    position: relative;
+    padding-left: 1em;
+    text-indent: 0; /* 첫 줄만 왼쪽으로 당김 */
+  }
+
+  ul li::before {
+    content: '- ';
+    position: absolute;
+    left: 0;
+  }
+}

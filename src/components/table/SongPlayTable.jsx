@@ -143,7 +143,10 @@ const SongPlayTable = ({
                 >
                   <TableItem.Indexs text={index + 1} />
                   <TableItem.Song
-                    image={item?.cover_image || item?.nft_image}
+                    image={
+                      item.cover_image?.replace('public', '140to140') ||
+                      item.nft_name?.replace('public', '140to140')
+                    }
                     active={item?.id === activeSong?.id}
                     width={40}
                   />

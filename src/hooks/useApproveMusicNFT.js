@@ -6,14 +6,13 @@ import { MARKET_PLACE_CONTRACT_ADDRESS } from '../contract/contractAddresses';
 export const useApproveMusicNFT = () => {
   const { mutateAsync: sendAndConfirmTransaction } = useSendAndConfirmTransaction();
 
-  const approveMusicNFT = async thirdwebId => {
-    console.log('thirdwebId', thirdwebId);
+  const approveMusicNFT = async () => {
     try {
       console.log('approveMusicNFT 실행');
       const transaction = prepareContractCall({
         contract: musicNftContract,
-        method: 'function approve(address to, uint256 tokenId)',
-        params: [MARKET_PLACE_CONTRACT_ADDRESS, thirdwebId],
+        method: 'function setApprovalForAll(address operator, bool approved)',
+        params: [MARKET_PLACE_CONTRACT_ADDRESS, true],
       });
       const receipt = await sendAndConfirmTransaction(transaction);
       console.log('approveMusicNFT receipt:', receipt);

@@ -10,7 +10,7 @@ import {
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import { useNavigate } from 'react-router-dom';
-const CollectionHistoryTable = ({ data }) => {
+const CollectionHistoryTable = ({ data = [] }) => {
   const navigate = useNavigate();
   return (
     <TableWrapper>

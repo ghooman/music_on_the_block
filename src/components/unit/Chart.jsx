@@ -69,17 +69,18 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
       </div>
       {legends && (
         <div className="chart__pie--legends">
-          {data?.map((item, index) => (
-            <div className="chart__pie--legends__item" key={`legends-${index}`}>
-              <div
-                className="chart__pie--legends__item--square"
-                style={{ backgroundColor: item.color }}
-              ></div>
-              <div className="chart__pie--legends__item--label-image">
-                <img src={item.image} alt={item.id} />
+          {data &&
+            data?.map((item, index) => (
+              <div className="chart__pie--legends__item" key={`legends-${index}`}>
+                <div
+                  className="chart__pie--legends__item--square"
+                  style={{ backgroundColor: item.color }}
+                ></div>
+                <div className="chart__pie--legends__item--label-image">
+                  <img src={item.image} alt={item.id} />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
     </div>
@@ -163,7 +164,7 @@ export const BarChart = ({
 
   useEffect(() => {
     let max = 0;
-    data.forEach(item => {
+    data?.forEach(item => {
       if (item.value > max) max = item.value;
     });
     setMaxValue(max);
@@ -180,14 +181,14 @@ export const BarChart = ({
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors="turquoise"
-        maxValue={maxValue + 9}
+        maxValue={maxValue}
         enableLabel={false}
         /* ───── 축 & 눈금 ───── */
         axisBottom={{ tickSize: 0, tickPadding: 12, legendOffset: 32 }}
         axisLeft={{
           tickSize: 0,
           tickPadding: 8,
-          // tickValues: [0, 200, 400, 600, 800, 1000],
+          // tickValues: Array.from({ length: maxValue + 1 }, (_, i) => i),
           legendOffset: -40,
         }}
         /* ───── 격자 ───── */

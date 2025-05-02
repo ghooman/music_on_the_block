@@ -229,30 +229,46 @@ const UserProfile = () => {
 //==================================================
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
-  // return (
-  //   <div className="mypage__profile">
-  //     <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
-  //     <div className="profile__info">
-  //       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-  //         <div className="profile__info--name-level">
-  //           <img
-  //             className="profile__info--profile-image"
-  //             src={userData?.profile || defaultCoverImg}
-  //             alt="profile"
-  //           />
-  //           <p className="profile__info--name-text">{userData?.name}</p>
-  //           <div className="profile__info--level">
-  //             <p></p>
-  //             <img src="" />
-  //             <p>{userData?.user_rating}</p>
-  //           </div>
-  //         </div>
-  //         {/** 프로필 수정 */}
-  //         <img src={gearImg} alt="edit" />
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  return (
+    <div className="mypage__profile">
+      <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
+      {/**=== */}
+      <div className="profile__info">
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="profile__info--name-level">
+            <img
+              className="profile__info--profile-image"
+              src={userData?.profile || defaultCoverImg}
+              alt="profile"
+            />
+            <p className="profile__info--name-text">{userData?.name}</p>
+            <div className="profile__info--level">
+              <p className="profile__info--level-text">level</p>
+              <img className="profile__info--level-icon" src="" alt="icon" />
+              <p className="profile__info--level-rating">{userData?.user_rating}</p>
+            </div>
+          </div>
+          <img src={gearImg} alt="edit" />
+        </div>
+      </div>
+      {/**=== */}
+      <div className="profile__record">
+        <div className="profile__record--item">
+          <p className="profile__record--item-title">Songs</p>
+          <p className="profile__record--item-value"></p>
+        </div>
+        <div className="profile__record--item">
+          <p className="profile__record--item-title">Following</p>
+          <p className="profile__record--item-value"></p>
+        </div>
+        <div className="profile__record--item">
+          <p className="profile__record--item-title">Followers</p>
+          <p className="profile__record--item-value"></p>
+        </div>
+      </div>
+      {/**=== */}
+    </div>
+  );
 
   return (
     <div className="mypage__profile">

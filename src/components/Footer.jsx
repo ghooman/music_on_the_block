@@ -199,8 +199,8 @@ const Footer = ({ setIsLoggedIn }) => {
                   <dt>NFT MarketPlace</dt>
                   <dd>
                     <Link
-                      to="/nft"
-                      // onClick={() => setPreparingModal(true)}
+                      // to="/nft"
+                      onClick={() => setPreparingModal(true)}
                     >
                       NFT MarketPlace
                     </Link>

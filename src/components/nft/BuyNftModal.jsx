@@ -1,7 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import ModalWrap from '../ModalWrap';
 import { useBuyFromListing } from '../../hooks/useBuyFromListing';
+import { useTokenAllowanceCheck } from '../../hooks/useTokenAllowanceCheck';
+import { useTokenApprove } from '../../hooks/useTokenApprove';
 import './BuyNftModal.scss';
 import axios from 'axios';
 import ErrorModal from '../modal/ErrorModal';
@@ -11,19 +13,29 @@ import {
   USDT_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
+  MARKET_PLACE_CONTRACT_ADDRESS,
 } from '../../contract/contractAddresses';
+import { useNavigate } from 'react-router-dom';
+
 const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
+  const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
+    useTokenAllowanceCheck();
+  const { mobTokenApprove, polTokenApprove, usdcTokenApprove, usdtTokenApprove } =
+    useTokenApprove();
   const buyFromListing = useBuyFromListing();
   const { token } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
-  console.log('nftData', nftData);
-  console.log('selectedCollection', selectedCollection);
   const [agree, setAgree] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [needsApproval, setNeedsApproval] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
+  const navigate = useNavigate();
+
   const onClose = () => {
     setBuyNftModal(false);
   };
+
   const ContractAddress = () => {
     switch (nftData?.sales_token) {
       case 'MOB':
@@ -39,8 +51,77 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     }
   };
   const currencyAddress = ContractAddress();
-  // 서버에 구매 요청 보내는 함수
 
+  // 토큰 허용량 확인
+  useEffect(() => {
+    if (!nftData?.price) return;
+
+    const checkAllowance = async () => {
+      try {
+        let currentAllowance = 0;
+
+        // 토큰 종류에 따라 허용량 설정
+        switch (nftData?.sales_token) {
+          case 'MOB':
+            currentAllowance = mobAllowanceData || 0;
+            break;
+          case 'POL':
+            currentAllowance = polAllowanceData || 0;
+            break;
+          case 'USDT':
+            currentAllowance = usdtAllowanceData || 0;
+            break;
+          case 'USDC':
+            currentAllowance = usdcAllowanceData || 0;
+            break;
+          default:
+            currentAllowance = 0;
+        }
+
+        console.log('currentAllowance', currentAllowance);
+        console.log('nftData.price', nftData.price);
+
+        if (currentAllowance && Number(currentAllowance) >= Number(nftData.price)) {
+          setNeedsApproval(false);
+        } else {
+          setNeedsApproval(true);
+        }
+      } catch (error) {
+        console.error('Error checking allowance:', error);
+        setNeedsApproval(true);
+      }
+    };
+
+    checkAllowance();
+  }, [nftData, mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData]);
+
+  // 토큰 종류에 따라 적절한 approve 함수 호출
+  const approveToken = async () => {
+    try {
+      switch (nftData?.sales_token) {
+        case 'MOB':
+          await mobTokenApprove();
+          break;
+        case 'POL':
+          await polTokenApprove();
+          break;
+        case 'USDT':
+          await usdtTokenApprove();
+          break;
+        case 'USDC':
+          await usdcTokenApprove();
+          break;
+        default:
+          throw new Error('지원하지 않는 토큰입니다.');
+      }
+      return true;
+    } catch (error) {
+      console.error('Token approval failed:', error);
+      throw error;
+    }
+  };
+
+  // 서버에 구매 요청 보내는 함수
   const handleServerBuy = async tx_id => {
     try {
       const response = await axios.post(
@@ -53,16 +134,40 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
         }
       );
       console.log('serverResponse', response);
+      navigate(`/nft`);
       return response;
     } catch (error) {
       console.error('Error during buy from listing:', error);
       throw error;
     }
   };
-  const handleBuy = async () => {
+
+  const handleBuyProcess = async () => {
     if (!agree) return;
     setIsLoading(true);
+
     try {
+      // 1번 어프로브 체크
+      if (needsApproval) {
+        setIsApproving(true);
+        try {
+          await approveToken();
+          setNeedsApproval(false);
+          setIsApproving(false);
+        } catch (error) {
+          const match = error.message.match(/{.*}/);
+          setErrorMessage(
+            (match && JSON.parse(match?.[0]))?.message ||
+              error?.response?.data?.detail ||
+              error?.message ||
+              'Error during approval'
+          );
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      // 구매 진행
       const tx_id = await buyFromListing(
         nftData?.listing_id,
         currencyAddress,
@@ -72,9 +177,6 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
       await handleServerBuy(tx_id);
     } catch (error) {
       const match = error.message.match(/{.*}/);
-
-      console.log(error, '에러 매치');
-
       setErrorMessage(
         (match && JSON.parse(match?.[0]))?.message ||
           error?.response?.data?.detail ||
@@ -85,9 +187,11 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
       setIsLoading(false);
     }
   };
+
   if (errorMessage) {
     return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
   }
+
   return (
     <ModalWrap title="Confirm buy NFT" onClose={onClose}>
       <div className="buy-nft-modal">
@@ -106,7 +210,10 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
             className="buy-nft-modal__checkbox"
             type="checkbox"
             checked={agree}
-            onChange={() => setAgree(prev => !prev)}
+            onChange={() => {
+              if (isLoading) return;
+              setAgree(prev => !prev);
+            }}
           />
           <p className="buy-nft-modal__checkbox--message">
             No refunds or cancellations after purchase
@@ -118,8 +225,8 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
           </button>
           <button
             className="buy-nft-modal__button buy-button"
-            onClick={handleBuy}
-            disabled={!agree || isLoading}
+            onClick={handleBuyProcess}
+            disabled={!agree || isLoading || isApproving}
           >
             {isLoading ? 'Buying...' : 'Buy NFT'}
           </button>

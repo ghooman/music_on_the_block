@@ -2,6 +2,7 @@ import { prepareContractCall } from 'thirdweb';
 import { useSendAndConfirmTransaction } from 'thirdweb/react';
 import { useWalletAddress } from './useWalletAddress';
 import { marketPlaceContract } from '../contract/contracts';
+import { ethers } from 'ethers';
 
 export const useBuyFromListing = () => {
   const walletAddress = useWalletAddress();
@@ -12,13 +13,16 @@ export const useBuyFromListing = () => {
     console.log('currencyAddress', currencyAddress);
     console.log('price', price);
 
+    const priceToWei = ethers.parseEther(price.toString());
+    console.log('priceToWei', priceToWei);
+
     try {
       const transaction = prepareContractCall({
         contract: marketPlaceContract,
         method:
           'function buyFromListing(uint256 _listingId, address _buyFor, uint256 _quantity, address _currency, uint256 _expectedTotalPrice) payable',
 
-        params: [listingId, walletAddress, 1, currencyAddress, price],
+        params: [listingId, walletAddress, 1, currencyAddress, priceToWei],
       });
       const receipt = await sendAndConfirmTransaction(transaction);
       console.log('buyFromListing receipt:', receipt);

@@ -4,10 +4,9 @@ import { mintNft } from '../api/nfts/nftMintApi';
 import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import './NftConfirmModal.scss';
-
+import { useCancelListing } from '../hooks/useCancelListing';
 import { useNFTApprovalCheck } from '../hooks/useNFTApprovalCheck';
 import { useApproveMusicNFT } from '../hooks/useApproveMusicNFT';
-import { useCancelListing } from '../hooks/useCancelListing';
 import { useSellNFT } from '../hooks/useCreateListing';
 import {
   MOB_CONTRACT_ADDRESS,
@@ -38,7 +37,6 @@ const NftConfirmModal = ({
 }) => {
   console.log('sellPrice', sellPrice);
   console.log('nftId', nftId);
-  console.log('listingId', listingId);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +50,7 @@ const NftConfirmModal = ({
   const approveMusicNFT = useApproveMusicNFT();
   // 생성 3번
   const sellNFT = useSellNFT();
-  // 취소 hook
+  // 취소
   const cancelListing = useCancelListing();
 
   // ====== NFT 민팅 함수 ======
@@ -172,11 +170,6 @@ const NftConfirmModal = ({
   };
   // ===== NFT 판매 함수 끝 =====
 
-<<<<<<< HEAD
-  if (errorMessage) {
-    return <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />;
-  }
-
   // 서버에서 판매 취소 함수
   const serverCancelListing = async listingId => {
     try {
@@ -210,10 +203,6 @@ const NftConfirmModal = ({
       setShowModal(false);
       setShowSuccessModal(true);
     }
-=======
-  const handleCancel = () => {
-    setShowModal(false);
->>>>>>> d3955d11d61ea9ee6a7c16cec3004983cec99a10
   };
 
   if (errorMessage) {

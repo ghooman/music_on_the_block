@@ -13,6 +13,7 @@ import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
+import issueIcon from '../assets/images/icon/issue-opened.svg';
 import track2 from '../assets/music/nisoft_song.mp3';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
@@ -30,6 +31,7 @@ import IntroLogo3 from '../components/IntroLogo3';
 
 import { WalletConnect } from '../components/WalletConnect';
 import SongReleaseModal from '../components/SongReleaseModal';
+import AlbumGuideModal from '../components/AlbumGuideModal';
 
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -52,6 +54,7 @@ function AlbumDetail() {
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [isShareModal, setShareModal] = useState(false);
   const [isReleaseModal, setIsReleaseModal] = useState(false);
+  const [albumGuideModal, setAlbumGuideModal] = useState(false);
 
   // 플레이어 상태 및 재생 관련 변수
   const [isPlaying, setIsPlaying] = useState(false);
@@ -472,36 +475,47 @@ function AlbumDetail() {
                   </dd>
                 </dl>
                 {album?.is_owner && (
-                  <div className="album-detail__control-button-wraps">
-                    <button
-                      className="album-detail__control-button release-button"
-                      onClick={() => setIsReleaseModal(true)}
-                      disabled={album?.is_release}
-                    >
-                      Release
-                    </button>
-                    <button
-                      className="album-detail__control-button mint-button"
-                      onClick={() => navigate(`/mint/detail/${album?.id}`)}
-                      disabled={album?.is_nft || !album?.is_release}
-                    >
-                      Mint
-                    </button>
-                    <button
-                      className="album-detail__control-button sell-button"
-                      onClick={() => navigate(`/nft/detail/${album?.id}`)}
-                      disabled={!album?.is_nft || !album?.is_release}
-                    >
-                      Sell
-                    </button>
-                    <button
-                      className="album-detail__control-button cancel-button"
-                      onClick={() => navigate(`/nft/detail/${album?.id}`)}
-                      disabled={!album?.is_nft || !album?.is_release}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                  <>
+                    <div className="album-detail__control-guide">
+                      <p className="album-detail__control-guide--text">NFT Status</p>
+                      <img
+                        className="album-detail__control-guide--icon"
+                        src={issueIcon}
+                        alt="guide"
+                        onClick={() => setAlbumGuideModal(true)}
+                      />
+                    </div>
+                    <div className="album-detail__control-button-wraps">
+                      <button
+                        className="album-detail__control-button release-button"
+                        onClick={() => setIsReleaseModal(true)}
+                        disabled={album?.is_release}
+                      >
+                        Release
+                      </button>
+                      <button
+                        className="album-detail__control-button mint-button"
+                        onClick={() => navigate(`/mint/detail/${album?.id}`)}
+                        disabled={album?.is_nft || !album?.is_release}
+                      >
+                        Mint
+                      </button>
+                      <button
+                        className="album-detail__control-button sell-button"
+                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
+                        disabled={!album?.is_nft || !album?.is_release}
+                      >
+                        Sell
+                      </button>
+                      <button
+                        className="album-detail__control-button cancel-button"
+                        onClick={() => navigate(`/nft/detail/${album?.id}`)}
+                        disabled={!album?.is_nft || !album?.is_release}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </>
                 )}
                 {!album?.is_owner && (
                   <button
@@ -617,6 +631,7 @@ function AlbumDetail() {
           handler={handleRelease}
         />
       )}
+      {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}
     </>
   );
 }

@@ -117,6 +117,10 @@ const LyricChatBot = ({
   // Enter 키 이벤트 처리
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        return;
+      }
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -170,7 +174,7 @@ const LyricChatBot = ({
             ))}
             {loading && <div className="message bot">Loading...</div>}
           </div>
-          <div className="chatbot__input">
+          {/* <div className="chatbot__input">
             <input
               type="text"
               value={userInput}
@@ -179,8 +183,20 @@ const LyricChatBot = ({
               // placeholder={initialLyricPlaceholder}
               placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
             />
-            <button onClick={handleSendMessage}>Send</button>
+          </div> */}
+          <div className="chatbot__textarea">
+            <textarea
+              type="text"
+              value={userInput}
+              onChange={handleUserInput}
+              onKeyPress={handleKeyPress}
+              // placeholder={initialLyricPlaceholder}
+              placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
+            />
           </div>
+          <button className="chatbot__button" onClick={handleSendMessage}>
+            Send
+          </button>
         </section>
         <div className="music__information__buttons">
           <button

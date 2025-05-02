@@ -211,12 +211,11 @@
     }
     &.following {
       color: #f1f1f1;
-
       &::before {
-        border-color: #171816;
+        border-color: #007e56;
       }
       &::after {
-        background-color: #171816;
+        background-color: #007e56;
       }
     }
 

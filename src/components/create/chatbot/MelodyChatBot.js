@@ -390,6 +390,10 @@ const MelodyChatBot = ({
   // Enter 키 이벤트 처리
   const handleKeyPress = e => {
     if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        return;
+      }
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -616,16 +620,18 @@ const MelodyChatBot = ({
           ))}
           {loading && <div className="message bot">Loading...</div>}
         </div>
-        <div className="chatbot__input">
-          <input
+        <div className="chatbot__textarea">
+          <textarea
             type="text"
             value={userInput}
             onChange={handleUserInput}
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <button onClick={handleSendMessage}>Send</button>
         </div>
+        <button className="chatbot__button" onClick={handleSendMessage}>
+          Send
+        </button>
       </section>
       <section className={`music__information ${isActive ? 'active' : ''}`}>
         <div className="music__information__header" onClick={handleToggle}>

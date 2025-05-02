@@ -67,7 +67,7 @@ const Connections = () => {
   //====================
   const queryUpdate = id => {
     queryClient.setQueryData(
-      ['follow_list', token, page, search, userSort, connectionsType],
+      ['follow_list', token, page, search, userSort, connectionsType, gradeFilter],
       prev => {
         if (!prev?.data_list) return prev;
 

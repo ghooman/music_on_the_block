@@ -16,6 +16,8 @@ import {
   MUSIC_NFT_CONTRACT_ADDRESS,
 } from '../contract/contractAddresses';
 
+import ErrorModal from '../components/modal/ErrorModal';
+
 const NftConfirmModal = ({
   setShowModal,
   title,
@@ -33,6 +35,7 @@ const NftConfirmModal = ({
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // 1번
   const nftApprovalCheckData = useNFTApprovalCheck();
@@ -53,7 +56,8 @@ const NftConfirmModal = ({
         console.error('error', response);
       }
     } catch (error) {
-      console.error('Mint error:', error);
+      console.error('Mint error:', error.message);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -146,6 +150,10 @@ const NftConfirmModal = ({
     }
   };
   // ===== NFT 판매 함수 끝 =====
+
+  if (errorMessage) {
+    return <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />;
+  }
 
   return (
     <ModalWrap title={title} onClose={() => setShowModal(false)} className="confirm-modal">

@@ -32,6 +32,10 @@ import { AuthContext } from '../contexts/AuthContext';
 import likeImage from '../assets/images/like-icon/like-icon-on.svg';
 import unLikeImage from '../assets/images/like-icon/like-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
+
+// 유틸 함수 임포트
+import { formatLocalTime } from '../utils/getFormattedTime';
+
 // 스타일 임포트
 import '../styles/CollectionDetail.scss';
 
@@ -80,7 +84,7 @@ const CollectionDetail = () => {
   const handleCategoryChange = category => {
     setSelectCategory(category);
     // 탭 변경 시 검색 파라미터 초기화 (id는 유지)
-    setSearchParams({ page: 1 });
+    setSearchParams({}, { replace: true });
   };
 
   return (
@@ -161,6 +165,8 @@ const Overview = ({ id }) => {
     return response.data;
   });
 
+  console.log('컨펌펌', collectionOverview);
+
   return (
     <>
       <ContentWrap title="Overview">
@@ -193,7 +199,11 @@ const Overview = ({ id }) => {
           />
           <NftOverviewItem
             title="Recent Transaction Date"
-            value={collectionOverview?.last_transaction_date}
+            value={
+              collectionOverview?.last_transaction_date
+                ? formatLocalTime(collectionOverview?.last_transaction_date)
+                : '-'
+            }
             isLong
           />
         </NftOverview>
@@ -220,100 +230,64 @@ const Overview = ({ id }) => {
 const NFTItems = ({ id }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const subCategoryList = [{ name: 'All' }, { name: 'Unlisted' }, { name: 'Listed' }];
-  const [selected, setSelected] = useState(subCategoryList[0].name);
+  // const [selected, setSelected] = useState(subCategoryList[0].name);
 
   // URL 파라미터
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
-  const sort_by = searchParams.get('sort_by');
-  const ai_service = searchParams.get('ai_service');
-  const nft_rating = searchParams.get('nft_rating');
-  const salse_token = searchParams.get('salse_token');
-  const now_sales_status = searchParams.get('now_sales_status');
-
-  // useQuery를 사용하여 NFT 리스트 데이터 가져오기
-  const { data, isLoading } = useQuery(
-    [
-      'collectionNftList',
-      id,
-      page,
-      search,
-      sort_by,
-      ai_service,
-      nft_rating,
-      salse_token,
-      now_sales_status,
-    ],
-    async () => {
-      const response = await getNftCollectionNftList({
-        id,
-        page,
-        sort_by,
-        search_keyword: search,
-        ai_service,
-        nft_rating,
-        salse_token,
-        now_sales_status,
-      });
-      return response.data;
-    }
-  );
-
-  /**
-   * 검색어 입력 핸들러
-   */
-  const handleSearch = keyword => {
-    setSearchParams({
-      ...Object.fromEntries(searchParams),
-      search: keyword,
-      page: 1,
-    });
-  };
+  const grade_filter = searchParams.get('grade_filter');
+  const token_filter = searchParams.get('token_filter');
+  const songs_sort = searchParams.get('songs_sort');
+  const now_sales_status = searchParams.get('now_sales_status') || 'All';
 
   /**
    * 서브 카테고리 선택 핸들러
    */
   const handleSubCategory = categoryName => {
-    setSelected(categoryName);
-
-    const params = { ...Object.fromEntries(searchParams), page: 1 };
-
-    if (categoryName === 'All') {
-      delete params.now_sales_status;
-    } else if (categoryName === 'Listed') {
-      params.now_sales_status = 'true';
-    } else if (categoryName === 'Unlisted') {
-      params.now_sales_status = 'false';
-    }
-
-    setSearchParams(params);
-  };
-
-  /**
-   * 페이지 변경 핸들러
-   */
-  const handlePageChange = newPage => {
-    setSearchParams({
-      ...Object.fromEntries(searchParams),
-      page: newPage,
+    setSearchParams(prev => {
+      const { search, ...rest } = Object.fromEntries(prev);
+      return { ...rest, now_sales_status: categoryName, page: 1 };
     });
   };
 
+  const { data, isLoading } = useQuery(
+    [
+      'collection_nft_list_data',
+      id,
+      page,
+      search,
+      grade_filter,
+      token_filter,
+      songs_sort,
+      now_sales_status,
+    ],
+    async () => {
+      const res = await getNftCollectionNftList({
+        id: id,
+        search_keyword: search,
+        nft_rating: grade_filter,
+        sales_token: token_filter,
+        sort_by: songs_sort,
+        now_sales_status: now_sales_status,
+      });
+      return res.data;
+    }
+  );
+
   return (
     <ContentWrap title="NFT Items">
+      {isLoading && <Loading />}
       <ContentWrap.SubWrap gap={8}>
-        <SubCategories categories={subCategoryList} handler={handleSubCategory} value={selected} />
+        <SubCategories
+          categories={subCategoryList}
+          handler={handleSubCategory}
+          value={now_sales_status}
+        />
         <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
-        <Search placeholder="Search" value={search || ''} onChange={handleSearch} />
+        <Search placeholder="Search" />
       </ContentWrap.SubWrap>
       <NftItemList data={data?.data_list || []} />
-      <Pagination
-        totalCount={data?.total_cnt}
-        viewCount={12}
-        page={page}
-        onChange={handlePageChange}
-      />
-      {isLoading && <Loading />}
+      <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
     </ContentWrap>
   );
 };
@@ -322,57 +296,42 @@ const NFTItems = ({ id }) => {
  * 히스토리 컴포넌트
  */
 const History = ({ id }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // URL 파라미터
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
-  const sort_by = searchParams.get('sort_by');
-  const ai_service = searchParams.get('ai_service');
-  const nft_rating = searchParams.get('nft_rating');
-  const salse_token = searchParams.get('salse_token');
+  const grade_filter = searchParams.get('grade_filter');
+  const token_filter = searchParams.get('token_filter');
+  const songs_sort = searchParams.get('songs_sort');
 
-  // useQuery를 사용하여 히스토리 데이터 가져오기
+  /**
+   * 컬렉션 활동 기록 조회
+   */
   const { data, isLoading } = useQuery(
-    ['collectionHistory', id, page, search, sort_by, ai_service, nft_rating, salse_token],
+    ['collection_history_data', id, page, search, grade_filter, token_filter, songs_sort],
     async () => {
-      const response = await getNftCollectionHistory({
-        id,
-        page,
-        sort_by,
+      const res = await getNftCollectionHistory({
+        id: id,
+        page: page,
         search_keyword: search,
-        ai_service,
-        nft_rating,
-        salse_token,
+        nft_rating: grade_filter,
+        sort_by: songs_sort,
+        sales_token: token_filter,
       });
-      return response.data;
+      return res.data;
     }
   );
 
-  /**
-   * 페이지 변경 핸들러
-   */
-  const handlePageChange = newPage => {
-    setSearchParams({
-      ...Object.fromEntries(searchParams),
-      page: newPage,
-    });
-  };
-
   return (
     <ContentWrap title="History">
+      {isLoading && <Loading />}
       <ContentWrap.SubWrap gap={8}>
         <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
         <Search placeholder="Search" />
         <CollectionHistoryTable data={data?.data_list} />
       </ContentWrap.SubWrap>
-      <Pagination
-        totalCount={data?.total_cnt}
-        viewCount={10}
-        page={page}
-        onChange={handlePageChange}
-      />
-      {isLoading && <Loading />}
+      <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
     </ContentWrap>
   );
 };

@@ -23,8 +23,6 @@ const UserTable = ({
 }) => {
   const navigate = useNavigate();
 
-  console.log(userList, '유저 리스트');
-
   return (
     <TableWrapper>
       <Table>
@@ -44,7 +42,7 @@ const UserTable = ({
               <TableItem>
                 <TableItem.Text text={index + 1} />
                 <TableItem.UserInfo image={item.profile} name={item.artist} />
-                <TableItem.Text text={item.level} />
+                <TableItem.UserGrade grade={item.user_rating} />
                 <TableItem.Text text={item.total_songs} />
                 <TableItem.Text text={item.followers} />
                 <TableItem.Button

@@ -158,9 +158,6 @@ const NftConfirmModal = ({
       if (onSuccess) onSuccess();
     } catch (error) {
       const match = error.message.match(/{.*}/);
-
-      console.log(error, '에러 매치');
-
       setErrorMessage(
         (match && JSON.parse(match?.[0]))?.message ||
           error?.response?.data?.detail ||

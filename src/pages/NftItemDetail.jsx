@@ -111,6 +111,8 @@ const NftItemDetailInfo = ({ id }) => {
     mutate?.mutate();
   };
 
+  console.log(nftDetailData, 'nft detail data');
+
   return (
     <>
       <div className="nft-item-detail-info-wrap">
@@ -229,8 +231,10 @@ const NftItemDetailInfo = ({ id }) => {
                 <dl className="nft-item-detail__song-detail__right__value-box__price">
                   <dt>Price</dt>
                   <dd>
-                    {nftDetailData?.price} {nftDetailData?.sales_token}
-                    <span>$1,000</span>
+                    {nftDetailData?.price
+                      ? `${nftDetailData?.price} ${nftDetailData?.sales_token}`
+                      : '-'}
+                    {/* {nftDetailData?.price && <span>$ {nftDetailData.price * 0.03}</span>} */}
                   </dd>
                 </dl>
               </div>
@@ -344,28 +348,36 @@ const TransactionStatistics = ({ id }) => {
         />
         <NftOverviewItem
           title="Total Volume"
-          value={`${statisticsData?.total_price?.toLocaleString() || '-'} ${
-            statisticsData?.sales_token || ''
-          }`}
+          value={
+            statisticsData?.total_price
+              ? `${statisticsData?.total_price?.toLocaleString()} ${statisticsData?.sales_token}`
+              : '-'
+          }
           isTwo
         />
         <NftOverviewItem
           title="Average Price"
-          value={`${statisticsData?.avg_price?.toLocaleString() || '-'} ${
-            statisticsData?.sales_token || ''
-          }`}
+          value={
+            statisticsData?.avg_price
+              ? `${statisticsData?.avg_price?.toLocaleString()} ${statisticsData?.sales_token}`
+              : '-'
+          }
         />
         <NftOverviewItem
           title="Highest Price"
-          value={`${statisticsData?.max_price?.toLocaleString() || '-'} ${
-            statisticsData?.sales_token || ''
-          }`}
+          value={
+            statisticsData?.max_price
+              ? `${statisticsData?.max_price?.toLocaleString()} ${statisticsData?.sales_token}`
+              : '-'
+          }
         />
         <NftOverviewItem
           title="Lowest Price"
-          value={`${statisticsData?.min_price?.toLocaleString() || '-'} ${
-            statisticsData?.sales_token || ''
-          }`}
+          value={
+            statisticsData?.min_price
+              ? `${statisticsData?.min_price?.toLocaleString()} ${statisticsData?.sales_token}`
+              : '-'
+          }
         />
       </NftOverview>
       <ContentWrap title="Graph List">

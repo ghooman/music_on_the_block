@@ -15,6 +15,7 @@ import FilterDateModal from '../../components/unit/FilterDateModal';
 import PreparingModal from '../PreparingModal';
 import SubCategories from '../unit/SubCategories';
 import { BarChart, LineChart, PieChart } from '../unit/Chart';
+import { formatLocalTime } from '../../utils/getFormattedTime';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -225,7 +226,11 @@ const AiServices = ({ username }) => {
               </div>
               <div className="ai-status__detail-item">
                 <p className="detail-item__title">Last Used Date</p>
-                <p className="detail-item__value">{aiStatusData?.last_used_date || '-'}</p>
+                <p className="detail-item__value">
+                  {aiStatusData?.last_used_date
+                    ? formatLocalTime(aiStatusData?.last_used_date)
+                    : '-'}
+                </p>
               </div>
             </div>
           </div>

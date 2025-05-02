@@ -9,6 +9,7 @@
     "@nivo/pie": "^0.88.0",
     "@tanstack/react-ranger": "^0.0.4",
     "axios": "^1.8.4",
+    "ethers": "^6.13.7",
     "jspdf": "^3.0.1",
     "openai": "^4.89.0",
     "react": "^18.2.0",
@@ -37,14 +38,16 @@
   },
   "browserslist": {
     "production": [
-      "defaults",
-      "not dead",
-      "not op_mini all"
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
     ],
     "development": [
-      "last 2 chrome version",
-      "last 2 firefox version",
-      "last 2 safari version"
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

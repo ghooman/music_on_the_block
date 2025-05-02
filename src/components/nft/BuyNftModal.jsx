@@ -15,6 +15,7 @@ import {
   MUSIC_NFT_CONTRACT_ADDRESS,
   MARKET_PLACE_CONTRACT_ADDRESS,
 } from '../../contract/contractAddresses';
+import { useNavigate } from 'react-router-dom';
 
 const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
@@ -29,6 +30,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [needsApproval, setNeedsApproval] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
+  const navigate = useNavigate();
 
   const onClose = () => {
     setBuyNftModal(false);
@@ -132,6 +134,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
         }
       );
       console.log('serverResponse', response);
+      navigate(`/nft`);
       return response;
     } catch (error) {
       console.error('Error during buy from listing:', error);
@@ -207,7 +210,10 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
             className="buy-nft-modal__checkbox"
             type="checkbox"
             checked={agree}
-            onChange={() => setAgree(prev => !prev)}
+            onChange={() => {
+              if (isLoading) return;
+              setAgree(prev => !prev);
+            }}
           />
           <p className="buy-nft-modal__checkbox--message">
             No refunds or cancellations after purchase

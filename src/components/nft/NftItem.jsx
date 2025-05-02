@@ -88,6 +88,7 @@ const NftItem = ({ item }) => {
 };
 
 export const CollectionItem = ({ item, linkMove = true, setSelectedCollection }) => {
+  console.log(item, '컬렉션 아이템');
   const Wrapper = linkMove ? Link : 'div';
   const [isActive, setIsActive] = useState(false);
 
@@ -117,7 +118,10 @@ export const CollectionItem = ({ item, linkMove = true, setSelectedCollection })
       <CollectionTitle title={item.name} />
       <Username username={item.user_name} />
       <div className="nft-item__prices raw">
-        <PriceItems title="Lowest Price" value={`${item.min_price || 0} MOB`} />
+        <PriceItems
+          title="Lowest Price"
+          value={`${item.min_price || 0} ${item.min_price_token || 'MOB'}`}
+        />
         <PriceItems title="Total NFT Items" value={item?.nft_cnt?.toLocaleString()} />
       </div>
     </Link>

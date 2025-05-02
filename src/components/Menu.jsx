@@ -276,10 +276,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   }`}
                 >
                   <Link
-                    // to="/nft"
+                    to="/nft"
                     className="menu__box__gnb-list__item__btn shop"
-                    // onClick={() => handleSingleActive('nft')}
-                    onClick={() => setPreparingModal(true)}
+                    onClick={() => handleSingleActive('nft')}
+                    // onClick={() => setPreparingModal(true)}
                   >
                     <p className="icon"></p>NFT MarketPlace
                   </Link>
@@ -348,7 +348,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             </dd>
           </dl>
 
-          {/* {isLoggedIn && (
+          {isLoggedIn && (
             <dl className="menu__box">
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
@@ -414,7 +414,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 </div>
               </dd>
             </dl>
-          )} */}
+          )}
 
           {/* <dl className="menu__box">
             <dt className="menu__box__title">GENERAL</dt>

@@ -1,7 +1,7 @@
 import './MintNftDetail.scss';
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
-import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../unit/ContentWrap';
 import { NftItemList, CollectionItemList } from './NftItem';
@@ -22,6 +22,7 @@ import BuyNftModal from './BuyNftModal';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { getNftDetail } from '../../api/nfts/nftDetailApi';
+import ErrorModal from '../modal/ErrorModal';
 // ────────────────────────────────
 function MintNftDetail() {
   const { token, walletAddress } = useContext(AuthContext);
@@ -31,16 +32,16 @@ function MintNftDetail() {
   const [myNftCollections, setMyNftCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
 
-  const [nftData, setNftData] = useState();
-
   // 모달
 
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [mintNftModal, setMintNftModal] = useState(false);
   const [buyNftModal, setBuyNftModal] = useState(false);
 
+  const navigate = useNavigate();
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search');
   const collectionSort = searchParams.get('collection_sort');
@@ -58,7 +59,7 @@ function MintNftDetail() {
     fetchMyNftCollections();
   }, [token, page, collectionSort, search]);
 
-  const { data, isLoading } = useQuery(
+  const { data: nftData, isLoading } = useQuery(
     ['nft_data_for_mint', id],
     async () => {
       const res = await getNftDetail({ nft_id: id, wallet_address: walletAddress?.address });
@@ -66,7 +67,10 @@ function MintNftDetail() {
     },
     {
       refetchOnWindowFocus: false,
-      onError: () => {},
+      retry: 0,
+      onError: e => {
+        setErrorMessage(e?.response?.data?.detail || 'Error');
+      },
     }
   );
 
@@ -76,7 +80,7 @@ function MintNftDetail() {
         <dl className="album-detail__title">
           <dt>{status === 'mint' ? 'Mint NFT' : 'Buy NFT'}</dt>
         </dl>
-        <SongsBar setNftData={setNftData} />
+        <SongsBar />
         <ContentWrap title="Select Collection">
           <div className="filter-create">
             <Filter collectionSort={true} />
@@ -130,7 +134,21 @@ function MintNftDetail() {
           fetchMyNftCollections={fetchMyNftCollections}
         />
       )}
-      {buyNftModal && <BuyNftModal setBuyNftModal={setBuyNftModal} />}
+      {buyNftModal && (
+        <BuyNftModal
+          setBuyNftModal={setBuyNftModal}
+          nftData={nftData}
+          selectedCollection={selectedCollection}
+        />
+      )}
+      {errorMessage && (
+        <ErrorModal
+          setShowErrorModal={setErrorMessage}
+          message={errorMessage}
+          button
+          // action={() => navigate('/')}
+        />
+      )}
     </>
   );
 }

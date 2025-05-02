@@ -36,7 +36,7 @@ const NftTable = ({
               <TableItem.Type image={songTypeIcon} />
               <TableItem.Grade grade={item.nft_rating} />
               <TableItem.Text text={item.nft_name} />
-              {collectionOption && <TableItem.Text text={item.collection} />}
+              {collectionOption && <TableItem.Text text={item.connect_collection_name} />}
               {buyerOption && (
                 <TableItem.UserInfo
                   image={item?.seller_user_profile}
@@ -46,7 +46,7 @@ const NftTable = ({
               {sellerOption && (
                 <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
               )}
-              <TableItem.Text text={item.price + ' ' + item.sales_token} />
+              <TableItem.Text text={item.price + ' ' + (item.sales_token || '')} />
               <TableItem.Date date={item.create_dt} />
               <TableItem.Button title="Details" type="details" />
 
@@ -54,7 +54,7 @@ const NftTable = ({
                 <TableItem.Button title="Sold" type="sold" />
               )}
 
-              {saleOption && item.status === 'sell' && (
+              {saleOption && item.now_sales_status === 'Unlisted' && (
                 <TableItem.Button
                   title="Sell"
                   type="sell"
@@ -64,7 +64,7 @@ const NftTable = ({
                 />
               )}
 
-              {saleOption && item.status === 'cancel' && (
+              {saleOption && item.now_sales_status === 'Listed' && (
                 <TableItem.Button
                   title="Cancel"
                   type="cancel"

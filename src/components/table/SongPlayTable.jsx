@@ -161,7 +161,7 @@ const SongPlayTable = ({
                   <TableItem.Button
                     title="Details"
                     type="details"
-                    handleClick={() => navigate(`/song-detail/${item.id} `)}
+                    handleClick={() => navigate(`/song-detail/${item?.song_id || item?.id} `)}
                   />
 
                   {deleteOption && handleDelete && (

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import ContentWrap from '../unit/ContentWrap';
 import Filter from '../unit/Filter';
 import Pagination from '../unit/Pagination';
@@ -68,7 +68,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
 
 export default NftMarketPlace;
 
-const NftItems = ({ token, username, isMyProfile }) => {
+const NftItems = ({ username, isMyProfile }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get('page');

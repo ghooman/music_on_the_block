@@ -84,7 +84,6 @@ function MintNftDetail() {
       return res;
     },
     {
-      enabled: !!nftData,
       getNextPageParam: (lastPage, allPages) => {
         const totalLoaded = allPages.reduce((sum, page) => sum + page.data_list.length, 0);
         return totalLoaded < lastPage.total_cnt ? allPages.length + 1 : undefined;

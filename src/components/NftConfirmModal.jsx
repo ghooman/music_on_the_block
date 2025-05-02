@@ -140,8 +140,8 @@ const NftConfirmModal = ({
       console.log('Listing created:', listingResult);
 
       // 4. 서버에 판매 정보 등록
-      // const serverResponse = await serverPostSellNft(listingResult);
-      // console.log('Server response:', serverResponse);
+      const serverResponse = await serverPostSellNft(listingResult);
+      console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
       setShowModal(false);

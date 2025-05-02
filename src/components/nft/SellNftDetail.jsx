@@ -161,7 +161,7 @@ function MintNftSellDetail2() {
           sellPriceInWei={sellPriceInWei}
           selectedCoin={selectedCoin}
           thirdwebId={nftInfo?.data?.thirdweb_id}
-          // listingId={nftInfo?.data?.listing_id}
+          listingId={nftInfo?.data?.listing_id}
         />
       )}
       {showSuccessModal && (

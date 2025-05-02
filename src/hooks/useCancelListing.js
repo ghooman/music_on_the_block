@@ -6,12 +6,12 @@ import { marketPlaceContract } from '../contract/contracts';
 export const useCancelListing = () => {
   const { mutateAsync: sendAndConfirmTransaction } = useSendAndConfirmTransaction();
 
-  const cancelListing = async () => {
+  const cancelListing = async listingId => {
     try {
       const transaction = prepareContractCall({
         contract: marketPlaceContract,
         method: 'function cancelListing(uint256 _listingId)',
-        params: ['리스팅 Id값'],
+        params: [listingId],
       });
       const receipt = await sendAndConfirmTransaction(transaction);
       console.log('cancelListing receipt:', receipt);

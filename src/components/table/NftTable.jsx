@@ -19,6 +19,7 @@ const NftTable = ({
   const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
   const [nftId, setNftId] = useState(null);
   const [nftName, setNftName] = useState(null);
+  const [listingId, setListingId] = useState(null);
   console.log(nftList, 'nftList');
   return (
     <TableWrapper>
@@ -84,6 +85,7 @@ const NftTable = ({
                   handleClick={() => {
                     setNftId(item?.id);
                     setNftName(item?.nft_name);
+                    setListingId(item?.listing_id);
                     setShowNftConfirmModal(true);
                   }}
                 />
@@ -104,6 +106,7 @@ const NftTable = ({
           confirmCancelTxt={true}
           nftId={nftId}
           nftName={nftName}
+          listingId={listingId}
         />
       )}
     </TableWrapper>

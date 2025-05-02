@@ -7,6 +7,7 @@ import './NftConfirmModal.scss';
 
 import { useNFTApprovalCheck } from '../hooks/useNFTApprovalCheck';
 import { useApproveMusicNFT } from '../hooks/useApproveMusicNFT';
+import { useCancelListing } from '../hooks/useCancelListing';
 import { useSellNFT } from '../hooks/useCreateListing';
 import {
   MOB_CONTRACT_ADDRESS,
@@ -33,10 +34,11 @@ const NftConfirmModal = ({
   sellPriceInWei,
   thirdwebId,
   nftId,
-  // listingId,
+  listingId,
 }) => {
   console.log('sellPrice', sellPrice);
   console.log('nftId', nftId);
+  console.log('listingId', listingId);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,12 +46,14 @@ const NftConfirmModal = ({
 
   console.log('sellPriceInWei', sellPriceInWei);
 
-  // 1번
+  // 생성 1번
   const nftApprovalCheckData = useNFTApprovalCheck();
-  // 2번
+  // 생성 2번
   const approveMusicNFT = useApproveMusicNFT();
-  // 3번
+  // 생성 3번
   const sellNFT = useSellNFT();
+  // 취소 hook
+  const cancelListing = useCancelListing();
 
   // ====== NFT 민팅 함수 ======
   const handleMint = async () => {
@@ -159,8 +163,39 @@ const NftConfirmModal = ({
     return <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />;
   }
 
-  const handleCancel = () => {
-    setShowModal(false);
+  // 서버에서 판매 취소 함수
+  const serverCancelListing = async listingId => {
+    try {
+      const response = await axios.post(
+        `${serverApi}/api/nfts/my/sell/${listingId}/cancel`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log('serverResponse', response);
+      return response;
+    } catch (error) {
+      console.error('Error during cancel listing:', error);
+      throw error;
+    }
+  };
+
+  const handleCancel = async () => {
+    setIsLoading(true);
+    try {
+      await cancelListing(listingId);
+      await serverCancelListing(listingId);
+      console.log('cancelListing', listingId);
+    } catch (error) {
+      console.error('Error during cancel listing:', error);
+    } finally {
+      setIsLoading(false);
+      setShowModal(false);
+      setShowSuccessModal(true);
+    }
   };
 
   return (

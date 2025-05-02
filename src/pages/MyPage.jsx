@@ -23,6 +23,7 @@ import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
 import NftMarketPlace from '../components/mypage/NftMarketPlace';
+import { getUserGradeIcon } from '../utils/getUserGradeIcon';
 import Loading from '../components/IntroLogo2';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
@@ -74,7 +75,7 @@ const MyProfile = () => {
   return (
     <div className="mypage">
       <ProfileInfo userData={userData} token={token} isMyProfile>
-        <ProfileInfo.TokenAmount mic={0} mob={0} />
+        {/* <ProfileInfo.TokenAmount mic={0} mob={0} /> */}
       </ProfileInfo>
       <Tabs tabs={serviceTabObj} select={category} handleTab={handleTab} />
       {category === 'AI Services' && <AiServices username={userData?.name} />}
@@ -231,55 +232,64 @@ const UserProfile = () => {
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const [seeMore, setSeeMore] = useState(false);
 
-  // return (
-  //   <div className="mypage__profile">
-  //     <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
+  return (
+    <div className="mypage__profile">
+      <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
 
-  //     <div className="profile__info">
-  //       {/**=== */}
-  //       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-  //         <div className="profile__info--name-level">
-  //           <img
-  //             className="profile__info--profile-image"
-  //             src={userData?.profile || defaultCoverImg}
-  //             alt="profile"
-  //           />
-  //           <p className="profile__info--name-text">{userData?.name}</p>
-  //           <div className="profile__info--level">
-  //             <p className="profile__info--level-text">level</p>
-  //             <img className="profile__info--level-icon" src="" alt="icon" />
-  //             <p className="profile__info--level-rating">{userData?.user_rating}</p>
-  //           </div>
-  //         </div>
-  //         <img src={gearImg} alt="edit" />
-  //       </div>
-  //       {/**=== */}
-  //       <div className="profile__record">
-  //         <div className="profile__record--item">
-  //           <p className="profile__record--item-title">Songs</p>
-  //           <p className="profile__record--item-value">{userData?.total_songs}</p>
-  //         </div>
-  //         {/* <div className="profile__record--item">
-  //           <p className="profile__record--item-title">Following</p>
-  //           <p className="profile__record--item-value">2</p>
-  //         </div> */}
-  //         <div className="profile__record--item">
-  //           <p className="profile__record--item-title">Followers</p>
-  //           <p className="profile__record--item-value">{userData?.followers}</p>
-  //         </div>
-  //       </div>
-  //       {/**=== */}
-  //       <div className="profile__desc">
-  //         <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>{userData?.introduce}</p>
-  //         {!seeMore && (
-  //           <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
-  //             See More
-  //           </button>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+      <div className="profile__info">
+        {/**=== */}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="profile__info--name-level">
+            <img
+              className="profile__info--profile-image"
+              src={userData?.profile || defaultCoverImg}
+              alt="profile"
+            />
+            <p className="profile__info--name-text">{userData?.name}</p>
+            <div className="profile__info--level">
+              <p className="profile__info--level-text">level</p>
+              {getUserGradeIcon(userData?.user_rating) && (
+                <img
+                  className="profile__info--level-icon"
+                  src={getUserGradeIcon(userData?.user_rating)}
+                  alt="icon"
+                />
+              )}
+              <p className="profile__info--level-rating">{userData?.user_rating}</p>
+            </div>
+          </div>
+          <img src={gearImg} alt="edit" />
+        </div>
+        {/**=== */}
+        <div className="profile__record">
+          <div className="profile__record--item">
+            <p className="profile__record--item-title">Songs</p>
+            <p className="profile__record--item-value">{userData?.total_songs}</p>
+          </div>
+          {/* <div className="profile__record--item">
+            <p className="profile__record--item-title">Following</p>
+            <p className="profile__record--item-value">2</p>
+          </div> */}
+          <div className="profile__record--item">
+            <p className="profile__record--item-title">Followers</p>
+            <p className="profile__record--item-value">{userData?.followers}</p>
+          </div>
+        </div>
+        {/**=== */}
+        <div className="profile__desc">
+          <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
+            {userData?.introduce || '-'}
+          </p>
+          {!seeMore && (
+            <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
+              See More
+            </button>
+          )}
+        </div>
+        {children}
+      </div>
+    </div>
+  );
 
   return (
     <div className="mypage__profile">

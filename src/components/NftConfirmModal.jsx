@@ -34,6 +34,7 @@ const NftConfirmModal = ({
   thirdwebId,
   nftId,
   listingId,
+  onSuccess,
 }) => {
   console.log('sellPrice', sellPrice);
   console.log('nftId', nftId);
@@ -61,6 +62,7 @@ const NftConfirmModal = ({
       if (response.status === 'success') {
         setShowModal(false);
         setShowSuccessModal(true);
+        if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
       }
@@ -153,6 +155,7 @@ const NftConfirmModal = ({
       // 성공 시 모달 변경
       setShowModal(false);
       setShowSuccessModal(true);
+      if (onSuccess) onSuccess();
     } catch (error) {
       const match = error.message.match(/{.*}/);
 
@@ -194,14 +197,25 @@ const NftConfirmModal = ({
     setIsLoading(true);
     try {
       await cancelListing(listingId);
-      await serverCancelListing(listingId);
+      const response = await serverCancelListing(listingId);
       console.log('cancelListing', listingId);
-    } catch (error) {
-      console.error('Error during cancel listing:', error);
-    } finally {
-      setIsLoading(false);
+
       setShowModal(false);
       setShowSuccessModal(true);
+      if (onSuccess) onSuccess();
+    } catch (error) {
+      const match = error.message.match(/{.*}/);
+
+      console.log(error, '에러 매치');
+
+      setErrorMessage(
+        (match && JSON.parse(match?.[0]))?.message ||
+          error?.response?.data?.detail ||
+          error?.message ||
+          'Error'
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 

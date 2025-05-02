@@ -494,7 +494,7 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button mint-button"
-                        onClick={() => navigate(`/mint/detail/${album?.id}`)}
+                        onClick={() => navigate(`/mint/detail/${album?.id}/mint`)}
                         disabled={album?.is_nft || !album?.is_release}
                       >
                         Mint

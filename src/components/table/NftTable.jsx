@@ -5,6 +5,7 @@ import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
 import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
+import React from 'react';
 
 const NftTable = ({
   nftList = [],
@@ -48,62 +49,64 @@ const NftTable = ({
         </TableHeader>
         <TableBody>
           {nftList.map((item, index) => (
-            <TableItem>
-              <TableItem.Indexs text={index + 1} />
-              <TableItem.Type image={songTypeIcon} />
-              <TableItem.Grade grade={item.nft_rating} />
-              <TableItem.Text text={item.nft_name} />
-              {collectionOption && <TableItem.Text text={item.connect_collection_name} />}
-              {buyerOption && (
-                <TableItem.UserInfo
-                  image={item?.seller_user_profile}
-                  name={item?.seller_user_name}
-                />
-              )}
-              {sellerOption && (
-                <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
-              )}
-              <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
-              <TableItem.Date date={item.create_dt} />
-              <TableItem.Button
-                title="Details"
-                type="details"
-                handleClick={() => {
-                  navigate(`/song-detail/${item?.song_id}`);
-                }}
-              />
-
-              {saleOption && item.status === 'sold' && (
-                <TableItem.Button title="Sold" type="sold" />
-              )}
-
-              {saleOption && item.now_sales_status === 'Unlisted' && (
+            <React.Fragment key={item.id}>
+              <TableItem>
+                <TableItem.Indexs text={index + 1} />
+                <TableItem.Type image={songTypeIcon} />
+                <TableItem.Grade grade={item.nft_rating} />
+                <TableItem.Text text={item.nft_name} />
+                {collectionOption && <TableItem.Text text={item.connect_collection_name} />}
+                {buyerOption && (
+                  <TableItem.UserInfo
+                    image={item?.seller_user_profile}
+                    name={item?.seller_user_name}
+                  />
+                )}
+                {sellerOption && (
+                  <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
+                )}
+                <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
+                <TableItem.Date date={item.create_dt} />
                 <TableItem.Button
-                  title="Sell"
-                  type="sell"
+                  title="Details"
+                  type="details"
                   handleClick={() => {
-                    if (handleSell) {
-                      handleSell();
-                      return;
-                    }
-                    navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                    navigate(`/song-detail/${item?.song_id}`);
                   }}
                 />
-              )}
-              {saleOption && item.now_sales_status === 'Listed' && (
-                <TableItem.Button
-                  title="Cancel"
-                  type="cancel"
-                  handleClick={() => {
-                    setNftId(item?.id);
-                    setNftName(item?.nft_name);
-                    setListingId(item?.listing_id);
-                    setShowNftConfirmModal(true);
-                  }}
-                />
-              )}
-              {saleStatusOption && <TableItem.Text text="" />}
-            </TableItem>
+
+                {saleOption && item.status === 'sold' && (
+                  <TableItem.Button title="Sold" type="sold" />
+                )}
+
+                {saleOption && item.now_sales_status === 'Unlisted' && (
+                  <TableItem.Button
+                    title="Sell"
+                    type="sell"
+                    handleClick={() => {
+                      if (handleSell) {
+                        handleSell();
+                        return;
+                      }
+                      navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                    }}
+                  />
+                )}
+                {saleOption && item.now_sales_status === 'Listed' && (
+                  <TableItem.Button
+                    title="Cancel"
+                    type="cancel"
+                    handleClick={() => {
+                      setNftId(item?.id);
+                      setNftName(item?.nft_name);
+                      setListingId(item?.listing_id);
+                      setShowNftConfirmModal(true);
+                    }}
+                  />
+                )}
+                {saleStatusOption && <TableItem.Text text="" />}
+              </TableItem>
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>

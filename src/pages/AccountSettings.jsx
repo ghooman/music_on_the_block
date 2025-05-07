@@ -534,7 +534,7 @@ export default AccountSettings;
 const Social = ({ socials, setSocials }) => {
   const [overIndex, setOverIndex] = useState(null);
   const dragItem = useRef(null);
-  const urlRegex = /\b((https?|ftp):\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}(:[0-9]{1,5})?(\/[^\s]*)?\b/gi;
+  const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
 
   const handleDragStart = (e, index) => {
     const img = new Image();
@@ -609,7 +609,7 @@ const Social = ({ socials, setSocials }) => {
                 className="account-setting__social-item--input"
                 placeholder="Enter URL"
                 value={item}
-                type="url"
+                type="text"
                 onChange={e => {
                   setSocials(prev => {
                     const newArr = [...prev];
@@ -618,11 +618,9 @@ const Social = ({ socials, setSocials }) => {
                   });
                 }}
               />
-              {/* {!urlRegex.test(item) && (
-                <p className="account-setting__social-item--input-error">
-                  URL does not exist. Please enter the link again.
-                </p>
-              )} */}
+              {item && !urlRegex.test(item) && (
+                <p className="account-setting__social-item--input-error">Invalid URL format.</p>
+              )}
             </div>
             <img
               className="account-setting__social-item--delete"

@@ -90,6 +90,7 @@
     .profile__link {
       display: flex;
       align-items: center;
+      cursor: pointer;
       gap: 8px;
     }
     .profile__link--icon {
@@ -98,7 +99,6 @@
     }
     .profile__link--item {
       color: #5a9bf6;
-      cursor: pointer;
       font-family: Orbitron400;
       font-size: 14px;
     }

@@ -297,11 +297,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             )}
           </div>
           {userData?.link_list?.[0] && (
-            <div className="profile__link">
+            <div className="profile__link" onClick={() => setLinksModal(true)}>
               <img className="profile__link--icon" src={linkIcon} alt="link" />
-              <p className="profile__link--item" onClick={() => setLinksModal(true)}>
-                {userData?.link_list?.[0].link}
-              </p>
+              <p className="profile__link--item">{userData?.link_list?.[0].link}</p>
               {userData?.link_list.length > 0 && (
                 <p className="profile__link--count">{userData?.link_list?.length} external link</p>
               )}

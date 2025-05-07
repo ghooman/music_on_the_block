@@ -94,8 +94,6 @@ const NftItems = ({ username, isMyProfile }) => {
     }
   );
 
-  console.log(data, '데이터가 진짜 없나요');
-
   return (
     <>
       <div className="nft-market-place__button-wrap">

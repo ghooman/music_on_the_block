@@ -7,5 +7,10 @@
     color: #519bf6;
     font-family: Orbitron400;
     font-size: 12px;
+
+    &.invalid {
+      color: #383838;
+      pointer-events: none;
+    }
   }
 }

@@ -127,80 +127,82 @@ const SongPlayTable = ({
             {songList &&
               songList.length > 0 &&
               songList.map((item, index) => (
-                <TableItem
-                  isHover={true}
-                  handleClick={() => {
-                    if (activeSong?.id === item?.id) {
-                      setActiveSong(null);
-                    } else {
-                      setActiveSong(item);
-                      if (isTrigger && setIsTrigger) {
-                        triggerIndex.current = index;
+                <React.Fragment key={item.id}>
+                  <TableItem
+                    isHover={true}
+                    handleClick={() => {
+                      if (activeSong?.id === item?.id) {
+                        setActiveSong(null);
+                      } else {
+                        setActiveSong(item);
+                        if (isTrigger && setIsTrigger) {
+                          triggerIndex.current = index;
+                        }
                       }
-                    }
-                  }}
-                >
-                  <TableItem.Indexs text={index + 1} />
-                  <TableItem.Song
-                    image={
-                      item.cover_image?.replace('public', '140to140') ||
-                      item.nft_image?.replace('public', '140to140')
-                    }
-                    active={item?.id === activeSong?.id}
-                    width={40}
-                  />
-                  <TableItem.Type image={songTypeIcon} />
-                  <TableItem.Grade grade={item.rating} />
-                  {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
-                  {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
-                  <TableItem.Text text={item.title || item.nft_name} />
-                  {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
-                  {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
-
-                  <TableItem.Button
-                    title="Details"
-                    type="details"
-                    handleClick={() => navigate(`/song-detail/${item?.song_id || item?.id} `)}
-                  />
-
-                  {deleteOption && handleDelete && (
-                    <TableItem.Button
-                      title="Delete"
-                      type="delete"
-                      handleClick={e => {
-                        e.stopPropagation();
-                        handleDelete(item);
-                      }}
+                    }}
+                  >
+                    <TableItem.Indexs text={index + 1} />
+                    <TableItem.Song
+                      image={
+                        item.cover_image?.replace('public', '140to140') ||
+                        item.nft_image?.replace('public', '140to140')
+                      }
+                      active={item?.id === activeSong?.id}
+                      width={40}
                     />
-                  )}
+                    <TableItem.Type image={songTypeIcon} />
+                    <TableItem.Grade grade={item.rating} />
+                    {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
+                    {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
+                    <TableItem.Text text={item.title || item.nft_name} />
+                    {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
+                    {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
 
-                  {releaseOption && handleRelease && (
                     <TableItem.Button
-                      title="Release"
-                      type="release"
-                      handleClick={e => {
-                        e.stopPropagation();
-                        handleRelease(item);
-                      }}
+                      title="Details"
+                      type="details"
+                      handleClick={() => navigate(`/song-detail/${item?.song_id || item?.id} `)}
                     />
-                  )}
 
-                  {mintOption && handleMint && (
-                    <TableItem.Button
-                      title="Mint"
-                      type="mint"
-                      handleClick={() => navigate(`/mint/detail/${item.id}/0/mint`)}
-                    />
-                  )}
+                    {deleteOption && handleDelete && (
+                      <TableItem.Button
+                        title="Delete"
+                        type="delete"
+                        handleClick={e => {
+                          e.stopPropagation();
+                          handleDelete(item);
+                        }}
+                      />
+                    )}
 
-                  {sellOption && handleSell && (
-                    <TableItem.Button
-                      title="Sell"
-                      type="sell"
-                      handleClick={() => navigate(`/nft/sell/detail/${item.song_id}/${item.id}`)}
-                    />
-                  )}
-                </TableItem>
+                    {releaseOption && handleRelease && (
+                      <TableItem.Button
+                        title="Release"
+                        type="release"
+                        handleClick={e => {
+                          e.stopPropagation();
+                          handleRelease(item);
+                        }}
+                      />
+                    )}
+
+                    {mintOption && handleMint && (
+                      <TableItem.Button
+                        title="Mint"
+                        type="mint"
+                        handleClick={() => navigate(`/mint/detail/${item.id}/0/mint`)}
+                      />
+                    )}
+
+                    {sellOption && handleSell && (
+                      <TableItem.Button
+                        title="Sell"
+                        type="sell"
+                        handleClick={() => navigate(`/nft/sell/detail/${item.song_id}/${item.id}`)}
+                      />
+                    )}
+                  </TableItem>
+                </React.Fragment>
               ))}
           </TableBody>
         </Table>

@@ -51,6 +51,7 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
         arcLabelsSkipAngle={10}
         enableArcLabels={false}
         enableArcLinkLabels={false}
+        isInteractive={false}
         colors={datum => getColor(datum)}
       />
       <div className="chart__pie--text">
@@ -125,7 +126,6 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
         enableTouchCrosshair={true}
         useMesh={true}
         // enableArea={true}
-        tooltip={() => null}
         colors={() => '#00ffb3'}
         theme={{
           axis: {
@@ -136,6 +136,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
               },
             },
           },
+          tooltip: { container: { background: '#111', color: '#fff', fontSize: 12 } },
           grid: {
             line: {
               stroke: '#222',
@@ -167,7 +168,13 @@ export const BarChart = ({
     data?.forEach(item => {
       if (item.value > max) max = item.value;
     });
-    setMaxValue(max);
+    const maxvalue = [10, 100, 1000, 10000, 100000];
+    for (let i = 0; i < maxvalue.length; i++) {
+      if (max < maxvalue[i]) {
+        setMaxValue(maxvalue[i]);
+        break;
+      }
+    }
   }, [data]);
 
   return (
@@ -214,57 +221,82 @@ export const BarChart = ({
   );
 };
 
-export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => (
-  <div style={{ height }}>
-    <ResponsiveLine
-      data={data}
-      margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
-      xScale={{ type: 'point' }}
-      yScale={{ type: 'linear', min: 0, max: 5000 }} // 0~5000 고정
-      curve="monotoneX"
-      colors="#a78bfa"
-      lineWidth={2}
-      pointSize={0}
-      enablePoints={false}
-      useMesh
-      /* ───── 축 & 눈금 ───── */
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        tickSize: 0,
-        tickPadding: 12,
-        tickRotation: 0,
-        legend: '',
-        legendOffset: 32,
-      }}
-      axisLeft={{
-        tickSize: 0,
-        tickPadding: 8,
-        tickValues: [0, 1000, 2000, 3000, 4000, 5000], // 눈금 위치
-        legend: '',
-        legendOffset: -40,
-      }}
-      /* ───── 격자선 ───── */
-      enableGridX={false}
-      enableGridY={true}
-      gridYValues={[0, 1000, 2000, 3000, 4000, 5000]}
-      /* ───── 테마(색상) ───── */
-      theme={{
-        // background: '#000',
-        textColor: '#fff',
-        axis: {
-          ticks: {
-            text: { fill: '#888', fontSize: 12 },
-            line: { stroke: '#333' },
+export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
+  console.log(data, '심플 라인 차트 데이터');
+
+  const [maxValue, setMaxValue] = useState(0);
+
+  useEffect(() => {
+    let max = 0;
+    if (!data) return;
+
+    data?.[0].data.forEach(obj => {
+      if (obj.y > max) {
+        max = obj.y;
+      }
+    });
+
+    const maxvalue = [10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000];
+    for (const value of maxvalue) {
+      if (max < value) {
+        setMaxValue(value);
+        break;
+      }
+    }
+  }, [data]);
+
+  return (
+    <div style={{ height }}>
+      <ResponsiveLine
+        data={data}
+        margin={{ top: 20, right: 20, bottom: 40, left: 50 }}
+        xScale={{ type: 'point' }}
+        yScale={{ type: 'linear', min: 0, max: maxValue }} // 0~5000 고정
+        curve="monotoneX"
+        colors="#a78bfa"
+        lineWidth={2}
+        pointSize={0}
+        enablePoints={false}
+        useMesh
+        /* ───── 축 & 눈금 ───── */
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+          tickSize: 0,
+          tickPadding: 12,
+          tickRotation: 0,
+          legend: '',
+          legendOffset: 32,
+        }}
+        axisLeft={{
+          tickSize: 0,
+          tickPadding: 8,
+          // tickValues: [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000], // 눈금 위치
+          legend: '',
+          legendOffset: -40,
+        }}
+        /* ───── 격자선 ───── */
+        enableGridX={false}
+        enableGridY={true}
+        // gridYValues={[0, 1000, 2000, 3000, 4000, 5000]}
+        /* ───── 테마(색상) ───── */
+        theme={{
+          // background: '#000',
+          textColor: '#fff',
+          axis: {
+            ticks: {
+              text: { fill: '#888', fontSize: 12 },
+              line: { stroke: '#333' },
+            },
+            domain: { line: { stroke: '#444' } },
           },
-          domain: { line: { stroke: '#444' } },
-        },
-        grid: { line: { stroke: '#222', strokeWidth: 1 } },
-        tooltip: {
-          container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
-        },
-      }}
-      tooltip={() => null}
-    />
-  </div>
-);
+          grid: { line: { stroke: '#222', strokeWidth: 1 } },
+          tooltip: {
+            container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
+          },
+        }}
+        tooltip={() => null}
+      />
+    </div>
+  );
+};

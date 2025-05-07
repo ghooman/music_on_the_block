@@ -191,13 +191,15 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
       />
     );
   }
+  const handleClose = () => {
+    if (isLoading) return;
+
+    setShowCreateModal(false);
+  };
 
   return (
     <>
-      <ModalWrap
-        onClose={setShowCreateModal}
-        title={status === 'edit' ? 'Edit Album' : 'Create Album'}
-      >
+      <ModalWrap onClose={handleClose} title={status === 'edit' ? 'Edit Album' : 'Create Album'}>
         <div className="albums-create-modal">
           <p className="albums-create-modal__title">Album Cover Image</p>
           <span className="albums-create-modal__size-info">(jpg, png, under 4MB)</span>
@@ -243,7 +245,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
           <div className="albums-create-modal__button-box">
             <button
               className="albums-create-modal__button cancel-button"
-              onClick={() => setShowCreateModal(false)}
+              onClick={handleClose}
               disabled={isLoading}
             >
               Cancel

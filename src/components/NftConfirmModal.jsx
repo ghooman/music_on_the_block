@@ -221,8 +221,14 @@ const NftConfirmModal = ({
     return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
   }
 
+  const handleClose = () => {
+    if (isLoading) return;
+
+    setShowModal(false);
+  };
+
   return (
-    <ModalWrap title={title} onClose={() => setShowModal(false)} className="confirm-modal">
+    <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
       <dl>
         {(confirmSellTxt || confirmCancelTxt) && <dt>[{selectedCollection?.name || nftName}]</dt>}
         {confirmMintTxt && <dt>Confirm minting: [{selectedCollection?.name}]</dt>}

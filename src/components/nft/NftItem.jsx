@@ -2,10 +2,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import NoneContent from '../../components/unit/NoneContent';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
-import graph1Img01 from '../../assets/images/nft/praph-img01.png';
-import graph1Img02 from '../../assets/images/nft/graph02-img.png';
 
 import lyricIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import compositionIcon from '../../assets/images/icon/Composition-Icon.svg';
@@ -34,7 +30,12 @@ export const NftItemList = ({ data }) => {
   );
 };
 
-export const CollectionItemList = ({ data, linkMove = true, setSelectedCollection }) => {
+export const CollectionItemList = ({
+  data,
+  linkMove = true,
+  selectedCollection,
+  setSelectedCollection,
+}) => {
   return (
     <>
       <div className="nft-item-collection-wrap">
@@ -45,11 +46,14 @@ export const CollectionItemList = ({ data, linkMove = true, setSelectedCollectio
                 item={item}
                 linkMove={linkMove}
                 setSelectedCollection={setSelectedCollection}
+                selectedCollection={selectedCollection}
               />
             </React.Fragment>
           ))}
       </div>
-      {data?.length <= 0 && <NoneContent height={300} message="There are no collections." />}
+      {(!data || data?.length <= 0) && (
+        <NoneContent height={300} message="There are no collections." />
+      )}
     </>
   );
 };
@@ -87,30 +91,36 @@ const NftItem = ({ item }) => {
   );
 };
 
-export const CollectionItem = ({ item, linkMove = true, setSelectedCollection }) => {
+export const CollectionItem = ({
+  item,
+  linkMove = true,
+  selectedCollection,
+  setSelectedCollection,
+}) => {
   console.log(item, '컬렉션 아이템');
   const Wrapper = linkMove ? Link : 'div';
-  const [isActive, setIsActive] = useState(false);
+
+  // selectedCollection을 기준으로 현재 아이템이 선택되었는지 확인
+  const isActive = !linkMove && selectedCollection && selectedCollection.id === item.id;
 
   const handleClick = e => {
     if (!linkMove) {
       e.preventDefault();
 
-      if (!isActive) {
-        // 모든 기존 active 제거
-        document.querySelectorAll('.nft-item.active').forEach(el => el.classList.remove('active'));
-        setSelectedCollection(item);
-      } else {
+      // 현재 아이템이 이미 선택된 상태인지 확인
+      if (selectedCollection && selectedCollection.id === item.id) {
+        // 현재 선택된 아이템이면 선택 해제
         setSelectedCollection(null);
+      } else {
+        // 새로운 아이템 선택
+        setSelectedCollection(item);
       }
-
-      // 내 상태 토글 & 클래스 토글
-      setIsActive(prev => !prev);
     }
   };
+
   return (
     <Link
-      className={`nft-item${!linkMove && isActive ? ' active' : ''}`}
+      className={`nft-item${isActive ? ' active' : ''}`}
       {...(linkMove && { to: `/nft/collection/detail/${item?.id}` })}
       onClick={handleClick}
     >

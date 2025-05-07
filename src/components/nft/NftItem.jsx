@@ -118,7 +118,6 @@ export const CollectionItem = ({
     }
   };
 
-  console.log('selectedCollection', selectedCollection);
   return (
     <Link
       className={`nft-item${isActive ? ' active' : ''}`}

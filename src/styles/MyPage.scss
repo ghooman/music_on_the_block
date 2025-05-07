@@ -10,10 +10,11 @@
     flex-direction: column;
     gap: 40px;
     .profile__bg {
-      height: 150px;
+      height: 170px;
       width: 100%;
       background-size: cover;
       background-repeat: no-repeat;
+      background-position: center;
     }
 
     .profile__info {
@@ -86,6 +87,27 @@
       gap: 16px;
       min-height: 21px;
     }
+    .profile__link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .profile__link--icon {
+      width: 24px;
+      height: 24px;
+    }
+    .profile__link--item {
+      color: #5a9bf6;
+      cursor: pointer;
+      font-family: Orbitron400;
+      font-size: 14px;
+    }
+    .profile__link--count {
+      color: #f1f1f1;
+      font-family: Inter400;
+      font-size: 14px;
+    }
+
     .profile__desc--content {
       color: #aaa;
       font-family: Inter400;

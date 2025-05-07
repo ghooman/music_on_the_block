@@ -171,7 +171,9 @@ function App() {
               path="nft/mint/list"
               element={
                 <Layout>
-                  <NftMintList />
+                  <ProtectedRoute>
+                    <NftMintList />
+                  </ProtectedRoute>
                 </Layout>
               }
             />
@@ -179,7 +181,9 @@ function App() {
               path="nft/sell/list"
               element={
                 <Layout>
-                  <NftSellList />
+                  <ProtectedRoute>
+                    <NftSellList />
+                  </ProtectedRoute>
                 </Layout>
               }
             />
@@ -187,7 +191,9 @@ function App() {
               path="mint/detail/:id/:nft_id/:status"
               element={
                 <Layout>
-                  <MintNftDetail />
+                  <ProtectedRoute>
+                    <MintNftDetail />
+                  </ProtectedRoute>
                 </Layout>
               }
             />
@@ -195,7 +201,9 @@ function App() {
               path="nft/sell/detail/:id/:nft_id"
               element={
                 <Layout>
-                  <SellNftDetail />
+                  <ProtectedRoute>
+                    <SellNftDetail />
+                  </ProtectedRoute>
                 </Layout>
               }
             />

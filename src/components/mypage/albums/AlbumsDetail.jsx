@@ -109,13 +109,14 @@ const AlbumsDetail = () => {
               <p className="my-album-details__box__header__right__box__title">
                 <span>{albumBundleInfo?.album_name}</span>
                 {albumBundleInfo?.is_owner && (
-                  <button
+                  <label
                     className="my-album-details__box__header__right__box__title__edit-btn"
                     onClick={() => handleEditAlbum(albumBundleInfo)}
+                    htmlFor="name"
                   >
                     Edit Album
                     <img src={editIcon} alt="edit-icon" />
-                  </button>
+                  </label>
                 )}
               </p>
               <div className="my-album-details__box__header__right__box__list">

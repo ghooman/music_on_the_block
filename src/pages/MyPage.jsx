@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext';
 import demoBg from '../assets/images/mypage/demo-bg.png';
 import gearImg from '../assets/images/mypage/gear.svg';
+import linkIcon from '../assets/images/icon/link.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
@@ -25,6 +26,7 @@ import SongsUser from '../components/mypage/SongsUser';
 import NftMarketPlace from '../components/mypage/NftMarketPlace';
 import { getUserGradeIcon } from '../utils/getUserGradeIcon';
 import Loading from '../components/IntroLogo2';
+import LinksModal from '../components/LinksModal';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -124,7 +126,7 @@ const UserProfile = () => {
     refetch,
     isFetching,
   } = useQuery(
-    ['user_profile', username, walletAddress],
+    ['user_profile', username, walletAddress?.address],
     async () => {
       const res = await axios.get(
         `${serverApi}/api/user/profile?name=${username}&wallet_address=${walletAddress?.address}`
@@ -142,7 +144,7 @@ const UserProfile = () => {
   const handleFollowing = async () => {
     if (!token) return;
     const update = follow => {
-      queryClient.setQueryData(['user_profile', username, walletAddress], prev => {
+      queryClient.setQueryData(['user_profile', username, walletAddress.address], prev => {
         return { ...prev, is_follow: follow, followers: prev?.followers + 1 };
       });
     };
@@ -189,7 +191,7 @@ const UserProfile = () => {
     } else if (!category) {
       setSearchParams({ category: 'AI Services', username: username }, { replace: true });
     }
-  }, []);
+  }, [userData]);
 
   return (
     <div className="mypage">
@@ -231,67 +233,90 @@ const UserProfile = () => {
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const [seeMore, setSeeMore] = useState(false);
+  const [linksModal, setLinksModal] = useState(false);
 
   return (
-    <div className="mypage__profile">
-      <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
-      <div className="profile__info">
-        {/**=== */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div className="profile__info--name-level">
-            <img
-              className="profile__info--profile-image"
-              src={userData?.profile || defaultCoverImg}
-              alt="profile"
-            />
-            <p className="profile__info--name-text">{userData?.name}</p>
-            <div className="profile__info--level">
-              <p className="profile__info--level-text">level</p>
-              {getUserGradeIcon(userData?.user_rating) && (
-                <img
-                  className="profile__info--level-icon"
-                  src={getUserGradeIcon(userData?.user_rating)}
-                  alt="icon"
-                />
-              )}
-              <p className="profile__info--level-rating">{userData?.user_rating}</p>
+    <>
+      <div className="mypage__profile">
+        <div
+          className="profile__bg"
+          style={{ backgroundImage: `url(${userData && (userData?.background_image || demoBg)})` }}
+        ></div>
+        <div className="profile__info">
+          {/**=== */}
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className="profile__info--name-level">
+              <img
+                className="profile__info--profile-image"
+                src={userData?.profile || defaultCoverImg}
+                alt="profile"
+              />
+              <p className="profile__info--name-text">{userData?.name}</p>
+              <div className="profile__info--level">
+                <p className="profile__info--level-text">level</p>
+                {getUserGradeIcon(userData?.user_rating) && (
+                  <img
+                    className="profile__info--level-icon"
+                    src={getUserGradeIcon(userData?.user_rating)}
+                    alt="icon"
+                  />
+                )}
+                <p className="profile__info--level-rating">{userData?.user_rating}</p>
+              </div>
+            </div>
+            {isMyProfile && (
+              <Link to="/account-setting">
+                <img src={gearImg} alt="edit" />
+              </Link>
+            )}
+          </div>
+          {/**=== */}
+          <div className="profile__record">
+            <div className="profile__record--item">
+              <p className="profile__record--item-title">Songs</p>
+              <p className="profile__record--item-value">{userData?.total_songs}</p>
+            </div>
+            {/* <div className="profile__record--item">
+              <p className="profile__record--item-title">Following</p>
+              <p className="profile__record--item-value">2</p>
+            </div> */}
+            <div className="profile__record--item">
+              <p className="profile__record--item-title">Followers</p>
+              <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
           </div>
-          {isMyProfile && (
-            <Link to="/account-setting">
-              <img src={gearImg} alt="edit" />
-            </Link>
-          )}
-        </div>
-        {/**=== */}
-        <div className="profile__record">
-          <div className="profile__record--item">
-            <p className="profile__record--item-title">Songs</p>
-            <p className="profile__record--item-value">{userData?.total_songs}</p>
+          {/**=== */}
+          <div className="profile__desc">
+            <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
+              {userData?.introduce || '-'}
+            </p>
+            {!seeMore && (
+              <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
+                See More
+              </button>
+            )}
           </div>
-          {/* <div className="profile__record--item">
-            <p className="profile__record--item-title">Following</p>
-            <p className="profile__record--item-value">2</p>
-          </div> */}
-          <div className="profile__record--item">
-            <p className="profile__record--item-title">Followers</p>
-            <p className="profile__record--item-value">{userData?.followers}</p>
-          </div>
-        </div>
-        {/**=== */}
-        <div className="profile__desc">
-          <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
-            {userData?.introduce || '-'}
-          </p>
-          {!seeMore && (
-            <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
-              See More
-            </button>
+          {userData?.link_list?.[0] && (
+            <div className="profile__link">
+              <img className="profile__link--icon" src={linkIcon} alt="link" />
+              <p className="profile__link--item" onClick={() => setLinksModal(true)}>
+                {userData?.link_list?.[0].link}
+              </p>
+              {userData?.link_list.length > 0 && (
+                <p className="profile__link--count">{userData?.link_list?.length} external link</p>
+              )}
+            </div>
           )}
+          {children}
         </div>
-        {children}
       </div>
-    </div>
+      {linksModal && (
+        <LinksModal
+          linkItems={userData?.link_list.map(item => item.link)}
+          setLinksModal={setLinksModal}
+        />
+      )}
+    </>
   );
 
   return (

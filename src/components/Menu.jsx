@@ -37,6 +37,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
+  console.log('userData', userData);
+
+  const micBalance = userData?.mic_point || '0.00';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
     setActiveMenus(
@@ -174,17 +177,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{micBalance}</p>
                           <span>
                             <img src={micIcon} alt="mic icon" />
                             MIC
-                          </span>
-                        </div>
-                        <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
-                          <span>
-                            <img src={polIcon} alt="pol icon" />
-                            POL
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">

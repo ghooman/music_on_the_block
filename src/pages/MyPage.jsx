@@ -276,10 +276,10 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-title">Songs</p>
               <p className="profile__record--item-value">{userData?.total_songs}</p>
             </div>
-            {/* <div className="profile__record--item">
+            <div className="profile__record--item">
               <p className="profile__record--item-title">Following</p>
-              <p className="profile__record--item-value">2</p>
-            </div> */}
+              <p className="profile__record--item-value">{userData?.followings}</p>
+            </div>
             <div className="profile__record--item">
               <p className="profile__record--item-title">Followers</p>
               <p className="profile__record--item-value">{userData?.followers}</p>

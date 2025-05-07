@@ -67,12 +67,6 @@ const AlbumsDetail = () => {
     return await getAlbumBundleDetail({ bundle_id: id, address: address });
   });
 
-  console.log(albumBundleInfo, '번들 인포');
-
-  const handleDetailModal = () => {
-    setShowDetailModal(true);
-  };
-
   const handleEditAlbum = () => {
     setShowCreateModal(true);
     setShowDetailModal(false);
@@ -87,14 +81,6 @@ const AlbumsDetail = () => {
         <section className="my-album-details__box__header">
           <article className="my-album-details__box__header__left">
             <div className="my-album-details__box__header__left__img-box">
-              {/* {albumBundleInfo?.is_owner && (
-                <button
-                  className="my-album-details__box__header__left__img-box__button"
-                  onClick={handleDetailModal}
-                >
-                  <img src={MoreHoriz} alt="more-horiz" />
-                </button>
-              )} */}
               {!isLoading && (
                 <img
                   className="my-album-details__box__header__left__img-box__img"

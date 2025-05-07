@@ -289,56 +289,56 @@ const AccountSettings = () => {
         </div>
         <div className="account-setting__user-info">
           {/* <div className="user-info__item">
-                        <p className="user-info__title">Artist Name</p>
-                        <span className="user-info__desc">
-                            First change is free, subsequent changes cost 1 MOB each.
-                        </span>
-                        <div className="user-info__input-box">
-                            <input
-                                type="text"
-                                className="user-info__input"
-                                placeholder="User Name"
-                                value={userName}
-                                onChange={(e) => setUserName(e.target.value)}
-                            />
-                           // 기존 버튼은 그대로 두되, 최종 업데이트 시 검증됩니다
-                            <button className="user-info__edit-btn" onClick={validate}>
-                                Change(1 MOB)
-                            </button>
-                        </div>
-                        {errorMessages.userName.map((err, idx) => (
-                            <span key={idx} className="user-info__error">
-                                {err}
-                            </span>
-                        ))}
-                    </div> */}
+                          <p className="user-info__title">Artist Name</p>
+                          <span className="user-info__desc">
+                              First change is free, subsequent changes cost 1 MOB each.
+                          </span>
+                          <div className="user-info__input-box">
+                              <input
+                                  type="text"
+                                  className="user-info__input"
+                                  placeholder="User Name"
+                                  value={userName}
+                                  onChange={(e) => setUserName(e.target.value)}
+                              />
+                             // 기존 버튼은 그대로 두되, 최종 업데이트 시 검증됩니다
+                              <button className="user-info__edit-btn" onClick={validate}>
+                                  Change(1 MOB)
+                              </button>
+                          </div>
+                          {errorMessages.userName.map((err, idx) => (
+                              <span key={idx} className="user-info__error">
+                                  {err}
+                              </span>
+                          ))}
+                      </div> */}
           {/* <div className="user-info__item">
-                        <p className="user-info__title">Nation</p>
-                        <div className="user-info__input-box">
-                            <input type="text" className="user-info__input" placeholder="Please Select Your Nation" />
-                            <button className="user-info__edit-btn">Change</button>
-                        </div>
-                    </div> */}
+                          <p className="user-info__title">Nation</p>
+                          <div className="user-info__input-box">
+                              <input type="text" className="user-info__input" placeholder="Please Select Your Nation" />
+                              <button className="user-info__edit-btn">Change</button>
+                          </div>
+                      </div> */}
           {/* <div className="user-info__item">
-                        <p className="user-info__title">Email</p>
-                        <div className="user-info__input-box">
-                            <input
-                                type="text"
-                                className="user-info__input"
-                                placeholder="Email"
-                                value={email}
-                                // onChange={(e) => setEmail(e.target.value)}
-                                readOnly
-                            />
-                            // 이메일 변경 버튼도 개별적으로는 validate 함수를 호출(원래 코드)
-                            <button className="user-info__edit-btn">Change</button>
-                        </div>
-                        {errorMessages.email.map((err, idx) => (
-                            <span key={idx} className="user-info__error">
-                                {err}
-                            </span>
-                        ))}
-                    </div> */}
+                          <p className="user-info__title">Email</p>
+                          <div className="user-info__input-box">
+                              <input
+                                  type="text"
+                                  className="user-info__input"
+                                  placeholder="Email"
+                                  value={email}
+                                  // onChange={(e) => setEmail(e.target.value)}
+                                  readOnly
+                              />
+                              // 이메일 변경 버튼도 개별적으로는 validate 함수를 호출(원래 코드)
+                              <button className="user-info__edit-btn">Change</button>
+                          </div>
+                          {errorMessages.email.map((err, idx) => (
+                              <span key={idx} className="user-info__error">
+                                  {err}
+                              </span>
+                          ))}
+                      </div> */}
           <div className="user-info__item">
             <p className="user-info__title">Introduction </p>
             <div className="user-info__desc-box">
@@ -369,58 +369,62 @@ const AccountSettings = () => {
       <Social socials={socials} setSocials={setSocials} />
       {/* <section className="account-setting__details"> */}
       {/* <div className="details__header">
-                    <p className="details__title">Account Details</p>
-                </div> */}
+                      <p className="details__title">Account Details</p>
+                  </div> */}
       {/* <div className="details__item">
-                    <p className="details__item-title">Held Tokens (MOB)</p>
-                    <div className="details__input-box">
-                        <input type="text" className="details__input" placeholder="0" value="0 MOB" />
-                    </div>
-                </div> */}
+                      <p className="details__item-title">Held Tokens (MOB)</p>
+                      <div className="details__input-box">
+                          <input type="text" className="details__input" placeholder="0" value="0 MOB" />
+                      </div>
+                  </div> */}
       {/* <div className="details__item">
-                    <p className="details__item-title">Join Date</p>
-                    <div className="details__input-box">
-                        <input
-                            type="text"
-                            className="details__input"
-                            placeholder="0"
-                            value="Sat, 04 Nov 2023 14:40:00 UTC+0"
-                        />
-                    </div>
-                </div> */}
+                      <p className="details__item-title">Join Date</p>
+                      <div className="details__input-box">
+                          <input
+                              type="text"
+                              className="details__input"
+                              placeholder="0"
+                              value="Sat, 04 Nov 2023 14:40:00 UTC+0"
+                          />
+                      </div>
+                  </div> */}
       {/* <div className="details__item">
-                    <p className="details__item-title">Level</p>
-                    <div className="details__input-box">
-                        <input type="text" className="details__input" placeholder="0" value="Level 1" />
-                    </div>
-                </div> */}
+                      <p className="details__item-title">Level</p>
+                      <div className="details__input-box">
+                          <input type="text" className="details__input" placeholder="0" value="Level 1" />
+                      </div>
+                  </div> */}
       {/* <div className="details__item">
-                    <p className="details__item-title">MIC</p>
-                    <div className="details__input-box">
-                        <input type="text" className="details__input" placeholder="0" value="0 MIC" />
-                    </div>
-                </div> */}
+                      <p className="details__item-title">MIC</p>
+                      <div className="details__input-box">
+                          <input type="text" className="details__input" placeholder="0" value="0 MIC" />
+                      </div>
+                  </div> */}
       {/* <div className="details__item">
-                    <p className="details__item-title">Date of Birth</p>
-                    <div className="details__input-box">
-                        <input type="text" className="details__input" placeholder="0" value="2020-01-01" />
-                    </div>
-                </div> */}
+                      <p className="details__item-title">Date of Birth</p>
+                      <div className="details__input-box">
+                          <input type="text" className="details__input" placeholder="0" value="2020-01-01" />
+                      </div>
+                  </div> */}
       {/* <div className="details__item">
-                    <p className="details__item-title">Wallet Address</p>
-                    <div className="details__input-box">
-                        <input
-                            type="text"
-                            className="details__input"
-                            placeholder="0"
-                            value={userData?.wallet_address}
-                        />
-                    </div>
-                </div> */}
+                      <p className="details__item-title">Wallet Address</p>
+                      <div className="details__input-box">
+                          <input
+                              type="text"
+                              className="details__input"
+                              placeholder="0"
+                              value={userData?.wallet_address}
+                          />
+                      </div>
+                  </div> */}
       {/* </section> */}
-      <section className="account-setting__submit" onClick={updateUserInfo}>
+      <button
+        className="account-setting__submit"
+        onClick={updateUserInfo}
+        // type="submit"
+      >
         Update User Info
-      </section>
+      </button>
       {/* Hidden file input for profile image change */}
       <input
         type="file"
@@ -430,90 +434,90 @@ const AccountSettings = () => {
         onChange={handleImageSelect}
       />
       {/* <section className="account-setting__social">
-        <div className="social__header">
-          <p className="social__title">Link Your Social Profiles</p>
-        </div>
-        <div className="social__item">
-          <p className="social__item-title">Instagram</p>
-          <div className="social__input-box">
-            <input
-              type="text"
-              className="social__input"
-              placeholder="Please enter the URL"
-            />
-            <button className="social__edit-btn">Change</button>
+          <div className="social__header">
+            <p className="social__title">Link Your Social Profiles</p>
           </div>
-          {errorMessages.socials.map((err, idx) => (
-            <span key={idx} className="social__error">
-              {err}
-            </span>
-          ))}
-        </div>
-        <div className="social__item">
-          <p className="social__item-title">Instagram</p>
-          <div className="social__input-box">
-            <input
-              type="text"
-              className="social__input"
-              placeholder="Please enter the URL"
-            />
-            <button className="social__edit-btn">Change</button>
+          <div className="social__item">
+            <p className="social__item-title">Instagram</p>
+            <div className="social__input-box">
+              <input
+                type="text"
+                className="social__input"
+                placeholder="Please enter the URL"
+              />
+              <button className="social__edit-btn">Change</button>
+            </div>
+            {errorMessages.socials.map((err, idx) => (
+              <span key={idx} className="social__error">
+                {err}
+              </span>
+            ))}
           </div>
-          {errorMessages.socials.map((err, idx) => (
-            <span key={idx} className="social__error">
-              {err}
-            </span>
-          ))}
-        </div>
-        <div className="social__item">
-          <p className="social__item-title">Instagram</p>
-          <div className="social__input-box">
-            <input
-              type="text"
-              className="social__input"
-              placeholder="Please enter the URL"
-            />
-            <button className="social__edit-btn">Change</button>
+          <div className="social__item">
+            <p className="social__item-title">Instagram</p>
+            <div className="social__input-box">
+              <input
+                type="text"
+                className="social__input"
+                placeholder="Please enter the URL"
+              />
+              <button className="social__edit-btn">Change</button>
+            </div>
+            {errorMessages.socials.map((err, idx) => (
+              <span key={idx} className="social__error">
+                {err}
+              </span>
+            ))}
           </div>
-          {errorMessages.socials.map((err, idx) => (
-            <span key={idx} className="social__error">
-              {err}
-            </span>
-          ))}
-        </div>
-        <div className="social__item">
-          <p className="social__item-title">Instagram</p>
-          <div className="social__input-box">
-            <input
-              type="text"
-              className="social__input"
-              placeholder="Please enter the URL"
-            />
-            <button className="social__edit-btn">Change</button>
+          <div className="social__item">
+            <p className="social__item-title">Instagram</p>
+            <div className="social__input-box">
+              <input
+                type="text"
+                className="social__input"
+                placeholder="Please enter the URL"
+              />
+              <button className="social__edit-btn">Change</button>
+            </div>
+            {errorMessages.socials.map((err, idx) => (
+              <span key={idx} className="social__error">
+                {err}
+              </span>
+            ))}
           </div>
-          {errorMessages.socials.map((err, idx) => (
-            <span key={idx} className="social__error">
-              {err}
-            </span>
-          ))}
-        </div>
-        <div className="social__item">
-          <p className="social__item-title">Instagram</p>
-          <div className="social__input-box">
-            <input
-              type="text"
-              className="social__input"
-              placeholder="Please enter the URL"
-            />
-            <button className="social__edit-btn">Change</button>
+          <div className="social__item">
+            <p className="social__item-title">Instagram</p>
+            <div className="social__input-box">
+              <input
+                type="text"
+                className="social__input"
+                placeholder="Please enter the URL"
+              />
+              <button className="social__edit-btn">Change</button>
+            </div>
+            {errorMessages.socials.map((err, idx) => (
+              <span key={idx} className="social__error">
+                {err}
+              </span>
+            ))}
           </div>
-          {errorMessages.socials.map((err, idx) => (
-            <span key={idx} className="social__error">
-              {err}
-            </span>
-          ))}
-        </div>
-      </section> */}
+          <div className="social__item">
+            <p className="social__item-title">Instagram</p>
+            <div className="social__input-box">
+              <input
+                type="text"
+                className="social__input"
+                placeholder="Please enter the URL"
+              />
+              <button className="social__edit-btn">Change</button>
+            </div>
+            {errorMessages.socials.map((err, idx) => (
+              <span key={idx} className="social__error">
+                {err}
+              </span>
+            ))}
+          </div>
+        </section> */}
       {isLoading && <Loading />}
       {showModal && (
         <Modal
@@ -611,6 +615,7 @@ const Social = ({ socials, setSocials }) => {
                 placeholder="Enter URL"
                 value={item}
                 type="text"
+                pattern="https?:\/\/(www\.)?[a-zA-Z0-9\-]+(\.[a-zA-Z]{2,})+([\/a-zA-Z0-9#?=&%_\-\.]*)?"
                 onChange={e => {
                   setSocials(prev => {
                     const newArr = [...prev];

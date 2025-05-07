@@ -10,6 +10,7 @@ import editIcon1 from '../assets/images/icon/picture1.svg';
 import demoBg from '../assets/images/mypage/demo-bg.png';
 import closeIcon from '../assets/images/icon/close.svg';
 import dragIcon from '../assets/images/icon/drag_handle.svg';
+import plusIcon from '../assets/images/icon/plus.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 import Modal from '../components/modal/Modal';
@@ -634,6 +635,7 @@ const Social = ({ socials, setSocials }) => {
         {socials?.length < 5 && (
           <button className="account-setting__social-add-btn" onClick={() => handleAdd()}>
             Add link
+            <img src={plusIcon} />
           </button>
         )}
       </div>

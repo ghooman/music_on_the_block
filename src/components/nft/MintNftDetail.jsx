@@ -123,6 +123,7 @@ function MintNftDetail() {
               <CollectionItemList
                 data={allItems}
                 linkMove={false}
+                selectedCollection={selectedCollection}
                 setSelectedCollection={setSelectedCollection}
               />
               <div ref={ref} style={{ height: 1 }}></div>

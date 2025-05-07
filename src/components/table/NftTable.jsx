@@ -101,17 +101,31 @@ const NftTable = ({
                   }}
                 />
               )}
+              {/* 마이페이지 - NFT - History 페이지 에서 사용됨 */}
               {saleStatusOption && item.status === 'Sell' && (
                 <TableItem.Button
-                  title="Sell"
-                  type="sell"
-                  handleClick={() => {
-                    if (handleSell) {
-                      handleSell();
-                      return;
-                    }
-                    navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
-                  }}
+                  title="Sold"
+                  type="sold"
+                  // handleClick={() => {
+                  //   if (handleSell) {
+                  //     handleSell();
+                  //     return;
+                  //   }
+                  //   navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                  // }}
+                />
+              )}
+              {saleStatusOption && item.status === 'Buy' && (
+                <TableItem.Button
+                  title="Purchased"
+                  type="purchased"
+                  // handleClick={() => {
+                  //   if (handleSell) {
+                  //     handleSell();
+                  //     return;
+                  //   }
+                  //   navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                  // }}
                 />
               )}
               {saleStatusOption && <TableItem.Text text="" />}

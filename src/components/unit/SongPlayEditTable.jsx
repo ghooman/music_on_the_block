@@ -64,6 +64,7 @@ const SongPlayEditTable = ({
         {/** 테이블 바디 */}
         {songList?.map(item => (
           <div
+            key={item.id}
             className="song-play-edit-table__table--body"
             onClick={e => {
               setActiveSong(prev => {

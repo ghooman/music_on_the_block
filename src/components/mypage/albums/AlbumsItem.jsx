@@ -8,11 +8,13 @@ const AlbumsItem = ({ album, handleAlbumDetailClick }) => {
   return (
     <div className="albums-item" onClick={() => navigate(`/albums-detail/${album?.id}`)}>
       <div className="albums-item__info">
-        <div className="albums-item__info--title">
-          <h1>{album?.album_name}</h1>
+        <h1>{album?.album_name}</h1>
+        <p>{album?.name}</p>
+        <div className="albums-item__info--songs-edit">
+          <span>{album?.song_cnt} Songs</span>
           {album?.is_owner && (
             <button
-              className="albums-item__info--title__edit-btn"
+              className="albums-item__info--songs-edit__edit-btn"
               onClick={e => {
                 e.stopPropagation(); // 버블링 방지
                 handleAlbumDetailClick(album);
@@ -22,8 +24,6 @@ const AlbumsItem = ({ album, handleAlbumDetailClick }) => {
             </button>
           )}
         </div>
-        <p>{album?.name}</p>
-        <span>{album?.song_cnt} Songs</span>
       </div>
       <div className="albums-item__cover">
         <img src={album?.cover_image || defaultAlbumImage} alt="album_cover" />

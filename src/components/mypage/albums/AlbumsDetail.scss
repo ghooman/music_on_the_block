@@ -182,12 +182,16 @@
         } //my-album-details__box__header__right__box--END--
       } //my-album-details__box__header__right--END--
     } //my-album-details__box__header--END--
-    .my-album-details__box__body__sub-categories {
+    .my-album-details__box__body__edit {
       display: flex;
-      align-items: center;
       justify-content: space-between;
       gap: 16px;
-      .my-album-details__box__body__sub-categories__edit-btn {
+      .my-album-details__box__body__edit__song-count {
+        font-size: 12px;
+        color: #aaa;
+        font-family: Inter400;
+      }
+      .my-album-details__box__body__edit__edit-btn {
         height: 34px;
         border-radius: 12px;
         background: var(--Color-03, #222);
@@ -210,6 +214,17 @@
     .my-album-details__box {
       .my-album-details__box__header {
         flex-direction: column;
+        .my-album-details__box__header__right {
+          .my-album-details__box__header__right__box {
+            .my-album-details__box__header__right__box__list {
+              flex-direction: column;
+              .my-album-details__box__header__right__box__list__item {
+                width: 100%;
+              }
+            }
+          }
+        }
+
         .my-album-details__box__header__left {
           .my-album-details__box__header__left__img-box {
             width: 100%;

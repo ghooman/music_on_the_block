@@ -7,7 +7,7 @@ import { createWallet, inAppWallet } from 'thirdweb/wallets';
 import { AuthContext } from '../contexts/AuthContext';
 import { useQueryClient } from 'react-query';
 
-export const WalletConnect = ({ onConnect }) => {
+export const WalletConnect = ({ onConnect, className, text }) => {
   const client = createThirdwebClient({
     clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID,
   });
@@ -40,6 +40,10 @@ export const WalletConnect = ({ onConnect }) => {
 
   return (
     <ConnectButton
+      connectButton={{
+        label: text || 'Connect Wallet',
+        className: className,
+      }}
       client={client}
       wallets={wallets}
       accountAbstraction={{

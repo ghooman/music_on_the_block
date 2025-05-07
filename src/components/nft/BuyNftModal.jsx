@@ -162,6 +162,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
               error?.message ||
               'Error during approval'
           );
+          setIsApproving(false);
           setIsLoading(false);
           return;
         }

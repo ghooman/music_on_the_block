@@ -7,7 +7,7 @@
   border-radius: 16px;
   background: var(--Color-03, #222);
   width: 212px;
-  height: 272px;
+
   cursor: pointer;
   &__info {
     display: flex;
@@ -21,6 +21,9 @@
       font-style: normal;
       line-height: 100%; /* 14px */
       letter-spacing: 0.42px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     p {
@@ -39,14 +42,14 @@
       line-height: 100%; /* 10px */
       letter-spacing: 0.3px;
     }
-    &--title {
+    &--songs-edit {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    &--title__edit-btn {
+    &--songs-edit__edit-btn {
       // position: absolute;
       top: 8px;
       right: 8px;

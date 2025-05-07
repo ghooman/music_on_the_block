@@ -39,6 +39,7 @@ function AlbumDetail() {
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
   const listenTime = useRef(0);
   const navigate = useNavigate();
+  const walletConnectRef = React.useRef(null);
 
   // 앨범 상세 정보 상태 및 로딩 상태
   const [album, setAlbum] = useState(null);
@@ -277,6 +278,43 @@ function AlbumDetail() {
     }
   };
 
+  // 버튼 클릭 핸들러
+  const handleButtonClick = (e, action) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+
+      // 로그인이 필요한 경우 WalletConnect 모달 열기
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          walletConnectButton.click();
+        }
+      }
+      return;
+    }
+
+    // 로그인된 경우 원래 동작 실행
+    switch (action) {
+      case 'release':
+        setIsReleaseModal(true);
+        break;
+      case 'mint':
+        navigate(`/mint/detail/${album?.id}/0/mint`);
+        break;
+      case 'sell':
+        navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`);
+        break;
+      case 'cancel':
+        navigate(`/nft/detail/${album?.nft_id}`);
+        break;
+      case 'buy':
+        navigate(`/mint/detail/${album?.id}/${album?.nft_id}/buy`);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleRelease = async () => {
     const res = await axios.post(`${serverApi}/api/music/${id}/release`, null, {
       headers: {
@@ -286,9 +324,40 @@ function AlbumDetail() {
     fetchAlbumDetail();
   };
 
+  // useEffect를 사용하여 ThirdWeb 버튼을 참조
+  useEffect(() => {
+    // 컴포넌트가 마운트된 후에 참조할 수 있도록 약간의 지연 추가
+    const timer = setTimeout(() => {
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          // 버튼 스타일 설정
+          walletConnectButton.style.position = 'absolute';
+          walletConnectButton.style.opacity = '0';
+          walletConnectButton.style.pointerEvents = 'none';
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
+
+      {/* 숨겨진 WalletConnect 컴포넌트 */}
+      <div
+        ref={walletConnectRef}
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          visibility: 'hidden',
+        }}
+      >
+        <WalletConnect onConnect={handleWalletConnect} />
+      </div>
+
       <div className="song-detail">
         <dl className="album-detail__title">
           <dt>AI Lyrics & Songwriting</dt>
@@ -487,21 +556,21 @@ function AlbumDetail() {
                     <div className="album-detail__control-button-wraps">
                       <button
                         className="album-detail__control-button release-button"
-                        onClick={() => setIsReleaseModal(true)}
+                        onClick={e => handleButtonClick(e, 'release')}
                         disabled={album?.is_release}
                       >
                         Release
                       </button>
                       <button
                         className="album-detail__control-button mint-button"
-                        onClick={() => navigate(`/mint/detail/${album?.id}/0/mint`)}
+                        onClick={e => handleButtonClick(e, 'mint')}
                         disabled={album?.is_nft || !album?.is_release}
                       >
                         Mint
                       </button>
                       <button
                         className="album-detail__control-button sell-button"
-                        onClick={() => navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`)}
+                        onClick={e => handleButtonClick(e, 'sell')}
                         disabled={
                           !album?.is_nft ||
                           !album?.is_release ||
@@ -512,7 +581,7 @@ function AlbumDetail() {
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
-                        onClick={() => navigate(`/nft/detail/${album?.nft_id}`)}
+                        onClick={e => handleButtonClick(e, 'cancel')}
                         disabled={
                           !album?.is_nft ||
                           !album?.is_release ||
@@ -527,8 +596,10 @@ function AlbumDetail() {
                 {/* {!album?.is_owner && (
                   <button
                     className="album-detail__control-button buy-button"
-                    disabled={!album?.is_nft || !album?.is_release}
-                    onClick={() => navigate(`/mint/detail/${album?.id}/${album?.nft_id}/buy`)}
+                    disabled={
+                      !album?.is_nft || !album?.is_release || album?.now_sales_status !== 'Listed'
+                    }
+                    onClick={e => handleButtonClick(e, 'buy')}
                   >
                     Buy NFT
                   </button>

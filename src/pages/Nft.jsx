@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ContentWrap from '../components/unit/ContentWrap';
 import { NftItemList, CollectionItemList } from '../components/nft/NftItem';
 import { NftSlider } from '../components/nft/NftSlider';
@@ -9,6 +9,8 @@ import '../styles/Nft.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { getNftsMain, getNftsStatistics } from '../api/nfts/nftsMainApi';
 import PreparingModal from '../components/PreparingModal';
+import { AuthContext } from '../contexts/AuthContext';
+import { WalletConnect } from '../components/WalletConnect';
 
 const Nft = () => {
   const [nftList, setNftList] = useState([]);
@@ -97,6 +99,48 @@ const Nft = () => {
 export default Nft;
 
 const NftExchange = () => {
+  const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const walletConnectRef = React.useRef(null);
+
+  const handleWalletConnect = (loggedIn, walletAddress) => {
+    setIsLoggedIn(loggedIn);
+    if (loggedIn && walletAddress) {
+      setWalletAddress(walletAddress);
+    }
+  };
+
+  // useEffect를 사용하여 ThirdWeb 버튼을 참조
+  useEffect(() => {
+    // 컴포넌트가 마운트된 후에 참조할 수 있도록 약간의 지연 추가
+    const timer = setTimeout(() => {
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          // 버튼 스타일 설정
+          walletConnectButton.style.position = 'absolute';
+          walletConnectButton.style.opacity = '0';
+          walletConnectButton.style.pointerEvents = 'none';
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleButtonClick = e => {
+    if (!isRegistered) {
+      e.preventDefault();
+
+      // 버튼 클릭 이벤트 발생시키기
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          walletConnectButton.click();
+        }
+      }
+    }
+  };
+
   return (
     <div className="nft__exchange">
       <h1 className="nft__exchange--title">NFT MarketPlace</h1>
@@ -106,17 +150,37 @@ const NftExchange = () => {
         Connect AI-generated creations with the world
       </p>
 
+      {/* 숨겨진 WalletConnect 컴포넌트 */}
+      <div
+        ref={walletConnectRef}
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          visibility: 'hidden',
+        }}
+      >
+        <WalletConnect onConnect={handleWalletConnect} />
+      </div>
+
       <div className="nft__exchange--btns">
         <div className="nft__exchange--btns__left">
-          <Link className="nft__exchange--button my" to="/my-page?category=NFT MarketPlace">
+          <Link
+            className="nft__exchange--button my"
+            to="/my-page?category=NFT MarketPlace"
+            onClick={handleButtonClick}
+          >
             My NFTs
           </Link>
         </div>
         <div className="nft__exchange--btns__right">
-          <Link className="nft__exchange--button mint" to="/nft/mint/list">
+          <Link
+            className="nft__exchange--button mint"
+            to="/nft/mint/list"
+            onClick={handleButtonClick}
+          >
             Mint NFT
           </Link>
-          <Link className="nft__exchange--button" to="/nft/sell/list">
+          <Link className="nft__exchange--button" to="/nft/sell/list" onClick={handleButtonClick}>
             Sell NFT
           </Link>
         </div>

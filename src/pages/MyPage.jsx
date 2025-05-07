@@ -235,7 +235,6 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   return (
     <div className="mypage__profile">
       <div className="profile__bg" style={{ backgroundImage: `url(${demoBg})` }}></div>
-
       <div className="profile__info">
         {/**=== */}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -258,7 +257,11 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__info--level-rating">{userData?.user_rating}</p>
             </div>
           </div>
-          <img src={gearImg} alt="edit" />
+          {isMyProfile && (
+            <Link to="/account-setting">
+              <img src={gearImg} alt="edit" />
+            </Link>
+          )}
         </div>
         {/**=== */}
         <div className="profile__record">

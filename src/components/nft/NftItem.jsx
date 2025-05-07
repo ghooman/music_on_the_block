@@ -2,10 +2,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import NoneContent from '../../components/unit/NoneContent';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
-import graph1Img01 from '../../assets/images/nft/praph-img01.png';
-import graph1Img02 from '../../assets/images/nft/graph02-img.png';
 
 import lyricIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import compositionIcon from '../../assets/images/icon/Composition-Icon.svg';
@@ -49,7 +45,9 @@ export const CollectionItemList = ({ data, linkMove = true, setSelectedCollectio
             </React.Fragment>
           ))}
       </div>
-      {data?.length <= 0 && <NoneContent height={300} message="There are no collections." />}
+      {(!data || data?.length <= 0) && (
+        <NoneContent height={300} message="There are no collections." />
+      )}
     </>
   );
 };

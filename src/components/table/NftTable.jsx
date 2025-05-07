@@ -55,13 +55,13 @@ const NftTable = ({
               <TableItem.Text text={item.nft_name} />
               {collectionOption && <TableItem.Text text={item.connect_collection_name} />}
               {buyerOption && (
+                <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
+              )}
+              {sellerOption && (
                 <TableItem.UserInfo
                   image={item?.seller_user_profile}
                   name={item?.seller_user_name}
                 />
-              )}
-              {sellerOption && (
-                <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
               )}
               <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
               <TableItem.Date date={item.create_dt} />
@@ -76,8 +76,7 @@ const NftTable = ({
               {saleOption && item.status === 'sold' && (
                 <TableItem.Button title="Sold" type="sold" />
               )}
-
-              {saleOption && item.now_sales_status === 'Unlisted' && (
+              {saleOption && item.status === 'Unlisted' && (
                 <TableItem.Button
                   title="Sell"
                   type="sell"
@@ -99,6 +98,19 @@ const NftTable = ({
                     setNftName(item?.nft_name);
                     setListingId(item?.listing_id);
                     setShowNftConfirmModal(true);
+                  }}
+                />
+              )}
+              {saleStatusOption && item.status === 'Sell' && (
+                <TableItem.Button
+                  title="Sell"
+                  type="sell"
+                  handleClick={() => {
+                    if (handleSell) {
+                      handleSell();
+                      return;
+                    }
+                    navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
                   }}
                 />
               )}

@@ -91,10 +91,14 @@
       .background-box__edit-box {
         padding: 4px;
         width: 100%;
-        height: 200px;
+        height: 170px;
         border-radius: 4px;
         border: 1px solid var(--Color-03, #222);
         background: var(--Color-02, #1a1a1a);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
         margin-bottom: 8px;
         .background-box__edit-btn {
           display: flex;
@@ -105,6 +109,8 @@
           border-radius: 4px;
           background: var(--button-grey, #272727);
           margin-left: auto;
+          width: fit-content;
+          cursor: pointer;
           img {
             margin-right: 8px;
           }
@@ -125,6 +131,11 @@
         font-style: normal;
         line-height: normal;
         letter-spacing: 0.42px;
+      }
+      .background-box__desc--error {
+        font-size: 12px;
+        font-family: Inter300;
+        color: #df1919;
       }
     }
     .account-setting__user-info {
@@ -259,6 +270,62 @@
       }
     }
   }
+  .account-setting__social-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+    cursor: grabbing;
+    transition: 0.2s all;
+    .account-setting__social-item--drag {
+      cursor: grabbing;
+      height: 100%;
+    }
+
+    .account-setting__social-item--input-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+    }
+    .account-setting__social-item--input {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #383838;
+      width: 100%;
+      transition: 0.2s all;
+      &:focus {
+        border-color: #cf0;
+      }
+    }
+    .account-setting__social-item--input-error {
+      color: #df1919;
+      font-family: Inter300;
+      font-size: 12px;
+      position: absolute;
+      top: 100%;
+    }
+
+    .account-setting__social-item--delete {
+      cursor: pointer;
+    }
+  }
+
+  .account-setting__social-add-btn {
+    padding: 8px 16px;
+    display: flex;
+    gap: 8px;
+    color: #aaa;
+    font-family: Inter500;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    border-radius: 12px;
+    background-color: #222;
+  }
+
   .account-setting__submit {
     display: flex;
     padding: 12px 16px;
@@ -275,8 +342,28 @@
     line-height: normal;
     letter-spacing: 0.54px;
     margin-top: 40px;
-    button {
-      color: black;
+    cursor: pointer;
+    color: black;
+    position: relative;
+    top: 0px;
+    transition: 0.2s all;
+
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0px;
+      }
+    }
+
+    &::before {
+      content: '';
+      width: calc(100% - 2px);
+      height: calc(100% - 1px);
+      border-radius: 12px;
+      border: 1px solid #cf0;
+      position: absolute;
+      top: 4px;
+      transition: 0.2s all;
     }
   }
   .account-setting__social {

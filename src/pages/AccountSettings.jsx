@@ -1,12 +1,16 @@
 // components/AccountSettings.jsx
 import '../styles/AccountSettings.scss';
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useContext, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { useUserDetail } from '../hooks/useUserDetail';
 // 이미지
 import demoUser from '../assets/images/account/demo-user1.png';
 import defaultProfileImage from '../assets/images/header/logo.svg';
 import editIcon1 from '../assets/images/icon/picture1.svg';
+import demoBg from '../assets/images/mypage/demo-bg.png';
+import closeIcon from '../assets/images/icon/close.svg';
+import dragIcon from '../assets/images/icon/drag_handle.svg';
+
 import { AuthContext } from '../contexts/AuthContext';
 import Modal from '../components/modal/Modal';
 import ErrorModal from '../components/modal/ErrorModal';
@@ -26,7 +30,10 @@ const AccountSettings = () => {
 
   const [profileImg, setProfileImg] = useState(userData?.profile || defaultProfileImage);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [bgImg, setBgImg] = useState('');
+  const [bgImg, setBgImg] = useState(userData?.background_image);
+  const [socials, setSocials] = useState(userData?.link_list.map(item => item.link));
+  const bgImgMaxSize = 3 * 1024 * 1024;
+
   const [userName, setUserName] = useState(userData?.name);
   const [nation, setNation] = useState('');
   const [email, setEmail] = useState(userData?.email);
@@ -36,7 +43,6 @@ const AccountSettings = () => {
   const [level, setLevel] = useState('');
   const [exp, setExp] = useState('');
   const [dob, setDob] = useState('');
-  const [socials, setSocials] = useState([]);
 
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,6 +99,13 @@ const AccountSettings = () => {
         setProfileImg(reader.result);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleBgImage = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setBgImg(file);
     }
   };
 
@@ -179,15 +192,32 @@ const AccountSettings = () => {
         formData.append('file', '');
       }
 
+      if (bgImg) {
+        formData.append('background_image', bgImg);
+      } else {
+        formData.append('background_image', '');
+      }
+
       console.log(payload, '페이로드');
       console.log('보내는 데이터:', [...formData.entries()], payload);
 
-      const res = await axios.post(`${serverApi}/api/user/`, formData, {
+      const res1 = await axios.post(`${serverApi}/api/user/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('res:', res);
+      const res2 = await axios.post(
+        `${serverApi}/api/user/my/link`,
+        JSON.stringify(socials.filter(item => item.trim() !== '')),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log('res:', res1);
+      console.log('res:', res2);
       setShowModal(true);
       refetch();
       scrollToTop();
@@ -199,10 +229,20 @@ const AccountSettings = () => {
     }
   };
 
+  const memoPreview = useMemo(() => {
+    if (!bgImg) {
+      return demoBg;
+    } else if (typeof bgImg === 'string') {
+      return bgImg;
+    } else if (typeof bgImg === 'object') {
+      const preview = URL?.createObjectURL(bgImg);
+      return preview;
+    }
+  }, [bgImg]);
+
   return (
     <div className="account-setting">
       <h1 className="account-setting--title">Account Settings</h1>
-
       <section className="account-setting__info">
         <div className="account-setting__info-box">
           <p className="info-box__title">Profile Information</p>
@@ -220,17 +260,32 @@ const AccountSettings = () => {
             <span className="picture-box__desc">40px X 40px, 3MB or less</span>
           </div>
         </div>
-        {/* <div className="account-setting__background-box">
+        <div className="account-setting__background-box">
           <p className="background-box__title">Background Image</p>
-          <div className="background-box__edit-box">
-            <button className="background-box__edit-btn">
-              <img src={editIcon2} alt="edit" /> <span>Update</span>
-            </button>
+          <div
+            className="background-box__edit-box"
+            style={{ backgroundImage: `url(${memoPreview})` }}
+          >
+            <label className="background-box__edit-btn" htmlFor="bg-image">
+              <img src={editIcon1} alt="edit" /> <span>Update</span>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              id="bg-image"
+              style={{ display: 'none' }}
+              onChange={e => {
+                handleBgImage(e);
+              }}
+            />
           </div>
-          <span className="background-box__desc">
-            1920px X 400px, 30MB or less
-          </span>
-        </div> */}
+          <span className="background-box__desc">960px X 170px, 3MB or less</span>
+          {bgImg?.size > bgImgMaxSize && (
+            <p className="background-box__desc--error">
+              This image exceeds 3MB. Please try a different image.
+            </p>
+          )}
+        </div>
         <div className="account-setting__user-info">
           {/* <div className="user-info__item">
                         <p className="user-info__title">Artist Name</p>
@@ -310,7 +365,7 @@ const AccountSettings = () => {
           </div>
         </div>
       </section>
-
+      <Social socials={socials} setSocials={setSocials} />
       {/* <section className="account-setting__details"> */}
       {/* <div className="details__header">
                     <p className="details__title">Account Details</p>
@@ -362,10 +417,8 @@ const AccountSettings = () => {
                     </div>
                 </div> */}
       {/* </section> */}
-      <section className="account-setting__submit">
-        <button className="submit-btn" onClick={updateUserInfo}>
-          Update User Info
-        </button>
+      <section className="account-setting__submit" onClick={updateUserInfo}>
+        Update User Info
       </section>
       {/* Hidden file input for profile image change */}
       <input
@@ -464,7 +517,7 @@ const AccountSettings = () => {
       {showModal && (
         <Modal
           title="Success"
-          setShowModal={setShowModal}
+          setShowModal={() => navigate('/my-page')}
           message="Successfully updated"
           handleClick={() => navigate('/my-page')}
         />
@@ -477,3 +530,115 @@ const AccountSettings = () => {
 };
 
 export default AccountSettings;
+
+const Social = ({ socials, setSocials }) => {
+  const [overIndex, setOverIndex] = useState(null);
+  const dragItem = useRef(null);
+  const urlRegex = /\b((https?|ftp):\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}(:[0-9]{1,5})?(\/[^\s]*)?\b/gi;
+
+  const handleDragStart = (e, index) => {
+    const img = new Image();
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+    e.dataTransfer.setDragImage(img, 0, 0);
+    dragItem.current = index;
+  };
+
+  const handleDragOver = index => {
+    setOverIndex(index);
+  };
+
+  const handleDrop = index => {
+    setOverIndex(null);
+    setSocials(prev => {
+      const newArr = [...prev]; // 원본 유지
+      [newArr[dragItem.current], newArr[index]] = [newArr[index], newArr[dragItem.current]];
+      return newArr;
+    });
+  };
+
+  const handleAdd = () => {
+    setSocials(prev => {
+      const newArr = [...prev];
+      newArr.push('');
+      return newArr;
+    });
+  };
+
+  const handleDelete = index => {
+    setSocials(prev => {
+      const newArr = [...prev];
+      newArr.splice(index, 1);
+      return newArr;
+    });
+  };
+
+  return (
+    <section className="account-setting__info">
+      <div className="account-setting__info-box" style={{ width: '100%' }}>
+        <p className="info-box__title">Link Your Social Profiles</p>
+        {socials?.length > 0 && <p>Link</p>}
+        {socials.map((item, index) => (
+          <div
+            className="account-setting__social-item"
+            key={index}
+            style={{
+              borderTop: overIndex === index && '2px solid white',
+              paddingTop: overIndex === index && '8px',
+            }}
+            onDragLeave={() => {
+              setOverIndex(null);
+            }}
+            onDragOver={e => {
+              e.preventDefault();
+              handleDragOver(index);
+            }}
+            onDrop={() => {
+              handleDrop(index);
+            }}
+          >
+            <img
+              className="account-setting__social-item--drag"
+              src={dragIcon}
+              alt="icon"
+              onDragStart={e => {
+                handleDragStart(e, index);
+              }}
+            />
+            <div className="account-setting__social-item--input-box">
+              <input
+                className="account-setting__social-item--input"
+                placeholder="Enter URL"
+                value={item}
+                type="url"
+                onChange={e => {
+                  setSocials(prev => {
+                    const newArr = [...prev];
+                    newArr[index] = e.target.value;
+                    return newArr;
+                  });
+                }}
+              />
+              {/* {!urlRegex.test(item) && (
+                <p className="account-setting__social-item--input-error">
+                  URL does not exist. Please enter the link again.
+                </p>
+              )} */}
+            </div>
+            <img
+              className="account-setting__social-item--delete"
+              src={closeIcon}
+              alt="delete"
+              onClick={() => handleDelete(index)}
+              draggable={false}
+            />
+          </div>
+        ))}
+        {socials?.length < 5 && (
+          <button className="account-setting__social-add-btn" onClick={() => handleAdd()}>
+            Add link
+          </button>
+        )}
+      </div>
+    </section>
+  );
+};

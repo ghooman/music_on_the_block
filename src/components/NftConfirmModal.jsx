@@ -65,6 +65,7 @@ const NftConfirmModal = ({
         if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
+        setErrorMessage(response);
       }
     } catch (error) {
       const match = error.message.match(/{.*}/);
@@ -189,7 +190,7 @@ const NftConfirmModal = ({
       throw error;
     }
   };
-
+  // ===== NFT 판매 취소 함수  =====
   const handleCancel = async () => {
     setIsLoading(true);
     try {
@@ -215,7 +216,7 @@ const NftConfirmModal = ({
       setIsLoading(false);
     }
   };
-
+  // ===== NFT 판매 취소 함수 끝 =====
   if (errorMessage) {
     return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
   }

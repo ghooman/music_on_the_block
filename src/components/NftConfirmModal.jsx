@@ -17,7 +17,7 @@ import {
 } from '../contract/contractAddresses';
 
 import ErrorModal from '../components/modal/ErrorModal';
-
+import { checkPolygonStatus } from '../api/checkPolygonStatus';
 const NftConfirmModal = ({
   setShowModal,
   title,
@@ -36,13 +36,21 @@ const NftConfirmModal = ({
   listingId,
   onSuccess,
 }) => {
-  console.log('sellPrice', sellPrice);
-  console.log('nftId', nftId);
+  // 폴리곤 상태 확인
+  const [polygonStatus, setPolygonStatus] = useState(null);
+  useEffect(() => {
+    const fetchPolygonStatus = async () => {
+      const status = await checkPolygonStatus();
+      setPolygonStatus(status);
+    };
+    fetchPolygonStatus();
+  }, []);
+  const polygonDisabled = polygonStatus?.status?.includes('장애');
+  console.log('polygonStatus', polygonStatus);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
   console.log('sellPriceInWei', sellPriceInWei);
 
   // 생성 1번
@@ -56,6 +64,9 @@ const NftConfirmModal = ({
 
   // ====== NFT 민팅 함수 ======
   const handleMint = async () => {
+    if (isLoading || polygonDisabled) {
+      return;
+    }
     setIsLoading(true);
     try {
       const response = await mintNft(token, songId, selectedCollection?.id);
@@ -119,6 +130,9 @@ const NftConfirmModal = ({
 
   // 전체 판매 프로세스를 하나의 비동기 함수로 처리
   const handleSell = async () => {
+    if (isLoading || polygonDisabled) {
+      return;
+    }
     setIsLoading(true);
     try {
       // 1. 승인 상태 확인 (이미 useNFTApprovalCheck에서 자동으로 확인됨)
@@ -192,6 +206,9 @@ const NftConfirmModal = ({
   };
   // ===== NFT 판매 취소 함수  =====
   const handleCancel = async () => {
+    if (isLoading || polygonDisabled) {
+      return;
+    }
     setIsLoading(true);
     try {
       await cancelListing(listingId);
@@ -233,25 +250,27 @@ const NftConfirmModal = ({
         {(confirmSellTxt || confirmCancelTxt) && <dt>[{selectedCollection?.name || nftName}]</dt>}
         {confirmMintTxt && <dt>Confirm minting: [{selectedCollection?.name}]</dt>}
         <dd>Network gas fees may apply. No refund or cancellation after purchase.</dd>
+        <br />
+        <dd>{polygonStatus?.status}</dd>
       </dl>
       <div className="confirm-modal__btns">
-        <button className="confirm-modal__btns__cancel" onClick={() => setShowModal(false)}>
+        <button className="confirm-modal__btns__cancel" onClick={handleClose}>
           Cancel
         </button>
         {confirmMintTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleMint}>
-            {isLoading ? 'Minting...' : 'Mint'}
+            {isLoading || polygonDisabled ? 'Loading...' : 'Mint'}
           </button>
         )}
 
         {confirmSellTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleSell}>
-            {isLoading ? 'Loading...' : 'Sell'}
+            {isLoading || polygonDisabled ? 'Loading...' : 'Sell'}
           </button>
         )}
         {confirmCancelTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleCancel}>
-            {isLoading ? 'Loading...' : 'Yes, Continue'}
+            {isLoading || polygonDisabled ? 'Loading...' : 'Yes, Continue'}
           </button>
         )}
       </div>

@@ -191,7 +191,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>0</p>/8//*
                           <span>
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC

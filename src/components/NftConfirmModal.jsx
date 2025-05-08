@@ -32,8 +32,8 @@ const NftConfirmModal = ({
   sellPrice,
   sellPriceInWei,
   thirdwebId,
-  nftId,
   listingId,
+  songData,
   onSuccess,
 }) => {
   // 폴리곤 상태 확인
@@ -248,10 +248,21 @@ const NftConfirmModal = ({
     <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
       <dl>
         {(confirmSellTxt || confirmCancelTxt) && <dt>[{selectedCollection?.name || nftName}]</dt>}
-        {confirmMintTxt && <dt>Confirm minting: [{selectedCollection?.name}]</dt>}
-        <dd>Network gas fees may apply. No refund or cancellation after purchase.</dd>
-        <br />
-        <dd>{polygonStatus?.status}</dd>
+        {confirmMintTxt && <dt>Title: {songData?.title}</dt>}
+        {confirmMintTxt && (
+          <div className="confirm-modal__title-wrap">
+            <p className="confirm-modal__title-wrap__title">
+              My MIC <span>10.490</span>
+            </p>
+            <p className="confirm-modal__title-wrap__title">
+              MIC Fees <span>100</span>
+            </p>
+          </div>
+        )}
+        <dd className="confirm-modal__gas-fee">
+          ※ Network gas fees may apply.
+          <br /> No refund or cancellation after purchase.
+        </dd>
       </dl>
       <div className="confirm-modal__btns">
         <button className="confirm-modal__btns__cancel" onClick={handleClose}>

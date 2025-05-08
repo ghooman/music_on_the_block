@@ -23,6 +23,9 @@
       text-align: center;
       position: relative;
       border-bottom: 1px solid var(--Color-04, #222);
+      h2 {
+        font-size: 24px;
+      }
     }
     .modal-close {
       position: absolute;
@@ -233,7 +236,7 @@
               font-style: normal;
               line-height: normal;
               &::before {
-                content: "";
+                content: '';
                 display: block;
                 width: 4px;
                 height: 4px;

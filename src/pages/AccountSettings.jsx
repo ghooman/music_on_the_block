@@ -285,12 +285,14 @@ const AccountSettings = () => {
               }}
             />
           </div>
-          <span className="background-box__desc">960px X 170px, 3MB or less</span>
-          {bgImg?.size > bgImgMaxSize && (
-            <p className="background-box__desc--error">
-              This image exceeds 3MB. Please try a different image.
-            </p>
-          )}
+          <p className="background-box__desc">
+            960px X 170px, 3MB or less{' '}
+            {bgImg?.size > bgImgMaxSize && (
+              <span className="background-box__desc--error">
+                This image exceeds 3MB. Please try a different image.
+              </span>
+            )}
+          </p>
         </div>
         <div className="account-setting__user-info">
           {/* <div className="user-info__item">

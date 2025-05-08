@@ -136,6 +136,7 @@
         font-size: 12px;
         font-family: Inter300;
         color: #df1919;
+        white-space: nowrap;
       }
     }
     .account-setting__user-info {
@@ -161,6 +162,7 @@
             font-size: 14px;
             font-style: normal;
             line-height: 100%; /* 14px */
+            white-space: nowrap;
           }
         }
         .user-info__desc {

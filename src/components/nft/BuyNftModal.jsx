@@ -16,8 +16,18 @@ import {
   MARKET_PLACE_CONTRACT_ADDRESS,
 } from '../../contract/contractAddresses';
 import { useNavigate } from 'react-router-dom';
-
+import { checkPolygonStatus } from '../../api/checkPolygonStatus';
 const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
+  // 폴리곤 상태 확인
+  const [polygonStatus, setPolygonStatus] = useState(null);
+  useEffect(() => {
+    const fetchPolygonStatus = async () => {
+      const status = await checkPolygonStatus();
+      setPolygonStatus(status);
+    };
+    fetchPolygonStatus();
+  }, []);
+  const polygonDisabled = polygonStatus?.status?.includes('장애');
   const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
     useTokenAllowanceCheck();
   const { mobTokenApprove, polTokenApprove, usdcTokenApprove, usdtTokenApprove } =
@@ -31,10 +41,6 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   const [needsApproval, setNeedsApproval] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
   const navigate = useNavigate();
-
-  const onClose = () => {
-    setBuyNftModal(false);
-  };
 
   const ContractAddress = () => {
     switch (nftData?.sales_token) {
@@ -143,7 +149,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   };
 
   const handleBuyProcess = async () => {
-    if (!agree) return;
+    if (!agree || polygonDisabled || isLoading) return;
     setIsLoading(true);
 
     try {
@@ -226,16 +232,17 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
             No refunds or cancellations after purchase
           </p>
         </label>
+        <p className="buy-nft-modal__polygon-status">{polygonStatus?.status}</p>
         <div className="buy-nft-modal__button-wrap">
-          <button className="buy-nft-modal__button cancel-button" onClick={onClose}>
+          <button className="buy-nft-modal__button cancel-button" onClick={handleClose}>
             Cancel
           </button>
           <button
             className="buy-nft-modal__button buy-button"
             onClick={handleBuyProcess}
-            disabled={!agree || isLoading || isApproving}
+            disabled={!agree || isLoading || isApproving || polygonDisabled}
           >
-            {isLoading ? 'Buying...' : 'Buy NFT'}
+            {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
           </button>
         </div>
       </div>

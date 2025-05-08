@@ -52,6 +52,7 @@
             height: 160px;
             flex-shrink: 0;
             border-radius: 50%;
+            object-fit: cover;
           }
           .picture-box__edit-btn {
             position: absolute;
@@ -131,12 +132,6 @@
         font-style: normal;
         line-height: normal;
         letter-spacing: 0.42px;
-      }
-      .background-box__desc--error {
-        font-size: 12px;
-        font-family: Inter300;
-        color: #df1919;
-        white-space: nowrap;
       }
     }
     .account-setting__user-info {
@@ -469,5 +464,11 @@
         letter-spacing: 0.36px;
       }
     }
+  }
+  .account-setting__error {
+    font-size: 12px;
+    font-family: Inter300;
+    color: #df1919;
+    white-space: nowrap;
   }
 }

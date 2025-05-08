@@ -35,7 +35,7 @@ const AccountSettings = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [bgImg, setBgImg] = useState(userData?.background_image);
   const [socials, setSocials] = useState(userData?.link_list.map(item => item.link));
-  const bgImgMaxSize = 3 * 1024 * 1024;
+  const imgMaxSize = 3 * 1024 * 1024;
 
   const [userName, setUserName] = useState(userData?.name);
   const [nation, setNation] = useState('');
@@ -243,7 +243,8 @@ const AccountSettings = () => {
     }
   }, [bgImg]);
 
-  const bgSizeCheck = bgImg?.size > bgImgMaxSize;
+  const profileSizeCheck = selectedFile?.size > imgMaxSize;
+  const bgSizeCheck = bgImg?.size > imgMaxSize;
   const socialValid = !socials.every(item => urlRegex.test(item) || item === '');
 
   return (
@@ -264,6 +265,11 @@ const AccountSettings = () => {
               </button>
             </div>
             <span className="picture-box__desc">40px X 40px, 3MB or less</span>
+            {selectedFile?.size > imgMaxSize && (
+              <p className="account-setting__error">
+                This image exceeds 3MB. Please try a different image.
+              </p>
+            )}
           </div>
         </div>
         <div className="account-setting__background-box">
@@ -287,8 +293,8 @@ const AccountSettings = () => {
           </div>
           <p className="background-box__desc">
             960px X 170px, 3MB or less{' '}
-            {bgImg?.size > bgImgMaxSize && (
-              <span className="background-box__desc--error">
+            {bgImg?.size > imgMaxSize && (
+              <span className="account-setting__error">
                 This image exceeds 3MB. Please try a different image.
               </span>
             )}
@@ -428,7 +434,7 @@ const AccountSettings = () => {
       <button
         className="account-setting__submit"
         onClick={updateUserInfo}
-        disabled={bgSizeCheck || socialValid}
+        disabled={bgSizeCheck || socialValid || profileSizeCheck}
         // type="submit"
       >
         Update User Info

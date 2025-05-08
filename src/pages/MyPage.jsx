@@ -276,10 +276,10 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-title">Songs</p>
               <p className="profile__record--item-value">{userData?.total_songs}</p>
             </div>
-            {/* <div className="profile__record--item">
+            <div className="profile__record--item">
               <p className="profile__record--item-title">Following</p>
-              <p className="profile__record--item-value">2</p>
-            </div> */}
+              <p className="profile__record--item-value">{userData?.followings}</p>
+            </div>
             <div className="profile__record--item">
               <p className="profile__record--item-title">Followers</p>
               <p className="profile__record--item-value">{userData?.followers}</p>
@@ -297,11 +297,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             )}
           </div>
           {userData?.link_list?.[0] && (
-            <div className="profile__link">
+            <div className="profile__link" onClick={() => setLinksModal(true)}>
               <img className="profile__link--icon" src={linkIcon} alt="link" />
-              <p className="profile__link--item" onClick={() => setLinksModal(true)}>
-                {userData?.link_list?.[0].link}
-              </p>
+              <p className="profile__link--item">{userData?.link_list?.[0].link}</p>
               {userData?.link_list.length > 0 && (
                 <p className="profile__link--count">{userData?.link_list?.length} external link</p>
               )}

@@ -52,6 +52,7 @@
             height: 160px;
             flex-shrink: 0;
             border-radius: 50%;
+            object-fit: cover;
           }
           .picture-box__edit-btn {
             position: absolute;
@@ -132,11 +133,6 @@
         line-height: normal;
         letter-spacing: 0.42px;
       }
-      .background-box__desc--error {
-        font-size: 12px;
-        font-family: Inter300;
-        color: #df1919;
-      }
     }
     .account-setting__user-info {
       width: 100%;
@@ -161,6 +157,7 @@
             font-size: 14px;
             font-style: normal;
             line-height: 100%; /* 14px */
+            white-space: nowrap;
           }
         }
         .user-info__desc {
@@ -305,7 +302,8 @@
       font-family: Inter300;
       font-size: 12px;
       position: absolute;
-      top: 100%;
+      top: calc(100% + 1px);
+      white-space: nowrap;
     }
 
     .account-setting__social-item--delete {
@@ -324,6 +322,7 @@
     font-weight: 500;
     border-radius: 12px;
     background-color: #222;
+    align-items: center;
   }
 
   .account-setting__submit {
@@ -352,6 +351,20 @@
       top: 4px;
       &::before {
         top: 0px;
+      }
+    }
+
+    &:disabled {
+      background-color: #000;
+      color: #565656;
+      border: 1px solid #2c3a00;
+      pointer-events: none;
+
+      &::before {
+        top: 5px;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #2c3a00;
       }
     }
 
@@ -445,11 +458,17 @@
       .social__error {
         color: var(--warning, #df1919);
         font-family: Inter300;
-        font-size: 12px;
+        font-size: 16px;
         font-style: normal;
         line-height: 100%; /* 12px */
         letter-spacing: 0.36px;
       }
     }
+  }
+  .account-setting__error {
+    font-size: 12px;
+    font-family: Inter300;
+    color: #df1919;
+    white-space: nowrap;
   }
 }

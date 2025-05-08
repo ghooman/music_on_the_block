@@ -78,7 +78,7 @@ const NftTable = ({
                 {saleOption && item.status === 'sold' && (
                   <TableItem.Button title="Sold" type="sold" />
                 )}
-                {saleOption && item.status === 'Unlisted' && (
+                {saleOption && item.now_sales_status === 'Unlisted' && (
                   <TableItem.Button
                     title="Sell"
                     type="sell"

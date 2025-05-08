@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
-import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
 import NftConfirmSuccessModal from '../NftConfirmSuccessModal';

@@ -1,49 +1,107 @@
-import './MintNftDetail.scss';
-import React, { useState, useRef, useContext, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
+// 🔧 React & 기본 라이브러리
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 import 'react-h5-audio-player/lib/styles.css';
+
+// 🧠 컨텍스트
+import { AuthContext } from '../../contexts/AuthContext';
+
+// 📦 API
+import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
+import { getNftDetail } from '../../api/nfts/nftDetailApi';
+
+// 💻 컴포넌트
 import ContentWrap from '../unit/ContentWrap';
-import { NftItemList, CollectionItemList } from './NftItem';
 import Search from '../unit/Search';
-import FilterItems from '../unit/FilterItems';
-// 이미지·아이콘 ------------------------------------------------------
-
-import editIcon from '../../assets/images/edit.svg';
-
+import Filter from '../unit/Filter';
+import SongsBar from '../unit/SongsBar';
+import NoneContent from '../unit/NoneContent';
+import ErrorModal from '../modal/ErrorModal';
+import Loading from '../IntroLogo2';
 import NftConfirmModal from '../NftConfirmModal';
 import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
-import SongsBar from '../unit/SongsBar';
 import CreateCollectionModal from '../CreateCollectionModal';
-import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
-import NoneContent from '../unit/NoneContent';
-import Filter from '../unit/Filter';
+import BuyNftModal from './BuyNftModal';
+import { CollectionItemList } from './NftItem';
+
+// 🎨 스타일 & 에셋
+import './MintNftDetail.scss';
+import editIcon from '../../assets/images/edit.svg';
+
 // ────────────────────────────────
 function MintNftDetail() {
-  const { token } = useContext(AuthContext);
-  const { id, status } = useParams();
-  const [showModal, setShowModal] = useState(false);
+  const { token, walletAddress } = useContext(AuthContext);
+  const { id, nft_id, status } = useParams();
+  const { ref, inView } = useInView({ threshold: 1.0 });
+
+  const [searchParams] = useSearchParams();
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
+  // 모달
+
   const [showCollectionModal, setShowCollectionModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [myNftCollections, setMyNftCollections] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortBy, setSortBy] = useState('');
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [selectedCollection, setSelectedCollection] = useState(null);
-  const fetchMyNftCollections = async () => {
-    try {
-      const response = await getMyNftCollections(token, currentPage, sortBy, searchKeyword);
-      setMyNftCollections(response?.data_list);
-    } catch (error) {
-      console.error('나의 NFTS 컬렉션 조회 실패:', error);
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const [mintNftModal, setMintNftModal] = useState(false);
+  const [buyNftModal, setBuyNftModal] = useState(false);
+
+  const navigate = useNavigate();
+
+  const search = searchParams.get('search');
+  const collectionSort = searchParams.get('collection_sort');
+
+  // NFT 검사
+  const { data: nftData, isLoading: nftLoading } = useQuery(
+    ['nft_data_for_mint', id, nft_id],
+    async () => {
+      const res = await getNftDetail({ nft_id: nft_id, wallet_address: walletAddress?.address });
+      return res.data;
+    },
+    {
+      enabled: status === 'buy',
+      refetchOnWindowFocus: false,
+      retry: 0,
+      onError: e => {
+        setErrorMessage(e?.response?.data?.detail || 'Error');
+      },
     }
-  };
+  );
+
+  // 무한 스크롤
+  const {
+    data: collectionData,
+    hasNextPage,
+    fetchNextPage,
+    isLoading: collectionsLoading,
+    refetch,
+  } = useInfiniteQuery(
+    ['collections_list_for_mint', token, collectionSort, search],
+    async ({ pageParam = 1 }) => {
+      const res = await getMyNftCollections(token, pageParam, collectionSort, search);
+      return res;
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const totalLoaded = allPages.reduce((sum, page) => sum + page.data_list.length, 0);
+        return totalLoaded < lastPage.total_cnt ? allPages.length + 1 : undefined;
+      },
+    }
+  );
+
+  const allItems = collectionData?.pages?.flatMap(page => page.data_list) || [];
+
   useEffect(() => {
-    fetchMyNftCollections();
-  }, [token, currentPage, sortBy, searchKeyword]);
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <>
+      {(collectionsLoading || nftLoading) && <Loading />}
       <div className="mint-detail">
         <dl className="album-detail__title">
           <dt>{status === 'mint' ? 'Mint NFT' : 'Buy NFT'}</dt>
@@ -51,33 +109,41 @@ function MintNftDetail() {
         <SongsBar />
         <ContentWrap title="Select Collection">
           <div className="filter-create">
-            <Filter connectionsSort={true} />
+            <Filter collectionSort={true} />
             <button className="create-btn" onClick={() => setShowCollectionModal(true)}>
               Create New Collection
               <img src={editIcon} alt="editIcon" />
             </button>
           </div>
           <Search placeholder="Search Collection" />
-          {myNftCollections?.length === 0 ? (
+          {allItems.length === 0 ? (
             <NoneContent message="There are no collections." height={300} />
           ) : (
-            <CollectionItemList
-              data={myNftCollections}
-              linkMove={false}
-              setSelectedCollection={setSelectedCollection}
-            />
+            <div className="scroll-box">
+              <CollectionItemList
+                data={allItems}
+                linkMove={false}
+                selectedCollection={selectedCollection}
+                setSelectedCollection={setSelectedCollection}
+              />
+              <div ref={ref} style={{ height: 1 }}></div>
+            </div>
           )}
           <button
-            className={selectedCollection ? 'mint-btn' : 'mint-btn disabled'}
-            onClick={selectedCollection ? () => setShowModal(true) : null}
+            className={`mint-btn ${selectedCollection ? '' : 'disabled'}`}
+            onClick={() => {
+              if (status === 'mint') setMintNftModal(true);
+              else if (status === 'buy') setBuyNftModal(true);
+            }}
+            disabled={!selectedCollection}
           >
-            {status === 'mint' ? 'Mint' : 'Buy'}
+            {status}
           </button>
         </ContentWrap>
       </div>
-      {showModal && (
+      {mintNftModal && (
         <NftConfirmModal
-          setShowModal={setShowModal}
+          setShowModal={setMintNftModal}
           setShowSuccessModal={setShowSuccessModal}
           title="Confirm Mint"
           confirmSellTxt={false}
@@ -95,7 +161,22 @@ function MintNftDetail() {
       {showCollectionModal && (
         <CreateCollectionModal
           setShowCollectionModal={setShowCollectionModal}
-          fetchMyNftCollections={fetchMyNftCollections}
+          fetchMyNftCollections={refetch}
+        />
+      )}
+      {buyNftModal && (
+        <BuyNftModal
+          setBuyNftModal={setBuyNftModal}
+          nftData={nftData}
+          selectedCollection={selectedCollection}
+        />
+      )}
+      {errorMessage && (
+        <ErrorModal
+          setShowErrorModal={setErrorMessage}
+          message={errorMessage}
+          button
+          action={() => navigate('/')}
         />
       )}
     </>

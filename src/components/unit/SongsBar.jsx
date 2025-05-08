@@ -106,7 +106,7 @@ const SongsBar = ({ songId }) => {
               {album?.like}
             </p>
           </div>
-          <Link className="songs-bar__details-btn" to={`/song-detail/${id}`}>
+          <Link className="songs-bar__details-btn" to={`/song-detail/${songId || id}`}>
             Details
           </Link>
         </article>

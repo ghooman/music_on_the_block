@@ -17,11 +17,12 @@ import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
 import NftConfirmModal from '../NftConfirmModal';
 import NftConfirmSuccessModal from '..//NftConfirmSuccessModal';
 import SongsBar from '../unit/SongsBar';
+import { ethers, parseUnits } from 'ethers';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 // ────────────────────────────────
 function MintNftSellDetail2() {
-  const { id } = useParams();
+  const { id, nft_id } = useParams(); // id : 앨범 id, nft_id : nft id
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -38,9 +39,9 @@ function MintNftSellDetail2() {
   };
 
   const { data: nftInfo, isLoading } = useQuery(
-    ['nft_info', { id }],
+    ['nft_info', { id, nft_id }],
     async () => {
-      const res = await axios.get(`${serverApi}/api/nfts/${id}/detail`, {
+      const res = await axios.get(`${serverApi}/api/nfts/${nft_id}/detail`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +50,28 @@ function MintNftSellDetail2() {
     },
     { refetchOnMount: false }
   );
+  console.log('nftInfo', nftInfo);
 
+  const getDecimalsBySymbol = symbol => {
+    switch (symbol.toUpperCase()) {
+      case 'USDT':
+      case 'USDC':
+        return 6;
+      default:
+        return 18;
+    }
+  };
+
+  let sellPriceInWei;
+  try {
+    const decimals = getDecimalsBySymbol(selectedCoin.name);
+    sellPriceInWei = parseUnits((sellPrice || '0').toString(), decimals);
+  } catch (error) {
+    console.error('Failed to convert sellPrice to Wei:', error);
+    sellPriceInWei = parseUnits('0', 18);
+  }
+
+  console.log('sellPriceInWei', sellPriceInWei);
   return (
     <>
       <div className="mint-detail">
@@ -136,9 +158,10 @@ function MintNftSellDetail2() {
           nftName={nftInfo?.data?.nft_name}
           confirmSellTxt={true}
           sellPrice={sellPrice}
+          sellPriceInWei={sellPriceInWei}
           selectedCoin={selectedCoin}
           thirdwebId={nftInfo?.data?.thirdweb_id}
-          // listingId={nftInfo?.data?.listing_id}
+          listingId={nftInfo?.data?.listing_id}
         />
       )}
       {showSuccessModal && (

@@ -1,6 +1,8 @@
 .table__wrapper {
   border: 1px solid #222;
   border-radius: 12px;
+  width: 100%;
+  overflow: auto;
 }
 
 .table {
@@ -151,20 +153,45 @@
         background-color: #222;
       }
     }
+    // 0507 기준 임시 주석 (확인후 안쓰면 삭제)
+    // &.sold {
+    //   color: #1a1a1a;
+    //   background-color: #cf0;
+    //   // &::before {
+    //   //   border: 1px solid #cf0;
+    //   // }
+    //   &::after {
+    //     background: #cf0;
+    //   }
+    //   &::before {
+    //     opacity: 0 !important;
+    //   }
+    //   &:hover {
+    //     top: 0px !important;
+    //   }
+    // }
     &.sold {
-      color: #1a1a1a;
-      background-color: #cf0;
-      // &::before {
-      //   border: 1px solid #cf0;
-      // }
-      &::after {
-        background: #cf0;
-      }
+      color: #cf0;
+      font-family: Inter400;
+      cursor: default;
       &::before {
-        opacity: 0 !important;
+        opacity: 0;
+        border: none;
       }
       &:hover {
-        top: 0px !important;
+        top: 0px;
+      }
+    }
+    &.purchased {
+      color: #5a9bf6;
+      font-family: Inter400;
+      cursor: default;
+      &::before {
+        opacity: 0;
+        border: none;
+      }
+      &:hover {
+        top: 0px;
       }
     }
     &.sell {

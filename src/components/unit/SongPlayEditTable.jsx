@@ -64,6 +64,7 @@ const SongPlayEditTable = ({
         {/** 테이블 바디 */}
         {songList?.map(item => (
           <div
+            key={item.id}
             className="song-play-edit-table__table--body"
             onClick={e => {
               setActiveSong(prev => {
@@ -88,7 +89,7 @@ const SongPlayEditTable = ({
 
             {/** 노래 이미지 */}
             <div className={`table-items body-song ${item?.id === activeSong?.id ? 'active' : ''}`}>
-              <img src={item.cover_image} alt="cover" />
+              <img src={item.cover_image?.replace('public', '140to140')} alt="cover" />
               <div className="loading-wave">
                 <div className="loading-bar"></div>
                 <div className="loading-bar"></div>

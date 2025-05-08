@@ -4,7 +4,7 @@ import { mintNft } from '../api/nfts/nftMintApi';
 import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import './NftConfirmModal.scss';
-
+import { useCancelListing } from '../hooks/useCancelListing';
 import { useNFTApprovalCheck } from '../hooks/useNFTApprovalCheck';
 import { useApproveMusicNFT } from '../hooks/useApproveMusicNFT';
 import { useSellNFT } from '../hooks/useCreateListing';
@@ -16,30 +16,43 @@ import {
   MUSIC_NFT_CONTRACT_ADDRESS,
 } from '../contract/contractAddresses';
 
+import ErrorModal from '../components/modal/ErrorModal';
+
 const NftConfirmModal = ({
   setShowModal,
   title,
   confirmSellTxt,
   confirmMintTxt,
+  confirmCancelTxt,
   setShowSuccessModal,
   selectedCollection,
   songId,
   nftName,
   selectedCoin,
   sellPrice,
+  sellPriceInWei,
   thirdwebId,
-  // listingId,
+  nftId,
+  listingId,
+  onSuccess,
 }) => {
+  console.log('sellPrice', sellPrice);
+  console.log('nftId', nftId);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // 1번
+  console.log('sellPriceInWei', sellPriceInWei);
+
+  // 생성 1번
   const nftApprovalCheckData = useNFTApprovalCheck();
-  // 2번
+  // 생성 2번
   const approveMusicNFT = useApproveMusicNFT();
-  // 3번
+  // 생성 3번
   const sellNFT = useSellNFT();
+  // 취소
+  const cancelListing = useCancelListing();
 
   // ====== NFT 민팅 함수 ======
   const handleMint = async () => {
@@ -49,11 +62,19 @@ const NftConfirmModal = ({
       if (response.status === 'success') {
         setShowModal(false);
         setShowSuccessModal(true);
+        if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
+        setErrorMessage(response);
       }
     } catch (error) {
-      console.error('Mint error:', error);
+      const match = error.message.match(/{.*}/);
+      setErrorMessage(
+        error?.response?.data?.detail ||
+          error?.message ||
+          JSON.parse(match?.[0])?.message ||
+          'Error'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -80,18 +101,15 @@ const NftConfirmModal = ({
   const serverPostSellNft = async listingId => {
     try {
       const response = await axios.post(
-        `${serverApi}/api/nfts/my/sell/${thirdwebId}`,
-        {
-          price: sellPrice,
-          sales_token: selectedCoin.name,
-          listing_id: listingId,
-        },
+        `${serverApi}/api/nfts/my/sell/${thirdwebId}?price=${sellPrice}&sales_token=${selectedCoin.name}&listing_id=${listingId}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log('serverResponse', response);
       return response;
     } catch (error) {
       console.error('Server post error:', error);
@@ -109,48 +127,110 @@ const NftConfirmModal = ({
       // 2. 필요시 승인 진행
       if (!nftApprovalCheckData) {
         console.log('NFT not approved, starting approval process');
-        await approveMusicNFT(thirdwebId);
+        await approveMusicNFT();
       }
 
       // 3. 판매 리스팅 생성
-      // const currencyAddress = ContractAddress();
-      // const now = Math.floor(Date.now() / 1000);
-      // const tenYearsLater = now + 10 * 365 * 24 * 60 * 60;
+      const currencyAddress = ContractAddress();
+      const now = Math.floor(Date.now() / 1000);
+      const tenYearsLater = now + 10 * 365 * 24 * 60 * 60;
 
-      // const nftParams = {
-      //   assetContract: MUSIC_NFT_CONTRACT_ADDRESS,
-      //   tokenId: thirdwebId,
-      //   quantity: 1,
-      //   currency: currencyAddress,
-      //   pricePerToken: sellPrice,
-      //   startTimestamp: now,
-      //   endTimestamp: tenYearsLater,
-      //   reserved: false,
-      // };
+      const nftParams = {
+        assetContract: MUSIC_NFT_CONTRACT_ADDRESS,
+        tokenId: thirdwebId,
+        quantity: 1,
+        currency: currencyAddress,
+        pricePerToken: sellPriceInWei,
+        startTimestamp: now,
+        endTimestamp: tenYearsLater,
+        reserved: false,
+      };
 
-      // const listingResult = await sellNFT(nftParams);
-      // console.log('Listing created:', listingResult);
+      const listingResult = await sellNFT(nftParams);
+      console.log('Listing created:', listingResult);
 
       // 4. 서버에 판매 정보 등록
-      // const serverResponse = await serverPostSellNft(listingResult);
-      // console.log('Server response:', serverResponse);
+      const serverResponse = await serverPostSellNft(listingResult);
+      console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
       setShowModal(false);
       setShowSuccessModal(true);
+      if (onSuccess) onSuccess();
     } catch (error) {
-      console.error('Error during NFT sale process:', error);
-      alert('에러 출력 대비용');
+      const match = error.message.match(/{.*}/);
+      setErrorMessage(
+        error?.response?.data?.detail ||
+          error?.message ||
+          (match && JSON.parse(match?.[0]))?.message ||
+          'Error'
+      );
     } finally {
       setIsLoading(false);
     }
   };
   // ===== NFT 판매 함수 끝 =====
 
+  // 서버에서 판매 취소 함수
+  const serverCancelListing = async listingId => {
+    try {
+      const response = await axios.post(
+        `${serverApi}/api/nfts/my/sell/${listingId}/cancel`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log('serverResponse', response);
+      return response;
+    } catch (error) {
+      console.error('Error during cancel listing:', error);
+      throw error;
+    }
+  };
+  // ===== NFT 판매 취소 함수  =====
+  const handleCancel = async () => {
+    setIsLoading(true);
+    try {
+      await cancelListing(listingId);
+      const response = await serverCancelListing(listingId);
+      console.log('cancelListing', listingId);
+
+      setShowModal(false);
+      setShowSuccessModal(true);
+      if (onSuccess) onSuccess();
+    } catch (error) {
+      const match = error.message.match(/{.*}/);
+
+      console.log(error, '에러 매치');
+
+      setErrorMessage(
+        (match && JSON.parse(match?.[0]))?.message ||
+          error?.response?.data?.detail ||
+          error?.message ||
+          'Error'
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // ===== NFT 판매 취소 함수 끝 =====
+  if (errorMessage) {
+    return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
+  }
+
+  const handleClose = () => {
+    if (isLoading) return;
+
+    setShowModal(false);
+  };
+
   return (
-    <ModalWrap title={title} onClose={() => setShowModal(false)} className="confirm-modal">
+    <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
       <dl>
-        {confirmSellTxt && <dt>[{selectedCollection?.name || nftName}]</dt>}
+        {(confirmSellTxt || confirmCancelTxt) && <dt>[{selectedCollection?.name || nftName}]</dt>}
         {confirmMintTxt && <dt>Confirm minting: [{selectedCollection?.name}]</dt>}
         <dd>Network gas fees may apply. No refund or cancellation after purchase.</dd>
       </dl>
@@ -167,6 +247,11 @@ const NftConfirmModal = ({
         {confirmSellTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleSell}>
             {isLoading ? 'Loading...' : 'Sell'}
+          </button>
+        )}
+        {confirmCancelTxt && (
+          <button className="confirm-modal__btns__ok" onClick={handleCancel}>
+            {isLoading ? 'Loading...' : 'Yes, Continue'}
           </button>
         )}
       </div>

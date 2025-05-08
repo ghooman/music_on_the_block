@@ -109,13 +109,14 @@ const AlbumsDetail = () => {
               <p className="my-album-details__box__header__right__box__title">
                 <span>{albumBundleInfo?.album_name}</span>
                 {albumBundleInfo?.is_owner && (
-                  <button
+                  <label
                     className="my-album-details__box__header__right__box__title__edit-btn"
                     onClick={() => handleEditAlbum(albumBundleInfo)}
+                    htmlFor="name"
                   >
                     Edit Album
                     <img src={editIcon} alt="edit-icon" />
-                  </button>
+                  </label>
                 )}
               </p>
               <div className="my-album-details__box__header__right__box__list">
@@ -160,37 +161,41 @@ const AlbumsDetail = () => {
         </section>
         <section className="my-album-details__box__body">
           <ContentWrap title="Favorites" border={false}>
-            <div className="my-album-details__box__body__sub-categories">
-              <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
-              {albumBundleInfo?.is_owner && (
-                <Link
-                  to={`/edit-album-songs/${id}`}
-                  className="my-album-details__box__body__sub-categories__edit-btn"
-                >
-                  Edit Songs
-                  <img src={editIcon} alt="edit-icon" />
-                </Link>
+            <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+            <ContentWrap.SubWrap gap={8}>
+              <div className="my-album-details__box__body__edit">
+                <p className="my-album-details__box__body__edit__song-count">
+                  {albumBundleInfo?.song_list?.length} Songs
+                </p>
+                {albumBundleInfo?.is_owner && (
+                  <Link
+                    to={`/edit-album-songs/${id}`}
+                    className="my-album-details__box__body__edit__edit-btn"
+                  >
+                    Edit Songs
+                    <img src={editIcon} alt="edit-icon" />
+                  </Link>
+                )}
+              </div>
+              {albumBundleInfo?.song_list?.length > 0 ? (
+                <SongPlayTable
+                  songList={albumBundleInfo?.song_list}
+                  activeSong={activeSong}
+                  setActiveSong={setActiveSong}
+                  isScroll={true}
+                  isTrigger={isPlaying}
+                  setIsTrigger={setIsPlaying}
+                />
+              ) : (
+                <NoneContent
+                  image={NoDataImage}
+                  title="No songs in this album"
+                  message="This album is currently empty."
+                  message2="Add songs to complete your album."
+                  height={300}
+                />
               )}
-            </div>
-
-            {albumBundleInfo?.song_list?.length > 0 ? (
-              <SongPlayTable
-                songList={albumBundleInfo?.song_list}
-                activeSong={activeSong}
-                setActiveSong={setActiveSong}
-                isScroll={true}
-                isTrigger={isPlaying}
-                setIsTrigger={setIsPlaying}
-              />
-            ) : (
-              <NoneContent
-                image={NoDataImage}
-                title="No songs in this album"
-                message="This album is currently empty."
-                message2="Add songs to complete your album."
-                height={300}
-              />
-            )}
+            </ContentWrap.SubWrap>
           </ContentWrap>
         </section>
       </div>{' '}

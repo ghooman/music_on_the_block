@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./Header.scss";
+import React, { useState } from 'react';
+import './Header.scss';
 import {
   BrowserRouter,
   Link,
@@ -8,20 +8,20 @@ import {
   Routes,
   useLocation,
   // useNavigate,
-} from "react-router-dom";
+} from 'react-router-dom';
 // import LogoHansung from "../assets/images/";
-import Album from "../pages/Album";
-import PreparingModal from "./PreparingModal";
+import Album from '../pages/Album';
+import PreparingModal from './PreparingModal';
 
 //이미지
-import mainLogo from "../assets/images/header/logo.svg";
-import betaLogo from "../assets/images/header/beta.svg";
-import closeIcon from "../assets/images/close.svg";
-import Menu from "./Menu";
-import MyPage from "../pages/MyPage";
-import SignInModal from "./SignInModal";
-import CreateLoading from "./CreateLoading";
-import AlarmModal from "./AlarmModal";
+import mainLogo from '../assets/images/header/logo.svg';
+import betaLogo from '../assets/images/header/beta.svg';
+import closeIcon from '../assets/images/close.svg';
+import Menu from './Menu';
+import MyPage from '../pages/MyPage';
+import SignInModal from './SignInModal';
+import CreateLoading from './CreateLoading';
+import AlarmModal from './AlarmModal';
 
 const Header = ({ setIsLoggedIn }) => {
   const [isSignInModal, setSignInModal] = useState(false);
@@ -30,17 +30,14 @@ const Header = ({ setIsLoggedIn }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
-    setIsActive((prev) => !prev);
+    setIsActive(prev => !prev);
   };
 
   return (
     <>
       <div className="header">
         <div className="header__inner">
-          <button
-            className={`menu-btn ${isActive ? "active" : ""}`}
-            onClick={handleClick}
-          >
+          <button className={`menu-btn ${isActive ? 'active' : ''}`} onClick={handleClick}>
             <svg viewBox="0 0 64 48">
               <path d="M19,15 L45,15 C70,15 58,-2 49.0177126,7 L19,37"></path>
               <path d="M19,24 L45,24 C61.2371586,24 57,49 41,33 L32,24"></path>
@@ -117,15 +114,9 @@ const Header = ({ setIsLoggedIn }) => {
         setLogin={setLogin}
         login={login}
       />
-      {isPreparingModal && (
-        <PreparingModal setPreparingModal={setPreparingModal} />
-      )}
+      {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       {isSignInModal && (
-        <SignInModal
-          setSignInModal={setSignInModal}
-          setLogin={setLogin}
-          login={login}
-        />
+        <SignInModal setSignInModal={setSignInModal} setLogin={setLogin} login={login} />
       )}
 
       {/* <Routes>

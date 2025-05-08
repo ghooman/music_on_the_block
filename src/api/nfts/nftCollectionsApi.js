@@ -131,7 +131,8 @@ export const getNftCollectionNftList = async ({
   search_keyword,
   ai_service,
   nft_rating,
-  salse_token,
+  sales_token,
+  now_sales_status,
 }) => {
   const response = await axios.get(`${serverApi}/api/nfts/collections/${id}/nfts`, {
     params: {
@@ -140,7 +141,8 @@ export const getNftCollectionNftList = async ({
       search_keyword,
       ai_service,
       nft_rating,
-      salse_token,
+      sales_token,
+      now_sales_status,
     },
   });
 

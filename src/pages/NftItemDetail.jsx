@@ -11,7 +11,8 @@ import NftConfirmModal from '../components/NftConfirmModal';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
-
+import grade1Icon from '../assets/images/icon/grade-icon/Grade01-icon.svg';
+import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/intro/mob-album-cover.png';
 import defaultUserImg from '../assets/images/header/logo-png.png';
 
@@ -34,6 +35,8 @@ import {
 import NftHistoryTable from '../components/table/NftHistoryTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { WalletConnect } from '../components/WalletConnect';
+import ShareModal from '../components/ShareModal';
+import { getSongsGradeIcon } from '../utils/getGradeIcon';
 
 const NftItemDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Track Information');
@@ -67,6 +70,8 @@ const NftItemDetailInfo = ({ id }) => {
   const queryClient = useQueryClient();
   const [cancelNft, setCancelNft] = useState(null);
   const [cancelSuccess, setCancelSuccess] = useState(false);
+
+  const [isShareModal, setIsShareModal] = useState(false);
 
   const { token, walletAddress, isLoggedIn, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
@@ -255,13 +260,17 @@ const NftItemDetailInfo = ({ id }) => {
                                         <img src={commentIcon} />
                                         {album?.comment_cnt || 0}
                                     </button> */}
+                  <p className={`nfts ${nftDetailData?.rating}`}>
+                    {getSongsGradeIcon(nftDetailData?.rating) && (
+                      <img src={getSongsGradeIcon(nftDetailData?.rating)} alt="icon" />
+                    )}
+                    <div className="nfts-section"></div>
+                    <p className="nfts-text">NFT</p>
+                  </p>
                 </div>
-                {/* <button
-                                    className="nft-item-detail__song-detail__left__info__share-btn"
-                                    onClick={() => setShareModal(true)}
-                                >
-                                    <img src={shareIcon} />
-                                </button> */}
+                <p className="share" onClick={() => setIsShareModal(true)}>
+                  <img src={shareIcon} alt="share" />
+                </p>
               </div>
             </div>
             <div className="nft-item-detail__song-detail__right">
@@ -369,6 +378,13 @@ const NftItemDetailInfo = ({ id }) => {
             setCancelSuccess(false);
             nftDetailRefetch();
           }}
+        />
+      )}
+      {isShareModal && (
+        <ShareModal
+          setShareModal={setIsShareModal}
+          shareUrl={window.location.href}
+          title={nftDetailData?.title}
         />
       )}
     </>

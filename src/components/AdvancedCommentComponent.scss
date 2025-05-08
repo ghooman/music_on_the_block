@@ -81,7 +81,6 @@
 } //advanced-input--END--
 .react-responsive-modal-modal {
   background: #121212 !important;
-  border: 1px solid #777 !important;
   border-radius: 4px;
   font-size: 14px !important;
   max-width: 340px !important;
@@ -93,6 +92,49 @@
     button {
       flex: 1;
       height: 34px;
+      border-radius: 12px;
+      position: relative;
+      top: 0px;
+      transition: 0.2s all;
+
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0px;
+        }
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        border: 1px solid;
+        top: 4px;
+        border-radius: 12px;
+        border-color: red;
+        width: calc(100% - 2px);
+        height: calc(100% - 1px);
+        left: 0px;
+        transition: 0.2s all;
+      }
+    }
+    .delete {
+      background-color: #df1919;
+      color: #1a1a1a;
+      &::before {
+        border-color: #df1919;
+      }
+    }
+    .cancel {
+      background-color: #383838;
+      &::before {
+        border-color: #383838;
+      }
+    }
+  }
+
+  .react-responsive-modal-closeButton {
+    svg {
+      fill: #fff;
     }
   }
 }

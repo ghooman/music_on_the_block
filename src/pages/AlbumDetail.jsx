@@ -26,6 +26,7 @@ import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import LyricsModal from '../components/LyricsModal';
 // 외부에서 플레이 카운트 업데이트 함수를 import합니다.
 import { incrementPlayCount } from '../api/incrementPlayCount';
+import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
@@ -454,10 +455,23 @@ function AlbumDetail() {
                       <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                       {album?.like || 0}
                     </p>
-                    <p className="comment" onClick={handleScrollToComment}>
+                    {/* <p className="comment" onClick={handleScrollToComment}>
                       <img src={commentIcon} alt="comment Icon" />
                       {album?.comment_cnt || 0}
-                    </p>
+                    </p> */}
+                    {album?.rating && (
+                      <p className={`nfts ${album?.rating}`}>
+                        {getSongsGradeIcon(album?.rating) && (
+                          <img src={getSongsGradeIcon(album?.rating)} alt={`${album?.rating}`} />
+                        )}
+                        {album?.is_nft && (
+                          <>
+                            <div className="nfts-section"></div>
+                            <span className="nfts-text">NFT</span>
+                          </>
+                        )}
+                      </p>
+                    )}
                   </div>
                 )}
                 {setIsLoggedIn && (
@@ -471,10 +485,23 @@ function AlbumDetail() {
                       {album?.like || 0}
                       {setIsLoggedIn && <WalletConnect onConnect={handleWalletConnect} />}
                     </p>
-                    <p className="comment" onClick={handleScrollToComment}>
+                    {/* <p className="comment" onClick={handleScrollToComment}>
                       <img src={commentIcon} alt="comment Icon" />
                       {album?.comment_cnt || 0}
-                    </p>
+                    </p> */}
+                    {album?.rating && (
+                      <p className={`nfts ${album?.rating}`}>
+                        {getSongsGradeIcon(album?.rating) && (
+                          <img src={getSongsGradeIcon(album?.rating)} alt={`${album?.rating}`} />
+                        )}
+                        {album?.is_nft && (
+                          <>
+                            <div className="nfts-section"></div>
+                            <span className="nfts-text">NFT</span>
+                          </>
+                        )}
+                      </p>
+                    )}
                   </div>
                 )}
                 <button

@@ -65,7 +65,8 @@
     }
     .profile__record {
       display: flex;
-      gap: 12px;
+      gap: 8px 12px;
+      flex-wrap: wrap;
     }
     .profile__record--item {
       display: flex;
@@ -92,7 +93,8 @@
       display: flex;
       align-items: center;
       cursor: pointer;
-      gap: 8px;
+      gap: 4px 8px;
+      flex-wrap: wrap;
     }
     .profile__link--icon {
       width: 24px;

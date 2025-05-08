@@ -7,13 +7,51 @@
     .rdw-block-wrapper {
       display: none;
     }
+
+    .cancelBtn,
+    .postBtn {
+      // margin-left: auto !important;
+      border: 0;
+
+      transition: 0.2s all;
+      position: relative;
+      top: 0px;
+      border-radius: 12px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 4px;
+        border-radius: 12px;
+        border: 1px solid;
+        width: calc(100% - 2px);
+        height: calc(100% - 1px);
+        top: 4px;
+        left: 0px;
+        transition: 0.2s all;
+      }
+
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0px;
+        }
+      }
+    }
+
+    .cancelBtn {
+      background-color: #383838;
+      &::before {
+        border-color: #383838;
+      }
+    }
     .postBtn {
       margin-left: auto !important;
-      background: #cf0 !important;
-      border: 0;
-      color: #121212;
-      transition: 0.3s;
-      &:hover {
+      background-color: #cf0;
+      color: #1a1a1a;
+
+      &::before {
+        border-color: #cf0;
       }
     }
 
@@ -47,14 +85,14 @@
   border-radius: 4px;
   font-size: 14px !important;
   max-width: 340px !important;
-  p{
+
+  p {
     margin: 16px 0 !important;
   }
-  .deleteBtns{
-    button{
+  .deleteBtns {
+    button {
       flex: 1;
       height: 34px;
-      
     }
   }
 }
@@ -71,7 +109,7 @@
   display: inline-block;
   width: max-content;
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: -2px;
     left: -4px;

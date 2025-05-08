@@ -316,6 +316,14 @@ const NftItemDetailInfo = ({ id }) => {
 
               {nftDetailData && (
                 <div className="nft-item-detail__song-detail__right__btn-box">
+                  {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
+                    <button
+                      className="nft-item-detail__song-detail__right__btn-box__btn unlisted-nft"
+                      onClick={e => null}
+                    >
+                      Unlisted
+                    </button>
+                  )}
                   {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
                     <button
                       className="nft-item-detail__song-detail__right__btn-box__btn"
@@ -401,7 +409,7 @@ const TrackInformation = ({ id }) => {
         </NftOverview>
       </ContentWrap>
       {/* {activityData?.recommand_list && ( */}
-      <ContentWrap title="Recommended NFTs">
+      <ContentWrap title="More from this Collection">
         <NftItemList data={activityData?.recommand_list} />
       </ContentWrap>
       {/* )} */}

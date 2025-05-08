@@ -15,6 +15,13 @@ import { getNftCollections } from '../api/nfts/nftCollectionsApi';
 
 import '../styles/NftList.scss';
 import { useQuery } from 'react-query';
+import SubCategories from '../components/unit/SubCategories';
+
+const subCategoryList = [
+  { name: 'All', preparing: false },
+  { name: 'Unlisted', preparing: false },
+  { name: 'Listed', preparing: false },
+];
 
 const NftList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,38 +34,55 @@ const NftList = () => {
   const tokenFilter = searchParams.get('token_filter');
   const songsSort = searchParams.get('songs_sort');
   const collectionSort = searchParams.get('collection_sort');
+  const nowSalesStatus = searchParams.get('now_sales_status') || 'All';
+
+  const handleSubCategory = value => {
+    setSearchParams({ category: 'NFT items', page: 1, now_sales_status: value });
+  };
 
   useEffect(() => {
     if (!category) {
       setSearchParams(
-        { category: 'NFT item', page: 1, ...(search ? { search: search } : null) },
+        { category: 'NFT items', page: 1, ...(search ? { search: search } : null) },
         { replace: true }
       );
     }
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [page]);
+
   return (
     <div className="nft-list">
       <Categories
-        categories={['NFT item', 'Collection']}
+        categories={['NFT items', 'Collections']}
         value={category}
         onClick={category => {
           setSearchParams({ category, page: 1 });
         }}
       />
       <ContentWrap
-        title={` ${category === 'NFT item' ? 'NFT Item (List)' : 'NFT Collection (List)'}`}
+        title={` ${category === 'NFT items' ? 'NFT Items (List)' : 'NFT Collection (List)'}`}
       >
-        {category === 'NFT item' && (
-          <NFTList
-            page={page}
-            search={search}
-            gradeFilter={gradeFilter}
-            songsSort={songsSort}
-            tokenFilter={tokenFilter}
-          />
+        {category === 'NFT items' && (
+          <>
+            <SubCategories
+              categories={subCategoryList}
+              value={nowSalesStatus}
+              handler={handleSubCategory}
+            />
+            <NFTList
+              page={page}
+              search={search}
+              gradeFilter={gradeFilter}
+              songsSort={songsSort}
+              tokenFilter={tokenFilter}
+              nowSalesStatus={nowSalesStatus}
+            />
+          </>
         )}
-        {category === 'Collection' && (
+        {category === 'Collections' && (
           <CollectionList page={page} search={search} collectionSort={collectionSort} />
         )}
       </ContentWrap>
@@ -72,9 +96,9 @@ export default NftList;
 //======컴포넌트=====
 //=================
 
-const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter }) => {
+const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter, nowSalesStatus }) => {
   const { data, isLoading } = useQuery(
-    ['nft_list_all', page, search, gradeFilter, songsSort, tokenFilter],
+    ['nft_list_all', page, search, gradeFilter, songsSort, tokenFilter, nowSalesStatus],
     async () => {
       const response = await getNftsList({
         page: page,
@@ -82,6 +106,7 @@ const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter }) => {
         sort_by: songsSort,
         nft_rating: gradeFilter,
         sales_token: tokenFilter,
+        now_sales_status: nowSalesStatus,
       });
       return response.data;
     }

@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import ErrorModal from '../components/modal/ErrorModal';
 import { checkPolygonStatus } from '../api/checkPolygonStatus';
 import PolygonStatus from './unit/PolygonStatus';
+import { useUserDetail } from '../hooks/useUserDetail';
 const NftConfirmModal = ({
   setShowModal,
   title,
@@ -53,7 +54,9 @@ const NftConfirmModal = ({
     fetchPolygonStatus();
   }, []);
   const polygonDisabled = polygonStatus?.status?.includes('장애');
-  console.log('polygonStatus', polygonStatus);
+  // 토큰 잔액 확인
+  const { data: userData } = useUserDetail();
+  const micBalance = userData?.mic_point || '0.00';
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -448,7 +451,7 @@ const NftConfirmModal = ({
         {confirmMintTxt && (
           <div className="confirm-modal__title-wrap">
             <p className="confirm-modal__title-wrap__title">
-              My MIC <span>10.490</span>
+              My MIC <span>{micBalance}</span>
             </p>
             <p className="confirm-modal__title-wrap__title">
               MIC Fees <span>100</span>

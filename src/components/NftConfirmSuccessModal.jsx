@@ -2,7 +2,7 @@ import ModalWrap from './ModalWrap';
 import { useNavigate } from 'react-router-dom';
 import './NftConfirmSuccessModal.scss';
 
-const NftConfirmSuccessModal = ({ setShowSuccessModal, title, noRedirect }) => {
+const NftConfirmSuccessModal = ({ setShowSuccessModal, title, content, noRedirect }) => {
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -13,7 +13,7 @@ const NftConfirmSuccessModal = ({ setShowSuccessModal, title, noRedirect }) => {
   };
 
   return (
-    <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
+    <ModalWrap title={title} children={content} onClose={handleClose} className="confirm-modal">
       <div className="confirm-modal__btns">
         <button className="confirm-modal__btns__ok" onClick={handleClose}>
           OK

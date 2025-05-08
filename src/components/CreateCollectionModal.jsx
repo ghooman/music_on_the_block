@@ -79,10 +79,16 @@ const CreateCollectionModal = ({ setShowCollectionModal, fetchMyNftCollections }
     }
   };
 
+  const handleClose = () => {
+    if (isLoading) return;
+
+    setShowCollectionModal(false);
+  };
+
   return (
     <ModalWrap
       title="Create New Collection"
-      onClose={() => setShowCollectionModal(false)}
+      onClose={handleClose}
       className="create-collection-modal"
     >
       <p className="create-collection-modal__small-txt">(jpg, png, under 4MB)</p>
@@ -126,7 +132,7 @@ const CreateCollectionModal = ({ setShowCollectionModal, fetchMyNftCollections }
       <div className="create-collection-modal__btns">
         <button
           className="create-collection-modal__btns__cancel"
-          onClick={() => setShowCollectionModal(false)}
+          onClick={handleClose}
           disabled={isLoading}
         >
           Cancel

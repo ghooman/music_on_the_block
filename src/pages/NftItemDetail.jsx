@@ -33,6 +33,7 @@ import {
 } from '../api/nfts/nftDetailApi';
 import NftHistoryTable from '../components/table/NftHistoryTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { WalletConnect } from '../components/WalletConnect';
 
 const NftItemDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Track Information');
@@ -67,14 +68,72 @@ const NftItemDetailInfo = ({ id }) => {
   const [cancelNft, setCancelNft] = useState(null);
   const [cancelSuccess, setCancelSuccess] = useState(false);
 
-  const { token, walletAddress } = useContext(AuthContext);
+  const { token, walletAddress, isLoggedIn, setIsLoggedIn, setWalletAddress } =
+    useContext(AuthContext);
 
   const [isActive, setIsActive] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const walletConnectRef = React.useRef(null);
 
   const handleClick = () => {
     setIsActive(prev => !prev);
   };
+
+  const handleWalletConnect = (loggedIn, walletAddress) => {
+    setIsLoggedIn(loggedIn);
+    if (loggedIn && walletAddress) {
+      setWalletAddress(walletAddress);
+    }
+  };
+
+  // 버튼 클릭 핸들러
+  const handleButtonClick = (e, action) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+
+      // 로그인이 필요한 경우 WalletConnect 모달 열기
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          walletConnectButton.click();
+        }
+      }
+      return;
+    }
+
+    // 로그인된 경우 원래 동작 실행
+    switch (action) {
+      case 'buy':
+        navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
+        break;
+      case 'sell':
+        navigate(`/nft/sell/detail/${nftDetailData?.song_id}/${nftDetailData?.id}`);
+        break;
+      case 'cancel':
+        setCancelNft(true);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // useEffect를 사용하여 ThirdWeb 버튼을 참조
+  useEffect(() => {
+    // 컴포넌트가 마운트된 후에 참조할 수 있도록 약간의 지연 추가
+    const timer = setTimeout(() => {
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          // 버튼 스타일 설정
+          walletConnectButton.style.position = 'absolute';
+          walletConnectButton.style.opacity = '0';
+          walletConnectButton.style.pointerEvents = 'none';
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const { data: nftDetailData, refetch: nftDetailRefetch } = useQuery(
     ['nft_detail_data', id, walletAddress?.address],
@@ -119,6 +178,18 @@ const NftItemDetailInfo = ({ id }) => {
 
   return (
     <>
+      {/* 숨겨진 WalletConnect 컴포넌트 */}
+      <div
+        ref={walletConnectRef}
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          visibility: 'hidden',
+        }}
+      >
+        <WalletConnect onConnect={handleWalletConnect} />
+      </div>
+
       <div className="nft-item-detail-info-wrap">
         <p className="nft-item-detail-info-wrap__title">NFT Item Details</p>
         <section className="nft-item-detail__song-detail">
@@ -248,9 +319,7 @@ const NftItemDetailInfo = ({ id }) => {
                   {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
                     <button
                       className="nft-item-detail__song-detail__right__btn-box__btn"
-                      onClick={() => {
-                        navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
-                      }}
+                      onClick={e => handleButtonClick(e, 'buy')}
                     >
                       Buy NFT
                     </button>
@@ -258,9 +327,7 @@ const NftItemDetailInfo = ({ id }) => {
                   {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
                     <button
                       className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
-                      onClick={() => {
-                        navigate(`/nft/sell/detail/${nftDetailData?.song_id}/${nftDetailData?.id}`);
-                      }}
+                      onClick={e => handleButtonClick(e, 'sell')}
                     >
                       Sell NFT
                     </button>
@@ -268,7 +335,7 @@ const NftItemDetailInfo = ({ id }) => {
                   {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
                     <button
                       className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft"
-                      onClick={() => setCancelNft(true)}
+                      onClick={e => handleButtonClick(e, 'cancel')}
                     >
                       Cancel NFT
                     </button>

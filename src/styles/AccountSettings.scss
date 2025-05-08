@@ -305,7 +305,7 @@
       font-family: Inter300;
       font-size: 12px;
       position: absolute;
-      top: 100%;
+      top: calc(100% + 1px);
       white-space: nowrap;
     }
 
@@ -447,7 +447,7 @@
       .social__error {
         color: var(--warning, #df1919);
         font-family: Inter300;
-        font-size: 12px;
+        font-size: 16px;
         font-style: normal;
         line-height: 100%; /* 12px */
         letter-spacing: 0.36px;

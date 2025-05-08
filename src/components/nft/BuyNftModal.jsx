@@ -138,7 +138,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
       return response;
     } catch (error) {
       console.error('Error during buy from listing:', error);
-      throw error;
+      setErrorMessage(error?.response?.data?.detail || error?.message || 'Error during purchase');
     }
   };
 
@@ -162,18 +162,19 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
               error?.message ||
               'Error during approval'
           );
+          setIsApproving(false);
           setIsLoading(false);
           return;
         }
       }
-
-      // 구매 진행
+      // 2번 구매 진행 (리스팅 발급)
       const tx_id = await buyFromListing(
         nftData?.listing_id,
         currencyAddress,
         nftData?.price,
         nftData?.sales_token
       );
+      // 3번 리스팅 발급후 서버에 구매 요청
       await handleServerBuy(tx_id);
     } catch (error) {
       const match = error.message.match(/{.*}/);
@@ -192,8 +193,14 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
   }
 
+  const handleClose = () => {
+    if (isLoading) return;
+
+    setBuyNftModal(false);
+  };
+
   return (
-    <ModalWrap title="Confirm buy NFT" onClose={onClose}>
+    <ModalWrap title="Confirm buy NFT" onClose={handleClose}>
       <div className="buy-nft-modal">
         <p className="buy-nft-modal__text">
           Buying [{nftData?.nft_name}] transfers the NFT to your wallet

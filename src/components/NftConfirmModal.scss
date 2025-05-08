@@ -59,6 +59,21 @@
     }
   }
 
+  h2 {
+    margin-top: 16px;
+    font-size: 24px;
+  }
+
+  .confirm-modal__gas-fee {
+    color: var(--Dark-Color-06, var(--Color-06, #888));
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.36px;
+  }
   // 체크박스 관련 스타일
   .confirm-modal__checkbox-wrap {
     display: flex;
@@ -109,6 +124,21 @@
     align-items: center;
     gap: 16px;
     button {
+      &.disabled {
+        background-color: #000;
+        color: #565656;
+        border: 1px solid #2c3a00;
+        pointer-events: none;
+        &::after {
+          border: none;
+        }
+        &:hover {
+          top: 0;
+          &::after {
+            top: 0;
+          }
+        }
+      }
       &.confirm-modal__btns__cancel {
         background: #383838;
         color: #fff;

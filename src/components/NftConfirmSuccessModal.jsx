@@ -13,9 +13,14 @@ const NftConfirmSuccessModal = ({ setShowSuccessModal, title, content, noRedirec
   };
 
   return (
-    <ModalWrap title={title} children={content} onClose={handleClose} className="confirm-modal">
-      <div className="confirm-modal__btns">
-        <button className="confirm-modal__btns__ok" onClick={handleClose}>
+    <ModalWrap
+      title={title}
+      children={content}
+      onClose={handleClose}
+      className="confirm-success-modal"
+    >
+      <div className="confirm-success-modal__btns">
+        <button className="confirm-success-modal__btns__ok" onClick={handleClose}>
           OK
         </button>
       </div>

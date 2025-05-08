@@ -23,9 +23,6 @@
       text-align: center;
       position: relative;
       border-bottom: 1px solid var(--Color-04, #222);
-      h2 {
-        font-size: 24px;
-      }
     }
     .modal-close {
       position: absolute;
@@ -49,9 +46,12 @@
     width: 100%;
   }
 }
-.live-video {
-} //live-video--END--
-
+// confirm-modal
+.confirm-modal {
+  // h2 {
+  //   font-size: 24px;
+  // }
+}
 // 엔트리피 모달
 .host-tournament-txt {
   width: 100%;

@@ -164,7 +164,7 @@ function MintNftSellDetail2() {
       {showSuccessModal && (
         <NftConfirmSuccessModal
           setShowSuccessModal={setShowSuccessModal}
-          content="Your NFT purchase has been Sold!"
+          title="Your NFT purchase has been Sold!"
         />
       )}
     </>

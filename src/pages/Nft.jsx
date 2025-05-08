@@ -11,12 +11,14 @@ import { getNftsMain, getNftsStatistics } from '../api/nfts/nftsMainApi';
 import PreparingModal from '../components/PreparingModal';
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from '../components/WalletConnect';
+import Loading from '../components/IntroLogo2';
 
 const Nft = () => {
   const [nftList, setNftList] = useState([]);
   const [collectionList, setCollectionList] = useState([]);
   const [showPreparingModal, setShowPreparingModal] = useState(false);
   const [nftStatistics, setNftStatistics] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +39,7 @@ const Nft = () => {
     // 메인 데이터
     //=================
     const fetchNftsMain = async () => {
+      setIsLoading(true);
       try {
         const response = await getNftsMain();
         console.log(response.data, '리스폰스 데이터');
@@ -44,6 +47,8 @@ const Nft = () => {
         setCollectionList(response.data.nft_collection_list);
       } catch (error) {
         console.error('Failed to fetch NFTs:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchNftStatistics();
@@ -92,6 +97,7 @@ const Nft = () => {
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>
+      {isLoading && <Loading />}
     </div>
   );
 };

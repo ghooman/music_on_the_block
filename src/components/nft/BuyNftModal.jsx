@@ -193,8 +193,14 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     return <ErrorModal message={errorMessage} setShowErrorModal={setErrorMessage} button />;
   }
 
+  const handleClose = () => {
+    if (isLoading) return;
+
+    setBuyNftModal(false);
+  };
+
   return (
-    <ModalWrap title="Confirm buy NFT" onClose={onClose}>
+    <ModalWrap title="Confirm buy NFT" onClose={handleClose}>
       <div className="buy-nft-modal">
         <p className="buy-nft-modal__text">
           Buying [{nftData?.nft_name}] transfers the NFT to your wallet

@@ -593,7 +593,7 @@ function AlbumDetail() {
                     </div>
                   </>
                 )}
-                {!album?.is_owner && (
+                {/* {!album?.is_owner && (
                   <button
                     className="album-detail__control-button buy-button"
                     disabled={
@@ -603,7 +603,7 @@ function AlbumDetail() {
                   >
                     Buy NFT
                   </button>
-                )}
+                )} */}
               </div>
             </div>
           </div>

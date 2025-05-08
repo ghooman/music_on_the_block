@@ -128,9 +128,6 @@ function MintNftSellDetail2() {
                   <li onClick={() => handleCoinClick('MOB', mobIcon)}>
                     <img src={mobIcon} alt="MOB" /> MOB
                   </li>
-                  <li onClick={() => handleCoinClick('POL', polygonIcon)}>
-                    <img src={polygonIcon} alt="POL" /> POL
-                  </li>
                   <li onClick={() => handleCoinClick('USDT', usdtIcon)}>
                     <img src={usdtIcon} alt="USDT" /> USDT
                   </li>

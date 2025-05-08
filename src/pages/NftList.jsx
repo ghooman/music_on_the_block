@@ -40,16 +40,16 @@ const NftList = () => {
   return (
     <div className="nft-list">
       <Categories
-        categories={['NFT item', 'Collection']}
+        categories={['NFT Items', 'Collections']}
         value={category}
         onClick={category => {
           setSearchParams({ category, page: 1 });
         }}
       />
       <ContentWrap
-        title={` ${category === 'NFT item' ? 'NFT Item (List)' : 'NFT Collection (List)'}`}
+        title={` ${category === 'NFT Items' ? 'NFT Items (List)' : 'NFT Collections (List)'}`}
       >
-        {category === 'NFT item' && (
+        {category === 'NFT Items' && (
           <NFTList
             page={page}
             search={search}
@@ -58,7 +58,7 @@ const NftList = () => {
             tokenFilter={tokenFilter}
           />
         )}
-        {category === 'Collection' && (
+        {category === 'Collections' && (
           <CollectionList page={page} search={search} collectionSort={collectionSort} />
         )}
       </ContentWrap>

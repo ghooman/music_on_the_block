@@ -1,4 +1,46 @@
 // 프리페어링
+@mixin checkbox() {
+  /* 기본 체크박스 숨기기 */
+  appearance: none;
+  // margin: 0 auto;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #383838;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  background: #1a1a1a;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    border-color: #6b7280;
+  }
+
+  &:checked {
+    background-color: #cf0;
+    border-color: #cf0;
+  }
+
+  /* 체크표시 */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    width: 3px;
+    height: 6px;
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    transform: scale(0) rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+
+  &:checked::after {
+    transform: scale(1) rotate(45deg);
+  }
+}
+
 .confirm-modal {
   width: 100%;
   text-align: center;
@@ -9,7 +51,6 @@
       color: #f1f1f1;
       font-family: Inter400;
       font-size: 16px;
-      margin-bottom: 16px;
     }
     dd {
       color: #cf0;
@@ -17,6 +58,23 @@
       font-size: 16px;
     }
   }
+
+  // 체크박스 관련 스타일
+  .confirm-modal__checkbox-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .confirm-modal__checkbox {
+    @include checkbox();
+  }
+  .confirm-modal__checkbox--message {
+    color: #cf0;
+    font-family: Inter400;
+    font-size: 16px;
+  }
+
   .confirm-modal__title-wrap {
     display: flex;
     align-items: center;
@@ -56,6 +114,21 @@
         color: #fff;
         &::after {
           border: 1px solid #383838;
+        }
+      }
+      &.confirm-modal__btns__ok {
+        &:disabled {
+          background-color: #000;
+          color: #565656;
+          border: 1px solid #2c3a00;
+          pointer-events: none;
+
+          &::after {
+            top: 5px;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #2c3a00;
+          }
         }
       }
       flex: 1;

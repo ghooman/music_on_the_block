@@ -151,7 +151,7 @@ function MintNftSellDetail2() {
         <NftConfirmModal
           setShowModal={setShowModal}
           setShowSuccessModal={setShowSuccessModal}
-          title="Confirm Sell"
+          title="Confirm"
           nftName={nftInfo?.data?.nft_name}
           confirmSellTxt={true}
           sellPrice={sellPrice}

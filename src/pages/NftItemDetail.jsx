@@ -350,7 +350,7 @@ const NftItemDetailInfo = ({ id }) => {
         <NftConfirmModal
           setShowModal={setCancelNft}
           setShowSuccessModal={setCancelSuccess}
-          title="Confirm cancel NFT sale"
+          title="Confirm"
           confirmSellTxt={false}
           confirmMintTxt={false}
           confirmCancelTxt={true}

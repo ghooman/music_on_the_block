@@ -38,7 +38,6 @@ export default function PolygonStatus() {
   }
   return (
     <div className="polygon-status">
-      <p className="polygon-status__text">Network status</p>
       <div className="polygon-status__img-box">
         <img src={polygonStatus.image} alt="polygon status" />
         <p>{polygonStatus.text}</p>

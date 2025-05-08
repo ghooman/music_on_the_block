@@ -179,8 +179,10 @@ function MintNftDetail() {
         />
       )}
       {buyNftModal && (
-        <BuyNftModal
-          setBuyNftModal={setBuyNftModal}
+        <NftConfirmModal
+          setShowModal={setBuyNftModal}
+          title="Confirm"
+          confirmBuyTxt={true}
           nftData={nftData}
           selectedCollection={selectedCollection}
         />

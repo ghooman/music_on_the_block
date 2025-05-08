@@ -357,6 +357,20 @@
       }
     }
 
+    &:disabled {
+      background-color: #000;
+      color: #565656;
+      border: 1px solid #2c3a00;
+      pointer-events: none;
+
+      &::before {
+        top: 5px;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #2c3a00;
+      }
+    }
+
     &::before {
       content: '';
       width: calc(100% - 2px);

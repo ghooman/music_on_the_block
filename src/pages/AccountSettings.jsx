@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 
 // import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
 
+const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
+
 const AccountSettings = () => {
   const { data: userData, refetch } = useUserDetail();
   const { token } = useContext(AuthContext);
@@ -241,6 +243,9 @@ const AccountSettings = () => {
     }
   }, [bgImg]);
 
+  const bgSizeCheck = bgImg?.size > bgImgMaxSize;
+  const socialValid = !socials.every(item => urlRegex.test(item) || item === '');
+
   return (
     <div className="account-setting">
       <h1 className="account-setting--title">Account Settings</h1>
@@ -421,6 +426,7 @@ const AccountSettings = () => {
       <button
         className="account-setting__submit"
         onClick={updateUserInfo}
+        disabled={bgSizeCheck || socialValid}
         // type="submit"
       >
         Update User Info
@@ -539,7 +545,6 @@ export default AccountSettings;
 const Social = ({ socials, setSocials }) => {
   const [overIndex, setOverIndex] = useState(null);
   const dragItem = useRef(null);
-  const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
 
   const handleDragStart = (e, index) => {
     const img = new Image();

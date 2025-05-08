@@ -146,6 +146,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         font-size: 14px;
         all: unset;
         width: 100%;
+        padding: 8px 0 0;
+
         &::-webkit-scrollbar-button {
           display: none;
         }

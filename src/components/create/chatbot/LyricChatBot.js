@@ -148,6 +148,12 @@ const LyricChatBot = ({
     window.scrollTo(0, 0);
   };
 
+
+  const taRef = useRef<HTMLTextAreaElement>(null);
+
+
+
+  
   if (!isStatus)
     return (
       <div className="chatbot__background">

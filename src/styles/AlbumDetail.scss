@@ -1176,6 +1176,7 @@
 }
 
 @media screen and (max-width: 768px) {
+  
   .song-detail {
     .album-detail__title {
       dt {
@@ -1189,6 +1190,14 @@
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
+            .album-detail__song-detail__left__img__txt{
+              height: 0;
+            }
+            &.active{
+              .album-detail__song-detail__left__img__txt{
+                height: 100%;
+              }
+            }
           }
         }
         .album-detail__song-detail__right {

@@ -91,12 +91,12 @@ const CollectionDetail = () => {
     <div className="collection-detail">
       <CollectionInfo collectionDetail={collectionDetail} onLikeToggle={toggleLike} />
       <Categories
-        categories={['Overview', 'NFT Item', 'History']}
+        categories={['Overview', 'NFT Items', 'History']}
         value={selectCategory}
         onClick={handleCategoryChange}
       />
       {selectCategory === 'Overview' && <Overview id={id} />}
-      {selectCategory === 'NFT Item' && <NFTItems id={id} />}
+      {selectCategory === 'NFT Items' && <NFTItems id={id} />}
       {selectCategory === 'History' && <History id={id} />}
     </div>
   );

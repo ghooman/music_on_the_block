@@ -18,6 +18,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { useTokenBalance } from '../hooks/useTokenBalance';
+import { getUserGradeIcon } from '../utils/getGradeIcon';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
@@ -118,6 +119,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   const { mobBalance } = useTokenBalance();
 
+  console.log(userData, '정글 차이');
+
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
@@ -139,9 +142,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   <div className="menu__box__my-page">
                     <div className="menu__box__my-page__level">
                       <p className="menu__box__my-page__level__img">
-                        <img src={levelIcon} alt="level icon" />
+                        <img src={getUserGradeIcon(userData?.user_rating)} alt="level icon" />
                       </p>
-                      <p className="number">1</p>
+                      <p className="grade">{userData?.user_rating}</p>
                       <p className="level">Level</p>
                     </div>
                     <div className="menu__box__my-page__info">

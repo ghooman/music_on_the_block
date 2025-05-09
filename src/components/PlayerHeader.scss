@@ -285,7 +285,19 @@
 }
 
 @media screen and (max-width: 768px) {
+  .main__header{
+    .rhap_additional-controls{
+      display: block !important;
+      position: absolute;
+      left: 0;
+      bottom: 14px;
+      .rhap_repeat-button{
+        opacity: 1;
+      }
+    }
+  }
   .main__header {
+    top: 86px !important;
     padding: 42px 16px 16px 16px;
     gap: 0;
     height: auto;
@@ -319,6 +331,10 @@
     }
     .rhap_main{
       flex-direction: column;
+      width: calc(100% + 60px);
+      position: relative;
+      left: -60px;
+      z-index: 1;
       .rhap_button-clear.rhap_skip-button svg{
         font-size: 20px;
         display: none;
@@ -328,7 +344,8 @@
       }
       .rhap_button-clear.rhap_play-pause-button{
         top: 10px;
-        left: -28px;
+        // left: -28px;
+        left: 0px;
       }
     }
     .rhap_container{
@@ -358,6 +375,7 @@
       }
       .main__header__album-cover__img {
         // display: none;
+        opacity: 0.6;
       }
       .main__header__title {
         top: 0px;
@@ -378,6 +396,7 @@
     }
     .rhap_main .rhap_time {
       width: 58px;
+      color: #fff !important;
     }
     .rhap_main-controls {
       margin-top: -16px;
@@ -390,8 +409,8 @@
     }
     .rhap_volume-controls {
       width: 100px;
-      right: 20px;
-      bottom: 28px;
+      right: 0px;
+      bottom: 16px;
     }
   }
 }

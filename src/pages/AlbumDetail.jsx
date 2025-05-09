@@ -574,17 +574,17 @@ function AlbumDetail() {
                     </Link>
                   </dd>
                 </dl>
+                <div className="album-detail__control-guide">
+                  <p className="album-detail__control-guide--text">NFT Status</p>
+                  <img
+                    className="album-detail__control-guide--icon"
+                    src={issueIcon}
+                    alt="guide"
+                    onClick={() => setAlbumGuideModal(true)}
+                  />
+                </div>
                 {album?.is_owner && (
                   <>
-                    <div className="album-detail__control-guide">
-                      <p className="album-detail__control-guide--text">NFT Status</p>
-                      <img
-                        className="album-detail__control-guide--icon"
-                        src={issueIcon}
-                        alt="guide"
-                        onClick={() => setAlbumGuideModal(true)}
-                      />
-                    </div>
                     <div className="album-detail__control-button-wraps">
                       <button
                         className="album-detail__control-button release-button"
@@ -756,7 +756,7 @@ function AlbumDetail() {
             if (nftAction === 'buy') {
               navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
             } else if (nftAction === 'mint') {
-              navigate('/nft');
+              fetchAlbumDetail();
             }
           }}
           nftData={album}

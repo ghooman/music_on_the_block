@@ -117,7 +117,7 @@ const NftItems = ({ username, isMyProfile }) => {
       <ContentWrap title="NFTs list">
         <ContentWrap.SubWrap gap={8}>
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
-          <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
+          <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <NftTable
           saleOption={isMyProfile}
@@ -158,7 +158,7 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
     <ContentWrap title="Collection list">
       <ContentWrap.SubWrap gap={8}>
         <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
-        <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
+        <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
       </ContentWrap.SubWrap>
       <CollectionTable collectionList={data?.data_list} />
       <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />

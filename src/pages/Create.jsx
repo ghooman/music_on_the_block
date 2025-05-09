@@ -15,6 +15,9 @@ import CreateCompleteModal from '../components/CreateCompleteModal';
 import SkipModal from '../components/SkipModal';
 import '../styles/Create.scss';
 import { getCreatePossibleCount } from '../api/getCreatePossibleCount';
+import { useUserDetail } from '../hooks/useUserDetail';
+import ErrorModal from '../components/modal/ErrorModal';
+
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -22,6 +25,32 @@ const Create = () => {
   const [createMode, setCreateMode] = useState(''); // chatbot, select
   const [createLoading, setCreateLoading] = useState(false);
   const [finalPrompt, setFinalPrompt] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const { data: userData, refetch } = useUserDetail();
+
+  // 사용자 생성 상태 확인 함수
+  const checkUserCreatingStatus = async () => {
+    try {
+      await refetch(); // 사용자 정보 다시 조회
+      if (userData && userData.is_creating) {
+        setShowErrorModal(true);
+        return true; // 생성 중이면 true 반환
+      }
+      return false; // 생성 중이 아니면 false 반환
+    } catch (error) {
+      console.error('유저 정보 조회 실패:', error);
+      return false;
+    }
+  };
+
+  // 시작 페이지에서 다음 페이지로 이동하는 핸들러
+  const handleStartPageNext = async () => {
+    const isCreating = await checkUserCreatingStatus();
+    if (!isCreating) {
+      setPageNumber(0);
+    }
+  };
+
   // 회원가입이나 지갑 연결이 필요한 단계(예: pageNumber가 0 이상)에서는 검사
   useEffect(() => {
     if (pageNumber >= 0 && (!walletAddress || !isRegistered)) {
@@ -89,12 +118,21 @@ const Create = () => {
 
   if (pageNumber === -1)
     return (
-      <GetStarted
-        handler={() => setPageNumber(0)}
-        createPossibleCount={createPossibleCount}
-        setCreateMode={setCreateMode}
-        setSelectedLanguage={setSelectedLanguage}
-      />
+      <>
+        <GetStarted
+          handler={handleStartPageNext}
+          createPossibleCount={createPossibleCount}
+          setCreateMode={setCreateMode}
+          setSelectedLanguage={setSelectedLanguage}
+        />
+        {showErrorModal && (
+          <ErrorModal
+            title="Create Modal"
+            message="Song generation is in progress. You can proceed after it's done."
+            setShowErrorModal={setShowErrorModal}
+          />
+        )}
+      </>
     );
 
   const isLyricPage = pageNumber === 0;

@@ -69,6 +69,7 @@ const NftItemDetailInfo = ({ id }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cancelNft, setCancelNft] = useState(null);
+  const [nftAction, setNftAction] = useState('');
   const [cancelSuccess, setCancelSuccess] = useState(false);
 
   const [isShareModal, setIsShareModal] = useState(false);
@@ -109,13 +110,15 @@ const NftItemDetailInfo = ({ id }) => {
     // 로그인된 경우 원래 동작 실행
     switch (action) {
       case 'buy':
-        navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
+        // navigate(`/mint/detail/${nftDetailData?.song_id}/${nftDetailData?.id}/buy`);
+        setNftAction(action);
         break;
       case 'sell':
         navigate(`/nft/sell/detail/${nftDetailData?.song_id}/${nftDetailData?.id}`);
         break;
       case 'cancel':
-        setCancelNft(true);
+        // setCancelNft(true);
+        setNftAction(action);
         break;
       default:
         break;
@@ -363,16 +366,18 @@ const NftItemDetailInfo = ({ id }) => {
           </div>
         </section>
       </div>
-      {cancelNft && (
+      {nftAction && (
         <NftConfirmModal
-          setShowModal={setCancelNft}
+          setShowModal={setNftAction}
           setShowSuccessModal={setCancelSuccess}
           title="Confirm"
-          confirmSellTxt={false}
-          confirmMintTxt={false}
-          confirmCancelTxt={true}
+          confirmBuyTxt={nftAction === 'buy'}
+          confirmSellTxt={nftAction === 'sell'}
+          confirmMintTxt={nftAction === 'mint'}
+          confirmCancelTxt={nftAction === 'cancel'}
           nftId={nftDetailData.id}
           nftName={nftDetailData.nft_name}
+          nftData={nftDetailData}
           listingId={nftDetailData?.listing_id}
           onSuccess={() => {
             setCancelSuccess(false);

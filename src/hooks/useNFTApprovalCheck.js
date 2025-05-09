@@ -7,7 +7,7 @@ export const useNFTApprovalCheck = () => {
   console.log('1번 실행');
   const walletAddress = useWalletAddress();
 
-  const { data: nftApprovalCheckData } = useReadContract({
+  const { data: nftApprovalCheckData, error } = useReadContract({
     contract: musicNftContract,
     method: 'function isApprovedForAll(address owner, address operator) view returns (bool)',
     params: [walletAddress, MARKET_PLACE_CONTRACT_ADDRESS],

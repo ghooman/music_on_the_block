@@ -65,9 +65,9 @@ const Nft = () => {
       <ContentWrap title="TOP NFTs" link="/nft/list?category=NFT+items&page=1">
         <NftItemList data={nftList} />
       </ContentWrap>
-      <ContentWrap title="Popular Collection" link="/nft/list?category=Collections&page=1">
+      {/* <ContentWrap title="Popular Collection" link="/nft/list?category=Collections&page=1">
         <CollectionItemList data={collectionList} />
-      </ContentWrap>
+      </ContentWrap> */}
       <ContentWrap title="Popular Genre">
         <NftSlider />
       </ContentWrap>

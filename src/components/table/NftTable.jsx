@@ -55,7 +55,7 @@ const NftTable = ({
                 <TableItem.Type image={songTypeIcon} />
                 <TableItem.Grade grade={item.nft_rating} />
                 <TableItem.Text text={item.nft_name} />
-                {collectionOption && <TableItem.Text text={item.connect_collection_name} />}
+                {collectionOption && <TableItem.Text text={item.connect_collection_name || '-'} />}
                 {buyerOption && (
                   <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
                 )}

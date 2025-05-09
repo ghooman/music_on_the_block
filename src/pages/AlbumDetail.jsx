@@ -33,6 +33,7 @@ import IntroLogo3 from '../components/IntroLogo3';
 import { WalletConnect } from '../components/WalletConnect';
 import SongReleaseModal from '../components/SongReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
+import NftConfirmModal from '../components/NftConfirmModal';
 
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -62,6 +63,9 @@ function AlbumDetail() {
   const [isPlaying, setIsPlaying] = useState(false);
   const playCountRef = useRef(false);
   const [prevTime, setPrevTime] = useState(0);
+
+  // NFT 액션 정의
+  const [nftAction, setNftAction] = useState('');
 
   // 댓글 영역 스크롤 이동을 위한 ref
   const commentRef = useRef(null);
@@ -299,19 +303,20 @@ function AlbumDetail() {
       case 'release':
         setIsReleaseModal(true);
         break;
-      case 'mint':
-        navigate(`/mint/detail/${album?.id}/0/mint`);
-        break;
       case 'sell':
         navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`);
         break;
       case 'cancel':
         navigate(`/nft/detail/${album?.nft_id}`);
         break;
-      case 'buy':
-        navigate(`/mint/detail/${album?.id}/${album?.nft_id}/buy`);
-        break;
+      // case 'mint':
+      //   setNftAction(action);
+      //   break;
+      // case 'buy':
+      //   navigate(`/mint/detail/${album?.id}/${album?.nft_id}/buy`);
+      //   break;
       default:
+        setNftAction(action);
         break;
     }
   };
@@ -342,6 +347,18 @@ function AlbumDetail() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const onSuccess = () => {
+    const onSuccessMint = () => {
+      navigate('/nft');
+    };
+    const onSuccessBuy = () => {
+      navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+    };
+
+    if (nftAction === 'mint') onSuccessMint();
+    else if (nftAction === 'buy') onSuccessBuy();
+  };
 
   return (
     <>
@@ -620,7 +637,7 @@ function AlbumDetail() {
                     </div>
                   </>
                 )}
-                {/* {!album?.is_owner && (
+                {!album?.is_owner && (
                   <button
                     className="album-detail__control-button buy-button"
                     disabled={
@@ -630,7 +647,7 @@ function AlbumDetail() {
                   >
                     Buy NFT
                   </button>
-                )} */}
+                )}
               </div>
             </div>
           </div>
@@ -737,6 +754,20 @@ function AlbumDetail() {
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}
+      {nftAction && (
+        <NftConfirmModal
+          title="Confirm"
+          setShowModal={setNftAction}
+          confirmMintTxt={nftAction === 'mint'}
+          confirmBuyTxt={nftAction === 'buy'}
+          confirmSellTxt={nftAction === 'sell'}
+          confirmCancelTxt={nftAction === 'cancel'}
+          songId={album?.id}
+          setShowSuccessModal={() => null}
+          onSuccess={() => onSuccess()}
+          nftData={album}
+        />
+      )}
     </>
   );
 }

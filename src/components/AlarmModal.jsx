@@ -10,6 +10,7 @@ const AlarmModal = () => {
   const albumIdStorageKey = 'generatedAlbumId';
   const albumTimerStorageKeyBase = 'generatedAlbumTimerStart';
   const RECONNECT_INTERVAL = 3000;
+  const MAX_GENERATION_TIME = 600; // 10분(600초) 최대 생성 시간
 
   const getStoredAlbumData = () => {
     try {
@@ -69,6 +70,23 @@ const AlarmModal = () => {
     } catch (err) {
       console.error('시간 포맷팅 오류:', err);
       return '00:00';
+    }
+  };
+
+  // 타이머가 10분을 초과했을 때 자동 완료 처리
+  const handleAutoComplete = () => {
+    if (storedAlbumData && !albumPk && !isError) {
+      setAlbumPk(storedAlbumData.id);
+      setAlbumWalletAddress(walletAddress?.address);
+      localStorage.removeItem(albumIdStorageKey);
+
+      // 앨범 ID별 타이머 키 제거
+      if (storedAlbumData?.id) {
+        localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
+      } else {
+        localStorage.removeItem(albumTimerStorageKeyBase);
+      }
+      setStoredAlbumData(null);
     }
   };
 
@@ -133,6 +151,11 @@ const AlarmModal = () => {
             if (!isNaN(startTime)) {
               const diffSeconds = Math.floor((Date.now() - startTime) / 1000);
               setElapsedSeconds(diffSeconds);
+
+              // 10분(600초)이 지나면 자동으로 완료 처리
+              if (diffSeconds >= MAX_GENERATION_TIME) {
+                handleAutoComplete();
+              }
             } else {
               initializeTimer();
             }

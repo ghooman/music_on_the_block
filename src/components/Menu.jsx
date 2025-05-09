@@ -198,14 +198,14 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(usdtBalance)}</p>
+                          <p>{usdtBalance}</p>
                           <span>
                             <img src={usdtIcon} alt="usdt icon" />
                             USDT
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(usdcBalance)}</p>
+                          <p>{usdcBalance}</p>
                           <span>
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC

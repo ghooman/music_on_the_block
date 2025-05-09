@@ -1,12 +1,12 @@
-import "../styles/AlbumDetail.scss";
-import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import axios from "axios";
-import { CommentSection } from "react-comments-section";
-import "react-comments-section/dist/index.css"; // 기본 스타일
-import "./AdvancedCommentComponent.scss"; // 다크 테마 스타일 추가
-import { useUserDetail } from "../hooks/useUserDetail";
-import defaultCoverImg from "../assets/images/header/logo.svg";
+import '../styles/AlbumDetail.scss';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import axios from 'axios';
+import { CommentSection } from 'react-comments-section';
+import 'react-comments-section/dist/index.css'; // 기본 스타일
+import './AdvancedCommentComponent.scss'; // 다크 테마 스타일 추가
+import { useUserDetail } from '../hooks/useUserDetail';
+import defaultCoverImg from '../assets/images/header/logo.svg';
 
 const AdvancedCommentComponent = ({ id }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -18,14 +18,14 @@ const AdvancedCommentComponent = ({ id }) => {
   const fetchCommentList = async () => {
     try {
       const response = await axios.get(`${serverApi}/api/music/${id}/comment`);
-      const transformedComments = response.data.map((item) => ({
+      const transformedComments = response.data.map(item => ({
         userId: item.wallet_address, // wallet_address를 식별자로 사용
         comId: item.id,
         fullName: item.name,
         avatarUrl: item.profile || defaultCoverImg,
         text: item.comment,
         timestamp: item.create_dt,
-        replies: item.comment_list.map((reply) => ({
+        replies: item.comment_list.map(reply => ({
           userId: reply.wallet_address, // 대댓글에서도 wallet_address 사용
           comId: `${reply.id}_${new Date(reply.create_dt).getTime()}`,
           fullName: reply.name,
@@ -39,7 +39,7 @@ const AdvancedCommentComponent = ({ id }) => {
       // console.log("fetchCommentList res", response);
       // console.log("fetchCommentList", transformedComments);
     } catch (error) {
-      console.error("코멘트 리스트 가져오기 에러:", error);
+      console.error('코멘트 리스트 가져오기 에러:', error);
     }
   };
 
@@ -49,7 +49,7 @@ const AdvancedCommentComponent = ({ id }) => {
   }, [id, serverApi]);
 
   // 상위 댓글 작성 함수 (onSubmitAction)
-  const handleCommentSubmit = async (commentData) => {
+  const handleCommentSubmit = async commentData => {
     try {
       const response = await axios.post(
         `${serverApi}/api/music/${id}/comment?comment=${commentData.text}`,
@@ -58,16 +58,16 @@ const AdvancedCommentComponent = ({ id }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("handleCommentSubmit", response.data);
+      console.log('handleCommentSubmit', response.data);
       fetchCommentList(); // 댓글 작성 후 최신 데이터 갱신
     } catch (error) {
-      console.error("코멘트 작성 에러:", error);
+      console.error('코멘트 작성 에러:', error);
     }
   };
 
   // 대댓글 작성 함수 (onReplyAction)
-  const handleReplySubmit = async (replyData) => {
-    console.log("replyData", replyData);
+  const handleReplySubmit = async replyData => {
+    console.log('replyData', replyData);
     try {
       const response = await axios.post(
         `${serverApi}/api/music/comment/${replyData.repliedToCommentId}/reply?comment=${replyData.text}`,
@@ -76,16 +76,16 @@ const AdvancedCommentComponent = ({ id }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("handleReplySubmit", response.data);
+      console.log('handleReplySubmit', response.data);
       fetchCommentList(); // 대댓글 작성 후 최신 데이터 갱신
     } catch (error) {
-      console.error("대댓글 작성 에러:", error);
+      console.error('대댓글 작성 에러:', error);
     }
   };
 
   // 코멘트 수정 함수 (onEditAction)
-  const handleEditSubmit = async (editData) => {
-    console.log("editData", editData);
+  const handleEditSubmit = async editData => {
+    console.log('editData', editData);
     try {
       const response = await axios.post(
         `${serverApi}/api/music/comment/${editData.comId}?comment=${editData.text}`,
@@ -94,16 +94,16 @@ const AdvancedCommentComponent = ({ id }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("handleEditSubmit", response.data);
+      console.log('handleEditSubmit', response.data);
       fetchCommentList(); // 수정 후 최신 데이터 갱신
     } catch (error) {
-      console.error("코멘트 수정 에러:", error);
+      console.error('코멘트 수정 에러:', error);
     }
   };
 
   // 코멘트 삭제 함수 추가 (onDeleteAction)
-  const handleDeleteSubmit = async (deleteData) => {
-    console.log("deleteData", deleteData);
+  const handleDeleteSubmit = async deleteData => {
+    console.log('deleteData', deleteData);
     try {
       const response = await axios.delete(
         `${serverApi}/api/music/comment/${deleteData.comIdToDelete}`,
@@ -111,10 +111,10 @@ const AdvancedCommentComponent = ({ id }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("handleDeleteSubmit", response.data);
+      console.log('handleDeleteSubmit', response.data);
       fetchCommentList(); // 삭제 후 최신 데이터 갱신
     } catch (error) {
-      console.error("코멘트 삭제 에러:", error);
+      console.error('코멘트 삭제 에러:', error);
     }
   };
 
@@ -128,17 +128,17 @@ const AdvancedCommentComponent = ({ id }) => {
         }}
         advancedInput={true}
         commentData={comments}
-        placeholder="Write a comment..."
-        onSubmitAction={(commentData) => {
+        placeHolder="Write a comment..."
+        onSubmitAction={commentData => {
           handleCommentSubmit(commentData);
         }}
-        onReplyAction={(replyData) => {
+        onReplyAction={replyData => {
           handleReplySubmit(replyData);
         }}
-        onEditAction={(editData) => {
+        onEditAction={editData => {
           handleEditSubmit(editData);
         }}
-        onDeleteAction={(deleteData) => {
+        onDeleteAction={deleteData => {
           handleDeleteSubmit(deleteData);
         }}
       />

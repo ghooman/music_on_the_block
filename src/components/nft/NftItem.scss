@@ -57,6 +57,10 @@
   width: 100%;
   border: 1px solid transparent;
   transition: 0.3s;
+  &.collections {
+    align-items: center;
+  }
+
   &.active {
     border: 1px solid #cf0;
   }
@@ -128,9 +132,9 @@
     font-size: 12px;
   }
 
-  .nft-item__desc {
+  .nft-item__title {
     max-height: 42px;
-    min-height: 30px;
+    // min-height: 30px;
     overflow: hidden;
     color: #f1f1f1;
     font-family: Inter400;
@@ -142,19 +146,35 @@
     overflow: hidden;
   }
 
-  .nft-item__title {
+  .nft-item__sub-title {
     color: #aaa;
     font-family: Inter400;
     font-size: 10px;
-    letter-spacing: 0.3px;
   }
 
   .nft-collection-item__title {
-    min-height: 34px;
+    // min-height: 34px;
     color: #f1f1f1;
     text-align: center;
     font-family: Inter700;
     font-size: 14px;
+  }
+
+  .nft-item__user-data {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .nft-item__user-data--image {
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+  .nft-item__user-data--name {
+    color: #aaa;
+    font-size: 12px;
+    font-family: Inter400;
   }
 
   .nft-item__username {

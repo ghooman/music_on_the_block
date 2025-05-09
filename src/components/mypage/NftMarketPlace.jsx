@@ -22,7 +22,7 @@ import { getNftsList, getNftTransactionHistory } from '../../api/nfts/nftsListAp
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
-  { name: 'Collection', preparing: false },
+  { name: 'Collections', preparing: false },
   { name: 'History', preparing: false },
 ];
 
@@ -58,7 +58,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
       {tab === 'NFT items' && (
         <NftItems token={token} username={username} isMyProfile={isMyProfile} />
       )}
-      {tab === 'Collection' && (
+      {tab === 'Collections' && (
         <CollectionItems token={token} username={username} isMyProfile={isMyProfile} />
       )}
       {tab === 'History' && <History username={username} isMyProfile={isMyProfile} />}
@@ -117,7 +117,7 @@ const NftItems = ({ username, isMyProfile }) => {
       <ContentWrap title="NFTs list">
         <ContentWrap.SubWrap gap={8}>
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
-          <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
+          <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <NftTable
           saleOption={isMyProfile}
@@ -158,7 +158,7 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
     <ContentWrap title="Collection list">
       <ContentWrap.SubWrap gap={8}>
         <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
-        <Search placeholder="Search by Item or Affiliated Collection..." reset={{ page: 1 }} />
+        <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
       </ContentWrap.SubWrap>
       <CollectionTable collectionList={data?.data_list} />
       <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />

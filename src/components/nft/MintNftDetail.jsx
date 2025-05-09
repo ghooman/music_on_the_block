@@ -4,14 +4,13 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import 'react-h5-audio-player/lib/styles.css';
-
+import axios from 'axios';
 // 🧠 컨텍스트
 import { AuthContext } from '../../contexts/AuthContext';
 
 // 📦 API
 import { getMyNftCollections } from '../../api/nfts/nftCollectionsApi';
 import { getNftDetail } from '../../api/nfts/nftDetailApi';
-
 // 💻 컴포넌트
 import ContentWrap from '../unit/ContentWrap';
 import Search from '../unit/Search';
@@ -34,6 +33,7 @@ import editIcon from '../../assets/images/edit.svg';
 function MintNftDetail() {
   const { token, walletAddress } = useContext(AuthContext);
   const { id, nft_id, status } = useParams();
+  const serverApi = process.env.REACT_APP_SERVER_API;
   const { ref, inView } = useInView({ threshold: 1.0 });
 
   const [searchParams] = useSearchParams();
@@ -52,12 +52,25 @@ function MintNftDetail() {
 
   const search = searchParams.get('search');
   const collectionSort = searchParams.get('collection_sort');
+  // 노래 정보 조회하기
+  const { data: songData, isLoading: songLoading } = useQuery(
+    ['song_data_for_mint', id],
+    async () => {
+      const res = await axios.get(
+        `${serverApi}/api/music/${id}?wallet_address=${walletAddress?.address}`
+      );
+      return res.data;
+    }
+  );
+
+  console.log(songData, 'songData');
 
   // NFT 검사
   const { data: nftData, isLoading: nftLoading } = useQuery(
     ['nft_data_for_mint', id, nft_id],
     async () => {
       const res = await getNftDetail({ nft_id: nft_id, wallet_address: walletAddress?.address });
+      console.log(res, 'nftData');
       return res.data;
     },
     {
@@ -145,17 +158,18 @@ function MintNftDetail() {
         <NftConfirmModal
           setShowModal={setMintNftModal}
           setShowSuccessModal={setShowSuccessModal}
-          title="Confirm Mint"
+          title="Confirm"
           confirmSellTxt={false}
           confirmMintTxt={true}
           songId={id}
+          songData={songData}
           selectedCollection={selectedCollection}
         />
       )}
       {showSuccessModal && (
         <NftConfirmSuccessModal
           setShowSuccessModal={setShowSuccessModal}
-          title="To mint your song, create or select a collection."
+          title="Your song has been minted as an NFT!"
         />
       )}
       {showCollectionModal && (
@@ -165,8 +179,10 @@ function MintNftDetail() {
         />
       )}
       {buyNftModal && (
-        <BuyNftModal
-          setBuyNftModal={setBuyNftModal}
+        <NftConfirmModal
+          setShowModal={setBuyNftModal}
+          title="Confirm"
+          confirmBuyTxt={true}
           nftData={nftData}
           selectedCollection={selectedCollection}
         />

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
-import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
 import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
@@ -38,7 +38,7 @@ const NftTable = ({
           <TableHeader.Col>Type</TableHeader.Col>
           <TableHeader.Col>Grade</TableHeader.Col>
           <TableHeader.Col>Item</TableHeader.Col>
-          {collectionOption && <TableHeader.Col>Collection</TableHeader.Col>}
+          {/* {collectionOption && <TableHeader.Col>Collection</TableHeader.Col>} */}
           {buyerOption && <TableHeader.Col>Buyer</TableHeader.Col>}
           {sellerOption && <TableHeader.Col>Seller</TableHeader.Col>}
           <TableHeader.Col>Price</TableHeader.Col>
@@ -55,7 +55,7 @@ const NftTable = ({
                 <TableItem.Type image={songTypeIcon} />
                 <TableItem.Grade grade={item.nft_rating} />
                 <TableItem.Text text={item.nft_name} />
-                {collectionOption && <TableItem.Text text={item.connect_collection_name} />}
+                {/* {collectionOption && <TableItem.Text text={item.connect_collection_name || '-'} />} */}
                 {buyerOption && (
                   <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
                 )}
@@ -141,7 +141,7 @@ const NftTable = ({
         <NftConfirmModal
           setShowModal={setShowNftConfirmModal}
           setShowSuccessModal={handleCancelSuccess}
-          title="Confirm cancel NFT sale"
+          title="Confirm"
           confirmSellTxt={false}
           confirmMintTxt={false}
           confirmCancelTxt={true}

@@ -1,10 +1,10 @@
 import './GetStarted.scss';
 import { useState } from 'react';
-import ExpandedButton from './ExpandedButton';
 import { WalletConnect } from '../WalletConnect';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
+
 const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLanguage }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
@@ -65,57 +65,6 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
-      {/* <section className="create__get-started--format ">
-        <article className="create__get-started--format-item active">
-          <h3 className="create__get-started--format-item-title">
-            &lt;Chatbot Format&gt;
-          </h3>
-          <p className="create__get-started--format-item-txt">
-            Chat with AI to create your own song.
-            <span>* Keywords: AI Chatbot · Conversation · Flow</span>
-          </p>
-          <div className="create__get-started--format-item-select">
-            <p className="create__get-started--format-item-select-title">Language selection</p>
-            <div className="create__get-started--format-item-select-items">
-            <div class="container">
-              <div class="radio">
-                <input id="radio-1" name="radio" type="radio" checked/>
-                <label for="radio-1" class="radio-label">한국어</label>
-              </div>
-              <div class="radio">
-                <input id="radio-2" name="radio" type="radio"/>
-                <label  for="radio-2" class="radio-label">English</label>
-              </div>
-            </div>
-            </div>
-          </div>
-        </article>
-        <article className="create__get-started--format-item">
-          <h3 className="create__get-started--format-item-title">
-            &lt;General Format&gt;
-          </h3>
-          <p className="create__get-started--format-item-txt">
-            Select and input to create your own song.
-            <span>* Keywords: Selection · Input · Control</span>
-          </p>
-          <div className="create__get-started--format-item-select">
-            <p className="create__get-started--format-item-select-title">Language selection</p>
-            <div className="create__get-started--format-item-select-items">
-            <div class="container">
-              <div class="radio">
-                <input id="radio-1" name="radio" type="radio" checked/>
-                <label for="radio-1" class="radio-label">한국어</label>
-              </div>
-              <div class="radio">
-                <input id="radio-2" name="radio" type="radio"/>
-                <label  for="radio-2" class="radio-label">English</label>
-              </div>
-            </div>
-            </div>
-          </div>
-        </article>
-      </section> */}
-
       <section className="create__get-started--format">
         {formats.map((format, idx) => (
           <article
@@ -156,26 +105,6 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
         ))}
       </section>
 
-      {/* <div className="create__btn">
-        {isRegistered && activeIndex !== null ? (
-          <ExpandedButton
-            className={`create__get-started--button ${
-              createPossibleCount === 0 ? "disabled" : ""
-            }`}
-            onClick={() => {
-              const mode = activeIndex === 0 ? "chatbot" : "select";
-              handler();
-              setCreateMode(mode);
-            }}
-            disabled={createPossibleCount === 0}
-          >
-            Create
-          </ExpandedButton>
-        ) : (
-          <WalletConnect onConnect={handleWalletConnect} />
-        )}
-      </div> */}
-
       <div className="create__btn">
         {isRegistered ? (
           <button
@@ -185,55 +114,17 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
             onClick={() => {
               if (activeIndex === null) return; // 포맷 선택 전이면 동작 막음
               const mode = activeIndex === 0 ? 'chatbot' : 'select';
-              handler();
               setCreateMode(mode);
+              handler();
             }}
             disabled={createPossibleCount === 0 || activeIndex === null}
           >
-            {/* {activeIndex === 0
-              ? "ChatBot Create"
-              : activeIndex === 1
-              ? "General Create"
-              : "Select Format"} */}
             Create
           </button>
         ) : (
           <WalletConnect onConnect={handleWalletConnect} />
         )}
       </div>
-
-      {/* {isRegistered ? (
-        <ExpandedButton
-          className={`create__get-started--button ${
-            createPossibleCount === 0 ? "disabled" : ""
-          }`}
-          onClick={() => {
-            handler();
-            setCreateMode("select");
-          }}
-          disabled={createPossibleCount === 0}
-        >
-          Create
-        </ExpandedButton>
-      ) : (
-        <WalletConnect onConnect={handleWalletConnect} />
-      )}
-      {isRegistered ? (
-        <ExpandedButton
-          className={`create__get-started--button ${
-            createPossibleCount === 0 ? "disabled" : ""
-          }`}
-          onClick={() => {
-            handler();
-            setCreateMode("chatbot");
-          }}
-          disabled={createPossibleCount === 0}
-        >
-          ChatBot Create
-        </ExpandedButton>
-      ) : (
-        <WalletConnect onConnect={handleWalletConnect} />
-      )} */}
     </div>
   );
 };

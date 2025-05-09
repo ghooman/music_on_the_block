@@ -448,14 +448,17 @@ const NftConfirmModal = ({
           Cancel
         </button>
         {confirmMintTxt && (
-          <button className="confirm-modal__btns__ok" onClick={handleMint}>
+          <button 
+            className={`confirm-modal__btns__ok ${isLoading ? ' disabled' : ''}`}
+            onClick={handleMint}
+          >
             {isLoading || polygonDisabled ? <Loading /> : 'Mint'}
           </button>
         )}
 
         {confirmSellTxt && (
           <button
-            className={`confirm-modal__btns__ok ${agree ? '' : 'disabled'}`}
+            className={`confirm-modal__btns__ok ${agree ||  isLoading ? 'disabled' : ''}`}
             onClick={handleSell}
           >
             {isLoading || polygonDisabled ? <Loading /> : 'Sell'}

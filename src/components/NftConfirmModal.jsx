@@ -196,13 +196,18 @@ const NftConfirmModal = ({
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      const match = error.message.match(/{.*}/);
-      setErrorMessage(
-        error?.response?.data?.detail ||
-          error?.message ||
-          (match && JSON.parse(match?.[0]))?.message ||
-          'Error'
-      );
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
+
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
+
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
     } finally {
       setIsLoading(false);
     }
@@ -243,16 +248,18 @@ const NftConfirmModal = ({
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      const match = error.message.match(/{.*}/);
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
 
-      console.log(error, '에러 매치');
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
 
-      setErrorMessage(
-        (match && JSON.parse(match?.[0]))?.message ||
-          error?.response?.data?.detail ||
-          error?.message ||
-          'Error'
-      );
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
     } finally {
       setIsLoading(false);
     }
@@ -263,49 +270,27 @@ const NftConfirmModal = ({
   // 토큰 허용량 확인
   useEffect(() => {
     if (!confirmBuyTxt || !nftData?.price) return;
+  }, [nftData, confirmBuyTxt]);
 
-    const checkAllowance = async () => {
-      try {
-        let currentAllowance = 0;
+  let currentAllowance = 0;
 
-        // 토큰 종류에 따라 허용량 설정
-        switch (nftData?.sales_token) {
-          case 'MOB':
-            currentAllowance = mobAllowanceData || 0;
-            break;
-          case 'POL':
-            currentAllowance = polAllowanceData || 0;
-            break;
-          case 'USDT':
-            currentAllowance = usdtAllowanceData || 0;
-            break;
-          case 'USDC':
-            currentAllowance = usdcAllowanceData || 0;
-            break;
-          default:
-            currentAllowance = 0;
-        }
-
-        if (currentAllowance && Number(currentAllowance) >= Number(nftData.price)) {
-          setNeedsApproval(false);
-        } else {
-          setNeedsApproval(true);
-        }
-      } catch (error) {
-        console.error('Error checking allowance:', error);
-        setNeedsApproval(true);
-      }
-    };
-
-    checkAllowance();
-  }, [
-    nftData,
-    mobAllowanceData,
-    polAllowanceData,
-    usdtAllowanceData,
-    usdcAllowanceData,
-    confirmBuyTxt,
-  ]);
+  // 토큰 종류에 따라 허용량 설정
+  switch (nftData?.sales_token) {
+    case 'MOB':
+      currentAllowance = mobAllowanceData;
+      break;
+    case 'POL':
+      currentAllowance = polAllowanceData;
+      break;
+    case 'USDT':
+      currentAllowance = usdtAllowanceData;
+      break;
+    case 'USDC':
+      currentAllowance = usdcAllowanceData;
+      break;
+    default:
+      currentAllowance = 0;
+  }
 
   // 토큰 종류에 따라 적절한 approve 함수 호출
   const approveToken = async () => {
@@ -360,24 +345,8 @@ const NftConfirmModal = ({
 
     try {
       // 1번 어프로브 체크
-      if (needsApproval) {
-        setIsApproving(true);
-        try {
-          await approveToken();
-          setNeedsApproval(false);
-          setIsApproving(false);
-        } catch (error) {
-          const match = error.message.match(/{.*}/);
-          setErrorMessage(
-            (match && JSON.parse(match?.[0]))?.message ||
-              error?.response?.data?.detail ||
-              error?.message ||
-              'Error during approval'
-          );
-          setIsApproving(false);
-          setIsLoading(false);
-          return;
-        }
+      if (currentAllowance < nftData.price) {
+        await approveToken();
       }
       // 2번 구매 진행 (리스팅 발급)
       const tx_id = await buyFromListing(
@@ -393,13 +362,18 @@ const NftConfirmModal = ({
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      const match = error.message.match(/{.*}/);
-      setErrorMessage(
-        (match && JSON.parse(match?.[0]))?.message ||
-          error?.response?.data?.detail ||
-          error?.message ||
-          'Error'
-      );
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
+
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
+
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
       console.log(error, '구매 에러');
     } finally {
       setIsLoading(false);
@@ -491,7 +465,7 @@ const NftConfirmModal = ({
           <button
             className="confirm-modal__btns__ok"
             onClick={handleBuy}
-            disabled={!agree || isLoading || isApproving || polygonDisabled}
+            disabled={!agree || isLoading || polygonDisabled}
           >
             {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
           </button>

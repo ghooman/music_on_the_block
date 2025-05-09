@@ -125,7 +125,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const formatNumbers = value => {
     const numbers = Number(value);
     if (isNaN(numbers) || numbers <= 0) return 0;
-    else return numbers.toFixed(3);
+    else return numbers.toFixed(2);
   };
 
   return (
@@ -177,13 +177,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(polBalance)}</p>
-                          <span>
-                            <img src={polIcon} alt="mob icon" />
-                            POL
-                          </span>
-                        </div>
-                        <div className="menu__box__my-page__info__bottom__box">
                           <p>{formatNumbers(mobBalance)}</p>
                           <span>
                             <img src={mobIcon} alt="mob icon" />
@@ -195,6 +188,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           <span>
                             <img src={micIcon} alt="mic icon" />
                             MIC
+                          </span>
+                        </div>
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>{formatNumbers(polBalance)}</p>
+                          <span>
+                            <img src={polIcon} alt="mob icon" />
+                            POL
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">

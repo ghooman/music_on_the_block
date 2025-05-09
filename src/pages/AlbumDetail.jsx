@@ -31,7 +31,8 @@ import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
 import { WalletConnect } from '../components/WalletConnect';
-import SongReleaseModal from '../components/SongReleaseModal';
+// import SongReleaseModal from '../components/SongReleaseModal';
+import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
 
@@ -735,10 +736,10 @@ function AlbumDetail() {
       )}
       {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       {isReleaseModal && (
-        <SongReleaseModal
+        <SongDeleteAndReleaseModal
           songData={album}
-          setSongReleaseModal={setIsReleaseModal}
-          handler={handleRelease}
+          setter={setIsReleaseModal}
+          releaseHander={handleRelease}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}

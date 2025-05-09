@@ -17,8 +17,7 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import Loading from '../../components/IntroLogo2';
-import SongDeleteModal from '../../components/SongDeleteModal';
-import SongReleaseModal from '../../components/SongReleaseModal';
+import SongDeleteAndReleaseModal from '../SongDeleteAndReleaseModal';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
@@ -134,17 +133,17 @@ const Songs = ({ token }) => {
       </ContentWrap>
       {(topSongLoading || songsListLoading) && <Loading />}
       {deleteMusic && (
-        <SongDeleteModal
-          setSongDeleteModal={setDeleteMusic}
+        <SongDeleteAndReleaseModal
+          setter={setDeleteMusic}
           songData={deleteMusic}
-          handler={handleDelete}
+          deleteHandler={handleDelete}
         />
       )}
       {releaseMusic && (
-        <SongReleaseModal
-          setSongReleaseModal={setReleaseMusic}
+        <SongDeleteAndReleaseModal
+          setter={setReleaseMusic}
           songData={releaseMusic}
-          handler={handleRelease}
+          releaseHander={handleRelease}
         />
       )}
     </div>

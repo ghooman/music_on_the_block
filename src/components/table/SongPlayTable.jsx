@@ -171,6 +171,7 @@ const SongPlayTable = ({
                       <TableItem.Button
                         title="Delete"
                         type="delete"
+                        disabled={item.is_nft}
                         handleClick={e => {
                           e.stopPropagation();
                           handleDelete(item);

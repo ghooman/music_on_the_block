@@ -69,6 +69,9 @@
       } //album__content-list__tab__item--END--
     } //album__content-list__tab--END--
     .album__content-list__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       color: var(--primary-base, #cf0);
       font-family: Orbitron400;
       font-size: 24px;
@@ -76,7 +79,8 @@
       line-height: normal;
       margin: 16px 0;
       position: relative;
-      display: inline-block;
+      width: 100%;
+      // display: inline-block;
       &::after {
         content: "";
         position: absolute;
@@ -96,14 +100,14 @@
     } //album__content-list__list--END--
     .album__content-list__see-more-btn {
       color: var(--Text-music-sub, #aaa);
-      text-align: right;
+      // text-align: right;
       font-family: Orbitron500;
       font-size: 14px;
       font-style: normal;
       line-height: 100%; /* 14px */
-      margin-top: 24px;
+      // margin-top: 24px;
       margin-left: auto;
-      display: inline-block;
+      // display: inline-block;
       float: right;
       position: relative;
       &::after {
@@ -432,7 +436,13 @@
 
 @media screen and (max-width: 600px) {
   .main {
+    
     .album__content-list {
+      .album__content-list__title{
+        flex-direction: column;
+        align-items: start;
+        gap: 16px;
+      }
       .album__content-list__list {
         grid-template-columns: repeat(1, 1fr);
       }

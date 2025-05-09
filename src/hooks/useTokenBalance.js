@@ -33,13 +33,14 @@ export const useTokenBalance = () => {
     params: [walletAddress],
   });
 
-  const toEther = wei => (wei ? (Number(wei) / 10 ** 18).toFixed(2) : '0.00');
+  const toDecimal = (wei, decimals = 18) =>
+    wei ? (Number(wei) / 10 ** decimals).toFixed(2) : '0.00';
 
   return {
-    mobBalance: toEther(mobData),
-    polBalance: toEther(polData),
-    usdtBalance: toEther(usdtData),
-    usdcBalance: toEther(usdcData),
+    mobBalance: toDecimal(mobData, 18),
+    polBalance: toDecimal(polData, 18),
+    usdtBalance: toDecimal(usdtData, 6),
+    usdcBalance: toDecimal(usdcData, 6),
     refetchAll: () => {
       refetchMob();
       refetchPol();

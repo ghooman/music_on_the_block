@@ -60,9 +60,9 @@ const Nft = () => {
       <NftExchange navigate={navigate} />
       <Search
         placeholder="Search"
-        handler={search => navigate(`/nft/list?category?=NFT+items&page=1&search=${search}`)}
+        handler={search => navigate(`/nft/list?category?=NFT+Items&page=1&search=${search}`)}
       />
-      <ContentWrap title="TOP NFTs" link="/nft/list?category=NFT+items&page=1">
+      <ContentWrap title="TOP NFTs" link="/nft/list?category=NFT+Items&page=1">
         <NftItemList data={nftList} />
       </ContentWrap>
       {/* <ContentWrap title="Popular Collection" link="/nft/list?category=Collections&page=1">

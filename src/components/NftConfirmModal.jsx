@@ -30,7 +30,7 @@ import Loading from './Loading';
 
 const NftConfirmModal = ({
   setShowModal,
-  title,
+  title = 'Confirm',
   confirmSellTxt,
   confirmMintTxt,
   confirmCancelTxt,
@@ -95,9 +95,9 @@ const NftConfirmModal = ({
     try {
       const response = await mintNft2(token, songId, selectedCollection?.id);
       if (response.status === 'success') {
+        if (onSuccess) onSuccess();
         setShowModal(false);
         setShowSuccessModal(true);
-        if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
         setErrorMessage(response);
@@ -396,17 +396,17 @@ const NftConfirmModal = ({
     <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
       <dl>
         {(confirmSellTxt || confirmCancelTxt || confirmBuyTxt) && (
-          <dt>Title: {selectedCollection?.name || nftName}</dt>
+          <dt>Title: {nftData?.title || nftName}</dt>
         )}
         {confirmSellTxt && (
           <dt>
-            Price : {sellPrice} {selectedCoin?.name} ($100)
+            Price: {sellPrice} {selectedCoin?.name} ($ 0)
           </dt>
         )}
-        {confirmMintTxt && <dt>Title: {songData?.title}</dt>}
+        {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title}</dt>}
         {confirmBuyTxt && (
           <dt>
-            Price : {nftData?.price} {nftData?.sales_token} ($100)
+            Price: {nftData?.price} {nftData?.sales_token} ($ 0)
           </dt>
         )}
         <PolygonStatus />
@@ -429,7 +429,12 @@ const NftConfirmModal = ({
         {confirmMintTxt && (
           <div className="confirm-modal__title-wrap">
             <p className="confirm-modal__title-wrap__title">
-              My MIC <span>{micBalance}</span>
+              My MIC{' '}
+              <span>
+                {isNaN(Number(micBalance)) || Number(micBalance) <= 0
+                  ? 0
+                  : Number(micBalance).toFixed(2)}
+              </span>
             </p>
             <p className="confirm-modal__title-wrap__title">
               MIC Fees <span>100</span>
@@ -438,14 +443,13 @@ const NftConfirmModal = ({
         )}
         <dd className="confirm-modal__gas-fee">※ Network fees may apply.</dd>
       </dl>
-
       <div className="confirm-modal__btns">
         <button className="confirm-modal__btns__cancel" onClick={handleClose}>
           Cancel
         </button>
         {confirmMintTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleMint}>
-            {isLoading || polygonDisabled ? <Loading/> : 'Mint'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Mint'}
           </button>
         )}
 
@@ -454,12 +458,12 @@ const NftConfirmModal = ({
             className={`confirm-modal__btns__ok ${agree ? '' : 'disabled'}`}
             onClick={handleSell}
           >
-            {isLoading || polygonDisabled ? <Loading/> : 'Sell'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Sell'}
           </button>
         )}
         {confirmCancelTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleCancel}>
-            {isLoading || polygonDisabled ? <Loading/> : 'Yes, Continue'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Yes, Continue'}
           </button>
         )}
         {confirmBuyTxt && (
@@ -468,7 +472,7 @@ const NftConfirmModal = ({
             onClick={handleBuy}
             disabled={!agree || isLoading || polygonDisabled}
           >
-            {isLoading || polygonDisabled ? <Loading/> : 'Buy NFT'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Buy NFT'}
           </button>
         )}
       </div>

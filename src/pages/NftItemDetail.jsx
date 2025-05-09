@@ -380,6 +380,11 @@ const NftItemDetailInfo = ({ id }) => {
           nftData={nftDetailData}
           listingId={nftDetailData?.listing_id}
           onSuccess={() => {
+            if (nftAction === 'buy') {
+              navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+              return;
+            }
+
             setCancelSuccess(false);
             nftDetailRefetch();
           }}

@@ -305,6 +305,18 @@ const List = ({
   return (
     <section className="album__content-list">
       <p className="album__content-list__title">{title}</p>
+      <Link
+        className="album__content-list__see-more-btn"
+        to={link}
+        onClick={e => {
+          if (!link) {
+            e.preventDefault();
+            setPreparingModal(true);
+          }
+        }}
+      >
+        See More
+      </Link>
       <article className="album__content-list__list">
         {data?.slice(0, 9).map((track, _, list) => (
           <React.Fragment key={`${id}+${track.id}`}>
@@ -321,18 +333,6 @@ const List = ({
           </React.Fragment>
         ))}
       </article>
-      <Link
-        className="album__content-list__see-more-btn"
-        to={link}
-        onClick={e => {
-          if (!link) {
-            e.preventDefault();
-            setPreparingModal(true);
-          }
-        }}
-      >
-        See More
-      </Link>
     </section>
   );
 };

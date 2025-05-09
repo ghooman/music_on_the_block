@@ -454,7 +454,12 @@ const NftConfirmModal = ({
         {confirmMintTxt && (
           <div className="confirm-modal__title-wrap">
             <p className="confirm-modal__title-wrap__title">
-              My MIC <span>{micBalance}</span>
+              My MIC{' '}
+              <span>
+                {isNaN(Number(micBalance) || Number(micBalance) <= 0)
+                  ? 0
+                  : Number(micBalance).toFixed(3)}
+              </span>
             </p>
             <p className="confirm-modal__title-wrap__title">
               MIC Fees <span>100</span>

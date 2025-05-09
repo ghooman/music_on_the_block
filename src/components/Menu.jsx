@@ -120,9 +120,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
 
-  const { mobBalance, polBalance } = useTokenBalance();
+  const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
 
-  console.log(userData, '정글 차이');
+  const formatNumbers = value => {
+    const numbers = Number(value);
+    if (isNaN(numbers) || numbers <= 0) return 0;
+    else return numbers.toFixed(3);
+  };
 
   return (
     <>
@@ -173,35 +177,35 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{polBalance}</p>
+                          <p>{formatNumbers(polBalance)}</p>
                           <span>
                             <img src={polIcon} alt="mob icon" />
                             POL
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{mobBalance}</p>
+                          <p>{formatNumbers(mobBalance)}</p>
                           <span>
                             <img src={mobIcon} alt="mob icon" />
                             MOB
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{micBalance}</p>
+                          <p>{formatNumbers(micBalance)}</p>
                           <span>
                             <img src={micIcon} alt="mic icon" />
                             MIC
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{formatNumbers(usdtBalance)}</p>
                           <span>
                             <img src={usdtIcon} alt="usdt icon" />
                             USDT
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{formatNumbers(usdcBalance)}</p>
                           <span>
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC

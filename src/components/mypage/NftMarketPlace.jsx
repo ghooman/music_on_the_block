@@ -26,7 +26,7 @@ const subCategoryList = [
   { name: 'History', preparing: false },
 ];
 
-const nftFilterItemList = ['All', 'Unlisted', 'Listed'];
+const nftFilterItemList = ['All', 'Listed', 'Unlisted'];
 
 /**
  *

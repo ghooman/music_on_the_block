@@ -116,10 +116,10 @@ TableItem.UserInfo = React.memo(({ image, name }) => {
   );
 });
 
-TableItem.Button = React.memo(({ title, handleClick, type = 'details' }) => {
+TableItem.Button = React.memo(({ title, handleClick, type = 'details', disabled }) => {
   return (
     <td className="table__body--item" style={{ width: 100 }}>
-      <button className={`button ${type}`} onClick={handleClick}>
+      <button className={`button ${type}`} onClick={handleClick} disabled={disabled}>
         {title}
       </button>
     </td>

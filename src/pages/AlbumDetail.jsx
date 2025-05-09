@@ -31,7 +31,8 @@ import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo3 from '../components/IntroLogo3';
 
 import { WalletConnect } from '../components/WalletConnect';
-import SongReleaseModal from '../components/SongReleaseModal';
+// import SongReleaseModal from '../components/SongReleaseModal';
+import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
 
@@ -390,7 +391,10 @@ function AlbumDetail() {
                   autoPlay={true}
                 />
                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img src={album?.cover_image || coverImg} alt="album cover" />
+                  <img
+                    src={album?.cover_image?.replace('public', '280to280') || coverImg}
+                    alt="album cover"
+                  />
                 </p>
               </section>
               <div
@@ -574,17 +578,17 @@ function AlbumDetail() {
                     </Link>
                   </dd>
                 </dl>
+                <div className="album-detail__control-guide">
+                  <p className="album-detail__control-guide--text">NFT Status</p>
+                  <img
+                    className="album-detail__control-guide--icon"
+                    src={issueIcon}
+                    alt="guide"
+                    onClick={() => setAlbumGuideModal(true)}
+                  />
+                </div>
                 {album?.is_owner && (
                   <>
-                    <div className="album-detail__control-guide">
-                      <p className="album-detail__control-guide--text">NFT Status</p>
-                      <img
-                        className="album-detail__control-guide--icon"
-                        src={issueIcon}
-                        alt="guide"
-                        onClick={() => setAlbumGuideModal(true)}
-                      />
-                    </div>
                     <div className="album-detail__control-button-wraps">
                       <button
                         className="album-detail__control-button release-button"
@@ -735,10 +739,10 @@ function AlbumDetail() {
       )}
       {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       {isReleaseModal && (
-        <SongReleaseModal
+        <SongDeleteAndReleaseModal
           songData={album}
-          setSongReleaseModal={setIsReleaseModal}
-          handler={handleRelease}
+          setter={setIsReleaseModal}
+          releaseHander={handleRelease}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}
@@ -756,7 +760,7 @@ function AlbumDetail() {
             if (nftAction === 'buy') {
               navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
             } else if (nftAction === 'mint') {
-              navigate('/nft');
+              fetchAlbumDetail();
             }
           }}
           nftData={album}

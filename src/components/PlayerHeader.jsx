@@ -42,6 +42,13 @@ const PlayerHeader = ({
         ></p>
         <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
       </div>
+      <p className="main__header--mobile-title">
+        {selectedMusic?.title || 'Select an Album'}
+        <span>
+          <img src={selectedMusic?.user_profile || defaultCoverImg} alt="user-profile" />
+          {selectedMusic?.name || 'unKnown'}
+        </span>
+      </p>
       <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">
           <p className="play">

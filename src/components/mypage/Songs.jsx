@@ -17,8 +17,8 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import Loading from '../../components/IntroLogo2';
-import SongDeleteModal from '../../components/SongDeleteModal';
-import SongReleaseModal from '../../components/SongReleaseModal';
+import SongDeleteAndReleaseModal from '../SongDeleteAndReleaseModal';
+import NftConfirmModal from '../NftConfirmModal';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
@@ -40,6 +40,7 @@ const Songs = ({ token }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [deleteMusic, setDeleteMusic] = useState(null);
   const [releaseMusic, setReleaseMusic] = useState(null);
+  const [mintMusic, setMintMusic] = useState(null);
 
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search') || '';
@@ -100,6 +101,14 @@ const Songs = ({ token }) => {
     songListRefetch();
   };
 
+  //=============
+  // 민트
+  //=============
+  const handleMint = async item => {
+    setMintMusic(item);
+  };
+
+  console.log(mintMusic, '민트 뮤직');
   return (
     <div className="songs">
       <TopSongsTemplates topSongsData={topSongsData} />
@@ -124,8 +133,10 @@ const Songs = ({ token }) => {
           releaseOption={releaseType === 'Unreleased songs'}
           gradeOption={releaseType === 'Released songs'}
           nftOption={releaseType === 'Released songs'}
+          mintOption={releaseType === 'Released songs'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
+          handleMint={handleMint}
           playsOption={true}
           likesOption={true}
           artistOption={false}
@@ -134,17 +145,28 @@ const Songs = ({ token }) => {
       </ContentWrap>
       {(topSongLoading || songsListLoading) && <Loading />}
       {deleteMusic && (
-        <SongDeleteModal
-          setSongDeleteModal={setDeleteMusic}
+        <SongDeleteAndReleaseModal
+          setter={setDeleteMusic}
           songData={deleteMusic}
-          handler={handleDelete}
+          deleteHandler={handleDelete}
         />
       )}
       {releaseMusic && (
-        <SongReleaseModal
-          setSongReleaseModal={setReleaseMusic}
+        <SongDeleteAndReleaseModal
+          setter={setReleaseMusic}
           songData={releaseMusic}
-          handler={handleRelease}
+          releaseHander={handleRelease}
+        />
+      )}
+      {mintMusic && (
+        <NftConfirmModal
+          setShowModal={setMintMusic}
+          songId={mintMusic.id}
+          songData={mintMusic}
+          confirmMintTxt={true}
+          onSuccess={() => {
+            songListRefetch();
+          }}
         />
       )}
     </div>

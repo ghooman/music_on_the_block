@@ -9,6 +9,7 @@ import defaultAlbumsImage from '../../../assets/images/intro/mob-album-cover.png
 import { AuthContext } from '../../../contexts/AuthContext';
 import AlbumsDeleteConfirmModal from './AlbumsDeleteConfirmModal';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../Loading';
 
 const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumData }) => {
   const { token } = useContext(AuthContext);
@@ -251,11 +252,12 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
               Cancel
             </button>
             <button
-              className="albums-create-modal__button create-button"
+              // className="albums-create-modal__button create-button"
+              className={`albums-create-modal__button create-button${isLoading ? ' disabled' : ''}`}
               onClick={handleSubmit}
               disabled={isLoading}
             >
-              {isLoading ? 'Loading...' : status === 'edit' ? 'Edit' : 'Create'}
+              {isLoading ? <Loading/> : status === 'edit' ? 'Edit' : 'Create'}
             </button>
           </div>
           {status === 'edit' && (
@@ -268,6 +270,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
           )}
         </div>
       </ModalWrap>
+
     </>
   );
 };

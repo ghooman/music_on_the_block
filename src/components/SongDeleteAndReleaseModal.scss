@@ -1,0 +1,75 @@
+.song-delete-and-release-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  .song-delete-and-release-modal__message--box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .song-delete-and-release-modal__title {
+    color: #f1f1f1;
+    font-family: Inter400;
+  }
+  .song-delete-and-release-modal__message {
+    color: #ffdc55;
+    font-family: Inter400;
+    font-size: 12px;
+  }
+
+  .song-delete-and-release-modal__button-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    .song-delete-and-release-modal__button {
+      position: relative;
+      width: 100%;
+      font-family: Orbitron600;
+      font-size: 16px;
+      transition: 0.2s all;
+      border-radius: 12px;
+      height: 40px;
+
+      &:hover {
+        transform: translateY(5px);
+        &::after {
+          transform: translateY(0px);
+        }
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        top: 0;
+        left: 0;
+        transform: translateY(5px);
+        border-radius: 12px;
+        border: 1px solid;
+        transition: 0.2s all;
+      }
+
+      &.cancel-btn {
+        color: #f1f1f1;
+        background-color: #383838;
+        &::after {
+          border-color: #383838;
+        }
+      }
+      &.delete-btn {
+        color: #1a1a1a;
+        background-color: #cf0;
+        &::after {
+          border-color: #cf0;
+        }
+      }
+    }
+  }
+}

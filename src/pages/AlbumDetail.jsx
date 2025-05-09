@@ -391,7 +391,10 @@ function AlbumDetail() {
                   autoPlay={true}
                 />
                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img src={album?.cover_image || coverImg} alt="album cover" />
+                  <img
+                    src={album?.cover_image?.replace('public', '280to280') || coverImg}
+                    alt="album cover"
+                  />
                 </p>
               </section>
               <div

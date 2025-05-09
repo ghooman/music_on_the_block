@@ -220,6 +220,24 @@
       &::after {
         background: #44000d;
       }
+      &:disabled {
+        color: #565656;
+        cursor: default;
+        &::before {
+          border: 1px solid #2c3a00;
+        }
+        &::after {
+          background-color: #000;
+          border: 1px solid #2c3a00;
+          box-sizing: border-box;
+        }
+        &:hover {
+          top: 0px;
+          &::before {
+            top: 4px;
+          }
+        }
+      }
     }
 
     &.follow,

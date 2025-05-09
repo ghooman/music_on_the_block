@@ -120,7 +120,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
 
-  const { mobBalance, polBalance } = useTokenBalance();
+  const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
 
   console.log(userData, '정글 차이');
 
@@ -194,14 +194,14 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{usdtBalance}</p>
                           <span>
                             <img src={usdtIcon} alt="usdt icon" />
                             USDT
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{usdcBalance}</p>
                           <span>
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC

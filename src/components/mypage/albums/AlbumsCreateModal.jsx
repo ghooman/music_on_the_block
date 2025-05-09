@@ -252,7 +252,8 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
               Cancel
             </button>
             <button
-              className="albums-create-modal__button create-button"
+              // className="albums-create-modal__button create-button"
+              className={`albums-create-modal__button create-button${isLoading ? ' disabled' : ''}`}
               onClick={handleSubmit}
               disabled={isLoading}
             >
@@ -269,7 +270,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
           )}
         </div>
       </ModalWrap>
-      
+
     </>
   );
 };

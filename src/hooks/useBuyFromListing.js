@@ -3,6 +3,7 @@ import { useSendAndConfirmTransaction } from 'thirdweb/react';
 import { useWalletAddress } from './useWalletAddress';
 import { marketPlaceContract } from '../contract/contracts';
 import { ethers } from 'ethers';
+import { USDC_CONTRACT_ADDRESS, USDT_CONTRACT_ADDRESS } from '../contract/contractAddresses';
 
 export const useBuyFromListing = () => {
   const walletAddress = useWalletAddress();
@@ -13,7 +14,11 @@ export const useBuyFromListing = () => {
     console.log('currencyAddress', currencyAddress);
     console.log('price', price);
 
-    const priceToWei = ethers.parseEther(price.toString());
+    const isSixDecimal =
+      currencyAddress === USDT_CONTRACT_ADDRESS || currencyAddress === USDC_CONTRACT_ADDRESS;
+
+    const decimals = isSixDecimal ? 6 : 18;
+    const priceToWei = ethers.parseUnits(price.toString(), decimals);
     console.log('priceToWei', priceToWei);
 
     try {

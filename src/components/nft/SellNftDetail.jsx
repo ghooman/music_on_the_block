@@ -15,7 +15,6 @@ import usdtIcon from '../../assets/images/icon/usdt-icon.svg';
 import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
 
 import NftConfirmModal from '../NftConfirmModal';
-import NftConfirmSuccessModal from '..//NftConfirmSuccessModal';
 import SongsBar from '../unit/SongsBar';
 import { ethers, parseUnits } from 'ethers';
 
@@ -25,7 +24,6 @@ function MintNftSellDetail2() {
   const { id, nft_id } = useParams(); // id : 앨범 id, nft_id : nft id
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [isActive, setIsActive] = useState(false); // track active state for the title
   const [sellPrice, setSellPrice] = useState(null);
@@ -38,7 +36,11 @@ function MintNftSellDetail2() {
     setIsActive(false); // remove active class
   };
 
-  const { data: nftInfo, isLoading } = useQuery(
+  const {
+    data: nftInfo,
+    isLoading,
+    refetch,
+  } = useQuery(
     ['nft_info', { id, nft_id }],
     async () => {
       const res = await axios.get(`${serverApi}/api/nfts/${nft_id}/detail`, {
@@ -150,7 +152,6 @@ function MintNftSellDetail2() {
       {showModal && (
         <NftConfirmModal
           setShowModal={setShowModal}
-          setShowSuccessModal={setShowSuccessModal}
           title="Confirm"
           nftName={nftInfo?.data?.nft_name}
           confirmSellTxt={true}
@@ -159,12 +160,7 @@ function MintNftSellDetail2() {
           selectedCoin={selectedCoin}
           thirdwebId={nftInfo?.data?.thirdweb_id}
           listingId={nftInfo?.data?.listing_id}
-        />
-      )}
-      {showSuccessModal && (
-        <NftConfirmSuccessModal
-          setShowSuccessModal={setShowSuccessModal}
-          title="Your NFT purchase has been Sold!"
+          onSuccess={() => refetch()}
         />
       )}
     </>

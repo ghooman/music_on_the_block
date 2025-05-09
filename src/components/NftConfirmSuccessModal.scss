@@ -70,6 +70,32 @@
       }
     }
   } //confirm-modal__btns--END--
+
+  .confirm-success-modal__content {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    word-break: keep-all;
+  }
+
+  .confirm-success-modal__btns {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+    &__ok {
+      width: 100%;
+      max-width: 400px;
+      height: 56px;
+      border-radius: 8px;
+      background-color: #8a68f5;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  }
 } //confirm-modal--END--
 
 .preparing-btn {

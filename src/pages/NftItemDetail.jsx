@@ -287,7 +287,7 @@ const NftItemDetailInfo = ({ id }) => {
                 </dl>
                 <dl>
                   <dt>Collection</dt>
-                  <dd>{nftDetailData?.connect_collection_name}</dd>
+                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
                 </dl>
                 <dl className="artist">
                   <dt>Artist</dt>

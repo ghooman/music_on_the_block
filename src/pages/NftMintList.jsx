@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
 import ContentWrap from '../components/unit/ContentWrap';
@@ -10,13 +10,15 @@ import Search from '../components/unit/Search';
 import SongPlayTable from '../components/table/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
 import Loading from '../components/IntroLogo2';
-
+import NftConfirmModal from '../components/NftConfirmModal';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const NftMintList = () => {
+  const [showMintModal, setShowMintModal] = useState(false);
+  const [showMintSuccess, setShowMintSuccess] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
   const { token } = useContext(AuthContext);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const page = searchParams.get('page');
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
@@ -73,6 +75,21 @@ const NftMintList = () => {
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={10} page={page} />
       </ContentWrap>
+      {showMintModal && (
+        <NftConfirmModal
+          setShowModal={setShowMintModal}
+          setShowSuccessModal={setShowMintSuccess}
+          title="Confirm"
+          confirmSellTxt={false}
+          confirmMintTxt={true}
+          confirmCancelTxt={false}
+          confirmBuyTxt={false}
+          selectedSong={selectedSong}
+          onSuccess={() => {
+            setShowMintSuccess(false);
+          }}
+        />
+      )}
     </div>
   );
 };

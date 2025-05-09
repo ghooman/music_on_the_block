@@ -141,7 +141,7 @@ const NftTable = ({
         <NftConfirmModal
           setShowModal={setShowNftConfirmModal}
           setShowSuccessModal={handleCancelSuccess}
-          title="Confirm cancel NFT sale"
+          title="Confirm"
           confirmSellTxt={false}
           confirmMintTxt={false}
           confirmCancelTxt={true}

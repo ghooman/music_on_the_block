@@ -28,7 +28,7 @@ function MintNftSellDetail2() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [isActive, setIsActive] = useState(false); // track active state for the title
-  const [sellPrice, setSellPrice] = useState(0);
+  const [sellPrice, setSellPrice] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin
   const handleTitleClick = () => {
     setIsActive(prev => !prev); // toggle active class
@@ -128,9 +128,6 @@ function MintNftSellDetail2() {
                   <li onClick={() => handleCoinClick('MOB', mobIcon)}>
                     <img src={mobIcon} alt="MOB" /> MOB
                   </li>
-                  <li onClick={() => handleCoinClick('POL', polygonIcon)}>
-                    <img src={polygonIcon} alt="POL" /> POL
-                  </li>
                   <li onClick={() => handleCoinClick('USDT', usdtIcon)}>
                     <img src={usdtIcon} alt="USDT" /> USDT
                   </li>
@@ -143,9 +140,9 @@ function MintNftSellDetail2() {
           </div>
         </ContentWrap>
         <button
-          className={`sell-btn ${sellPrice === 0 ? 'disabled' : ''}`}
+          className={`sell-btn ${sellPrice === 0 || !sellPrice ? 'disabled' : ''}`}
           onClick={() => setShowModal(true)}
-          disabled={sellPrice === 0}
+          disabled={sellPrice === 0 || !sellPrice}
         >
           Sell
         </button>
@@ -154,7 +151,7 @@ function MintNftSellDetail2() {
         <NftConfirmModal
           setShowModal={setShowModal}
           setShowSuccessModal={setShowSuccessModal}
-          title="Confirm Sell"
+          title="Confirm"
           nftName={nftInfo?.data?.nft_name}
           confirmSellTxt={true}
           sellPrice={sellPrice}
@@ -167,7 +164,7 @@ function MintNftSellDetail2() {
       {showSuccessModal && (
         <NftConfirmSuccessModal
           setShowSuccessModal={setShowSuccessModal}
-          title="Your NFT has been listed for sale!"
+          title="Your NFT purchase has been Sold!"
         />
       )}
     </>

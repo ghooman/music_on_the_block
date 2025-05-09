@@ -1,0 +1,17 @@
+.polygon-status {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  margin-bottom: 16px;
+  .polygon-status__img-box {
+    width: 100%;
+    text-align: center;
+    margin-top: 16px;
+    border-radius: 4px;
+    background: var(--Color-03, #222);
+    padding: 8px 4px;
+    img {
+      display: inline-block;
+    }
+  }
+}

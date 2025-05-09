@@ -16,8 +16,20 @@ import {
   MARKET_PLACE_CONTRACT_ADDRESS,
 } from '../../contract/contractAddresses';
 import { useNavigate } from 'react-router-dom';
-
+import { checkPolygonStatus } from '../../api/checkPolygonStatus';
+import PolygonStatus from '../unit/PolygonStatus';
 const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
+  console.log('nftData', nftData);
+  // 폴리곤 상태 확인
+  const [polygonStatus, setPolygonStatus] = useState(null);
+  useEffect(() => {
+    const fetchPolygonStatus = async () => {
+      const status = await checkPolygonStatus();
+      setPolygonStatus(status);
+    };
+    fetchPolygonStatus();
+  }, []);
+  const polygonDisabled = polygonStatus?.status?.includes('장애');
   const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
     useTokenAllowanceCheck();
   const { mobTokenApprove, polTokenApprove, usdcTokenApprove, usdtTokenApprove } =
@@ -31,10 +43,6 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   const [needsApproval, setNeedsApproval] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
   const navigate = useNavigate();
-
-  const onClose = () => {
-    setBuyNftModal(false);
-  };
 
   const ContractAddress = () => {
     switch (nftData?.sales_token) {
@@ -78,8 +86,8 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
             currentAllowance = 0;
         }
 
-        console.log('currentAllowance', currentAllowance);
-        console.log('nftData.price', nftData.price);
+        // console.log('currentAllowance', currentAllowance);
+        // console.log('nftData.price', nftData.price);
 
         if (currentAllowance && Number(currentAllowance) >= Number(nftData.price)) {
           setNeedsApproval(false);
@@ -143,7 +151,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   };
 
   const handleBuyProcess = async () => {
-    if (!agree) return;
+    if (!agree || polygonDisabled || isLoading) return;
     setIsLoading(true);
 
     try {
@@ -200,18 +208,19 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   };
 
   return (
-    <ModalWrap title="Confirm buy NFT" onClose={handleClose}>
+    <ModalWrap title="Confirm" onClose={handleClose}>
       <div className="buy-nft-modal">
+        <div className="buy-nft-modal__title_box">
+          <p className="buy-nft-modal__text">Title : {nftData?.nft_name}</p>
+          <p className="buy-nft-modal__text">
+            Price : {nftData?.price} {nftData?.sales_token} ($100)
+          </p>
+        </div>
         <p className="buy-nft-modal__text">
-          Buying [{nftData?.nft_name}] transfers the NFT to your wallet
+          ※ Network MIC fees may apply. <br />
+          No refund or cancellation after purchase.
         </p>
-        <ul className="buy-nft-modal__list">
-          <li className="buy-nft-modal__list--item">Confirm buy : {nftData?.nft_name}</li>
-          <li className="buy-nft-modal__list--item">
-            Price : {nftData?.price} {nftData?.sales_token}
-          </li>
-          <li className="buy-nft-modal__list--item">Network gas fees may apply</li>
-        </ul>
+        <PolygonStatus />
         <label className="buy-nft-modal__checkbox-wrap">
           <input
             className="buy-nft-modal__checkbox"
@@ -227,15 +236,15 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
           </p>
         </label>
         <div className="buy-nft-modal__button-wrap">
-          <button className="buy-nft-modal__button cancel-button" onClick={onClose}>
+          <button className="buy-nft-modal__button cancel-button" onClick={handleClose}>
             Cancel
           </button>
           <button
             className="buy-nft-modal__button buy-button"
             onClick={handleBuyProcess}
-            disabled={!agree || isLoading || isApproving}
+            disabled={!agree || isLoading || isApproving || polygonDisabled}
           >
-            {isLoading ? 'Buying...' : 'Buy NFT'}
+            {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
           </button>
         </div>
       </div>

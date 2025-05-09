@@ -416,7 +416,7 @@ const NftConfirmModal = ({
   return (
     <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
       <dl>
-        {(confirmSellTxt || confirmCancelTxt) && (
+        {(confirmSellTxt || confirmCancelTxt || confirmBuyTxt) && (
           <dt>Title: {selectedCollection?.name || nftName}</dt>
         )}
         {confirmSellTxt && (
@@ -425,7 +425,6 @@ const NftConfirmModal = ({
           </dt>
         )}
         {confirmMintTxt && <dt>Title: {songData?.title}</dt>}
-        {confirmBuyTxt && <dt>Title : {nftData?.nft_name}</dt>}
         {confirmBuyTxt && (
           <dt>
             Price : {nftData?.price} {nftData?.sales_token} ($100)

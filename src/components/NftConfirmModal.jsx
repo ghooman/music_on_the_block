@@ -25,6 +25,7 @@ import { checkPolygonStatus } from '../api/checkPolygonStatus';
 import PolygonStatus from './unit/PolygonStatus';
 import { useUserDetail } from '../hooks/useUserDetail';
 import Loading from './Loading';
+import NftConfirmSuccessModal from './NftConfirmSuccessModal';
 
 // 바이 캔슬 민팅 판매
 
@@ -35,7 +36,6 @@ const NftConfirmModal = ({
   confirmMintTxt,
   confirmCancelTxt,
   confirmBuyTxt,
-  setShowSuccessModal,
   selectedCollection,
   songId,
   nftName,
@@ -50,6 +50,9 @@ const NftConfirmModal = ({
 }) => {
   // 폴리곤 상태 확인
   const [polygonStatus, setPolygonStatus] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successContent, setSuccessContent] = useState('');
+
   useEffect(() => {
     const fetchPolygonStatus = async () => {
       const status = await checkPolygonStatus();
@@ -95,7 +98,7 @@ const NftConfirmModal = ({
     try {
       const response = await mintNft2(token, songId, selectedCollection?.id);
       if (response.status === 'success') {
-        setShowModal(false);
+        setSuccessContent('Your song has been minted as an NFT!');
         setShowSuccessModal(true);
         if (onSuccess) onSuccess();
       } else {
@@ -193,7 +196,7 @@ const NftConfirmModal = ({
       console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
-      setShowModal(false);
+      setSuccessContent('Your NFT purchase has been Sold!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -240,7 +243,7 @@ const NftConfirmModal = ({
       const response = await serverCancelListing(listingId);
       console.log('cancelListing', listingId);
 
-      setShowModal(false);
+      setSuccessContent('Your listing has been cancelled successfully!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -347,7 +350,6 @@ const NftConfirmModal = ({
         }
       );
       console.log('serverResponse', response);
-      navigate(`/nft`);
       return response;
     } catch (error) {
       console.error('Error during buy from listing:', error);
@@ -390,7 +392,7 @@ const NftConfirmModal = ({
       // 3번 리스팅 발급후 서버에 구매 요청
       await handleServerBuy(tx_id);
 
-      setShowModal(false);
+      setSuccessContent('Your NFT purchase was successful!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -417,6 +419,21 @@ const NftConfirmModal = ({
 
     setShowModal(false);
   };
+
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    setShowModal(false);
+  };
+
+  if (showSuccessModal) {
+    return (
+      <NftConfirmSuccessModal
+        setShowSuccessModal={handleSuccessModalClose}
+        title={'Confirm Success'}
+        content={successContent}
+      />
+    );
+  }
 
   return (
     <ModalWrap title={title} onClose={handleClose} className="confirm-modal">

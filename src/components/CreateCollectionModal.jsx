@@ -6,6 +6,7 @@ import { createNftCollection } from '../api/nfts/nftCollectionsApi';
 import './CreateCollectionModal.scss';
 import demoImg from '../assets/images/demo-cover-img.png';
 import loadIcon from '../assets/images/img-load-btn.svg';
+import Loading from './Loading';
 
 const CreateCollectionModal = ({ setShowCollectionModal, fetchMyNftCollections }) => {
   const { token } = useContext(AuthContext);
@@ -144,7 +145,7 @@ const CreateCollectionModal = ({ setShowCollectionModal, fetchMyNftCollections }
           onClick={handleCreateCollection}
           disabled={!collectionName.trim() || isLoading}
         >
-          {isLoading ? 'Creating...' : 'Create'}
+          {isLoading ? <Loading/> : 'Create'}
         </button>
       </div>
     </ModalWrap>

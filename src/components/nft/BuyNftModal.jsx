@@ -18,6 +18,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { checkPolygonStatus } from '../../api/checkPolygonStatus';
 import PolygonStatus from '../unit/PolygonStatus';
+import Loading from '../Loading';
 const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   console.log('nftData', nftData);
   // 폴리곤 상태 확인
@@ -244,7 +245,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
             onClick={handleBuyProcess}
             disabled={!agree || isLoading || isApproving || polygonDisabled}
           >
-            {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
+            {isLoading || polygonDisabled ? <Loading/> : 'Buy NFT'}
           </button>
         </div>
       </div>

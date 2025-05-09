@@ -123,6 +123,18 @@ button {
   cursor: pointer;
   background: transparent;
   color: #fff;
+  &:disabled,
+  &.disabled{
+    background-color: #000 !important;
+    color: #565656 !important;
+    border: 1px solid #2c3a00 !important;
+    pointer-events: none !important;
+    &::after{
+      width: 100%;
+      border: none !important;
+      border-bottom: 1px solid #2c3a00 !important;
+    }
+  }
 }
 
 

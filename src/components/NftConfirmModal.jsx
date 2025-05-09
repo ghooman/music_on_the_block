@@ -195,7 +195,7 @@ const NftConfirmModal = ({
       console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
-      setSuccessContent('Your NFT purchase has been Sold!');
+      setSuccessContent('Your NFT has been listed for sale!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -402,7 +402,7 @@ const NftConfirmModal = ({
     return (
       <NftConfirmSuccessModal
         setShowSuccessModal={handleSuccessModalClose}
-        title={'Confirm Success'}
+        title={'Confirm'}
         content={successContent}
       />
     );

@@ -421,14 +421,14 @@ const NftConfirmModal = ({
     <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
       <dl>
         {(confirmSellTxt || confirmCancelTxt || confirmBuyTxt) && (
-          <dt>Title: {selectedCollection?.name || nftName}</dt>
+          <dt>Title: {nftData?.title || nftName}</dt>
         )}
         {confirmSellTxt && (
           <dt>
             Price : {sellPrice} {selectedCoin?.name} ($100)
           </dt>
         )}
-        {confirmMintTxt && <dt>Title: {songData?.title}</dt>}
+        {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title}</dt>}
         {confirmBuyTxt && (
           <dt>
             Price : {nftData?.price} {nftData?.sales_token} ($100)
@@ -456,9 +456,9 @@ const NftConfirmModal = ({
             <p className="confirm-modal__title-wrap__title">
               My MIC{' '}
               <span>
-                {isNaN(Number(micBalance) || Number(micBalance) <= 0)
+                {isNaN(Number(micBalance)) || Number(micBalance) <= 0
                   ? 0
-                  : Number(micBalance).toFixed(3)}
+                  : Number(micBalance).toFixed(2)}
               </span>
             </p>
             <p className="confirm-modal__title-wrap__title">
@@ -468,7 +468,6 @@ const NftConfirmModal = ({
         )}
         <dd className="confirm-modal__gas-fee">※ Network fees may apply.</dd>
       </dl>
-
       <div className="confirm-modal__btns">
         <button className="confirm-modal__btns__cancel" onClick={handleClose}>
           Cancel

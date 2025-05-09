@@ -6,13 +6,12 @@ import NoneContent from '../../components/unit/NoneContent';
 import lyricIcon from '../../assets/images/icon/Lyrics-Icon.svg';
 import compositionIcon from '../../assets/images/icon/Composition-Icon.svg';
 import songIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import defaultUserImage from '../../assets/images/header/logo-png.png';
 
 import './NftItem.scss';
 import { useState } from 'react';
 
 export const NftItemList = ({ data }) => {
-  console.log(data, 'ㅁㄴㄹ');
-
   return (
     <>
       <div className="nft-item-wrap">
@@ -81,8 +80,9 @@ const NftItem = ({ item }) => {
   return (
     <Link className="nft-item" to={`/nft/detail/${item.id}`}>
       <Images music image={item.nft_image} duration={formatTime(duration)} />
-      <NftTitle desc={item.nft_name} />
-      <Title title={item.connect_collection_name} />
+      <User userProfile={item.user_profile} userName={item.user_name} />
+      <Title title={item.nft_name} />
+      <SubTitle subTitle={item.connect_collection_name} />
       <div className="nft-item__prices col">
         <PriceItems title="Price" value={item.price ? `${item?.price} ${item.sales_token}` : '-'} />
         {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}
@@ -120,13 +120,13 @@ export const CollectionItem = ({
 
   return (
     <Link
-      className={`nft-item${isActive ? ' active' : ''}`}
+      className={`nft-item${isActive ? ' active' : ''} collections`}
       {...(linkMove && { to: `/nft/collection/detail/${item?.id}` })}
       onClick={handleClick}
     >
       <Images image={item.image} />
-      <CollectionTitle title={item.name} />
-      <Username username={item.user_name} />
+      <Title title={item.name} />
+      <User userName={item.user_name} userProfile={item?.user_profile} />
       <div className="nft-item__prices raw">
         <PriceItems
           title="Lowest Price"
@@ -143,19 +143,6 @@ export const CollectionItem = ({
 //===========
 
 const Images = ({ music, image, duration }) => {
-  const getTypeIcon = type => {
-    switch (type) {
-      case 'Lyrics':
-        return lyricIcon;
-      case 'Composition':
-        return compositionIcon;
-      case 'Song':
-        return songIcon;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="nft-item__images">
       <img src={image?.replace('public', '280to280')} alt="images" />
@@ -172,20 +159,25 @@ const Images = ({ music, image, duration }) => {
   );
 };
 
-const NftTitle = ({ desc }) => {
-  return <p className="nft-item__desc">{desc}</p>;
-};
-
 const Title = ({ title }) => {
   return <p className="nft-item__title">{title}</p>;
 };
 
-const CollectionTitle = ({ title }) => {
-  return <p className="nft-collection-item__title">{title}</p>;
+const SubTitle = ({ subTitle }) => {
+  return <p className="nft-item__sub-title">{subTitle}</p>;
 };
 
-const Username = ({ username }) => {
-  return <p className="nft-item__username">{username}</p>;
+const User = ({ userProfile, userName }) => {
+  return (
+    <div className="nft-item__user-data">
+      <img
+        className="nft-item__user-data--image"
+        src={userProfile || defaultUserImage}
+        alt="profile"
+      />
+      <p className="nft-item__user-data--name">{userName}</p>
+    </div>
+  );
 };
 
 const PriceItems = ({ title, value }) => {

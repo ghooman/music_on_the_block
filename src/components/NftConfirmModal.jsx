@@ -24,6 +24,7 @@ import ErrorModal from '../components/modal/ErrorModal';
 import { checkPolygonStatus } from '../api/checkPolygonStatus';
 import PolygonStatus from './unit/PolygonStatus';
 import { useUserDetail } from '../hooks/useUserDetail';
+import Loading from './Loading';
 
 // 바이 캔슬 민팅 판매
 
@@ -425,13 +426,13 @@ const NftConfirmModal = ({
         )}
         {confirmSellTxt && (
           <dt>
-            Price : {sellPrice} {selectedCoin?.name} ($100)
+            Price : {sellPrice} {selectedCoin?.name} ($ 0)
           </dt>
         )}
         {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title}</dt>}
         {confirmBuyTxt && (
           <dt>
-            Price : {nftData?.price} {nftData?.sales_token} ($100)
+            Price : {nftData?.price} {nftData?.sales_token} ($ 0)
           </dt>
         )}
         <PolygonStatus />
@@ -474,7 +475,7 @@ const NftConfirmModal = ({
         </button>
         {confirmMintTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleMint}>
-            {isLoading || polygonDisabled ? 'Loading...' : 'Mint'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Mint'}
           </button>
         )}
 
@@ -483,12 +484,12 @@ const NftConfirmModal = ({
             className={`confirm-modal__btns__ok ${agree ? '' : 'disabled'}`}
             onClick={handleSell}
           >
-            {isLoading || polygonDisabled ? 'Loading...' : 'Sell'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Sell'}
           </button>
         )}
         {confirmCancelTxt && (
           <button className="confirm-modal__btns__ok" onClick={handleCancel}>
-            {isLoading || polygonDisabled ? 'Loading...' : 'Yes, Continue'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Yes, Continue'}
           </button>
         )}
         {confirmBuyTxt && (
@@ -497,7 +498,7 @@ const NftConfirmModal = ({
             onClick={handleBuy}
             disabled={!agree || isLoading || isApproving || polygonDisabled}
           >
-            {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Buy NFT'}
           </button>
         )}
       </div>

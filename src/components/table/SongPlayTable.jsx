@@ -190,7 +190,10 @@ const SongPlayTable = ({
                       <TableItem.Button
                         title="Mint"
                         type="mint"
-                        handleClick={() => handleMint(item)}
+                        handleClick={e => {
+                          e.stopPropagation();
+                          handleMint(item);
+                        }}
                       />
                     )}
 

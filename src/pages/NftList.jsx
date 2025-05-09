@@ -37,13 +37,13 @@ const NftList = () => {
   const nowSalesStatus = searchParams.get('now_sales_status') || 'All';
 
   const handleSubCategory = value => {
-    setSearchParams({ category: 'NFT items', page: 1, now_sales_status: value });
+    setSearchParams({ category: 'NFT Items', page: 1, now_sales_status: value });
   };
 
   useEffect(() => {
     if (!category) {
       setSearchParams(
-        { category: 'NFT items', page: 1, ...(search ? { search: search } : null) },
+        { category: 'NFT Items', page: 1, ...(search ? { search: search } : null) },
         { replace: true }
       );
     }
@@ -56,16 +56,14 @@ const NftList = () => {
   return (
     <div className="nft-list">
       <Categories
-        categories={['NFT items', 'Collections']}
+        categories={['NFT Items', 'Collections']}
         value={category}
         onClick={category => {
           setSearchParams({ category, page: 1 });
         }}
       />
-      <ContentWrap
-        title={` ${category === 'NFT items' ? 'NFT Items (List)' : 'NFT Collection (List)'}`}
-      >
-        {category === 'NFT items' && (
+      <ContentWrap title={` ${category === 'NFT Items' ? 'NFT Items' : 'Collections'}`}>
+        {category === 'NFT Items' && (
           <>
             <SubCategories
               categories={subCategoryList}

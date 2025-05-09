@@ -31,7 +31,7 @@ import NftConfirmSuccessModal from './NftConfirmSuccessModal';
 
 const NftConfirmModal = ({
   setShowModal,
-  title,
+  title = 'Confirm',
   confirmSellTxt,
   confirmMintTxt,
   confirmCancelTxt,
@@ -100,7 +100,6 @@ const NftConfirmModal = ({
       if (response.status === 'success') {
         setSuccessContent('Your song has been minted as an NFT!');
         setShowSuccessModal(true);
-        if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
         setErrorMessage(response);
@@ -417,13 +416,13 @@ const NftConfirmModal = ({
         )}
         {confirmSellTxt && (
           <dt>
-            Price : {sellPrice} {selectedCoin?.name} ($ 0)
+            Price: {sellPrice} {selectedCoin?.name} ($ 0)
           </dt>
         )}
         {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title}</dt>}
         {confirmBuyTxt && (
           <dt>
-            Price : {nftData?.price} {nftData?.sales_token} ($ 0)
+            Price: {nftData?.price} {nftData?.sales_token} ($ 0)
           </dt>
         )}
         <PolygonStatus />
@@ -465,14 +464,17 @@ const NftConfirmModal = ({
           Cancel
         </button>
         {confirmMintTxt && (
-          <button className="confirm-modal__btns__ok" onClick={handleMint}>
+          <button
+            className={`confirm-modal__btns__ok ${isLoading ? ' disabled' : ''}`}
+            onClick={handleMint}
+          >
             {isLoading || polygonDisabled ? <Loading /> : 'Mint'}
           </button>
         )}
 
         {confirmSellTxt && (
           <button
-            className={`confirm-modal__btns__ok ${agree ? '' : 'disabled'}`}
+            className={`confirm-modal__btns__ok ${agree || isLoading ? 'disabled' : ''}`}
             onClick={handleSell}
           >
             {isLoading || polygonDisabled ? <Loading /> : 'Sell'}

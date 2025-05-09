@@ -56,15 +56,15 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
       />
       <div className="chart__pie--text">
         <p className="chart__pie--text-value" style={{ color: matchedData?.color }}>
-          {selectedItem === 'All' && total}
-          {selectedItem !== 'All' && matchedData?.value}
+          {selectedItem === 'All' && (!isNaN(total) ? total : '0')}
+          {selectedItem !== 'All' && (!isNaN(matchedData?.value) ? matchedData?.value : '0')}
         </p>
         <p className="chart__pie--text-per">
           {selectedItem !== 'All'
             ? isNaN(matchedData?.value / total)
               ? '-'
               : ((matchedData?.value / total) * 100)?.toFixed(2)
-            : 100}
+            : '-'}
           %
         </p>
       </div>

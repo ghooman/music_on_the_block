@@ -1,13 +1,15 @@
+// MusicGenerator.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './music-generator.scss';
+
 const MusicGenerator = () => {
   const [lyrics, setLyrics] = useState('');
   const [prompt, setPrompt] = useState('');
   const [model, setModel] = useState('auto');
   const [status, setStatus] = useState(null);
   const [taskId, setTaskId] = useState(null);
-  const [audioUrl, setAudioUrl] = useState(null);
+  const [choices, setChoices] = useState([]);
   const [error, setError] = useState(null);
 
   const POST_API_URL = 'https://api.mureka.ai/v1/song/generate';
@@ -17,7 +19,7 @@ const MusicGenerator = () => {
     e.preventDefault();
     setStatus('preparing');
     setError(null);
-    setAudioUrl(null);
+    setChoices([]);
 
     try {
       const { data } = await axios.post(
@@ -25,14 +27,14 @@ const MusicGenerator = () => {
         { lyrics, prompt, model },
         {
           headers: {
-            Authorization: `Bearer ${'op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8'}`,
+            Authorization: `Bearer op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8`,
             'Content-Type': 'application/json',
           },
         }
       );
       setTaskId(data.id);
       setStatus(data.status);
-      console.log('data', data);
+      console.log('POST 응답 데이터:', data);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
       setStatus('failed');
@@ -42,20 +44,24 @@ const MusicGenerator = () => {
   // 작업 상태 주기적 확인
   useEffect(() => {
     if (!taskId) return;
+
     const interval = setInterval(async () => {
       try {
         const { data } = await axios.get(`${GET_API_URL}/${taskId}`, {
           headers: {
-            Authorization: `Bearer ${'op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8'}`,
+            Authorization: `Bearer op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8`,
             'Content-Type': 'application/json',
           },
         });
         setStatus(data.status);
-        console.log('data', data);
+        console.log('GET 응답 데이터:', data);
+
         if (data.status === 'succeeded' || data.status === 'completed') {
           clearInterval(interval);
-          setAudioUrl(data.audio_url); // 또는 data.result 등 API 스펙에 맞춰
+          // choices 배열 전체를 저장
+          setChoices(data.choices || []);
         }
+
         if (data.status === 'failed') {
           clearInterval(interval);
           setError('음악 생성에 실패했습니다.');
@@ -114,12 +120,37 @@ const MusicGenerator = () => {
         </button>
       </form>
 
-      {status && <p>Status: {status}</p>}
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {audioUrl && (
-        <audio controls src={audioUrl}>
-          Your browser does not support the audio element.
-        </audio>
+      {status && (
+        <div className={`music-generator__status music-generator__status--${status}`}>
+          <strong>Status:</strong> {status}
+        </div>
+      )}
+      {error && (
+        <div className="music-generator__error">
+          <strong>Error:</strong> {error}
+        </div>
+      )}
+
+      {/* 생성 완료된 choices를 audio player로 렌더링 */}
+      {choices.length > 0 && (
+        <div className="music-generator__results">
+          <h3>Generated Tracks</h3>
+          {choices.map((choice, idx) => (
+            <div key={idx} className="music-generator__choice">
+              <p>
+                Choice {idx + 1} (duration: {choice.duration} ms)
+              </p>
+              <audio className="music-generator__audio" controls src={choice.url}>
+                Your browser does not support the audio element.
+              </audio>
+              <p>
+                <a href={choice.flac_url} target="_blank" rel="noopener noreferrer">
+                  Download FLAC
+                </a>
+              </p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

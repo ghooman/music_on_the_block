@@ -1,6 +1,6 @@
 import ModalWrap from './ModalWrap';
 import axios from 'axios';
-import { mintNft } from '../api/nfts/nftMintApi';
+import { mintNft2 } from '../api/nfts/nftMintApi';
 import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import './NftConfirmModal.scss';
@@ -24,6 +24,9 @@ import ErrorModal from '../components/modal/ErrorModal';
 import { checkPolygonStatus } from '../api/checkPolygonStatus';
 import PolygonStatus from './unit/PolygonStatus';
 import { useUserDetail } from '../hooks/useUserDetail';
+
+// 바이 캔슬 민팅 판매
+
 const NftConfirmModal = ({
   setShowModal,
   title,
@@ -89,7 +92,7 @@ const NftConfirmModal = ({
     }
     setIsLoading(true);
     try {
-      const response = await mintNft(token, songId, selectedCollection?.id);
+      const response = await mintNft2(token, songId, selectedCollection?.id);
       if (response.status === 'success') {
         setShowModal(false);
         setShowSuccessModal(true);
@@ -334,7 +337,7 @@ const NftConfirmModal = ({
   const handleServerBuy = async tx_id => {
     try {
       const response = await axios.post(
-        `${serverApi}/api/nfts/${nftData?.listing_id}/${selectedCollection?.id}/purchase?tx_id=${tx_id}`,
+        `${serverApi}/api/nfts/${nftData?.listing_id}/purchase?tx_id=${tx_id}`,
         {},
         {
           headers: {
@@ -397,6 +400,7 @@ const NftConfirmModal = ({
           error?.message ||
           'Error'
       );
+      console.log(error, '구매 에러');
     } finally {
       setIsLoading(false);
     }

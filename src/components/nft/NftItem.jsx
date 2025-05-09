@@ -80,9 +80,10 @@ const NftItem = ({ item }) => {
   return (
     <Link className="nft-item" to={`/nft/detail/${item.id}`}>
       <Images music image={item.nft_image} duration={formatTime(duration)} />
-      <User userProfile={item.user_profile} userName={item.user_name} />
       <Title title={item.nft_name} />
-      <SubTitle subTitle={item.connect_collection_name} />
+      <User userProfile={item.user_profile} userName={item.user_name} />
+      {/* <Title title={item.nft_name} /> */}
+      {/* <SubTitle subTitle={item.connect_collection_name} /> */}
       <div className="nft-item__prices col">
         <PriceItems title="Price" value={item.price ? `${item?.price} ${item.sales_token}` : '-'} />
         {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}

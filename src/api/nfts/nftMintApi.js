@@ -27,3 +27,28 @@ export const mintNft = async (token, song_id, collection_id) => {
     throw new Error(error?.response?.data?.detail || 'Error');
   }
 };
+
+/**
+ * NFT 민팅 API 호출 (컬렉션 선택 X)
+ * @param {string} token - 사용자 인증 토큰
+ * @param {string} song_id - 노래 ID
+ * @param {string} collection_id - 컬렉션 ID
+ * @returns {Promise} - API 응답 데이터
+ */
+export const mintNft2 = async (token, song_id) => {
+  try {
+    const response = await axios.post(
+      `${serverApi}/api/nfts/${song_id}/mint`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('민팅 에러', error);
+    throw new Error(error?.response?.data?.detail || 'Error');
+  }
+};

@@ -120,7 +120,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
 
-  const { mobBalance } = useTokenBalance();
+  const { mobBalance, polBalance } = useTokenBalance();
 
   console.log(userData, '정글 차이');
 
@@ -172,6 +172,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         </dl>
                       </div>
                       <div className="menu__box__my-page__info__bottom">
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>{polBalance}</p>
+                          <span>
+                            <img src={polIcon} alt="mob icon" />
+                            POL
+                          </span>
+                        </div>
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>{mobBalance}</p>
                           <span>

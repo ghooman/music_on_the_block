@@ -348,18 +348,6 @@ function AlbumDetail() {
     return () => clearTimeout(timer);
   }, []);
 
-  const onSuccess = () => {
-    const onSuccessMint = () => {
-      navigate('/nft');
-    };
-    const onSuccessBuy = () => {
-      navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
-    };
-
-    if (nftAction === 'mint') onSuccessMint();
-    else if (nftAction === 'buy') onSuccessBuy();
-  };
-
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -764,7 +752,13 @@ function AlbumDetail() {
           confirmCancelTxt={nftAction === 'cancel'}
           songId={album?.id}
           setShowSuccessModal={() => null}
-          onSuccess={() => onSuccess()}
+          onSuccess={() => {
+            if (nftAction === 'buy') {
+              navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+            } else if (nftAction === 'mint') {
+              navigate('/nft');
+            }
+          }}
           nftData={album}
         />
       )}

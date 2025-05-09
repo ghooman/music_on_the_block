@@ -146,7 +146,6 @@
     }
     &.details {
       color: #aaa;
-      background-color: #222;
       &::before {
         border-color: #222;
       }
@@ -197,7 +196,6 @@
     }
     &.sell {
       color: #1a1a1a;
-      background-color: #5a9bf6;
       &::before {
         border: 1px solid #5a9bf6;
       }
@@ -207,7 +205,6 @@
     }
     &.cancel {
       color: #1a1a1a;
-      background-color: #df1919;
       &::before {
         border: 1px solid #df1919;
       }
@@ -217,7 +214,6 @@
     }
     &.delete {
       color: #f1f1f1;
-      background-color: #44000d;
       &::before {
         border: 1px solid #44000d;
       }
@@ -229,7 +225,6 @@
     &.follow,
     &.release {
       color: #f1f1f1;
-      background-color: #003321;
       &::before {
         border: 1px solid #003321;
       }
@@ -249,7 +244,7 @@
 
     &.unfollow {
       color: #f1f1f1;
-      background-color: #44000d;
+
       &::before {
         border-color: #44000d;
       }
@@ -260,12 +255,30 @@
 
     &.mint {
       color: #1a1a1a;
-      background-color: #00d293;
       &::before {
         border: 1px solid #00d293;
       }
       &::after {
         background: #00d293;
+      }
+
+      &:disabled {
+        color: #565656;
+        cursor: default;
+        &::before {
+          border: 1px solid #003321;
+        }
+        &::after {
+          background-color: #000;
+          border: 1px solid #003321;
+          box-sizing: border-box;
+        }
+        &:hover {
+          top: 0px;
+          &::before {
+            top: 4px;
+          }
+        }
       }
     }
 

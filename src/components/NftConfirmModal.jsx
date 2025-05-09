@@ -30,7 +30,7 @@ import Loading from './Loading';
 
 const NftConfirmModal = ({
   setShowModal,
-  title,
+  title = 'Confirm',
   confirmSellTxt,
   confirmMintTxt,
   confirmCancelTxt,
@@ -95,9 +95,9 @@ const NftConfirmModal = ({
     try {
       const response = await mintNft2(token, songId, selectedCollection?.id);
       if (response.status === 'success') {
+        if (onSuccess) onSuccess();
         setShowModal(false);
         setShowSuccessModal(true);
-        if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
         setErrorMessage(response);
@@ -426,13 +426,13 @@ const NftConfirmModal = ({
         )}
         {confirmSellTxt && (
           <dt>
-            Price : {sellPrice} {selectedCoin?.name} ($ 0)
+            Price: {sellPrice} {selectedCoin?.name} ($ 0)
           </dt>
         )}
         {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title}</dt>}
         {confirmBuyTxt && (
           <dt>
-            Price : {nftData?.price} {nftData?.sales_token} ($ 0)
+            Price: {nftData?.price} {nftData?.sales_token} ($ 0)
           </dt>
         )}
         <PolygonStatus />

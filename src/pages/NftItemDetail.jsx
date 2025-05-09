@@ -283,7 +283,7 @@ const NftItemDetailInfo = ({ id }) => {
               <div className="nft-item-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Item ID</dt>
-                  <dd>Item ID (# {nftDetailData?.id})</dd>
+                  <dd># {nftDetailData?.id}</dd>
                 </dl>
                 <dl>
                   <dt>Collection</dt>

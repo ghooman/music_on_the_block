@@ -168,7 +168,7 @@
             }
             button,
             p {
-              width: 66px;
+              // width: 66px;
               display: flex;
               align-items: center;
               color: #aaa;
@@ -177,8 +177,54 @@
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
+              padding: 4px 6px;
+              background-color: #222;
+              border-radius: 6px;
+              height: 32px;
+
+              &.play {
+                img {
+                  padding: 5px;
+                }
+              }
+              &.nfts {
+                gap: 4px;
+                border: 1px solid #383838;
+                &.New {
+                  border-color: #ffffff;
+                }
+                &.Indie {
+                  border-color: #b89334;
+                }
+                &.Rising {
+                  border-color: #00d5a7;
+                }
+                &.Top {
+                  border-color: #df454d;
+                }
+                &.Legend {
+                  border-color: #5a9bf6;
+                }
+
+                .nfts-section {
+                  width: 1px;
+                  height: 100%;
+                  background-color: #565656;
+                }
+                .nfts-text {
+                  color: #fff;
+                  font-family: Orbitron400;
+                  font-size: 8px;
+                }
+              }
             }
           } //album-detail__song-detail__left__info__number--END--
+          .album-detail__song-detail__left__info__share-btn {
+            padding: 4px 6px;
+            border-radius: 6px;
+            background-color: #222;
+            height: 32px;
+          }
         } //album-detail__song-detail__left__info--END--
       } //album-detail__song-detail__left--END--
       .album-detail__song-detail__right {

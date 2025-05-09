@@ -1,15 +1,15 @@
 // components/AlarmModal.js
 import './AlarmModal.scss';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import closeIcon from '../assets/images/close.svg';
 import { AuthContext } from '../contexts/AuthContext';
+import { WebSocketContext } from '../contexts/WebSocketContext';
 
 const AlarmModal = () => {
-  const WS_URL = 'wss://muble.xyz/ws/album_status/';
   const albumIdStorageKey = 'generatedAlbumId';
   const albumTimerStorageKeyBase = 'generatedAlbumTimerStart';
-  const RECONNECT_INTERVAL = 3000;
+  const MAX_GENERATION_TIME = 600; // 10분(600초) 최대 생성 시간
 
   const getStoredAlbumData = () => {
     try {
@@ -30,7 +30,9 @@ const AlarmModal = () => {
   const item = localStorage.getItem(albumIdStorageKey);
   // console.log('item', item);
   const { walletAddress } = useContext(AuthContext);
+  const { lastMessage, isConnected } = useContext(WebSocketContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [albumPk, setAlbumPk] = useState(null);
   const [albumWalletAddress, setAlbumWalletAddress] = useState(null);
@@ -39,8 +41,8 @@ const AlarmModal = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [isAutoCompleted, setIsAutoCompleted] = useState(false);
 
-  const socketRef = useRef(null);
   const hasTimerStartedRef = useRef(false);
 
   // 앨범 ID를 포함한 타이머 키 생성 - 각 사용자의 타이머가 분리되도록 함
@@ -69,6 +71,24 @@ const AlarmModal = () => {
     } catch (err) {
       console.error('시간 포맷팅 오류:', err);
       return '00:00';
+    }
+  };
+
+  // 타이머가 10분을 초과했을 때 자동 완료 처리
+  const handleAutoComplete = () => {
+    if (storedAlbumData && !albumPk && !isError) {
+      setAlbumPk(storedAlbumData.id);
+      setAlbumWalletAddress(walletAddress?.address);
+      setIsAutoCompleted(true);
+      localStorage.removeItem(albumIdStorageKey);
+
+      // 앨범 ID별 타이머 키 제거
+      if (storedAlbumData?.id) {
+        localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
+      } else {
+        localStorage.removeItem(albumTimerStorageKeyBase);
+      }
+      setStoredAlbumData(null);
     }
   };
 
@@ -133,6 +153,11 @@ const AlarmModal = () => {
             if (!isNaN(startTime)) {
               const diffSeconds = Math.floor((Date.now() - startTime) / 1000);
               setElapsedSeconds(diffSeconds);
+
+              // 10분(600초)이 지나면 자동으로 완료 처리
+              if (diffSeconds >= MAX_GENERATION_TIME) {
+                handleAutoComplete();
+              }
             } else {
               initializeTimer();
             }
@@ -186,6 +211,7 @@ const AlarmModal = () => {
       setIsError(false);
       setErrorMessage('');
       setElapsedSeconds(0);
+      setIsAutoCompleted(false);
       // 새 타이머 시작 - 앨범 ID를 포함한 키 사용
       const timerKey = `${albumTimerStorageKeyBase}_${storedAlbumData.id}`;
       localStorage.setItem(timerKey, Date.now().toString());
@@ -195,6 +221,7 @@ const AlarmModal = () => {
     prevStoredAlbumData.current = storedAlbumData;
   }, [storedAlbumData]);
 
+  // 페이지 이동 감지 시 데이터 가져오기
   useEffect(() => {
     // 페이지 이동 후 데이터를 다시 가져올 때 조용히 처리
     const quietlyFetchData = () => {
@@ -207,70 +234,52 @@ const AlarmModal = () => {
     };
 
     quietlyFetchData();
-    connectWebSocket();
-    return () => socketRef.current?.close();
   }, [location]);
 
-  const connectWebSocket = () => {
-    const socket = new WebSocket(WS_URL);
-    socketRef.current = socket;
+  // 웹소켓 메시지 처리
+  useEffect(() => {
+    if (!lastMessage) return;
 
-    socket.onopen = () => {
-      // console.log('웹 소켓 연결됨');
-    };
+    try {
+      const data = lastMessage;
 
-    socket.onmessage = e => {
-      try {
-        const data = JSON.parse(e.data);
-        // console.log('수신 데이터:', data);
+      // — 필터링 시작 —
+      // 내 앨범 ID와 일치하거나 내 지갑 주소와 일치하는 경우만 처리
+      const isMyAlbum = storedAlbumData?.id && data.pk === storedAlbumData.id;
+      const isMyWallet = walletAddress?.address && data.wallet_address === walletAddress.address;
 
-        // — 필터링 시작 —
-        // 내 앨범 ID와 일치하거나 내 지갑 주소와 일치하는 경우만 처리
-        const isMyAlbum = storedAlbumData?.id && data.pk === storedAlbumData.id;
-        const isMyWallet = walletAddress?.address && data.wallet_address === walletAddress.address;
+      if (!isMyAlbum && !isMyWallet) {
+        // 내 데이터가 아니면 무시
+        return;
+      }
+      // — 필터링 끝 —
 
-        if (!isMyAlbum && !isMyWallet) {
-          // 내 데이터가 아니면 무시
-          return;
-        }
-        // — 필터링 끝 —
-
-        if (data.status === 'complt' || data.status === 'fail') {
-          setAlbumPk(data.pk);
-          setAlbumWalletAddress(data.wallet_address);
-          localStorage.removeItem(albumIdStorageKey);
-          // 앨범 ID별 타이머 키 제거
-          if (storedAlbumData?.id) {
-            localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
-          } else {
-            localStorage.removeItem(albumTimerStorageKeyBase);
-          }
-          setStoredAlbumData(null);
-
-          if (data.status === 'fail') {
-            setIsError(true);
-            setErrorMessage(data.message?.message || 'Unknown error');
-          }
+      if (data.status === 'complt' || data.status === 'fail') {
+        setAlbumPk(data.pk);
+        setAlbumWalletAddress(data.wallet_address);
+        // 서버에서 받은 완료 메시지는 타임아웃 자동 완료가 아님
+        setIsAutoCompleted(false);
+        localStorage.removeItem(albumIdStorageKey);
+        // 앨범 ID별 타이머 키 제거
+        if (storedAlbumData?.id) {
+          localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
         } else {
-          // 상태 업데이트가 있을 때 타이머는 유지
-          // console.log('현재 상태:', data.status);
+          localStorage.removeItem(albumTimerStorageKeyBase);
         }
-      } catch (err) {
-        console.error('메시지 파싱 에러:', err);
-      }
-    };
+        setStoredAlbumData(null);
 
-    socket.onerror = err => {
-      console.error('웹 소켓 에러 발생:', err);
-    };
-
-    socket.onclose = e => {
-      // console.error('웹 소켓 연결 끊김:', e);
-      if (!e.wasClean) {
-        setTimeout(() => connectWebSocket(), RECONNECT_INTERVAL);
+        if (data.status === 'fail') {
+          setIsError(true);
+          setErrorMessage(data.message?.message || 'Unknown error');
+        }
+      } else {
+        // 상태 업데이트가 있을 때 타이머는 유지
+        // console.log('현재 상태:', data.status);
       }
-    };
-  };
+    } catch (err) {
+      console.error('메시지 처리 에러:', err);
+    }
+  }, [lastMessage, storedAlbumData, walletAddress]);
 
   const handleClose = () => setIsClosed(true);
   const handleOverlayClick = () => setIsClosed(false);
@@ -280,6 +289,7 @@ const AlarmModal = () => {
     setIsError(false);
     setErrorMessage('');
     setElapsedSeconds(0);
+    setIsAutoCompleted(false);
     localStorage.removeItem(albumIdStorageKey);
     // 앨범 ID별 타이머 키가 있으면 제거
     if (storedAlbumData?.id) {
@@ -287,6 +297,13 @@ const AlarmModal = () => {
     } else {
       localStorage.removeItem(albumTimerStorageKeyBase);
     }
+  };
+
+  // 메인페이지로 이동하는 함수
+  const navigateToMain = () => {
+    setAlbumPk(null);
+    setElapsedSeconds(0);
+    navigate('/');
   };
 
   if (!shouldRenderModal) return null;
@@ -334,7 +351,12 @@ const AlarmModal = () => {
             </button>
           ) : (
             albumPk &&
-            !storedAlbumData && (
+            !storedAlbumData &&
+            (isAutoCompleted ? (
+              <button className="alarm__modal__item__link" onClick={navigateToMain}>
+                My Song Link
+              </button>
+            ) : (
               <Link
                 className="alarm__modal__item__link"
                 to={`/song-detail/${albumPk}`}
@@ -345,7 +367,7 @@ const AlarmModal = () => {
               >
                 My Song Link
               </Link>
-            )
+            ))
           )}
         </div>
       </div>

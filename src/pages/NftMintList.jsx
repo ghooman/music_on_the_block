@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { useSearchParams } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
 import ContentWrap from '../components/unit/ContentWrap';
@@ -10,10 +10,13 @@ import Search from '../components/unit/Search';
 import SongPlayTable from '../components/table/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
 import Loading from '../components/IntroLogo2';
-
+import NftConfirmModal from '../components/NftConfirmModal';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const NftMintList = () => {
+  const [showMintSuccess, setShowMintSuccess] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
+  const [mintData, setMintData] = useState(null);
   const { token } = useContext(AuthContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,6 +24,7 @@ const NftMintList = () => {
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
   const gradeFilter = searchParams.get('grade_filter');
+  const navigate = useNavigate();
 
   // 더미
   const { data: songList, isLoading } = useQuery(
@@ -43,9 +47,8 @@ const NftMintList = () => {
     { refetchOnMount: false }
   );
 
-  const handleMint = () => {
-    alert('민트!');
-    // 민트 함수 정의 해주세염
+  const handleMint = item => {
+    setMintData(item);
   };
 
   useEffect(() => {
@@ -69,10 +72,26 @@ const NftMintList = () => {
           artistOption={false}
           mintOption={true}
           gradeOption={true}
-          handleMint={() => handleMint()}
+          handleMint={item => handleMint(item)}
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={10} page={page} />
       </ContentWrap>
+      {mintData && (
+        <NftConfirmModal
+          setShowModal={setMintData}
+          setShowSuccessModal={setShowMintSuccess}
+          title="Confirm"
+          confirmSellTxt={false}
+          confirmMintTxt={true}
+          confirmCancelTxt={false}
+          confirmBuyTxt={false}
+          selectedSong={selectedSong}
+          songId={mintData?.id}
+          onSuccess={() => {
+            navigate('/nft');
+          }}
+        />
+      )}
     </div>
   );
 };

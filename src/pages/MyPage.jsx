@@ -24,7 +24,7 @@ import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
 import NftMarketPlace from '../components/mypage/NftMarketPlace';
-import { getUserGradeIcon } from '../utils/getUserGradeIcon';
+import { getUserGradeIcon } from '../utils/getGradeIcon';
 import Loading from '../components/IntroLogo2';
 import LinksModal from '../components/LinksModal';
 

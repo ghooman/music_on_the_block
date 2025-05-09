@@ -44,9 +44,9 @@
   display: flex;
   gap: 24px;
   flex-direction: column;
-
+  text-align: center;
   .buy-nft-modal__text {
-    color: var(--Text-music-sub, #aaa);
+    color: #f1f1f1;
     font-family: Inter400;
     font-size: 16px;
   }

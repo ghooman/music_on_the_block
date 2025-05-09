@@ -132,15 +132,6 @@
     justify-content: space-between;
     gap: 10px;
     margin-bottom: 12px;
-
-    button {
-      // flex: 1;
-      height: 46px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-    }
   }
 
   &__button {
@@ -153,6 +144,7 @@
     top: 0px;
     transition: 0.2s all;
     border-radius: 12px;
+    font-family: Orbitron600;
 
     &::after {
       content: '';

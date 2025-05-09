@@ -1,31 +1,28 @@
-// MusicGenerator.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './music-generator.scss';
-
 const MusicGenerator = () => {
   const [lyrics, setLyrics] = useState('');
   const [prompt, setPrompt] = useState('');
   const [model, setModel] = useState('auto');
   const [status, setStatus] = useState(null);
   const [taskId, setTaskId] = useState(null);
+  const [audioUrl, setAudioUrl] = useState(null);
   const [error, setError] = useState(null);
 
-  const API_URL = 'https://api.mureka.ai/v1/song/generate'; // 실제 엔드포인트로 변경
+  const POST_API_URL = 'https://api.mureka.ai/v1/song/generate';
+  const GET_API_URL = 'https://api.mureka.ai/v1/song/query';
 
   const handleSubmit = async e => {
     e.preventDefault();
     setStatus('preparing');
     setError(null);
+    setAudioUrl(null);
 
     try {
-      const response = await axios.post(
-        API_URL,
-        {
-          lyrics,
-          prompt,
-          model,
-        },
+      const { data } = await axios.post(
+        POST_API_URL,
+        { lyrics, prompt, model },
         {
           headers: {
             Authorization: `Bearer ${'op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8'}`,
@@ -33,17 +30,44 @@ const MusicGenerator = () => {
           },
         }
       );
-
-      const { id, status: taskStatus } = response.data;
-      setTaskId(id);
-      setStatus(taskStatus);
-      console.log('음악 생성 데이터 :', response.data);
+      setTaskId(data.id);
+      setStatus(data.status);
+      console.log('data', data);
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.message || err.message);
       setStatus('failed');
     }
   };
+
+  // 작업 상태 주기적 확인
+  useEffect(() => {
+    if (!taskId) return;
+    const interval = setInterval(async () => {
+      try {
+        const { data } = await axios.get(`${GET_API_URL}/${taskId}`, {
+          headers: {
+            Authorization: `Bearer ${'op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8'}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        setStatus(data.status);
+        console.log('data', data);
+        if (data.status === 'succeeded' || data.status === 'completed') {
+          clearInterval(interval);
+          setAudioUrl(data.audio_url); // 또는 data.result 등 API 스펙에 맞춰
+        }
+        if (data.status === 'failed') {
+          clearInterval(interval);
+          setError('음악 생성에 실패했습니다.');
+        }
+      } catch (err) {
+        clearInterval(interval);
+        setError('상태 조회 중 오류가 발생했습니다.');
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [taskId]);
 
   return (
     <div className="music-generator">
@@ -90,16 +114,12 @@ const MusicGenerator = () => {
         </button>
       </form>
 
-      {status && (
-        <div className={`music-generator__status music-generator__status--${status}`}>
-          <strong>Status:</strong> {status}
-          {taskId && <span> (Task ID: {taskId})</span>}
-        </div>
-      )}
-      {error && (
-        <div className="music-generator__error">
-          <strong>Error:</strong> {error}
-        </div>
+      {status && <p>Status: {status}</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {audioUrl && (
+        <audio controls src={audioUrl}>
+          Your browser does not support the audio element.
+        </audio>
       )}
     </div>
   );

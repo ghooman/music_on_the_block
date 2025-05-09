@@ -1,0 +1,94 @@
+// music-generator.scss
+
+.music-generator {
+  &__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__required {
+    color: #d00;
+    margin-left: 0.25rem;
+  }
+
+  &__textarea {
+    min-height: 120px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    resize: vertical;
+  }
+
+  &__input,
+  &__select {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  &__button {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background-color: #2680eb;
+    color: #fff;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: darken(#2680eb, 10%);
+    }
+  }
+
+  &__status {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    &--preparing {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    &--queued {
+      background-color: #e0f7fa;
+      color: #00796b;
+    }
+    &--running {
+      background-color: #fff3e0;
+      color: #e65100;
+    }
+    &--succeeded {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    &--failed {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+    &--timeouted {
+      background-color: #fff8e1;
+      color: #ff8f00;
+    }
+    &--cancelled {
+      background-color: #eceff1;
+      color: #546e7a;
+    }
+  }
+
+  &__error {
+    margin-top: 0.5rem;
+    color: #c62828;
+    font-weight: 600;
+  }
+}

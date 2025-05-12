@@ -24,7 +24,7 @@ import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
 import NftMarketPlace from '../components/mypage/NftMarketPlace';
-import { getUserGradeIcon } from '../utils/getGradeIcon';
+import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import Loading from '../components/IntroLogo2';
 import LinksModal from '../components/LinksModal';
 
@@ -254,10 +254,10 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__info--name-text">{userData?.name}</p>
               <div className="profile__info--level">
                 <p className="profile__info--level-text">Level</p>
-                {getUserGradeIcon(userData?.user_rating) && (
+                {getUserGradeSquareIcon(userData?.user_rating) && (
                   <img
                     className="profile__info--level-icon"
-                    src={getUserGradeIcon(userData?.user_rating)}
+                    src={getUserGradeSquareIcon(userData?.user_rating)}
                     alt="icon"
                   />
                 )}

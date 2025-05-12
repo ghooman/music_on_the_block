@@ -195,7 +195,7 @@ const NftConfirmModal = ({
       console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
-      setSuccessContent('Your NFT purchase has been Sold!');
+      setSuccessContent('Your NFT has been listed for sale!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -417,7 +417,7 @@ const NftConfirmModal = ({
     return (
       <NftConfirmSuccessModal
         setShowSuccessModal={handleSuccessModalClose}
-        title={'Confirm Success'}
+        title={'Confirm'}
         content={successContent}
         onSuccess={() => defineNavigate()}
       />
@@ -478,10 +478,20 @@ const NftConfirmModal = ({
           </div>
         )}
         <dd className="confirm-modal__gas-fee">
-          ※
-          {confirmMintTxt
-            ? 'MIC fees may apply and the process may take up to 3 minutes.'
-            : 'Network fees may apply and the process may take up to 3 minutes.'}
+          ※{' '}
+          {confirmMintTxt ? (
+            <>
+              MIC fees may apply
+              <br />
+              and the process may take up to 3 minutes.
+            </>
+          ) : (
+            <>
+              Network fees may apply
+              <br />
+              and the process may take up to 3 minutes.
+            </>
+          )}
         </dd>
       </dl>
       <div className="confirm-modal__btns">

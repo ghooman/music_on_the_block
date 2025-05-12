@@ -2,7 +2,7 @@ import './MintNftDetail.scss';
 import axios from 'axios';
 import React, { useState, useContext } from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../unit/ContentWrap';
@@ -17,6 +17,7 @@ import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
 import NftConfirmModal from '../NftConfirmModal';
 import SongsBar from '../unit/SongsBar';
 import { ethers, parseUnits } from 'ethers';
+import { getSongsGradeIcon } from '../../utils/getGradeIcon';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 // ────────────────────────────────
@@ -28,6 +29,9 @@ function MintNftSellDetail2() {
   const [isActive, setIsActive] = useState(false); // track active state for the title
   const [sellPrice, setSellPrice] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin
+
+  const navigate = useNavigate();
+
   const handleTitleClick = () => {
     setIsActive(prev => !prev); // toggle active class
   };
@@ -86,8 +90,15 @@ function MintNftSellDetail2() {
         <ContentWrap title="Set NFT sell conditions">
           <div className="level-quantity-box">
             <dl className="level-quantity-box__dl">
-              <dt>Level of NFT</dt>
-              <dd>1</dd>
+              <dt>Grade of NFT</dt>
+              <dd>
+                <div className="level-quantity-box__grade">
+                  {getSongsGradeIcon(nftInfo?.data?.rating) && (
+                    <img src={getSongsGradeIcon(nftInfo?.data?.rating)} alt="grade" />
+                  )}
+                  {nftInfo?.data?.rating}
+                </div>
+              </dd>
             </dl>
             <dl className="level-quantity-box__dl">
               <dt>Quantity</dt>
@@ -160,7 +171,7 @@ function MintNftSellDetail2() {
           selectedCoin={selectedCoin}
           thirdwebId={nftInfo?.data?.thirdweb_id}
           listingId={nftInfo?.data?.listing_id}
-          onSuccess={() => refetch()}
+          // onSuccess={() => navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Listed')}
         />
       )}
     </>

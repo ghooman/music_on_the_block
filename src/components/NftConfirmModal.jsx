@@ -398,12 +398,21 @@ const NftConfirmModal = ({
     setShowModal(false);
   };
 
+  const defineNavigate = () => {
+    if (confirmSellTxt) {
+      navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Listed');
+    } else {
+      navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Unlisted');
+    }
+  };
+
   if (showSuccessModal) {
     return (
       <NftConfirmSuccessModal
         setShowSuccessModal={handleSuccessModalClose}
         title={'Confirm Success'}
         content={successContent}
+        onSuccess={() => defineNavigate()}
       />
     );
   }
@@ -449,11 +458,11 @@ const NftConfirmModal = ({
               <span>
                 {isNaN(Number(micBalance)) || Number(micBalance) <= 0
                   ? 0
-                  : Number(micBalance).toFixed(2)}
+                  : Number(micBalance).toFixed(2)?.toLocaleString()}
               </span>
             </p>
             <p className="confirm-modal__title-wrap__title">
-              MIC Fees <span>100</span>
+              MIC Fees <span>0</span>
             </p>
           </div>
         )}

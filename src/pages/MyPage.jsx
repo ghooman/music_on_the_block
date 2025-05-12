@@ -253,7 +253,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               />
               <p className="profile__info--name-text">{userData?.name}</p>
               <div className="profile__info--level">
-                <p className="profile__info--level-text">level</p>
+                <p className="profile__info--level-text">Level</p>
                 {getUserGradeIcon(userData?.user_rating) && (
                   <img
                     className="profile__info--level-icon"

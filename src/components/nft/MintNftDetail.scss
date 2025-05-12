@@ -140,6 +140,7 @@
     width: 100%;
     display: flex;
     gap: 16px;
+
     .level-quantity-box__dl {
       width: 100%;
       padding: 16px;
@@ -209,6 +210,18 @@
         }
       }
     } //level-quantity-box__dl--END--
+
+    .level-quantity-box__grade {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-family: Orbitron600;
+      color: #f1f1f1;
+
+      img {
+        width: 16px;
+      }
+    } //level-quantity-box__grade--END--
   } //level-quantity-box--END--
 
   .sell-nft-input-box__cover {
@@ -1514,7 +1527,7 @@
 
 @media screen and (max-width: 768px) {
   .mint-detail {
-    .sell-btn{
+    .sell-btn {
       width: 100%;
     }
     .album-detail__title {

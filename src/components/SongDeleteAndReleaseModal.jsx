@@ -2,12 +2,22 @@ import { useState } from 'react';
 import ModalWrap from './ModalWrap';
 
 import './SongDeleteAndReleaseModal.scss';
+import { useNavigate } from 'react-router-dom';
+import ErrorModal from './modal/ErrorModal';
 
-const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHander }) => {
+const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHandler, action }) => {
   const [isComplete, setIsComplete] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const onClose = () => {
-    setter(false);
+    if (!isComplete) {
+      setter(false);
+    } else if (errorMessage) {
+      setErrorMessage(false);
+    } else {
+      if (action) action();
+      setter(false);
+    }
   };
 
   const handler = async () => {
@@ -16,27 +26,33 @@ const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHan
         deleteHandler();
         setIsComplete(true);
         return;
-      } else if (releaseHander) {
-        releaseHander();
-        setter(null);
+      } else if (releaseHandler) {
+        releaseHandler();
+        setIsComplete(true);
+        // setter(null);
       }
     } catch (e) {
+      setErrorMessage(e?.response?.data?.detail || 'Error');
       console.error(e);
     }
   };
+
+  if (errorMessage) {
+    return <ErrorModal setShowErrorModal={setErrorMessage} button message={errorMessage} />;
+  }
 
   return (
     <ModalWrap title="Confirm" onClose={onClose}>
       <div className="song-delete-and-release-modal">
         {isComplete ? (
-          <p className="song-delete-and-release-modal__message">
-            The song has been deleted successfully
+          <p className="song-delete-and-release-modal__message--complete">
+            The song has been {deleteHandler && 'delete'} {releaseHandler && 'release'} successfully
           </p>
         ) : (
           <div className="song-delete-and-release-modal__message--box">
             <p className="song-delete-and-release-modal__title">Title : {songData?.title}</p>
             <p className="song-delete-and-release-modal__message">
-              * Are you sure you want to {deleteHandler && 'delete'} {releaseHander && 'release'}{' '}
+              * Are you sure you want to {deleteHandler && 'delete'} {releaseHandler && 'release'}{' '}
               this song?
             </p>
           </div>
@@ -60,7 +76,7 @@ const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHan
                 onClick={handler}
               >
                 {deleteHandler && 'Delete'}
-                {releaseHander && 'Release'}
+                {releaseHandler && 'Release'}
               </button>
             </>
           )}

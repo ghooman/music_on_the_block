@@ -160,7 +160,7 @@ function MintNftDetail() {
           songId={id}
           songData={songData}
           selectedCollection={selectedCollection}
-          onSuccess={() => refetch()}
+          // onSuccess={() => refetch()}
         />
       )}
       {buyNftModal && (
@@ -170,7 +170,7 @@ function MintNftDetail() {
           confirmBuyTxt={true}
           nftData={nftData}
           selectedCollection={selectedCollection}
-          onSuccess={() => refetch()}
+          // onSuccess={() => refetch()}
         />
       )}
       {showCollectionModal && (

@@ -742,7 +742,7 @@ function AlbumDetail() {
         <SongDeleteAndReleaseModal
           songData={album}
           setter={setIsReleaseModal}
-          releaseHander={handleRelease}
+          releaseHandler={handleRelease}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}
@@ -756,13 +756,13 @@ function AlbumDetail() {
           confirmCancelTxt={nftAction === 'cancel'}
           songId={album?.id}
           setShowSuccessModal={() => null}
-          onSuccess={() => {
-            if (nftAction === 'buy') {
-              navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
-            } else if (nftAction === 'mint') {
-              fetchAlbumDetail();
-            }
-          }}
+          // onSuccess={() => {
+          //   if (nftAction === 'buy') {
+          //     navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+          //   } else if (nftAction === 'mint') {
+          //     fetchAlbumDetail();
+          //   }
+          // }}
           nftData={album}
         />
       )}

@@ -404,6 +404,7 @@ const NftConfirmModal = ({
     } else {
       navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Unlisted');
     }
+    window.scrollTo({ top: 0 });
   };
 
   const defineModalTitle = () => {

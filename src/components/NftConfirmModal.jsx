@@ -478,10 +478,20 @@ const NftConfirmModal = ({
           </div>
         )}
         <dd className="confirm-modal__gas-fee">
-          ※
-          {confirmMintTxt
-            ? 'MIC fees may apply and the process may take up to 3 minutes.'
-            : 'Network fees may apply and the process may take up to 3 minutes.'}
+          ※{' '}
+          {confirmMintTxt ? (
+            <>
+              MIC fees may apply
+              <br />
+              and the process may take up to 3 minutes.
+            </>
+          ) : (
+            <>
+              Network fees may apply
+              <br />
+              and the process may take up to 3 minutes.
+            </>
+          )}
         </dd>
       </dl>
       <div className="confirm-modal__btns">

@@ -148,11 +148,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <>
                   <div className="menu__box__my-page">
                     <div className="menu__box__my-page__level">
+                      <p className="level">Level</p>
                       <p className="menu__box__my-page__level__img">
                         <img src={getUserGradeIcon(userData?.user_rating)} alt="level icon" />
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
-                      <p className="level">Level</p>
                     </div>
                     <div className="menu__box__my-page__info">
                       <div className="menu__box__my-page__info__top">

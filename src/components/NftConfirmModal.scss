@@ -65,7 +65,8 @@
   }
 
   .confirm-modal__gas-fee {
-    color: var(--Dark-Color-06, var(--Color-06, #888));
+    // color: var(--Dark-Color-06, var(--Color-06, #888));
+    color: #ffdc55;
     text-align: center;
     font-family: Inter;
     font-size: 12px;

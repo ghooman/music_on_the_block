@@ -206,7 +206,10 @@ export const BarChart = ({
         theme={{
           textColor: '#fff',
           axis: {
-            ticks: { text: { fill: '#888', fontSize: 12 }, line: { stroke: '#333' } },
+            ticks: {
+              text: { fill: '#888', fontSize: 12, textTransform: 'capitalize' },
+              line: { stroke: '#333' },
+            },
             domain: { line: { stroke: '#444' } },
           },
           grid: { line: { stroke: '#222', strokeWidth: 1 } },

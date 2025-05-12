@@ -49,7 +49,7 @@ const NftTable = ({
           <TableHeader.Col>Price</TableHeader.Col>
           {dateOption && <TableHeader.Col>Date</TableHeader.Col>}
           {listedDateOption && <TableHeader.Col>Listed Date</TableHeader.Col>}
-          {mintedDateOption && <TableHeader.Col>Mited Date</TableHeader.Col>}
+          {mintedDateOption && <TableHeader.Col>Minted Date</TableHeader.Col>}
           <TableHeader.Col>Details</TableHeader.Col>
           {saleOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
           {saleStatusOption && <TableHeader.Col>Sale Action</TableHeader.Col>}

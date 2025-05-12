@@ -742,7 +742,7 @@ function AlbumDetail() {
         <SongDeleteAndReleaseModal
           songData={album}
           setter={setIsReleaseModal}
-          releaseHander={handleRelease}
+          releaseHandler={handleRelease}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}

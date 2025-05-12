@@ -5,7 +5,7 @@ import Pagination from '../unit/Pagination';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import CollectionTable from '../table/CollectionTable';
-import CollectionHistoryTable from '../table/CollectionHistoryTable';
+// import CollectionHistoryTable from '../table/CollectionHistoryTable';
 import Loading from '../IntroLogo2';
 
 import './NftMarketPlace.scss';
@@ -13,8 +13,8 @@ import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import {
-  getMyNftCollections,
-  getNftCollectionHistory,
+  // getMyNftCollections,
+  // getNftCollectionHistory,
   getNftCollections,
 } from '../../api/nfts/nftCollectionsApi';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -22,7 +22,7 @@ import { getNftsList, getNftTransactionHistory } from '../../api/nfts/nftsListAp
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
-  { name: 'Collections', preparing: false },
+  // { name: 'Collections', preparing: false },
   { name: 'History', preparing: false },
 ];
 
@@ -58,9 +58,9 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
       {tab === 'NFT items' && (
         <NftItems token={token} username={username} isMyProfile={isMyProfile} />
       )}
-      {tab === 'Collections' && (
+      {/* {tab === 'Collections' && (
         <CollectionItems token={token} username={username} isMyProfile={isMyProfile} />
-      )}
+      )} */}
       {tab === 'History' && <History username={username} isMyProfile={isMyProfile} />}
     </div>
   );

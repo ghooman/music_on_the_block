@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -7,9 +7,6 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @param {string} wallet_address - 좋아요 기능 확인용 지갑 주소
  * @returns {Promise} axios GET 요청 반환
  */
-export const getHitMusicList = async (walletAddress) => {
-  return axios.get(
-    `${serverApi}/api/music/hit/list?wallet_address=${walletAddress?.address}`,
-    {}
-  );
+export const getHitMusicList = async walletAddress => {
+  return axios.get(`${serverApi}/api/music/hit/list?wallet_address=${walletAddress?.address}`, {});
 };

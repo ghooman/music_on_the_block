@@ -68,12 +68,6 @@ const MyProfile = () => {
     setSearchParams({ category: tab });
   };
 
-  useEffect(() => {
-    if (!category) {
-      setSearchParams({ category: 'AI Services' }, { replace: true });
-    }
-  }, []);
-
   return (
     <div className="mypage">
       <ProfileInfo userData={userData} token={token} isMyProfile>
@@ -242,7 +236,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           className="profile__bg"
           style={{ backgroundImage: `url(${userData && (userData?.background_image || demoBg)})` }}
         ></div>
-        <div className="profile__info">
+        <div className="profile__info" id="profile-info">
           {/**=== */}
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div className="profile__info--name-level">

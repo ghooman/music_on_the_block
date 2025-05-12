@@ -90,9 +90,10 @@ const NftMintList = () => {
           confirmBuyTxt={false}
           selectedSong={selectedSong}
           songId={mintData?.id}
-          onSuccess={() => {
-            refetch();
-          }}
+          nftName={mintData?.title}
+          // onSuccess={() => {
+          //   refetch();
+          // }}
         />
       )}
     </div>

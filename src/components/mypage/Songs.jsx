@@ -164,9 +164,9 @@ const Songs = ({ token }) => {
           songId={mintMusic.id}
           songData={mintMusic}
           confirmMintTxt={true}
-          onSuccess={() => {
-            songListRefetch();
-          }}
+          // onSuccess={() => {
+          //   songListRefetch();
+          // }}
         />
       )}
     </div>

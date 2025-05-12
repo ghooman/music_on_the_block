@@ -34,7 +34,7 @@ export const useTokenBalance = () => {
   });
 
   const toDecimal = (wei, decimals = 18) =>
-    wei ? (Number(wei) / 10 ** decimals).toFixed(2) : '0.00';
+    wei ? (Number(wei) / 10 ** decimals).toFixed(4) : '0.0000';
 
   return {
     mobBalance: toDecimal(mobData, 18),

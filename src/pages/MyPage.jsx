@@ -23,7 +23,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
-import NftMarketPlace from '../components/mypage/NftMarketPlace';
+import NFTs from '../components/mypage/NFTs';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import Loading from '../components/IntroLogo2';
 import LinksModal from '../components/LinksModal';
@@ -60,7 +60,7 @@ const MyProfile = () => {
     { name: 'Connections', preparing: false },
     { name: 'Favorites', preparing: false },
     { name: 'Albums', preparing: false },
-    { name: 'NFT MarketPlace', preparing: false },
+    { name: 'NFTs', preparing: false },
   ];
 
   const handleTab = tab => {
@@ -79,7 +79,7 @@ const MyProfile = () => {
       {category === 'Connections' && <Connections />}
       {category === 'Favorites' && <MyFavorites />}
       {category === 'Albums' && <Albums username={userData?.name} isCreate={true} />}
-      {category === 'NFT MarketPlace' && <NftMarketPlace username={userData?.name} isMyProfile />}
+      {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
     </div>
   );
 };
@@ -104,7 +104,7 @@ const UserProfile = () => {
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
     { name: 'Albums', preparing: false },
-    { name: 'NFT MarketPlace', preparing: false },
+    { name: 'NFTs', preparing: false },
   ];
 
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -207,7 +207,7 @@ const UserProfile = () => {
       {category === 'AI Services' && <AiServices username={username} />}
       {category === 'Songs' && <SongsUser username={username} />}
       {category === 'Albums' && <Albums username={username} isCreate={false} />}
-      {category === 'NFT MarketPlace' && <NftMarketPlace username={username} />}
+      {category === 'NFTs' && <NFTs username={username} />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal
           setUnFollowModal={setUnFollowModal}

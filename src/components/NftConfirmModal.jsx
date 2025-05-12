@@ -400,9 +400,9 @@ const NftConfirmModal = ({
 
   const defineNavigate = () => {
     if (confirmSellTxt) {
-      navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Listed');
+      navigate('/my-page?category=NFTs&page=1&nft_filter=Listed');
     } else {
-      navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Unlisted');
+      navigate('/my-page?category=NFTs&page=1&nft_filter=Unlisted');
     }
     window.scrollTo({ top: 0 });
   };

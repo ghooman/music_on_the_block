@@ -1,27 +1,38 @@
+// React & Routing
 import { useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+// React Query
+import { useQuery } from 'react-query';
+
+// Context
+import { AuthContext } from '../../contexts/AuthContext';
+
+// API
+import { getNftCollections } from '../../api/nfts/nftCollectionsApi';
+import { getNftsList, getNftTransactionHistory } from '../../api/nfts/nftsListApi';
+
+// Components - Layout & UI
 import ContentWrap from '../unit/ContentWrap';
 import Filter from '../unit/Filter';
 import Pagination from '../unit/Pagination';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
-import CollectionTable from '../table/CollectionTable';
-// import CollectionHistoryTable from '../table/CollectionHistoryTable';
+import SubBanner from '../create/SubBanner';
 import Loading from '../IntroLogo2';
 
-import './NftMarketPlace.scss';
+// Components - Tables & Items
+import CollectionTable from '../table/CollectionTable';
 import NftTable from './../table/NftTable';
-import { useSearchParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import {
-  // getMyNftCollections,
-  // getNftCollectionHistory,
-  getNftCollections,
-} from '../../api/nfts/nftCollectionsApi';
-import { AuthContext } from '../../contexts/AuthContext';
-import { getNftsList, getNftTransactionHistory } from '../../api/nfts/nftsListApi';
+import { CollectionItemList } from '../nft/NftItem';
+
+// Assets & Styles
+import subBannerImage4 from '../../assets/images/create/subbanner-bg4.png';
+import './NFTs.scss';
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
+  // { name: 'Favorites', preparing: false },
   // { name: 'Collections', preparing: false },
   { name: 'History', preparing: false },
 ];
@@ -42,13 +53,13 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
   const tab = searchParams.get('tab') || subCategoryList?.[0].name;
 
   return (
-    <div className="nft-market-place">
+    <div className="mypage__nfts">
       <SubCategories
         categories={subCategoryList}
         handler={category => {
           if (category === tab) return;
           setSearchParams({
-            category: 'NFT MarketPlace',
+            category: 'NFTs',
             tab: category,
             ...(usernameQuery ? { username: usernameQuery } : null),
           });
@@ -96,13 +107,11 @@ const NftItems = ({ username, isMyProfile }) => {
 
   return (
     <>
-      <div className="nft-market-place__button-wrap">
+      <div className="mypage__nfts__button-wrap">
         {nftFilterItemList.map(item => (
           <button
             key={item}
-            className={`nft-market-place__button-wrap--button ${
-              nftFilter === item ? 'selected' : ''
-            }`}
+            className={`mypage__nfts__button-wrap--button ${nftFilter === item ? 'selected' : ''}`}
             onClick={() => {
               if (nftFilter === item) return;
               setSearchParams(prev => {
@@ -155,17 +164,27 @@ const CollectionItems = ({ token, username, isMyProfile }) => {
       refetchOnWindowFocus: false,
     }
   );
-  console.log('collection_data', data);
+
   return (
-    <ContentWrap title="Collection list">
-      <ContentWrap.SubWrap gap={8}>
-        <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
-        <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
-      </ContentWrap.SubWrap>
-      <CollectionTable collectionList={data?.data_list} />
-      <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
-      {isLoading && <Loading />}
-    </ContentWrap>
+    <>
+      {isMyProfile && (
+        <SubBanner>
+          <SubBanner.LeftImages src={subBannerImage4} />
+          <SubBanner.Title text="Create Your Own Collection" />
+          <SubBanner.Message text="Bring your favofite NFT music together and curate a collection that's uniquely yours. Now's the time to show the world your taste in music!" />
+          <SubBanner.Button title="Create Collection" />
+        </SubBanner>
+      )}
+      <ContentWrap title="Collections">
+        <ContentWrap.SubWrap gap={8}>
+          <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
+          <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
+        </ContentWrap.SubWrap>
+        <CollectionItemList data={data?.data_list} />
+        <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
+        {isLoading && <Loading />}
+      </ContentWrap>
+    </>
   );
 };
 

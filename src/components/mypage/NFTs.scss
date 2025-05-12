@@ -1,13 +1,13 @@
-.nft-market-place {
+.mypage__nfts {
   display: flex;
   flex-direction: column;
   gap: 24px;
 
-  .nft-market-place__button-wrap {
+  .mypage__nfts__button-wrap {
     display: flex;
     gap: 12px;
   }
-  .nft-market-place__button-wrap--button {
+  .mypage__nfts__button-wrap--button {
     border-radius: 10px 2px 10px 10px;
     border: 1px solid #888;
     color: #888;

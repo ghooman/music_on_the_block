@@ -328,7 +328,6 @@ function AlbumDetail() {
         Authorization: `Bearer ${token}`,
       },
     });
-    fetchAlbumDetail();
   };
 
   // useEffect를 사용하여 ThirdWeb 버튼을 참조
@@ -743,6 +742,7 @@ function AlbumDetail() {
           songData={album}
           setter={setIsReleaseModal}
           releaseHandler={handleRelease}
+          action={() => fetchAlbumDetail()}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}

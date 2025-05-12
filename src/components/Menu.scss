@@ -46,7 +46,7 @@
     flex-direction: column;
     gap: 10px;
     height: 100%;
-    max-height: 740px;
+    max-height: calc(100vh - 200px);
     overflow-y: scroll;
     width: calc(100% + 14px);
   }

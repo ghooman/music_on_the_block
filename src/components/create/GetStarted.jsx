@@ -72,7 +72,7 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
-      <div className="create__get-started--version">
+      {/* <div className="create__get-started--version">
         <label htmlFor="version">Version</label>
         <select id="version" name="version" onChange={handleVersionChange}>
           <option value="topmediai">topmediai</option>
@@ -82,7 +82,7 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
           <option value="V4">suno-4</option>
           <option value="V4_5">suno-4.5</option>
         </select>
-      </div>
+      </div> */}
 
       <section className="create__get-started--format">
         {formats.map((format, idx) => (

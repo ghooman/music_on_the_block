@@ -1514,6 +1514,9 @@
 
 @media screen and (max-width: 768px) {
   .mint-detail {
+    .sell-btn{
+      width: 100%;
+    }
     .album-detail__title {
       dt {
         font-size: 24px;

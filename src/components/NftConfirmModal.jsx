@@ -426,7 +426,7 @@ const NftConfirmModal = ({
           </dt>
         )}
         <PolygonStatus />
-        {(confirmBuyTxt || confirmSellTxt) && (
+        {confirmBuyTxt && (
           <label className="confirm-modal__checkbox-wrap">
             <input
               className="confirm-modal__checkbox"
@@ -474,17 +474,14 @@ const NftConfirmModal = ({
 
         {confirmSellTxt && (
           <button
-            className={`confirm-modal__btns__ok ${!agree || isLoading ? 'disabled' : ''}`}
+            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
             onClick={handleSell}
           >
             {isLoading || polygonDisabled ? <Loading /> : 'Sell'}
           </button>
         )}
         {confirmCancelTxt && (
-          <button
-            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
-            onClick={handleCancel}
-          >
+          <button className="confirm-modal__btns__ok" onClick={handleCancel}>
             {isLoading || polygonDisabled ? <Loading /> : 'Yes, Continue'}
           </button>
         )}

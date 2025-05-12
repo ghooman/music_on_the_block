@@ -382,7 +382,7 @@ const NftItemDetailInfo = ({ id }) => {
           // onSuccess={() => {
           //   if (nftAction === 'buy') {
           //     // 구매 성공 후 바로 페이지 이동하지 않고, 성공 모달이 표시되도록 변경
-          //     // navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+          //     // navigate(`/my-page?category=NFTs&tab=History&page=1`);
           //     // 성공 모달이 닫힐 때 NftConfirmSuccessModal 내부에서 페이지 이동 처리
           //     return;
           //   }

@@ -758,7 +758,7 @@ function AlbumDetail() {
           setShowSuccessModal={() => null}
           // onSuccess={() => {
           //   if (nftAction === 'buy') {
-          //     navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+          //     navigate(`/my-page?category=NFTs&tab=History&page=1`);
           //   } else if (nftAction === 'mint') {
           //     fetchAlbumDetail();
           //   }

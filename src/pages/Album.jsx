@@ -7,6 +7,10 @@ import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
+import persona01 from '../assets/images/evaluation/persona-all-bg.png';
+import persona02 from '../assets/images/evaluation/persona-user01.png';
+import persona03 from '../assets/images/evaluation/persona-user02.png';
+import persona04 from '../assets/images/evaluation/persona-user03.png';
 import PreparingModal from '../components/PreparingModal';
 // 스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -159,55 +163,55 @@ function Album() {
     <>
       <div className="main">
         {/* <div
-                    className={`main__header 
-                    ${selectedMusic !== null ? 'active' : ''} 
-                    ${isScrolled ? 'scrolled' : ''} 
-                    ${isPlaying ? 'playing' : 'no-playing'}`}
-                >
-                    <div className="main__header__album-cover">
-                        <p
-                            className="main__header__album-cover__img"
-                            style={{
-                                backgroundImage: `url(${
-                                    selectedMusic?.cover_image === 'string' ? coverImg10 : selectedMusic?.cover_image
-                                })`,
-                            }}
-                        ></p>
-                        <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
-                    </div>
-                    <div className="main__header__cover-info">
-                        <div className="main__header__cover-info__love-play">
-                            <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
-                                <img src={selectedMusic?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
-                                {selectedMusic?.like || 0}
-                            </p>
-                            <p className="play">
-                                <img src={playIcon} alt="play-icon" />
-                                {selectedMusic?.play_cnt || 0}
-                            </p>
-                            <p>|</p>
-                            <p className="name">
-                                <img src={selectedMusic?.user_profile || defaultCoverImg} />
-                                {selectedMusic?.name || 'unKnown'}
-                            </p>
-                        </div>
-                        <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedMusic?.id}`}>
-                            Details
-                        </Link>
-                    </div>
-                    <MyAudioPlayer
-                        track={selectedMusic}
-                        onTimeUpdate={handleTimeUpdate}
-                        // onClickPrevious={handleClickPrevious}
-                        // onClickNext={handleClickNext}
-                        onClickPrevious={handlePrev}
-                        onClickNext={handleNext}
-                        getTracks={getTracks}
-                        handleGetMusicList={handleGetMusicList}
-                        setIsPlaying={setIsPlaying}
-                        audioRef={audioRef}
-                    />
-                </div> */}
+              className={`main__header 
+              ${selectedMusic !== null ? 'active' : ''} 
+              ${isScrolled ? 'scrolled' : ''} 
+              ${isPlaying ? 'playing' : 'no-playing'}`}
+          >
+              <div className="main__header__album-cover">
+                  <p
+                      className="main__header__album-cover__img"
+                      style={{
+                          backgroundImage: `url(${
+                              selectedMusic?.cover_image === 'string' ? coverImg10 : selectedMusic?.cover_image
+                          })`,
+                      }}
+                  ></p>
+                  <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
+              </div>
+              <div className="main__header__cover-info">
+                  <div className="main__header__cover-info__love-play">
+                      <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
+                          <img src={selectedMusic?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
+                          {selectedMusic?.like || 0}
+                      </p>
+                      <p className="play">
+                          <img src={playIcon} alt="play-icon" />
+                          {selectedMusic?.play_cnt || 0}
+                      </p>
+                      <p>|</p>
+                      <p className="name">
+                          <img src={selectedMusic?.user_profile || defaultCoverImg} />
+                          {selectedMusic?.name || 'unKnown'}
+                      </p>
+                  </div>
+                  <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedMusic?.id}`}>
+                      Details
+                  </Link>
+              </div>
+              <MyAudioPlayer
+                  track={selectedMusic}
+                  onTimeUpdate={handleTimeUpdate}
+                  // onClickPrevious={handleClickPrevious}
+                  // onClickNext={handleClickNext}
+                  onClickPrevious={handlePrev}
+                  onClickNext={handleNext}
+                  getTracks={getTracks}
+                  handleGetMusicList={handleGetMusicList}
+                  setIsPlaying={setIsPlaying}
+                  audioRef={audioRef}
+              />
+          </div> */}
         <PlayerHeader
           selectedMusic={selectedMusic}
           isPlaying={isPlaying}
@@ -221,66 +225,124 @@ function Album() {
           setIsPlaying={setIsPlaying}
           audioRef={audioRef}
         />
-        <List
-          title="Total"
-          data={totalList}
-          id="total"
-          selectedMusic={selectedMusic}
-          selectedId={selectedId}
-          handlePlay={handlePlay}
-          currentTime={currentTime}
-          link="/song/list?songs=Latest"
-          setPreparingModal={setPreparingModal}
-          audioRef={audioRef}
-        />
-        <ListSlider
-          hitMusicList={hitList}
-          currentTime={currentTime}
-          handleLikeClick={handleLikeClick}
-          selectedMusic={selectedMusic}
-          selectedId={selectedId}
-          handlePlay={handlePlay}
-          id="slide"
-        />
-        <section className="album__content-list">
-          <article className="album__content-list__tab">
-            <button
-              className={`album__content-list__tab__item ${
-                activeTab === 'AI Lyrics & Songwriting' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('AI Lyrics & Songwriting')}
-            >
-              AI Lyrics & Songwriting
-            </button>
-            <button
-              className={`album__content-list__tab__item ${
-                activeTab === 'AI Singing Evaluation' ? 'active' : ''
-              }`}
-              onClick={() => setPreparingModal(true)}
-            >
-              AI Singing Evaluation
-            </button>
-            <button
-              className={`album__content-list__tab__item ${
-                activeTab === 'AI Cover Creation' ? 'active' : ''
-              }`}
-              onClick={() => setPreparingModal(true)}
-            >
-              AI Cover Creation
-            </button>
+        <article className="album__content-list__tab">
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Lyrics & Songwriting' ? 'active' : ''
+            }`}
+            onClick={() => setActiveTab('AI Lyrics & Songwriting')}
+          >
+            AI Lyrics & Songwriting
+          </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Singing Evaluation' ? 'active' : ''
+            }`}
+            onClick={() => setActiveTab('AI Singing Evaluation')}
+          >
+            AI Singing Evaluation
+          </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Cover Creation' ? 'active' : ''
+            }`}
+            onClick={() => setPreparingModal(true)}
+          >
+            AI Cover Creation
+          </button>
+        </article>
+        {activeTab === "AI Lyrics & Songwriting" && (
+          <article className='main__content-item'>
+            <List
+              title="Total"
+              data={totalList}
+              id="total"
+              selectedMusic={selectedMusic}
+              selectedId={selectedId}
+              handlePlay={handlePlay}
+              currentTime={currentTime}
+              link="/song/list?songs=Latest"
+              setPreparingModal={setPreparingModal}
+              audioRef={audioRef}
+            />
+            <ListSlider
+              hitMusicList={hitList}
+              currentTime={currentTime}
+              handleLikeClick={handleLikeClick}
+              selectedMusic={selectedMusic}
+              selectedId={selectedId}
+              handlePlay={handlePlay}
+              id="slide"
+            />
+            <section className="album__content-list">
+              <List
+                title="AI Lyrics & Songwriting"
+                data={randomList}
+                id="random"
+                selectedMusic={selectedMusic}
+                selectedId={selectedId}
+                handlePlay={handlePlay}
+                currentTime={currentTime}
+                setPreparingModal={setPreparingModal}
+                link="/song/list?songs=Latest"
+              />
+            </section>
           </article>
-          <List
-            title="AI Lyrics & Songwriting"
-            data={randomList}
-            id="random"
-            selectedMusic={selectedMusic}
-            selectedId={selectedId}
-            handlePlay={handlePlay}
-            currentTime={currentTime}
-            setPreparingModal={setPreparingModal}
-            link="/song/list?songs=Latest"
-          />
-        </section>
+        )}
+
+        {activeTab === "AI Singing Evaluation" && (
+          <section className='main__content-item'>
+            <article className='main__content-item__persona'>
+              <div className='main__content-item__persona__item'>
+                <img src={persona01}/>
+                <p>All</p>
+              </div>
+              <div className='main__content-item__persona__item'>
+                <img src={persona02}/>
+                <p>Jinwoo Yoo</p>
+              </div>
+              <div className='main__content-item__persona__item'>
+                <img src={persona03}/>
+                <p>Drexx</p>
+              </div>
+              <div className='main__content-item__persona__item'>
+                <img src={persona04}/>
+                <p>Elara Moon</p>
+              </div>
+            </article>
+            <article className="album__content-list">
+              <p className="album__content-list__title">
+                Evaluation Stage
+                <Link
+                  className="album__content-list__see-more-btn"
+                  to='/'
+                >
+                  See More
+                </Link>
+              </p>
+              <div className='album__content-list__evaluation-stage'>
+                <button className='album__content-list__evaluation-stage__item'>
+                  <div className='album__content-list__evaluation-stage__item__thought'>
+                    <p className='album__content-list__evaluation-stage__item__thought__play'>
+                      <img src={coverImg10} alt='coverImg'/>
+                    </p>
+                    <p className='album__content-list__evaluation-stage__item__thought__txt'>
+                      <img src={persona02} alt='Jinwoo-Yoo-img'/>
+                      “This track almost made me feel something. Almost. That’s a masterpiece.”
+                    </p>
+                    <dl className='album__content-list__evaluation-stage__item__title'>
+                      <dt>he dances through his masks like breathing - Yolkhead</dt>
+                      <dd><img src={defaultCoverImg} alt='user-name'/>Artist name</dd>
+                    </dl>
+                    
+                  </div>
+                </button>
+              </div>
+            </article>
+          </section>
+        )}
+
+
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
       <IntroLogo2 />

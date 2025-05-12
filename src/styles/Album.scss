@@ -3,14 +3,14 @@
 
 
 
-  .album__content-list {
+  // .album__content-list {
     .album__content-list__tab {
       display: flex;
       align-items: center;
       gap: 12px;
       width: 100%;
       overflow: auto;
-      
+      margin-top: 16px;
       .album__content-list__tab__item {
         display: flex;
         align-items: center;
@@ -92,6 +92,38 @@
         border-radius: 100%;
       }
     } //album__content-list__title--END--
+
+    .main__content-item{
+      .main__content-item__persona{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 16px 0 32px 0;
+        .main__content-item__persona__item{
+          width: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 8px;
+          cursor: pointer;
+          img{
+            width: 60px;
+            height: 60px;
+            border-radius: 100%;
+            border: 2px solid transparent;
+            transition: 0.3s;
+          }
+          p{
+            color: #F1F1F1;
+            font-family: Inter500;
+            font-size: 12px;
+          }
+        }//main__content-item__persona__item--END--
+      }//main__content-item__persona--END--
+    }//main__content-item--END--
+
+
     .album__content-list__list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -120,7 +152,7 @@
         background: #aaa;
       }
     } //album__content-list__see-more-btn--END--
-  } //album__content-list--END--
+  // } //album__content-list--END--
 
   .album__slide {
     padding: 50px 16px;

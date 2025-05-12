@@ -279,6 +279,7 @@ function Album() {
             currentTime={currentTime}
             setPreparingModal={setPreparingModal}
             link="/song/list?songs=Latest"
+            audioRef={audioRef}
           />
         </section>
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}

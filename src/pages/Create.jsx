@@ -31,12 +31,14 @@ const Create = () => {
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
     try {
-      await refetch(); // 사용자 정보 다시 조회
-      if (userData && userData.is_creating) {
+      // refetch가 반환하는 객체에서 최신 데이터를 꺼내 쓴다
+      const { data: freshUser } = await refetch();
+
+      if (freshUser?.is_creating) {
         setShowErrorModal(true);
-        return true; // 생성 중이면 true 반환
+        return true;
       }
-      return false; // 생성 중이 아니면 false 반환
+      return false;
     } catch (error) {
       console.error('유저 정보 조회 실패:', error);
       return false;

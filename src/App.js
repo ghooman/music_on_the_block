@@ -32,7 +32,7 @@ import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
 import UploadSequence from './pages/UploadSequence';
 import MusicGenerator from './pages/MusicGenerator';
-
+import Suno from './pages/Suno';
 function Layout({ children }) {
   return (
     <div>
@@ -67,7 +67,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
               <Route path="/upload-sequence" element={<UploadSequence />} />
-              <Route path="/music-generator" element={<MusicGenerator />} />
+              <Route path="/mureka" element={<MusicGenerator />} />
+              <Route path="/suno" element={<Suno />} />
               <Route
                 path="main"
                 element={

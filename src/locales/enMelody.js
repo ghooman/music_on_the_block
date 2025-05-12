@@ -26,7 +26,7 @@ const enMelody = {
     voiceRegex:
       /Voice\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)))/,
     instrumentRegex:
-      /Instruments\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements)))/,
+      /Instruments\s*(?:[:\-]\s*|\()(.*?)(?:\)|(?:,\s*Tempo|,\s*Additional|\s*Tempo|\s*Additional|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements)))/,
     tempoRegex:
       /Tempo\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements)))/,
     detailRegex:
@@ -40,7 +40,7 @@ const enMelody = {
     promptVoiceRegex:
       /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Voice|Voice:|\-\s*Voice|\-\s*Voice:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptInstrumentRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Instruments|Instruments:|\-\s*Instruments|\-\s*Instruments:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements)))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Instruments|Instruments:|\-\s*Instruments|\-\s*Instruments:)[\s:]*(?:\()?(.*?)(?:\)|(?:,\s*Tempo|,\s*Additional|\s*Tempo|\s*Additional|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements)))/i,
     promptTempoRegex:
       /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tempo|Tempo:|\-\s*Tempo|\-\s*Tempo:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements)))/i,
     promptDetailRegex:

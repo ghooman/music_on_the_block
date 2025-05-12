@@ -388,14 +388,14 @@ const MelodyMaker = ({
         />
 
         <SelectItem
-          mainTitle="Select a Musical Instrument"
-          subTitle="Popular Musical Instrument"
+          mainTitle="Instrument"
+          subTitle="Instrument Tags"
+          preset={instrumentPreset}
           setter={setMelodyData}
           objKey="melody_instrument"
-          selected={melodyData?.melody_instrument}
-          preset={instrumentPreset}
-          multiple
-          add
+          selected={melody_instrument || []}
+          multiple={true}
+          add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />

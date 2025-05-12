@@ -406,6 +406,13 @@ const NftConfirmModal = ({
     }
   };
 
+  const defineModalTitle = () => {
+    if (confirmSellTxt) return 'Sell';
+    else if (confirmBuyTxt) return 'Buy';
+    else if (confirmMintTxt) return 'Mint';
+    else if (confirmCancelTxt) return 'Cancel';
+  };
+
   if (showSuccessModal) {
     return (
       <NftConfirmSuccessModal
@@ -418,7 +425,11 @@ const NftConfirmModal = ({
   }
 
   return (
-    <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
+    <ModalWrap
+      title={'Confirm ' + defineModalTitle()}
+      onClose={handleClose}
+      className="confirm-modal"
+    >
       <dl>
         {(confirmSellTxt || confirmCancelTxt || confirmBuyTxt) && (
           <dt>Title: {nftData?.title || nftName}</dt>
@@ -466,7 +477,12 @@ const NftConfirmModal = ({
             </p>
           </div>
         )}
-        <dd className="confirm-modal__gas-fee">※ Network fees may apply.</dd>
+        <dd className="confirm-modal__gas-fee">
+          ※
+          {confirmMintTxt
+            ? 'MIC fees may apply and the process may take up to 3 minutes.'
+            : 'Network fees may apply and the process may take up to 3 minutes.'}
+        </dd>
       </dl>
       <div className="confirm-modal__btns">
         <button className="confirm-modal__btns__cancel" onClick={handleClose}>
@@ -490,13 +506,16 @@ const NftConfirmModal = ({
           </button>
         )}
         {confirmCancelTxt && (
-          <button className="confirm-modal__btns__ok" onClick={handleCancel}>
+          <button
+            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
+            onClick={handleCancel}
+          >
             {isLoading || polygonDisabled ? <Loading /> : 'Yes, Continue'}
           </button>
         )}
         {confirmBuyTxt && (
           <button
-            className="confirm-modal__btns__ok"
+            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
             onClick={handleBuy}
             disabled={!agree || isLoading || polygonDisabled}
           >

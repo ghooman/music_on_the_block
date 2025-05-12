@@ -237,7 +237,7 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dd>64,494,473</dd>
               </dl>
               <dl className="footer__bottom__left__token-value">
-                <dt>Cirulationg supply</dt>
+                <dt>Circulating supply</dt>
                 <dd>41,757,721</dd>
               </dl>
               <dl className="footer__bottom__left__token-value">

@@ -290,7 +290,7 @@ const MelodyMaker = ({
           style: '',
           gender: melody_gender?.[0] || '',
           musical_instrument: melody_instrument?.join(', ') || '',
-          ai_service: '',
+          ai_service: 1,
           ai_service_type: '',
           tempo: parseFloat(tempo),
           song_length: '',

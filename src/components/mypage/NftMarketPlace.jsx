@@ -26,7 +26,7 @@ const subCategoryList = [
   { name: 'History', preparing: false },
 ];
 
-const nftFilterItemList = ['All', 'Listed', 'Unlisted'];
+const nftFilterItemList = ['Listed', 'Unlisted'];
 
 /**
  *
@@ -76,7 +76,7 @@ const NftItems = ({ username, isMyProfile }) => {
   const gradeFilter = searchParams.get('grade_filter');
   const tokenFilter = searchParams.get('token_filter');
   const nftSort = searchParams.get('nft_sort');
-  const nftFilter = searchParams.get('nft_filter') || 'All';
+  const nftFilter = searchParams.get('nft_filter') || 'Listed';
 
   const { data, isLoading, refetch } = useQuery(
     ['nfts_data', page, nftFilter, search, gradeFilter, tokenFilter, nftSort, username],
@@ -123,6 +123,8 @@ const NftItems = ({ username, isMyProfile }) => {
           saleOption={isMyProfile}
           nftList={data?.data_list}
           onCancelSuccess={() => refetch()}
+          listedDateOption={nftFilter === 'Listed'}
+          mintedDateOption={nftFilter === 'Unlisted'}
         />
         <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
         {isLoading && <Loading />}

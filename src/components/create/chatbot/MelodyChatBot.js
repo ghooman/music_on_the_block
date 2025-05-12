@@ -508,7 +508,7 @@ const MelodyChatBot = ({
           style: '',
           gender: melody_gender,
           musical_instrument: melody_instrument,
-          ai_service: '',
+          ai_service: 1,
           ai_service_type: '',
           tempo: parseInt(melody_tempo),
           song_length: '',

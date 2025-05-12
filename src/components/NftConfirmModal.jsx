@@ -428,7 +428,7 @@ const NftConfirmModal = ({
             Price: {sellPrice} {selectedCoin?.name} ($ 0)
           </dt>
         )}
-        {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title}</dt>}
+        {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title || nftName}</dt>}
         {confirmBuyTxt && (
           <dt>
             Price: {nftData?.price} {nftData?.sales_token} ($ 0)

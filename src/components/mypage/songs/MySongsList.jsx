@@ -1,34 +1,24 @@
-// 📦 외부 라이브러리
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useQuery, useQueryClient } from 'react-query';
-
-// 🖼️ 이미지/에셋
-import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
-import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
-import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
-
-// 🧩 유닛 컴포넌트
-import Filter from '../unit/Filter';
-import SongPlayTable from '../table/SongPlayTable';
-import AlbumItem from '../unit/AlbumItem';
-import ContentWrap from '../unit/ContentWrap';
-import Search from '../unit/Search';
-import SubCategories from '../unit/SubCategories';
-import Pagination from '../unit/Pagination';
-import Loading from '../../components/IntroLogo2';
-import SongDeleteAndReleaseModal from '../SongDeleteAndReleaseModal';
-import NftConfirmModal from '../NftConfirmModal';
-
-// 🔌 API 모듈
-import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
-import { getReleaseAndUnReleaseSongData } from '../../api/getReleaseAndUnReleaseSongData';
-
-// 🎨 스타일
-import './Songs.scss';
+import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 
-// 환경변수
+import { GetMyTopAlbumList } from '../../../api/GetMyTopAlbumList';
+import { getReleaseAndUnReleaseSongData } from '../../../api/getReleaseAndUnReleaseSongData';
+
+import TopSongsTemplates from './TopSongsTeplates';
+import ContentWrap from '../../unit/ContentWrap';
+import SubCategories from '../../unit/SubCategories';
+import Filter from '../../unit/Filter';
+import Search from '../../unit/Search';
+import Pagination from '../../unit/Pagination';
+import SongPlayTable from '../../table/SongPlayTable';
+import NftConfirmModal from '../../NftConfirmModal';
+import SongDeleteAndReleaseModal from '../../SongDeleteAndReleaseModal';
+import Loading from '../../IntroLogo2';
+
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const myAlbumsCategoryList = [
@@ -36,7 +26,7 @@ const myAlbumsCategoryList = [
   { name: 'Released songs', preparing: false },
 ];
 
-const Songs = ({ token }) => {
+const MySongsList = ({ token }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [deleteMusic, setDeleteMusic] = useState(null);
   const [releaseMusic, setReleaseMusic] = useState(null);
@@ -64,7 +54,6 @@ const Songs = ({ token }) => {
   const {
     data: songsList,
     isLoading: songsListLoading,
-    isFetching,
     refetch: songListRefetch,
   } = useQuery(
     ['songs_list', { token, page, songsSort, search, releaseType }],
@@ -110,7 +99,6 @@ const Songs = ({ token }) => {
     setMintMusic(item);
   };
 
-  console.log(mintMusic, '민트 뮤직');
   return (
     <div className="songs">
       <TopSongsTemplates topSongsData={topSongsData} />
@@ -185,42 +173,4 @@ const Songs = ({ token }) => {
   );
 };
 
-export default Songs;
-
-export const TopSongsTemplates = ({ topSongsData }) => {
-  const topAlbumsCategoryList = [
-    {
-      name: 'AI Lyrics & Songwriting',
-      image: generatedLyricSongwritingIcon,
-      preparing: false,
-    },
-    { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: true },
-    { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
-  ];
-
-  const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList?.[0].name);
-
-  return (
-    <ContentWrap title="Top Songs">
-      <SubCategories
-        categories={topAlbumsCategoryList}
-        handler={setTopAlbumsCategory}
-        value={topAlbumsCategory}
-      />
-      <div className="songs__body">
-        <div className="songs__item">
-          <p className="songs__item-title">Top Plays</p>
-          <AlbumItem track={topSongsData?.top_plays} />
-        </div>
-        <div className="songs__item">
-          <p className="songs__item-title">Top Likes</p>
-          <AlbumItem track={topSongsData?.top_like} />
-        </div>
-        <div className="songs__item">
-          <p className="songs__item-title">Top Comments</p>
-          <AlbumItem track={topSongsData?.top_comments} />
-        </div>
-      </div>
-    </ContentWrap>
-  );
-};
+export default MySongsList;

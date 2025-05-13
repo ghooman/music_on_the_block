@@ -96,7 +96,7 @@ const NftConfirmModal = ({
     }
     setIsLoading(true);
     try {
-      const response = await mintNft2(token, songId, selectedCollection?.id);
+      const response = await mintNft2(token, songId);
       if (response.status === 'success') {
         setSuccessContent('Your song has been minted as an NFT!');
         setShowSuccessModal(true);

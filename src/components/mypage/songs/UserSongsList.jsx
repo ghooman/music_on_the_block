@@ -2,19 +2,19 @@ import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
-import ContentWrap from '../unit/ContentWrap';
-import Filter from '../unit/Filter';
-import Pagination from '../unit/Pagination';
-import Search from '../unit/Search';
-import SongPlayTable from '../table/SongPlayTable';
-import Loading from '../../components/IntroLogo2';
+import ContentWrap from '../../unit/ContentWrap';
+import Filter from '../../unit/Filter';
+import Pagination from '../../unit/Pagination';
+import Search from '../../unit/Search';
+import SongPlayTable from '../../table/SongPlayTable';
+import Loading from '../../../components/IntroLogo2';
+import TopSongsTemplates from './TopSongsTeplates';
 
 import './Songs.scss';
-import { TopSongsTemplates } from './Songs';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
-const SongsUser = ({ username }) => {
+const UserSongsList = ({ username }) => {
   const [searchParams] = useSearchParams();
 
   const page = searchParams.get('page');
@@ -65,4 +65,4 @@ const SongsUser = ({ username }) => {
   );
 };
 
-export default SongsUser;
+export default UserSongsList;

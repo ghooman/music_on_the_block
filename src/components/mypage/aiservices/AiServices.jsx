@@ -3,19 +3,19 @@ import axios from 'axios';
 
 import './AiServices.scss';
 
-import LyricsIcon from '../../assets/images/icon/Lyrics-Icon.svg';
-import LyricsAndSongwritingIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import SongwritingIcon from '../../assets/images/icon/Composition-Icon.svg';
+import LyricsIcon from '../../../assets/images/icon/Lyrics-Icon.svg';
+import LyricsAndSongwritingIcon from '../../../assets/images/icon/Songwriting-Icon.svg';
+import SongwritingIcon from '../../../assets/images/icon/Composition-Icon.svg';
 
-import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
-import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
-import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
+import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
-import FilterDateModal from '../../components/unit/FilterDateModal';
-import PreparingModal from '../PreparingModal';
-import SubCategories from '../unit/SubCategories';
-import { BarChart, LineChart, PieChart } from '../unit/Chart';
-import { formatLocalTime } from '../../utils/getFormattedTime';
+import FilterDateModal from '../../../components/unit/FilterDateModal';
+import PreparingModal from '../../PreparingModal';
+import SubCategories from '../../unit/SubCategories';
+import { BarChart, LineChart, PieChart } from '../../unit/Chart';
+import { formatLocalTime } from '../../../utils/getFormattedTime';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 

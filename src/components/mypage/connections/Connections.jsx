@@ -1,21 +1,18 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useSearchParams } from 'react-router-dom';
-
 import axios from 'axios';
 
-import ContentWrap from '../unit/ContentWrap';
-import Filter from '../unit/Filter';
-import Search from '../unit/Search';
-import SubCategories from '../unit/SubCategories';
-import Pagination from '../unit/Pagination';
-import UnFollowModal from '../UnFollowModal';
-import UserTable from '../table/UserTable';
-import Loading from '../../components/IntroLogo2';
+import { useCallback, useContext, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthContext';
 
-import './Connections.scss';
-
-import { AuthContext } from '../../contexts/AuthContext';
+import ContentWrap from '../../unit/ContentWrap';
+import Filter from '../../unit/Filter';
+import Search from '../../unit/Search';
+import SubCategories from '../../unit/SubCategories';
+import Pagination from '../../unit/Pagination';
+import UnFollowModal from '../../UnFollowModal';
+import UserTable from '../../table/UserTable';
+import Loading from '../../../components/IntroLogo2';
 
 const categories = [
   { name: 'Following', preparing: false },
@@ -140,7 +137,6 @@ const Connections = () => {
           <Filter userSort={true} gradeFilter={true} />
           <Search placeholder="Search by Artist name..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
-        {/* <AlbumsTable /> */}
         <UserTable
           userList={connectionsData?.data_list}
           followOption={connectionsType === 'Followers'}

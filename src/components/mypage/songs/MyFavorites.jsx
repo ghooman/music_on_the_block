@@ -1,30 +1,27 @@
 // 라이브러리
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 
-// CSS
-import './MyFavorites.scss';
-
 // 이미지
-import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
-import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-singing-evaluation.svg';
-import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
+import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
 // 컴포넌트
-import Filter from '../unit/Filter';
-import ContentWrap from '../unit/ContentWrap';
-import Search from '../unit/Search';
-import Pagination from '../unit/Pagination';
-import SubCategories from '../unit/SubCategories';
-import Loading from '../../components/IntroLogo2';
-import SongPlayTable from '../table/SongPlayTable';
+import Filter from '../../unit/Filter';
+import ContentWrap from '../../unit/ContentWrap';
+import Search from '../../unit/Search';
+import Pagination from '../../unit/Pagination';
+import SubCategories from '../../unit/SubCategories';
+import Loading from '../../../components/IntroLogo2';
+import SongPlayTable from '../../table/SongPlayTable';
 
 // API 모듈
-import { getLikeList } from '../../api/getLikeAndUnLikeList';
+import { getLikeList } from '../../../api/getLikeAndUnLikeList';
 
 // Context
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },

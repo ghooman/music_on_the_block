@@ -102,7 +102,7 @@ const MySongsList = ({ token }) => {
   return (
     <div className="songs">
       <TopSongsTemplates topSongsData={topSongsData} />
-      <ContentWrap title="Songs">
+      <ContentWrap title="Song List">
         <SubCategories
           categories={myAlbumsCategoryList}
           handler={value => {

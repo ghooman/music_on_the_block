@@ -1,4 +1,11 @@
-.albums-item {
+.album-collections-module-items-wraps {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.album-collections-module-items {
   display: flex;
   padding: 16px;
   flex-direction: column;
@@ -6,7 +13,6 @@
   gap: 8px;
   border-radius: 16px;
   background: var(--Color-03, #222);
-  width: 212px;
 
   cursor: pointer;
   &__info {
@@ -42,14 +48,14 @@
       line-height: 100%; /* 10px */
       letter-spacing: 0.3px;
     }
-    &--songs-edit {
+    &--edit {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    &--songs-edit__edit-btn {
+    &--edit-btn {
       // position: absolute;
       top: 8px;
       right: 8px;
@@ -77,8 +83,8 @@
 
   &__cover {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    max-height: 190px;
 
     img {
       width: 100%;
@@ -86,5 +92,17 @@
       object-fit: cover;
       border-radius: 4px;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .album-collections-module-items-wraps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .album-collections-module-items-wraps {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import SubCategories from '../../unit/SubCategories';
 import MySongsList from './MySongsList';
 import UserSongsList from './UserSongsList';
+import Albums from './Albums';
 
 // 🎨 스타일
 import './Songs.scss';
@@ -32,6 +33,7 @@ const Songs = ({ token, username, isMyProfile }) => {
         />
         {tab === 'Songs' && <MySongsList token={token} />}
         {tab === 'Favorites' && <MyFavorites />}
+        {tab === 'Albums' && <Albums username={username} isMyProfile />}
       </div>
     );
   } else {
@@ -47,6 +49,7 @@ const Songs = ({ token, username, isMyProfile }) => {
           }
         />
         {tab === 'Songs' && <UserSongsList username={username} />}
+        {tab === 'Albums' && <Albums username={username} />}
       </div>
     );
   }

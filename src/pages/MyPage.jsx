@@ -13,7 +13,6 @@ import defaultCoverImg from '../assets/images/header/logo.svg';
 
 import AiServices from '../components/mypage/aiservices/AiServices';
 import Songs from '../components/mypage/songs/Songs';
-import Albums from '../components/mypage/albums/Albums';
 import MyFavorites from '../components/mypage/songs/MyFavorites';
 import LinksModal from '../components/LinksModal';
 import { WalletConnect } from '../components/WalletConnect';
@@ -57,7 +56,6 @@ const MyProfile = () => {
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
     { name: 'Connections', preparing: false },
-    { name: 'Favorites', preparing: false },
     { name: 'Albums', preparing: false },
     { name: 'NFTs', preparing: false },
   ];
@@ -76,8 +74,6 @@ const MyProfile = () => {
       {category === 'AI Services' && <AiServices username={userData?.name} />}
       {category === 'Songs' && <Songs username={userData?.name} isMyProfile token={token} />}
       {category === 'Connections' && <Connections />}
-      {category === 'Favorites' && <MyFavorites />}
-      {category === 'Albums' && <Albums username={userData?.name} isCreate={true} />}
       {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
     </div>
   );
@@ -205,7 +201,7 @@ const UserProfile = () => {
       <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
       {category === 'AI Services' && <AiServices username={username} />}
       {category === 'Songs' && <Songs username={username} />}
-      {category === 'Albums' && <Albums username={username} isCreate={false} />}
+
       {category === 'NFTs' && <NFTs username={username} />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal

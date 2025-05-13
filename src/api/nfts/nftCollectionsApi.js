@@ -49,7 +49,7 @@ export const createNftCollection = async (token, formData) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error('API 호출 실패: NFTS 컬렉션 생성 실패');
+    throw new Error('API 호출 실패: NFTS 컬렉션 생성 실패' + error);
   }
 };
 

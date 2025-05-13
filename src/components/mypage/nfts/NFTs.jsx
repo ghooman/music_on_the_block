@@ -9,12 +9,14 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import SubCategories from '../../unit/SubCategories';
 import NftItems from './NftItems';
 import History from './History';
+import Collections from './Collections';
 
 // Assets & Styles
 import './NFTs.scss';
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
+  { name: 'Collections', preparing: false },
   { name: 'History', preparing: false },
 ];
 
@@ -48,9 +50,9 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
       {tab === 'NFT items' && (
         <NftItems token={token} username={username} isMyProfile={isMyProfile} />
       )}
-      {/* {tab === 'Collections' && (
-        <CollectionItems token={token} username={username} isMyProfile={isMyProfile} />
-      )} */}
+      {tab === 'Collections' && (
+        <Collections token={token} username={username} isMyProfile={isMyProfile} />
+      )}
       {tab === 'History' && <History username={username} isMyProfile={isMyProfile} />}
     </div>
   );

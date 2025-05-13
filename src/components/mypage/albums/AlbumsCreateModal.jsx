@@ -18,6 +18,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [deleteAlbums, setDeleteAlbums] = useState(false);
+
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -257,7 +258,7 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
               onClick={handleSubmit}
               disabled={isLoading}
             >
-              {isLoading ? <Loading/> : status === 'edit' ? 'Edit' : 'Create'}
+              {isLoading ? <Loading /> : status === 'edit' ? 'Edit' : 'Create'}
             </button>
           </div>
           {status === 'edit' && (
@@ -270,7 +271,6 @@ const AlbumsCreateModal = ({ setShowCreateModal, status, onAlbumCreated, albumDa
           )}
         </div>
       </ModalWrap>
-
     </>
   );
 };

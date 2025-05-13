@@ -1,12 +1,11 @@
-import { useContext, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../contexts/AuthContext';
 
-import ModalWrap from '../../ModalWrap';
-import Loading from '../../Loading';
+import ModalWrap from '../../../ModalWrap';
+import Loading from '../../../Loading';
 
-import UploadButtonImage from '../../../assets/images/icon/picture1.svg';
-import defaultAlbumsImage from '../../../assets/images/intro/mob-album-cover.png';
+import UploadButtonImage from '../../../../assets/images/icon/picture1.svg';
+import defaultAlbumsImage from '../../../../assets/images/intro/mob-album-cover.png';
 
 import './AlbumCollectionCreateEditModal.scss';
 
@@ -103,30 +102,26 @@ const AlbumCollectionCreateEditModal = ({
           >
             Cancel
           </button>
-          {handleEdit && (
-            <button
-              className={`album-collection-module-create-edit-modal__button create-button${
-                loading ? ' disabled' : ''
-              }`}
-              onClick={() => handleEdit()}
-              disabled={loading || invalidImageSize || invalidNameSize}
-            >
-              {loading ? <Loading /> : 'Edit'}
-            </button>
-          )}
 
-          {handleCreate && (
+          {(handleCreate || handleEdit) && (
             <button
               className={`album-collection-module-create-edit-modal__button create-button${
                 loading ? ' disabled' : ''
               }`}
               onClick={async () => {
-                await handleCreate({ image, name: name?.trim() });
-                setSuccess('Album create success!');
+                if (handleCreate) {
+                  await handleCreate({ image, name: name?.trim() });
+                  setSuccess('Album create success!');
+                } else if (handleEdit) {
+                  await handleEdit({ image, name: name?.trim() });
+                  setSuccess('Album edit success!');
+                }
               }}
               disabled={loading || invalidImageSize || invalidNameSize}
             >
-              {loading ? <Loading /> : 'Create'}
+              {loading && <Loading />}
+              {!loading && handleCreate && 'Create'}
+              {!loading && handleEdit && 'Edit'}
             </button>
           )}
         </div>

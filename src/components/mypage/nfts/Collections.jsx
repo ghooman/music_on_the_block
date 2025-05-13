@@ -15,13 +15,17 @@ import NoneContent from '../../unit/NoneContent';
 
 import subBannerImage4 from '../../../assets/images/create/subbanner-bg4.png';
 import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
-import AlbumCollectionCreateEditModal from '../albumsAndCollectionsComponents/AlbumCollectionCreateEditModal';
+import AlbumCollectionCreateEditModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionCreateEditModal';
+import AlbumCollectionDeleteConfirmModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDeleteConfirmModal';
+import AlbumCollectionDetailsModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDetailsModal';
 
 const Collections = ({ token, username, isMyProfile }) => {
   const [searchParams] = useSearchParams();
 
   const [details, setDetails] = useState(null);
   const [create, setCreate] = useState(false);
+  const [edit, setEdit] = useState(null);
+  const [deleteData, setDeleteData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -31,6 +35,9 @@ const Collections = ({ token, username, isMyProfile }) => {
 
   const navigate = useNavigate();
 
+  //================
+  // Fetch
+  //================
   const {
     data,
     isLoading: fetchCollectionLoading,
@@ -52,9 +59,9 @@ const Collections = ({ token, username, isMyProfile }) => {
   );
 
   //================
-  // 컬렉션 생성 함수
+  // 컬렉션 생성 및 수정 함수
   //================
-  const handleCreate = async ({ image, name }) => {
+  const handleCreateAndEdit = async ({ image, name }) => {
     const formData = new FormData();
     formData.append('payload', JSON.stringify({ name }));
     formData.append('image', image);
@@ -70,6 +77,22 @@ const Collections = ({ token, username, isMyProfile }) => {
       setIsLoading(false);
     }
   };
+
+  //================
+  // 컬렉션 삭제 함수
+  //================
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+    } catch (e) {
+      console.log(e);
+      setErrorMessage(e?.response?.data?.detail || e?.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  console.log(data, '아옳옳');
 
   return (
     <>
@@ -110,10 +133,46 @@ const Collections = ({ token, username, isMyProfile }) => {
         <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
         {fetchCollectionLoading && <Loading />}
       </ContentWrap>
+      {details && (
+        <AlbumCollectionDetailsModal
+          handleClose={() => setDetails(null)}
+          name={details?.name}
+          artist={details?.user_name}
+          count={details?.nft_cnt}
+          onEditClick={() => {
+            const copy = { ...details };
+            setDetails(null);
+            setEdit(copy);
+          }}
+          onDeleteClick={() => {
+            const copy = { ...details };
+            setDetails(null);
+            setDeleteData(copy);
+          }}
+          onNavigate={() => {}}
+        />
+      )}
+
       {create && (
         <AlbumCollectionCreateEditModal
           handleClose={() => setCreate(false)}
-          handleCreate={({ image, name }) => handleCreate({ image, name })}
+          handleCreate={({ image, name }) => handleCreateAndEdit({ image, name })}
+          loading={isLoading}
+        />
+      )}
+      {edit && (
+        <AlbumCollectionCreateEditModal
+          handleClose={() => setEdit(null)}
+          handleEdit={({ image, name }) => handleCreateAndEdit({ image, name, id: edit?.id })}
+          editData={{ image: edit?.image, name: edit?.name }}
+          loading={isLoading}
+        />
+      )}
+      {deleteData && (
+        <AlbumCollectionDeleteConfirmModal
+          name={deleteData?.name}
+          handleClose={() => setDeleteData(null)}
+          handleDelete={() => handleDelete()}
           loading={isLoading}
         />
       )}

@@ -56,7 +56,6 @@ const MyProfile = () => {
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
     { name: 'Connections', preparing: false },
-    { name: 'Albums', preparing: false },
     { name: 'NFTs', preparing: false },
   ];
 
@@ -98,7 +97,6 @@ const UserProfile = () => {
   const serviceTabObj = [
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
-    { name: 'Albums', preparing: false },
     { name: 'NFTs', preparing: false },
   ];
 
@@ -201,7 +199,6 @@ const UserProfile = () => {
       <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
       {category === 'AI Services' && <AiServices username={username} />}
       {category === 'Songs' && <Songs username={username} />}
-
       {category === 'NFTs' && <NFTs username={username} />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal

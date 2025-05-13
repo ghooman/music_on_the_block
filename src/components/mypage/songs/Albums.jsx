@@ -10,17 +10,18 @@ import Pagination from '../../unit/Pagination';
 import Search from '../../unit/Search';
 import SubBanner from '../../../components/create/SubBanner';
 import AlbumCollectionItems from '../albumsAndCollectionsComponents/AlbumCollectionItems';
-import AlbumsCreateModal from './../albums/AlbumsCreateModal';
-import AlbumsDetailsModal from './../albums/AlbumsDetailsModal';
+import AlbumCollectionDetailsModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDetailsModal';
+import AlbumCollectionDeleteConfirmModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDeleteConfirmModal';
+import AlbumCollectionCreateEditModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionCreateEditModal';
 import NoneContent from '../../../components/unit/NoneContent';
 import Loading from '../../../components/IntroLogo2';
+
+import { createAlbumsList, updateAlbumsList, deleteAlbumsList } from '../../../api/AlbumsListApi';
 
 import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
 import subBannerImage4 from '../../../assets/images/create/subbanner-bg4.png';
 
 import './Albums.scss';
-import AlbumCollectionCreateEditModal from '../albumsAndCollectionsComponents/AlbumCollectionCreateEditModal';
-import { createAlbumsList } from '../../../api/AlbumsListApi';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -32,7 +33,9 @@ const Albums = ({ username, isMyProfile }) => {
 
   const [details, setDetails] = useState(null);
   const [edit, setEdit] = useState(null);
+  const [deleteData, setDeleteData] = useState(null);
   const [create, setCreate] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -64,9 +67,9 @@ const Albums = ({ username, isMyProfile }) => {
   );
 
   //======================
-  // 앨범 생성
+  // 앨범 생성 및 에딧
   //======================
-  const handleCreate = async ({ image, name }) => {
+  const handleCreateAndEdit = async ({ image, name, id }) => {
     const formData = new FormData();
     formData.append('cover_image', image);
     formData.append(
@@ -77,8 +80,27 @@ const Albums = ({ username, isMyProfile }) => {
     );
     try {
       setIsLoading(true);
-      const res = await createAlbumsList(formData, token);
+      let res;
+      // id 파라미터 존재 시 edit 기능 수행
+      if (id) res = await updateAlbumsList(id, formData, token);
+      else res = await createAlbumsList(formData, token, id);
       if (res.status === 200) console.log('완료');
+      refetch();
+    } catch (e) {
+      setErrorMessage(e?.response?.data?.detail || e?.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //======================
+  // 앨범 삭제
+  //======================
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      const res = await deleteAlbumsList(deleteData.id, token);
+      refetch();
     } catch (e) {
       setErrorMessage(e?.response?.data?.detail || e?.message);
     } finally {
@@ -127,36 +149,46 @@ const Albums = ({ username, isMyProfile }) => {
         )}
         <Pagination totalCount={albumsList?.total_cnt} viewCount={12} page={page} />
       </ContentWrap>
-      {/* {showCreateModal && (
-        <AlbumsCreateModal
-          setShowCreateModal={setShowCreateModal}
-          onAlbumCreated={refetch}
-          status={editMode ? 'edit' : 'create'}
-          albumData={editMode ? selectedAlbum : null}
-        />
-      )} */}
       {create && (
         <AlbumCollectionCreateEditModal
           handleClose={() => setCreate(false)}
-          handleCreate={({ image, name }) => handleCreate({ image, name })}
+          handleCreate={({ image, name }) => handleCreateAndEdit({ image, name })}
           loading={isLoading}
         />
       )}
       {edit && (
-        <AlbumCollectionCreateEditModal handleClose={() => setEdit(null)} loading={isLoading} />
+        <AlbumCollectionCreateEditModal
+          handleClose={() => setEdit(null)}
+          handleEdit={({ image, name }) => handleCreateAndEdit({ image, name, id: edit?.id })}
+          editData={{ image: edit.cover_image, name: edit.album_name }}
+          loading={isLoading}
+        />
       )}
-
+      {deleteData && (
+        <AlbumCollectionDeleteConfirmModal
+          name={deleteData?.album_name}
+          handleClose={() => setDeleteData(null)}
+          handleDelete={() => handleDelete()}
+          loading={isLoading}
+        />
+      )}
       {details && (
-        <AlbumsDetailsModal
-          setShowDetailModal={setDetails}
-          album={details}
-          token={token}
-          onAlbumCreated={refetch}
+        <AlbumCollectionDetailsModal
+          handleClose={() => setDetails(null)}
+          name={details?.album_name}
+          artist={details?.name}
+          count={details?.song_cnt}
           onEditClick={() => {
             const copy = { ...details };
             setDetails(null);
             setEdit(copy);
           }}
+          onDeleteClick={() => {
+            const copy = { ...details };
+            setDetails(null);
+            setDeleteData(copy);
+          }}
+          onNavigate={() => {}}
         />
       )}
       {albumsListLoading && <Loading />}

@@ -26,8 +26,9 @@ const Create = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const [finalPrompt, setFinalPrompt] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [selectedVersion, setSelectedVersion] = useState('topmediai');
   const { data: userData, refetch } = useUserDetail();
-
+  console.log('selectedVersion', selectedVersion);
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
     try {
@@ -126,6 +127,7 @@ const Create = () => {
           createPossibleCount={createPossibleCount}
           setCreateMode={setCreateMode}
           setSelectedLanguage={setSelectedLanguage}
+          setSelectedVersion={setSelectedVersion}
         />
         {showErrorModal && (
           <ErrorModal
@@ -158,6 +160,7 @@ const Create = () => {
               generatedLyric={generatedLyric}
               setPageNumber={setPageNumber}
               selectedLanguage={selectedLanguage}
+              selectedVersion={selectedVersion}
             />
           )}
           {pageNumber === 1 && (
@@ -178,6 +181,7 @@ const Create = () => {
               setGeneratedMusicResult={setGeneratedMusicResult}
               finalPrompt={finalPrompt}
               setFinalPrompt={setFinalPrompt}
+              selectedVersion={selectedVersion}
             />
           )}
         </>
@@ -206,6 +210,7 @@ const Create = () => {
               createPossibleCount={createPossibleCount}
               albumCover={albumCover}
               setAlbumCover={setAlbumCover}
+              selectedVersion={selectedVersion}
             ></LyricLab>
           )}
           {pageNumber === 1 && (
@@ -233,6 +238,7 @@ const Create = () => {
               setAlbumCover={setAlbumCover}
               finalPrompt={finalPrompt}
               setFinalPrompt={setFinalPrompt}
+              selectedVersion={selectedVersion}
             ></MelodyMaker>
           )}
         </>

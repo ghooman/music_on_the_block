@@ -105,13 +105,7 @@ const NftConfirmModal = ({
         setErrorMessage(response);
       }
     } catch (error) {
-      const match = error.message.match(/{.*}/);
-      setErrorMessage(
-        error?.response?.data?.detail ||
-          error?.message ||
-          JSON.parse(match?.[0])?.message ||
-          'Error'
-      );
+      setErrorMessage(error?.response?.data?.detail || error?.message);
     } finally {
       setIsLoading(false);
     }

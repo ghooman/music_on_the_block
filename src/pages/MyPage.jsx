@@ -24,7 +24,7 @@ import axios from 'axios';
 import UnFollowModal from '../components/UnFollowModal';
 import SongsUser from '../components/mypage/SongsUser';
 import NftMarketPlace from '../components/mypage/NftMarketPlace';
-import { getUserGradeIcon } from '../utils/getGradeIcon';
+import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import Loading from '../components/IntroLogo2';
 import LinksModal from '../components/LinksModal';
 
@@ -67,12 +67,6 @@ const MyProfile = () => {
     if (tab === category) return;
     setSearchParams({ category: tab });
   };
-
-  useEffect(() => {
-    if (!category) {
-      setSearchParams({ category: 'AI Services' }, { replace: true });
-    }
-  }, []);
 
   return (
     <div className="mypage">
@@ -242,7 +236,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           className="profile__bg"
           style={{ backgroundImage: `url(${userData && (userData?.background_image || demoBg)})` }}
         ></div>
-        <div className="profile__info">
+        <div className="profile__info" id="profile-info">
           {/**=== */}
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div className="profile__info--name-level">
@@ -253,11 +247,11 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               />
               <p className="profile__info--name-text">{userData?.name}</p>
               <div className="profile__info--level">
-                <p className="profile__info--level-text">level</p>
-                {getUserGradeIcon(userData?.user_rating) && (
+                <p className="profile__info--level-text">Level</p>
+                {getUserGradeSquareIcon(userData?.user_rating) && (
                   <img
                     className="profile__info--level-icon"
-                    src={getUserGradeIcon(userData?.user_rating)}
+                    src={getUserGradeSquareIcon(userData?.user_rating)}
                     alt="icon"
                   />
                 )}

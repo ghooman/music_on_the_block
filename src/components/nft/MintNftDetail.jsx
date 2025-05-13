@@ -20,9 +20,7 @@ import NoneContent from '../unit/NoneContent';
 import ErrorModal from '../modal/ErrorModal';
 import Loading from '../IntroLogo2';
 import NftConfirmModal from '../NftConfirmModal';
-import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
 import CreateCollectionModal from '../CreateCollectionModal';
-import BuyNftModal from './BuyNftModal';
 import { CollectionItemList } from './NftItem';
 
 // 🎨 스타일 & 에셋
@@ -42,11 +40,10 @@ function MintNftDetail() {
   // 모달
 
   const [showCollectionModal, setShowCollectionModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  const [errorMessage, setErrorMessage] = useState('');
   const [mintNftModal, setMintNftModal] = useState(false);
   const [buyNftModal, setBuyNftModal] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -157,25 +154,13 @@ function MintNftDetail() {
       {mintNftModal && (
         <NftConfirmModal
           setShowModal={setMintNftModal}
-          setShowSuccessModal={setShowSuccessModal}
           title="Confirm"
           confirmSellTxt={false}
           confirmMintTxt={true}
           songId={id}
           songData={songData}
           selectedCollection={selectedCollection}
-        />
-      )}
-      {showSuccessModal && (
-        <NftConfirmSuccessModal
-          setShowSuccessModal={setShowSuccessModal}
-          title="Your song has been minted as an NFT!"
-        />
-      )}
-      {showCollectionModal && (
-        <CreateCollectionModal
-          setShowCollectionModal={setShowCollectionModal}
-          fetchMyNftCollections={refetch}
+          // onSuccess={() => refetch()}
         />
       )}
       {buyNftModal && (
@@ -185,6 +170,13 @@ function MintNftDetail() {
           confirmBuyTxt={true}
           nftData={nftData}
           selectedCollection={selectedCollection}
+          // onSuccess={() => refetch()}
+        />
+      )}
+      {showCollectionModal && (
+        <CreateCollectionModal
+          setShowCollectionModal={setShowCollectionModal}
+          fetchMyNftCollections={refetch}
         />
       )}
       {errorMessage && (

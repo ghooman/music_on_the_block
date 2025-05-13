@@ -11,12 +11,17 @@ const NftTable = ({
   nftList = [],
   collectionOption = true,
   saleOption,
+  dateOption = true,
+  listedDateOption,
+  mintedDateOption,
   handleSell,
   saleStatusOption,
   buyerOption,
   sellerOption,
   onCancelSuccess,
 }) => {
+  dateOption = !listedDateOption && !mintedDateOption;
+
   const navigate = useNavigate();
   const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -38,10 +43,13 @@ const NftTable = ({
           <TableHeader.Col>Type</TableHeader.Col>
           <TableHeader.Col>Grade</TableHeader.Col>
           <TableHeader.Col>Item</TableHeader.Col>
+          {/* {collectionOption && <TableHeader.Col>Collection</TableHeader.Col>} */}
           {buyerOption && <TableHeader.Col>Buyer</TableHeader.Col>}
           {sellerOption && <TableHeader.Col>Seller</TableHeader.Col>}
           <TableHeader.Col>Price</TableHeader.Col>
-          <TableHeader.Col>Date</TableHeader.Col>
+          {dateOption && <TableHeader.Col>Date</TableHeader.Col>}
+          {listedDateOption && <TableHeader.Col>Listed Date</TableHeader.Col>}
+          {mintedDateOption && <TableHeader.Col>Minted Date</TableHeader.Col>}
           <TableHeader.Col>Details</TableHeader.Col>
           {saleOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
           {saleStatusOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
@@ -54,6 +62,7 @@ const NftTable = ({
                 <TableItem.Type image={songTypeIcon} />
                 <TableItem.Grade grade={item.nft_rating} />
                 <TableItem.Text text={item.nft_name} />
+                {/* {collectionOption && <TableItem.Text text={item.connect_collection_name || '-'} />} */}
                 {buyerOption && (
                   <TableItem.UserInfo image={item?.buy_user_profile} name={item?.buy_user_name} />
                 )}
@@ -64,7 +73,10 @@ const NftTable = ({
                   />
                 )}
                 <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
-                <TableItem.Date date={item.create_dt} />
+                {dateOption && <TableItem.Date date={item.create_dt} />}
+                {listedDateOption && <TableItem.Date date={item.listing_date} />}
+                {mintedDateOption && <TableItem.Date date={item.create_dt} />}
+
                 <TableItem.Button
                   title="Details"
                   type="details"

@@ -303,7 +303,7 @@ const AlarmModal = () => {
   const navigateToMain = () => {
     setAlbumPk(null);
     setElapsedSeconds(0);
-    navigate('/');
+    navigate('/main');
   };
 
   if (!shouldRenderModal) return null;

@@ -18,7 +18,7 @@
       top: 0px;
       border-radius: 12px;
 
-      &::before {
+      &::after {
         content: '';
         position: absolute;
         top: 4px;
@@ -33,7 +33,7 @@
 
       &:hover {
         top: 4px;
-        &::before {
+        &::after {
           top: 0px;
         }
       }
@@ -41,7 +41,7 @@
 
     .cancelBtn {
       background-color: #383838;
-      &::before {
+      &::after {
         border-color: #383838;
       }
     }
@@ -50,7 +50,7 @@
       background-color: #cf0;
       color: #1a1a1a;
 
-      &::before {
+      &::after {
         border-color: #cf0;
       }
     }
@@ -99,12 +99,12 @@
 
       &:hover {
         top: 4px;
-        &::before {
+        &::after {
           top: 0px;
         }
       }
 
-      &::before {
+      &::after {
         content: '';
         position: absolute;
         border: 1px solid;
@@ -120,13 +120,13 @@
     .delete {
       background-color: #df1919;
       color: #1a1a1a;
-      &::before {
+      &::after {
         border-color: #df1919;
       }
     }
     .cancel {
       background-color: #383838;
-      &::before {
+      &::after {
         border-color: #383838;
       }
     }

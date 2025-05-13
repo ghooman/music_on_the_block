@@ -18,6 +18,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { checkPolygonStatus } from '../../api/checkPolygonStatus';
 import PolygonStatus from '../unit/PolygonStatus';
+import Loading from '../Loading';
+import { useTokenBalance } from '../../hooks/useTokenBalance';
 const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   console.log('nftData', nftData);
   // 폴리곤 상태 확인
@@ -43,6 +45,8 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
   const [needsApproval, setNeedsApproval] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
   const navigate = useNavigate();
+
+  const { refetchAll } = useTokenBalance();
 
   const ContractAddress = () => {
     switch (nftData?.sales_token) {
@@ -193,6 +197,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
           'Error'
       );
     } finally {
+      refetchAll();
       setIsLoading(false);
     }
   };
@@ -244,7 +249,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
             onClick={handleBuyProcess}
             disabled={!agree || isLoading || isApproving || polygonDisabled}
           >
-            {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Buy NFT'}
           </button>
         </div>
       </div>

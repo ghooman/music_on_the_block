@@ -56,15 +56,15 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
       />
       <div className="chart__pie--text">
         <p className="chart__pie--text-value" style={{ color: matchedData?.color }}>
-          {selectedItem === 'All' && total}
-          {selectedItem !== 'All' && matchedData?.value}
+          {selectedItem === 'All' && (!isNaN(total) ? total : '0')}
+          {selectedItem !== 'All' && (!isNaN(matchedData?.value) ? matchedData?.value : '0')}
         </p>
         <p className="chart__pie--text-per">
           {selectedItem !== 'All'
             ? isNaN(matchedData?.value / total)
               ? '-'
               : ((matchedData?.value / total) * 100)?.toFixed(2)
-            : 100}
+            : '-'}
           %
         </p>
       </div>
@@ -206,7 +206,10 @@ export const BarChart = ({
         theme={{
           textColor: '#fff',
           axis: {
-            ticks: { text: { fill: '#888', fontSize: 12 }, line: { stroke: '#333' } },
+            ticks: {
+              text: { fill: '#888', fontSize: 12, textTransform: 'capitalize' },
+              line: { stroke: '#333' },
+            },
             domain: { line: { stroke: '#444' } },
           },
           grid: { line: { stroke: '#222', strokeWidth: 1 } },

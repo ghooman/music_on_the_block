@@ -148,6 +148,7 @@ const MelodyMaker = ({
   setAlbumCover,
   finalPrompt,
   setFinalPrompt,
+  selectedVersion,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -280,40 +281,65 @@ const MelodyMaker = ({
         setAlbumCover(coverImageUrl);
       }
 
+      // selectedVersion 에따라 create_ai_type 과 ai_model 구성
+      let create_ai_type = '';
+      let ai_model = '';
+      switch (selectedVersion) {
+        case 'topmediai':
+          create_ai_type = 'topmediai';
+          ai_model = '';
+          break;
+        case 'mureka-5.5':
+          create_ai_type = 'mureka';
+          ai_model = 'mureka-5.5';
+          break;
+        case 'mureka-6':
+          create_ai_type = 'mureka';
+          ai_model = 'mureka-6';
+          break;
+        case 'V3.5':
+          create_ai_type = 'suno';
+          ai_model = 'V3.5';
+          break;
+        case 'suno-V4':
+          create_ai_type = 'suno';
+          ai_model = 'V4';
+          break;
+        case 'V4_5':
+          create_ai_type = 'suno';
+          ai_model = 'V4_5';
+          break;
+        default:
+          create_ai_type = 'topmediai';
+          ai_model = '';
+          break;
+      }
       // API에 전달할 payload 구성
       const formData = {
-        album: {
-          title: title,
-          detail: melodyDetail,
-          language: selectedLanguage,
-          genre: melody_genre?.[0] || '',
-          style: '',
-          gender: melody_gender?.[0] || '',
-          musical_instrument: melody_instrument?.join(', ') || '',
-          ai_service: '',
-          ai_service_type: '',
-          tempo: parseFloat(tempo),
-          song_length: '',
-          lyrics: generatedLyric,
-          mood: '',
-          tags: melody_tag ? melody_tag.join(', ') : '',
-          cover_image: coverImageUrl,
-          prompt: finalPrompt,
-        },
-        album_lyrics_info: {
-          language: selectedLanguage,
-          feelings: '',
-          genre: lyricData?.lyric_genre?.[0] || '',
-          form: lyricData?.lyric_tag ? lyricData.lyric_tag.join(', ') : '',
-          my_story: lyricStory,
-        },
+        title: title,
+        detail: melodyDetail,
+        language: selectedLanguage,
+        genre: melody_genre?.[0] || '',
+        style: '',
+        gender: melody_gender?.[0] || '',
+        musical_instrument: melody_instrument?.join(', ') || '',
+        ai_service: 1,
+        ai_service_type: '',
+        tempo: parseFloat(tempo),
+        song_length: '',
+        lyrics: generatedLyric,
+        mood: '',
+        tags: melody_tag ? melody_tag.join(', ') : '',
+        cover_image: coverImageUrl,
+        prompt: finalPrompt,
+        create_ai_type: create_ai_type,
+        ai_model: ai_model,
       };
-
+      console.log('formData', formData);
       // axios를 통한 POST 요청
-      const res = await axios.post(`${serverApi}/api/music/album/lyrics`, formData, {
+      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'x-api-key': 'f47d348dc08d492492a7a5d546d40f4a',
           'Content-Type': 'application/json',
         },
       });
@@ -388,14 +414,14 @@ const MelodyMaker = ({
         />
 
         <SelectItem
-          mainTitle="Select a Musical Instrument"
-          subTitle="Popular Musical Instrument"
+          mainTitle="Instrument"
+          subTitle="Instrument Tags"
+          preset={instrumentPreset}
           setter={setMelodyData}
           objKey="melody_instrument"
-          selected={melodyData?.melody_instrument}
-          preset={instrumentPreset}
-          multiple
-          add
+          selected={melody_instrument || []}
+          multiple={true}
+          add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />

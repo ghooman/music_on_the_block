@@ -24,17 +24,18 @@ import ErrorModal from '../components/modal/ErrorModal';
 import { checkPolygonStatus } from '../api/checkPolygonStatus';
 import PolygonStatus from './unit/PolygonStatus';
 import { useUserDetail } from '../hooks/useUserDetail';
+import Loading from './Loading';
+import NftConfirmSuccessModal from './NftConfirmSuccessModal';
 
 // 바이 캔슬 민팅 판매
 
 const NftConfirmModal = ({
   setShowModal,
-  title,
+  title = 'Confirm',
   confirmSellTxt,
   confirmMintTxt,
   confirmCancelTxt,
   confirmBuyTxt,
-  setShowSuccessModal,
   selectedCollection,
   songId,
   nftName,
@@ -49,6 +50,9 @@ const NftConfirmModal = ({
 }) => {
   // 폴리곤 상태 확인
   const [polygonStatus, setPolygonStatus] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successContent, setSuccessContent] = useState('');
+
   useEffect(() => {
     const fetchPolygonStatus = async () => {
       const status = await checkPolygonStatus();
@@ -94,21 +98,14 @@ const NftConfirmModal = ({
     try {
       const response = await mintNft2(token, songId, selectedCollection?.id);
       if (response.status === 'success') {
-        setShowModal(false);
+        setSuccessContent('Your song has been minted as an NFT!');
         setShowSuccessModal(true);
-        if (onSuccess) onSuccess();
       } else {
         console.error('error', response);
         setErrorMessage(response);
       }
     } catch (error) {
-      const match = error.message.match(/{.*}/);
-      setErrorMessage(
-        error?.response?.data?.detail ||
-          error?.message ||
-          JSON.parse(match?.[0])?.message ||
-          'Error'
-      );
+      setErrorMessage(error?.response?.data?.detail || error?.message);
     } finally {
       setIsLoading(false);
     }
@@ -192,17 +189,22 @@ const NftConfirmModal = ({
       console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
-      setShowModal(false);
+      setSuccessContent('Your NFT has been listed for sale!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      const match = error.message.match(/{.*}/);
-      setErrorMessage(
-        error?.response?.data?.detail ||
-          error?.message ||
-          (match && JSON.parse(match?.[0]))?.message ||
-          'Error'
-      );
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
+
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
+
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
     } finally {
       setIsLoading(false);
     }
@@ -239,20 +241,22 @@ const NftConfirmModal = ({
       const response = await serverCancelListing(listingId);
       console.log('cancelListing', listingId);
 
-      setShowModal(false);
+      setSuccessContent('Your listing has been cancelled successfully!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      const match = error.message.match(/{.*}/);
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
 
-      console.log(error, '에러 매치');
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
 
-      setErrorMessage(
-        (match && JSON.parse(match?.[0]))?.message ||
-          error?.response?.data?.detail ||
-          error?.message ||
-          'Error'
-      );
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
     } finally {
       setIsLoading(false);
     }
@@ -263,49 +267,27 @@ const NftConfirmModal = ({
   // 토큰 허용량 확인
   useEffect(() => {
     if (!confirmBuyTxt || !nftData?.price) return;
+  }, [nftData, confirmBuyTxt]);
 
-    const checkAllowance = async () => {
-      try {
-        let currentAllowance = 0;
+  let currentAllowance = 0;
 
-        // 토큰 종류에 따라 허용량 설정
-        switch (nftData?.sales_token) {
-          case 'MOB':
-            currentAllowance = mobAllowanceData || 0;
-            break;
-          case 'POL':
-            currentAllowance = polAllowanceData || 0;
-            break;
-          case 'USDT':
-            currentAllowance = usdtAllowanceData || 0;
-            break;
-          case 'USDC':
-            currentAllowance = usdcAllowanceData || 0;
-            break;
-          default:
-            currentAllowance = 0;
-        }
-
-        if (currentAllowance && Number(currentAllowance) >= Number(nftData.price)) {
-          setNeedsApproval(false);
-        } else {
-          setNeedsApproval(true);
-        }
-      } catch (error) {
-        console.error('Error checking allowance:', error);
-        setNeedsApproval(true);
-      }
-    };
-
-    checkAllowance();
-  }, [
-    nftData,
-    mobAllowanceData,
-    polAllowanceData,
-    usdtAllowanceData,
-    usdcAllowanceData,
-    confirmBuyTxt,
-  ]);
+  // 토큰 종류에 따라 허용량 설정
+  switch (nftData?.sales_token) {
+    case 'MOB':
+      currentAllowance = mobAllowanceData;
+      break;
+    case 'POL':
+      currentAllowance = polAllowanceData;
+      break;
+    case 'USDT':
+      currentAllowance = usdtAllowanceData;
+      break;
+    case 'USDC':
+      currentAllowance = usdcAllowanceData;
+      break;
+    default:
+      currentAllowance = 0;
+  }
 
   // 토큰 종류에 따라 적절한 approve 함수 호출
   const approveToken = async () => {
@@ -346,7 +328,6 @@ const NftConfirmModal = ({
         }
       );
       console.log('serverResponse', response);
-      navigate(`/nft`);
       return response;
     } catch (error) {
       console.error('Error during buy from listing:', error);
@@ -360,24 +341,8 @@ const NftConfirmModal = ({
 
     try {
       // 1번 어프로브 체크
-      if (needsApproval) {
-        setIsApproving(true);
-        try {
-          await approveToken();
-          setNeedsApproval(false);
-          setIsApproving(false);
-        } catch (error) {
-          const match = error.message.match(/{.*}/);
-          setErrorMessage(
-            (match && JSON.parse(match?.[0]))?.message ||
-              error?.response?.data?.detail ||
-              error?.message ||
-              'Error during approval'
-          );
-          setIsApproving(false);
-          setIsLoading(false);
-          return;
-        }
+      if (currentAllowance < nftData.price) {
+        await approveToken();
       }
       // 2번 구매 진행 (리스팅 발급)
       const tx_id = await buyFromListing(
@@ -389,17 +354,22 @@ const NftConfirmModal = ({
       // 3번 리스팅 발급후 서버에 구매 요청
       await handleServerBuy(tx_id);
 
-      setShowModal(false);
+      setSuccessContent('Your NFT purchase was successful!');
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      const match = error.message.match(/{.*}/);
-      setErrorMessage(
-        (match && JSON.parse(match?.[0]))?.message ||
-          error?.response?.data?.detail ||
-          error?.message ||
-          'Error'
-      );
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
+
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
+
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
       console.log(error, '구매 에러');
     } finally {
       setIsLoading(false);
@@ -417,25 +387,61 @@ const NftConfirmModal = ({
     setShowModal(false);
   };
 
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    setShowModal(false);
+  };
+
+  const defineNavigate = () => {
+    if (confirmSellTxt) {
+      navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Listed');
+    } else {
+      navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Unlisted');
+    }
+    window.scrollTo({ top: 0 });
+  };
+
+  const defineModalTitle = () => {
+    if (confirmSellTxt) return 'Sell';
+    else if (confirmBuyTxt) return 'Buy';
+    else if (confirmMintTxt) return 'Mint';
+    else if (confirmCancelTxt) return 'Cancel';
+  };
+
+  if (showSuccessModal) {
+    return (
+      <NftConfirmSuccessModal
+        setShowSuccessModal={handleSuccessModalClose}
+        title={'Confirm'}
+        content={successContent}
+        onSuccess={() => defineNavigate()}
+      />
+    );
+  }
+
   return (
-    <ModalWrap title={title} onClose={handleClose} className="confirm-modal">
+    <ModalWrap
+      title={'Confirm ' + defineModalTitle()}
+      onClose={handleClose}
+      className="confirm-modal"
+    >
       <dl>
         {(confirmSellTxt || confirmCancelTxt || confirmBuyTxt) && (
-          <dt>Title: {selectedCollection?.name || nftName}</dt>
+          <dt>Title: {nftData?.title || nftName}</dt>
         )}
         {confirmSellTxt && (
           <dt>
-            Price : {sellPrice} {selectedCoin?.name} ($100)
+            Price: {sellPrice} {selectedCoin?.name} ($ 0)
           </dt>
         )}
-        {confirmMintTxt && <dt>Title: {songData?.title}</dt>}
+        {confirmMintTxt && <dt>Title: {songData?.title || nftData?.title || nftName}</dt>}
         {confirmBuyTxt && (
           <dt>
-            Price : {nftData?.price} {nftData?.sales_token} ($100)
+            Price: {nftData?.price} {nftData?.sales_token} ($ 0)
           </dt>
         )}
         <PolygonStatus />
-        {(confirmBuyTxt || confirmSellTxt) && (
+        {confirmBuyTxt && (
           <label className="confirm-modal__checkbox-wrap">
             <input
               className="confirm-modal__checkbox"
@@ -454,46 +460,71 @@ const NftConfirmModal = ({
         {confirmMintTxt && (
           <div className="confirm-modal__title-wrap">
             <p className="confirm-modal__title-wrap__title">
-              My MIC <span>{micBalance}</span>
+              My MIC{' '}
+              <span>
+                {isNaN(Number(micBalance)) || Number(micBalance) <= 0
+                  ? 0
+                  : Number(micBalance).toFixed(2)?.toLocaleString()}
+              </span>
             </p>
             <p className="confirm-modal__title-wrap__title">
-              MIC Fees <span>100</span>
+              MIC Fees <span>0</span>
             </p>
           </div>
         )}
-        <dd className="confirm-modal__gas-fee">※ Network fees may apply.</dd>
+        <dd className="confirm-modal__gas-fee">
+          ※{' '}
+          {confirmMintTxt ? (
+            <>
+              MIC fees may apply
+              <br />
+              and the process may take up to 3 minutes.
+            </>
+          ) : (
+            <>
+              Network fees may apply
+              <br />
+              and the process may take up to 3 minutes.
+            </>
+          )}
+        </dd>
       </dl>
-
       <div className="confirm-modal__btns">
         <button className="confirm-modal__btns__cancel" onClick={handleClose}>
           Cancel
         </button>
         {confirmMintTxt && (
-          <button className="confirm-modal__btns__ok" onClick={handleMint}>
-            {isLoading || polygonDisabled ? 'Loading...' : 'Mint'}
+          <button
+            className={`confirm-modal__btns__ok ${isLoading ? ' disabled' : ''}`}
+            onClick={handleMint}
+          >
+            {isLoading || polygonDisabled ? <Loading /> : 'Mint'}
           </button>
         )}
 
         {confirmSellTxt && (
           <button
-            className={`confirm-modal__btns__ok ${agree ? '' : 'disabled'}`}
+            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
             onClick={handleSell}
           >
-            {isLoading || polygonDisabled ? 'Loading...' : 'Sell'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Sell'}
           </button>
         )}
         {confirmCancelTxt && (
-          <button className="confirm-modal__btns__ok" onClick={handleCancel}>
-            {isLoading || polygonDisabled ? 'Loading...' : 'Yes, Continue'}
+          <button
+            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
+            onClick={handleCancel}
+          >
+            {isLoading || polygonDisabled ? <Loading /> : 'Yes, Continue'}
           </button>
         )}
         {confirmBuyTxt && (
           <button
-            className="confirm-modal__btns__ok"
+            className={`confirm-modal__btns__ok ${isLoading ? 'disabled' : ''}`}
             onClick={handleBuy}
-            disabled={!agree || isLoading || isApproving || polygonDisabled}
+            disabled={!agree || isLoading || polygonDisabled}
           >
-            {isLoading || polygonDisabled ? 'Loading...' : 'Buy NFT'}
+            {isLoading || polygonDisabled ? <Loading /> : 'Buy NFT'}
           </button>
         )}
       </div>

@@ -18,7 +18,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { useTokenBalance } from '../hooks/useTokenBalance';
-import { getUserGradeIcon } from '../utils/getGradeIcon';
+import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
@@ -40,7 +40,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const { data: userData, isLoading, error } = useUserDetail();
   console.log('userData', userData);
 
-  const micBalance = userData?.mic_point || '0.00';
+  const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
     setActiveMenus(
@@ -120,9 +120,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
 
-  const { mobBalance, polBalance } = useTokenBalance();
-
-  console.log(userData, '정글 차이');
+  const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
 
   return (
     <>
@@ -144,11 +142,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <>
                   <div className="menu__box__my-page">
                     <div className="menu__box__my-page__level">
+                      <p className="level">Level</p>
                       <p className="menu__box__my-page__level__img">
-                        <img src={getUserGradeIcon(userData?.user_rating)} alt="level icon" />
+                        <img src={getUserGradeSquareIcon(userData?.user_rating)} alt="level icon" />
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
-                      <p className="level">Level</p>
                     </div>
                     <div className="menu__box__my-page__info">
                       <div className="menu__box__my-page__info__top">
@@ -173,13 +171,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{polBalance}</p>
-                          <span>
-                            <img src={polIcon} alt="mob icon" />
-                            POL
-                          </span>
-                        </div>
-                        <div className="menu__box__my-page__info__bottom__box">
                           <p>{mobBalance}</p>
                           <span>
                             <img src={mobIcon} alt="mob icon" />
@@ -194,14 +185,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{polBalance}</p>
+                          <span>
+                            <img src={polIcon} alt="mob icon" />
+                            POL
+                          </span>
+                        </div>
+                        <div className="menu__box__my-page__info__bottom__box">
+                          <p>{usdtBalance}</p>
                           <span>
                             <img src={usdtIcon} alt="usdt icon" />
                             USDT
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>0</p>
+                          <p>{usdcBalance}</p>
                           <span>
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC

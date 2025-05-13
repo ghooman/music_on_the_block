@@ -283,11 +283,11 @@ const NftItemDetailInfo = ({ id }) => {
               <div className="nft-item-detail__song-detail__right__info-box">
                 <dl>
                   <dt>Item ID</dt>
-                  <dd>Item ID (# {nftDetailData?.id})</dd>
+                  <dd># {nftDetailData?.id}</dd>
                 </dl>
                 <dl>
                   <dt>Collection</dt>
-                  <dd>{nftDetailData?.connect_collection_name}</dd>
+                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
                 </dl>
                 <dl className="artist">
                   <dt>Artist</dt>
@@ -379,15 +379,17 @@ const NftItemDetailInfo = ({ id }) => {
           nftName={nftDetailData.nft_name}
           nftData={nftDetailData}
           listingId={nftDetailData?.listing_id}
-          onSuccess={() => {
-            if (nftAction === 'buy') {
-              navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
-              return;
-            }
+          // onSuccess={() => {
+          //   if (nftAction === 'buy') {
+          //     // 구매 성공 후 바로 페이지 이동하지 않고, 성공 모달이 표시되도록 변경
+          //     // navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+          //     // 성공 모달이 닫힐 때 NftConfirmSuccessModal 내부에서 페이지 이동 처리
+          //     return;
+          //   }
 
-            setCancelSuccess(false);
-            nftDetailRefetch();
-          }}
+          //   setCancelSuccess(false);
+          //   nftDetailRefetch();
+          // }}
         />
       )}
       {isShareModal && (

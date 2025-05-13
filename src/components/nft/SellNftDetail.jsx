@@ -2,7 +2,7 @@ import './MintNftDetail.scss';
 import axios from 'axios';
 import React, { useState, useContext } from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import 'react-h5-audio-player/lib/styles.css';
 import ContentWrap from '../unit/ContentWrap';
@@ -15,9 +15,9 @@ import usdtIcon from '../../assets/images/icon/usdt-icon.svg';
 import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
 
 import NftConfirmModal from '../NftConfirmModal';
-import NftConfirmSuccessModal from '..//NftConfirmSuccessModal';
 import SongsBar from '../unit/SongsBar';
 import { ethers, parseUnits } from 'ethers';
+import { getSongsGradeIcon } from '../../utils/getGradeIcon';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 // ────────────────────────────────
@@ -25,11 +25,13 @@ function MintNftSellDetail2() {
   const { id, nft_id } = useParams(); // id : 앨범 id, nft_id : nft id
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [isActive, setIsActive] = useState(false); // track active state for the title
   const [sellPrice, setSellPrice] = useState(null);
   const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin
+
+  const navigate = useNavigate();
+
   const handleTitleClick = () => {
     setIsActive(prev => !prev); // toggle active class
   };
@@ -38,7 +40,11 @@ function MintNftSellDetail2() {
     setIsActive(false); // remove active class
   };
 
-  const { data: nftInfo, isLoading } = useQuery(
+  const {
+    data: nftInfo,
+    isLoading,
+    refetch,
+  } = useQuery(
     ['nft_info', { id, nft_id }],
     async () => {
       const res = await axios.get(`${serverApi}/api/nfts/${nft_id}/detail`, {
@@ -72,6 +78,16 @@ function MintNftSellDetail2() {
   }
 
   console.log('sellPriceInWei', sellPriceInWei);
+
+  // 금액 입력함수 숫자만 소수점 4자리까지 입력
+  const handleSellPriceChange = e => {
+    const value = e.target.value;
+    const regex = /^[0-9]*(\.[0-9]{0,4})?$/;
+    if (regex.test(value)) {
+      setSellPrice(value);
+    }
+  };
+
   return (
     <>
       <div className="mint-detail">
@@ -84,8 +100,15 @@ function MintNftSellDetail2() {
         <ContentWrap title="Set NFT sell conditions">
           <div className="level-quantity-box">
             <dl className="level-quantity-box__dl">
-              <dt>Level of NFT</dt>
-              <dd>1</dd>
+              <dt>Grade of NFT</dt>
+              <dd>
+                <div className="level-quantity-box__grade">
+                  {getSongsGradeIcon(nftInfo?.data?.rating) && (
+                    <img src={getSongsGradeIcon(nftInfo?.data?.rating)} alt="grade" />
+                  )}
+                  {nftInfo?.data?.rating}
+                </div>
+              </dd>
             </dl>
             <dl className="level-quantity-box__dl">
               <dt>Quantity</dt>
@@ -111,7 +134,7 @@ function MintNftSellDetail2() {
                 <input
                   placeholder="How much will you sell each NFT for? (e.g. 0.05)"
                   value={sellPrice}
-                  onChange={e => setSellPrice(e.target.value)}
+                  onChange={handleSellPriceChange}
                   type="number"
                 />
                 {/* <button className='sell-nft-input-box__value__btn'><img src={mobIcon} alt='mic-icon'/>MOB</button> */}
@@ -150,7 +173,6 @@ function MintNftSellDetail2() {
       {showModal && (
         <NftConfirmModal
           setShowModal={setShowModal}
-          setShowSuccessModal={setShowSuccessModal}
           title="Confirm"
           nftName={nftInfo?.data?.nft_name}
           confirmSellTxt={true}
@@ -159,12 +181,7 @@ function MintNftSellDetail2() {
           selectedCoin={selectedCoin}
           thirdwebId={nftInfo?.data?.thirdweb_id}
           listingId={nftInfo?.data?.listing_id}
-        />
-      )}
-      {showSuccessModal && (
-        <NftConfirmSuccessModal
-          setShowSuccessModal={setShowSuccessModal}
-          title="Your NFT purchase has been Sold!"
+          // onSuccess={() => navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Listed')}
         />
       )}
     </>

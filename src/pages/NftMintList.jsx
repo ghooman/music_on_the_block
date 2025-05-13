@@ -27,7 +27,11 @@ const NftMintList = () => {
   const navigate = useNavigate();
 
   // 더미
-  const { data: songList, isLoading } = useQuery(
+  const {
+    data: songList,
+    isLoading,
+    refetch,
+  } = useQuery(
     ['nft_mint_list', { page, search, songsSort, gradeFilter }],
     async () => {
       const res = await axios.get(`${serverApi}/api/nfts/mitable`, {
@@ -59,9 +63,8 @@ const NftMintList = () => {
 
   return (
     <div>
-      <ContentWrap title="Mint an NFT">
+      <ContentWrap title="Mint NFT">
         <ContentWrap.SubWrap gap={8}>
-          <ContentWrap.SubTitle subTitle="Mint one of your songs" />
           <Filter songsSort={true} gradeFilter={true} />
           <Search placeholder="Search" />
         </ContentWrap.SubWrap>
@@ -87,9 +90,10 @@ const NftMintList = () => {
           confirmBuyTxt={false}
           selectedSong={selectedSong}
           songId={mintData?.id}
-          onSuccess={() => {
-            navigate('/nft');
-          }}
+          nftName={mintData?.title}
+          // onSuccess={() => {
+          //   refetch();
+          // }}
         />
       )}
     </div>

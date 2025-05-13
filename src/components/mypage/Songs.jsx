@@ -1,7 +1,7 @@
 // 📦 외부 라이브러리
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useQuery, useQueryClient } from 'react-query';
 
 // 🖼️ 이미지/에셋
 import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
@@ -17,8 +17,8 @@ import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import Pagination from '../unit/Pagination';
 import Loading from '../../components/IntroLogo2';
-import SongDeleteModal from '../../components/SongDeleteModal';
-import SongReleaseModal from '../../components/SongReleaseModal';
+import SongDeleteAndReleaseModal from '../SongDeleteAndReleaseModal';
+import NftConfirmModal from '../NftConfirmModal';
 
 // 🔌 API 모듈
 import { GetMyTopAlbumList } from '../../api/GetMyTopAlbumList';
@@ -32,19 +32,23 @@ import axios from 'axios';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const myAlbumsCategoryList = [
-  { name: 'Unreleased songs', preparing: false },
-  { name: 'Released songs', preparing: false },
+  { name: 'Unreleased', preparing: false },
+  { name: 'Released', preparing: false },
 ];
 
 const Songs = ({ token }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [deleteMusic, setDeleteMusic] = useState(null);
   const [releaseMusic, setReleaseMusic] = useState(null);
+  const [mintMusic, setMintMusic] = useState(null);
 
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search') || '';
   const songsSort = searchParams.get('songs_sort');
-  const releaseType = searchParams.get('release_type') || 'Unreleased songs';
+  const releaseType = searchParams.get('release_type') || 'Unreleased';
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   // 내 TOP 앨범 리스트 API 호출
   const { data: topSongsData, isLoading: topSongLoading } = useQuery(
@@ -60,6 +64,7 @@ const Songs = ({ token }) => {
   const {
     data: songsList,
     isLoading: songsListLoading,
+    isFetching,
     refetch: songListRefetch,
   } = useQuery(
     ['songs_list', { token, page, songsSort, search, releaseType }],
@@ -85,7 +90,6 @@ const Songs = ({ token }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    songListRefetch();
   };
 
   //=============
@@ -97,9 +101,16 @@ const Songs = ({ token }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    songListRefetch();
   };
 
+  //=============
+  // 민트
+  //=============
+  const handleMint = async item => {
+    setMintMusic(item);
+  };
+
+  console.log(mintMusic, '민트 뮤직');
   return (
     <div className="songs">
       <TopSongsTemplates topSongsData={topSongsData} />
@@ -121,11 +132,13 @@ const Songs = ({ token }) => {
         <SongPlayTable
           songList={songsList?.data_list}
           deleteOption={true}
-          releaseOption={releaseType === 'Unreleased songs'}
-          gradeOption={releaseType === 'Released songs'}
-          nftOption={releaseType === 'Released songs'}
+          releaseOption={releaseType === 'Unreleased'}
+          gradeOption={releaseType === 'Released'}
+          nftOption={releaseType === 'Released'}
+          mintOption={releaseType === 'Released'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
+          handleMint={handleMint}
           playsOption={true}
           likesOption={true}
           artistOption={false}
@@ -134,17 +147,38 @@ const Songs = ({ token }) => {
       </ContentWrap>
       {(topSongLoading || songsListLoading) && <Loading />}
       {deleteMusic && (
-        <SongDeleteModal
-          setSongDeleteModal={setDeleteMusic}
+        <SongDeleteAndReleaseModal
+          setter={setDeleteMusic}
           songData={deleteMusic}
-          handler={handleDelete}
+          deleteHandler={handleDelete}
+          action={() => {
+            songListRefetch();
+          }}
         />
       )}
       {releaseMusic && (
-        <SongReleaseModal
-          setSongReleaseModal={setReleaseMusic}
+        <SongDeleteAndReleaseModal
+          setter={setReleaseMusic}
           songData={releaseMusic}
-          handler={handleRelease}
+          releaseHandler={handleRelease}
+          action={() => {
+            queryClient.invalidateQueries([
+              'songs_list',
+              { token, page, songsSort, search, releaseType },
+            ]);
+            navigate('/my-page?category=Songs&release_type=Released+songs&page=1');
+          }}
+        />
+      )}
+      {mintMusic && (
+        <NftConfirmModal
+          setShowModal={setMintMusic}
+          songId={mintMusic.id}
+          songData={mintMusic}
+          confirmMintTxt={true}
+          // onSuccess={() => {
+          //   songListRefetch();
+          // }}
         />
       )}
     </div>

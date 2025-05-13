@@ -81,6 +81,9 @@ const SongPlayTable = ({
       setActiveSong(null);
     }
   }, [isTrigger]);
+
+  console.log(songList, '리스트 데이터');
+
   return (
     <>
       <div className="audio-container" style={{ display: 'none' }}>
@@ -161,6 +164,7 @@ const SongPlayTable = ({
                       <TableItem.Button
                         title="Delete"
                         type="delete"
+                        disabled={item.is_nft}
                         handleClick={e => {
                           e.stopPropagation();
                           handleDelete(item);
@@ -183,6 +187,7 @@ const SongPlayTable = ({
                       <TableItem.Button
                         title="Mint"
                         type="mint"
+                        disabled={item.is_nft}
                         handleClick={e => {
                           e.stopPropagation();
                           handleMint(item);

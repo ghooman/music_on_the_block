@@ -10,6 +10,7 @@ import stopIcon from '../../assets/images/stop-icon.svg';
 import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 import { useEffect, useState } from 'react';
+import { getSongsGradeIcon, getUserGradeIcon } from '../../utils/getGradeIcon';
 
 const AlbumItem = ({
   track,
@@ -82,6 +83,15 @@ const AlbumItem = ({
             })`,
           }}
         ></p>
+        <div className={`album__content-list__list__item__songs_grade ${track?.rating} `}>
+          <img src={getSongsGradeIcon(track?.rating)} alt={`${track?.rating}`} />
+          {track?.is_nft && (
+            <>
+              <div className="album__content-list__list__item__songs_grade--section"></div>
+              <p className="album__content-list__list__item__songs_grade--nfts">NFT</p>
+            </>
+          )}
+        </div>
         <span className="time">
           <strong>
             {isActive ? formatTime(currentTime) : runningTime && formatTime(runningTime)}

@@ -30,9 +30,7 @@ import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
 import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
-// import UploadSequence from './pages/UploadSequence';
-import MusicGenerator from './pages/MusicGenerator';
-import Suno from './pages/Suno';
+
 function Layout({ children }) {
   return (
     <div>
@@ -66,9 +64,6 @@ function App() {
             <title>MUSIC ON THE BLOCK</title>
             <Routes>
               <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
-              {/* <Route path="/upload-sequence" element={<UploadSequence />} /> */}
-              <Route path="/mureka" element={<MusicGenerator />} />
-              <Route path="/suno" element={<Suno />} />
               <Route
                 path="main"
                 element={

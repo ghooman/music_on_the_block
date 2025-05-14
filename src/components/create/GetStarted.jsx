@@ -5,10 +5,14 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 
-const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLanguage }) => {
+const GetStarted = ({
+  handler,
+  createPossibleCount,
+  setCreateMode,
+  setSelectedLanguage,
+  setSelectedVersion,
+}) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
-
-  const [selectedVersion, setSelectedVersion] = useState('topmediai');
 
   const handleVersionChange = e => {
     setSelectedVersion(e.target.value);
@@ -38,7 +42,6 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
   const handleArticleClick = index => {
     setActiveIndex(index);
   };
-  console.log('selectedVersion', selectedVersion);
 
   return (
     <div className="create__get-started">
@@ -72,17 +75,20 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
-      {/* <div className="create__get-started--version">
+      <div className="create__get-started--version">
         <label htmlFor="version">Version</label>
         <select id="version" name="version" onChange={handleVersionChange}>
-          <option value="topmediai">topmediai</option>
+          <option value="topmediai">V1</option>
+          <option value="mureka-6">V2</option>
+          <option value="V4_5">V2.2</option>
+          {/* <option value="topmediai">topmediai</option>
           <option value="mureka-5.5">mureka-5.5</option>
           <option value="mureka-6">mureka-6</option>
           <option value="V3_5">suno-3.5</option>
           <option value="V4">suno-4</option>
-          <option value="V4_5">suno-4.5</option>
+          <option value="V4_5">suno-4.5</option> */}
         </select>
-      </div> */}
+      </div>
 
       <section className="create__get-started--format">
         {formats.map((format, idx) => (

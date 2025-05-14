@@ -5,7 +5,7 @@ import Pagination from '../unit/Pagination';
 import Search from '../unit/Search';
 import SubCategories from '../unit/SubCategories';
 import CollectionTable from '../table/CollectionTable';
-import CollectionHistoryTable from '../table/CollectionHistoryTable';
+// import CollectionHistoryTable from '../table/CollectionHistoryTable';
 import Loading from '../IntroLogo2';
 
 import './NftMarketPlace.scss';
@@ -13,8 +13,8 @@ import NftTable from './../table/NftTable';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import {
-  getMyNftCollections,
-  getNftCollectionHistory,
+  // getMyNftCollections,
+  // getNftCollectionHistory,
   getNftCollections,
 } from '../../api/nfts/nftCollectionsApi';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -22,11 +22,11 @@ import { getNftsList, getNftTransactionHistory } from '../../api/nfts/nftsListAp
 
 const subCategoryList = [
   { name: 'NFT items', preparing: false },
-  { name: 'Collections', preparing: false },
+  // { name: 'Collections', preparing: false },
   { name: 'History', preparing: false },
 ];
 
-const nftFilterItemList = ['All', 'Listed', 'Unlisted'];
+const nftFilterItemList = ['Listed', 'Unlisted'];
 
 /**
  *
@@ -58,9 +58,9 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
       {tab === 'NFT items' && (
         <NftItems token={token} username={username} isMyProfile={isMyProfile} />
       )}
-      {tab === 'Collections' && (
+      {/* {tab === 'Collections' && (
         <CollectionItems token={token} username={username} isMyProfile={isMyProfile} />
-      )}
+      )} */}
       {tab === 'History' && <History username={username} isMyProfile={isMyProfile} />}
     </div>
   );
@@ -76,7 +76,7 @@ const NftItems = ({ username, isMyProfile }) => {
   const gradeFilter = searchParams.get('grade_filter');
   const tokenFilter = searchParams.get('token_filter');
   const nftSort = searchParams.get('nft_sort');
-  const nftFilter = searchParams.get('nft_filter') || 'All';
+  const nftFilter = searchParams.get('nft_filter') || 'Listed';
 
   const { data, isLoading, refetch } = useQuery(
     ['nfts_data', page, nftFilter, search, gradeFilter, tokenFilter, nftSort, username],
@@ -123,6 +123,8 @@ const NftItems = ({ username, isMyProfile }) => {
           saleOption={isMyProfile}
           nftList={data?.data_list}
           onCancelSuccess={() => refetch()}
+          listedDateOption={nftFilter === 'Listed'}
+          mintedDateOption={nftFilter === 'Unlisted'}
         />
         <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
         {isLoading && <Loading />}

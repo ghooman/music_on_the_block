@@ -40,7 +40,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const { data: userData, isLoading, error } = useUserDetail();
   console.log('userData', userData);
 
-  const micBalance = userData?.mic_point || '0.00';
+  const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
     setActiveMenus(
@@ -122,12 +122,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
 
-  const formatNumbers = value => {
-    const numbers = Number(value);
-    if (isNaN(numbers) || numbers <= 0) return 0;
-    else return numbers.toFixed(2);
-  };
-
   return (
     <>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
@@ -148,11 +142,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <>
                   <div className="menu__box__my-page">
                     <div className="menu__box__my-page__level">
+                      <p className="level">Level</p>
                       <p className="menu__box__my-page__level__img">
                         <img src={getUserGradeIcon(userData?.user_rating)} alt="level icon" />
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
-                      <p className="level">Level</p>
                     </div>
                     <div className="menu__box__my-page__info">
                       <div className="menu__box__my-page__info__top">
@@ -177,35 +171,35 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(mobBalance)}</p>
+                          <p>{mobBalance}</p>
                           <span>
                             <img src={mobIcon} alt="mob icon" />
                             MOB
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(micBalance)}</p>
+                          <p>{micBalance}</p>
                           <span>
                             <img src={micIcon} alt="mic icon" />
                             MIC
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(polBalance)}</p>
+                          <p>{polBalance}</p>
                           <span>
                             <img src={polIcon} alt="mob icon" />
                             POL
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(usdtBalance)}</p>
+                          <p>{usdtBalance}</p>
                           <span>
                             <img src={usdtIcon} alt="usdt icon" />
                             USDT
                           </span>
                         </div>
                         <div className="menu__box__my-page__info__bottom__box">
-                          <p>{formatNumbers(usdcBalance)}</p>
+                          <p>{usdcBalance}</p>
                           <span>
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC

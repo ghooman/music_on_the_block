@@ -189,7 +189,7 @@ img {
 
 .inner {
   width: 100%;
-  max-width: calc(960px + 32px);
+  /* max-width: calc(960px + 32px); */
   margin: 0 auto;
   padding: 88px 16px 100px;
 }

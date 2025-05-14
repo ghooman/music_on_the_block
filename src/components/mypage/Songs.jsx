@@ -1,7 +1,7 @@
 // 📦 외부 라이브러리
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useQuery, useQueryClient } from 'react-query';
 
 // 🖼️ 이미지/에셋
 import generatedLyricSongwritingIcon from '../../assets/images/icon/generated-lryric-songwriting.svg';
@@ -46,6 +46,9 @@ const Songs = ({ token }) => {
   const search = searchParams.get('search') || '';
   const songsSort = searchParams.get('songs_sort');
   const releaseType = searchParams.get('release_type') || 'Unreleased songs';
+  const queryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   // 내 TOP 앨범 리스트 API 호출
   const { data: topSongsData, isLoading: topSongLoading } = useQuery(
@@ -61,6 +64,7 @@ const Songs = ({ token }) => {
   const {
     data: songsList,
     isLoading: songsListLoading,
+    isFetching,
     refetch: songListRefetch,
   } = useQuery(
     ['songs_list', { token, page, songsSort, search, releaseType }],
@@ -86,7 +90,6 @@ const Songs = ({ token }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    songListRefetch();
   };
 
   //=============
@@ -98,7 +101,6 @@ const Songs = ({ token }) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    songListRefetch();
   };
 
   //=============
@@ -149,13 +151,23 @@ const Songs = ({ token }) => {
           setter={setDeleteMusic}
           songData={deleteMusic}
           deleteHandler={handleDelete}
+          action={() => {
+            songListRefetch();
+          }}
         />
       )}
       {releaseMusic && (
         <SongDeleteAndReleaseModal
           setter={setReleaseMusic}
           songData={releaseMusic}
-          releaseHander={handleRelease}
+          releaseHandler={handleRelease}
+          action={() => {
+            queryClient.invalidateQueries([
+              'songs_list',
+              { token, page, songsSort, search, releaseType },
+            ]);
+            navigate('/my-page?category=Songs&release_type=Released+songs&page=1');
+          }}
         />
       )}
       {mintMusic && (
@@ -164,9 +176,9 @@ const Songs = ({ token }) => {
           songId={mintMusic.id}
           songData={mintMusic}
           confirmMintTxt={true}
-          onSuccess={() => {
-            songListRefetch();
-          }}
+          // onSuccess={() => {
+          //   songListRefetch();
+          // }}
         />
       )}
     </div>

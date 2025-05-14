@@ -33,6 +33,11 @@ const AlbumGuideModal = ({ setAlbumGuideModal }) => {
           <br />
           (You can relist it for sale anytime.)
         </GuideItem>
+        <GuideItem title="Buy">
+          Purchase NFTs listed by other users.
+          <br />
+          (Connect your wallet and proceed with payment.)
+        </GuideItem>
         <p className="album-guide-modal__text">
           **If you purchase an NFT created by another user :
           <br />→ The NFT will be stored in your wallet as a "minted" item.

@@ -754,6 +754,7 @@
           flex-direction: column;
           align-items: start;
           .album__content-list__evaluation-stage__item__title{
+            width: auto;
             dt{
               text-align: left;
               width: 100%;
@@ -764,6 +765,11 @@
               text-overflow: ellipsis;
             }
           }
+        .album__content-list__evaluation-stage__item__thought{
+          .album__content-list__evaluation-stage__item__thought__txt{
+            width: 100%;
+          }
+        }
         }
       }
     }

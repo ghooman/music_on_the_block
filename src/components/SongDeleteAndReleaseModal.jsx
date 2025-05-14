@@ -14,8 +14,8 @@ const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHan
       setter(false);
     } else if (errorMessage) {
       setErrorMessage(false);
-    } else if (action) {
-      action();
+    } else {
+      if (action) action();
       setter(false);
     }
   };

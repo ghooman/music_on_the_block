@@ -18,7 +18,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { useTokenBalance } from '../hooks/useTokenBalance';
-import { getUserGradeIcon } from '../utils/getGradeIcon';
+import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
@@ -141,13 +141,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
               {isLoggedIn && (
                 <>
                   <div className="menu__box__my-page">
-                    <div className="menu__box__my-page__level">
-                      <p className="level">Level</p>
-                      <p className="menu__box__my-page__level__img">
-                        <img src={getUserGradeIcon(userData?.user_rating)} alt="level icon" />
-                      </p>
-                      <p className="grade">{userData?.user_rating}</p>
-                    </div>
                     <div className="menu__box__my-page__info">
                       <div className="menu__box__my-page__info__top">
                         <p
@@ -168,6 +161,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </dt>
                           <dd>{userData?.name || 'No Sign up'}</dd>
                         </dl>
+                      </div>
+                      <div className="menu__box__my-page__level">
+                        <p className="level">Level</p>
+                        <p className="menu__box__my-page__level__img">
+                          <img src={getUserGradeSquareIcon(userData?.user_rating)} alt="level icon" />
+                        </p>
+                        <p className="grade">{userData?.user_rating}</p>
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">

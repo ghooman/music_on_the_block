@@ -187,10 +187,17 @@ img {
   width: 5px;
 }
 
+
+.header-flex{
+  display: flex;
+  gap: 16px;
+}
 .inner {
-  width: 100%;
+  width: calc(100% - 246px);
+  /* width: 100%; */
   /* max-width: calc(960px + 32px); */
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  margin-left: auto;
   padding: 88px 16px 100px;
 }
 

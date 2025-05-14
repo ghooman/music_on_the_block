@@ -53,22 +53,22 @@ const Header = ({ setIsLoggedIn }) => {
                     <text x="0" y="90%">
                       M
                     </text>
-                    <text x="22" y="90%">
+                    <text x="20" y="90%">
                       U
                     </text>
-                    <text x="42" y="90%">
+                    <text x="38" y="90%">
                       S
                     </text>
-                    <text x="62" y="90%">
+                    <text x="57" y="90%">
                       I
                     </text>
-                    <text x="70" y="90%">
+                    <text x="64" y="90%">
                       C
                     </text>
-                    <text x="96" y="90%">
+                    <text x="90" y="90%">
                       O
                     </text>
-                    <text x="116" y="90%">
+                    <text x="108" y="90%">
                       N
                     </text>
                   </svg>
@@ -76,44 +76,43 @@ const Header = ({ setIsLoggedIn }) => {
                     <text x="0" y="60%">
                       T
                     </text>
-                    <text x="18" y="60%">
+                    <text x="16" y="60%">
                       H
                     </text>
-                    <text x="38" y="60%">
+                    <text x="34" y="60%">
                       E
                     </text>
-                    <text x="64" y="60%">
+                    <text x="58" y="60%">
                       B
                     </text>
-                    <text x="84" y="60%">
+                    <text x="76" y="60%">
                       L
                     </text>
-                    <text x="104" y="60%">
+                    <text x="93" y="60%">
                       O
                     </text>
-                    <text x="124" y="60%">
+                    <text x="110" y="60%">
                       C
                     </text>
-                    <text x="144" y="60%">
+                    <text x="128" y="60%">
                       K
                     </text>
                   </svg>
                 </div>
               </div>
-              <img src={betaLogo} className="beta-logo" />
             </Link>
+            <img src={betaLogo} className="beta-logo" />
           </h1>
         </div>
+        <Menu
+          active={isActive}
+          setActive={setIsActive}
+          setPreparingModal={setPreparingModal}
+          setSignInModal={setSignInModal}
+          setLogin={setLogin}
+          login={login}
+        />
       </div>
-
-      <Menu
-        active={isActive}
-        setActive={setIsActive}
-        setPreparingModal={setPreparingModal}
-        setSignInModal={setSignInModal}
-        setLogin={setLogin}
-        login={login}
-      />
       {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       {isSignInModal && (
         <SignInModal setSignInModal={setSignInModal} setLogin={setLogin} login={login} />

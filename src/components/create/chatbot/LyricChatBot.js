@@ -148,12 +148,8 @@ const LyricChatBot = ({
     window.scrollTo(0, 0);
   };
 
+  const taRef = useRef < HTMLTextAreaElement > null;
 
-  const taRef = useRef<HTMLTextAreaElement>(null);
-
-
-
-  
   if (!isStatus)
     return (
       <div className="chatbot__background">
@@ -263,9 +259,9 @@ const LyricChatBot = ({
             </button>
             <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
-                generatedLyric?.length > 1000 ? 'disabled' : ''
+                generatedLyric?.length > 1000 ? '' : ''
               }`}
-              disabled={generatedLyric?.length > 1000}
+              // disabled={generatedLyric?.length > 1000}
               onClick={() => {
                 setGeneratedLyric(generatedLyric);
                 setPageNumber(prev => prev + 1);

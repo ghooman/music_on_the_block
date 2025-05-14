@@ -9,7 +9,7 @@ export const NftGraph = ({ barTitle, barGraphData, lineTitle, lineGraphData }) =
   const barData =
     barGraphData &&
     Object?.entries(barGraphData)?.map(([key, value]) => {
-      return { date: key?.toUpperCase(), value: value };
+      return { date: key, value: value };
     });
 
   const lineData = lineGraphData && [

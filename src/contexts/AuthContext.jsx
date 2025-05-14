@@ -6,10 +6,45 @@ export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
-  const [token, setToken] = useState(null);
-  const [walletAddress, setWalletAddress] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem('auth_token') || null);
+  const [walletAddress, setWalletAddress] = useState(
+    JSON.parse(localStorage.getItem('wallet_address')) || null
+  );
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('is_logged_in') === 'true');
+  const [isRegistered, setIsRegistered] = useState(
+    localStorage.getItem('is_registered') === 'true'
+  );
+
+  // 로컬스토리지 업데이트 함수
+  const updateLocalStorage = useCallback((key, value) => {
+    if (value === null) {
+      localStorage.removeItem(key);
+    } else if (typeof value === 'object') {
+      localStorage.setItem(key, JSON.stringify(value));
+    } else {
+      localStorage.setItem(key, value);
+    }
+  }, []);
+
+  // 상태 변경 시 로컬스토리지 업데이트
+  useEffect(() => {
+    updateLocalStorage('wallet_address', walletAddress);
+  }, [walletAddress, updateLocalStorage]);
+
+  useEffect(() => {
+    updateLocalStorage('is_logged_in', isLoggedIn ? 'true' : 'false');
+  }, [isLoggedIn, updateLocalStorage]);
+
+  useEffect(() => {
+    updateLocalStorage('is_registered', isRegistered ? 'true' : 'false');
+  }, [isRegistered, updateLocalStorage]);
+
+  // 페이지 로드 시 토큰이 있으면 자동 로그인 상태로 설정
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, [token]);
 
   // 로그인 상태와 지갑 주소가 업데이트되면 토큰 발급 API 호출
   useEffect(() => {
@@ -57,6 +92,9 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(false);
     setIsRegistered(false);
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('wallet_address');
+    localStorage.removeItem('is_logged_in');
+    localStorage.removeItem('is_registered');
   }, []);
 
   return (

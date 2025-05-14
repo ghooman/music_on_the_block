@@ -49,6 +49,7 @@ const genrePreset = {
 const genderPreset = {
   Male: ['Male'],
   Female: ['Female'],
+  'Mixed Gender': ['Mixed Gender'],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],
@@ -150,6 +151,7 @@ const MelodyMaker = ({
   setFinalPrompt,
   selectedVersion,
 }) => {
+  console.log('selectedVersion', selectedVersion);
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -440,9 +442,9 @@ const MelodyMaker = ({
             <span>
               current length :{' '}
               <span
-                style={{
-                  color: valuesOnly?.length > 200 ? 'red' : 'inherit',
-                }}
+              // style={{
+              //   color: valuesOnly?.length > 200 ? 'red' : 'inherit',
+              // }}
               >
                 {valuesOnly?.length}
               </span>
@@ -492,9 +494,11 @@ const MelodyMaker = ({
           </button>
         </div>
         <button
-          className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
+          // className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
+          className={loading || !isFormValid ? 'next' : 'next enable'}
           onClick={() => musicGenerate()}
-          disabled={loading || valuesOnly.length > 200 || !isFormValid}
+          // disabled={loading || valuesOnly.length > 200 || !isFormValid}
+          disabled={loading || !isFormValid}
         >
           {loading ? 'Loading' : 'Generate'}
         </button>

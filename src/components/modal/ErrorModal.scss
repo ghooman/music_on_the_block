@@ -16,11 +16,12 @@
 
   .error-modal__text {
     text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    word-break: keep-all;
+    font-family: Inter400;
     color: #aaa;
-    font-family: orbitron600;
-    letter-spacing: 0.48px;
-    margin-bottom: 24px;
-    word-break: break-all;
   }
 
   .error-modal__button {

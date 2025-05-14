@@ -2,7 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
-import { createNftCollection, getNftCollections } from '../../../api/nfts/nftCollectionsApi';
+import {
+  createNftCollection,
+  deleteNftCollection,
+  getNftCollections,
+  updateNftCollection,
+} from '../../../api/nfts/nftCollectionsApi';
 
 import SubBanner from '../../create/SubBanner';
 import ContentWrap from '../../unit/ContentWrap';
@@ -18,6 +23,8 @@ import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
 import AlbumCollectionCreateEditModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionCreateEditModal';
 import AlbumCollectionDeleteConfirmModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDeleteConfirmModal';
 import AlbumCollectionDetailsModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDetailsModal';
+import SuccessModal from '../../modal/SuccessModal';
+import ErrorModal from '../../modal/ErrorModal';
 
 const Collections = ({ token, username, isMyProfile, walletAddress }) => {
   const [searchParams] = useSearchParams();
@@ -26,8 +33,10 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
   const [create, setCreate] = useState(false);
   const [edit, setEdit] = useState(null);
   const [deleteData, setDeleteData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const page = searchParams.get('page');
   const search = searchParams.get('search');
@@ -67,10 +76,18 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
     formData.append('payload', JSON.stringify({ name }));
     formData.append('image', image);
 
+    let res;
     try {
       setIsLoading(true);
-      const res = await createNftCollection(token, formData);
-      refetch();
+      if (create) {
+        await createNftCollection(token, formData);
+        setSuccessMessage('Collections create success!');
+        return;
+      } else if (edit) {
+        await updateNftCollection(token, formData, edit.id);
+        setSuccessMessage('Collections update success!');
+        return;
+      }
     } catch (e) {
       console.log(e);
       setErrorMessage(e?.response?.data?.detail || e?.message);
@@ -85,6 +102,10 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
   const handleDelete = async () => {
     try {
       setIsLoading(true);
+      if (deleteData) {
+        await deleteNftCollection(token, deleteData?.id);
+        setSuccessMessage('Collections delete success!');
+      }
     } catch (e) {
       console.log(e);
       setErrorMessage(e?.response?.data?.detail || e?.message);
@@ -133,48 +154,80 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
         <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
         {fetchCollectionLoading && <Loading />}
       </ContentWrap>
-      {details && (
-        <AlbumCollectionDetailsModal
-          handleClose={() => setDetails(null)}
-          name={details?.name}
-          artist={details?.user_name}
-          count={details?.nft_cnt}
-          onEditClick={() => {
-            const copy = { ...details };
-            setDetails(null);
-            setEdit(copy);
+      {/**
+       * ===============
+       * 모달
+       * ===============
+       */}
+      {successMessage && (
+        <SuccessModal
+          setShowSuccessModal={() => {
+            setEdit(null);
+            setCreate(false);
+            setDeleteData(null);
+            setSuccessMessage(false);
+            refetch();
           }}
-          onDeleteClick={() => {
-            const copy = { ...details };
-            setDetails(null);
-            setDeleteData(copy);
-          }}
-          onNavigate={() => {}}
+          content={successMessage}
+          title="Success"
         />
       )}
+      {errorMessage && (
+        <ErrorModal
+          setShowErrorModal={setErrorMessage}
+          message={errorMessage}
+          button={true}
+          //
+        />
+      )}
+      {!successMessage && !errorMessage && (
+        <>
+          {details && (
+            <AlbumCollectionDetailsModal
+              handleClose={() => setDetails(null)}
+              name={details?.name}
+              artist={details?.user_name}
+              count={details?.nft_cnt}
+              onEditClick={() => {
+                const copy = { ...details };
+                setDetails(null);
+                setEdit(copy);
+              }}
+              onDeleteClick={() => {
+                const copy = { ...details };
+                setDetails(null);
+                setDeleteData(copy);
+              }}
+              onNavigate={() => {}}
+            />
+          )}
 
-      {create && (
-        <AlbumCollectionCreateEditModal
-          handleClose={() => setCreate(false)}
-          handleCreate={({ image, name }) => handleCreateAndEdit({ image, name })}
-          loading={isLoading}
-        />
-      )}
-      {edit && (
-        <AlbumCollectionCreateEditModal
-          handleClose={() => setEdit(null)}
-          handleEdit={({ image, name }) => handleCreateAndEdit({ image, name, id: edit?.id })}
-          editData={{ image: edit?.image, name: edit?.name }}
-          loading={isLoading}
-        />
-      )}
-      {deleteData && (
-        <AlbumCollectionDeleteConfirmModal
-          name={deleteData?.name}
-          handleClose={() => setDeleteData(null)}
-          handleDelete={() => handleDelete()}
-          loading={isLoading}
-        />
+          {create && (
+            <AlbumCollectionCreateEditModal
+              target="Collection"
+              handleClose={() => setCreate(false)}
+              handleCreate={({ image, name }) => handleCreateAndEdit({ image, name })}
+              loading={isLoading}
+            />
+          )}
+          {edit && (
+            <AlbumCollectionCreateEditModal
+              target="Collection"
+              handleClose={() => setEdit(null)}
+              handleEdit={({ image, name }) => handleCreateAndEdit({ image, name, id: edit?.id })}
+              editData={{ image: edit?.image, name: edit?.name }}
+              loading={isLoading}
+            />
+          )}
+          {deleteData && (
+            <AlbumCollectionDeleteConfirmModal
+              name={deleteData?.name}
+              handleClose={() => setDeleteData(null)}
+              handleDelete={() => handleDelete()}
+              loading={isLoading}
+            />
+          )}
+        </>
       )}
     </>
   );

@@ -54,6 +54,53 @@ export const createNftCollection = async (token, formData) => {
 };
 
 /**
+ * NFTS 컬렉션 수정 API 호출
+ * param {string} token - 인증 토큰
+ * param {FormData} formData - 컬렉션 수정 정보
+ * param {string | number} collectionsId - 수정할 컬렉션의 ID
+ * returns {Promise} axios POST 요청 반환
+ */
+
+export const updateNftCollection = async (token, formData, collectionsId) => {
+  try {
+    const response = await axios.post(
+      `${serverApi}/api/nfts/collections/${collectionsId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('API 호출 실패: NFTS 컬렉션 수정 실패' + error);
+  }
+};
+
+/**
+ * NFTS 컬렉션 삭제 API 호출
+ * param {string} token - 인증 토큰
+ * param {string | number} collectionsId - 수정할 컬렉션의 ID
+ * returns {Promise} axios POST 요청 반환
+ */
+
+export const deleteNftCollection = async (token, collectionsId) => {
+  try {
+    const response = await axios.delete(`${serverApi}/api/nfts/collections/${collectionsId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('API 호출 실패 : NFTS 컬렉션 삭제 실패' + error);
+  }
+};
+
+/**
  * 나의 NFTS 컬렉션 조회 API 호출
  * param {string} token - 인증 토큰
  * param {number} page - 페이지 번호

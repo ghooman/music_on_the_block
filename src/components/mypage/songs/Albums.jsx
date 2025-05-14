@@ -22,6 +22,8 @@ import NoDataImage from '../../../assets/images/mypage/albums-no-data.svg';
 import subBannerImage4 from '../../../assets/images/create/subbanner-bg4.png';
 
 import './Albums.scss';
+import SuccessModal from '../../modal/SuccessModal';
+import ErrorModal from '../../modal/ErrorModal';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -36,7 +38,8 @@ const Albums = ({ username, isMyProfile }) => {
   const [deleteData, setDeleteData] = useState(null);
   const [create, setCreate] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const albumSort = searchParams.get('album_sort');
@@ -45,6 +48,9 @@ const Albums = ({ username, isMyProfile }) => {
 
   const navigate = useNavigate();
 
+  //======================
+  // Fetch
+  //======================
   const {
     data: albumsList,
     isLoading: albumsListLoading,
@@ -80,12 +86,14 @@ const Albums = ({ username, isMyProfile }) => {
     );
     try {
       setIsLoading(true);
-      let res;
-      // id 파라미터 존재 시 edit 기능 수행
-      if (id) res = await updateAlbumsList(id, formData, token);
-      else res = await createAlbumsList(formData, token, id);
-      if (res.status === 200) console.log('완료');
-      refetch();
+
+      if (edit) {
+        await updateAlbumsList(edit.id, formData, token);
+        setSuccessMessage('Album update success!');
+      } else if (create) {
+        await createAlbumsList(formData, token);
+        setSuccessMessage('Album create success!');
+      }
     } catch (e) {
       setErrorMessage(e?.response?.data?.detail || e?.message);
     } finally {
@@ -99,8 +107,8 @@ const Albums = ({ username, isMyProfile }) => {
   const handleDelete = async () => {
     try {
       setIsLoading(true);
-      const res = await deleteAlbumsList(deleteData.id, token);
-      refetch();
+      await deleteAlbumsList(deleteData.id, token);
+      setSuccessMessage('Album delete success!');
     } catch (e) {
       setErrorMessage(e?.response?.data?.detail || e?.message);
     } finally {
@@ -149,48 +157,82 @@ const Albums = ({ username, isMyProfile }) => {
         )}
         <Pagination totalCount={albumsList?.total_cnt} viewCount={12} page={page} />
       </ContentWrap>
-      {create && (
-        <AlbumCollectionCreateEditModal
-          handleClose={() => setCreate(false)}
-          handleCreate={({ image, name }) => handleCreateAndEdit({ image, name })}
-          loading={isLoading}
-        />
-      )}
-      {edit && (
-        <AlbumCollectionCreateEditModal
-          handleClose={() => setEdit(null)}
-          handleEdit={({ image, name }) => handleCreateAndEdit({ image, name, id: edit?.id })}
-          editData={{ image: edit.cover_image, name: edit.album_name }}
-          loading={isLoading}
-        />
-      )}
-      {deleteData && (
-        <AlbumCollectionDeleteConfirmModal
-          name={deleteData?.album_name}
-          handleClose={() => setDeleteData(null)}
-          handleDelete={() => handleDelete()}
-          loading={isLoading}
-        />
-      )}
-      {details && (
-        <AlbumCollectionDetailsModal
-          handleClose={() => setDetails(null)}
-          name={details?.album_name}
-          artist={details?.name}
-          count={details?.song_cnt}
-          onEditClick={() => {
-            const copy = { ...details };
-            setDetails(null);
-            setEdit(copy);
+      {/**
+       * ===============
+       * 모달
+       * ===============
+       */}
+      {successMessage && (
+        <SuccessModal
+          setShowSuccessModal={() => {
+            setEdit(null);
+            setCreate(false);
+            setDeleteData(null);
+            setSuccessMessage(false);
+            refetch();
           }}
-          onDeleteClick={() => {
-            const copy = { ...details };
-            setDetails(null);
-            setDeleteData(copy);
-          }}
-          onNavigate={() => {}}
+          content={successMessage}
+          title="Success"
         />
       )}
+      {errorMessage && (
+        <ErrorModal
+          setShowErrorModal={setErrorMessage}
+          message={errorMessage}
+          button={true}
+          //
+        />
+      )}
+
+      {!successMessage && !errorMessage && (
+        <>
+          {create && (
+            <AlbumCollectionCreateEditModal
+              target="Album"
+              handleClose={() => setCreate(false)}
+              handleCreate={({ image, name }) => handleCreateAndEdit({ image, name })}
+              loading={isLoading}
+            />
+          )}
+          {edit && (
+            <AlbumCollectionCreateEditModal
+              target="Album"
+              handleClose={() => setEdit(null)}
+              handleEdit={({ image, name }) => handleCreateAndEdit({ image, name, id: edit?.id })}
+              editData={{ image: edit.cover_image, name: edit.album_name }}
+              loading={isLoading}
+            />
+          )}
+          {deleteData && (
+            <AlbumCollectionDeleteConfirmModal
+              name={deleteData?.album_name}
+              handleClose={() => setDeleteData(null)}
+              handleDelete={() => handleDelete()}
+              loading={isLoading}
+            />
+          )}
+          {details && (
+            <AlbumCollectionDetailsModal
+              handleClose={() => setDetails(null)}
+              name={details?.album_name}
+              artist={details?.name}
+              count={details?.song_cnt}
+              onEditClick={() => {
+                const copy = { ...details };
+                setDetails(null);
+                setEdit(copy);
+              }}
+              onDeleteClick={() => {
+                const copy = { ...details };
+                setDetails(null);
+                setDeleteData(copy);
+              }}
+              onNavigate={() => {}}
+            />
+          )}
+        </>
+      )}
+
       {albumsListLoading && <Loading />}
     </div>
   );

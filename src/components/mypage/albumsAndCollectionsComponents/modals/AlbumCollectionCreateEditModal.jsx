@@ -1,5 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ModalWrap from '../../../ModalWrap';
 import Loading from '../../../Loading';
@@ -16,12 +15,11 @@ const AlbumCollectionCreateEditModal = ({
   handleClose,
   editData,
   loading,
+  target,
 }) => {
   const [image, setImage] = useState(editData?.image || null);
   const [name, setName] = useState(editData?.name || '');
-  const [success, setSuccess] = useState(false);
 
-  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   //============
@@ -40,14 +38,10 @@ const AlbumCollectionCreateEditModal = ({
   // 모달 타이틀 정의
   const title = handleCreate ? 'Create' : handleEdit && handleDelete ? 'Edit' : 'Create';
 
-  if (success) {
-    return <Success title={success} onClose={handleClose} />;
-  }
-
   return (
-    <ModalWrap title={title} onClose={handleClose}>
+    <ModalWrap title={title + ' ' + target} onClose={handleClose}>
       <div className="album-collection-module-create-edit-modal">
-        <p className="album-collection-module-create-edit-modal__title">Album Cover Image</p>
+        <p className="album-collection-module-create-edit-modal__title">{target} Cover Image</p>
         <span className="album-collection-module-create-edit-modal__size-info">
           (jpg, png, under 4MB)
         </span>
@@ -76,11 +70,11 @@ const AlbumCollectionCreateEditModal = ({
           />
         </div>
 
-        <p className="album-collection-module-create-edit-modal__name">Album Name</p>
+        <p className="album-collection-module-create-edit-modal__name">{target} Name</p>
         <div className="album-collection-module-create-edit-modal__name-box">
           <input
             className="album-collection-module-create-edit-modal__name-box__input"
-            placeholder="Please enter the album name"
+            placeholder={`Please enter the ${target.toLowerCase()} name`}
             value={name}
             onChange={e => setName(e.target.value)}
             maxLength={40}
@@ -111,10 +105,8 @@ const AlbumCollectionCreateEditModal = ({
               onClick={async () => {
                 if (handleCreate) {
                   await handleCreate({ image, name: name?.trim() });
-                  setSuccess('Album create success!');
                 } else if (handleEdit) {
                   await handleEdit({ image, name: name?.trim() });
-                  setSuccess('Album edit success!');
                 }
               }}
               disabled={loading || invalidImageSize || invalidNameSize}
@@ -139,7 +131,3 @@ const AlbumCollectionCreateEditModal = ({
 };
 
 export default AlbumCollectionCreateEditModal;
-
-const Success = ({ title, onClose }) => {
-  return <ModalWrap title={title} onClose={onClose}></ModalWrap>;
-};

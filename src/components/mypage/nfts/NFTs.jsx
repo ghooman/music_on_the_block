@@ -10,6 +10,7 @@ import SubCategories from '../../unit/SubCategories';
 import NftItems from './NftItems';
 import History from './History';
 import Collections from './Collections';
+import SuccessModal from '../../modal/SuccessModal';
 
 // Assets & Styles
 import './NFTs.scss';

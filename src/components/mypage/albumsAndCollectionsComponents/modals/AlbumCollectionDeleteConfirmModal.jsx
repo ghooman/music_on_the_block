@@ -1,14 +1,9 @@
-import { useState } from 'react';
-
 import ModalWrap from '../../../ModalWrap';
 import Loading from '../../../Loading';
 
 import './AlbumCollectionDeleteConfirmModal.scss';
 
 const AlbumCollectionDeleteConfirmModal = ({ handleClose, handleDelete, name, loading }) => {
-  const [success, setSuccess] = useState(false);
-
-  if (success) return <Success handleClose={handleClose} />;
   return (
     <ModalWrap title="Delete Album" onClose={handleClose}>
       <div className="album-collection-module-delete-confirm-modal">
@@ -30,7 +25,6 @@ const AlbumCollectionDeleteConfirmModal = ({ handleClose, handleDelete, name, lo
             className="confirm-button delete-button"
             onClick={async () => {
               await handleDelete();
-              setSuccess(true);
             }}
             disabled={loading}
           >
@@ -42,20 +36,3 @@ const AlbumCollectionDeleteConfirmModal = ({ handleClose, handleDelete, name, lo
   );
 };
 export default AlbumCollectionDeleteConfirmModal;
-
-const Success = ({ handleClose }) => {
-  return (
-    <ModalWrap>
-      <div className="album-collection-module-delete-confirm-modal">
-        <p className="album-collection-module-delete-confirm-modal__message text-center">
-          Album deleted successfully.
-        </p>
-        <div className="album-collection-module-delete-confirm-modal__buttons">
-          <button className="confirm-button ok-button" onClick={handleClose}>
-            OK
-          </button>
-        </div>
-      </div>
-    </ModalWrap>
-  );
-};

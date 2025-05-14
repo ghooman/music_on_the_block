@@ -612,7 +612,6 @@ const MelodyChatBot = ({
       const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'x-api-key': 'f47d348dc08d492492a7a5d546d40f4a',
           'Content-Type': 'application/json',
         },
       });

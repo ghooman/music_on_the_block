@@ -44,7 +44,7 @@ const enMelody = {
     promptTempoRegex:
       /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tempo|Tempo:|\-\s*Tempo|\-\s*Tempo:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements)))/i,
     promptDetailRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Additional Elements\/Story|Additional Elements|Additional Elements:|\-\s*Additional Elements\/Story|\-\s*Additional Elements|\-\s*Additional Elements:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo)))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Additional Elements\/Story|Additional Elements|Additional Elements:|\-\s*Additional Elements\/Story|\-\s*Additional Elements|\-\s*Additional Elements:)[\s:]*(?:\()?([^"'\n\)]*?)(?:\)|(?:"Would you like.*|'Would you like.*|Would you like.*|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo))))/i,
   },
 };
 

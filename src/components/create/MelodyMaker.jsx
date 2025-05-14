@@ -251,6 +251,16 @@ const MelodyMaker = ({
         promptText = promptText.substring(0, 197) + '...';
       }
 
+      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
+      promptText = promptText.replace(
+        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      promptText = promptText.replace(
+        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
       setFinalPrompt(promptText);

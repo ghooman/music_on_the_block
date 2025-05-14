@@ -298,21 +298,21 @@ function Album() {
           />
         </section>
 
-        <section className="intro__number">
-          <dl className="intro__number__title">
+        <section className="main__stats">
+          <dl className="main__stats__title">
             <dt>Number of Artists</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_users} />
             </dd>
           </dl>
-          <dl className="intro__number__title">
+          <dl className="main__stats__title">
             <dt>Number of Songs</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_songs} />
             </dd>
           </dl>
-          <dl className="intro__number__title">
-            <dt>Transitions</dt>
+          <dl className="main__stats__title">
+            <dt>Transactions</dt>
             <dd>
               <Counter targetNumber={transaction?.transaction} />
             </dd>

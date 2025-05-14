@@ -348,7 +348,31 @@ function AlbumDetail() {
 
     return () => clearTimeout(timer);
   }, []);
-
+  // 버전이름 변환
+  let create_version = '';
+  switch (album?.ai_model) {
+    case 'topmediai':
+      create_version = 'L&S One (v1.0)';
+      break;
+    case 'mureka-5.5':
+      create_version = 'L&S Pro (v2.0)';
+      break;
+    case 'mureka-6':
+      create_version = 'L&S Pro (v2.0)';
+      break;
+    case 'V3.5':
+      create_version = 'L&S Studio (v2.5)';
+      break;
+    case 'suno-V4':
+      create_version = 'L&S Studio (v2.5)';
+      break;
+    case 'V4_5':
+      create_version = 'L&S Studio (v2.5)';
+      break;
+    default:
+      create_version = 'L&S One (v1.0)';
+      break;
+  }
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -522,7 +546,10 @@ function AlbumDetail() {
               </div>
             </div>
             <div className="album-detail__song-detail__right">
-              <p className="album-detail__song-detail__right__title">{album?.title}</p>
+              <div className="album-detail__song-detail__right__box">
+                <p className="album-detail__song-detail__right__title">{album?.title}</p>
+                <p className="album-detail__song-detail__right__version">{create_version}</p>
+              </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (
                   <div key={index} className="album-detail__song-detail__right__type__item">

@@ -17,7 +17,6 @@ import NftSellList from './pages/NftSellList';
 
 // 컴포넌트
 import Header from './components/Header';
-import Intro from './components/Intro';
 import Footer from './components/Footer';
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
@@ -30,6 +29,7 @@ import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
 import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
+import Intro from './pages/Intro';
 
 function Layout({ children }) {
   return (
@@ -63,9 +63,9 @@ function App() {
           <div className="App">
             <title>MUSIC ON THE BLOCK</title>
             <Routes>
-              <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
+              {/* <Route path="/" element={<Intro />} /> 인트로에는 헤더 X */}
               <Route
-                path="main"
+                path="/"
                 element={
                   <Layout>
                     <Album />

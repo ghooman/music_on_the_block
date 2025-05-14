@@ -254,7 +254,7 @@ const ChatBot = () => {
       storeAlbumId(res.data.id, res.data.title);
       console.log("handleSubmit", res);
       console.log("storeAlbumId", res.data.id, res.data.title);
-      navigate(`/main`);
+      navigate(`/`);
     } catch (err) {
       alert("에러 발생");
       console.error("handleSubmit error", err);

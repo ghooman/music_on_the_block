@@ -224,13 +224,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
             <dd>
               <div className="menu__box__gnb-list">
                 {/* 일반 아이템 - Albums */}
-                <div
-                  className={`menu__box__gnb-list__item ${
-                    pathname.startsWith('/main') ? 'active' : ''
-                  }`}
-                >
+                <div className={`menu__box__gnb-list__item ${pathname === '/' ? 'active' : ''}`}>
                   <Link
-                    to="/main"
+                    to="/"
                     className="menu__box__gnb-list__item__btn main"
                     onClick={() => handleSingleActive('album')}
                   >

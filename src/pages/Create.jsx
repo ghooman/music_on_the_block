@@ -28,7 +28,6 @@ const Create = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState('topmediai');
   const { data: userData, refetch } = useUserDetail();
-  console.log('selectedVersion', selectedVersion);
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
     try {

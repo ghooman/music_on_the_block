@@ -277,9 +277,9 @@ const LyricsLab = ({
             </button>
             <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
-                createdLyrics?.length > 1000 ? 'disabled' : ''
+                createdLyrics?.length > 1000 ? '' : ''
               }`}
-              disabled={createdLyrics?.length > 1000}
+              // disabled={createdLyrics?.length > 1000}
               onClick={() => {
                 setGeneratedLyric(createdLyrics);
                 setPageNumber(prev => prev + 1);

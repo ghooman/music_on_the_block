@@ -78,9 +78,9 @@ const GetStarted = ({
       <div className="create__get-started--version">
         <label htmlFor="version">Version</label>
         <select id="version" name="version" onChange={handleVersionChange}>
-          <option value="topmediai">V1 TopMediAI</option>
-          <option value="mureka-6">V2 Mureka</option>
           <option value="V4_5">V2.2 Suno AI</option>
+          <option value="mureka-6">V2 Mureka</option>
+          <option value="topmediai">V1 TopMediAI</option>
           {/* <option value="topmediai">topmediai</option>
           <option value="mureka-5.5">mureka-5.5</option>
           <option value="mureka-6">mureka-6</option>

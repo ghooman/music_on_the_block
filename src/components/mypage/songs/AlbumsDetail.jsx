@@ -32,7 +32,8 @@ const AlbumsDetail = () => {
   //====================
   const {
     data: albumBundleInfo,
-    isLoading: bundleLoading,
+
+    isFetching,
     refetch,
   } = useQuery(['album_bundle_detail', { id, address }], async () => {
     return await getAlbumBundleDetail({ bundle_id: id, address: address });
@@ -77,7 +78,7 @@ const AlbumsDetail = () => {
     }
   };
 
-  if (bundleLoading) return <Loading />;
+  if (isFetching) return <Loading />;
   return (
     <>
       {errorMessage && (

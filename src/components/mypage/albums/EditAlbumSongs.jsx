@@ -24,7 +24,7 @@ import lyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-s
 import coverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
 // 컴포넌트
-import SongPlayEditTable from '../../unit/SongPlayEditTable';
+import { SongPlayEditTable } from '../../unit/SongPlayEditTable';
 import EditAlbumModal from '../../EditAlbumModal';
 import AlbumsNoticeModal from './AlbumsNoticeModal';
 import Loading from '../../IntroLogo2';
@@ -36,6 +36,11 @@ const subCategoryList = [
 ];
 
 const serverApi = process.env.REACT_APP_SERVER_API;
+
+// 데이터를 상위 컴포넌트에서 뿌려줌
+// 수정 함수 상위 컴포넌트에서 뿌려줌
+
+// 모달 상위 컴포넌트
 
 const EditAlbumSongs = () => {
   const [selected, setSelected] = useState(subCategoryList[0].name);

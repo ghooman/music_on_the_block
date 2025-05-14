@@ -1,7 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import NoneContent from './NoneContent';
+
+import { getSongsGradeIcon } from '../../utils/getGradeIcon';
+
 import './SongPlayEditTable.scss';
+
 import typeImage from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+import arrowIcon from '../../assets/images/add-icon.svg';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
 
 /**
@@ -11,14 +16,36 @@ import defaultUserImage from '../../assets/images/header/logo-png.png';
  * @param {React.Dispatch<React.SetStateAction<number|null>>} setActiveSong
  * @param {React.RefObject<HTMLAudioElement>} audioRef
  */
-const SongPlayEditTable = ({
+export const SongPlayEditTableWrapper = ({ children }) => {
+  return <div className="song-play-edit-table-wrapper">{children}</div>;
+};
+
+export const SongPlayEditButtons = ({ handleAdd, handleDelete }) => {
+  return (
+    <div className="song-play-edit-table-add-delete-button">
+      <button className="button-item add-button" onClick={handleAdd}>
+        Add
+        <img src={arrowIcon} alt="icon" />
+      </button>
+      <button className="button-item delete-button" onClick={handleDelete}>
+        <img src={arrowIcon} alt="icon" />
+        Delete
+      </button>
+    </div>
+  );
+};
+
+export const SongPlayEditTable = ({
   title,
   songList = [],
   setSongList,
   activeSong,
   setActiveSong,
-  count,
   limit,
+
+  songOption,
+  typeOption,
+  gradeOption,
 }) => {
   const allCheck = songList?.length > 0 && songList?.every(item => item.check);
 
@@ -46,8 +73,8 @@ const SongPlayEditTable = ({
       <div className="song-play-edit-table__selected">
         {title}
         <p className="song-play-edit-table__selected--numbers">
-          (<span>{count || 0}</span>&nbsp;
-          {count === 1 ? 'Song' : 'Songs'} {limit ? <>/ {limit} Songs</> : ''} )
+          (<span>{songList?.length || 0}</span>&nbsp;
+          {songList?.length === 1 ? 'Song' : 'Songs'} {limit ? <>/ {limit} Songs</> : ''} )
         </p>
       </div>
       {/** 테이블 시작 */}
@@ -57,7 +84,9 @@ const SongPlayEditTable = ({
           <div className="table-items">
             <input type="checkbox" onChange={handleSelectAll} checked={allCheck} />
           </div>
-          <div className="table-items head-song">Song</div>
+          {songOption && <div className="table-items head-song">Song</div>}
+          {typeOption && <div className="table-items head-type">Type</div>}
+          {gradeOption && <div className="table-items head-grade">Grade</div>}
           <div className="table-items head-title">Title</div>
         </div>
 
@@ -67,6 +96,7 @@ const SongPlayEditTable = ({
             key={item.id}
             className="song-play-edit-table__table--body"
             onClick={e => {
+              if (!songOption) return;
               setActiveSong(prev => {
                 if (item?.id === prev?.id) return null;
                 else return item;
@@ -88,16 +118,23 @@ const SongPlayEditTable = ({
             </div>
 
             {/** 노래 이미지 */}
-            <div className={`table-items body-song ${item?.id === activeSong?.id ? 'active' : ''}`}>
-              <img src={item.cover_image?.replace('public', '140to140')} alt="cover" />
-              <div className="loading-wave">
-                <div className="loading-bar"></div>
-                <div className="loading-bar"></div>
-                <div className="loading-bar"></div>
-                <div className="loading-bar"></div>
+            {songOption && (
+              <div
+                className={`table-items body-song ${item?.id === activeSong?.id ? 'active' : ''}`}
+              >
+                <img src={item.cover_image?.replace('public', '140to140')} alt="cover" />
+                <div className="loading-wave">
+                  <div className="loading-bar"></div>
+                  <div className="loading-bar"></div>
+                  <div className="loading-bar"></div>
+                  <div className="loading-bar"></div>
+                </div>
               </div>
-            </div>
-
+            )}
+            {/** 타입 */}
+            {typeOption && <div></div>}
+            {/** 등급 */}
+            {gradeOption && <div></div>}
             {/** 제목 */}
             <div className="table-items body-title">
               <p className="body-title__song-title">{item.title}</p>
@@ -114,81 +151,6 @@ const SongPlayEditTable = ({
         ))}
         {songList.length <= 0 && <NoneContent message="There are no songs." height={230} />}
       </div>
-
-      {/* <div className="albums-table scroll">
-        <table style={{ minWidth: '0px', width: '100%' }}>
-          <thead className="sticky">
-            <tr>
-              <th>
-                <input
-                  type="checkbox"
-                  className="styled-checkbox"
-                  checked={allCheck}
-                  onChange={handleSelectAll}
-                />
-              </th>
-              <th className="albums-table__song">Song</th>
-              <th>Type</th>
-              <th className="albums-table__song-title">Song&nbsp;Title</th>
-            </tr>
-          </thead>
-          <tbody>
-            {songList?.map((album, index) => (
-              <tr
-                key={album.id}
-                className={activeSong?.id === album?.id ? 'active' : ''}
-                onClick={() => {
-                  if (activeSong?.id === album?.id) {
-                    setActiveSong(null);
-                  } else {
-                    setActiveSong(album);
-                  }
-                }}
-              >
-                <td onClick={e => e.stopPropagation()}>
-                  <input
-                    type="checkbox"
-                    className="styled-checkbox"
-                    checked={album?.check}
-                    onChange={e => {
-                      e.stopPropagation();
-                      handleSelectOne(album.id, album?.check);
-                    }}
-                  />
-                </td>
-                <td>
-                  <button className="albums-table__song-btn">
-                    <img src={album.cover_image} alt="cover" />
-                    <div className="loading-wave">
-                      <div className="loading-bar" />
-                      <div className="loading-bar" />
-                      <div className="loading-bar" />
-                      <div className="loading-bar" />
-                    </div>
-                  </button>
-                </td>
-                <td>
-                  <img src={typeImage} alt="type" />
-                </td>
-                <td>
-                  {album.title}
-                  <br />
-                  <div className="albums-table__artist--edit-table">
-                    <img src={album.user_profile || defaultUserImage} alt="profile" />
-                    {album.name}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {songList?.length === 0 && (
-          <NoneContent message="There are no songs created yet." height={300} />
-        )}
-      </div> */}
     </div>
   );
 };
-
-export default SongPlayEditTable;

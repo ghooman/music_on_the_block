@@ -546,7 +546,10 @@ function AlbumDetail() {
               </div>
             </div>
             <div className="album-detail__song-detail__right">
-              <p className="album-detail__song-detail__right__title">{album?.title}</p>
+              <div className="album-detail__song-detail__right__box">
+                <p className="album-detail__song-detail__right__title">{album?.title}</p>
+                <p className="album-detail__song-detail__right__version">{create_version}</p>
+              </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (
                   <div key={index} className="album-detail__song-detail__right__type__item">

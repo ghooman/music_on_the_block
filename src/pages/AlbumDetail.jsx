@@ -348,7 +348,31 @@ function AlbumDetail() {
 
     return () => clearTimeout(timer);
   }, []);
-
+  // 버전이름 변환
+  let create_version = '';
+  switch (album?.ai_model) {
+    case 'topmediai':
+      create_version = 'L&S One (v1.0)';
+      break;
+    case 'mureka-5.5':
+      create_version = 'L&S Pro (v2.0)';
+      break;
+    case 'mureka-6':
+      create_version = 'L&S Pro (v2.0)';
+      break;
+    case 'V3.5':
+      create_version = 'L&S Studio (v2.5)';
+      break;
+    case 'suno-V4':
+      create_version = 'L&S Studio (v2.5)';
+      break;
+    case 'V4_5':
+      create_version = 'L&S Studio (v2.5)';
+      break;
+    default:
+      create_version = 'L&S One (v1.0)';
+      break;
+  }
   return (
     <>
       {isLoading && <IntroLogo3 />}

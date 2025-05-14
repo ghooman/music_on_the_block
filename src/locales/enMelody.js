@@ -8,7 +8,7 @@ const enMelody = {
       '1. Ask the user to choose the genre of the song.\n' +
       '2. Ask the user to select the desired tags (e.g., love, friendship, success).\n' +
       '3. Prompt the user to decide on the song title.\n' +
-      '4. For voice selection, suggest choosing either a male or female voice or a mixed gender group voice (note that currently only male, female, and mixed gender group voices are supported).\n' +
+      '4. For voice selection, suggest choosing either a male or female voice (note that currently only one type of voice is supported).\n' +
       '5. Ask which instruments the user wants to include (e.g., drums, bass, piano).\n' +
       '6. Guide the user in deciding the tempo (between 60 and 120 BPM).\n' +
       '7. Ask if there are any additional elements or a story they want to incorporate.\n' +

@@ -49,7 +49,7 @@ const genrePreset = {
 const genderPreset = {
   Male: ['Male'],
   Female: ['Female'],
-  'Mixed Gender': ['Mixed Gender'],
+  // 'Mixed Gender': ['Mixed Gender'],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],

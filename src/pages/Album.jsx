@@ -17,6 +17,7 @@ import { getHitMusicList } from '../api/HitMusicList';
 import AlbumItem from '../components/unit/AlbumItem';
 import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
+import { getTransaction } from '../api/Transaction';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -38,6 +39,21 @@ function Album() {
   const [selectedList, setSelectedList] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+
+  const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
+
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await getTransaction(token);
+        setTransaction(response.data);
+        // console.log("트랜잭션 데이터:", response.data);
+      } catch (error) {
+        console.error('트랜잭션 가져오기 에러:', error);
+      }
+    };
+    fetchTransaction();
+  }, [token]);
 
   const handleTimeUpdate = time => {
     setCurrentTime(time);
@@ -281,6 +297,28 @@ function Album() {
             link="/song/list?songs=Latest"
           />
         </section>
+
+        <section className="intro__number">
+          <dl className="intro__number__title">
+            <dt>Number of Artists</dt>
+            <dd>
+              <Counter targetNumber={transaction?.number_of_users} />
+            </dd>
+          </dl>
+          <dl className="intro__number__title">
+            <dt>Number of Songs</dt>
+            <dd>
+              <Counter targetNumber={transaction?.number_of_songs} />
+            </dd>
+          </dl>
+          <dl className="intro__number__title">
+            <dt>Transitions</dt>
+            <dd>
+              <Counter targetNumber={transaction?.transaction} />
+            </dd>
+          </dl>
+        </section>
+
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
       <IntroLogo2 />
@@ -455,4 +493,29 @@ const ListSlider = ({
       </Swiper>
     </section>
   );
+};
+
+const Counter = ({ targetNumber }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1000; // 애니메이션 지속 시간 (2초)
+    const interval = 10; // 업데이트 간격 (20ms)
+    const step = targetNumber / (duration / interval);
+
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= targetNumber) {
+        setCount(targetNumber);
+        clearInterval(timer);
+      } else {
+        setCount(Math.ceil(start));
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [targetNumber]);
+
+  return <>{count.toLocaleString()}</>;
 };

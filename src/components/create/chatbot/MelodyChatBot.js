@@ -619,7 +619,7 @@ const MelodyChatBot = ({
 
       storeAlbumId(res.data.id, res.data.title);
       console.log('handleSubmit success:', res);
-      navigate(`/main`);
+      navigate(`/`);
     } catch (err) {
       console.error('handleSubmit error', err);
     } finally {

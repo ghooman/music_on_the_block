@@ -38,8 +38,13 @@ const AlbumCollectionCreateEditModal = ({
   // 모달 타이틀 정의
   const title = handleCreate ? 'Create' : handleEdit && handleDelete ? 'Edit' : 'Create';
 
+  const onClose = () => {
+    if (loading) return;
+    handleClose();
+  };
+
   return (
-    <ModalWrap title={title + ' ' + target} onClose={handleClose}>
+    <ModalWrap title={title + ' ' + target} onClose={onClose}>
       <div className="album-collection-module-create-edit-modal">
         <p className="album-collection-module-create-edit-modal__title">{target} Cover Image</p>
         <span className="album-collection-module-create-edit-modal__size-info">
@@ -74,7 +79,7 @@ const AlbumCollectionCreateEditModal = ({
         <div className="album-collection-module-create-edit-modal__name-box">
           <input
             className="album-collection-module-create-edit-modal__name-box__input"
-            placeholder={`Please enter the ${target.toLowerCase()} name`}
+            placeholder={`Please enter the ${target?.toLowerCase()} name`}
             value={name}
             onChange={e => setName(e.target.value)}
             maxLength={40}
@@ -91,7 +96,7 @@ const AlbumCollectionCreateEditModal = ({
         <div className="album-collection-module-create-edit-modal__button-box">
           <button
             className="album-collection-module-create-edit-modal__button cancel-button"
-            onClick={handleClose}
+            onClick={onClose}
             disabled={loading}
           >
             Cancel
@@ -120,7 +125,8 @@ const AlbumCollectionCreateEditModal = ({
         {handleEdit && handleDelete && (
           <button
             className="album-collection-module-create-edit-modal__button delete-button"
-            onClick={() => null}
+            onClick={handleDelete}
+            disabled={loading}
           >
             Delete
           </button>

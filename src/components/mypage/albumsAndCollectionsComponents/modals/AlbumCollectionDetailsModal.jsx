@@ -13,19 +13,22 @@ const AlbumCollectionDetailsModal = ({
 }) => {
   return (
     <ModalWrap title="Album Details" onClose={handleClose}>
-      <div className="albums-details-modal">
-        <div className="albums-details-modal__info">
-          <p className="albums-details-modal__info__title">[{name}]</p>
-          <p className="albums-details-modal__info__artist">{artist}</p>
-          <p className="albums-details-modal__info__songs">{count} Songs</p>
+      <div className="album-collection-module-detail-modal">
+        <div className="album-collection-module-detail-modal__info">
+          <p className="album-collection-module-detail-modal__info__title">[{name}]</p>
+          <p className="album-collection-module-detail-modal__info__artist">{artist}</p>
+          <p className="album-collection-module-detail-modal__info__songs">{count} Songs</p>
         </div>
-        <div className="albums-details-modal__button-box">
-          <div className="albums-details-modal__button-box__edit">
-            <button className="albums-details-modal__button__edit" onClick={onEditClick}>
+        <div className="album-collection-module-detail-modal__button-box">
+          <div className="album-collection-module-detail-modal__button-box__edit">
+            <button
+              className="album-collection-module-detail-modal__button__edit"
+              onClick={onEditClick}
+            >
               Edit Details
             </button>
             <button
-              className="albums-details-modal__button__edit-songs"
+              className="album-collection-module-detail-modal__button__edit-songs"
               onClick={() => {
                 handleNavigate();
               }}
@@ -33,7 +36,10 @@ const AlbumCollectionDetailsModal = ({
               Edit Songs
             </button>
           </div>
-          <button className="albums-details-modal__button__delete" onClick={onDeleteClick}>
+          <button
+            className="album-collection-module-detail-modal__button__delete"
+            onClick={onDeleteClick}
+          >
             Delete Album
           </button>
         </div>

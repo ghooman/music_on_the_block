@@ -138,7 +138,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
                 count={collections?.nft_cnt}
                 coverImage={collections?.image}
                 isOwner={collections?.is_owner}
-                handleNavigate={() => null}
+                handleNavigate={() => navigate(`/nft/collection/detail/${collections?.id}`)}
                 handleDetail={() => setDetails(collections)}
               />
             </React.Fragment>

@@ -11,9 +11,11 @@ const GetStarted = ({
   setCreateMode,
   setSelectedLanguage,
   setSelectedVersion,
+  selectedVersion,
 }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
+  console.log('selectedVersion', selectedVersion);
   const handleVersionChange = e => {
     setSelectedVersion(e.target.value);
   };
@@ -81,7 +83,9 @@ const GetStarted = ({
           <option value="V4_5">V2.2 Suno AI</option>
           <option value="mureka-6">V2 Mureka</option>
           <option value="topmediai">V1 TopMediAI</option>
-          {/* <option value="topmediai">topmediai</option>
+
+          {/* 이전 버젼 모델들
+          <option value="topmediai">topmediai</option>
           <option value="mureka-5.5">mureka-5.5</option>
           <option value="mureka-6">mureka-6</option>
           <option value="V3_5">suno-3.5</option>

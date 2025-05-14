@@ -26,7 +26,7 @@ const Create = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const [finalPrompt, setFinalPrompt] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [selectedVersion, setSelectedVersion] = useState('topmediai');
+  const [selectedVersion, setSelectedVersion] = useState('V4_5');
   const { data: userData, refetch } = useUserDetail();
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
@@ -127,6 +127,7 @@ const Create = () => {
           setCreateMode={setCreateMode}
           setSelectedLanguage={setSelectedLanguage}
           setSelectedVersion={setSelectedVersion}
+          selectedVersion={selectedVersion}
         />
         {showErrorModal && (
           <ErrorModal

@@ -29,7 +29,7 @@ const subCategoryList = [
 const NftMarketPlace = ({ username, isMyProfile }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { token } = useContext(AuthContext);
+  const { token, walletAddress } = useContext(AuthContext);
   const usernameQuery = searchParams.get('username');
   const tab = searchParams.get('tab') || subCategoryList?.[0].name;
 
@@ -48,10 +48,20 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
         value={tab}
       />
       {tab === 'NFT items' && (
-        <NftItems token={token} username={username} isMyProfile={isMyProfile} />
+        <NftItems
+          token={token}
+          walletAddress={walletAddress}
+          username={username}
+          isMyProfile={isMyProfile}
+        />
       )}
       {tab === 'Collections' && (
-        <Collections token={token} username={username} isMyProfile={isMyProfile} />
+        <Collections
+          token={token}
+          walletAddress={walletAddress}
+          username={username}
+          isMyProfile={isMyProfile}
+        />
       )}
       {tab === 'History' && <History username={username} isMyProfile={isMyProfile} />}
     </div>

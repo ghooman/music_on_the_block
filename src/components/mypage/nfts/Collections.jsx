@@ -19,7 +19,7 @@ import AlbumCollectionCreateEditModal from '../albumsAndCollectionsComponents/mo
 import AlbumCollectionDeleteConfirmModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDeleteConfirmModal';
 import AlbumCollectionDetailsModal from '../albumsAndCollectionsComponents/modals/AlbumCollectionDetailsModal';
 
-const Collections = ({ token, username, isMyProfile }) => {
+const Collections = ({ token, username, isMyProfile, walletAddress }) => {
   const [searchParams] = useSearchParams();
 
   const [details, setDetails] = useState(null);
@@ -49,6 +49,7 @@ const Collections = ({ token, username, isMyProfile }) => {
         page: page,
         search_keyword: search,
         sort_by: collectionSort,
+        wallet_address: walletAddress?.address,
         user_name: username,
       });
       return res.data;
@@ -92,8 +93,6 @@ const Collections = ({ token, username, isMyProfile }) => {
     }
   };
 
-  console.log(data, '아옳옳');
-
   return (
     <>
       {isMyProfile && (
@@ -117,8 +116,9 @@ const Collections = ({ token, username, isMyProfile }) => {
                 artist={collections.user_name}
                 count={collections?.nft_cnt}
                 coverImage={collections?.image}
+                isOwner={collections?.is_owner}
                 handleNavigate={() => null}
-                handleDetail={() => setDetails()}
+                handleDetail={() => setDetails(collections)}
               />
             </React.Fragment>
           ))}

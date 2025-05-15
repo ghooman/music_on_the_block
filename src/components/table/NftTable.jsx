@@ -13,6 +13,7 @@ const NftTable = ({
   saleOption,
   dateOption = true,
   priceOption = true,
+  playsOption,
   listedDateOption,
   mintedDateOption,
   handleSell,
@@ -48,6 +49,7 @@ const NftTable = ({
           {buyerOption && <TableHeader.Col>Buyer</TableHeader.Col>}
           {sellerOption && <TableHeader.Col>Seller</TableHeader.Col>}
           {priceOption && <TableHeader.Col>Price</TableHeader.Col>}
+          {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
           {dateOption && <TableHeader.Col>Date</TableHeader.Col>}
           {listedDateOption && <TableHeader.Col>Listed Date</TableHeader.Col>}
           {mintedDateOption && <TableHeader.Col>Minted Date</TableHeader.Col>}
@@ -76,6 +78,7 @@ const NftTable = ({
                 {priceOption && (
                   <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
                 )}
+                {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
                 {dateOption && <TableItem.Date date={item.create_dt} />}
                 {listedDateOption && <TableItem.Date date={item.listing_date} />}
                 {mintedDateOption && <TableItem.Date date={item.create_dt} />}

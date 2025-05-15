@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
@@ -221,6 +221,8 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const [seeMore, setSeeMore] = useState(false);
   const [linksModal, setLinksModal] = useState(false);
 
+  const { pathname, search: queryParameter } = useLocation();
+
   return (
     <>
       <div className="mypage__profile">
@@ -251,7 +253,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               </div>
             </div>
             {isMyProfile && (
-              <Link to="/account-setting">
+              <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
                 <img src={gearImg} alt="edit" />
               </Link>
             )}

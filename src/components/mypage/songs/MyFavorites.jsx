@@ -62,6 +62,7 @@ const MyFavorites = () => {
           nftOption={true}
           playsOption={true}
           likesOption={true}
+          gradeOption={true}
         />
         <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={15} page={page} />
       </ContentWrap>

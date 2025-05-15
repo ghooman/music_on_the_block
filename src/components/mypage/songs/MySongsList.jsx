@@ -124,11 +124,11 @@ const MySongsList = ({ token }) => {
           gradeOption={releaseType === 'Released'}
           nftOption={releaseType === 'Released'}
           mintOption={releaseType === 'Released'}
+          playsOption={releaseType === 'Released'}
+          likesOption={releaseType === 'Released'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
           handleMint={handleMint}
-          playsOption={true}
-          likesOption={true}
           artistOption={false}
         />
         <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />

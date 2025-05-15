@@ -126,7 +126,7 @@ const Albums = ({ username, isMyProfile }) => {
           <SubBanner.Button title="Create Album" handler={() => setCreate(true)} />
         </SubBanner>
       )}
-      <ContentWrap title="Albums List">
+      <ContentWrap title="Albums">
         <ContentWrap.SubWrap gap={8}>
           <Filter albumSort={true} />
           <Search placeholder="Search by album name..." reset={{ page: 1 }} />

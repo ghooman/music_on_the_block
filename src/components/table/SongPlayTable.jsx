@@ -1,17 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import NoneContent from '../../components/unit/NoneContent';
 import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
 
-import playIcon from '../../assets/images/play-icon2.svg';
 import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
-import defaultImage from '../../assets/images/header/logo-png.png';
-import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
-import grade2Icon from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
-import grade3Icon from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
-import grade4Icon from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
-import grade5Icon from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
 
 /**
  *

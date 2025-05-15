@@ -49,6 +49,7 @@ const genrePreset = {
 const genderPreset = {
   Male: ['Male'],
   Female: ['Female'],
+  // 'Mixed Gender': ['Mixed Gender'],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],
@@ -110,17 +111,21 @@ const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
       태그: ${lyric_tag.join(', ')}
       장르: ${lyric_genre.join(', ')}
       
+      [노래 제목]
+      ${lyricData?.title}
+
       [노래 스토리]
       ${lyricStory}
       
       [디자인 요청]
+      - 노래 제목이 있을 경우 (${lyricData?.title}) 그 제목을 포함할 것.
+      - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
       앨범 커버 디자인 : 
       - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
       - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
       - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
         ', '
       )}"와 "${lyric_genre.join(', ')}"의 느낌을 표현할 것.
-      - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
     `;
 };
 
@@ -148,6 +153,7 @@ const MelodyMaker = ({
   setAlbumCover,
   finalPrompt,
   setFinalPrompt,
+  selectedVersion,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -248,6 +254,16 @@ const MelodyMaker = ({
         promptText = promptText.substring(0, 197) + '...';
       }
 
+      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
+      promptText = promptText.replace(
+        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      promptText = promptText.replace(
+        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
       setFinalPrompt(promptText);
@@ -280,6 +296,39 @@ const MelodyMaker = ({
         setAlbumCover(coverImageUrl);
       }
 
+      // selectedVersion 에따라 create_ai_type 과 ai_model 구성
+      let create_ai_type = '';
+      let ai_model = '';
+      switch (selectedVersion) {
+        case 'topmediai':
+          create_ai_type = 'topmediai';
+          ai_model = '';
+          break;
+        case 'mureka-5.5':
+          create_ai_type = 'mureka';
+          ai_model = 'mureka-5.5';
+          break;
+        case 'mureka-6':
+          create_ai_type = 'mureka';
+          ai_model = 'mureka-6';
+          break;
+        case 'V3.5':
+          create_ai_type = 'suno';
+          ai_model = 'V3.5';
+          break;
+        case 'suno-V4':
+          create_ai_type = 'suno';
+          ai_model = 'V4';
+          break;
+        case 'V4_5':
+          create_ai_type = 'suno';
+          ai_model = 'V4_5';
+          break;
+        default:
+          create_ai_type = 'topmediai';
+          ai_model = '';
+          break;
+      }
       // API에 전달할 payload 구성
       const formData = {
         album: {
@@ -299,6 +348,8 @@ const MelodyMaker = ({
           tags: melody_tag ? melody_tag.join(', ') : '',
           cover_image: coverImageUrl,
           prompt: finalPrompt,
+          create_ai_type: create_ai_type,
+          ai_model: ai_model,
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -308,12 +359,11 @@ const MelodyMaker = ({
           my_story: lyricStory,
         },
       };
-
+      console.log('formData', formData);
       // axios를 통한 POST 요청
-      const res = await axios.post(`${serverApi}/api/music/album/lyrics`, formData, {
+      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'x-api-key': 'f47d348dc08d492492a7a5d546d40f4a',
           'Content-Type': 'application/json',
         },
       });
@@ -322,7 +372,7 @@ const MelodyMaker = ({
       setGeneratedMusicResult(res.data);
       console.log('handleSubmit', res);
       console.log('storeAlbumId', res.data.id, res.data.title);
-      navigate(`/main`);
+      navigate(`/`);
     } catch (err) {
       alert('에러 발생');
       console.error('musicGenerate error', err);
@@ -388,14 +438,14 @@ const MelodyMaker = ({
         />
 
         <SelectItem
-          mainTitle="Select a Musical Instrument"
-          subTitle="Popular Musical Instrument"
+          mainTitle="Instrument"
+          subTitle="Instrument Tags"
+          preset={instrumentPreset}
           setter={setMelodyData}
           objKey="melody_instrument"
-          selected={melodyData?.melody_instrument}
-          preset={instrumentPreset}
-          multiple
-          add
+          selected={melody_instrument || []}
+          multiple={true}
+          add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />
@@ -405,9 +455,9 @@ const MelodyMaker = ({
             <span>
               current length :{' '}
               <span
-                style={{
-                  color: valuesOnly?.length > 200 ? 'red' : 'inherit',
-                }}
+              // style={{
+              //   color: valuesOnly?.length > 200 ? 'red' : 'inherit',
+              // }}
               >
                 {valuesOnly?.length}
               </span>
@@ -457,9 +507,11 @@ const MelodyMaker = ({
           </button>
         </div>
         <button
-          className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
+          // className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
+          className={loading || !isFormValid ? 'next' : 'next enable'}
           onClick={() => musicGenerate()}
-          disabled={loading || valuesOnly.length > 200 || !isFormValid}
+          // disabled={loading || valuesOnly.length > 200 || !isFormValid}
+          disabled={loading || !isFormValid}
         >
           {loading ? 'Loading' : 'Generate'}
         </button>

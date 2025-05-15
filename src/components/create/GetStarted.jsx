@@ -5,14 +5,17 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 
-const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLanguage }) => {
+const GetStarted = ({
+  handler,
+  createPossibleCount,
+  setCreateMode,
+  setSelectedLanguage,
+  setSelectedVersion,
+  selectedVersion,
+}) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
-  const [selectedVersion, setSelectedVersion] = useState('topmediai');
-
-  const handleVersionChange = e => {
-    setSelectedVersion(e.target.value);
-  };
+  console.log('selectedVersion', selectedVersion);
 
   const handleWalletConnect = (loggedIn, walletAddress) => {
     setIsLoggedIn(loggedIn);
@@ -38,7 +41,22 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
   const handleArticleClick = index => {
     setActiveIndex(index);
   };
-  console.log('selectedVersion', selectedVersion);
+
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('L&S Plus(V2.2)');
+
+  // 버전 항목 선택
+  const handleSelect = newTitle => {
+    setTitle(newTitle);
+    setOpen(false);
+    if (newTitle === 'L&S Plus(V2.2)') {
+      setSelectedVersion('V4_5');
+    } else if (newTitle === 'L&S Pro(V2.0)') {
+      setSelectedVersion('mureka-6');
+    } else if (newTitle === 'L&S One(V1.0)') {
+      setSelectedVersion('topmediai');
+    }
+  };
 
   return (
     <div className="create__get-started">
@@ -72,17 +90,28 @@ const GetStarted = ({ handler, createPossibleCount, setCreateMode, setSelectedLa
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
-      {/* <div className="create__get-started--version">
-        <label htmlFor="version">Version</label>
-        <select id="version" name="version" onChange={handleVersionChange}>
-          <option value="topmediai">topmediai</option>
-          <option value="mureka-5.5">mureka-5.5</option>
-          <option value="mureka-6">mureka-6</option>
-          <option value="V3_5">suno-3.5</option>
-          <option value="V4">suno-4</option>
-          <option value="V4_5">suno-4.5</option>
-        </select>
-      </div> */}
+      <div className={`create__get-started--version${open ? ' active' : ''}`}>
+        <p className="create__get-started--version__title">&lt;Ai Version&gt;</p>
+        <div className="create__get-started--version__select">
+          <p className="create__get-started--version__select__title" onClick={() => setOpen(!open)}>
+            {title}
+          </p>
+          <ul className="create__get-started--version__select__list">
+            <li onClick={() => handleSelect('L&S Plus(V2.2)')}>
+              <p>L&S Plus(V2.2)</p>
+              <span>Advanced AI Model for High-Quality and Extended Song Generation</span>
+            </li>
+            <li onClick={() => handleSelect('L&S Pro(V2.0)')}>
+              <p>L&S Pro(V2.0)</p>
+              <span>Standard AI Model Offering Enhanced Audio Quality and Stability</span>
+            </li>
+            <li onClick={() => handleSelect('L&S One(V1.0)')}>
+              <p>L&S One(V1.0)</p>
+              <span>Basic AI Model for Simple Lyrics and Music Composition</span>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <section className="create__get-started--format">
         {formats.map((format, idx) => (

@@ -180,7 +180,7 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>Main</dt>
                   <dd>
-                    <Link to="/main">Main</Link>
+                    <Link to="/">Main</Link>
                   </dd>
                 </dl>
                 <dl>

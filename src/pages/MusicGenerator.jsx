@@ -27,7 +27,7 @@ const MusicGenerator = () => {
         { lyrics, prompt, model },
         {
           headers: {
-            Authorization: `Bearer op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8`,
+            Authorization: `Bearer ${process.env.REACT_APP_MUREKA_API_KEY}`,
             'Content-Type': 'application/json',
           },
         }
@@ -49,7 +49,7 @@ const MusicGenerator = () => {
       try {
         const { data } = await axios.get(`${GET_API_URL}/${taskId}`, {
           headers: {
-            Authorization: `Bearer op_mag4gx3uHbHKxB7NE5b8v8pbVuUmfT8`,
+            Authorization: `Bearer ${process.env.REACT_APP_MUREKA_API_KEY}`,
             'Content-Type': 'application/json',
           },
         });

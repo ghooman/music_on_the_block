@@ -30,6 +30,7 @@ const MelodyChatBot = ({
   setAlbumCover,
   finalPrompt,
   setFinalPrompt,
+  selectedVersion,
 }) => {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -42,7 +43,7 @@ const MelodyChatBot = ({
     melody_tag = [],
     melody_genre = '',
     melody_gender = '',
-    melody_instrument = '',
+    melody_instrument = [],
     melody_tempo = '',
     melody_detail = '',
     melody_title = '',
@@ -281,11 +282,20 @@ const MelodyChatBot = ({
       if (locale.extraction.instrumentRegex.test(botMessage)) {
         const instrumentMatch = botMessage.match(locale.extraction.instrumentRegex);
         console.log('Instrument match (standard):', instrumentMatch);
+        console.log('Full message:', botMessage);
+
         if (instrumentMatch && instrumentMatch[1]) {
-          console.log('Extracted instrument (standard):', instrumentMatch[1].trim());
+          const instrumentStr = instrumentMatch[1].trim();
+          // 괄호 안의 내용만 추출하는 패턴을 추가
+          const bracketsMatch = instrumentStr.match(/\((.*?)\)/);
+          const instrumentArray = bracketsMatch
+            ? bracketsMatch[1].split(/,\s*/).map(item => item.trim())
+            : instrumentStr.split(/,\s*/).map(item => item.trim());
+
+          console.log('Extracted instruments (standard):', instrumentArray);
           setMelodyData(prevData => ({
             ...prevData,
-            melody_instrument: instrumentMatch[1].trim(),
+            melody_instrument: instrumentArray,
           }));
         }
       }
@@ -296,11 +306,35 @@ const MelodyChatBot = ({
       ) {
         const instrumentMatch = botMessage.match(locale.extraction.promptInstrumentRegex);
         console.log('Instrument match (prompt):', instrumentMatch);
+        console.log('Full message for prompt match:', botMessage);
+
         if (instrumentMatch && instrumentMatch[1]) {
-          console.log('Extracted instrument (prompt):', instrumentMatch[1].trim());
+          const instrumentStr = instrumentMatch[1].trim();
+          // 괄호 안의 내용만 추출하는 패턴을 추가
+          const bracketsMatch = instrumentStr.match(/\((.*?)\)/);
+          const instrumentArray = bracketsMatch
+            ? bracketsMatch[1].split(/,\s*/).map(item => item.trim())
+            : instrumentStr.split(/,\s*/).map(item => item.trim());
+
+          console.log('Extracted instruments (prompt):', instrumentArray);
           setMelodyData(prevData => ({
             ...prevData,
-            melody_instrument: instrumentMatch[1].trim(),
+            melody_instrument: instrumentArray,
+          }));
+        }
+      } else {
+        // 직접 악기 부분을 찾는 시도
+        console.log('Trying direct instrument extraction');
+        const directMatch =
+          botMessage.match(/악기\s*\(([\s\S]*?)\)/i) ||
+          botMessage.match(/Instruments\s*\(([\s\S]*?)\)/i);
+
+        if (directMatch && directMatch[1]) {
+          const instrumentArray = directMatch[1].split(/,\s*/).map(item => item.trim());
+          console.log('Direct instrument extraction:', instrumentArray);
+          setMelodyData(prevData => ({
+            ...prevData,
+            melody_instrument: instrumentArray,
           }));
         }
       }
@@ -405,6 +439,9 @@ const MelodyChatBot = ({
     try {
       // Genre를 대문자로 변환 (genrePreset 기반)
       const standardizedGenre = convertGenreToPreset(melody_genre);
+      const instrumentsString = Array.isArray(melody_instrument)
+        ? melody_instrument.join(', ')
+        : melody_instrument;
 
       const response = await client.chat.completions.create({
         model: 'gpt-4o-mini',
@@ -417,7 +454,7 @@ const MelodyChatBot = ({
             role: 'user',
             content: `Create a concise English prompt based on these music parameters:\n            - Title: ${melody_title}\n            - Tags: ${melody_tag.join(
               ', '
-            )}\n            - Genre: ${standardizedGenre}\n            - Voice/Gender: ${melody_gender}\n            - Instruments: ${melody_instrument}\n            - Tempo: ${melody_tempo} BPM\n            - Additional Details: ${melody_detail}`,
+            )}\n            - Genre: ${standardizedGenre}\n            - Voice/Gender: ${melody_gender}\n            - Instruments: ${instrumentsString}\n            - Tempo: ${melody_tempo} BPM\n            - Additional Details: ${melody_detail}`,
           },
         ],
       });
@@ -427,6 +464,21 @@ const MelodyChatBot = ({
       if (promptText.length > 200) {
         promptText = promptText.substring(0, 197) + '...';
       }
+
+      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
+      promptText = promptText.replace(
+        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      promptText = promptText.replace(
+        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      // 영어 버전 문구 제거
+      promptText = promptText.replace(
+        /['"]?\s*Would you like to generate a song with this\??\s*$/i,
+        ''
+      );
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -449,28 +501,27 @@ const MelodyChatBot = ({
 
   const generateAlbumCover = async () => {
     try {
+      const instrumentsString = Array.isArray(melody_instrument)
+        ? melody_instrument.join(', ')
+        : melody_instrument;
+
       const response = await client.images.generate({
         model: 'dall-e-3',
         prompt: `
         [멜로디 데이터]
         타이틀: ${melody_title}
         태그: ${melody_tag.join(', ')}
-        장르: ${melody_genre}
-        성별: ${melody_gender}
-        악기: ${melody_instrument}
-        템포: ${melody_tempo}
 
         [노래 스토리]
         ${lyricStory}
         
         [디자인 요청]
         앨범 커버 디자인 : 
+        - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
         - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
         - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-        - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
         - 타이틀("${melody_title}")을 강조하여, 타이틀을 포함한 디자인을 생성할 것.
         - 멜로디 태그("${melody_tag.join(', ')}")가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-        - 멜로디 장르("${melody_genre}")가 있을 경우 그에 대한 디자인 요소를 포함할 것.
         - 멜로디 세부 사항("${melody_detail}")이 있을 경우 그에 대한 디자인 요소를 포함할 것.
       `,
         size: '1024x1024',
@@ -495,9 +546,45 @@ const MelodyChatBot = ({
     const expires = Date.now() + 15 * 60 * 1000; // 15분 후
     localStorage.setItem(albumIdStorageKey, JSON.stringify({ id, title, expires }));
   };
+
   // musicGenerate 함수 수정: generatedPrompt 인자를 받도록 변경
   const musicGenerate = async (coverUrl, generatedPrompt) => {
     const standardizedGenre = convertGenreToPreset(melody_genre);
+
+    // selectedVersion 에따라 create_ai_type 과 ai_model 구성
+    let create_ai_type = '';
+    let ai_model = '';
+    switch (selectedVersion) {
+      case 'topmediai':
+        create_ai_type = 'topmediai';
+        ai_model = '';
+        break;
+      case 'mureka-5.5':
+        create_ai_type = 'mureka';
+        ai_model = 'mureka-5.5';
+        break;
+      case 'mureka-6':
+        create_ai_type = 'mureka';
+        ai_model = 'mureka-6';
+        break;
+      case 'V3.5':
+        create_ai_type = 'suno';
+        ai_model = 'V3.5';
+        break;
+      case 'suno-V4':
+        create_ai_type = 'suno';
+        ai_model = 'V4';
+        break;
+      case 'V4_5':
+        create_ai_type = 'suno';
+        ai_model = 'V4_5';
+        break;
+      default:
+        create_ai_type = 'topmediai';
+        ai_model = '';
+        break;
+    }
+
     try {
       const formData = {
         album: {
@@ -507,7 +594,9 @@ const MelodyChatBot = ({
           genre: standardizedGenre,
           style: '',
           gender: melody_gender,
-          musical_instrument: melody_instrument,
+          musical_instrument: Array.isArray(melody_instrument)
+            ? melody_instrument.join(', ')
+            : melody_instrument,
           ai_service: 1,
           ai_service_type: '',
           tempo: parseInt(melody_tempo),
@@ -517,6 +606,8 @@ const MelodyChatBot = ({
           tags: melody_tag?.join(', ') || '',
           cover_image: coverUrl,
           prompt: generatedPrompt,
+          create_ai_type: create_ai_type,
+          ai_model: ai_model,
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -528,17 +619,16 @@ const MelodyChatBot = ({
         },
       };
       console.log('formData being sent:', formData);
-      const res = await axios.post(`${serverApi}/api/music/album/lyrics`, formData, {
+      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'x-api-key': 'f47d348dc08d492492a7a5d546d40f4a',
           'Content-Type': 'application/json',
         },
       });
 
       storeAlbumId(res.data.id, res.data.title);
       console.log('handleSubmit success:', res);
-      navigate(`/main`);
+      navigate(`/`);
     } catch (err) {
       console.error('handleSubmit error', err);
     } finally {
@@ -660,7 +750,16 @@ const MelodyChatBot = ({
         </div>
         <div className="music__information__instrument">
           <h3>Melody Instrument</h3>
-          <input type="text" value={melodyData?.melody_instrument} placeholder="Enter" readOnly />
+          <input
+            type="text"
+            value={
+              Array.isArray(melodyData?.melody_instrument)
+                ? melodyData?.melody_instrument.join(', ')
+                : melodyData?.melody_instrument
+            }
+            placeholder="Enter"
+            readOnly
+          />
         </div>
         <div className="music__information__tempo">
           <h3>Melody Tempo</h3>

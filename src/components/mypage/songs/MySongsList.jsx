@@ -22,8 +22,8 @@ import Loading from '../../IntroLogo2';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const myAlbumsCategoryList = [
-  { name: 'Unreleased songs', preparing: false },
-  { name: 'Released songs', preparing: false },
+  { name: 'Unreleased', preparing: false },
+  { name: 'Released', preparing: false },
 ];
 
 const MySongsList = ({ token }) => {
@@ -35,7 +35,7 @@ const MySongsList = ({ token }) => {
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search') || '';
   const songsSort = searchParams.get('songs_sort');
-  const releaseType = searchParams.get('release_type') || 'Unreleased songs';
+  const releaseType = searchParams.get('release_type') || 'Unreleased';
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -120,10 +120,10 @@ const MySongsList = ({ token }) => {
         <SongPlayTable
           songList={songsList?.data_list}
           deleteOption={true}
-          releaseOption={releaseType === 'Unreleased songs'}
-          gradeOption={releaseType === 'Released songs'}
-          nftOption={releaseType === 'Released songs'}
-          mintOption={releaseType === 'Released songs'}
+          releaseOption={releaseType === 'Unreleased'}
+          gradeOption={releaseType === 'Released'}
+          nftOption={releaseType === 'Released'}
+          mintOption={releaseType === 'Released'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
           handleMint={handleMint}

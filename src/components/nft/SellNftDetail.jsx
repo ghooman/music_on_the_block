@@ -78,6 +78,16 @@ function MintNftSellDetail2() {
   }
 
   console.log('sellPriceInWei', sellPriceInWei);
+
+  // 금액 입력함수 숫자만 소수점 4자리까지 입력
+  const handleSellPriceChange = e => {
+    const value = e.target.value;
+    const regex = /^[0-9]*(\.[0-9]{0,4})?$/;
+    if (regex.test(value)) {
+      setSellPrice(value);
+    }
+  };
+
   return (
     <>
       <div className="mint-detail">
@@ -124,7 +134,7 @@ function MintNftSellDetail2() {
                 <input
                   placeholder="How much will you sell each NFT for? (e.g. 0.05)"
                   value={sellPrice}
-                  onChange={e => setSellPrice(e.target.value)}
+                  onChange={handleSellPriceChange}
                   type="number"
                 />
                 {/* <button className='sell-nft-input-box__value__btn'><img src={mobIcon} alt='mic-icon'/>MOB</button> */}

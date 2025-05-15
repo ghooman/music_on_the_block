@@ -347,7 +347,31 @@ function AlbumDetail() {
 
     return () => clearTimeout(timer);
   }, []);
-
+  // 버전이름 변환
+  let create_version = '';
+  switch (album?.ai_model) {
+    case 'topmediai':
+      create_version = 'L&S One (v1.0)';
+      break;
+    case 'mureka-5.5':
+      create_version = 'L&S Pro (v2.0)';
+      break;
+    case 'mureka-6':
+      create_version = 'L&S Pro (v2.0)';
+      break;
+    case 'V3.5':
+      create_version = 'L&S Plus (v2.2)';
+      break;
+    case 'V4':
+      create_version = 'L&S Plus (v2.2)';
+      break;
+    case 'V4_5':
+      create_version = 'L&S Plus (v2.2)';
+      break;
+    default:
+      create_version = 'L&S One (v1.0)';
+      break;
+  }
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -370,7 +394,10 @@ function AlbumDetail() {
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
-          <p className="album-detail__song-detail__title">Song Details</p>
+          <div className="album-detail__song-detail__title-box">
+            <p className="album-detail__song-detail__title">Song Details</p>
+            <p className="album-detail__song-detail__right__version">{create_version}</p>
+          </div>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
               <section className="album-detail__audio">
@@ -521,7 +548,9 @@ function AlbumDetail() {
               </div>
             </div>
             <div className="album-detail__song-detail__right">
-              <p className="album-detail__song-detail__right__title">{album?.title}</p>
+              <div className="album-detail__song-detail__right__box">
+                <p className="album-detail__song-detail__right__title">{album?.title}</p>
+              </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (
                   <div key={index} className="album-detail__song-detail__right__type__item">

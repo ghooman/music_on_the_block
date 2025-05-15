@@ -14,14 +14,12 @@ import Nft from './pages/Nft';
 import NftList from './pages/NftList';
 import NftMintList from './pages/NftMintList';
 import NftSellList from './pages/NftSellList';
+import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
+import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 
 // 컴포넌트
 import Header from './components/Header';
-import Intro from './components/Intro';
 import Footer from './components/Footer';
-// 전역 상태
-import { AuthProvider } from './contexts/AuthContext';
-import { WebSocketProvider } from './contexts/WebSocketContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
@@ -29,11 +27,11 @@ import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/songs/AlbumsDetail';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
-import UploadSequence from './pages/UploadSequence';
-import MusicGenerator from './pages/MusicGenerator';
-import Suno from './pages/Suno';
-import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
-import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
+import Intro from './pages/Intro';
+
+// 전역 상태
+import { AuthProvider } from './contexts/AuthContext';
+import { WebSocketProvider } from './contexts/WebSocketContext';
 
 function Layout({ children }) {
   return (
@@ -67,12 +65,9 @@ function App() {
           <div className="App">
             <title>MUSIC ON THE BLOCK</title>
             <Routes>
-              <Route path="/" element={<Intro />} /> {/* 인트로에는 헤더 X */}
-              <Route path="/upload-sequence" element={<UploadSequence />} />
-              <Route path="/mureka" element={<MusicGenerator />} />
-              <Route path="/suno" element={<Suno />} />
+              {/* <Route path="/" element={<Intro />} /> 인트로에는 헤더 X */}
               <Route
-                path="main"
+                path="/"
                 element={
                   <Layout>
                     <Album />

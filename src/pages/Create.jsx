@@ -127,6 +127,7 @@ const Create = () => {
           setCreateMode={setCreateMode}
           setSelectedLanguage={setSelectedLanguage}
           setSelectedVersion={setSelectedVersion}
+          selectedVersion={selectedVersion}
         />
         {showErrorModal && (
           <ErrorModal

@@ -465,6 +465,21 @@ const MelodyChatBot = ({
         promptText = promptText.substring(0, 197) + '...';
       }
 
+      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
+      promptText = promptText.replace(
+        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      promptText = promptText.replace(
+        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      // 영어 버전 문구 제거
+      promptText = promptText.replace(
+        /['"]?\s*Would you like to generate a song with this\??\s*$/i,
+        ''
+      );
+
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
       setFinalPrompt(promptText);
@@ -609,10 +624,9 @@ const MelodyChatBot = ({
         },
       };
       console.log('formData being sent:', formData);
-      const res = await axios.post(`${serverApi}/api/music/album/lyrics`, formData, {
+      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'x-api-key': 'f47d348dc08d492492a7a5d546d40f4a',
           'Content-Type': 'application/json',
         },
       });

@@ -230,14 +230,29 @@
       .album-detail__song-detail__right {
         flex: 1;
         flex-shrink: 0;
-        .album-detail__song-detail__right__title {
-          color: #f1f1f1;
-          font-family: Orbitron500;
-          font-size: 20px;
-          font-style: normal;
-          line-height: 100%; /* 20px */
-          margin-bottom: 24px;
-        } //album-detail__song-detail__right__title--END--
+        .album-detail__song-detail__right__box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .album-detail__song-detail__right__title {
+            color: #f1f1f1;
+            font-family: Orbitron500;
+            font-size: 20px;
+            font-style: normal;
+            line-height: 100%; /* 20px */
+            margin-bottom: 24px;
+          } //album-detail__song-detail__right__title--END--
+          .album-detail__song-detail__right__version {
+            color: #f1f1f1;
+            font-family: Orbitron400;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            border: 1px solid #00ffb3;
+            border-radius: 12px;
+            padding: 4px 12px;
+          } //album-detail__song-detail__right__version--END--
+        }
         .album-detail__song-detail__right__type {
           display: flex;
           align-items: center;
@@ -1222,7 +1237,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  
   .song-detail {
     .album-detail__title {
       dt {
@@ -1236,11 +1250,11 @@
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
-            .album-detail__song-detail__left__img__txt{
+            .album-detail__song-detail__left__img__txt {
               height: 0;
             }
-            &.active{
-              .album-detail__song-detail__left__img__txt{
+            &.active {
+              .album-detail__song-detail__left__img__txt {
                 height: 100%;
               }
             }

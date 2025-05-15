@@ -49,6 +49,7 @@ const genrePreset = {
 const genderPreset = {
   Male: ['Male'],
   Female: ['Female'],
+  // 'Mixed Gender': ['Mixed Gender'],
   // 'Male Group': ['Male Group'],
   // 'Female Group': ['Female Group'],
   // 'Mixed Gender Group': ['Mixed Gender Group'],
@@ -150,6 +151,7 @@ const MelodyMaker = ({
   setFinalPrompt,
   selectedVersion,
 }) => {
+  console.log('selectedVersion', selectedVersion);
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -248,6 +250,16 @@ const MelodyMaker = ({
       if (promptText.length > 200) {
         promptText = promptText.substring(0, 197) + '...';
       }
+
+      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
+      promptText = promptText.replace(
+        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
+      promptText = promptText.replace(
+        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
+        ''
+      );
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -440,9 +452,9 @@ const MelodyMaker = ({
             <span>
               current length :{' '}
               <span
-                style={{
-                  color: valuesOnly?.length > 200 ? 'red' : 'inherit',
-                }}
+              // style={{
+              //   color: valuesOnly?.length > 200 ? 'red' : 'inherit',
+              // }}
               >
                 {valuesOnly?.length}
               </span>
@@ -492,9 +504,11 @@ const MelodyMaker = ({
           </button>
         </div>
         <button
-          className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
+          // className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
+          className={loading || !isFormValid ? 'next' : 'next enable'}
           onClick={() => musicGenerate()}
-          disabled={loading || valuesOnly.length > 200 || !isFormValid}
+          // disabled={loading || valuesOnly.length > 200 || !isFormValid}
+          disabled={loading || !isFormValid}
         >
           {loading ? 'Loading' : 'Generate'}
         </button>

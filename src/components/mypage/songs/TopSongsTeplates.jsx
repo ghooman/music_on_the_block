@@ -24,7 +24,7 @@ const TopSongsTemplates = ({ topSongsData }) => {
   const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList?.[0].name);
 
   return (
-    <ContentWrap title="Songs" border={false}>
+    <ContentWrap title="Songs" border={true}>
       <SubCategories
         categories={topAlbumsCategoryList}
         handler={setTopAlbumsCategory}

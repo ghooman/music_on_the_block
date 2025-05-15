@@ -18,6 +18,7 @@ AlbumCollectionItems.Item = ({
   coverImage,
   handleNavigate,
   handleDetail,
+  target,
 }) => {
   return (
     <div className="album-collections-module-items" onClick={() => handleNavigate()}>
@@ -25,7 +26,10 @@ AlbumCollectionItems.Item = ({
         <h1>{name || '-'}</h1>
         <p>{artist}</p>
         <div className="album-collections-module-items__info--edit">
-          <span>{count} Songs</span>
+          <span>
+            {count} {target === 'Collection' ? 'NFT' : 'Song'}
+            {count > 1 && 's'}
+          </span>
           {isOwner && (
             <button
               className="album-collections-module-items__info--edit-btn"

@@ -19,40 +19,40 @@ const Songs = ({ token, username, isMyProfile }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = searchParams.get('tab') || 'Songs';
 
-  if (isMyProfile) {
-    return (
-      <div>
-        <SubCategories
-          categories={myPageCategories}
-          value={tab}
-          handler={value =>
-            setSearchParams(prev => {
-              return { category: 'Songs', page: 1, tab: value };
-            })
-          }
-        />
-        {tab === 'Songs' && <MySongsList token={token} />}
-        {tab === 'Favorites' && <MyFavorites />}
-        {tab === 'Albums' && <Albums username={username} isMyProfile />}
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <SubCategories
-          categories={userPageCategories}
-          value={tab}
-          handler={value =>
-            setSearchParams(prev => {
-              return { category: 'Songs', page: 1, tab: value, username: username };
-            })
-          }
-        />
-        {tab === 'Songs' && <UserSongsList username={username} />}
-        {tab === 'Albums' && <Albums username={username} />}
-      </div>
-    );
-  }
+  const categories = isMyProfile ? myPageCategories : userPageCategories;
+
+  return (
+    <div className="songs">
+      <SubCategories
+        categories={categories}
+        value={tab}
+        handler={value =>
+          setSearchParams(prev => {
+            return {
+              category: 'Songs',
+              page: 1,
+              tab: value,
+              ...(!isMyProfile ? { username: username } : null),
+            };
+          })
+        }
+      />
+
+      {isMyProfile && (
+        <>
+          {tab === 'Songs' && <MySongsList token={token} />}
+          {tab === 'Favorites' && <MyFavorites />}
+          {tab === 'Albums' && <Albums username={username} isMyProfile />}
+        </>
+      )}
+      {!isMyProfile && (
+        <>
+          {tab === 'Songs' && <UserSongsList username={username} />}
+          {tab === 'Albums' && <Albums username={username} />}
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Songs;

@@ -144,6 +144,7 @@ const Albums = ({ username, isMyProfile }) => {
                 handleDetail={() => {
                   setDetails(album);
                 }}
+                target="Album"
               />
             </React.Fragment>
           ))}

@@ -31,6 +31,7 @@ import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
 import Intro from './pages/Intro';
 import Evaluation from './pages/Evaluation';
+import EvaluationBegin from './pages/EvaluationBegin';
 
 function Layout({ children }) {
   return (
@@ -169,6 +170,14 @@ function App() {
                 element={
                   <Layout>
                     <Evaluation />
+                  </Layout>
+                }
+              />
+              <Route
+                path="evaluation-begin"
+                element={
+                  <Layout>
+                    <EvaluationBegin />
                   </Layout>
                 }
               />

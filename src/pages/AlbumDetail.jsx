@@ -361,13 +361,13 @@ function AlbumDetail() {
       create_version = 'L&S Pro (v2.0)';
       break;
     case 'V3.5':
-      create_version = 'L&S Studio (v2.5)';
+      create_version = 'L&S Plus (v2.2)';
       break;
-    case 'suno-V4':
-      create_version = 'L&S Studio (v2.5)';
+    case 'V4':
+      create_version = 'L&S Plus (v2.2)';
       break;
     case 'V4_5':
-      create_version = 'L&S Studio (v2.5)';
+      create_version = 'L&S Plus (v2.2)';
       break;
     default:
       create_version = 'L&S One (v1.0)';
@@ -395,7 +395,10 @@ function AlbumDetail() {
           <dd>Lyrics+Songwriting</dd>
         </dl>
         <section className="album-detail__song-detail">
-          <p className="album-detail__song-detail__title">Song Details</p>
+          <div className="album-detail__song-detail__title-box">
+            <p className="album-detail__song-detail__title">Song Details</p>
+            <p className="album-detail__song-detail__right__version">{create_version}</p>
+          </div>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
               <section className="album-detail__audio">
@@ -548,7 +551,6 @@ function AlbumDetail() {
             <div className="album-detail__song-detail__right">
               <div className="album-detail__song-detail__right__box">
                 <p className="album-detail__song-detail__right__title">{album?.title}</p>
-                {/* <p className="album-detail__song-detail__right__version">{create_version}</p> */}
               </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (

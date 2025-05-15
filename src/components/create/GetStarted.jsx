@@ -45,6 +45,15 @@ const GetStarted = ({
     setActiveIndex(index);
   };
 
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('L&S Plus(V2.2)');
+
+  // 버전 항목 선택
+  const handleSelect = (newTitle) => {
+    setTitle(newTitle);
+    setOpen(false);
+  };
+
   return (
     <div className="create__get-started">
       <h1 className="create__get-started--title">Create Your Own Song With AI</h1>
@@ -77,22 +86,54 @@ const GetStarted = ({
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
-      {/* <div className="create__get-started--version">
+        <div className={`create__get-started--version${open ? ' active' : ''}`}>
+          <p className='create__get-started--version__title'>&lt;Ai Version&gt;</p>
+          <div className="create__get-started--version__select">
+            <p
+              className="create__get-started--version__select__title"
+              onClick={() => setOpen(!open)}
+            >
+              {title}
+            </p>
+              <ul className="create__get-started--version__select__list">
+                <li onClick={() => handleSelect('L&S Plus(V2.2)')}>
+                  <p>L&S Plus(V2.2)</p>
+                  <span>
+                    Advanced AI Model for High-Quality and Extended Song Generation
+                  </span>
+                </li>
+                <li onClick={() => handleSelect('L&S Pro(V2.0)')}>
+                  <p>L&S Pro(V2.0)</p>
+                  <span>
+                    Standard AI Model Offering Enhanced Audio Quality and Stability
+                  </span>
+                </li>
+                <li onClick={() => handleSelect('L&S One(V1.0)')}>
+                  <p>L&S One(V1.0)</p>
+                  <span>
+                    Basic AI Model for Simple Lyrics and Music Composition
+                  </span>
+                </li>
+              </ul>
+          </div>
+      </div>
+
+      <div className="create__get-started--version">
         <label htmlFor="version">Version</label>
         <select id="version" name="version" onChange={handleVersionChange}>
-          <option value="V4_5">V2.2 Suno AI</option>
-          <option value="mureka-6">V2 Mureka</option>
-          <option value="topmediai">V1 TopMediAI</option>
+          <option value="V4_5">L&S Plus(V2.2)</option>
+          <option value="mureka-6">L&S Pro(V2.0)</option>
+          <option value="topmediai">L&S One(V1.0)</option>
 
-          이전 버젼 모델들
+          {/* 이전 버젼 모델들
           <option value="topmediai">topmediai</option>
           <option value="mureka-5.5">mureka-5.5</option>
           <option value="mureka-6">mureka-6</option>
           <option value="V3_5">suno-3.5</option>
           <option value="V4">suno-4</option>
-          <option value="V4_5">suno-4.5</option>
+          <option value="V4_5">suno-4.5</option> */}
         </select>
-      </div> */}
+      </div>
 
       <section className="create__get-started--format">
         {formats.map((format, idx) => (

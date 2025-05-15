@@ -351,25 +351,25 @@ function AlbumDetail() {
   let create_version = '';
   switch (album?.ai_model) {
     case 'topmediai':
-      create_version = 'L&S One (v1.0)';
+      create_version = 'L&S One (V1.0)';
       break;
     case 'mureka-5.5':
-      create_version = 'L&S Pro (v2.0)';
+      create_version = 'L&S Pro (V2.0)';
       break;
     case 'mureka-6':
-      create_version = 'L&S Pro (v2.0)';
+      create_version = 'L&S Pro (V2.0)';
       break;
     case 'V3.5':
-      create_version = 'L&S Plus (v2.2)';
+      create_version = 'L&S Plus (V2.2)';
       break;
     case 'V4':
-      create_version = 'L&S Plus (v2.2)';
+      create_version = 'L&S Plus (V2.2)';
       break;
     case 'V4_5':
-      create_version = 'L&S Plus (v2.2)';
+      create_version = 'L&S Plus (V2.2)';
       break;
     default:
-      create_version = 'L&S One (v1.0)';
+      create_version = 'L&S One (V1.0)';
       break;
   }
   return (

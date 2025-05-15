@@ -8,7 +8,7 @@ import axios from 'axios';
 import { GetMyTopAlbumList } from '../../../api/GetMyTopAlbumList';
 import { getReleaseAndUnReleaseSongData } from '../../../api/getReleaseAndUnReleaseSongData';
 
-import TopSongsTemplates from './TopSongsTeplates';
+import TopSongsTemplate from './TopSongsTemplate';
 import ContentWrap from '../../unit/ContentWrap';
 import SubCategories from '../../unit/SubCategories';
 import Filter from '../../unit/Filter';
@@ -101,7 +101,7 @@ const MySongsList = ({ token }) => {
 
   return (
     <div className="songs">
-      <TopSongsTemplates topSongsData={topSongsData} />
+      <TopSongsTemplate topSongsData={topSongsData} />
       <ContentWrap title="Song List">
         <SubCategories
           categories={myAlbumsCategoryList}

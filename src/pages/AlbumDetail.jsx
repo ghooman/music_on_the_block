@@ -390,13 +390,12 @@ function AlbumDetail() {
 
       <div className="song-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyrics & Songwriting</dt>
-          <dd>Lyrics+Songwriting</dd>
+          <dt>Song Details</dt>
         </dl>
         <section className="album-detail__song-detail">
           <div className="album-detail__song-detail__title-box">
-            <p className="album-detail__song-detail__title">Song Details</p>
-            <p className="album-detail__song-detail__right__version">{create_version}</p>
+            {/* <p className="album-detail__song-detail__title">Song Details</p> */}
+            {/* <p className="album-detail__song-detail__right__version">{create_version}</p> */}
           </div>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
@@ -550,6 +549,7 @@ function AlbumDetail() {
             <div className="album-detail__song-detail__right">
               <div className="album-detail__song-detail__right__box">
                 <p className="album-detail__song-detail__right__title">{album?.title}</p>
+                <p className="album-detail__song-detail__right__version">{create_version}</p>
               </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (
@@ -559,10 +559,6 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
-                <dl>
-                  <dt>Detail</dt>
-                  <dd>{album?.detail || '-'}</dd>
-                </dl>
                 <dl>
                   <dt>Language</dt>
                   <dd>{album?.language || '-'}</dd>
@@ -586,6 +582,10 @@ function AlbumDetail() {
                 <dl>
                   <dt>Tempo</dt>
                   <dd>{album?.tempo || '-'}</dd>
+                </dl>
+                <dl>
+                  <dt>Detail</dt>
+                  <dd>{album?.detail || '-'}</dd>
                 </dl>
                 <dl>
                   <dt>Creation Date</dt>

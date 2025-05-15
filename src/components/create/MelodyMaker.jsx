@@ -155,7 +155,6 @@ const MelodyMaker = ({
   setFinalPrompt,
   selectedVersion,
 }) => {
-  console.log('selectedVersion', selectedVersion);
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);

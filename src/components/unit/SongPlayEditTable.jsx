@@ -176,7 +176,12 @@ export const SongPlayEditTable = ({
             {itemOption && <div className="table-items body-item">{item.nft_name}</div>}
           </div>
         ))}
-        {dataList.length <= 0 && <NoneContent message="There are no songs." height={230} />}
+        {dataList.length <= 0 && (
+          <NoneContent
+            message={`There are no ${target === 'Collection' ? 'NFTs' : 'Songs'}.`}
+            height={230}
+          />
+        )}
       </div>
     </div>
   );

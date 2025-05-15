@@ -119,6 +119,7 @@ const CollectionDetail = () => {
               handleClose={() => {
                 setModalMode('edit');
               }}
+              target="Collection"
             />
           )}
 

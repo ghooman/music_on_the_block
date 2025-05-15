@@ -199,7 +199,10 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
                 setDetails(null);
                 setDeleteData(copy);
               }}
-              onNavigate={() => {}}
+              onNavigate={() => {
+                navigate(`/edit-collection-nfts/${details?.id}`);
+              }}
+              target="Collection"
             />
           )}
 
@@ -226,6 +229,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
               handleClose={() => setDeleteData(null)}
               handleDelete={() => handleDelete()}
               loading={isLoading}
+              target="Collection"
             />
           )}
         </>

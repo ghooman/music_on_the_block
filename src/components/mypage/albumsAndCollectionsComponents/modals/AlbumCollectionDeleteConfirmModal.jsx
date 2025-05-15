@@ -3,9 +3,15 @@ import Loading from '../../../Loading';
 
 import './AlbumCollectionDeleteConfirmModal.scss';
 
-const AlbumCollectionDeleteConfirmModal = ({ handleClose, handleDelete, name, loading }) => {
+const AlbumCollectionDeleteConfirmModal = ({
+  handleClose,
+  handleDelete,
+  name,
+  loading,
+  target,
+}) => {
   return (
-    <ModalWrap title="Delete Album" onClose={handleClose}>
+    <ModalWrap title={`Delete ${target}`} onClose={handleClose}>
       <div className="album-collection-module-delete-confirm-modal">
         <p className="album-collection-module-delete-confirm-modal__message">
           This action cannot be undone
@@ -28,7 +34,7 @@ const AlbumCollectionDeleteConfirmModal = ({ handleClose, handleDelete, name, lo
             }}
             disabled={loading}
           >
-            {loading ? <Loading /> : 'Delete Album'}
+            {loading ? <Loading /> : `Delete ${target}`}
           </button>
         </div>
       </div>

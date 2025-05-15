@@ -48,6 +48,9 @@ const AlbumCollectionDetails = ({
 
   const editListPath = target === 'Album' ? `edit-album-songs` : `edit-collection-nfts`;
 
+  const bundlename = target;
+  const elementsname = target === 'Collection' ? 'NFTs' : 'Songs';
+
   return (
     <div className="album-collection-detail-page">
       <p className="album-collection-detail-page__title">{target} Details</p>
@@ -156,9 +159,9 @@ const AlbumCollectionDetails = ({
               {dataList.length <= 0 && (
                 <NoneContent
                   image={NoDataImage}
-                  title="No songs in this album"
-                  message="This album is currently empty."
-                  message2="Add songs to complete your album."
+                  title={`No ${elementsname} in this ${bundlename?.toLowerCase()}`}
+                  message={`This ${elementsname} is currently empty.`}
+                  message2={`Add ${elementsname} to complete your ${bundlename?.toLowerCase()}.`}
                   height={300}
                 />
               )}

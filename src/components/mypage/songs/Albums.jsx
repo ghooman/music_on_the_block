@@ -210,6 +210,7 @@ const Albums = ({ username, isMyProfile }) => {
               handleClose={() => setDeleteData(null)}
               handleDelete={() => handleDelete()}
               loading={isLoading}
+              target="Album"
             />
           )}
           {details && (
@@ -228,7 +229,10 @@ const Albums = ({ username, isMyProfile }) => {
                 setDetails(null);
                 setDeleteData(copy);
               }}
-              onNavigate={() => {}}
+              onNavigate={() => {
+                navigate(`/edit-album-songs/${details.id}`);
+              }}
+              target="Album"
             />
           )}
         </>

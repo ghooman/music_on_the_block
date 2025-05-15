@@ -114,6 +114,7 @@ const AlbumsDetail = () => {
               handleClose={() => {
                 setModalMode('edit');
               }}
+              target="Album"
             />
           )}
 

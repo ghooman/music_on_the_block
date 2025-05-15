@@ -12,6 +12,7 @@ const NftTable = ({
   collectionOption = true,
   saleOption,
   dateOption = true,
+  priceOption = true,
   listedDateOption,
   mintedDateOption,
   handleSell,
@@ -20,7 +21,7 @@ const NftTable = ({
   sellerOption,
   onCancelSuccess,
 }) => {
-  dateOption = !listedDateOption && !mintedDateOption;
+  dateOption = dateOption && !listedDateOption && !mintedDateOption;
 
   const navigate = useNavigate();
   const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
@@ -46,7 +47,7 @@ const NftTable = ({
           {/* {collectionOption && <TableHeader.Col>Collection</TableHeader.Col>} */}
           {buyerOption && <TableHeader.Col>Buyer</TableHeader.Col>}
           {sellerOption && <TableHeader.Col>Seller</TableHeader.Col>}
-          <TableHeader.Col>Price</TableHeader.Col>
+          {priceOption && <TableHeader.Col>Price</TableHeader.Col>}
           {dateOption && <TableHeader.Col>Date</TableHeader.Col>}
           {listedDateOption && <TableHeader.Col>Listed Date</TableHeader.Col>}
           {mintedDateOption && <TableHeader.Col>Minted Date</TableHeader.Col>}
@@ -72,7 +73,9 @@ const NftTable = ({
                     name={item?.seller_user_name}
                   />
                 )}
-                <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
+                {priceOption && (
+                  <TableItem.Text text={(item.price || 0) + ' ' + (item.sales_token || '')} />
+                )}
                 {dateOption && <TableItem.Date date={item.create_dt} />}
                 {listedDateOption && <TableItem.Date date={item.listing_date} />}
                 {mintedDateOption && <TableItem.Date date={item.create_dt} />}
@@ -81,7 +84,7 @@ const NftTable = ({
                   title="Details"
                   type="details"
                   handleClick={() => {
-                    navigate(`/song-detail/${item?.song_id}`);
+                    navigate(`/nft/detail/${item?.id}`);
                   }}
                 />
 

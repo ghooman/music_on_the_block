@@ -1,0 +1,76 @@
+.album-collection-module-delete-confirm-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.album-collection-module-delete-confirm-modal__message {
+  color: #aaa;
+  font-family: Inter400;
+
+  &.text-center {
+    text-align: center;
+  }
+
+  span {
+    font: inherit;
+    color: #cf0;
+  }
+}
+
+.album-collection-module-delete-confirm-modal__buttons {
+  display: flex;
+  gap: 10px;
+
+  .confirm-button {
+    border-radius: 12px;
+    width: 100%;
+    position: relative;
+    top: 0px;
+    transition: 0.2s all;
+    height: 40px;
+    font-family: Orbitron600;
+    font-size: 16px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: calc(100% - 2px);
+      height: calc(100% - 1px);
+      border-radius: 12px;
+      border: 1px solid;
+      transition: 0.2s all;
+      top: 4px;
+      left: 0;
+    }
+
+    &:hover {
+      top: 4px;
+      &::after {
+        top: 0px;
+      }
+    }
+
+    &.cancel-button {
+      color: #f1f1f1;
+      background-color: #383838;
+      &::after {
+        border-color: #383838;
+      }
+    }
+    &.ok-button {
+      color: #1a1a1a;
+      background-color: #cf0;
+      &::after {
+        border-color: #cf0;
+      }
+    }
+    &.delete-button {
+      color: #1a1a1a;
+      background-color: #df1919;
+      &::after {
+        border-color: #df1919;
+      }
+    }
+  }
+}

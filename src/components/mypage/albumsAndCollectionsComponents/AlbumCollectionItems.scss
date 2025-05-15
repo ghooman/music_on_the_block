@@ -1,0 +1,109 @@
+.album-collections-module-items-wraps {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.album-collections-module-items {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 16px;
+  background: var(--Color-03, #222);
+  overflow: hidden;
+
+  cursor: pointer;
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    h1 {
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Inter400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 100%; /* 14px */
+      letter-spacing: 0.42px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p {
+      color: var(--Text-music-sub, #aaa);
+      font-family: Inter400;
+      font-size: 10px;
+      font-style: normal;
+      line-height: 100%; /* 10px */
+      letter-spacing: 0.3px;
+    }
+    span {
+      color: var(--Text-music-sub, #aaa);
+      font-family: Inter400;
+      font-size: 10px;
+      font-style: normal;
+      line-height: 100%; /* 10px */
+      letter-spacing: 0.3px;
+    }
+    &--edit {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &--edit-btn {
+      // position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1;
+
+      img {
+        width: 14px;
+        height: 3px;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+    }
+  }
+
+  &__cover {
+    position: relative;
+    width: 100%;
+    max-height: 190px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .album-collections-module-items-wraps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .album-collections-module-items-wraps {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

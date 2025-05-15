@@ -1,0 +1,42 @@
+.album-collection-module-notice-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  &__message {
+    color: #aaa;
+    font-family: Inter400;
+    font-size: 16px;
+    font-style: normal;
+  }
+
+  &__button {
+    width: 100%;
+    color: #1a1a1a;
+    font-family: Orbitron600;
+    font-size: 16px;
+    border-radius: 12px;
+    background: var(--primary-base, #cf0);
+    height: 40px;
+    position: relative;
+    top: 0px;
+    transition: 0.2s all;
+
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0px;
+      }
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      transition: 0.2s all;
+      top: 4px;
+      left: 0;
+      border: 1px solid #cf0;
+      border-radius: 12px;
+      width: calc(100% - 2px);
+      height: 39px;
+    }
+  }
+}

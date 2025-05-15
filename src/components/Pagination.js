@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "./Pagination.scss";
+import React, { useEffect, useState } from 'react';
+import './Pagination.scss';
 
 /**
  *
@@ -41,7 +41,7 @@ const Pagination = ({ page, setPage, totalCount, viewCount }) => {
         {totalPages.map((item, index) => {
           return (
             <li
-              className={`${page === item ? "active" : ""}`}
+              className={`${page === item ? 'active' : ''}`}
               key={index}
               onClick={() => setPage(item)}
             >

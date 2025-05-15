@@ -1,8 +1,9 @@
-// pages/MyPage.js
-import '../styles/MyPage.scss';
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { useQuery, useQueryClient } from 'react-query';
+import axios from 'axios';
+
 import demoBg from '../assets/images/mypage/demo-bg.png';
 import gearImg from '../assets/images/mypage/gear.svg';
 import linkIcon from '../assets/images/icon/link.svg';
@@ -10,23 +11,20 @@ import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 
-import AiServices from '../components/mypage/AiServices';
-import Songs from '../components/mypage/Songs';
-import Albums from '../components/mypage/albums/Albums';
-import MyFavorites from '../components/mypage/MyFavorites';
+import AiServices from '../components/mypage/aiservices/AiServices';
+import Songs from '../components/mypage/songs/Songs';
+import MyFavorites from '../components/mypage/songs/MyFavorites';
+import LinksModal from '../components/LinksModal';
 import { WalletConnect } from '../components/WalletConnect';
+import PreparingModal from '../components/PreparingModal';
+import Connections from '../components/mypage/connections/Connections';
+import UnFollowModal from '../components/UnFollowModal';
+import NFTs from '../components/mypage/nfts/NFTs';
 
 import { useUserDetail } from '../hooks/useUserDetail';
-import PreparingModal from '../components/PreparingModal';
-import Connections from '../components/mypage/Connections';
-import { useQuery, useQueryClient } from 'react-query';
-import axios from 'axios';
-import UnFollowModal from '../components/UnFollowModal';
-import SongsUser from '../components/mypage/SongsUser';
-import NftMarketPlace from '../components/mypage/NftMarketPlace';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
-import Loading from '../components/IntroLogo2';
-import LinksModal from '../components/LinksModal';
+
+import '../styles/MyPage.scss';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -58,9 +56,7 @@ const MyProfile = () => {
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
     { name: 'Connections', preparing: false },
-    { name: 'Favorites', preparing: false },
-    { name: 'Albums', preparing: false },
-    { name: 'NFT MarketPlace', preparing: false },
+    { name: 'NFTs', preparing: false },
   ];
 
   const handleTab = tab => {
@@ -75,11 +71,9 @@ const MyProfile = () => {
       </ProfileInfo>
       <Tabs tabs={serviceTabObj} select={category} handleTab={handleTab} />
       {category === 'AI Services' && <AiServices username={userData?.name} />}
-      {category === 'Songs' && <Songs token={token} />}
+      {category === 'Songs' && <Songs username={userData?.name} isMyProfile token={token} />}
       {category === 'Connections' && <Connections />}
-      {category === 'Favorites' && <MyFavorites />}
-      {category === 'Albums' && <Albums username={userData?.name} isCreate={true} />}
-      {category === 'NFT MarketPlace' && <NftMarketPlace username={userData?.name} isMyProfile />}
+      {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
     </div>
   );
 };
@@ -103,8 +97,7 @@ const UserProfile = () => {
   const serviceTabObj = [
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
-    { name: 'Albums', preparing: false },
-    { name: 'NFT MarketPlace', preparing: false },
+    { name: 'NFTs', preparing: false },
   ];
 
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -205,9 +198,8 @@ const UserProfile = () => {
       </ProfileInfo>
       <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
       {category === 'AI Services' && <AiServices username={username} />}
-      {category === 'Songs' && <SongsUser username={username} />}
-      {category === 'Albums' && <Albums username={username} isCreate={false} />}
-      {category === 'NFT MarketPlace' && <NftMarketPlace username={username} />}
+      {category === 'Songs' && <Songs username={username} />}
+      {category === 'NFTs' && <NFTs username={username} />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal
           setUnFollowModal={setUnFollowModal}

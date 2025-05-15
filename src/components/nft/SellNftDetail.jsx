@@ -181,7 +181,7 @@ function MintNftSellDetail2() {
           selectedCoin={selectedCoin}
           thirdwebId={nftInfo?.data?.thirdweb_id}
           listingId={nftInfo?.data?.listing_id}
-          // onSuccess={() => navigate('/my-page?category=NFT+MarketPlace&page=1&nft_filter=Listed')}
+          // onSuccess={() => navigate('/my-page?category=NFTs&page=1&nft_filter=Listed')}
         />
       )}
     </>

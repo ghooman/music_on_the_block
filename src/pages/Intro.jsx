@@ -1,33 +1,29 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import "./Intro.scss";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import '../styles/Intro.scss';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 //스와이퍼
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Autoplay,
-} from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
-import "swiper/css/free-mode";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
 
 //이미지
-import albumImg01 from "../assets/images/intro/mob-album-cover.png";
-import albumImg02 from "../assets/images/intro/intro-demo-img.png";
-import albumImg03 from "../assets/images/intro/intro-demo-img2.png";
+import albumImg01 from '../assets/images/intro/mob-album-cover.png';
+import albumImg02 from '../assets/images/intro/intro-demo-img.png';
+import albumImg03 from '../assets/images/intro/intro-demo-img2.png';
 
-import MusicList from "./MusicList";
-import IntroLogo from "./IntroLogo";
-import PreparingModal from "./PreparingModal";
+import MusicList from '../components/MusicList';
+import IntroLogo from '../components/IntroLogo';
+import PreparingModal from '../components/PreparingModal';
 
-import { getTransaction } from "../api/Transaction";
-import ServiceUpdatingModal from "./ServiceUpdatingModal";
+import { getTransaction } from '../api/Transaction';
+import ServiceUpdatingModal from '../components/ServiceUpdatingModal';
 
 const Intro = ({ setIsLoggedIn }) => {
   const audioRef = useRef(null);
@@ -35,7 +31,7 @@ const Intro = ({ setIsLoggedIn }) => {
 
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeIndex, setActiveIndex] = useState(2); // id가 3인 아이템부터 시작
-  const [animationClass, setAnimationClass] = useState(""); // 애니메이션 클래스 관리
+  const [animationClass, setAnimationClass] = useState(''); // 애니메이션 클래스 관리
   const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
   const [isHighWindow, setIsHighWindow] = useState(false);
   const timeoutRef = useRef(null); // 타이머 추적용 ref 추가
@@ -47,10 +43,10 @@ const Intro = ({ setIsLoggedIn }) => {
     };
 
     checkWindowHeight(); // 초기 체크
-    window.addEventListener("resize", checkWindowHeight);
+    window.addEventListener('resize', checkWindowHeight);
 
     return () => {
-      window.removeEventListener("resize", checkWindowHeight);
+      window.removeEventListener('resize', checkWindowHeight);
     };
   }, []);
 
@@ -62,14 +58,14 @@ const Intro = ({ setIsLoggedIn }) => {
         setTransaction(response.data);
         // console.log("트랜잭션 데이터:", response.data);
       } catch (error) {
-        console.error("트랜잭션 가져오기 에러:", error);
+        console.error('트랜잭션 가져오기 에러:', error);
       }
     };
     fetchTransaction();
   }, [token]);
 
-  const handleSlideChange = (swiper) => {
-    setAnimationClass("fade-out"); // 페이드아웃 애니메이션 적용
+  const handleSlideChange = swiper => {
+    setAnimationClass('fade-out'); // 페이드아웃 애니메이션 적용
 
     // 기존 타이머가 있다면 취소
     if (timeoutRef.current) {
@@ -79,7 +75,7 @@ const Intro = ({ setIsLoggedIn }) => {
     timeoutRef.current = setTimeout(() => {
       if (swiper?.realIndex !== undefined) {
         setActiveIndex(swiper.realIndex); // 현재 슬라이드 인덱스 업데이트
-        setAnimationClass("fade-in"); // 페이드인 애니메이션 적용
+        setAnimationClass('fade-in'); // 페이드인 애니메이션 적용
       }
     }, 800); // 애니메이션 시간과 동일하게 설정
   };
@@ -96,50 +92,50 @@ const Intro = ({ setIsLoggedIn }) => {
   const items = [
     {
       id: 1,
-      albumTitle: "Music on the Block",
-      artist: "MOB",
+      albumTitle: 'Music on the Block',
+      artist: 'MOB',
       info: null,
-      tabTitle: "AI Singing Evaluation",
+      tabTitle: 'AI Singing Evaluation',
       img: albumImg01,
     },
     {
       id: 2,
-      albumTitle: "Music on the Block",
-      artist: "MOB",
-      info: "14 songs, 2025",
-      tabTitle: "AI Lyrics & Songwriting",
+      albumTitle: 'Music on the Block',
+      artist: 'MOB',
+      info: '14 songs, 2025',
+      tabTitle: 'AI Lyrics & Songwriting',
       img: albumImg01,
     },
     {
       id: 3,
-      albumTitle: "Music on the Block",
-      artist: "MOB",
-      info: "15 songs, 2026",
-      tabTitle: "AI Cover Creation",
+      albumTitle: 'Music on the Block',
+      artist: 'MOB',
+      info: '15 songs, 2026',
+      tabTitle: 'AI Cover Creation',
       img: albumImg01,
     },
     {
       id: 4,
-      albumTitle: "Music on the Block",
-      artist: "MOB",
-      info: "13 songs, 2024",
-      tabTitle: "AI Singing Evaluation",
+      albumTitle: 'Music on the Block',
+      artist: 'MOB',
+      info: '13 songs, 2024',
+      tabTitle: 'AI Singing Evaluation',
       img: albumImg01,
     },
     {
       id: 5,
-      albumTitle: "Music on the Block",
-      artist: "MOB",
-      info: "14 songs, 2025",
-      tabTitle: "AI Lyrics & Songwriting",
+      albumTitle: 'Music on the Block',
+      artist: 'MOB',
+      info: '14 songs, 2025',
+      tabTitle: 'AI Lyrics & Songwriting',
       img: albumImg01,
     },
     {
       id: 6,
-      albumTitle: "Music on the Block",
-      artist: "MOB",
-      info: "15 songs, 2026",
-      tabTitle: "AI Cover Creation",
+      albumTitle: 'Music on the Block',
+      artist: 'MOB',
+      info: '15 songs, 2026',
+      tabTitle: 'AI Cover Creation',
       img: albumImg01,
     },
   ];
@@ -158,7 +154,7 @@ const Intro = ({ setIsLoggedIn }) => {
     <>
       <IntroLogo />
       {isVisible && (
-        <div className={`intro ${isHighWindow ? "high-window" : ""}`}>
+        <div className={`intro ${isHighWindow ? 'high-window' : ''}`}>
           <div className="intro__inner">
             <section className="intro__number">
               <dl className="intro__number__title">
@@ -202,15 +198,9 @@ const Intro = ({ setIsLoggedIn }) => {
                 {items.map(
                   (item, index) =>
                     index === activeIndex && (
-                      <div
-                        key={index}
-                        className={`intro__slide-pc__left__item ${animationClass}`}
-                      >
+                      <div key={index} className={`intro__slide-pc__left__item ${animationClass}`}>
                         <p className="intro__slide-pc__left__img">
-                          <img
-                            src={item.img}
-                            alt={`${item.albumTitle} album cover`}
-                          />
+                          <img src={item.img} alt={`${item.albumTitle} album cover`} />
                         </p>
                         <dl className="intro__slide-pc__left__title">
                           <dt>{item.albumTitle}</dt>
@@ -228,7 +218,7 @@ const Intro = ({ setIsLoggedIn }) => {
               </article>
               <article className="intro__slide-pc__right">
                 <Swiper
-                  direction={"vertical"}
+                  direction={'vertical'}
                   slidesPerView={3}
                   spaceBetween={16}
                   // centeredSlides={true}
@@ -253,13 +243,9 @@ const Intro = ({ setIsLoggedIn }) => {
                     <SwiperSlide key={item.id}>
                       <Link
                         // to="/create"
-                        to={
-                          item.tabTitle === "AI Lyrics & Songwriting"
-                            ? "/create"
-                            : "#"
-                        }
-                        onClick={(e) => {
-                          if (item.tabTitle !== "AI Lyrics & Songwriting") {
+                        to={item.tabTitle === 'AI Lyrics & Songwriting' ? '/create' : '#'}
+                        onClick={e => {
+                          if (item.tabTitle !== 'AI Lyrics & Songwriting') {
                             e.preventDefault(); // 기본 링크 이동 막기
                             setPreparingModal(true); // 프리페어링 모달 열기
                           }
@@ -300,9 +286,7 @@ const Intro = ({ setIsLoggedIn }) => {
               <ul className="intro__slide-mobile__tab-list">
                 <li className="intro__slide-mobile__tab-list__item">
                   <dl className="intro__slide-mobile__tab-list__item__title">
-                    <dt>
-                    Music on the Block
-                    </dt>
+                    <dt>Music on the Block</dt>
                     <dd>
                       MOB
                       {/* <span>– 13 songs, 2024</span> */}
@@ -314,7 +298,7 @@ const Intro = ({ setIsLoggedIn }) => {
             </section>
 
             <div className="intro__album-wrap">
-              <Link to="/main" className="intro__album">
+              <Link to="/" className="intro__album">
                 <ul className="intro__album__list">
                   <li className="intro__album__list__item">
                     <img src={albumImg01} />
@@ -363,9 +347,7 @@ const Intro = ({ setIsLoggedIn }) => {
           </div>
         </div>
       )}
-      {isPreparingModal && (
-        <PreparingModal setPreparingModal={setPreparingModal} />
-      )}
+      {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       {/* <ServiceUpdatingModal/> */}
     </>
   );

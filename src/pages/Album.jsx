@@ -1,5 +1,5 @@
 import '../styles/Album.scss';
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
@@ -34,6 +34,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "swiper/css/free-mode";
+import { getTransaction } from '../api/Transaction';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -55,6 +56,21 @@ function Album() {
   const [selectedList, setSelectedList] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+
+  const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
+
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await getTransaction(token);
+        setTransaction(response.data);
+        // console.log("트랜잭션 데이터:", response.data);
+      } catch (error) {
+        console.error('트랜잭션 가져오기 에러:', error);
+      }
+    };
+    fetchTransaction();
+  }, [token]);
 
   const handleTimeUpdate = time => {
     setCurrentTime(time);
@@ -272,6 +288,10 @@ function Album() {
     setActiveId(prev => (prev === id ? null : id));
   };
 
+  const shuffledTotalList = useMemo(() => {
+    return [...totalList].sort(() => Math.random() - 0.5);
+  }, [totalList]); // totalList가 바뀔 때만 새로 셔플
+
   return (
     <>
       <div className="main">
@@ -367,8 +387,21 @@ function Album() {
         {activeTab === "AI Lyrics & Songwriting" && (
           <article className='main__content-item'>
             <List
-              title="Total"
+              title="Latest"
               data={totalList}
+              id="Latest"
+              selectedMusic={selectedMusic}
+              selectedId={selectedId}
+              handlePlay={handlePlay}
+              currentTime={currentTime}
+              link="/song/list?songs=Latest"
+              setPreparingModal={setPreparingModal}
+              audioRef={audioRef}
+            />
+            <List
+              title="Total"
+              data={shuffledTotalList}
+              // data={[...totalList].sort(() => Math.random() - 0.5)} 
               id="total"
               selectedMusic={selectedMusic}
               selectedId={selectedId}
@@ -485,6 +518,7 @@ function Album() {
             </article>
             <List
               title="Recently Rated"
+              className="recently-rated"
               data={totalList}
               id="total"
               selectedMusic={selectedMusic}
@@ -498,6 +532,28 @@ function Album() {
           </section>
         )}
 
+
+
+        <section className="intro__number">
+          <dl className="intro__number__title">
+            <dt>Number of Artists</dt>
+            <dd>
+              <Counter targetNumber={transaction?.number_of_users} />
+            </dd>
+          </dl>
+          <dl className="intro__number__title">
+            <dt>Number of Songs</dt>
+            <dd>
+              <Counter targetNumber={transaction?.number_of_songs} />
+            </dd>
+          </dl>
+          <dl className="intro__number__title">
+            <dt>Transitions</dt>
+            <dd>
+              <Counter targetNumber={transaction?.transaction} />
+            </dd>
+          </dl>
+        </section>
 
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
@@ -519,6 +575,7 @@ const List = ({
   setPreparingModal,
   link,
   audioRef,
+  className
 }) => {
     // 스와이퍼 옵션
     const swiperOptions = {
@@ -546,7 +603,7 @@ const List = ({
       // },
     };
   return (
-    <section className="album__content-list">
+    <section className={`album__content-list ${className}`}>
       <p className="album__content-list__title">
         {title}
         <Link
@@ -715,4 +772,29 @@ const ListSlider = ({
       </Swiper>
     </section>
   );
+};
+
+const Counter = ({ targetNumber }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1000; // 애니메이션 지속 시간 (2초)
+    const interval = 10; // 업데이트 간격 (20ms)
+    const step = targetNumber / (duration / interval);
+
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= targetNumber) {
+        setCount(targetNumber);
+        clearInterval(timer);
+      } else {
+        setCount(Math.ceil(start));
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [targetNumber]);
+
+  return <>{count.toLocaleString()}</>;
 };

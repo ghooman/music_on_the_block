@@ -45,9 +45,9 @@ const Header = ({ setIsLoggedIn }) => {
             </svg>
           </button>
           <h1>
-            <Link to="/main">
+            <Link to="/">
               <img src={mainLogo} className="logo" />
-              <div className="text-box">
+              <div className="text-box pc">
                 <div className="text-wrap">
                   <svg width={220} height={30} viewBox="0 0 220 30">
                     <text x="0" y="90%">
@@ -95,6 +95,59 @@ const Header = ({ setIsLoggedIn }) => {
                       C
                     </text>
                     <text x="128" y="60%">
+                      K
+                    </text>
+                  </svg>
+                </div>
+              </div>
+              <div className="text-box mobile">
+                <div className="text-wrap">
+                  <svg width={110} height={22} viewBox="0 0 110 22">
+                    <text x="0" y="90%">
+                      M
+                    </text>
+                    <text x="16" y="90%">
+                      U
+                    </text>
+                    <text x="30" y="90%">
+                      S
+                    </text>
+                    <text x="45" y="90%">
+                      I
+                    </text>
+                    <text x="52" y="90%">
+                      C
+                    </text>
+                    <text x="76" y="90%">
+                      O
+                    </text>
+                    <text x="90" y="90%">
+                      N
+                    </text>
+                  </svg>
+                  <svg width={120} height={22} viewBox="0 0 120 22">
+                    <text x="0" y="60%">
+                      T
+                    </text>
+                    <text x="13" y="60%">
+                      H
+                    </text>
+                    <text x="28" y="60%">
+                      E
+                    </text>
+                    <text x="46" y="60%">
+                      B
+                    </text>
+                    <text x="60" y="60%">
+                      L
+                    </text>
+                    <text x="74" y="60%">
+                      O
+                    </text>
+                    <text x="88" y="60%">
+                      C
+                    </text>
+                    <text x="102" y="60%">
                       K
                     </text>
                   </svg>

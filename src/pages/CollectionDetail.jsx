@@ -12,7 +12,6 @@ import SuccessModal from '../components/modal/SuccessModal';
 import {
   deleteNftCollection,
   getNftCollectionDetail,
-  getNftCollectionNftList,
   updateNftCollection,
 } from '../api/nfts/nftCollectionsApi';
 import { AuthContext } from '../contexts/AuthContext';
@@ -34,7 +33,7 @@ const CollectionDetail = () => {
   const {
     data: detailData,
     refetch,
-    isLoading: detailLoading,
+    isFetching: detailLoading,
   } = useQuery(
     ['collection_detail', id, walletAddress?.address],
     async () => {
@@ -46,31 +45,6 @@ const CollectionDetail = () => {
       enabled: !!id,
     }
   );
-
-  //==============
-  // Fetch 컬렉션 NFT 리스트 (무한 스크롤링)
-  //==============
-  const {
-    data: nftListData,
-    isLoading: listLoading,
-    hasNextPage,
-    fetchNextPage,
-  } = useInfiniteQuery(
-    ['collection_nft_list', id],
-    async ({ pageParam = 1 }) => {
-      const res = await getNftCollectionNftList({ id, page: pageParam });
-      return res.data;
-    },
-    {
-      enabled: !!id,
-      getNextPageParam: (lastPage, allPages) => {
-        const totalLoaded = allPages.reduce((sum, page) => sum + page.data_list?.length, 0);
-        return totalLoaded < lastPage.total_cnt ? allPages?.length + 1 : undefined;
-      },
-    }
-  );
-
-  const allItems = nftListData?.pages?.flatMap(page => page.data_list) || [];
 
   //==============
   // 컬렉션 수정
@@ -106,7 +80,7 @@ const CollectionDetail = () => {
     }
   };
 
-  if (detailLoading || listLoading) {
+  if (detailLoading) {
     return <Loading />;
   }
 
@@ -169,7 +143,7 @@ const CollectionDetail = () => {
         name={detailData?.name}
         isOwner={detailData?.is_owner}
         count={detailData?.nft_cnt || 0}
-        dataList={allItems}
+        dataList={detailData?.nft_list}
         id={id}
         handleEdit={() => setModalMode('edit')}
         target="Collection"

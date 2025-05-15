@@ -27,7 +27,6 @@ import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/songs/AlbumsDetail';
-import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
 import UploadSequence from './pages/UploadSequence';

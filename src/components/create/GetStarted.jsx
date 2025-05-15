@@ -80,9 +80,9 @@ const GetStarted = ({
       <div className="create__get-started--version">
         <label htmlFor="version">Version</label>
         <select id="version" name="version" onChange={handleVersionChange}>
-          <option value="V4_5">V2.2 Suno AI</option>
-          <option value="mureka-6">V2 Mureka</option>
-          <option value="topmediai">V1 TopMediAI</option>
+          <option value="V4_5">L&S Plus(V2.2)</option>
+          <option value="mureka-6">L&S Pro(V2.0)</option>
+          <option value="topmediai">L&S One(V1.0)</option>
 
           {/* 이전 버젼 모델들
           <option value="topmediai">topmediai</option>

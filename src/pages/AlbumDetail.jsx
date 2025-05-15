@@ -361,13 +361,13 @@ function AlbumDetail() {
       create_version = 'L&S Pro (v2.0)';
       break;
     case 'V3.5':
-      create_version = 'L&S Studio (v2.2)';
+      create_version = 'L&S Plus (v2.2)';
       break;
-    case 'suno-V4':
-      create_version = 'L&S Studio (v2.2)';
+    case 'V4':
+      create_version = 'L&S Plus (v2.2)';
       break;
     case 'V4_5':
-      create_version = 'L&S Studio (v2.2)';
+      create_version = 'L&S Plus (v2.2)';
       break;
     default:
       create_version = 'L&S One (v1.0)';

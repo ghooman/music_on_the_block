@@ -104,6 +104,7 @@ const AlbumsEdit = () => {
       setAvailableList(res.data);
     } catch (e) {
       console.error(e);
+      setErrorMessage(e?.response?.data?.detail || e?.message);
     } finally {
       setIsLoading(false);
     }
@@ -123,6 +124,7 @@ const AlbumsEdit = () => {
       navigate(`/albums-detail/${id}`);
     } catch (e) {
       console.error(e);
+      setErrorMessage(e?.response?.data?.detail || e?.message);
     }
   };
 

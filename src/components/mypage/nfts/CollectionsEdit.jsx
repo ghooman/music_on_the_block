@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 
 import ContentWrap from '../../unit/ContentWrap';
@@ -8,12 +9,21 @@ import Search from '../../unit/Search';
 import Loading from '../../IntroLogo2';
 import AlbumCollectionEditList from '../albumsAndCollectionsComponents/AlbumCollectionEditList';
 import ErrorModal from '../../modal/ErrorModal';
+import SubCategories from '../../unit/SubCategories';
 
 import { AuthContext } from '../../../contexts/AuthContext';
-
-import './CollectionsEdit.scss';
 import { useInfiniteQuery } from 'react-query';
 import { getNftNoCollectionNftList } from '../../../api/nfts/nftCollectionsApi';
+
+import lyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
+import coverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
+
+import './CollectionsEdit.scss';
+
+const subCategoryList = [
+  { name: 'AI Lyrics & Songwriting', image: lyricSongwritingIcon, preparing: false },
+  { name: 'AI Singing Evaluation', image: coverCreationIcon, preparing: true },
+];
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -39,7 +49,6 @@ const CollectionsEdit = () => {
   //================
   const getCollectionDetail = async () => {
     try {
-      setIsLoading(true);
       const res = await axios.get(`${serverApi}/api/nfts/collections/${id}`, {
         params: {
           wallet_address: walletAddress?.address,
@@ -55,7 +64,6 @@ const CollectionsEdit = () => {
       }
       setSelectedList(res?.data?.data?.nft_list);
       setCollectionName(res?.data?.data?.name);
-      setIsLoading(false);
     } catch (e) {
       alert(e?.response?.data?.detail || e.message);
       navigate('/');
@@ -65,34 +73,21 @@ const CollectionsEdit = () => {
   //================
   // 나의 NFT 리스트
   //================
-  const {
-    data: nftList,
-    hasNextPage,
-    fetchNextPage,
-  } = useInfiniteQuery(
-    ['collection_nft_list', id, gradeFilter, salesFilter, search],
-    async ({ pageParam = 1 }) => {
+  const getNftList = async () => {
+    try {
+      setIsLoading(true);
       const res = await getNftNoCollectionNftList({
         token,
-        page: pageParam,
         search_keyword: search,
         nft_rating: gradeFilter,
         now_sales_status: salesFilter,
       });
-      return res.data;
-    },
-    {
-      enabled: !!id,
-      getNextPageParam: (lastPage, allPages) => {
-        const totalLoaded = allPages.reduce((sum, page) => sum + page.data_list?.length, 0);
-        return totalLoaded < lastPage.total_cnt ? allPages?.length + 1 : undefined;
-      },
-    }
-  );
-
-  const infiniteScroll = () => {
-    if (hasNextPage) {
-      fetchNextPage();
+      setAvailableList(res.data?.data_list);
+    } catch (e) {
+      console.log(e);
+      setErrorMessage(e?.response?.data?.detail || e?.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,9 +114,8 @@ const CollectionsEdit = () => {
   }, []);
 
   useEffect(() => {
-    const allItems = nftList?.pages?.flatMap(page => page.data_list) || [];
-    setAvailableList(allItems);
-  }, [nftList]);
+    getNftList();
+  }, [search, gradeFilter, salesFilter]);
 
   if (isLoading) {
     return <Loading />;
@@ -135,6 +129,7 @@ const CollectionsEdit = () => {
             <h1 className="collection-edit__title">Edit Collection NFT Items</h1>
             <h3 className="collection-edit__collection-name">{collectionName}</h3>
           </ContentWrap.SubWrap>
+          <SubCategories categories={subCategoryList} value={subCategoryList?.[0]?.name} />
           <ContentWrap.SubWrap gap={8}>
             <Filter gradeFilter={true} salesFilter={true} />
             <Search placeholder="Search" />
@@ -144,7 +139,6 @@ const CollectionsEdit = () => {
             setAvailableList={setAvailableList}
             selectedList={selectedList}
             setSelectedList={setSelectedList}
-            infiniteScorollEvent={infiniteScroll}
             target="Collection"
           />
           <button className="collection-edit__edit-btn" onClick={update}>

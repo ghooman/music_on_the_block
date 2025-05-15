@@ -12,7 +12,7 @@ import { useInView } from 'react-intersection-observer';
 
 /**
  * SongPlayEditTable
- * @param {Array}                             songList       곡 데이터
+ * @param {Array}                             dataList       곡 데이터
  * @param {number|null}                       activeSong     현재 재생 중인 곡 ID
  * @param {React.Dispatch<React.SetStateAction<number|null>>} setActiveSong
  * @param {React.RefObject<HTMLAudioElement>} audioRef
@@ -38,8 +38,8 @@ export const SongPlayEditButtons = ({ handleAdd, handleDelete }) => {
 
 export const SongPlayEditTable = ({
   title,
-  songList = [],
-  setSongList,
+  dataList = [],
+  setDataList,
   activeSong,
   setActiveSong,
   limit,
@@ -51,22 +51,20 @@ export const SongPlayEditTable = ({
   typeOption,
   gradeOption,
   itemOption,
-
-  infiniteScorollEvent,
 }) => {
   const { ref, inView } = useInView();
-  const allCheck = songList?.length > 0 && songList?.every(item => item.check);
+  const allCheck = dataList?.length > 0 && dataList?.every(item => item.check);
   const elementName = target === 'Collection' ? 'NFT' : 'Song';
 
   const handleSelectAll = e => {
-    setSongList(prev => {
+    setDataList(prev => {
       const copy = [...prev];
       return copy.map(item => ({ ...item, check: !allCheck }));
     });
   };
 
   const handleSelectOne = (id, check) => {
-    setSongList(prev => {
+    setDataList(prev => {
       const copy = [...prev];
       return copy.map(item => {
         if (item.id === id) {
@@ -77,17 +75,13 @@ export const SongPlayEditTable = ({
     });
   };
 
-  useEffect(() => {
-    if (inView && infiniteScorollEvent) infiniteScorollEvent();
-  }, [inView]);
-
   return (
     <div className="song-play-edit-table">
       <div className="song-play-edit-table__selected">
         {title}
         <p className="song-play-edit-table__selected--numbers">
-          (<span>{songList?.length || 0}</span>&nbsp;
-          {songList?.length === 1 ? elementName : elementName + 's'}{' '}
+          (<span>{dataList?.length || 0}</span>&nbsp;
+          {dataList?.length === 1 ? elementName : elementName + 's'}{' '}
           {limit ? (
             <>
               / {limit} {elementName + 's'}
@@ -113,7 +107,7 @@ export const SongPlayEditTable = ({
         </div>
 
         {/** 테이블 바디 */}
-        {songList?.map(item => (
+        {dataList?.map(item => (
           <div
             key={item.id}
             className="song-play-edit-table__table--body"
@@ -182,10 +176,7 @@ export const SongPlayEditTable = ({
             {itemOption && <div className="table-items body-item">{item.nft_name}</div>}
           </div>
         ))}
-        {songList.length <= 0 && <NoneContent message="There are no songs." height={230} />}
-        {songList?.length > 0 && infiniteScorollEvent && (
-          <div ref={ref} style={{ height: 1 }}></div>
-        )}
+        {dataList.length <= 0 && <NoneContent message="There are no songs." height={230} />}
       </div>
     </div>
   );

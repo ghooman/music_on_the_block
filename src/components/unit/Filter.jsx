@@ -57,7 +57,7 @@ const Filter = ({
   //필터
   const generateFilter_ = searchParamas.get('generate_filter');
   const gradeFilter_ = searchParamas.get('grade_filter');
-  const salesFilter_ = searchParamas.get('minting_filter');
+  const salesFilter_ = searchParamas.get('sales_filter');
   const tokenFilter_ = searchParamas.get('token_filter');
   const buySellFilter_ = searchParamas.get('buy_sell_filter');
   // 정렬

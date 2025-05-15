@@ -20,6 +20,8 @@ const subCategoryList = [
   { name: 'AI Singing Evaluation', image: coverCreationIcon, preparing: true },
 ];
 
+const dataCategoryList = ['My Songs', 'Liked Songs', 'Following'];
+
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 // 데이터를 가져오기
@@ -30,16 +32,17 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 const AlbumsEdit = () => {
   const [availableList, setAvailableList] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
+  const [albumName, setAlbumName] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { token, walletAddress } = useContext(AuthContext);
 
   const search = searchParams.get('search');
-  const songsFilter = searchParams.get('songs_filter') || 'mine';
+  const songsFilter = searchParams.get('songs_filter') || 'My Songs';
   const songsSort = searchParams.get('songs_sort');
 
   //===============
@@ -58,6 +61,7 @@ const AlbumsEdit = () => {
         navigate('/');
         return;
       }
+      setAlbumName(res.data.album_name);
       setSelectedList(res.data.song_list);
     } catch (e) {
       console.log(e);
@@ -72,13 +76,13 @@ const AlbumsEdit = () => {
     setIsLoading(true);
     let url;
     switch (songsFilter) {
-      case 'following':
-        url = '/api/music/my/following/list/no/paging';
-        break;
-      case 'mine':
+      case 'My Songs':
         url = '/api/music/my/list/no/paging';
         break;
-      case 'liked':
+      case 'Liked Songs':
+        url = '/api/music/my/following/list/no/paging';
+        break;
+      case 'Following':
         url = '/api/music/my/like/list/no/paging';
         break;
       default:
@@ -133,7 +137,26 @@ const AlbumsEdit = () => {
 
   return (
     <div className="albums-edit">
-      <ContentWrap border={false}>
+      <ContentWrap ontentWrap border={false} style={{ padding: 0 }}>
+        <ContentWrap.SubWrap gap={40}>
+          <h1 className="albums-edit__title">Edit Album Songs</h1>
+          <h3 className="albums-edit__album-name">{albumName}</h3>
+        </ContentWrap.SubWrap>
+        <div className="albums-edit__category">
+          {dataCategoryList.map((category, index) => (
+            <button
+              key={category + index}
+              className={`albums-edit__category-btn ${songsFilter === category ? 'active' : ''}`}
+              onClick={() => {
+                setSearchParams(prev => {
+                  return { songs_filter: category };
+                });
+              }}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
         <SubCategories categories={subCategoryList} value={subCategoryList?.[0]?.name} />
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />

@@ -89,10 +89,10 @@
 
 .song-play-edit-table {
   flex: 1;
+  width: 100%;
   .song-play-edit-table__selected {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
     @include fonts(18px, 500, #f1f1f1);
   }
   .song-play-edit-table__selected--numbers {
@@ -333,4 +333,27 @@
   //     }
   //   }
   // }
+}
+
+@media screen and (max-width: 768px) {
+  .song-play-edit-table-wrapper {
+    flex-direction: column;
+  }
+  .song-play-edit-table-add-delete-button {
+    flex-direction: row;
+    .button-item {
+      width: 100px;
+      &.add-button {
+        flex-direction: row-reverse;
+        img {
+          transform: rotate(0deg);
+        }
+      }
+      &.delete-button {
+        img {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
 }

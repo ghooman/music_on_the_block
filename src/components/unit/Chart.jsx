@@ -133,6 +133,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
               text: {
                 fill: '#939699',
                 fontSize: 12,
+                textTransform: 'capitalize',
               },
             },
           },
@@ -288,14 +289,14 @@ export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
           textColor: '#fff',
           axis: {
             ticks: {
-              text: { fill: '#888', fontSize: 12 },
+              text: { fill: '#888', fontSize: 12, textTransform: 'capitalize' },
               line: { stroke: '#333' },
             },
-            domain: { line: { stroke: '#444' } },
+            domain: { line: { stroke: 'transparent' } },
           },
           grid: { line: { stroke: '#222', strokeWidth: 1 } },
           tooltip: {
-            container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
+            // container: { background: '#1a1a1a', color: '#fff', fontSize: 12 },
           },
         }}
         tooltip={() => null}

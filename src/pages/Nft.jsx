@@ -172,7 +172,7 @@ const NftExchange = () => {
         <div className="nft__exchange--btns__left">
           <Link
             className="nft__exchange--button my"
-            to="/my-page?category=NFT MarketPlace"
+            to="/my-page?category=NFTs"
             onClick={handleButtonClick}
           >
             My NFTs

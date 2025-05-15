@@ -328,7 +328,6 @@ function AlbumDetail() {
         Authorization: `Bearer ${token}`,
       },
     });
-    fetchAlbumDetail();
   };
 
   // useEffect를 사용하여 ThirdWeb 버튼을 참조
@@ -772,6 +771,7 @@ function AlbumDetail() {
           songData={album}
           setter={setIsReleaseModal}
           releaseHandler={handleRelease}
+          action={() => fetchAlbumDetail()}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}
@@ -787,7 +787,7 @@ function AlbumDetail() {
           setShowSuccessModal={() => null}
           // onSuccess={() => {
           //   if (nftAction === 'buy') {
-          //     navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+          //     navigate(`/my-page?category=NFTs&tab=History&page=1`);
           //   } else if (nftAction === 'mint') {
           //     fetchAlbumDetail();
           //   }

@@ -10,8 +10,14 @@
     border-radius: 4px;
     background: var(--Color-03, #222);
     padding: 8px 4px;
+
     img {
       display: inline-block;
+    }
+    p {
+      font-family: Inter400;
+      font-size: 14px;
+      color: #f1f1f1;
     }
   }
 }

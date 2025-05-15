@@ -1,0 +1,248 @@
+.album-collection-detail-page {
+  .album-collection-detail-page__title {
+    color: var(--primary-base, #cf0);
+    font-family: Orbitron500;
+    font-size: 30px;
+    font-style: normal;
+    line-height: normal;
+    margin-bottom: 32px;
+  } //album-collection-detail-page__title--END--
+  .album-collection-detail-page__box {
+    border-radius: 12px;
+    border: 1px solid #222;
+    padding: 16px;
+    .album-collection-detail-page__box__header {
+      display: flex;
+      gap: 16px;
+      .album-collection-detail-page__box__header__left {
+        .album-collection-detail-page__box__header__left__img-box {
+          position: relative;
+          width: 180px;
+          height: 180px;
+          border-radius: 24px;
+          background: var(--Color-03, #222);
+          padding: 8px;
+          .album-collection-detail-page__box__header__left__img-box__img {
+            border-radius: 20px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+          .album-collection-detail-page__box__header__left__img-box__button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            background: #222;
+            border-radius: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+          }
+        } //album-collection-detail-page__box__header__left__img-box--END--
+      } //album-collection-detail-page__box__header__left--END--
+      .album-collection-detail-page__box__header__right {
+        width: 100%;
+        .album-collection-detail-page__box__header__right__box {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          .album-collection-detail-page__box__header__right__box__title {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            color: var(--Text-music-title, #f1f1f1);
+            font-family: Orbitron500;
+            font-size: 28px;
+            font-style: normal;
+            span {
+              font: inherit;
+            }
+
+            .album-collection-detail-page__box__header__right__box__title__edit-btn {
+              height: 34px;
+              border-radius: 12px;
+              background: var(--Color-03, #222);
+              padding: 0 12px;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              color: var(--Text-music-sub, #aaa);
+              font-family: Inter500;
+              font-size: 12px;
+              font-style: normal;
+              min-width: 112px;
+              cursor: pointer;
+            } //album-collection-detail-page__box__header__right__box__title__edit-btn--END--
+          } //album-collection-detail-page__box__header__right__box__title--END--
+          .album-collection-detail-page__box__header__right__box__list {
+            width: 100%;
+            display: flex;
+            // flex-direction: column;
+            gap: 12px;
+            .album-collection-detail-page__box__header__right__box__list__item {
+              width: 50%;
+              display: flex;
+              align-items: center;
+              border-radius: 6px;
+              border: 1px solid #222;
+              overflow: hidden;
+              .album-collection-detail-page__box__header__right__box__list__item__title {
+                background: #222;
+                width: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 40px;
+                position: relative;
+                color: var(--Text-music-title, #f1f1f1);
+                font-family: Inter500;
+                font-size: 14px;
+                font-style: normal;
+                &::after {
+                  content: '';
+                  display: block;
+                  position: absolute;
+                  right: -12px;
+                  top: 0;
+                  width: 12px;
+                  height: 100%;
+                  background: #1a1a1a;
+                  border-right: 1px solid #222;
+                }
+              }
+              .album-collection-detail-page__box__header__right__box__list__item__title-value {
+                display: flex;
+                align-items: center;
+                padding: 0 12px 0 24px;
+                gap: 8px;
+                color: var(--Text-music-title, #f1f1f1);
+                font-family: Inter400;
+                font-size: 14px;
+                font-style: normal;
+                .user-img {
+                  width: 24px;
+                  height: 24px;
+                  overflow: hidden;
+                  object-fit: cover;
+                  border-radius: 100%;
+                }
+              } //album-collection-detail-page__box__header__right__box__list__item__title-value--END--
+            } //album-collection-detail-page__box__header__right__box__list__item--END--
+          } //album-collection-detail-page__box__header__right__box__list--END--
+          .album-collection-detail-page__box__header__right__play-btn {
+            margin-top: auto;
+            width: 120px;
+            height: 52px;
+            background: #383838;
+            position: relative;
+            top: 0;
+            transition: 0.2s;
+            color: #f1f1f1;
+            font-family: Orbitron600;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            &::after {
+              content: '';
+              position: absolute;
+              left: 0;
+              top: 4px;
+              width: calc(100% - 2px);
+              transition: 0.2s;
+              border-radius: 8px;
+              height: 51px;
+              border: 1px solid #383838;
+            }
+            &:hover {
+              top: 4px;
+              &::after {
+                top: 0;
+              }
+            }
+            // &:disabled {
+            //   &:hover {
+            //     top: 0px;
+            //     &::before {
+            //       top: 4px;
+            //     }
+            //   }
+            // }
+          } //album-collection-detail-page__box__header__right__play-btn--END--
+        } //album-collection-detail-page__box__header__right__box--END--
+      } //album-collection-detail-page__box__header__right--END--
+    } //album-collection-detail-page__box__header--END--
+    .album-collection-detail-page__box__body__edit {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      .album-collection-detail-page__box__body__edit__song-count {
+        font-size: 12px;
+        color: #aaa;
+        font-family: Inter400;
+      }
+      .album-collection-detail-page__box__body__edit__edit-btn {
+        height: 34px;
+        border-radius: 12px;
+        background: var(--Color-03, #222);
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--Text-music-sub, #aaa);
+        font-family: Inter500;
+        font-size: 12px;
+        font-style: normal;
+        min-width: 112px;
+      }
+    }
+  } //album-collection-detail-page__box--END--
+} //album-collection-detail-page--END--
+
+@media screen and (max-width: 768px) {
+  .album-collection-detail-page {
+    .album-collection-detail-page__box {
+      .album-collection-detail-page__box__header {
+        flex-direction: column;
+        .album-collection-detail-page__box__header__right {
+          .album-collection-detail-page__box__header__right__box {
+            .album-collection-detail-page__box__header__right__box__list {
+              flex-direction: column;
+              .album-collection-detail-page__box__header__right__box__list__item {
+                width: 100%;
+              }
+            }
+          }
+        }
+
+        .album-collection-detail-page__box__header__left {
+          .album-collection-detail-page__box__header__left__img-box {
+            width: 100%;
+            height: 360px;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+      .album-collection-detail-page__box__body {
+        margin-top: 32px;
+        .unit-component-content-wrap {
+          padding: 0;
+        }
+      }
+    }
+  }
+}

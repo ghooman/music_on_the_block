@@ -25,8 +25,8 @@ const ModalWrap = ({ className = '', children, onClose, title = 'MODAL' }) => {
     <div className={`modal-wrap ${className}`} onClick={e => modalClose(e)}>
       <div className="modal-content-box">
         <div className="modal-header">
-          <h2>{title}</h2>
           <img className="modal-close" src={modalCloseImg} onClick={() => onClose(false)} />
+          <h2 className="modal-title">{title}</h2>
         </div>
         <div className="modal-content">{children}</div>
       </div>

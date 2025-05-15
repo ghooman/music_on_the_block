@@ -14,24 +14,26 @@ import Nft from './pages/Nft';
 import NftList from './pages/NftList';
 import NftMintList from './pages/NftMintList';
 import NftSellList from './pages/NftSellList';
+import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
+import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 
 // 컴포넌트
 import Header from './components/Header';
 import Footer from './components/Footer';
-// 전역 상태
-import { AuthProvider } from './contexts/AuthContext';
-import { WebSocketProvider } from './contexts/WebSocketContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import CollectionDetail from './pages/CollectionDetail';
 import NftItemDetail from './pages/NftItemDetail';
 import SongList from './pages/SongList';
-import AlbumsDetail from './components/mypage/albums/AlbumsDetail';
-import EditAlbumSongs from './components/mypage/albums/EditAlbumSongs';
+import AlbumsDetail from './components/mypage/songs/AlbumsDetail';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
 import Intro from './pages/Intro';
 import Evaluation from './pages/Evaluation';
 import EvaluationBegin from './pages/EvaluationBegin';
+
+// 전역 상태
+import { AuthProvider } from './contexts/AuthContext';
+import { WebSocketProvider } from './contexts/WebSocketContext';
 
 function Layout({ children }) {
   return (
@@ -126,7 +128,8 @@ function App() {
                 element={
                   <Layout>
                     <ProtectedRoute>
-                      <EditAlbumSongs />
+                      {/* <EditAlbumSongs /> */}
+                      <AlbumsEdit />
                     </ProtectedRoute>
                   </Layout>
                 }
@@ -234,6 +237,14 @@ function App() {
                 element={
                   <Layout>
                     <CollectionDetail />
+                  </Layout>
+                }
+              />
+              <Route
+                path="edit-collection-nfts/:id"
+                element={
+                  <Layout>
+                    <CollectionsEdit />
                   </Layout>
                 }
               />

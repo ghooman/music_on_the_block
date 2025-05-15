@@ -39,6 +39,7 @@ const CollectionDetail = () => {
     ['collection_detail', id, walletAddress?.address],
     async () => {
       const res = await getNftCollectionDetail({ id, wallet_address: walletAddress?.address });
+      console.log(res.data, '올 아이템');
       return res.data;
     },
     {
@@ -58,7 +59,7 @@ const CollectionDetail = () => {
     ['collection_nft_list', id],
     async ({ pageParam = 1 }) => {
       const res = await getNftCollectionNftList({ id, page: pageParam });
-      return res;
+      return res.data;
     },
     {
       enabled: !!id,
@@ -68,6 +69,9 @@ const CollectionDetail = () => {
       },
     }
   );
+
+  const allItems = nftListData?.pages?.flatMap(page => page.data_list) || [];
+
   //==============
   // 컬렉션 수정
   //==============
@@ -165,6 +169,7 @@ const CollectionDetail = () => {
         name={detailData?.name}
         isOwner={detailData?.is_owner}
         count={detailData?.nft_cnt || 0}
+        dataList={allItems}
         id={id}
         handleEdit={() => setModalMode('edit')}
         target="Collection"

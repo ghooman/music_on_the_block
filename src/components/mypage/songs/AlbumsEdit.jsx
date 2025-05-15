@@ -9,6 +9,7 @@ import SubCategories from '../../unit/SubCategories';
 import ContentWrap from '../../unit/ContentWrap';
 import Loading from '../../IntroLogo2';
 import AlbumCollectionEditList from '../albumsAndCollectionsComponents/AlbumCollectionEditList';
+import ErrorModal from '../../modal/ErrorModal';
 
 import lyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
 import coverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
@@ -34,6 +35,7 @@ const AlbumsEdit = () => {
   const [selectedList, setSelectedList] = useState([]);
   const [albumName, setAlbumName] = useState('');
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
@@ -65,7 +67,8 @@ const AlbumsEdit = () => {
       setSelectedList(res.data.song_list);
     } catch (e) {
       console.log(e);
-      alert(e);
+      alert(e?.response?.data?.detail || e.message);
+      navigate('/');
     }
   };
 
@@ -80,10 +83,10 @@ const AlbumsEdit = () => {
         url = '/api/music/my/list/no/paging';
         break;
       case 'Liked Songs':
-        url = '/api/music/my/following/list/no/paging';
+        url = '/api/music/my/like/list/no/paging';
         break;
       case 'Following':
-        url = '/api/music/my/like/list/no/paging';
+        url = '/api/music/my/following/list/no/paging';
         break;
       default:
         url = '';
@@ -136,44 +139,49 @@ const AlbumsEdit = () => {
   }
 
   return (
-    <div className="albums-edit">
-      <ContentWrap ontentWrap border={false} style={{ padding: 0 }}>
-        <ContentWrap.SubWrap gap={40}>
-          <h1 className="albums-edit__title">Edit Album Songs</h1>
-          <h3 className="albums-edit__album-name">{albumName}</h3>
-        </ContentWrap.SubWrap>
-        <div className="albums-edit__category">
-          {dataCategoryList.map((category, index) => (
-            <button
-              key={category + index}
-              className={`albums-edit__category-btn ${songsFilter === category ? 'active' : ''}`}
-              onClick={() => {
-                setSearchParams(prev => {
-                  return { songs_filter: category };
-                });
-              }}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-        <SubCategories categories={subCategoryList} value={subCategoryList?.[0]?.name} />
-        <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} />
-          <Search placeholder="Search" />
-        </ContentWrap.SubWrap>
-        <AlbumCollectionEditList
-          availableList={availableList}
-          setAvailableList={setAvailableList}
-          selectedList={selectedList}
-          setSelectedList={setSelectedList}
-          target="Album"
-        />
-        <button className="albums-edit__edit-button" onClick={() => update()}>
-          Edit
-        </button>
-      </ContentWrap>
-    </div>
+    <>
+      <div className="albums-edit">
+        <ContentWrap ontentWrap border={false} style={{ padding: 0 }}>
+          <ContentWrap.SubWrap gap={40}>
+            <h1 className="albums-edit__title">Edit Album Songs</h1>
+            <h3 className="albums-edit__album-name">{albumName}</h3>
+          </ContentWrap.SubWrap>
+          <div className="albums-edit__category">
+            {dataCategoryList.map((category, index) => (
+              <button
+                key={category + index}
+                className={`albums-edit__category-btn ${songsFilter === category ? 'active' : ''}`}
+                onClick={() => {
+                  setSearchParams(prev => {
+                    return { songs_filter: category };
+                  });
+                }}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <SubCategories categories={subCategoryList} value={subCategoryList?.[0]?.name} />
+          <ContentWrap.SubWrap gap={8}>
+            <Filter songsSort={true} />
+            <Search placeholder="Search" />
+          </ContentWrap.SubWrap>
+          <AlbumCollectionEditList
+            availableList={availableList}
+            setAvailableList={setAvailableList}
+            selectedList={selectedList}
+            setSelectedList={setSelectedList}
+            target="Album"
+          />
+          <button className="albums-edit__edit-button" onClick={() => update()}>
+            Edit
+          </button>
+        </ContentWrap>
+      </div>
+      {errorMessage && (
+        <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />
+      )}
+    </>
   );
 };
 

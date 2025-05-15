@@ -15,6 +15,7 @@ const AlbumCollectionEditList = ({
   selectedList,
   setSelectedList,
   target,
+  infiniteScorollEvent,
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [duplicateCount, setDuplicateCount] = useState(0);
@@ -85,9 +86,14 @@ const AlbumCollectionEditList = ({
     activeSong: activeSong,
     setActiveSong: setActiveSong,
     songOption: target === 'Album',
+    titleOption: target === 'Album',
+    itemOption: target === 'Collection',
     typeOption: target === 'Collection',
     gradeOption: target === 'Collection',
+    target: target,
   };
+
+  console.log(availableList, '어베일러블');
 
   return (
     <>
@@ -102,14 +108,15 @@ const AlbumCollectionEditList = ({
       )}
       <SongPlayEditTableWrapper>
         <SongPlayEditTable
-          title={target === 'Collection' ? '1' : 'Selected Songs'}
+          title={target === 'Collection' ? 'Selected NFTs' : 'Selected Songs'}
           songList={availableList}
           setSongList={setAvailableList}
+          infiniteScorollEvent={infiniteScorollEvent}
           {...props}
         />
         <SongPlayEditButtons handleAdd={() => handleAdd()} handleDelete={() => handleDelete()} />
         <SongPlayEditTable
-          title={target === 'Collection' ? '1' : 'Album Songs'}
+          title={target === 'Collection' ? 'Collection NFTs' : 'Album Songs'}
           songList={selectedList}
           setSongList={setSelectedList}
           {...props}

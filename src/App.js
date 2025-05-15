@@ -34,6 +34,7 @@ import UploadSequence from './pages/UploadSequence';
 import MusicGenerator from './pages/MusicGenerator';
 import Suno from './pages/Suno';
 import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
+import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 
 function Layout({ children }) {
   return (
@@ -221,6 +222,14 @@ function App() {
                 element={
                   <Layout>
                     <CollectionDetail />
+                  </Layout>
+                }
+              />
+              <Route
+                path="edit-collection-nfts/:id"
+                element={
+                  <Layout>
+                    <CollectionsEdit />
                   </Layout>
                 }
               />

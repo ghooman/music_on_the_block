@@ -5,6 +5,7 @@ import ContentWrap from '../../unit/ContentWrap';
 import SubCategories from '../../unit/SubCategories';
 import NoneContent from '../../unit/NoneContent';
 import SongPlayTable from '../../table/SongPlayTable';
+import NftTable from '../../table/NftTable';
 
 import defaultAlbumImage from '../../../assets/images/intro/mob-album-cover.png';
 import defaultUserImage from '../../../assets/images/header/logo-png.png';
@@ -44,7 +45,8 @@ const AlbumCollectionDetails = ({
   const [isPlaying, setIsPlaying] = useState(null);
   const [activeSong, setActiveSong] = useState(null);
   const [selected] = useState(subCategoryList[0].name);
-  const { ref, inView } = useInView();
+
+  const editListPath = target === 'Album' ? `edit-album-songs` : `edit-collection-nfts`;
 
   return (
     <div className="album-collection-detail-page">
@@ -122,14 +124,13 @@ const AlbumCollectionDetails = ({
             <ContentWrap.SubWrap gap={8}>
               <div className="album-collection-detail-page__box__body__edit">
                 <p className="album-collection-detail-page__box__body__edit__song-count">
-                  {dataList?.length || 0}
-                  {/** */}
+                  {dataList?.length || 0} {/** */}
                   {target === 'Collection' && 'NFTs'}
                   {target === 'Album' && 'Songs'}
                 </p>
                 {isOwner && (
                   <Link
-                    to={`/edit-album-songs/${id}`}
+                    to={`/${editListPath}/${id}`}
                     className="album-collection-detail-page__box__body__edit__edit-btn"
                   >
                     Edit {target === 'Album' ? 'Songs' : 'NFTs'}
@@ -137,7 +138,11 @@ const AlbumCollectionDetails = ({
                   </Link>
                 )}
               </div>
-              {dataList?.length > 0 ? (
+
+              {dataList.length > 1 && target === 'Collection' && (
+                <NftTable nftList={dataList} dateOption={false} priceOption={false} />
+              )}
+              {dataList.length > 1 && target === 'Album' && (
                 <SongPlayTable
                   songList={dataList}
                   activeSong={activeSong}
@@ -146,7 +151,9 @@ const AlbumCollectionDetails = ({
                   isTrigger={isPlaying}
                   setIsTrigger={setIsPlaying}
                 />
-              ) : (
+              )}
+
+              {dataList.length <= 0 && (
                 <NoneContent
                   image={NoDataImage}
                   title="No songs in this album"
@@ -155,6 +162,7 @@ const AlbumCollectionDetails = ({
                   height={300}
                 />
               )}
+              {/* )} */}
             </ContentWrap.SubWrap>
           </ContentWrap>
         </section>

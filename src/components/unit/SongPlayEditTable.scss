@@ -156,19 +156,35 @@
     }
 
     &.head-song,
-    &.body-song {
+    &.head-grade,
+    &.head-type,
+    &.body-song,
+    &.body-grade,
+    &.body-type {
       display: flex;
       justify-content: center;
       width: 80px;
     }
 
+    &.body-grade,
+    &.body-type {
+      img {
+        @include images(20px, 20px);
+      }
+    }
+
     &.head-title,
-    &.body-title {
+    &.body-title,
+    &.head-item,
+    &.body-item {
       flex: 1;
     }
 
     &.head-song,
-    &.head-title {
+    &.head-grade,
+    &.head-type,
+    &.head-title,
+    &.head-item {
       text-align: center;
       @include fonts(14px, 400, #a9d400);
     }
@@ -263,6 +279,17 @@
           @include fonts(14px, 400, #aaa);
         }
       }
+    }
+
+    &.body-item {
+      @include fonts(14px, 400, #aaa);
+      text-align: center;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* 최대 2줄 */
+      -webkit-box-orient: vertical;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

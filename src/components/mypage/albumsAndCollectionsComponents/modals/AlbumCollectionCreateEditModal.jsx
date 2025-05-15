@@ -56,7 +56,6 @@ const AlbumCollectionCreateEditModal = ({
             src={previewImage || defaultAlbumsImage}
             alt="albums_cover_image"
           />
-
           <button onClick={() => fileInputRef.current.click()}>
             <img
               className="album-collection-module-create-edit-modal__button-image"
@@ -74,7 +73,6 @@ const AlbumCollectionCreateEditModal = ({
             style={{ display: 'none' }}
           />
         </div>
-
         <p className="album-collection-module-create-edit-modal__name">{target} Name</p>
         <div className="album-collection-module-create-edit-modal__name-box">
           <input
@@ -88,11 +86,9 @@ const AlbumCollectionCreateEditModal = ({
             {name.length}/40
           </span>
         </div>
-
         {/* {errorMessage && (
           <p className="album-collection-module-create-edit-modal__error-message">{errorMessage}</p>
         )} */}
-
         <div className="album-collection-module-create-edit-modal__button-box">
           <button
             className="album-collection-module-create-edit-modal__button cancel-button"

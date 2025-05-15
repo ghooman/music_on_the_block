@@ -35,7 +35,7 @@ const Filter = ({
   // 필터링 옵션
   generateFilter,
   gradeFilter,
-  mintingFilter,
+  salesFilter,
   tokenFilter,
   buySellFilter,
   // 정렬 옵션
@@ -57,7 +57,7 @@ const Filter = ({
   //필터
   const generateFilter_ = searchParamas.get('generate_filter');
   const gradeFilter_ = searchParamas.get('grade_filter');
-  const mintingFilter_ = searchParamas.get('minting_filter');
+  const salesFilter_ = searchParamas.get('minting_filter');
   const tokenFilter_ = searchParamas.get('token_filter');
   const buySellFilter_ = searchParamas.get('buy_sell_filter');
   // 정렬
@@ -73,7 +73,7 @@ const Filter = ({
     //필터
     generateFilter_,
     gradeFilter_,
-    mintingFilter_,
+    salesFilter_,
     tokenFilter_,
     buySellFilter_,
     //정렬
@@ -160,14 +160,14 @@ const Filter = ({
                 }
               />
             )}
-            {mintingFilter && (
+            {salesFilter && (
               <FilterCategory
-                value={mintingFilter_}
+                value={salesFilter_}
                 setParamsObj={setParamsObj}
-                title="Minting"
-                filterName="minting_filter"
+                title="Sort by"
+                filterName="sales_filter"
                 filterItems={
-                  typeof mintingFilter === 'boolean' ? ['Minted', 'Unminted'] : mintingFilter
+                  typeof salesFilter === 'boolean' ? ['Listed', 'Unlisted'] : salesFilter
                 }
               />
             )}

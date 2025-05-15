@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NoneContent from './NoneContent';
 
 import { getSongsGradeIcon } from '../../utils/getGradeIcon';
@@ -8,6 +8,7 @@ import './SongPlayEditTable.scss';
 import typeImage from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import arrowIcon from '../../assets/images/add-icon.svg';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
+import { useInView } from 'react-intersection-observer';
 
 /**
  * SongPlayEditTable
@@ -42,12 +43,20 @@ export const SongPlayEditTable = ({
   activeSong,
   setActiveSong,
   limit,
+  target,
 
   songOption,
+  titleOption,
+
   typeOption,
   gradeOption,
+  itemOption,
+
+  infiniteScorollEvent,
 }) => {
+  const { ref, inView } = useInView();
   const allCheck = songList?.length > 0 && songList?.every(item => item.check);
+  const elementName = target === 'Collection' ? 'NFT' : 'Song';
 
   const handleSelectAll = e => {
     setSongList(prev => {
@@ -68,13 +77,25 @@ export const SongPlayEditTable = ({
     });
   };
 
+  useEffect(() => {
+    if (inView && infiniteScorollEvent) infiniteScorollEvent();
+  }, [inView]);
+
   return (
     <div className="song-play-edit-table">
       <div className="song-play-edit-table__selected">
         {title}
         <p className="song-play-edit-table__selected--numbers">
           (<span>{songList?.length || 0}</span>&nbsp;
-          {songList?.length === 1 ? 'Song' : 'Songs'} {limit ? <>/ {limit} Songs</> : ''} )
+          {songList?.length === 1 ? elementName : elementName + 's'}{' '}
+          {limit ? (
+            <>
+              / {limit} {elementName + 's'}
+            </>
+          ) : (
+            ''
+          )}{' '}
+          )
         </p>
       </div>
       {/** 테이블 시작 */}
@@ -87,7 +108,8 @@ export const SongPlayEditTable = ({
           {songOption && <div className="table-items head-song">Song</div>}
           {typeOption && <div className="table-items head-type">Type</div>}
           {gradeOption && <div className="table-items head-grade">Grade</div>}
-          <div className="table-items head-title">Title</div>
+          {titleOption && <div className="table-items head-title">Title</div>}
+          {itemOption && <div className="table-items head-item">Item</div>}
         </div>
 
         {/** 테이블 바디 */}
@@ -132,24 +154,38 @@ export const SongPlayEditTable = ({
               </div>
             )}
             {/** 타입 */}
-            {typeOption && <div></div>}
-            {/** 등급 */}
-            {gradeOption && <div></div>}
-            {/** 제목 */}
-            <div className="table-items body-title">
-              <p className="body-title__song-title">{item.title}</p>
-              <div className="body-title__artist">
-                <img
-                  className="artist__image"
-                  src={item.profile || defaultUserImage}
-                  alt="profile images"
-                />
-                <p className="artist__name">{item.name}</p>
+            {typeOption && (
+              <div className="table-items body-type">
+                <img src={typeImage} alt="type icon" />
               </div>
-            </div>
+            )}
+            {/** 등급 */}
+            {gradeOption && (
+              <div className="table-items body-grade">
+                <img src={getSongsGradeIcon(item.rating)} alt="grade icon" />
+              </div>
+            )}
+            {/** 제목 */}
+            {titleOption && (
+              <div className="table-items body-title">
+                <p className="body-title__song-title">{item.title}</p>
+                <div className="body-title__artist">
+                  <img
+                    className="artist__image"
+                    src={item.profile || defaultUserImage}
+                    alt="profile images"
+                  />
+                  <p className="artist__name">{item.name}</p>
+                </div>
+              </div>
+            )}
+            {itemOption && <div className="table-items body-item">{item.nft_name}</div>}
           </div>
         ))}
         {songList.length <= 0 && <NoneContent message="There are no songs." height={230} />}
+        {songList?.length > 0 && infiniteScorollEvent && (
+          <div ref={ref} style={{ height: 1 }}></div>
+        )}
       </div>
     </div>
   );

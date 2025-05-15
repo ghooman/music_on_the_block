@@ -32,7 +32,6 @@ const AlbumsDetail = () => {
   //====================
   const {
     data: albumBundleInfo,
-
     isFetching,
     refetch,
   } = useQuery(['album_bundle_detail', { id, address }], async () => {

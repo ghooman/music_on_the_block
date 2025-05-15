@@ -64,16 +64,17 @@ const LyricsLab = ({
   lyricData,
   generatedLyric,
   setGeneratedLyric,
-  onSkip,
   setPageNumber,
   lyricStory,
   setLyricStory,
-  melodyData,
-  tempo,
   SelectedWrap,
   SelectedItem,
-  isLyricPage,
   createPossibleCount,
+  selectedVersion,
+  onSkip,
+  isLyricPage,
+  melodyData,
+  tempo,
   setAlbumCover,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -258,13 +259,15 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
           </pre>
         )}
         <div className="generated-lyrics__confirm-buttons">
-          <p
-            className={`generated-lyrics__confirm-buttons--text ${
-              createdLyrics?.length > 1000 ? 'disabled' : ''
-            }`}
-          >
-            Lyrics Length : {createdLyrics?.length} / 1000
-          </p>
+          {selectedVersion !== 'V4_5' && (
+            <p
+              className={`generated-lyrics__confirm-buttons--text ${
+                createdLyrics?.length > 1000 ? 'disabled' : ''
+              }`}
+            >
+              Lyrics Length : {createdLyrics?.length} / 1000
+            </p>
+          )}
           <div className="generated-lyrics__confirm-buttons--button-wrap">
             <button
               className="generated-lyrics__confirm-buttons--button edit"
@@ -274,9 +277,9 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
             </button>
             <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
-                createdLyrics?.length > 1000 ? '' : ''
+                selectedVersion !== 'V4_5' && createdLyrics?.length > 1000 ? 'disabled' : ''
               }`}
-              // disabled={createdLyrics?.length > 1000}
+              disabled={selectedVersion !== 'V4_5' && createdLyrics?.length > 1000}
               onClick={() => {
                 setGeneratedLyric(createdLyrics);
                 setPageNumber(prev => prev + 1);

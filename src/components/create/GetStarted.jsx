@@ -77,22 +77,22 @@ const GetStarted = ({
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
-      {/* <div className="create__get-started--version">
+      <div className="create__get-started--version">
         <label htmlFor="version">Version</label>
         <select id="version" name="version" onChange={handleVersionChange}>
-          <option value="V4_5">V2.2 Suno AI</option>
-          <option value="mureka-6">V2 Mureka</option>
-          <option value="topmediai">V1 TopMediAI</option>
+          <option value="V4_5">L&S Plus(V2.2)</option>
+          <option value="mureka-6">L&S Pro(V2.0)</option>
+          <option value="topmediai">L&S One(V1.0)</option>
 
-          이전 버젼 모델들
+          {/* 이전 버젼 모델들
           <option value="topmediai">topmediai</option>
           <option value="mureka-5.5">mureka-5.5</option>
           <option value="mureka-6">mureka-6</option>
           <option value="V3_5">suno-3.5</option>
           <option value="V4">suno-4</option>
-          <option value="V4_5">suno-4.5</option>
+          <option value="V4_5">suno-4.5</option> */}
         </select>
-      </div> */}
+      </div>
 
       <section className="create__get-started--format">
         {formats.map((format, idx) => (

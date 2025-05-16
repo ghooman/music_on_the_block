@@ -336,7 +336,9 @@ export const RadarChart = ({
   height = 350,
   width  = '100%',
 }) => (
-  <div style={{ height, width, minWidth: 300, minHeight: 300 }}>
+  <div 
+    style={{ height, width, minWidth: 300, minHeight: 300 }}
+  >
     <ResponsiveRadar
       /* ───── 핵심 파라미터 ───── */
       data={data}
@@ -345,7 +347,7 @@ export const RadarChart = ({
 
       /* ───── 레이아웃 ───── */
       maxValue="auto"
-      margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
+      margin={{ top: 20, right: 80, bottom: 40, left: 80 }}
       gridShape="linear"
       gridLevels={8}
       curve="linearClosed"

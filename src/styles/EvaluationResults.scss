@@ -38,170 +38,31 @@
   }
 }
 
-.view-results{
-  position: relative;
-  z-index: 1;
-  margin: 0 auto;
-  width: 180px;
-  height: 40px;
-  background: #cf0;
-  position: relative;
-  top: 0;
-  transition: 0.2s;
-  color:#1a1a1a;
-  font-family: Orbitron600;
-  font-size: 12px;
-  font-style: normal;
-  line-height: normal;
-  border-radius: 8px;
+
+.result{
   display: flex;
   align-items: center;
+  gap: 32px;
   justify-content: center;
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 4px;
-    width: calc(100% - 2px);
-    transition: 0.2s;
-    border-radius: 8px;
-    height: 39px;
-    border: 1px solid #cf0;
-  }
-  &:hover {
-    top: 4px;
-    &::before {
-      top: 0;
-    }
-  }
-}//begin-now-btn--END--
+  .result__critic{
+
+  }//result__critic--END--
+  .result__graph{
+    .result__graph__score{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      
+    }//result__graph__score--END--
+    .result__graph__score__graph{
+      width: 400px;
+      height: 300px;
+    }//result__graph__score__graph--END--
+  }//result__graph--END--
+}//result--END--
 
 
 
-
-.step1{
-  .step1__title{
-    color:#FFF;
-    font-family: Orbitron700;
-    font-size: 16px;
-    margin-bottom: 16px;
-  }//step1__title--END--
-  .step1__list{
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-top: 16px;
-    padding: 16px 16px 0 16px;
-    border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
-    margin-bottom: 16px;
-  }//step1__list--END--
-}//step1--END--
-
-.step2{
-  .step2__title{
-    color:#FFF;
-    font-family: Orbitron700;
-    font-size: 16px;
-    margin-bottom: 16px;
-  }//step2__title--END--
-  .step2__choose{
-    display: flex;
-    gap: 32px;
-    align-items: center;
-    justify-content: center;
-    margin-top: 32px;
-    .step2__choose__item{
-      width: 300px;
-      padding: 16px;
-      border: 1px solid #222;
-      border-radius: 12px;
-      min-height: 348px;
-      transition: 0.3s;
-      img{
-        width: 100%;
-      }
-      &.active{
-        border: 1px solid #cf0;
-      }
-      .step2__choose__item__title{
-        dt{
-          color:#F1F1F1;
-          font-family: Orbitron600;
-          font-size: 16px;
-          margin: 8px;
-          span{
-            color:#cf0;
-            text-align: center;
-            font-family: Orbitron600;
-            font-size: 16px;
-          }
-        }
-        dd{
-          color: var(--Text-music-sub, #AAA);
-          font-family: Inter500;
-          font-size: 14px;
-        }
-      }//step2__choose__item__title--END--
-    }//step2__choose__item--END--
-  }//step2__choose--END--
-}//step2--END--
-
-.step3{
-  .step3__title{
-    color:#FFF;
-    font-family: Orbitron700;
-    font-size: 16px;
-    margin-bottom: 16px;
-  }//step1__title--END--
-  .step3__selected-song{
-    border: 1px solid #222;
-    border-radius: 12px;
-    padding: 16px;
-    .step3__selected-song__title{
-      color:#F1F1F1;
-      font-family: Inter500;
-      font-size: 14px;
-      margin-bottom: 16px;
-    }//step3__selected-song__title--END--
-    .step3__selected-song__critic{
-      width: 100%;
-      dt{
-        color:#F1F1F1;
-        font-family: Inter500;
-        font-size: 14px;
-        margin-bottom: 16px;
-      }
-      dd{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        p{
-          border-radius: 4px;
-          background: var(--Color-02, #1A1A1A);
-          padding: 0 12px;
-          height: 38px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color:#F1F1F1;
-          font-family: Inter500;
-          font-size: 14px;
-        }
-        span{
-          color: var(--Text-music-sub, #AAA);
-          font-family: Inter400;
-          font-size: 14px;
-          strong{
-            color: var(--Text-music-title, #F1F1F1);
-            font-family: Inter500;
-            font-size: 14px;
-          }
-        }
-      }
-    }//step3__selected-song__critic--END--
-  }//step3__selected-song--END--
-}//step3--END--
 
 @media screen and (max-width: 768px) {
   .step2{

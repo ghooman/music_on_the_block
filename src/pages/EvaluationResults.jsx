@@ -35,8 +35,7 @@ const EvaluationResults = () => {
       <ContentWrap title="AI Song Evaluation" border={false} className="none-padding">
         <ContentWrap title="Result">
           <Result/>
-          <RadarChart
-          />
+          
         </ContentWrap>
 
       </ContentWrap>
@@ -62,6 +61,38 @@ const Result = () => {
         </article>
         <article className='result__graph'>
           <button className='result__graph__title'>Evaluation Graph</button>
+          <div className='result__graph__score'>
+            <div className='result__graph__score__graph'>
+              <RadarChart/>
+            </div>
+            <div className='result__graph__score__number'>
+              <p className='result__graph__score__number__title'>
+                Score:<span>80.00/100</span>
+              </p>
+              <div className='result__graph__score__number__txt'>
+                <dl>
+                  <dt>Emotional Impact :</dt>
+                  <dd>12</dd>
+                </dl>
+                <dl>
+                  <dt>Creativity & Individuality :</dt>
+                  <dd>10</dd>
+                </dl>
+                <dl>
+                  <dt>Structure & Composition :</dt>
+                  <dd>80</dd>
+                </dl>
+                <dl>
+                  <dt>Sound Quality & Mixing :</dt>
+                  <dd>60</dd>
+                </dl>
+                <dl>
+                  <dt>Relatability & Popularity :</dt>
+                  <dd>80</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
         </article>
       </section>
     </>

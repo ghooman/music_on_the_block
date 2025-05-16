@@ -37,7 +37,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { WalletConnect } from '../components/WalletConnect';
 import ShareModal from '../components/ShareModal';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
-
+import TransactionsModal from '../components/TransactionsModal';
 const NftItemDetail = () => {
   const [selectCategory, setSelectCategory] = useState('Track Information');
   const [_, setSearchParams] = useSearchParams();
@@ -73,7 +73,7 @@ const NftItemDetailInfo = ({ id }) => {
   const [cancelSuccess, setCancelSuccess] = useState(false);
 
   const [isShareModal, setIsShareModal] = useState(false);
-
+  const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   const { token, walletAddress, isLoggedIn, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
 
@@ -184,6 +184,10 @@ const NftItemDetailInfo = ({ id }) => {
 
   console.log(nftDetailData, 'nft detail data');
 
+  // transactions modal 오픈
+  const handleTransactionsModal = () => {
+    setIsTransactionsModal(true);
+  };
   return (
     <>
       {/* 숨겨진 WalletConnect 컴포넌트 */}
@@ -201,7 +205,6 @@ const NftItemDetailInfo = ({ id }) => {
       <div className="nft-item-detail-info-wrap">
         <p className="nft-item-detail-info-wrap__title">NFT Item Details</p>
         <section className="nft-item-detail__song-detail">
-          {/* <p className="nft-item-detail__song-detail__title">Song Details</p> */}
           <div className="nft-item-detail__song-detail__bot">
             <div className="nft-item-detail__song-detail__left">
               <section className="album-detail__audio">
@@ -228,15 +231,6 @@ const NftItemDetailInfo = ({ id }) => {
                 className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                 onClick={handleClick}
               >
-                {/* {album ? (
-                                    <img src={album?.image || demoImg} alt="앨범 이미지" />
-                                ) : (
-                                    <div
-                                        style={{
-                                            backgroundColor: "black",
-                                        }}
-                                    />
-                                )} */}
                 {nftDetailData ? (
                   <img src={nftDetailData?.nft_image || defaultCoverImg} alt="앨범 이미지" />
                 ) : (
@@ -259,10 +253,6 @@ const NftItemDetailInfo = ({ id }) => {
                     <img src={nftDetailData?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                     {nftDetailData?.like || 0}
                   </p>
-                  {/* <button className="comment" onClick={handleScrollToComment}>
-                                        <img src={commentIcon} />
-                                        {album?.comment_cnt || 0}
-                                    </button> */}
                   <p className={`nfts ${nftDetailData?.rating}`}>
                     {getSongsGradeIcon(nftDetailData?.rating) && (
                       <img src={getSongsGradeIcon(nftDetailData?.rating)} alt="icon" />
@@ -272,7 +262,10 @@ const NftItemDetailInfo = ({ id }) => {
                   </p>
                 </div>
                 <div className="nft-item-detail__song-detail__left__info__btn-box">
-                  <button className="nft-item-detail__song-detail__left__info__txid-btn">
+                  <button
+                    className="nft-item-detail__song-detail__left__info__txid-btn"
+                    onClick={handleTransactionsModal}
+                  >
                     TXID
                   </button>
                   <button className="share" onClick={() => setIsShareModal(true)}>
@@ -402,6 +395,12 @@ const NftItemDetailInfo = ({ id }) => {
           setShareModal={setIsShareModal}
           shareUrl={window.location.href}
           title={nftDetailData?.title}
+        />
+      )}
+      {isTransactionsModal && (
+        <TransactionsModal
+          setTransactionsModal={setIsTransactionsModal}
+          transactions={nftDetailData?.transactions}
         />
       )}
     </>

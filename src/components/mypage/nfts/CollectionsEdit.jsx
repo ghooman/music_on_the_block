@@ -91,18 +91,50 @@ const CollectionsEdit = () => {
     }
   };
 
-  //==================
-  // 업데이트
-  //==================
-  const update = async () => {
-    const idArray = selectedList.map(item => item.id);
+  // //==================
+  // // 업데이트
+  // //==================
+  // const update = async () => {
+  //   const idArray = selectedList.map(item => item.id);
+  //   try {
+  //     const res = await axios.post(`${serverApi}/api/nfts/collection/${id}/nft`, idArray, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     navigate(`/nft/collection/detail/${id}`);
+  //   } catch (e) {
+  //     console.log(e);
+  //     setErrorMessage(e?.response?.data?.detail || e?.message);
+  //   }
+  // };
+
+  const customHandleAdd = async () => {
+    const availableCheckedIdList = availableList?.filter(item => item.check).map(item => item.id);
+    const selectedListIdArray = selectedList.map(item => item.id);
+    const set = new Set([...availableCheckedIdList, ...selectedListIdArray]);
+    if (availableCheckedIdList.length <= 0) return;
+    await update(Array.from(set));
+  };
+
+  const customHandleDelete = async () => {
+    const selectedNoneCheckedIdList = selectedList
+      ?.filter(item => !item.check)
+      .map(item => item.id);
+    const selectedCheckedIdList = selectedList?.filter(item => item.check);
+    if (selectedCheckedIdList.length <= 0) return;
+    await update(selectedNoneCheckedIdList);
+  };
+
+  const update = async data => {
     try {
-      const res = await axios.post(`${serverApi}/api/nfts/collection/${id}/nft`, idArray, {
+      await axios.post(`${serverApi}/api/nfts/collection/${id}/nft`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      navigate(`/nft/collection/detail/${id}`);
+      getNftList();
+      getCollectionDetail();
     } catch (e) {
       console.log(e);
       setErrorMessage(e?.response?.data?.detail || e?.message);
@@ -139,9 +171,15 @@ const CollectionsEdit = () => {
             setAvailableList={setAvailableList}
             selectedList={selectedList}
             setSelectedList={setSelectedList}
+            customHandleAdd={customHandleAdd}
+            customHandleDelete={customHandleDelete}
             target="Collection"
           />
-          <button className="collection-edit__edit-btn" onClick={update}>
+          <button
+            className="collection-edit__edit-btn"
+            // onClick={update}
+            onClick={() => navigate(`/nft/collection/detail/${id}`)}
+          >
             Edit
           </button>
         </ContentWrap>

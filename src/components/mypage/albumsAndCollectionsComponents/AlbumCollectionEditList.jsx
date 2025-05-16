@@ -14,6 +14,10 @@ const AlbumCollectionEditList = ({
   setAvailableList,
   selectedList,
   setSelectedList,
+
+  customHandleAdd,
+  customHandleDelete,
+
   target,
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,6 +30,11 @@ const AlbumCollectionEditList = ({
   // 추가
   //=================
   const handleAdd = () => {
+    if (customHandleAdd) {
+      customHandleAdd();
+      return;
+    }
+
     let duplicateCount = 0;
     const copy = [...availableList];
     const newCopy = copy.filter(item => item.check === true);
@@ -58,6 +67,11 @@ const AlbumCollectionEditList = ({
   // 삭제
   //=================
   const handleDelete = () => {
+    if (customHandleDelete) {
+      customHandleDelete();
+      return;
+    }
+
     const copy = [...selectedList];
     const newCopy = copy.filter(item => !item.check);
     setSelectedList(newCopy);

@@ -38,7 +38,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
-  console.log('userData', userData);
 
   const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)

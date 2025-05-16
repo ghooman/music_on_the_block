@@ -44,7 +44,10 @@ AlbumCollectionItems.Item = ({
         </div>
       </div>
       <div className="album-collections-module-items__cover">
-        <img src={coverImage || defaultAlbumImage} alt="album_cover" />
+        <img
+          src={coverImage?.replace('public', '280to280') || defaultAlbumImage}
+          alt="album_cover"
+        />
       </div>
     </div>
   );

@@ -165,7 +165,8 @@ const MelodyChatBot = ({
           const extractedTags = tagMatch[1]
             .trim()
             .split(',')
-            .map(tag => tag.trim());
+            .map(tag => tag.trim())
+            .filter(tag => tag !== ''); // 빈 태그 필터링
           console.log('Extracted tags (standard):', extractedTags);
           setMelodyData(prevData => ({
             ...prevData,
@@ -184,7 +185,8 @@ const MelodyChatBot = ({
           const extractedTags = tagMatch[1]
             .trim()
             .split(',')
-            .map(tag => tag.trim());
+            .map(tag => tag.trim())
+            .filter(tag => tag !== ''); // 빈 태그 필터링
           console.log('Extracted tags (prompt):', extractedTags);
           setMelodyData(prevData => ({
             ...prevData,
@@ -603,7 +605,7 @@ const MelodyChatBot = ({
           song_length: '',
           lyrics: generatedLyric,
           mood: '',
-          tags: melody_tag?.join(', ') || '',
+          tags: Array.isArray(melody_tag) ? melody_tag.join(', ') : melody_tag || '',
           cover_image: coverUrl,
           prompt: generatedPrompt,
           create_ai_type: create_ai_type,

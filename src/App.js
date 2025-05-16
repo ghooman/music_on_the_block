@@ -34,6 +34,7 @@ import EvaluationBegin from './pages/EvaluationBegin';
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
 import { WebSocketProvider } from './contexts/WebSocketContext';
+import EvaluationResults from './pages/EvaluationResults';
 
 function Layout({ children }) {
   return (
@@ -181,6 +182,14 @@ function App() {
                 element={
                   <Layout>
                     <EvaluationBegin />
+                  </Layout>
+                }
+              />
+              <Route
+                path="evaluation-results"
+                element={
+                  <Layout>
+                    <EvaluationResults />
                   </Layout>
                 }
               />

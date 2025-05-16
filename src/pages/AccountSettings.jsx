@@ -16,13 +16,14 @@ import { AuthContext } from '../contexts/AuthContext';
 import Modal from '../components/modal/Modal';
 import ErrorModal from '../components/modal/ErrorModal';
 import Loading from '../components/CreateLoading';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
 
 const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
 
 const AccountSettings = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: userData, refetch } = useUserDetail();
   const { token } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -60,6 +61,8 @@ const AccountSettings = () => {
 
   // 파일 input 참조 (프로필 이미지 변경용)
   const fileInputRef = useRef(null);
+
+  const prev = searchParams.get('prev');
 
   // 기존 유효성 검사 함수 (필요시 활용)
   const validate = () => {
@@ -538,7 +541,7 @@ const AccountSettings = () => {
           title="Success"
           setShowModal={() => navigate('/my-page')}
           message="Successfully updated"
-          handleClick={() => navigate('/my-page')}
+          handleClick={() => navigate(prev || '/my-page')}
         />
       )}
       {showErrorModal && (

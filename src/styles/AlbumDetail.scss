@@ -47,16 +47,6 @@
           background: #cf0;
         }
       } //album-detail__song-detail__title--END--
-      .album-detail__song-detail__right__version {
-        color: #f1f1f1;
-        font-family: Orbitron500;
-        font-size: 12px;
-        font-style: normal;
-        line-height: normal;
-        border: 1px solid #00ffb3;
-        border-radius: 12px;
-        padding: 8px 12px;
-      }
     }
     .album-detail__song-detail__bot {
       display: flex;
@@ -249,14 +239,25 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
+          margin-bottom: 24px;
           .album-detail__song-detail__right__title {
             color: #f1f1f1;
             font-family: Orbitron500;
             font-size: 20px;
             font-style: normal;
             line-height: 100%; /* 20px */
-            margin-bottom: 24px;
           } //album-detail__song-detail__right__title--END--
+          .album-detail__song-detail__right__version {
+            color: #f1f1f1;
+            font-family: Orbitron500;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            border: 1px solid #00ffb3;
+            border-radius: 12px;
+            padding: 8px 12px;
+            white-space: nowrap;
+          } //album-detail__song-detail__right__version--END--
         }
         .album-detail__song-detail__right__type {
           display: flex;

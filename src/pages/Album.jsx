@@ -35,6 +35,7 @@ import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 import { getTransaction } from '../api/Transaction';
+import { getSongsGradeIcon } from '../utils/getGradeIcon';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -411,7 +412,14 @@ function Album() {
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
             />
-            <ListSlider
+    
+        <section className="main__nft-market">
+          <Link to="/nft" className="main__nft-market__link">
+            <span className="main__nft-market__link-text">NFT Marketplace</span>
+          </Link>
+        </section>
+
+        <ListSlider
               hitMusicList={hitList}
               currentTime={currentTime}
               handleLikeClick={handleLikeClick}
@@ -741,6 +749,19 @@ const ListSlider = ({
                   ? `${formatTime(currentTime)}`
                   : formatTime(track.duration)}
               </span>
+              <div className={`swiper-music-list__item__left__grade ${track.rating}`}>
+                <img
+                  className="swiper-music-list__item__left__grade--image"
+                  src={getSongsGradeIcon(track.rating)}
+                  alt="icon"
+                />
+                {track?.is_nft && (
+                  <>
+                    <div className="swiper-music-list__item__left__grade--section"></div>
+                    <p className="swiper-music-list__item__left__grade--nft">NFT</p>
+                  </>
+                )}
+              </div>
             </div>
             <div className="swiper-music-list__item__right">
               <p className="swiper-music-list__item__right__title">{track.title}</p>

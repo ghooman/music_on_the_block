@@ -40,6 +40,7 @@ const EvaluationBegin = () => {
         <ContentWrap title="Step 3" >
           <Step3/>
         </ContentWrap>
+        <ViewResults/>
       </ContentWrap>
     </>
   );
@@ -148,14 +149,14 @@ const Step3 = () => {
   );
 };
 
-const BeginNowBtn = () => {
+const ViewResults = () => {
 
   return (
     <>
       <Link 
-        to='/'
-        className='begin-now-btn'
-      >Begin Now
+        to='/evaluation-results'
+        className='view-results'
+      >View Results
       </Link>
     </>
   );

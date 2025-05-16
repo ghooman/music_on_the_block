@@ -11,7 +11,7 @@ import { BarChart, LineChart, PieChart, RadarChart } from '../components/unit/Ch
 //이미지
 
 import judgeImg01 from '../assets/images/evaluation/judge-img01.png';
-import judgeImg02 from '../assets/images/evaluation/judge-img02.png';
+import issueIcon from '../assets/images/icon/issue-opened.svg';
 import judgeImg03 from '../assets/images/evaluation/judge-img03.png';
 
 
@@ -19,25 +19,20 @@ import judgeImg03 from '../assets/images/evaluation/judge-img03.png';
 
 const EvaluationResults = () => {
 
-  const aiServiceChartData = [
-    {
-      id: 'AI Lyrics & Songwriting',
-      value: 10,
-      color: 'hsl(252, 100%, 50%)',
-      preparing: false,
-      image: judgeImg02,
-    },
-
-  ];
-
   return (
     <>
       <ContentWrap title="AI Song Evaluation" border={false} className="none-padding">
-        <ContentWrap title="Result">
+        <ContentWrap title="Result" border={false}>
           <Result/>
-          
+          <Btns/>
         </ContentWrap>
-
+        <ContentWrap title="Full Evaluation">
+          <FullEvaluation/>
+        </ContentWrap>
+        <ContentWrap title="Other Songs Evaluationed By This Critic">
+          <SongsCritic/>
+        </ContentWrap>
+        <Btns/>
       </ContentWrap>
     </>
   );
@@ -60,7 +55,7 @@ const Result = () => {
           </dl>
         </article>
         <article className='result__graph'>
-          <button className='result__graph__title'>Evaluation Graph</button>
+          <button className='result__graph__title'>Evaluation Graph<img src={issueIcon}/></button>
           <div className='result__graph__score'>
             <div className='result__graph__score__graph'>
               <RadarChart/>
@@ -100,15 +95,126 @@ const Result = () => {
 };
 
 
-const ViewResults = () => {
+const Btns = () => {
+
+  return (
+    <div className='btns'>
+      <button
+        className='rate-again'
+      >Rate Again
+      </button>
+      <button
+        className='save-evaluation'
+      >Save Evaluation
+      </button>
+    </div>
+  );
+};
+
+
+const FullEvaluation = () => {
+
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <div className='full-evaluation'>
+      <section className='full-evaluation__feed-back'>
+        <article className='full-evaluation__feed-back__human'>
+          <img src={judgeImg01} alt='judgeImg01'/>
+          <p className='full-evaluation__feed-back__human__title'>Jinwoo Yoo</p>
+        </article>
+        <article className={`full-evaluation__feed-back__txt ${isActive ? 'active' : ''}`}>
+          <p className='ull-evaluation__feed-back__txt__title'>Feedback</p>
+          <div className='ull-evaluation__feed-back__txt__memo'>
+            This song conveys emotions well. The emotional explosion in the chorus is particularly impressive. However, adding more original elements could make it shine even more.
+            This song conveys emotions well. The emotional explosion in the chorus is particularly impressive. However, adding more original elements could make it shine even more.
+            This song conveys emotions well. The emotional explosion in the chorus is particularly impressive. However, adding more original elements could make it shine even more.
+            This song conveys emotions well. The emotional explosion in the chorus is particularly impressive. However, adding more original elements could make it shine even more.
+          </div>
+          <button 
+            className='full-evaluation__feed-back__txt__see-more'
+            onClick={() => setIsActive(prev => !prev)}
+          >
+            See More
+            <span></span>
+          </button>
+        </article>
+      </section>
+      <section className='full-evaluation__point-box'>
+        <dl>
+          <dt>To Improve</dt>
+          <dd>Try to incorporate more personal experiences into the lyrics.</dd>
+        </dl>
+        <dl>
+          <dt>Why This Score</dt>
+          <dd>The rhythm fits very well with the lyrics.</dd>
+        </dl>
+        <dl>
+          <dt>Key Points</dt>
+          <dd>The chorus is very catchy.</dd>
+        </dl>
+      </section>
+    </div>
+  );
+};
+
+
+
+const SongsCritic = () => {
+
 
   return (
     <>
-      <Link 
-        to='/evaluation-results'
-        className='view-results'
-      >View Results
-      </Link>
+      <section className='critic-list'>
+        <div className='critic-list__item'>
+          <div className='critic-list__item__left'>
+            <p className='critic-list__item__left__img'>
+              <img src={judgeImg03}/>
+            </p>
+            <p className='critic-list__item__left__title'>Title / Artist</p>
+          </div>
+          <div className='critic-list__item__right'>
+            <RadarChart/>
+          </div>
+        </div>
+        <div className='critic-list__item'>
+          <div className='critic-list__item__left'>
+            <p className='critic-list__item__left__img'>
+              <img src={judgeImg03}/>
+            </p>
+            <p className='critic-list__item__left__title'>Title / Artist</p>
+          </div>
+          <div className='critic-list__item__right'>
+            <RadarChart/>
+          </div>
+        </div>
+        <div className='critic-list__item'>
+          <div className='critic-list__item__left'>
+            <p className='critic-list__item__left__img'>
+              <img src={judgeImg03}/>
+            </p>
+            <p className='critic-list__item__left__title'>Title / Artist</p>
+          </div>
+          <div className='critic-list__item__right'>
+            <RadarChart/>
+          </div>
+        </div>
+        <div className='critic-list__item'>
+          <div className='critic-list__item__left'>
+            <p className='critic-list__item__left__img'>
+              <img src={judgeImg03}/>
+            </p>
+            <p className='critic-list__item__left__title'>Title / Artist</p>
+          </div>
+          <div className='critic-list__item__right'>
+            <RadarChart/>
+          </div>
+        </div>
+
+
+      </section>
     </>
   );
 };
+
+

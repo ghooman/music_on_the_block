@@ -324,20 +324,20 @@ export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
 
 
 const radarDummy = [
-  { item: 'fruity',  chardonay: 80, carmenere: 111, syrah: 35 },
-  { item: 'bitter',  chardonay: 53, carmenere: 106, syrah: 23 },
-  { item: 'heavy',   chardonay: 66, carmenere: 107, syrah: 107 },
-  { item: 'strong',  chardonay: 99, carmenere: 107, syrah: 104 },
-  { item: 'sunny',   chardonay: 61, carmenere: 43,  syrah: 28 },
+  { item: '12',  chardonay: 80, carmenere: 111, syrah: 35 },
+  { item: '10',  chardonay: 53, carmenere: 106, syrah: 23 },
+  { item: '80',   chardonay: 66, carmenere: 107, syrah: 107 },
+  { item: '60',  chardonay: 99, carmenere: 107, syrah: 104 },
+  { item: '80',   chardonay: 61, carmenere: 43,  syrah: 28 },
 ];
 
 export const RadarChart = ({
   data   = radarDummy,   // 넘겨주는 데이터가 없으면 더미 사용
-  height = 350,
+  height = '100%',
   width  = '100%',
 }) => (
   <div 
-    style={{ height, width, minWidth: 300, minHeight: 300 }}
+    style={{ height, width, }}
   >
     <ResponsiveRadar
       /* ───── 핵심 파라미터 ───── */
@@ -346,8 +346,8 @@ export const RadarChart = ({
       indexBy="item"                             // 다각형 구분 필드
 
       /* ───── 레이아웃 ───── */
-      maxValue="auto"
-      margin={{ top: 20, right: 80, bottom: 40, left: 80 }}
+      // maxValue="auto"
+      margin={{ top: 20, right: 10, bottom: 10, left: 10 }}
       gridShape="linear"
       gridLevels={8}
       curve="linearClosed"
@@ -355,12 +355,13 @@ export const RadarChart = ({
 
       /* ───── 스타일 ───── */
       colors={[ '#cf0']}
-      fillOpacity={0.3}                        
+      fillOpacity={0.5}                   
       borderWidth={2}                          
       borderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
-      dotSize={2}
+      dotSize={4}
       dotColor={{ theme: 'background' }}
       dotBorderWidth={2}
+      gridLabelOffset={8}
 
       /* ───── 모션 & 인터랙션 ───── */
       motionConfig="wobbly"

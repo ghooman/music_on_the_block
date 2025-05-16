@@ -253,7 +253,7 @@ function Album() {
 
         <section className="main__nft-market">
           <Link to="/nft" className="main__nft-market__link">
-            <span className="main__nft-market__btn-text">NFT Marketplace</span>
+            <span className="main__nft-market__link-text">NFT Marketplace</span>
           </Link>
         </section>
 

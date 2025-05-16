@@ -107,7 +107,7 @@ const SongPlayTable = ({
             <TableHeader.Col>#</TableHeader.Col>
             <TableHeader.Col>Song</TableHeader.Col>
             <TableHeader.Col>Type</TableHeader.Col>
-            <TableHeader.Col>Grade</TableHeader.Col>
+            {gradeOption && <TableHeader.Col>Grade</TableHeader.Col>}
             {nftOption && <TableHeader.Col>NFT</TableHeader.Col>}
             {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
             <TableHeader.Col>Song Title</TableHeader.Col>
@@ -147,7 +147,7 @@ const SongPlayTable = ({
                       width={40}
                     />
                     <TableItem.Type image={songTypeIcon} />
-                    <TableItem.Grade grade={item.rating} />
+                    {gradeOption && <TableItem.Grade grade={item.rating} />}
                     {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
                     {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}
                     <TableItem.Text text={item.title || item.nft_name} />

@@ -23,6 +23,7 @@ const LyricChatBot = ({
   generatedLyric,
   setGeneratedLyric,
   setPageNumber,
+  selectedVersion,
 }) => {
   const { data: userData } = useUserDetail();
   const generatedLyricsRef = useRef(null);
@@ -137,18 +138,10 @@ const LyricChatBot = ({
     }
   }, [chatHistory, loading]);
 
-  const [isActive, setIsActive] = useState(false);
-
-  const handleToggle = () => {
-    setIsActive(prev => !prev);
-  };
-
   const handleIsStatus = () => {
     setIsStatus(true);
     window.scrollTo(0, 0);
   };
-
-  const taRef = useRef < HTMLTextAreaElement > null;
 
   if (!isStatus)
     return (
@@ -243,13 +236,16 @@ const LyricChatBot = ({
         )}
 
         <div className="generated-lyrics__confirm-buttons">
-          <p
-            className={`generated-lyrics__confirm-buttons--text ${
-              generatedLyric?.length > 1000 ? 'disabled' : ''
-            }`}
-          >
-            Lyrics Length : {generatedLyric?.length} / 1000
-          </p>
+          {selectedVersion !== 'V4_5' && (
+            <p
+              className={`generated-lyrics__confirm-buttons--text ${
+                selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
+              }`}
+            >
+              Lyrics Length : {generatedLyric?.length} / 1000
+            </p>
+          )}
+
           <div className="generated-lyrics__confirm-buttons--button-wrap">
             <button
               className="generated-lyrics__confirm-buttons--button edit"
@@ -259,9 +255,9 @@ const LyricChatBot = ({
             </button>
             <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
-                generatedLyric?.length > 1000 ? '' : ''
+                selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
               }`}
-              // disabled={generatedLyric?.length > 1000}
+              disabled={selectedVersion !== 'V4_5' && generatedLyric?.length > 1000}
               onClick={() => {
                 setGeneratedLyric(generatedLyric);
                 setPageNumber(prev => prev + 1);

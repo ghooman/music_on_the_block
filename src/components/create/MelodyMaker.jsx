@@ -451,13 +451,16 @@ const MelodyMaker = ({
         <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />
         <div className="selected-tag-list">
           <div className="selected-tag-list__title">
-            <h3>Selected Tags (max_length : 200)</h3>
+            <h3>
+              Selected Tags
+              {selectedVersion !== 'V4_5' && '(max_length : 200)'}
+            </h3>
             <span>
               current length :{' '}
               <span
-              // style={{
-              //   color: valuesOnly?.length > 200 ? 'red' : 'inherit',
-              // }}
+                style={{
+                  color: selectedVersion !== 'V4_5' && valuesOnly?.length > 200 ? 'red' : 'inherit',
+                }}
               >
                 {valuesOnly?.length}
               </span>
@@ -507,11 +510,15 @@ const MelodyMaker = ({
           </button>
         </div>
         <button
-          // className={loading || valuesOnly.length > 200 || !isFormValid ? 'next' : 'next enable'}
-          className={loading || !isFormValid ? 'next' : 'next enable'}
+          className={
+            loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+              ? 'next'
+              : 'next enable'
+          }
           onClick={() => musicGenerate()}
-          // disabled={loading || valuesOnly.length > 200 || !isFormValid}
-          disabled={loading || !isFormValid}
+          disabled={
+            loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+          }
         >
           {loading ? 'Loading' : 'Generate'}
         </button>

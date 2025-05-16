@@ -40,23 +40,25 @@ const NftItems = ({ username, isMyProfile }) => {
 
   return (
     <>
-      <div className="mypage__nfts__button-wrap">
-        {nftFilterItemList.map(item => (
-          <button
-            key={item}
-            className={`mypage__nfts__button-wrap--button ${nftFilter === item ? 'selected' : ''}`}
-            onClick={() => {
-              if (nftFilter === item) return;
-              setSearchParams(prev => {
-                return { ...Object.fromEntries(prev), nft_filter: item };
-              });
-            }}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-      <ContentWrap title="NFTs list">
+      <ContentWrap title="NFTs">
+        <div className="mypage__nfts__button-wrap">
+          {nftFilterItemList.map(item => (
+            <button
+              key={item}
+              className={`mypage__nfts__button-wrap--button ${
+                nftFilter === item ? 'selected' : ''
+              }`}
+              onClick={() => {
+                if (nftFilter === item) return;
+                setSearchParams(prev => {
+                  return { ...Object.fromEntries(prev), nft_filter: item };
+                });
+              }}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
         <ContentWrap.SubWrap gap={8}>
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
           <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
@@ -67,6 +69,8 @@ const NftItems = ({ username, isMyProfile }) => {
           onCancelSuccess={() => refetch()}
           listedDateOption={nftFilter === 'Listed'}
           mintedDateOption={nftFilter === 'Unlisted'}
+          priceOption={nftFilter === 'Listed'}
+          playsOption={nftFilter === 'Unlisted'}
         />
         <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
         {isLoading && <Loading />}

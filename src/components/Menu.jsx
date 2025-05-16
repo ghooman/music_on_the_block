@@ -38,7 +38,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
-  console.log('userData', userData);
 
   const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
@@ -353,7 +352,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
               <dt className="menu__box__title">MY LIBRARY</dt>
               <dd>
                 <div className="menu__box__gnb-list">
-                  <div
+                  {/* <div
                     className={`menu__box__gnb-list__item my-page ${
                       pathname.startsWith('/my-page') ? 'active' : ''
                     }`}
@@ -366,7 +365,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     >
                       <p className="icon"></p>My Page
                     </Link>
-                  </div>
+                  </div> */}
                   <div
                     className={`menu__box__gnb-list__item my-music slide-tab ${
                       activeMenus.includes('my-music') ? 'active' : ''
@@ -376,9 +375,15 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       className="menu__box__gnb-list__item__btn"
                       onClick={() => handleSlideToggle('my-music')}
                     >
-                      <p className="icon"></p>My Music
+                      <p className="icon"></p>My Page
                     </button>
                     <ul className="menu__box__gnb-list__item__list my-music">
+                      <li
+                        className={activeSubItem === 'Songs' ? 'active' : ''}
+                        onClick={() => handleSubItemClick('Songs')}
+                      >
+                        <Link to="/my-page?category=AI+Services">AI Services</Link>
+                      </li>
                       <li
                         className={activeSubItem === 'Songs' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Songs')}
@@ -392,22 +397,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         <Link to="/my-page?category=Connections">Connections</Link>
                       </li>
                       <li
-                        className={activeSubItem === 'Favorites' ? 'active' : ''}
-                        onClick={() => handleSubItemClick('Favorites')}
+                        className={activeSubItem === 'NFTs' ? 'active' : ''}
+                        onClick={() => handleSubItemClick('NFTs')}
                       >
-                        <Link to="/my-page?category=Favorites">Favorites</Link>
-                      </li>
-                      <li
-                        className={activeSubItem === 'Albums' ? 'active' : ''}
-                        onClick={() => handleSubItemClick('Albums')}
-                      >
-                        <Link to="/my-page?category=Albums">Albums</Link>
-                      </li>
-                      <li
-                        className={activeSubItem === 'NFT MarketPlace' ? 'active' : ''}
-                        onClick={() => handleSubItemClick('NFT MarketPlace')}
-                      >
-                        <Link to="/my-page?category=NFT MarketPlace">NFT MarketPlace</Link>
+                        <Link to="/my-page?category=NFTs">NFTs</Link>
                       </li>
                     </ul>
                   </div>

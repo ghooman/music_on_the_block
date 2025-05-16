@@ -141,39 +141,43 @@ const AiServices = ({ username }) => {
 
   return (
     <>
-      {/** 차트 조작 버튼입니다. */}
-      <div className="ai__services">
-        {AiServiceTypeList?.map(item => (
-          <button
-            key={item.name}
-            className={`ai__service-btn ${selectedServiceChartItem === item.name ? 'active' : ''}`}
-            onClick={() => {
-              if (item?.preparing) {
-                setShowPreparingModal(true);
-                return;
-              }
-              setSelectedSErviceChartItem(item.name);
-            }}
-          >
-            <div className="ai__service-btn--image">
-              <img src={item.image} alt="icon" />
-            </div>
-            {item.name}
-          </button>
-        ))}
-      </div>
+      <section className="ai__ai-status">
+        <p className="ai-status__title">AI Services</p>
+        {/** 차트 조작 버튼입니다. */}
+        <div className="ai__services">
+          {AiServiceTypeList?.map(item => (
+            <button
+              key={item.name}
+              className={`ai__service-btn ${
+                selectedServiceChartItem === item.name ? 'active' : ''
+              }`}
+              onClick={() => {
+                if (item?.preparing) {
+                  setShowPreparingModal(true);
+                  return;
+                }
+                setSelectedSErviceChartItem(item.name);
+              }}
+            >
+              <div className="ai__service-btn--image">
+                <img src={item.image} alt="icon" />
+              </div>
+              {item.name}
+            </button>
+          ))}
+        </div>
 
-      {/** 콘텐츠 */}
-      <div className="ai__chart">
-        <PieChart
-          height={300}
-          width={300}
-          data={aiServiceChartData}
-          selectedItem={selectedServiceChartItem}
-          legends
-        />
-      </div>
-
+        {/** 콘텐츠 */}
+        <div className="ai__chart">
+          <PieChart
+            height={300}
+            width={300}
+            data={aiServiceChartData}
+            selectedItem={selectedServiceChartItem}
+            legends
+          />
+        </div>
+      </section>
       {/** 차트 조작 */}
       <section className="ai__ai-status">
         <p className="ai-status__title">AI Service Status</p>

@@ -375,6 +375,51 @@
             background-position: center;
             background-size: cover;
           } //swiper-music-list__item__left__img--END--
+          .swiper-music-list__item__left__grade {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            border-radius: 6px;
+            background-color: #222;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid;
+            padding: 4px 4px;
+            height: 24px;
+            gap: 4px;
+
+            &.New {
+              border-color: #ffffff;
+            }
+            &.Indie {
+              border-color: #b89334;
+            }
+            &.Rising {
+              border-color: #00d5a7;
+            }
+            &.Top {
+              border-color: #df454d;
+            }
+            &.Legend {
+              border-color: #5a9bf6;
+            }
+            .swiper-music-list__item__left__grade--image {
+              width: 16px;
+            }
+
+            .swiper-music-list__item__left__grade--section {
+              width: 1px;
+              height: 100%;
+              background-color: #565656;
+            }
+            .swiper-music-list__item__left__grade--nft {
+              color: #fff;
+              font-family: Orbitron400;
+              font-size: 10px;
+            }
+          } //swiper-music-list__item__left__grade--END--
+
           .time {
             position: absolute;
             bottom: 16px;

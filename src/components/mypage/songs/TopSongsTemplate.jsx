@@ -10,6 +10,8 @@ import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
+import './TopSongsTemplate.scss';
+
 const TopSongsTemplates = ({ topSongsData }) => {
   const topAlbumsCategoryList = [
     {
@@ -30,17 +32,17 @@ const TopSongsTemplates = ({ topSongsData }) => {
         handler={setTopAlbumsCategory}
         value={topAlbumsCategory}
       />
-      <div className="songs__body">
-        <div className="songs__item">
-          <p className="songs__item-title">Top Plays</p>
+      <div className="top-songs-template">
+        <div className="top-songs-template__item">
+          <p className="top-songs-template__item--title">Top Plays</p>
           <AlbumItem track={topSongsData?.top_plays} />
         </div>
-        <div className="songs__item">
-          <p className="songs__item-title">Top Likes</p>
+        <div className="top-songs-template__item">
+          <p className="top-songs-template__item--title">Top Likes</p>
           <AlbumItem track={topSongsData?.top_like} />
         </div>
-        <div className="songs__item">
-          <p className="songs__item-title">Top Comments</p>
+        <div className="top-songs-template__item">
+          <p className="top-songs-template__item--title">Top Comments</p>
           <AlbumItem track={topSongsData?.top_comments} />
         </div>
       </div>

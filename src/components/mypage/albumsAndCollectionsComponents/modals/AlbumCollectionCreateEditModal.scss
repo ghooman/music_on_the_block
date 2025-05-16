@@ -23,7 +23,7 @@
 
   &__image-box {
     margin-top: 8px;
-    margin-bottom: 24px;
+    // margin-bottom: 24px;
     width: 192px;
     height: 192px;
     background-color: #1b1b1b;
@@ -33,6 +33,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &__error {
+      height: 16px;
+      margin-bottom: 24px;
+    }
 
     button {
       position: absolute;
@@ -71,13 +76,15 @@
   }
 
   &__error-message {
-    text-align: center;
-    color: #ff5c63;
-    font-family: Inter600;
+    color: #df1919;
+    font-family: Inter300;
     font-size: 12px;
     font-style: normal;
     line-height: normal;
+    margin-top: 8px;
     margin-bottom: 12px;
+    line-height: 100%;
+    height: 12px;
   }
 
   &__name-box {

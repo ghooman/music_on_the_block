@@ -18,7 +18,7 @@ const enMelody = {
   },
   extraction: {
     tagRegex:
-      /Tags\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
+      /Tags\s*(?:[:\-]\s*|\()(.*?)(?:\)|(?:,\s*Song|,\s*Genre|,\s*Voice|,\s*Instruments|,\s*Tempo|,\s*Additional|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
     titleRegex:
       /Song Title\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
     genreRegex:
@@ -32,7 +32,7 @@ const enMelody = {
     detailRegex:
       /Additional Elements\/Story\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo)))/,
     promptTagRegex:
-      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tags|Tags:|\-\s*Tags|\-\s*Tags:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/i,
+      /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Tags|Tags:|\-\s*Tags|\-\s*Tags:)[\s:]*(?:\()?(.*?)(?:\)|(?:,\s*Song|,\s*Genre|,\s*Voice|,\s*Instruments|,\s*Tempo|,\s*Additional|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptTitleRegex:
       /(?:Final Prompt|Prompt|generate)(?:.*?)(?:Song Title|Song Title:|\-\s*Song Title|\-\s*Song Title:)[\s:]*(?:\()?([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/i,
     promptGenreRegex:

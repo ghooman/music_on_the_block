@@ -206,7 +206,7 @@ const AIDetailedSettings = ({
             />
           </div>
         </div>
-        <div className="input-box">
+        {/* <div className="input-box">
           <p className="input-box__title">
             Email <span>*</span>
           </p>
@@ -229,7 +229,7 @@ const AIDetailedSettings = ({
           </div>
           {passEmail && <p className="pass-txt">This email is available.</p>}
           {emailErrorMessage && <p className="err-txt">{emailErrorMessage}</p>}
-        </div>
+        </div> */}
         <div className="input-box">
           <p className="input-box__title">
             Wallet Address <span>*</span>
@@ -274,10 +274,10 @@ const AIDetailedSettings = ({
       <div className="sing-up__page-btn">
         <button
           className={`sing-up__page-btn__next ${
-            !(passName && passEmail && checks.every(Boolean)) ? 'disabled' : ''
+            !(passName && checks.every(Boolean)) ? 'disabled' : ''
           }`}
           onClick={() => {
-            if (!(passName && passEmail && checks.every(Boolean))) return;
+            if (!(passName && checks.every(Boolean))) return;
             scrollToTop();
             onNext();
           }}
@@ -394,7 +394,7 @@ function SignUp() {
       // 선택한 장르 정보를 payload에 포함
       const payload = {
         name: formData.artistName,
-        email: formData.email,
+        email: formData?.email || '',
         introduce: formData.introduction,
         wallet_address: walletAddrString,
         genre: selectedGenre,

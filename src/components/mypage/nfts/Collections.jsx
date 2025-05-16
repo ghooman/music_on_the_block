@@ -127,7 +127,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
       <ContentWrap title="Collections">
         <ContentWrap.SubWrap gap={8}>
           <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
-          <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
+          <Search placeholder="Search by collection name..." reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <AlbumCollectionItems>
           {data?.data_list.map(collections => (

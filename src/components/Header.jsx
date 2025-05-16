@@ -47,28 +47,28 @@ const Header = ({ setIsLoggedIn }) => {
           <h1>
             <Link to="/">
               <img src={mainLogo} className="logo" />
-              <div className="text-box">
+              <div className="text-box pc">
                 <div className="text-wrap">
                   <svg width={220} height={30} viewBox="0 0 220 30">
                     <text x="0" y="90%">
                       M
                     </text>
-                    <text x="22" y="90%">
+                    <text x="20" y="90%">
                       U
                     </text>
-                    <text x="42" y="90%">
+                    <text x="38" y="90%">
                       S
                     </text>
-                    <text x="62" y="90%">
+                    <text x="57" y="90%">
                       I
                     </text>
-                    <text x="70" y="90%">
+                    <text x="64" y="90%">
                       C
                     </text>
-                    <text x="96" y="90%">
+                    <text x="90" y="90%">
                       O
                     </text>
-                    <text x="116" y="90%">
+                    <text x="108" y="90%">
                       N
                     </text>
                   </svg>
@@ -76,44 +76,96 @@ const Header = ({ setIsLoggedIn }) => {
                     <text x="0" y="60%">
                       T
                     </text>
-                    <text x="18" y="60%">
+                    <text x="16" y="60%">
                       H
                     </text>
-                    <text x="38" y="60%">
+                    <text x="34" y="60%">
                       E
                     </text>
-                    <text x="64" y="60%">
+                    <text x="58" y="60%">
                       B
                     </text>
-                    <text x="84" y="60%">
+                    <text x="76" y="60%">
                       L
                     </text>
-                    <text x="104" y="60%">
+                    <text x="93" y="60%">
                       O
                     </text>
-                    <text x="124" y="60%">
+                    <text x="110" y="60%">
                       C
                     </text>
-                    <text x="144" y="60%">
+                    <text x="128" y="60%">
                       K
                     </text>
                   </svg>
                 </div>
               </div>
-              <img src={betaLogo} className="beta-logo" />
+              <div className="text-box mobile">
+                <div className="text-wrap">
+                  <svg width={110} height={22} viewBox="0 0 110 22">
+                    <text x="0" y="90%">
+                      M
+                    </text>
+                    <text x="16" y="90%">
+                      U
+                    </text>
+                    <text x="30" y="90%">
+                      S
+                    </text>
+                    <text x="45" y="90%">
+                      I
+                    </text>
+                    <text x="52" y="90%">
+                      C
+                    </text>
+                    <text x="76" y="90%">
+                      O
+                    </text>
+                    <text x="90" y="90%">
+                      N
+                    </text>
+                  </svg>
+                  <svg width={120} height={22} viewBox="0 0 120 22">
+                    <text x="0" y="60%">
+                      T
+                    </text>
+                    <text x="13" y="60%">
+                      H
+                    </text>
+                    <text x="28" y="60%">
+                      E
+                    </text>
+                    <text x="46" y="60%">
+                      B
+                    </text>
+                    <text x="60" y="60%">
+                      L
+                    </text>
+                    <text x="74" y="60%">
+                      O
+                    </text>
+                    <text x="88" y="60%">
+                      C
+                    </text>
+                    <text x="102" y="60%">
+                      K
+                    </text>
+                  </svg>
+                </div>
+              </div>
             </Link>
+            <img src={betaLogo} className="beta-logo" />
           </h1>
         </div>
+        <Menu
+          active={isActive}
+          setActive={setIsActive}
+          setPreparingModal={setPreparingModal}
+          setSignInModal={setSignInModal}
+          setLogin={setLogin}
+          login={login}
+        />
       </div>
-
-      <Menu
-        active={isActive}
-        setActive={setIsActive}
-        setPreparingModal={setPreparingModal}
-        setSignInModal={setSignInModal}
-        setLogin={setLogin}
-        login={login}
-      />
       {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       {isSignInModal && (
         <SignInModal setSignInModal={setSignInModal} setLogin={setLogin} login={login} />

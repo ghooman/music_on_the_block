@@ -9,12 +9,19 @@
   top: -100%;
 }//songs-bar-audio--END--
 
+.step1{
+  .songs-bar{
+    &.active{
+      border: 1px solid #a9d400;
+    }
+  }
+}
 
 .songs-bar{
   width: 100%;
   border-radius: 4px;
-  background: var(--Color-02, #1A1A1A);
-  padding: 16px;
+  background:#1A1A1A;
+  padding:10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,6 +29,9 @@
   cursor: pointer;
   margin-bottom: 16px;
   transition: 0.3s;
+  border: 1px solid transparent;
+  transition: 0.3s;
+
   &:hover{
     background: #232323;
     .songs-bar__play-box{

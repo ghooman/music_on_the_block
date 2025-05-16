@@ -187,15 +187,23 @@ img {
   width: 5px;
 }
 
+
+.header-flex{
+  display: flex;
+  gap: 16px;
+}
 .inner {
-  width: 100%;
-  max-width: calc(960px + 32px);
-  margin: 0 auto;
+  width: calc(100% - 246px);
+  /* width: 100%; */
+  /* max-width: calc(960px + 32px); */
+  /* margin: 0 auto; */
+  margin-left: auto;
   padding: 88px 16px 100px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   .inner {
     padding: 100px 16px 100px;
+    width: 100%;
   }
 }

@@ -17,9 +17,11 @@
     margin-bottom: 16px;
   }
   .footer__inner{
-    width:calc(960px + 16px);
-    max-width: 960px;
-    margin: 0 auto;
+    // width:calc(960px + 16px);
+    // max-width: 960px;
+    width: calc(100% - 230px);
+    // margin: 0 auto;
+    margin-left: auto;
     padding: 0 16px;
   }//footer__inner--END--
   .footer__top{

@@ -54,7 +54,7 @@ const BeginNowBtn = () => {
   return (
     <>
       <Link 
-        to='/'
+        to='/evaluation-begin'
         className='begin-now-btn'
       >Begin Now
       </Link>

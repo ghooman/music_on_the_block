@@ -201,7 +201,7 @@ img {
   padding: 88px 16px 100px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   .inner {
     padding: 100px 16px 100px;
     width: 100%;

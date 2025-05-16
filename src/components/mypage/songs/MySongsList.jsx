@@ -8,7 +8,7 @@ import axios from 'axios';
 import { GetMyTopAlbumList } from '../../../api/GetMyTopAlbumList';
 import { getReleaseAndUnReleaseSongData } from '../../../api/getReleaseAndUnReleaseSongData';
 
-import TopSongsTemplates from './TopSongsTeplates';
+import TopSongsTemplate from './TopSongsTemplate';
 import ContentWrap from '../../unit/ContentWrap';
 import SubCategories from '../../unit/SubCategories';
 import Filter from '../../unit/Filter';
@@ -101,7 +101,7 @@ const MySongsList = ({ token }) => {
 
   return (
     <div className="songs">
-      <TopSongsTemplates topSongsData={topSongsData} />
+      <TopSongsTemplate topSongsData={topSongsData} />
       <ContentWrap title="Song List">
         <SubCategories
           categories={myAlbumsCategoryList}
@@ -124,11 +124,11 @@ const MySongsList = ({ token }) => {
           gradeOption={releaseType === 'Released'}
           nftOption={releaseType === 'Released'}
           mintOption={releaseType === 'Released'}
+          playsOption={releaseType === 'Released'}
+          likesOption={releaseType === 'Released'}
           handleDelete={setDeleteMusic}
           handleRelease={setReleaseMusic}
           handleMint={handleMint}
-          playsOption={true}
-          likesOption={true}
           artistOption={false}
         />
         <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />

@@ -18,6 +18,7 @@ import AlbumItem from '../components/unit/AlbumItem';
 import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
 import { getTransaction } from '../api/Transaction';
+import { getSongsGradeIcon } from '../utils/getGradeIcon';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -463,6 +464,19 @@ const ListSlider = ({
                   ? `${formatTime(currentTime)}`
                   : formatTime(track.duration)}
               </span>
+              <div className={`swiper-music-list__item__left__grade ${track.rating}`}>
+                <img
+                  className="swiper-music-list__item__left__grade--image"
+                  src={getSongsGradeIcon(track.rating)}
+                  alt="icon"
+                />
+                {track?.is_nft && (
+                  <>
+                    <div className="swiper-music-list__item__left__grade--section"></div>
+                    <p className="swiper-music-list__item__left__grade--nft">NFT</p>
+                  </>
+                )}
+              </div>
             </div>
             <div className="swiper-music-list__item__right">
               <p className="swiper-music-list__item__right__title">{track.title}</p>

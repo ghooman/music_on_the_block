@@ -8,7 +8,7 @@ import Pagination from '../../unit/Pagination';
 import Search from '../../unit/Search';
 import SongPlayTable from '../../table/SongPlayTable';
 import Loading from '../../../components/IntroLogo2';
-import TopSongsTemplates from './TopSongsTeplates';
+import TopSongsTemplate from './TopSongsTemplate';
 
 import './Songs.scss';
 
@@ -46,7 +46,7 @@ const UserSongsList = ({ username }) => {
 
   return (
     <div className="songs">
-      <TopSongsTemplates topSongsData={topSongsData} />
+      <TopSongsTemplate topSongsData={topSongsData} />
       <ContentWrap title="Song List">
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />

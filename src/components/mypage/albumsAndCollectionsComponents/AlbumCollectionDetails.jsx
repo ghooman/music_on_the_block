@@ -122,7 +122,7 @@ const AlbumCollectionDetails = ({
           </article>
         </section>
         <section className="album-collection-detail-page__box__body">
-          <ContentWrap title="Favorites" border={false}>
+          <ContentWrap border={false}>
             <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
             <ContentWrap.SubWrap gap={8}>
               <div className="album-collection-detail-page__box__body__edit">

@@ -16,7 +16,8 @@ const AlbumCollectionDeleteConfirmModal = ({
         <p className="album-collection-module-delete-confirm-modal__message">
           This action cannot be undone
           <br />
-          All tracks in this album will also be permanently deleted.
+          All {target === 'Collection' ? 'nfts' : 'tracks'} in this {target?.toLowerCase()} will
+          also be permanently deleted.
         </p>
         <p className="album-collection-module-delete-confirm-modal__message">
           Are you sure want to delete

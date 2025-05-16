@@ -10,13 +10,12 @@ import SubCategories from '../../unit/SubCategories';
 import NftItems from './NftItems';
 import History from './History';
 import Collections from './Collections';
-import SuccessModal from '../../modal/SuccessModal';
 
 // Assets & Styles
 import './NFTs.scss';
 
 const subCategoryList = [
-  { name: 'NFT items', preparing: false },
+  { name: 'NFTs', preparing: false },
   { name: 'Collections', preparing: false },
   { name: 'History', preparing: false },
 ];
@@ -48,7 +47,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
         }}
         value={tab}
       />
-      {tab === 'NFT items' && (
+      {tab === 'NFTs' && (
         <NftItems
           token={token}
           walletAddress={walletAddress}

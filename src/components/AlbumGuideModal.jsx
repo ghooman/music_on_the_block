@@ -39,10 +39,8 @@ const AlbumGuideModal = ({ setAlbumGuideModal }) => {
           (Connect your wallet and proceed with payment.)
         </GuideItem>
         <p className="album-guide-modal__text">
-          **If you purchase an NFT created by another user :
-          <br />→ The NFT will be stored in your wallet as a "minted" item.
-          <br />
-          If you wish to sell it, you must manually list (sell) it yourself
+          → The purchased NFT will be stored in your wallet in a "minted" state. If you wish to sell
+          it, you must manually list it using the Sell process.
         </p>
         <button className="album-guide-modal__button" onClick={onClose}>
           OK

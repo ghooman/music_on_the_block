@@ -52,12 +52,47 @@
   }
 }
 
+.song-play-edit-table-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.song-play-edit-table-add-delete-button {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .button-item {
+    display: flex;
+    gap: 4px;
+    padding: 15px;
+    color: #fff;
+    font-family: Orbitron500;
+    font-size: 14px;
+    background-color: #222;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    &.add-button {
+      img {
+        transform: rotate(-90deg);
+      }
+    }
+    &.delete-button {
+      img {
+        transform: rotate(90deg);
+      }
+    }
+  }
+}
+
 .song-play-edit-table {
   flex: 1;
+  width: 100%;
   .song-play-edit-table__selected {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
     @include fonts(18px, 500, #f1f1f1);
   }
   .song-play-edit-table__selected--numbers {
@@ -121,19 +156,35 @@
     }
 
     &.head-song,
-    &.body-song {
+    &.head-grade,
+    &.head-type,
+    &.body-song,
+    &.body-grade,
+    &.body-type {
       display: flex;
       justify-content: center;
       width: 80px;
     }
 
+    &.body-grade,
+    &.body-type {
+      img {
+        @include images(20px, 20px);
+      }
+    }
+
     &.head-title,
-    &.body-title {
+    &.body-title,
+    &.head-item,
+    &.body-item {
       flex: 1;
     }
 
     &.head-song,
-    &.head-title {
+    &.head-grade,
+    &.head-type,
+    &.head-title,
+    &.head-item {
       text-align: center;
       @include fonts(14px, 400, #a9d400);
     }
@@ -229,6 +280,17 @@
         }
       }
     }
+
+    &.body-item {
+      @include fonts(14px, 400, #aaa);
+      text-align: center;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* 최대 2줄 */
+      -webkit-box-orient: vertical;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   @keyframes loading-wave-animation {
@@ -298,4 +360,27 @@
   //     }
   //   }
   // }
+}
+
+@media screen and (max-width: 768px) {
+  .song-play-edit-table-wrapper {
+    flex-direction: column;
+  }
+  .song-play-edit-table-add-delete-button {
+    flex-direction: row;
+    .button-item {
+      width: 100px;
+      &.add-button {
+        flex-direction: row-reverse;
+        img {
+          transform: rotate(0deg);
+        }
+      }
+      &.delete-button {
+        img {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
 }

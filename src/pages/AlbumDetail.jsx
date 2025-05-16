@@ -328,7 +328,6 @@ function AlbumDetail() {
         Authorization: `Bearer ${token}`,
       },
     });
-    fetchAlbumDetail();
   };
 
   // useEffect를 사용하여 ThirdWeb 버튼을 참조
@@ -352,25 +351,25 @@ function AlbumDetail() {
   let create_version = '';
   switch (album?.ai_model) {
     case 'topmediai':
-      create_version = 'L&S One (v1.0)';
+      create_version = 'L&S One (V1.0)';
       break;
     case 'mureka-5.5':
-      create_version = 'L&S Pro (v2.0)';
+      create_version = 'L&S Pro (V2.0)';
       break;
     case 'mureka-6':
-      create_version = 'L&S Pro (v2.0)';
+      create_version = 'L&S Pro (V2.0)';
       break;
     case 'V3.5':
-      create_version = 'L&S Plus (v2.2)';
+      create_version = 'L&S Plus (V2.2)';
       break;
     case 'V4':
-      create_version = 'L&S Plus (v2.2)';
+      create_version = 'L&S Plus (V2.2)';
       break;
     case 'V4_5':
-      create_version = 'L&S Plus (v2.2)';
+      create_version = 'L&S Plus (V2.2)';
       break;
     default:
-      create_version = 'L&S One (v1.0)';
+      create_version = 'L&S One (V1.0)';
       break;
   }
   return (
@@ -391,13 +390,12 @@ function AlbumDetail() {
 
       <div className="song-detail">
         <dl className="album-detail__title">
-          <dt>AI Lyrics & Songwriting</dt>
-          <dd>Lyrics+Songwriting</dd>
+          <dt>Song Details</dt>
         </dl>
         <section className="album-detail__song-detail">
           <div className="album-detail__song-detail__title-box">
-            <p className="album-detail__song-detail__title">Song Details</p>
-            <p className="album-detail__song-detail__right__version">{create_version}</p>
+            {/* <p className="album-detail__song-detail__title">Song Details</p> */}
+            {/* <p className="album-detail__song-detail__right__version">{create_version}</p> */}
           </div>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
@@ -551,6 +549,7 @@ function AlbumDetail() {
             <div className="album-detail__song-detail__right">
               <div className="album-detail__song-detail__right__box">
                 <p className="album-detail__song-detail__right__title">{album?.title}</p>
+                <p className="album-detail__song-detail__right__version">{create_version}</p>
               </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (
@@ -560,10 +559,6 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
-                <dl>
-                  <dt>Detail</dt>
-                  <dd>{album?.detail || '-'}</dd>
-                </dl>
                 <dl>
                   <dt>Language</dt>
                   <dd>{album?.language || '-'}</dd>
@@ -587,6 +582,10 @@ function AlbumDetail() {
                 <dl>
                   <dt>Tempo</dt>
                   <dd>{album?.tempo || '-'}</dd>
+                </dl>
+                <dl>
+                  <dt>Detail</dt>
+                  <dd>{album?.detail || '-'}</dd>
                 </dl>
                 <dl>
                   <dt>Creation Date</dt>
@@ -772,6 +771,7 @@ function AlbumDetail() {
           songData={album}
           setter={setIsReleaseModal}
           releaseHandler={handleRelease}
+          action={() => fetchAlbumDetail()}
         />
       )}
       {albumGuideModal && <AlbumGuideModal setAlbumGuideModal={setAlbumGuideModal} />}
@@ -787,7 +787,7 @@ function AlbumDetail() {
           setShowSuccessModal={() => null}
           // onSuccess={() => {
           //   if (nftAction === 'buy') {
-          //     navigate(`/my-page?category=NFT+MarketPlace&tab=History&page=1`);
+          //     navigate(`/my-page?category=NFTs&tab=History&page=1`);
           //   } else if (nftAction === 'mint') {
           //     fetchAlbumDetail();
           //   }

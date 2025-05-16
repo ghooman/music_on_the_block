@@ -49,7 +49,54 @@ export const createNftCollection = async (token, formData) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error('API 호출 실패: NFTS 컬렉션 생성 실패');
+    throw new Error('API 호출 실패: NFTS 컬렉션 생성 실패' + error);
+  }
+};
+
+/**
+ * NFTS 컬렉션 수정 API 호출
+ * param {string} token - 인증 토큰
+ * param {FormData} formData - 컬렉션 수정 정보
+ * param {string | number} collectionsId - 수정할 컬렉션의 ID
+ * returns {Promise} axios POST 요청 반환
+ */
+
+export const updateNftCollection = async (token, formData, collectionsId) => {
+  try {
+    const response = await axios.post(
+      `${serverApi}/api/nfts/collections/${collectionsId}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('API 호출 실패: NFTS 컬렉션 수정 실패' + error);
+  }
+};
+
+/**
+ * NFTS 컬렉션 삭제 API 호출
+ * param {string} token - 인증 토큰
+ * param {string | number} collectionsId - 수정할 컬렉션의 ID
+ * returns {Promise} axios POST 요청 반환
+ */
+
+export const deleteNftCollection = async (token, collectionsId) => {
+  try {
+    const response = await axios.delete(`${serverApi}/api/nfts/collections/${collectionsId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('API 호출 실패 : NFTS 컬렉션 삭제 실패' + error);
   }
 };
 
@@ -144,6 +191,43 @@ export const getNftCollectionNftList = async ({
       sales_token,
       now_sales_status,
     },
+  });
+
+  return response.data;
+};
+
+/**
+ * 컬렉션 없는 nft 리스트 가져오는 api
+ * param {number} page - 페이지 번호
+ * param {string} ai_service - 서비스 타입
+ * param {string} nft_rating - 평점
+ * param {string} salse_token - 판매 토큰
+ * param {string} sort_by - 정렬 기준
+ * param {string} search_keyword - 검색어
+ * returns {Promise} axios GET 요청 반환
+ */
+
+export const getNftNoCollectionNftList = async ({
+  token,
+  page,
+  now_sales_status,
+  ai_service,
+  nft_rating,
+  sales_token,
+  sort_by,
+  search_keyword,
+}) => {
+  const response = await axios.get(`${serverApi}/api/nfts/no/collection/list`, {
+    params: {
+      page,
+      now_sales_status,
+      ai_service,
+      nft_rating,
+      sales_token,
+      sort_by,
+      search_keyword,
+    },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   return response.data;

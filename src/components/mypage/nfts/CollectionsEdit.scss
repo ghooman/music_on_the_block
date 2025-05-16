@@ -1,0 +1,43 @@
+.collection-edit {
+  .collection-edit__title {
+    color: #cf0;
+    font-family: Orbitron600;
+    font-size: 30px;
+  }
+  .collection-edit__collection-name {
+    color: #f1f1f1;
+    font-family: Orbitron500;
+    font-size: 20px;
+  }
+  .collection-edit__edit-btn {
+    margin-left: auto;
+    height: 40px;
+    width: 120px;
+    border-radius: 12px;
+    background-color: #cf0;
+    position: relative;
+    transition: 0.2s all;
+    top: 0px;
+    color: #1a1a1a;
+    font-family: Orbitron600;
+
+    &:hover {
+      top: 4px;
+      &::before {
+        top: 0px;
+      }
+    }
+
+    &::before {
+      content: '';
+      border-radius: 12px;
+      border: 1px solid #cf0;
+      position: absolute;
+      top: 4px;
+      left: 0;
+      height: calc(100% - 1px);
+      width: calc(100% - 2px);
+      transition: 0.2s all;
+    }
+  }
+}

@@ -113,6 +113,52 @@
     } //album__content-list__see-more-btn--END--
   } //album__content-list--END--
 
+  .main__nft-market {
+    width: 100%;
+    margin: 50px 0;
+
+    .main__nft-market__link {
+      display: block;
+      position: relative;
+      height: 100px;
+      background: url('../assets/images/intro/intro__nft-bg.png') center no-repeat;
+      background-size: cover;
+      border-radius: 8px;
+      // border: 1px solid #;
+      &:hover {
+        .main__nft-market__btn-text {
+          right: 32px;
+        }
+      }
+      .main__nft-market__link-text {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: 1;
+        color: #cf0;
+        text-align: center;
+        font-family: Inter700;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 0%; /* 0px */
+        transition: 0.3s;
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: -16px;
+          right: 0;
+          width: 400px;
+          height: 30px;
+          background: url('../assets/images/intro/nft_arr.svg') center no-repeat;
+          background-size: 100% 100%;
+          transition: 0.3s;
+        }
+      } //intro__nft-market__btn--END--
+    }
+  }
+
   .main__stats {
     width: 100%;
     display: flex;
@@ -191,14 +237,13 @@
   } //main__st.main__stats--END--
 
   .album__slide {
-    padding: 50px 16px;
+    padding: 0 16px 50px;
     .album__slide__title {
       color: #cf0;
       font-family: Orbitron400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
-      margin: 32px 0 0;
       position: relative;
       display: inline-block;
       &::after {
@@ -580,6 +625,17 @@
       }
       .album__content-list__list {
         grid-template-columns: repeat(1, 1fr);
+      }
+    }
+
+    .main__nft-market {
+      .main__nft-market__link {
+        .main__nft-market__link-text {
+          &::before {
+            width: 300px;
+            background-size: contain;
+          }
+        }
       }
     }
   }

@@ -224,11 +224,28 @@
               }
             }
           } //album-detail__song-detail__left__info__number--END--
-          .album-detail__song-detail__left__info__share-btn {
-            padding: 4px 6px;
-            border-radius: 6px;
-            background-color: #222;
-            height: 32px;
+          .album-detail__song-detail__left__info__btn-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            .album-detail__song-detail__left__info__txid-btn {
+              display: flex;
+              width: 70px;
+              padding: 4px 6px;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              gap: 8px;
+              align-self: stretch;
+              border-radius: 6px;
+              background: var(--Color-03, #222);
+            }
+            .album-detail__song-detail__left__info__share-btn {
+              padding: 4px 6px;
+              border-radius: 6px;
+              background-color: #222;
+              height: 32px;
+            }
           }
         } //album-detail__song-detail__left__info--END--
       } //album-detail__song-detail__left--END--

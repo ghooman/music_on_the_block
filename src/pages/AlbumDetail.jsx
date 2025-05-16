@@ -538,12 +538,15 @@ function AlbumDetail() {
                     )}
                   </div>
                 )}
-                <button
-                  className="album-detail__song-detail__left__info__share-btn"
-                  onClick={() => setShareModal(true)}
-                >
-                  <img src={shareIcon} alt="share Icon" />
-                </button>
+                <div className="album-detail__song-detail__left__info__btn-box">
+                  <button className="album-detail__song-detail__left__info__txid-btn">TXID</button>
+                  <button
+                    className="album-detail__song-detail__left__info__share-btn"
+                    onClick={() => setShareModal(true)}
+                  >
+                    <img src={shareIcon} alt="share Icon" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="album-detail__song-detail__right">

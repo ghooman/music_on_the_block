@@ -271,9 +271,14 @@ const NftItemDetailInfo = ({ id }) => {
                     <p className="nfts-text">NFT</p>
                   </p>
                 </div>
-                <p className="share" onClick={() => setIsShareModal(true)}>
-                  <img src={shareIcon} alt="share" />
-                </p>
+                <div className="nft-item-detail__song-detail__left__info__btn-box">
+                  <button className="nft-item-detail__song-detail__left__info__txid-btn">
+                    TXID
+                  </button>
+                  <button className="share" onClick={() => setIsShareModal(true)}>
+                    <img src={shareIcon} alt="share" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="nft-item-detail__song-detail__right">

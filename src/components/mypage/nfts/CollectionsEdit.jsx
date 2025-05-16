@@ -13,7 +13,10 @@ import SubCategories from '../../unit/SubCategories';
 
 import { AuthContext } from '../../../contexts/AuthContext';
 import { useInfiniteQuery } from 'react-query';
-import { getNftNoCollectionNftList } from '../../../api/nfts/nftCollectionsApi';
+import {
+  getNftCollectionDetail,
+  getNftNoCollectionNftList,
+} from '../../../api/nfts/nftCollectionsApi';
 
 import lyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
 import coverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
@@ -49,21 +52,14 @@ const CollectionsEdit = () => {
   //================
   const getCollectionDetail = async () => {
     try {
-      const res = await axios.get(`${serverApi}/api/nfts/collections/${id}`, {
-        params: {
-          wallet_address: walletAddress?.address,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await getNftCollectionDetail({ id, wallet_address: walletAddress?.address });
 
-      if (!res.data.data.is_owner) {
+      if (!res.data.is_owner) {
         alert('Invalid access!');
         navigate('/');
       }
-      setSelectedList(res?.data?.data?.nft_list);
-      setCollectionName(res?.data?.data?.name);
+      setSelectedList(res?.data?.nft_list);
+      setCollectionName(res?.data?.name);
     } catch (e) {
       alert(e?.response?.data?.detail || e.message);
       navigate('/');

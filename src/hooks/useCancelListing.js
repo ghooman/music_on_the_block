@@ -14,7 +14,10 @@ export const useCancelListing = () => {
         params: [listingId],
       });
       const receipt = await sendAndConfirmTransaction(transaction);
+      const transactionHash = receipt?.transactionHash;
       console.log('cancelListing receipt:', receipt);
+
+      return transactionHash;
     } catch (error) {
       console.error('Error during cancelListing:', error.message);
       throw error;

@@ -15,8 +15,6 @@ const GetStarted = ({
 }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
-  console.log('selectedVersion', selectedVersion);
-
   const handleWalletConnect = (loggedIn, walletAddress) => {
     setIsLoggedIn(loggedIn);
     if (loggedIn && walletAddress) {

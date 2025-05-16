@@ -249,6 +249,13 @@ function Album() {
           setPreparingModal={setPreparingModal}
           audioRef={audioRef}
         />
+
+        <section className="main__nft-market">
+          <Link to="/nft" className="main__nft-market__link">
+            <span className="main__nft-market__btn-text">NFT Marketplace</span>
+          </Link>
+        </section>
+
         <ListSlider
           hitMusicList={hitList}
           currentTime={currentTime}

@@ -55,8 +55,8 @@ const MyProfile = () => {
   const serviceTabObj = [
     { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
-    { name: 'Connections', preparing: false },
     { name: 'NFTs', preparing: false },
+    { name: 'Connections', preparing: false },
   ];
 
   const handleTab = tab => {

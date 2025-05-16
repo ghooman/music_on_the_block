@@ -65,9 +65,9 @@ function App() {
           <div className="App">
             <title>MUSIC ON THE BLOCK</title>
             <Routes>
-              {/* <Route path="/" element={<Intro />} /> 인트로에는 헤더 X */}
+              <Route path="/" element={<Intro />} /> 인트로에는 헤더 X
               <Route
-                path="/"
+                path="/main"
                 element={
                   <Layout>
                     <Album />

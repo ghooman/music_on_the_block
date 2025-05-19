@@ -140,6 +140,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
               {isLoggedIn && (
                 <>
                   <div className="menu__box__my-page">
+                    {/* <div className="menu__box__my-page__level">
+                      <p className="level">Level</p>
+                      <p className="menu__box__my-page__level__img">
+                        {getUserGradeSquareIcon(userData?.user_rating) && (
+                          <img
+                            src={getUserGradeSquareIcon(userData?.user_rating)}
+                            alt="level icon"
+                          />
+                        )}
+                      </p>
+                      <p className="grade">{userData?.user_rating}</p>
+                    </div> */}
                     <div className="menu__box__my-page__info">
                       <div className="menu__box__my-page__info__top">
                         <p

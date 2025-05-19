@@ -23,6 +23,14 @@ import { getSongsGradeIcon } from '../utils/getGradeIcon';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
+  const userLang = navigator.language;
+  if (userLang.startsWith('ko')) {
+    console.log('한국어');
+  } else {
+    console.log('영어');
+  }
+
+  console.log('userLang', userLang);
   const { token, walletAddress } = useContext(AuthContext);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');

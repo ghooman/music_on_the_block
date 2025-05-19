@@ -80,7 +80,7 @@
       overflow: hidden;
       background-color: #222;
       border-radius: 4px;
-      padding: 2px;
+      padding: 2px 6px 2px 2px;
       border: 1px solid #383838;
       img {
         height: 90%;
@@ -242,7 +242,7 @@
   .album__content-list__list__item {
     .album__content-list__list__item__right {
       .album__content-list__list__item__right__title {
-        width: auto;
+        // width: auto;
       }
     }
   }

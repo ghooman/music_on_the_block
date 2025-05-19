@@ -142,10 +142,10 @@ const AlbumCollectionDetails = ({
                 )}
               </div>
 
-              {dataList.length > 1 && target === 'Collection' && (
+              {dataList.length > 0 && target === 'Collection' && (
                 <NftTable nftList={dataList} dateOption={false} priceOption={false} />
               )}
-              {dataList.length > 1 && target === 'Album' && (
+              {dataList.length > 0 && target === 'Album' && (
                 <SongPlayTable
                   songList={dataList}
                   activeSong={activeSong}

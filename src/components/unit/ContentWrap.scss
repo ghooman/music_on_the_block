@@ -1,9 +1,12 @@
 .unit-component-content-wrap {
-  padding: 16px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    &.none-padding{
+        padding:16px 0;
+    }
 
   .unit-component-content-wrap__title {
     display: flex;

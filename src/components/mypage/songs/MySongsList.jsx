@@ -154,7 +154,7 @@ const MySongsList = ({ token }) => {
               'songs_list',
               { token, page, songsSort, search, releaseType },
             ]);
-            navigate('/my-page?category=Songs&release_type=Released+songs&page=1');
+            navigate('/my-page?category=Songs&release_type=Released&page=1');
           }}
         />
       )}

@@ -421,3 +421,19 @@
     }
   }
 }
+
+@media screen and (max-width: 500px) {
+  .full-evaluation{
+    .full-evaluation__feed-back{
+      flex-direction: column;
+      .full-evaluation__feed-back__human{
+        width: 100%;
+      }
+      .full-evaluation__feed-back__txt{
+        width: 100%;
+      }
+    }
+  }
+}
+
+

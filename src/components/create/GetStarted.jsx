@@ -13,6 +13,10 @@ const GetStarted = ({
   setSelectedLanguage,
   setSelectedVersion,
   selectedVersion,
+  selectedPrivacy,
+  setSelectedPrivacy,
+  selectedCreationMode,
+  setSelectedCreationMode,
 }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -69,11 +73,11 @@ const GetStarted = ({
       setSelectedVersion('topmediai');
     }
   };
-
+  // radio 버튼 상태
   return (
     <div className="create__get-started">
       <h1 className="create__get-started--title">Create Your Own Song With AI</h1>
-      <h2 className="create__get-started--subtitle">
+      {/* <h2 className="create__get-started--subtitle">
         Turn your ideas into beautiful lyrics and melodies with the power of AI
       </h2>
       <div className="create__get-started--features">
@@ -99,8 +103,66 @@ const GetStarted = ({
           <h3 className="create__get-started--features-title">Precision</h3>
           <p className="create__get-started--features-item ">--%</p>
         </div>
-      </div>
+      </div> */}
       <RemainCountButton createPossibleCount={createPossibleCount} />
+
+      <div className="create__get-started--radio-box">
+        <div className="created__get-started--privacy">
+          <h3>Privacy</h3>
+          <div className="creation-mode-options">
+            <div className="privacy-option">
+              <input
+                type="radio"
+                id="release"
+                name="privacy"
+                value="release"
+                checked={selectedPrivacy === 'release'}
+                onChange={e => setSelectedPrivacy(e.target.value)}
+              />
+              <label htmlFor="release">Release</label>
+            </div>
+            <div className="privacy-option">
+              <input
+                type="radio"
+                id="unrelease"
+                name="privacy"
+                value="unrelease"
+                checked={selectedPrivacy === 'unrelease'}
+                onChange={e => setSelectedPrivacy(e.target.value)}
+              />
+              <label htmlFor="unrelease">Unrelease</label>
+            </div>
+          </div>
+        </div>
+
+        <div className="created__get-started--creation-mode">
+          <h3>Creation Mode</h3>
+          <div className="creation-mode-options">
+            <div className="privacy-option">
+              <input
+                type="radio"
+                id="song"
+                name="creationMode"
+                value="song"
+                checked={selectedCreationMode === 'song'}
+                onChange={e => setSelectedCreationMode(e.target.value)}
+              />
+              <label htmlFor="song">Song</label>
+            </div>
+            <div className="privacy-option">
+              <input
+                type="radio"
+                id="bgm"
+                name="creationMode"
+                value="bgm"
+                checked={selectedCreationMode === 'bgm'}
+                onChange={e => setSelectedCreationMode(e.target.value)}
+              />
+              <label htmlFor="bgm">BGM</label>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className={`create__get-started--version${open ? ' active' : ''}`}>
         <p className="create__get-started--version__title">&lt;Ai Version&gt;</p>

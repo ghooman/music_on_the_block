@@ -27,6 +27,8 @@ const Create = () => {
   const [finalPrompt, setFinalPrompt] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState('V4_5');
+  const [selectedPrivacy, setSelectedPrivacy] = useState('release');
+  const [selectedCreationMode, setSelectedCreationMode] = useState('song');
   const { data: userData, refetch } = useUserDetail();
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
@@ -128,6 +130,10 @@ const Create = () => {
           setSelectedLanguage={setSelectedLanguage}
           setSelectedVersion={setSelectedVersion}
           selectedVersion={selectedVersion}
+          selectedPrivacy={selectedPrivacy}
+          setSelectedPrivacy={setSelectedPrivacy}
+          selectedCreationMode={selectedCreationMode}
+          setSelectedCreationMode={setSelectedCreationMode}
         />
         {showErrorModal && (
           <ErrorModal

@@ -16,6 +16,7 @@ import PreparingModal from '../../PreparingModal';
 import SubCategories from '../../unit/SubCategories';
 import { BarChart, LineChart, PieChart } from '../../unit/Chart';
 import { formatLocalTime } from '../../../utils/getFormattedTime';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -31,6 +32,8 @@ const AiStatusList = [
 ];
 
 const AiServices = ({ username }) => {
+  const { t } = useTranslation('my_page');
+
   const [openModal, setOpenModal] = useState(false);
   const [showPreparingModal, setShowPreparingModal] = useState(false);
 
@@ -142,7 +145,7 @@ const AiServices = ({ username }) => {
   return (
     <>
       <section className="ai__ai-status">
-        <p className="ai-status__title">AI Services</p>
+        <p className="ai-status__title">{t('AI Services')}</p>
         {/** 차트 조작 버튼입니다. */}
         <div className="ai__services">
           {AiServiceTypeList?.map(item => (
@@ -162,7 +165,7 @@ const AiServices = ({ username }) => {
               <div className="ai__service-btn--image">
                 <img src={item.image} alt="icon" />
               </div>
-              {item.name}
+              {t(item.name)}
             </button>
           ))}
         </div>
@@ -180,7 +183,7 @@ const AiServices = ({ username }) => {
       </section>
       {/** 차트 조작 */}
       <section className="ai__ai-status">
-        <p className="ai-status__title">AI Service Status</p>
+        <p className="ai-status__title">{t('AI Service Status')}</p>
         <SubCategories
           categories={AiStatusList}
           handler={setSelectedStatusItem}
@@ -198,38 +201,38 @@ const AiServices = ({ username }) => {
             />
           </div>
           <div className="ai-status__detail">
-            <p className="ai-status__detail-title">AI Service Details</p>
+            <p className="ai-status__detail-title">{t('AI Service Details')}</p>
             <div className="ai-status__detail-box">
               <div className="ai-status__detail-item">
-                <p className="detail-item__title">Top Genre</p>
+                <p className="detail-item__title">{t('Top Genre')}</p>
                 <p className="detail-item__value">{aiStatusData?.top_type || '-'}</p>
               </div>
               <div className="ai-status__detail-item">
-                <p className="detail-item__title">Total Creation</p>
+                <p className="detail-item__title">{t('Total Creation')}</p>
                 <p className="detail-item__value">
                   {aiStatusData?.total_creation?.toLocaleString() || '-'}
                 </p>
               </div>
               <div className="ai-status__detail-item">
-                <p className="detail-item__title">Total Earn</p>
+                <p className="detail-item__title">{t('Total Earn')}</p>
                 <p className="detail-item__value">
                   {aiStatusData?.total_earn?.toLocaleString() || '-'} MIC
                 </p>
               </div>
               <div className="ai-status__detail-item">
-                <p className="detail-item__title">Total Likes</p>
+                <p className="detail-item__title">{t('Total Likes')}</p>
                 <p className="detail-item__value">
                   {aiStatusData?.total_likes?.toLocaleString() || '-'}
                 </p>
               </div>
               <div className="ai-status__detail-item">
-                <p className="detail-item__title">Total Plays</p>
+                <p className="detail-item__title">{t('Total Plays')}</p>
                 <p className="detail-item__value">
                   {aiStatusData?.total_plays?.toLocaleString() || '-'}
                 </p>
               </div>
               <div className="ai-status__detail-item">
-                <p className="detail-item__title">Last Used Date</p>
+                <p className="detail-item__title">{t('Last Used Date')}</p>
                 <p className="detail-item__value">
                   {aiStatusData?.last_used_date
                     ? formatLocalTime(aiStatusData?.last_used_date)
@@ -242,15 +245,15 @@ const AiServices = ({ username }) => {
       </section>
 
       <section className="ai__period">
-        <p className="period__title">Graph List</p>
+        <p className="period__title">{t('Graph List')}</p>
         <div className="period__menu"></div>
         <div className="period__chart">
           <div className="period__chart--item">
-            <p>Song Grade Distribution</p>
+            <p>{t('Song Grade Distribution')}</p>
             {dailyUsageData && <LineChart data={dailyUsageData} />}
           </div>
           <div className="period__chart--item">
-            <p>Al Work Trends By Period (7-Dats Fixed)</p>
+            <p>{t('AI Work Trends By Period (7-Dates Fixed)')}</p>
             {songRatingCountData && <BarChart data={songRatingCountData} />}
           </div>
         </div>

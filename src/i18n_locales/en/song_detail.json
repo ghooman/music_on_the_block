@@ -1,4 +1,5 @@
 {
+ "Song Details": null,
  "Language": null,
  "Genre": null,
  "Gender": null,
@@ -15,7 +16,7 @@
  "Sell": null,
  "Cancel": null,
  "Comments": null,
- "Write comment...": null,
+ "Write a comment": null,
  "Post": null,
  "seconds ago": null,
  "Reply": null,
@@ -27,7 +28,7 @@
  "Type your reply here": null,
  "No comments here. Be the first one to comment!": null,
  "Songs Leaderboard Rank": null,
- "Mose Plays": null,
+ "Most Plays": null,
  "Song Title": null,
  "Plays": null,
  "Likes": null,

@@ -17,6 +17,7 @@ import '../styles/Create.scss';
 import { getCreatePossibleCount } from '../api/getCreatePossibleCount';
 import { useUserDetail } from '../hooks/useUserDetail';
 import ErrorModal from '../components/modal/ErrorModal';
+import { useTranslation } from 'react-i18next';
 
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
@@ -250,10 +251,14 @@ const Create = () => {
 export default Create;
 
 const Title = () => {
-  return <h1 className="title">Recommended Music Source</h1>;
+  const { t } = useTranslation('song_create');
+
+  return <h1 className="title">{t('Recommended Music Source')}</h1>;
 };
 
 const Progress = ({ pageNumber }) => {
+  const { t } = useTranslation('song_create');
+
   const pages = [
     'Lyrics Lab',
     'Melody Maker',
@@ -267,7 +272,7 @@ const Progress = ({ pageNumber }) => {
         <React.Fragment key={item}>
           <div className="progress__item">
             <div className={`progress__square ${pageNumber >= index ? 'enable' : ''}`}></div>
-            <p className={`progress__text ${pageNumber >= index ? 'enable' : ''}`}>{item}</p>
+            <p className={`progress__text ${pageNumber >= index ? 'enable' : ''}`}>{t(item)}</p>
           </div>
           {length - 1 > index && (
             <span className={`progress__arrow ${pageNumber >= index ? 'enable' : ''}`}></span>

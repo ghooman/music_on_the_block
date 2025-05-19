@@ -19,7 +19,10 @@ import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { useTokenBalance } from '../hooks/useTokenBalance';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
+import { useTranslation } from 'react-i18next';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
+  const { t } = useTranslation('main');
+
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
@@ -140,7 +143,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
               {isLoggedIn && (
                 <>
                   <div className="menu__box__my-page">
-                    <div className="menu__box__my-page__level">
+                    {/* <div className="menu__box__my-page__level">
                       <p className="level">Level</p>
                       <p className="menu__box__my-page__level__img">
                         {getUserGradeSquareIcon(userData?.user_rating) && (
@@ -151,7 +154,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         )}
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
-                    </div>
+                    </div> */}
                     <div className="menu__box__my-page__info">
                       <div className="menu__box__my-page__info__top">
                         <p
@@ -172,6 +175,16 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </dt>
                           <dd>{userData?.name || 'No Sign up'}</dd>
                         </dl>
+                      </div>
+                      <div className="menu__box__my-page__level">
+                        <p className="level">{t('Level')}</p>
+                        <p className="menu__box__my-page__level__img">
+                          <img
+                            src={getUserGradeSquareIcon(userData?.user_rating)}
+                            alt="level icon"
+                          />
+                        </p>
+                        <p className="grade">{userData?.user_rating}</p>
                       </div>
                       <div className="menu__box__my-page__info__bottom">
                         <div className="menu__box__my-page__info__bottom__box">
@@ -224,7 +237,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           </dl>
 
           <dl className="menu__box">
-            <dt className="menu__box__title">MENU</dt>
+            <dt className="menu__box__title">{t('MENU')}</dt>
             <dd>
               <div className="menu__box__gnb-list">
                 {/* 일반 아이템 - Albums */}
@@ -234,7 +247,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     className="menu__box__gnb-list__item__btn main"
                     onClick={() => handleSingleActive('album')}
                   >
-                    <p className="icon"></p>Main
+                    <p className="icon"></p>
+                    {t('Main')}
                   </Link>
                 </div>
                 {/* AI Services - 슬라이드 탭 */}
@@ -247,28 +261,29 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     className="menu__box__gnb-list__item__btn"
                     onClick={() => handleSlideToggle('ai-services')}
                   >
-                    <p className="icon"></p>AI Services
+                    <p className="icon"></p>
+                    {t('AI Services')}
                   </button>
                   <ul className="menu__box__gnb-list__item__list">
                     <li
                       className={activeSubItem === 'ai-lyrics' ? 'active' : ''}
                       onClick={() => handleSubItemClick('ai-lyrics')}
                     >
-                      <Link to="/create">AI Lyrics & Songwriting</Link>
+                      <Link to="/create">{t('AI Lyrics & Songwriting')}</Link>
                     </li>
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
-                      // onClick={() => handleSubItemClick("ai-singing")}
-                      onClick={() => setPreparingModal(true)}
+                      onClick={() => handleSubItemClick('ai-singing')}
+                      // onClick={() => setPreparingModal(true)}
                     >
-                      <Link to="">AI Singing Evaluation</Link>
+                      <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
                     </li>
                     <li
                       className={activeSubItem === 'ai-cover' ? 'active' : ''}
                       // onClick={() => handleSubItemClick("ai-cover")}
                       onClick={() => setPreparingModal(true)}
                     >
-                      <Link to="">AI Cover Creation</Link>
+                      <Link to="">{t('AI Cover Creation')}</Link>
                     </li>
                   </ul>
                 </div>
@@ -285,7 +300,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     onClick={() => handleSingleActive('nft')}
                     // onClick={() => setPreparingModal(true)}
                   >
-                    <p className="icon"></p>NFT MarketPlace
+                    <p className="icon"></p>
+                    {t('NFT MarketPlace')}
                   </Link>
                 </div>
 
@@ -315,7 +331,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     className="menu__box__gnb-list__item__btn earn"
                     onClick={() => handleSingleActive('earn')}
                   >
-                    <p className="icon"></p>Eco System
+                    <p className="icon"></p>
+                    {t('Eco System')}
                   </Link>
                 </div>
 
@@ -354,7 +371,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
           {isLoggedIn && (
             <dl className="menu__box">
-              <dt className="menu__box__title">MY LIBRARY</dt>
+              <dt className="menu__box__title">{t('MY LIBRARY')}</dt>
               <dd>
                 <div className="menu__box__gnb-list">
                   {/* <div
@@ -380,32 +397,33 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       className="menu__box__gnb-list__item__btn"
                       onClick={() => handleSlideToggle('my-music')}
                     >
-                      <p className="icon"></p>My Page
+                      <p className="icon"></p>
+                      {t('My Page')}
                     </button>
                     <ul className="menu__box__gnb-list__item__list my-music">
                       <li
                         className={activeSubItem === 'Songs' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Songs')}
                       >
-                        <Link to="/my-page?category=AI+Services">AI Services</Link>
+                        <Link to="/my-page?category=AI+Services">{t('AI Services')}</Link>
                       </li>
                       <li
                         className={activeSubItem === 'Songs' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Songs')}
                       >
-                        <Link to="/my-page?category=Songs">Songs</Link>
+                        <Link to="/my-page?category=Songs">{t('Songs')}</Link>
                       </li>
                       <li
                         className={activeSubItem === 'Connections' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Connections')}
                       >
-                        <Link to="/my-page?category=Connections">Connections</Link>
+                        <Link to="/my-page?category=Connections">{t('Connections')}</Link>
                       </li>
                       <li
                         className={activeSubItem === 'NFTs' ? 'active' : ''}
                         onClick={() => handleSubItemClick('NFTs')}
                       >
-                        <Link to="/my-page?category=NFTs">NFTs</Link>
+                        <Link to="/my-page?category=NFTs">{t('NFTs')}</Link>
                       </li>
                     </ul>
                   </div>

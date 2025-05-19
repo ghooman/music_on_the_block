@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useTransition } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { useQuery, useQueryClient } from 'react-query';
@@ -25,6 +25,7 @@ import { useUserDetail } from '../hooks/useUserDetail';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 
 import '../styles/MyPage.scss';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -46,6 +47,9 @@ export default MyPage;
 //=================
 const MyProfile = () => {
   // 데이터 정의
+
+  const { t } = useTranslation('my_page');
+
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -83,6 +87,8 @@ const MyProfile = () => {
 //=================
 const UserProfile = () => {
   // 데이터 정의
+  const { t } = useTranslation('my_page');
+
   const { walletAddress, token, setIsLoggedIn, setWalletAddress, isLoggedIn } =
     useContext(AuthContext);
   const { data: userData } = useUserDetail();
@@ -186,10 +192,16 @@ const UserProfile = () => {
         {isLoggedIn && !isFetching ? (
           <>
             {profileData?.is_follow && (
-              <ProfileInfo.UnFollowingButton handleUnFollowing={() => setUnFollowModal(true)} />
+              <ProfileInfo.UnFollowingButton
+                handleUnFollowing={() => setUnFollowModal(true)}
+                title={t('Follow')}
+              />
             )}
             {!profileData?.is_follow && (
-              <ProfileInfo.FollowingButton handleFollowing={() => handleFollowing()} />
+              <ProfileInfo.FollowingButton
+                handleFollowing={() => handleFollowing()}
+                title={t('Unfollow')}
+              />
             )}
           </>
         ) : (
@@ -218,6 +230,8 @@ const UserProfile = () => {
 //==================================================
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
+  const { t } = useTranslation('my_page');
+
   const [seeMore, setSeeMore] = useState(false);
   const [linksModal, setLinksModal] = useState(false);
 
@@ -261,15 +275,15 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           {/**=== */}
           <div className="profile__record">
             <div className="profile__record--item">
-              <p className="profile__record--item-title">Songs</p>
+              <p className="profile__record--item-title">{t('Songs')}</p>
               <p className="profile__record--item-value">{userData?.total_songs}</p>
             </div>
             <div className="profile__record--item">
-              <p className="profile__record--item-title">Following</p>
+              <p className="profile__record--item-title">{t('Following')}</p>
               <p className="profile__record--item-value">{userData?.followings}</p>
             </div>
             <div className="profile__record--item">
-              <p className="profile__record--item-title">Followers</p>
+              <p className="profile__record--item-title">{t('Followers')}</p>
               <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
           </div>
@@ -280,7 +294,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             </p>
             {!seeMore && (
               <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
-                See More
+                {t('See More')}
               </button>
             )}
           </div>
@@ -289,7 +303,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <img className="profile__link--icon" src={linkIcon} alt="link" />
               <p className="profile__link--item">{userData?.link_list?.[0].link}</p>
               {userData?.link_list.length > 0 && (
-                <p className="profile__link--count">{userData?.link_list?.length} external link</p>
+                <p className="profile__link--count">
+                  {userData?.link_list?.length} {t('external link')}
+                </p>
               )}
             </div>
           )}
@@ -370,23 +386,25 @@ ProfileInfo.TokenAmount = ({ mic, mob }) => {
   );
 };
 
-ProfileInfo.FollowingButton = ({ handleFollowing }) => {
+ProfileInfo.FollowingButton = ({ handleFollowing, title }) => {
   return (
     <button className="mypage__follow-btn follow" onClick={handleFollowing}>
-      FOLLOW
+      {title}
     </button>
   );
 };
 
-ProfileInfo.UnFollowingButton = ({ handleUnFollowing }) => {
+ProfileInfo.UnFollowingButton = ({ handleUnFollowing, title }) => {
   return (
     <button className="mypage__follow-btn unfollow" onClick={handleUnFollowing}>
-      UNFOLLOW
+      {title}
     </button>
   );
 };
 
 const Tabs = ({ tabs, handleTab, select }) => {
+  const { t } = useTranslation('my_page');
+
   const [preparingModal, setPreparingModal] = useState(false);
 
   return (
@@ -402,7 +420,7 @@ const Tabs = ({ tabs, handleTab, select }) => {
             } else if (handleTab) handleTab(service?.name);
           }}
         >
-          {service?.name}
+          {t(service?.name)}
         </button>
       ))}
       {preparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}

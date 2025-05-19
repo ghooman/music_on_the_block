@@ -1,4 +1,5 @@
 {
+ "Song Details": "곡 정보",
  "Language": "언어",
  "Genre": "장르",
  "Gender": "성별",
@@ -15,7 +16,7 @@
  "Sell": "판매",
  "Cancel": "취소",
  "Comments": "댓글",
- "Write comment...": "댓글 작성...",
+ "Write a comment": "댓글 작성...",
  "Post": "게시",
  "seconds ago": "방금 전",
  "Reply": "답글",
@@ -27,7 +28,7 @@
  "Type your reply here": "답글을 입력하세요",
  "No comments here. Be the first one to comment!": "아직 댓글이 없습니다. 첫 댓글을 남겨보세요!",
  "Songs Leaderboard Rank": "노래 순위",
- "Mose Plays": "많이 재생된 곡",
+ "Most Plays": "많이 재생된 곡",
  "Song Title": "노래 제목",
  "Plays": "재생 수",
  "Likes": "좋아요",

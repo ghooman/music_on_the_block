@@ -26,14 +26,14 @@ const GetStarted = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: t('Chatbot Format'),
-      description: t('Chat with AI to create your own song.'),
-      keywords: t('AI Chatbot · Conversation · Flow'),
+      title: 'Chatbot Format',
+      description: 'Chat with AI to create your own song.',
+      keywords: ['AI Chatbot', 'Conversation', 'Flow'],
     },
     {
-      title: t('General Format'),
-      description: t('Select and input to create your own song.'),
-      keywords: t('Selection · Input · Control'),
+      title: 'General Format',
+      description: 'Select and input to create your own song.',
+      keywords: ['Selection', 'Input', 'Control'],
     },
   ];
   const languages = ['한국어', 'English'];
@@ -69,7 +69,7 @@ const GetStarted = ({
         <div className="create__get-started--features-items">
           {['Lyrics Generation', 'Melody Composition', 'Style Adaptation'].map((item, index) => (
             <div className="create__get-started--features-item" key={index}>
-              {item}
+              {t(item)}
             </div>
           ))}
         </div>
@@ -120,11 +120,15 @@ const GetStarted = ({
             className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
             onClick={() => handleArticleClick(idx)}
           >
-            <h3 className="create__get-started--format-item-title">&lt;{format.title}&gt;</h3>
+            <h3 className="create__get-started--format-item-title">&lt;{t(format.title)}&gt;</h3>
             <p className="create__get-started--format-item-txt">
-              {format.description}
+              {t(format.description)}
               <span>
-                * {t('Keywords')}: {format.keywords}
+                * {t('Keywords')}:{' '}
+                {format.keywords.map((keyword, index, { length }) => {
+                  let suffix = index === length - 1 ? '' : ' · ';
+                  return t(keyword) + suffix;
+                })}
               </span>
             </p>
             <div className="create__get-started--format-item-select">

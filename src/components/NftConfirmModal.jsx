@@ -130,10 +130,10 @@ const NftConfirmModal = ({
   const currencyAddress = ContractAddress();
 
   // 서버에 판매 정보 등록 함수
-  const serverPostSellNft = async listingId => {
+  const serverPostSellNft = async ({ listingResult, transactionHash }) => {
     try {
       const response = await axios.post(
-        `${serverApi}/api/nfts/my/sell/${thirdwebId}?price=${sellPrice}&sales_token=${selectedCoin.name}&listing_id=${listingId}`,
+        `${serverApi}/api/nfts/my/sell/${thirdwebId}?price=${sellPrice}&sales_token=${selectedCoin.name}&listing_id=${listingResult}&tx_id=${transactionHash}`,
         {},
         {
           headers: {
@@ -181,11 +181,11 @@ const NftConfirmModal = ({
         reserved: false,
       };
 
-      const listingResult = await sellNFT(nftParams);
+      const { listingResult, transactionHash } = await sellNFT(nftParams);
       console.log('Listing created:', listingResult);
 
       // 4. 서버에 판매 정보 등록
-      const serverResponse = await serverPostSellNft(listingResult);
+      const serverResponse = await serverPostSellNft({ listingResult, transactionHash });
       console.log('Server response:', serverResponse);
 
       // 성공 시 모달 변경
@@ -212,10 +212,10 @@ const NftConfirmModal = ({
   // ===== NFT 판매 함수 끝 =====
 
   // 서버에서 판매 취소 함수
-  const serverCancelListing = async listingId => {
+  const serverCancelListing = async ({ listingId, transactionHash }) => {
     try {
       const response = await axios.post(
-        `${serverApi}/api/nfts/my/sell/${listingId}/cancel`,
+        `${serverApi}/api/nfts/my/sell/${listingId}/cancel?tx_id=${transactionHash}`,
         {},
         {
           headers: {
@@ -237,8 +237,8 @@ const NftConfirmModal = ({
     }
     setIsLoading(true);
     try {
-      await cancelListing(listingId);
-      const response = await serverCancelListing(listingId);
+      const transactionHash = await cancelListing(listingId);
+      const response = await serverCancelListing({ listingId, transactionHash });
       console.log('cancelListing', listingId);
 
       setSuccessContent('Your listing has been cancelled successfully!');

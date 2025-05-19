@@ -103,7 +103,7 @@ const NftTable = ({
                         handleSell();
                         return;
                       }
-                      navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                      navigate(`/nft/sell/details/${item.song_id}/${item.id}`);
                     }}
                   />
                 )}
@@ -129,7 +129,7 @@ const NftTable = ({
                     //     handleSell();
                     //     return;
                     //   }
-                    //   navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                    //   navigate(`/nft/sell/details/${item.song_id}/${item.id}`);
                     // }}
                   />
                 )}
@@ -142,7 +142,7 @@ const NftTable = ({
                     //     handleSell();
                     //     return;
                     //   }
-                    //   navigate(`/nft/sell/detail/${item.song_id}/${item.id}`);
+                    //   navigate(`/nft/sell/details/${item.song_id}/${item.id}`);
                     // }}
                   />
                 )}

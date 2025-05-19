@@ -224,58 +224,54 @@ const MelodyMaker = ({
   // 최종 프롬프트 생성 함수
   const generateFinalPrompt = async () => {
     try {
-      // Genre를 대문자로 변환
-      const standardizedGenre = melody_genre?.[0]?.toUpperCase() || '';
+      // V4_5인지 여부에 따라 시스템 메시지를 분기
+      const isV4_5 = selectedVersion === 'V4_5';
+      const systemPrompt = isV4_5
+        ? 'You are an AI assistant that transforms music metadata into a concise English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song.'
+        : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
 
+      // 사용자 메시지(메타데이터)
+      const userContent = `Create a concise English prompt based on these music parameters:
+  - Title: ${title}
+  - Tags: ${melody_tag?.join(', ') || ''}
+  - Genre: ${(melody_genre?.[0] || '').toUpperCase()}
+  - Voice/Gender: ${melody_gender?.[0] || ''}
+  - Instruments: ${melody_instrument?.join(', ') || ''}
+  - Tempo: ${tempo} BPM
+  - Additional Details: ${melodyDetail || ''}`;
+
+      // OpenAI 호출
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
         messages: [
-          {
-            role: 'system',
-            content: `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`,
-          },
-          {
-            role: 'user',
-            content: `Create a concise English prompt based on these music parameters:
-            - Title: ${title}
-            - Tags: ${melody_tag?.join(', ') || ''}
-            - Genre: ${standardizedGenre}
-            - Voice/Gender: ${melody_gender?.[0] || ''}
-            - Instruments: ${melody_instrument?.join(', ') || ''}
-            - Tempo: ${tempo} BPM
-            - Additional Details: ${melodyDetail || ''}`,
-          },
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userContent },
         ],
       });
 
       let promptText = response.choices[0].message.content.trim();
 
-      if (promptText.length > 200) {
-        promptText = promptText.substring(0, 197) + '...';
+      if (!isV4_5) {
+        // V4_5가 아닐 때만 200자 초과 시 잘라내기
+        if (promptText.length > 200) {
+          promptText = promptText.substring(0, 197) + '...';
+        }
       }
 
-      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
-      promptText = promptText.replace(
-        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
-        ''
-      );
-      promptText = promptText.replace(
-        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
-        ''
-      );
+      // 공통: 불필요한 문구 제거
+      promptText = promptText
+        .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
+        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '');
 
-      console.log('Generated promptText:', promptText);
-      console.log('promptText length:', promptText.length);
       setFinalPrompt(promptText);
       return promptText;
     } catch (error) {
       console.error('Error generating final prompt:', error);
-      const standardizedGenre = melody_genre?.[0]?.toUpperCase() || '';
-      const basicPrompt = `A ${
-        melody_gender?.[0]?.toLowerCase() || ''
-      } ${standardizedGenre} song at ${tempo} BPM with ${
-        melody_instrument?.join(', ') || ''
-      }.`.substring(0, 200);
+
+      // 실패 시 기본 형태로 대체 (여기서는 trimming 없이 간단 문장 반환)
+      const basicPrompt = `A ${melody_gender?.[0]?.toLowerCase() || ''} ${(
+        melody_genre?.[0] || ''
+      ).toUpperCase()} song at ${tempo} BPM with ${melody_instrument?.join(', ') || ''}.`;
       setFinalPrompt(basicPrompt);
       return basicPrompt;
     }

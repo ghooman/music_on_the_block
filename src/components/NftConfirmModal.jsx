@@ -102,10 +102,10 @@ const NftConfirmModal = ({
         setShowSuccessModal(true);
       } else {
         console.error('error', response);
-        setErrorMessage(response);
+        setErrorMessage(response?.message || 'Minting failed');
       }
     } catch (error) {
-      setErrorMessage(error?.response?.data?.detail || error?.message);
+      setErrorMessage(error?.response?.data?.detail || error?.message || 'Minting failed');
     } finally {
       setIsLoading(false);
     }

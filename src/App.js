@@ -28,18 +28,23 @@ import AlbumsDetail from './components/mypage/songs/AlbumsDetail';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
 import Intro from './pages/Intro';
+import Evaluation from './pages/Evaluation';
+import EvaluationBegin from './pages/EvaluationBegin';
 
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
 import { WebSocketProvider } from './contexts/WebSocketContext';
+import EvaluationResults from './pages/EvaluationResults';
 
 function Layout({ children }) {
   return (
-    <div>
-      <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
-      <div className="inner">{children}</div>
+    <>
+      <div className="header-flex">
+        <Header /> {/* 인트로 페이지를 제외한 모든 페이지에 헤더가 포함됨 */}
+        <div className="inner">{children}</div>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 
@@ -164,6 +169,30 @@ function App() {
                 }
               />
               <Route
+                path="evaluation"
+                element={
+                  <Layout>
+                    <Evaluation />
+                  </Layout>
+                }
+              />
+              <Route
+                path="evaluation-begin"
+                element={
+                  <Layout>
+                    <EvaluationBegin />
+                  </Layout>
+                }
+              />
+              <Route
+                path="evaluation-results"
+                element={
+                  <Layout>
+                    <EvaluationResults />
+                  </Layout>
+                }
+              />
+              <Route
                 path="nft/list"
                 element={
                   <Layout>
@@ -202,7 +231,7 @@ function App() {
                 }
               />
               <Route
-                path="nft/sell/detail/:id/:nft_id"
+                path="nft/sell/details/:id/:nft_id"
                 element={
                   <Layout>
                     <ProtectedRoute>

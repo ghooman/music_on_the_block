@@ -1,9 +1,10 @@
 import './GetStarted.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { WalletConnect } from '../WalletConnect';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
+import axios from 'axios';
 
 const GetStarted = ({
   handler,
@@ -14,7 +15,7 @@ const GetStarted = ({
   selectedVersion,
 }) => {
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
-
+  const serverApi = process.env.REACT_APP_SERVER_API;
   const handleWalletConnect = (loggedIn, walletAddress) => {
     setIsLoggedIn(loggedIn);
     if (loggedIn && walletAddress) {
@@ -43,6 +44,19 @@ const GetStarted = ({
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('L&S Plus(V2.2)');
 
+  const [versionList, setVersionList] = useState([]);
+
+  useEffect(() => {
+    const fetchVersionList = async () => {
+      const res = await axios.get(`${serverApi}/api/music/ai/active`);
+      setVersionList(res.data);
+      console.log(res.data);
+      setTitle(
+        res.data.suno ? 'L&S Plus(V2.2)' : res.data.mureka ? 'L&S Pro(V2.0)' : 'L&S One(V1.0)'
+      );
+    };
+    fetchVersionList();
+  }, []);
   // 버전 항목 선택
   const handleSelect = newTitle => {
     setTitle(newTitle);
@@ -95,15 +109,24 @@ const GetStarted = ({
             {title}
           </p>
           <ul className="create__get-started--version__select__list">
-            <li onClick={() => handleSelect('L&S Plus(V2.2)')}>
+            <li
+              className={!versionList.suno ? 'disabled' : ''}
+              onClick={() => versionList.suno && handleSelect('L&S Plus(V2.2)')}
+            >
               <p>L&S Plus(V2.2)</p>
               <span>Advanced AI Model for High-Quality and Extended Song Generation</span>
             </li>
-            <li onClick={() => handleSelect('L&S Pro(V2.0)')}>
+            <li
+              className={!versionList.mureka ? 'disabled' : ''}
+              onClick={() => versionList.mureka && handleSelect('L&S Pro(V2.0)')}
+            >
               <p>L&S Pro(V2.0)</p>
               <span>Standard AI Model Offering Enhanced Audio Quality and Stability</span>
             </li>
-            <li onClick={() => handleSelect('L&S One(V1.0)')}>
+            <li
+              className={!versionList.topmediai ? 'disabled' : ''}
+              onClick={() => versionList.topmediai && handleSelect('L&S One(V1.0)')}
+            >
               <p>L&S One(V1.0)</p>
               <span>Basic AI Model for Simple Lyrics and Music Composition</span>
             </li>

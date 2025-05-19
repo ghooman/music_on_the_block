@@ -35,7 +35,7 @@ import { WalletConnect } from '../components/WalletConnect';
 import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
-
+import TransactionsModal from '../components/TransactionsModal';
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
@@ -59,7 +59,7 @@ function AlbumDetail() {
   const [isShareModal, setShareModal] = useState(false);
   const [isReleaseModal, setIsReleaseModal] = useState(false);
   const [albumGuideModal, setAlbumGuideModal] = useState(false);
-
+  const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   // 플레이어 상태 및 재생 관련 변수
   const [isPlaying, setIsPlaying] = useState(false);
   const playCountRef = useRef(false);
@@ -305,7 +305,7 @@ function AlbumDetail() {
         setIsReleaseModal(true);
         break;
       case 'sell':
-        navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`);
+        navigate(`/nft/sell/details/${album?.id}/${album?.nft_id}`);
         break;
       case 'cancel':
         navigate(`/nft/detail/${album?.nft_id}`);
@@ -372,6 +372,11 @@ function AlbumDetail() {
       create_version = 'L&S One (V1.0)';
       break;
   }
+
+  // transactions modal 오픈
+  const handleTransactionsModal = () => {
+    setIsTransactionsModal(true);
+  };
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -538,12 +543,20 @@ function AlbumDetail() {
                     )}
                   </div>
                 )}
-                <button
-                  className="album-detail__song-detail__left__info__share-btn"
-                  onClick={() => setShareModal(true)}
-                >
-                  <img src={shareIcon} alt="share Icon" />
-                </button>
+                <div className="album-detail__song-detail__left__info__btn-box">
+                  <button
+                    className="album-detail__song-detail__left__info__txid-btn"
+                    onClick={handleTransactionsModal}
+                  >
+                    TXID
+                  </button>
+                  <button
+                    className="album-detail__song-detail__left__info__share-btn"
+                    onClick={() => setShareModal(true)}
+                  >
+                    <img src={shareIcon} alt="share Icon" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -793,6 +806,12 @@ function AlbumDetail() {
           //   }
           // }}
           nftData={album}
+        />
+      )}
+      {isTransactionsModal && (
+        <TransactionsModal
+          setTransactionsModal={setIsTransactionsModal}
+          transactions={album?.transactions}
         />
       )}
     </>

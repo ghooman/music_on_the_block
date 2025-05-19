@@ -7,8 +7,10 @@ import 'react-comments-section/dist/index.css'; // 기본 스타일
 import './AdvancedCommentComponent.scss'; // 다크 테마 스타일 추가
 import { useUserDetail } from '../hooks/useUserDetail';
 import defaultCoverImg from '../assets/images/header/logo.svg';
+import { useTranslation } from 'react-i18next';
 
 const AdvancedCommentComponent = ({ id }) => {
+  const { t } = useTranslation('song_detail');
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { data: userData } = useUserDetail();
   const { token } = useContext(AuthContext);
@@ -128,7 +130,10 @@ const AdvancedCommentComponent = ({ id }) => {
         }}
         advancedInput={true}
         commentData={comments}
-        placeHolder="Write a comment..."
+        placeHolder={t('Write a comment') + '...'}
+        customNoComment={() => (
+          <div className="no-comment">{t('No comments here. Be the first one to comment!')}</div>
+        )}
         onSubmitAction={commentData => {
           handleCommentSubmit(commentData);
         }}

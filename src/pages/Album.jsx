@@ -19,10 +19,13 @@ import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
+  const { t } = useTranslation('main');
+
   const { token, walletAddress } = useContext(AuthContext);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
@@ -239,7 +242,7 @@ function Album() {
           audioRef={audioRef}
         />
         <List
-          title="Total"
+          title={t('Total')}
           data={totalList}
           id="total"
           selectedMusic={selectedMusic}
@@ -253,7 +256,7 @@ function Album() {
 
         <section className="main__nft-market">
           <Link to="/nft" className="main__nft-market__link">
-            <span className="main__nft-market__link-text">NFT Marketplace</span>
+            <span className="main__nft-market__link-text">{t('NFT Marketplace')}</span>
           </Link>
         </section>
 
@@ -274,7 +277,7 @@ function Album() {
               }`}
               onClick={() => setActiveTab('AI Lyrics & Songwriting')}
             >
-              AI Lyrics & Songwriting
+              {t('AI Lyrics & Songwriting')}
             </button>
             <button
               className={`album__content-list__tab__item ${
@@ -282,7 +285,7 @@ function Album() {
               }`}
               onClick={() => setPreparingModal(true)}
             >
-              AI Singing Evaluation
+              {t('AI Singing Evaluation')}
             </button>
             <button
               className={`album__content-list__tab__item ${
@@ -290,11 +293,11 @@ function Album() {
               }`}
               onClick={() => setPreparingModal(true)}
             >
-              AI Cover Creation
+              {t('AI Cover Creation')}
             </button>
           </article>
           <List
-            title="AI Lyrics & Songwriting"
+            title={t('AI Lyrics & Songwriting')}
             data={randomList}
             id="random"
             selectedMusic={selectedMusic}
@@ -309,19 +312,19 @@ function Album() {
 
         <section className="main__stats">
           <dl className="main__stats__title">
-            <dt>Number of Artists</dt>
+            <dt>{t('Number of Artists')}</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_users} />
             </dd>
           </dl>
           <dl className="main__stats__title">
-            <dt>Number of Songs</dt>
+            <dt>{t('Number of Songs')}</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_songs} />
             </dd>
           </dl>
           <dl className="main__stats__title">
-            <dt>Transactions</dt>
+            <dt>{t('Transactions')}</dt>
             <dd>
               <Counter targetNumber={transaction?.transaction} />
             </dd>
@@ -349,6 +352,8 @@ const List = ({
   link,
   audioRef,
 }) => {
+  const { t } = useTranslation('main');
+
   return (
     <section className="album__content-list">
       <p className="album__content-list__title">
@@ -363,7 +368,7 @@ const List = ({
             }
           }}
         >
-          See More
+          {t('See More')}
         </Link>
       </p>
 
@@ -398,6 +403,8 @@ const ListSlider = ({
 
   // \n
 }) => {
+  const { t } = useTranslation('main');
+
   const swiperRef = useRef(null);
 
   const handleSlideChange = swiper => {
@@ -426,7 +433,7 @@ const ListSlider = ({
 
   return (
     <section className="album__slide">
-      <p className="album__slide__title">Hit Music List</p>
+      <p className="album__slide__title">{t('Hit Music List')}</p>
       <Swiper
         ref={swiperRef}
         loop={true}

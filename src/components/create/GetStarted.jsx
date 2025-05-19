@@ -4,6 +4,7 @@ import { WalletConnect } from '../WalletConnect';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
+import { useTranslation } from 'react-i18next';
 
 const GetStarted = ({
   handler,
@@ -13,6 +14,7 @@ const GetStarted = ({
   setSelectedVersion,
   selectedVersion,
 }) => {
+  const { t } = useTranslation('song_create');
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -24,14 +26,14 @@ const GetStarted = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: 'Chatbot Format',
-      description: 'Chat with AI to create your own song.',
-      keywords: 'AI Chatbot · Conversation · Flow',
+      title: t('Chatbot Format'),
+      description: t('Chat with AI to create your own song.'),
+      keywords: t('AI Chatbot · Conversation · Flow'),
     },
     {
-      title: 'General Format',
-      description: 'Select and input to create your own song.',
-      keywords: 'Selection · Input · Control',
+      title: t('General Format'),
+      description: t('Select and input to create your own song.'),
+      keywords: t('Selection · Input · Control'),
     },
   ];
   const languages = ['한국어', 'English'];
@@ -58,12 +60,12 @@ const GetStarted = ({
 
   return (
     <div className="create__get-started">
-      <h1 className="create__get-started--title">Create Your Own Song With AI</h1>
+      <h1 className="create__get-started--title">{t('Create Your Own Song With AI')}</h1>
       <h2 className="create__get-started--subtitle">
-        Turn your ideas into beautiful lyrics and melodies with the power of AI
+        {t('Turn your ideas into beautiful lyrics and melodies with the power of AI')}
       </h2>
       <div className="create__get-started--features">
-        <h3 className="create__get-started--features-title">Code Features</h3>
+        <h3 className="create__get-started--features-title">{t('Code Features')}</h3>
         <div className="create__get-started--features-items">
           {['Lyrics Generation', 'Melody Composition', 'Style Adaptation'].map((item, index) => (
             <div className="create__get-started--features-item" key={index}>
@@ -74,22 +76,22 @@ const GetStarted = ({
       </div>
       <div className="create__get-started--features sequence">
         <div>
-          <h3 className="create__get-started--features-title">Cost</h3>
+          <h3 className="create__get-started--features-title">{t('Cost')}</h3>
           <p className="create__get-started--features-item">-- MOB</p>
         </div>
         <div>
-          <h3 className="create__get-started--features-title">Used</h3>
+          <h3 className="create__get-started--features-title">{t('Used')}</h3>
           <p className="create__get-started--features-item">--</p>
         </div>
         <div>
-          <h3 className="create__get-started--features-title">Precision</h3>
+          <h3 className="create__get-started--features-title">{t('Precision')}</h3>
           <p className="create__get-started--features-item ">--%</p>
         </div>
       </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
       <div className={`create__get-started--version${open ? ' active' : ''}`}>
-        <p className="create__get-started--version__title">&lt;Ai Version&gt;</p>
+        <p className="create__get-started--version__title">&lt;{t('Ai Version')}&gt;</p>
         <div className="create__get-started--version__select">
           <p className="create__get-started--version__select__title" onClick={() => setOpen(!open)}>
             {title}
@@ -97,15 +99,15 @@ const GetStarted = ({
           <ul className="create__get-started--version__select__list">
             <li onClick={() => handleSelect('L&S Plus(V2.2)')}>
               <p>L&S Plus(V2.2)</p>
-              <span>Advanced AI Model for High-Quality and Extended Song Generation</span>
+              <span>{t('Advanced AI Model for High-Quality and Extended Song Generation')}</span>
             </li>
             <li onClick={() => handleSelect('L&S Pro(V2.0)')}>
               <p>L&S Pro(V2.0)</p>
-              <span>Standard AI Model Offering Enhanced Audio Quality and Stability</span>
+              <span>{t('Standard AI Model Offering Enhanced Audio Quality and Stability')}</span>
             </li>
             <li onClick={() => handleSelect('L&S One(V1.0)')}>
               <p>L&S One(V1.0)</p>
-              <span>Basic AI Model for Simple Lyrics and Music Composition</span>
+              <span>{t('Basic AI Model for Simple Lyrics and Music Composition')}</span>
             </li>
           </ul>
         </div>
@@ -121,10 +123,14 @@ const GetStarted = ({
             <h3 className="create__get-started--format-item-title">&lt;{format.title}&gt;</h3>
             <p className="create__get-started--format-item-txt">
               {format.description}
-              <span>* Keywords: {format.keywords}</span>
+              <span>
+                * {t('Keywords')}: {format.keywords}
+              </span>
             </p>
             <div className="create__get-started--format-item-select">
-              <p className="create__get-started--format-item-select-title">Language selection</p>
+              <p className="create__get-started--format-item-select-title">
+                {t('Language selection')}
+              </p>
               <div className="create__get-started--format-item-select-items">
                 <div className="container">
                   {languages.map((lang, langIdx) => (
@@ -140,7 +146,7 @@ const GetStarted = ({
                         }}
                       />
                       <label htmlFor={`radio-${idx}-${langIdx}`} className="radio-label">
-                        {lang}
+                        {t(lang)}
                       </label>
                     </div>
                   ))}
@@ -165,7 +171,7 @@ const GetStarted = ({
             }}
             disabled={createPossibleCount === 0 || activeIndex === null}
           >
-            Create
+            {t('Create')}
           </button>
         ) : (
           <WalletConnect onConnect={handleWalletConnect} />

@@ -10,6 +10,10 @@
     "@tanstack/react-ranger": "^0.0.4",
     "axios": "^1.8.4",
     "ethers": "^6.13.7",
+    "google-spreadsheet": "^4.1.4",
+    "i18n": "^0.15.1",
+    "i18next": "^25.1.3",
+    "i18next-browser-languagedetector": "^8.1.0",
     "jspdf": "^3.0.1",
     "openai": "^4.89.0",
     "react": "^18.2.0",
@@ -17,6 +21,7 @@
     "react-datepicker": "^8.2.1",
     "react-dom": "^18.2.0",
     "react-h5-audio-player": "^3.10.0-rc.1",
+    "react-i18next": "^15.5.1",
     "react-intersection-observer": "^9.16.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.16.0",
@@ -29,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "translate_en": "node src/scripts/download.mjs && find ./src/i18n_locales/en -name '*.json' -exec cat {}  \\; | sed 's/}{/,/g' > ./src/i18n_locales/en.json",
+    "translate": "npm run translate_en"
   },
   "eslintConfig": {
     "extends": [

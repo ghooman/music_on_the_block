@@ -35,8 +35,11 @@ import { WalletConnect } from '../components/WalletConnect';
 import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
+import { useTranslation } from 'react-i18next';
 
 function AlbumDetail() {
+  const { t } = useTranslation('song_detail');
+
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
@@ -390,7 +393,7 @@ function AlbumDetail() {
 
       <div className="song-detail">
         <dl className="album-detail__title">
-          <dt>Song Details</dt>
+          <dt>{t('Song Details')}</dt>
         </dl>
         <section className="album-detail__song-detail">
           <div className="album-detail__song-detail__title-box">
@@ -560,11 +563,11 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
-                  <dt>Language</dt>
+                  <dt>{t('Language')}</dt>
                   <dd>{album?.language || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Genre</dt>
+                  <dt>{t('Genre')}</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
                 {/* <dl>
@@ -572,33 +575,33 @@ function AlbumDetail() {
                                     <dd>{album?.Stylistic || '-'}</dd>
                                 </dl> */}
                 <dl>
-                  <dt>Gender</dt>
+                  <dt>{t('Gender')}</dt>
                   <dd>{album?.gender || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Musical Instrument</dt>
+                  <dt>{t('Musical Instrument')}</dt>
                   <dd>{album?.musical_instrument || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Tempo</dt>
+                  <dt>{t('Tempo')}</dt>
                   <dd>{album?.tempo || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Detail</dt>
+                  <dt>{t('Detail')}</dt>
                   <dd>{album?.detail || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Creation Date</dt>
+                  <dt>{t('Creation Date')}</dt>
                   <dd>
                     <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Song Length</dt>
+                  <dt>{t('Song Length')}</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
                 <dl className="artist">
-                  <dt>Artist</dt>
+                  <dt>{t('Artist')}</dt>
                   <dd>
                     <Link className="user" to={`/profile?username=${album?.name}`}>
                       <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
@@ -607,7 +610,7 @@ function AlbumDetail() {
                   </dd>
                 </dl>
                 <div className="album-detail__control-guide">
-                  <p className="album-detail__control-guide--text">NFT Status</p>
+                  <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
                   <img
                     className="album-detail__control-guide--icon"
                     src={issueIcon}
@@ -623,14 +626,14 @@ function AlbumDetail() {
                         onClick={e => handleButtonClick(e, 'release')}
                         disabled={album?.is_release}
                       >
-                        Release
+                        {t('Release')}
                       </button>
                       <button
                         className="album-detail__control-button mint-button"
                         onClick={e => handleButtonClick(e, 'mint')}
                         disabled={album?.is_nft || !album?.is_release}
                       >
-                        Mint
+                        {t('Mint')}
                       </button>
                       <button
                         className="album-detail__control-button sell-button"
@@ -641,7 +644,7 @@ function AlbumDetail() {
                           album?.now_sales_status === 'Listed'
                         }
                       >
-                        Sell
+                        {t('Sell')}
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
@@ -652,7 +655,7 @@ function AlbumDetail() {
                           album?.now_sales_status !== 'Listed'
                         }
                       >
-                        Cancel
+                        {t('Cancel')}
                       </button>
                     </div>
                   </>
@@ -665,7 +668,7 @@ function AlbumDetail() {
                     }
                     onClick={e => handleButtonClick(e, 'buy')}
                   >
-                    Buy NFT
+                    {t('Buy NFT')}
                   </button>
                 )}
               </div>
@@ -680,19 +683,19 @@ function AlbumDetail() {
             <AdvancedCommentComponent id={id} />
           </div>
           <dl className="album-detail__rank-table__title">
-            <dt>Songs Leaderboard Rank</dt>
-            <dd>Most Plays</dd>
+            <dt>{t('Songs Leaderboard Rank')}</dt>
+            <dd>{t('Most Plays')}</dd>
           </dl>
           <div className="table-container">
             <table className="custom-table">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Artist</th>
-                  <th>Song Title</th>
-                  <th>Plays</th>
-                  <th>Likes</th>
-                  <th>Details</th>
+                  <th>{t('Artist')}</th>
+                  <th>{t('Song Title')}</th>
+                  <th>{t('Plays')}</th>
+                  <th>{t('Likes')}</th>
+                  <th>{t('Details')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -716,7 +719,7 @@ function AlbumDetail() {
                     <td>{item.like}</td>
                     <td>
                       <Link className="details-btn active" to={'/song-detail/' + item.id}>
-                        Details
+                        {t('Details')}
                       </Link>
                     </td>
                   </tr>
@@ -728,8 +731,8 @@ function AlbumDetail() {
 
         <section className="album-detail__slide">
           <dl className="album-detail__slide__title">
-            <dt>Your Picks</dt>
-            <dd>Top tracks from your favorite genre.</dd>
+            <dt>{t('Your Picks')}</dt>
+            <dd>{t('Top tracks from your favorite genre.')}</dd>
           </dl>
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="song-detail-slide">
@@ -744,8 +747,8 @@ function AlbumDetail() {
 
         <section className="album-detail__slide">
           <dl className="album-detail__slide__title">
-            <dt>Similar Vibes</dt>
-            <dd>Top tracks from the same genre as this song.</dd>
+            <dt>{t('Similar Vibes')}</dt>
+            <dd>{t('Top tracks from the same genre as this song.')}</dd>
           </dl>
           <div className="album-detail__slide__swiper">
             <Swiper {...swiperOptions} className="song-detail-slide">

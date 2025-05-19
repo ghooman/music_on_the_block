@@ -84,10 +84,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import IntroLogo2 from '../components/IntroLogo2';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const SongList = () => {
+  const { t } = useTranslation('song_list');
+
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
   const search = searchParams.get('search');
@@ -204,10 +207,10 @@ const SongList = () => {
           setIsPlaying={setIsPlaying}
           audioRef={audioRef}
         />
-        <ContentWrap title="Song List">
+        <ContentWrap title={t('Song List')}>
           <ContentWrap.SubWrap gap={8}>
             <Filter songsSort={true} />
-            <Search placeholder="Search by song title" reset={{ page: 1 }} />
+            <Search placeholder={t('Search by song title')} reset={{ page: 1 }} />
           </ContentWrap.SubWrap>
           {songList.length > 0 ? (
             <div className="songs-list__items">
@@ -230,7 +233,7 @@ const SongList = () => {
               ))}
             </div>
           ) : (
-            <NoneContent message={'No data'} height={400} />
+            <NoneContent message={t('No data')} height={400} />
           )}
           <Pagination totalCount={totalCount} viewCount={15} page={page} />
         </ContentWrap>

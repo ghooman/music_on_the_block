@@ -1,8 +1,8 @@
-import "./DescriptionBanner.scss";
+import './DescriptionBanner.scss';
 
 const texts = [
   {
-    title: "Lyrics Lab",
+    title: 'Lyrics Lab',
     strong: `"Crafting the Perfect Words for Your Song"`,
     notice: `In this step, you’ll provide the core elements for your song’s lirics. Start by selecting up to 5
                 meaningful keywords that capture the essence of your story. Then, choose a genre and emotional style
@@ -12,7 +12,7 @@ const texts = [
                     descriptive as possible in the story section for the best results`,
   },
   {
-    title: "Melody Maker",
+    title: 'Melody Maker',
     strong: `"Shape Your Song’s Melody and Sound"`,
     notice: `In this step, you’ll create the melody and instrumentation for your song.
          Choose a genre that complements your lyrics, then set the tempo and select the instruments that will 
@@ -21,13 +21,13 @@ const texts = [
     tip: `Experiment with different tempos and instrument combinations to explore various musical styles.`,
   },
   {
-    title: "Album Cover Studio",
+    title: 'Album Cover Studio',
     strong: `"Visualize Your Music with Stunning Artwork"`,
     notice: `Transform your song into a visual masterpiece. Based on your keywords, genre, and style, AI will generate a unique album cover that reflects the mood and theme of your song. Customize the colors, textures, and layout to make the design truly yours. Your album cover will represent your music in the most captivating way.`,
     tip: `Consider how your album cover will connect with listeners. A vibrant design might stand out more for energetic tracks, while a minimalistic design might suit a calm, introspective song.`,
   },
   {
-    title: "Finalize Lyrics",
+    title: 'Finalize Lyrics',
     notice: `Review and finalize the lyrics you’ve crafted. Ensure they align with your vision before saving or sharing.`,
   },
 ];

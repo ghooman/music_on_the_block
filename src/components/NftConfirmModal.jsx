@@ -131,6 +131,7 @@ const NftConfirmModal = ({
 
   // 서버에 판매 정보 등록 함수
   const serverPostSellNft = async ({ listingResult, transactionHash }) => {
+    console.log('transactionHash', transactionHash);
     try {
       const response = await axios.post(
         `${serverApi}/api/nfts/my/sell/${thirdwebId}?price=${sellPrice}&sales_token=${selectedCoin.name}&listing_id=${listingResult}&tx_id=${transactionHash}`,

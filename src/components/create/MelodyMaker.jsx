@@ -154,7 +154,10 @@ const MelodyMaker = ({
   finalPrompt,
   setFinalPrompt,
   selectedVersion,
+  selectedPrivacy,
+  selectedCreationMode,
 }) => {
+  console.log('selectedPrivacy', selectedPrivacy);
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -346,6 +349,7 @@ const MelodyMaker = ({
           prompt: finalPrompt,
           create_ai_type: create_ai_type,
           ai_model: ai_model,
+          is_release: selectedPrivacy === 'release' ? true : false,
         },
         album_lyrics_info: {
           language: selectedLanguage,

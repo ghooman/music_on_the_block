@@ -31,7 +31,10 @@ const MelodyChatBot = ({
   finalPrompt,
   setFinalPrompt,
   selectedVersion,
+  selectedPrivacy,
+  selectedCreationMode,
 }) => {
+  console.log('selectedPrivacy', selectedPrivacy);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
@@ -610,6 +613,7 @@ const MelodyChatBot = ({
           prompt: generatedPrompt,
           create_ai_type: create_ai_type,
           ai_model: ai_model,
+          is_release: selectedPrivacy === 'release' ? true : false,
         },
         album_lyrics_info: {
           language: selectedLanguage,

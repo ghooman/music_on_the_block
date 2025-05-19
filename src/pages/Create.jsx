@@ -51,7 +51,12 @@ const Create = () => {
   const handleStartPageNext = async () => {
     const isCreating = await checkUserCreatingStatus();
     if (!isCreating) {
-      setPageNumber(0);
+      // BGM 모드인 경우 가사 생성 단계를 건너뛰고 바로 멜로디 생성 단계로 이동
+      if (selectedCreationMode === 'bgm') {
+        setPageNumber(1);
+      } else {
+        setPageNumber(0);
+      }
     }
   };
 
@@ -195,6 +200,8 @@ const Create = () => {
               finalPrompt={finalPrompt}
               setFinalPrompt={setFinalPrompt}
               selectedVersion={selectedVersion}
+              selectedPrivacy={selectedPrivacy}
+              selectedCreationMode={selectedCreationMode}
             />
           )}
         </>
@@ -252,6 +259,8 @@ const Create = () => {
               finalPrompt={finalPrompt}
               setFinalPrompt={setFinalPrompt}
               selectedVersion={selectedVersion}
+              selectedPrivacy={selectedPrivacy}
+              selectedCreationMode={selectedCreationMode}
             ></MelodyMaker>
           )}
         </>

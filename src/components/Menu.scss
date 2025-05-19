@@ -220,9 +220,8 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
-
               p {
-                color: var(--Text-music-title, #f1f1f1);
+                color: #f1f1f1;
                 font-family: Inter500;
                 font-size: 12px;
                 font-style: normal;
@@ -231,14 +230,14 @@
               }
               span {
                 width: 48px;
-                color: var(--Text-music-sub, #aaa);
+                color: #aaa;
                 font-family: Inter500;
                 font-size: 12px;
                 font-style: normal;
                 line-height: 100%; /* 12px */
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 4px;
                 img {
                   width: 14px;
                   height: 14px;
@@ -252,7 +251,7 @@
         display: flex;
         align-items: center;
         margin-left: auto;
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         font-family: Inter400;
         font-size: 14px;
         font-style: normal;

@@ -370,33 +370,6 @@
     }
   }
 }
-
-@media screen and (max-width: 768px) {
-  .create__get-started--version {
-    &.active {
-      .create__get-started--version__select {
-        .create__get-started--version__select__list {
-          height: auto !important;
-        }
-      }
-    }
-  }
-  .create__get-started {
-    padding: 32px 32px 64px;
-    margin-top: 32px;
-    .create__get-started--title {
-      font-size: 28px;
-    }
-    .create__get-started--subtitle {
-      font-size: 18px;
-    }
-  }
-  .create__get-started--format {
-    flex-direction: column;
-  }
-}
-
-// 임시 스타일
 .create__get-started--radio-box {
   margin: 20px 0;
   display: flex;
@@ -466,5 +439,36 @@
         cursor: pointer;
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .create__get-started--version {
+    &.active {
+      .create__get-started--version__select {
+        .create__get-started--version__select__list {
+          height: auto !important;
+        }
+      }
+    }
+  }
+  .create__get-started {
+    padding: 32px 32px 64px;
+    margin-top: 32px;
+    .create__get-started--title {
+      font-size: 28px;
+    }
+    .create__get-started--subtitle {
+      font-size: 18px;
+    }
+  }
+  .create__get-started--format {
+    flex-direction: column;
+  }
+  .create__get-started--radio-box {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }

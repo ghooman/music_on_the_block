@@ -515,7 +515,7 @@ function Album() {
                     </dl>
                     <div className="album__content-list__evaluation-stage__item__details-number">
                       <p className={`grade ${item.grade.toLowerCase()}`}>{item.score} </p>
-                      <button className="details-btn">Details</button>
+                      <button className="details-btn">{t('Details')}</button>
                     </div>
                   </button>
                 ))}

@@ -433,15 +433,16 @@ const MelodyMaker = ({
           selected={melodyData?.melody_genre}
           preset={genrePreset}
         />
-        <SelectItem
-          mainTitle="Select a Gender"
-          subTitle="Popular Gender"
-          setter={setMelodyData}
-          objKey="melody_gender"
-          selected={melodyData?.melody_gender}
-          preset={genderPreset}
-        />
-
+        {selectedCreationMode === 'song' && (
+          <SelectItem
+            mainTitle="Select a Gender"
+            subTitle="Popular Gender"
+            setter={setMelodyData}
+            objKey="melody_gender"
+            selected={melodyData?.melody_gender}
+            preset={genderPreset}
+          />
+        )}
         <SelectItem
           mainTitle="Instrument"
           subTitle="Instrument Tags"

@@ -35,13 +35,9 @@ import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modul
 import PreparingModal from './PreparingModal';
 
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n/i18n';
 
 const Footer = ({ setIsLoggedIn }) => {
   const { t } = useTranslation('main');
-  const changeLang = (lang = '한국어') => {
-    i18n.changeLanguage(lang);
-  };
 
   const [transactions, setTransactions] = useState([]);
   const [isPreparingModal, setPreparingModal] = useState(false);

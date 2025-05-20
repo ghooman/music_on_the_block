@@ -20,12 +20,9 @@ import { useUserDetail } from '../hooks/useUserDetail';
 import { useTokenBalance } from '../hooks/useTokenBalance';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n/i18n';
 
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t } = useTranslation('main');
-
-  const { language } = navigator;
 
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
@@ -127,14 +124,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   // }, []);
 
   const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
-
-  useEffect(() => {
-    if (language.startsWith('ko')) {
-      i18n.changeLanguage('한국어');
-    } else {
-      i18n.changeLanguage('English');
-    }
-  }, [language]);
 
   return (
     <>

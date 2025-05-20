@@ -40,7 +40,7 @@ const UserTable = ({
         </TableHeader>
         <TableBody>
           {userList.map((item, index) => (
-            <React.Fragment key={item.id + index}>
+            <React.Fragment key={index}>
               <TableItem>
                 <TableItem.Text text={index + 1} />
                 <TableItem.UserInfo image={item.profile} name={item.artist} />

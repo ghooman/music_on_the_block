@@ -325,7 +325,7 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
   }, [selectItem]);
 
   return (
-    <FilterItemWrap title={title}>
+    <FilterItemWrap title={t(title)}>
       {filterItems.map((item, index) => {
         if (typeof item === 'object') {
           // 이미지 넣을 경우

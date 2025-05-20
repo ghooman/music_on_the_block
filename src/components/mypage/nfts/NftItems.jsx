@@ -64,7 +64,7 @@ const NftItems = ({ username, isMyProfile }) => {
         </div>
         <ContentWrap.SubWrap gap={8}>
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
-          <Search placeholder="Search by item" reset={{ page: 1 }} />
+          <Search placeholder="Search by NFT name" reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <NftTable
           saleOption={isMyProfile}

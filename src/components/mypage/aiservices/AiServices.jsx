@@ -250,11 +250,11 @@ const AiServices = ({ username }) => {
         <div className="period__menu"></div>
         <div className="period__chart">
           <div className="period__chart--item">
-            <p>{t('Song Grade Distribution')}</p>
+            <p>{t('AI Work Trends By Period (7-Dates Fixed)')}</p>
             {dailyUsageData && <LineChart data={dailyUsageData} />}
           </div>
           <div className="period__chart--item">
-            <p>{t('AI Work Trends By Period (7-Dates Fixed)')}</p>
+            <p>{t('Song Grade Distribution')}</p>
             {songRatingCountData && <BarChart data={songRatingCountData} />}
           </div>
         </div>

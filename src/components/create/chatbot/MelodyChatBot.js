@@ -34,7 +34,6 @@ const MelodyChatBot = ({
   selectedPrivacy,
   selectedCreationMode,
 }) => {
-  console.log('selectedPrivacy', selectedPrivacy);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
@@ -602,7 +601,7 @@ const MelodyChatBot = ({
           musical_instrument: Array.isArray(melody_instrument)
             ? melody_instrument.join(', ')
             : melody_instrument,
-          ai_service: 1,
+          ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
           ai_service_type: '',
           tempo: parseInt(melody_tempo),
           song_length: '',
@@ -625,7 +624,11 @@ const MelodyChatBot = ({
         },
       };
       console.log('formData being sent:', formData);
-      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
+      const url =
+        selectedCreationMode === 'song'
+          ? `${serverApi}/api/music/v2/album/`
+          : `${serverApi}/api/music/v2/album/bgm`;
+      const res = await axios.post(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

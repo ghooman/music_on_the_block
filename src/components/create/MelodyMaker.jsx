@@ -157,7 +157,6 @@ const MelodyMaker = ({
   selectedPrivacy,
   selectedCreationMode,
 }) => {
-  console.log('selectedPrivacy', selectedPrivacy);
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
@@ -338,7 +337,7 @@ const MelodyMaker = ({
           style: '',
           gender: melody_gender?.[0] || '',
           musical_instrument: melody_instrument?.join(', ') || '',
-          ai_service: 1,
+          ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
           ai_service_type: '',
           tempo: parseFloat(tempo),
           song_length: '',
@@ -361,7 +360,12 @@ const MelodyMaker = ({
       };
       console.log('formData', formData);
       // axios를 통한 POST 요청
-      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
+      const url =
+        selectedCreationMode === 'song'
+          ? `${serverApi}/api/music/v2/album/`
+          : `${serverApi}/api/music/v2/album/bgm`;
+
+      const res = await axios.post(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -370,6 +374,7 @@ const MelodyMaker = ({
 
       storeAlbumId(res.data.id, res.data.title);
       setGeneratedMusicResult(res.data);
+      console.log('보낸 url', url);
       console.log('handleSubmit', res);
       console.log('storeAlbumId', res.data.id, res.data.title);
       navigate(`/`);

@@ -108,7 +108,7 @@ const GetStarted = ({
 
       <div className="create__get-started--radio-box">
         <div className="created__get-started--privacy">
-          <h3>Privacy</h3>
+          <h3>&lt;Privacy&gt;</h3>
           <div className="creation-mode-options">
             <div className="privacy-option">
               <input
@@ -136,7 +136,7 @@ const GetStarted = ({
         </div>
 
         <div className="created__get-started--creation-mode">
-          <h3>Creation Mode</h3>
+          <h3>&lt;Creation Mode&gt;</h3>
           <div className="creation-mode-options">
             <div className="privacy-option">
               <input

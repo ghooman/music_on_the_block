@@ -417,7 +417,13 @@
     .privacy-option,
     .creation-mode-options {
       display: flex;
-      gap: 20px;
+      padding: 9px 20px;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      border-radius: 12px;
+      background: var(--Color-02, #1a1a1a);
+      width: 269px;
     }
 
     .privacy-option {

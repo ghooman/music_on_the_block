@@ -219,6 +219,7 @@ function AlbumDetail() {
     setIsActive(false);
   }, [id]);
   const handleClick = () => {
+    if (album?.ai_service == 0) return;
     setIsActive(prev => !prev);
   };
 
@@ -573,21 +574,19 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
-                  <dt>Language</dt>
-                  <dd>{album?.language || '-'}</dd>
+                  <dt>Type</dt>
+                  <dd>{album?.ai_service == 0 ? 'BGM' : 'Song'}</dd>
                 </dl>
                 <dl>
                   <dt>Genre</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
-                {/* <dl>
-                                    <dt>Stylistic</dt>
-                                    <dd>{album?.Stylistic || '-'}</dd>
-                                </dl> */}
-                <dl>
-                  <dt>Gender</dt>
-                  <dd>{album?.gender || '-'}</dd>
-                </dl>
+                {album?.ai_service != 0 && (
+                  <dl>
+                    <dt>Gender</dt>
+                    <dd>{album?.gender || '-'}</dd>
+                  </dl>
+                )}
                 <dl>
                   <dt>Musical Instrument</dt>
                   <dd>{album?.musical_instrument || '-'}</dd>
@@ -619,6 +618,13 @@ function AlbumDetail() {
                     </Link>
                   </dd>
                 </dl>
+                {/* 공간차지용 */}
+                {album?.ai_service == 0 && (
+                  <dl style={{ visibility: 'hidden' }}>
+                    <dt>Blank</dt>
+                    <dd>-</dd>
+                  </dl>
+                )}
                 <div className="album-detail__control-guide">
                   <p className="album-detail__control-guide--text">NFT Status</p>
                   <img

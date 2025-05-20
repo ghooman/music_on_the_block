@@ -431,9 +431,10 @@ const TrackInformation = ({ id }) => {
             title="Musical Instrument"
             value={activityData?.nft_musical_instrument || '-'}
           />
-          <NftOverviewItem title="Tempo" value={activityData?.nft_tempo || '-'} />
-          <NftOverviewItem title="Detail" value={activityData?.nft_detail || '-'} />
-          <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} />
+          <NftOverviewItem title="Tempo" value={activityData?.nft_tempo || '-'} isTwo/>
+          <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} isTwo/>
+          <NftOverviewItem title="Detail" value={activityData?.nft_detail || '-'} isLong/>
+
         </NftOverview>
       </ContentWrap>
       {/* {activityData?.recommand_list && ( */}

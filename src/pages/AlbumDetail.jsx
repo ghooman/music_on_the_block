@@ -35,6 +35,7 @@ import { WalletConnect } from '../components/WalletConnect';
 import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
+import EvaluationResults from './EvaluationResults';
 
 function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -71,6 +72,10 @@ function AlbumDetail() {
   // 댓글 영역 스크롤 이동을 위한 ref
   const commentRef = useRef(null);
 
+
+  const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
+
+
   // 진행바 스크롤 이동 핸들러
   const handleScrollToComment = () => {
     if (commentRef.current) {
@@ -101,7 +106,7 @@ function AlbumDetail() {
       680: {
         slidesPerView: 2,
       },
-      930: {
+      1250: {
         slidesPerView: 3,
       },
     },
@@ -466,19 +471,19 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__left__info">
                 {/* <div className="album-detail__song-detail__left__info__number">
-                                    <p className="love" onClick={handleLike}>
-                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                                        {album?.like || 0}
-                                    </p>
-                                    <p className="play">
-                                        <img src={playIcon} alt="play Icon" />
-                                        {album?.play_cnt || 0}
-                                    </p>
-                                    <p className="comment" onClick={handleScrollToComment}>
-                                        <img src={commentIcon} alt="comment Icon" />
-                                        {album?.comment_cnt || 0}
-                                    </p>
-                                </div> */}
+                      <p className="love" onClick={handleLike}>
+                          <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                          {album?.like || 0}
+                      </p>
+                      <p className="play">
+                          <img src={playIcon} alt="play Icon" />
+                          {album?.play_cnt || 0}
+                      </p>
+                      <p className="comment" onClick={handleScrollToComment}>
+                          <img src={commentIcon} alt="comment Icon" />
+                          {album?.comment_cnt || 0}
+                      </p>
+                    </div> */}
                 {!setIsLoggedIn && (
                   <div className="album-detail__song-detail__left__info__number">
                     <p className="play">
@@ -568,9 +573,9 @@ function AlbumDetail() {
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
                 {/* <dl>
-                                    <dt>Stylistic</dt>
-                                    <dd>{album?.Stylistic || '-'}</dd>
-                                </dl> */}
+                        <dt>Stylistic</dt>
+                        <dd>{album?.Stylistic || '-'}</dd>
+                    </dl> */}
                 <dl>
                   <dt>Gender</dt>
                   <dd>{album?.gender || '-'}</dd>
@@ -673,90 +678,127 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section
-          className={`album-detail__rank-table ${isLoggedIn ? 'is-logged-in' : 'not-logged-in'}`}
-        >
-          <div ref={commentRef}>
-            <AdvancedCommentComponent id={id} />
-          </div>
-          <dl className="album-detail__rank-table__title">
-            <dt>Songs Leaderboard Rank</dt>
-            <dd>Most Plays</dd>
-          </dl>
-          <div className="table-container">
-            <table className="custom-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Artist</th>
-                  <th>Song Title</th>
-                  <th>Plays</th>
-                  <th>Likes</th>
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaderBoardData.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td className="user-info">
-                      <p>
-                        <img src={item.user_profile || defaultCoverImg} alt="user profile" />
-                        {item.name}
-                      </p>
-                    </td>
-                    <td className="title">
-                      <p></p>
-                      {item.title}
-                    </td>
-                    <td>
-                      {/* {formatLocalTime(item.create_dt)} */}
-                      {item?.play_cnt}
-                    </td>
-                    <td>{item.like}</td>
-                    <td>
-                      <Link className="details-btn active" to={'/song-detail/' + item.id}>
-                        Details
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <section className="album__content-list__tab">
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Lyrics & Songwriting' ? 'active' : ''
+            }`}
+            onClick={() => setActiveTab('AI Lyrics & Songwriting')}
+          >
+            AI Lyrics & Songwriting
+          </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Singing Evaluation' ? 'active' : ''
+            }`}
+            onClick={() => setActiveTab('AI Singing Evaluation')}
+          >
+            AI Singing Evaluation
+          </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Cover Creation' ? 'active' : ''
+            }`}
+            onClick={() => setPreparingModal(true)}
+          >
+            AI Cover Creation
+          </button>
         </section>
 
-        <section className="album-detail__slide">
-          <dl className="album-detail__slide__title">
-            <dt>Your Picks</dt>
-            <dd>Top tracks from your favorite genre.</dd>
-          </dl>
-          <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="song-detail-slide">
-              {favoriteGenreList.map(track => (
-                <SwiperSlide key={track.id}>
-                  <AlbumItem track={track} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </section>
+        {activeTab === "AI Lyrics & Songwriting" && (
+          <>
+            <section
+              className={`album-detail__rank-table ${isLoggedIn ? 'is-logged-in' : 'not-logged-in'}`}
+            >
+              <div ref={commentRef}>
+                <AdvancedCommentComponent id={id} />
+              </div>
+              <dl className="album-detail__rank-table__title">
+                <dt>Songs Leaderboard Rank</dt>
+                <dd>Most Plays</dd>
+              </dl>
+              <div className="table-container">
+                <table className="custom-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Artist</th>
+                      <th>Song Title</th>
+                      <th>Plays</th>
+                      <th>Likes</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leaderBoardData.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+                        <td className="user-info">
+                          <p>
+                            <img src={item.user_profile || defaultCoverImg} alt="user profile" />
+                            {item.name}
+                          </p>
+                        </td>
+                        <td className="title">
+                          <p></p>
+                          {item.title}
+                        </td>
+                        <td>
+                          {/* {formatLocalTime(item.create_dt)} */}
+                          {item?.play_cnt}
+                        </td>
+                        <td>{item.like}</td>
+                        <td>
+                          <Link className="details-btn active" to={'/song-detail/' + item.id}>
+                            Details
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section className="album-detail__slide">
+              <dl className="album-detail__slide__title">
+                <dt>Your Picks</dt>
+                <dd>Top tracks from your favorite genre.</dd>
+              </dl>
+              <div className="album-detail__slide__swiper">
+                <Swiper {...swiperOptions} className="song-detail-slide">
+                  {favoriteGenreList.map(track => (
+                    <SwiperSlide key={track.id}>
+                      <AlbumItem track={track} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </section>
 
-        <section className="album-detail__slide">
-          <dl className="album-detail__slide__title">
-            <dt>Similar Vibes</dt>
-            <dd>Top tracks from the same genre as this song.</dd>
-          </dl>
-          <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="song-detail-slide">
-              {similarVibesList.map(track => (
-                <SwiperSlide key={track.id}>
-                  <AlbumItem track={track} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </section>
+            <section className="album-detail__slide">
+              <dl className="album-detail__slide__title">
+                <dt>Similar Vibes</dt>
+                <dd>Top tracks from the same genre as this song.</dd>
+              </dl>
+              <div className="album-detail__slide__swiper">
+                <Swiper {...swiperOptions} className="song-detail-slide">
+                  {similarVibesList.map(track => (
+                    <SwiperSlide key={track.id}>
+                      <AlbumItem track={track} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </section>
+          </>
+        )}
+        {activeTab === "AI Singing Evaluation" && (
+          <>
+            
+            <EvaluationResults/>
+          </>
+        )}
+
       </div>
       {isShareModal && (
         <ShareModal

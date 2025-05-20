@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
+
 import coverImg from '../assets/images/black-img.jpg';
 import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
@@ -14,6 +15,12 @@ import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 import issueIcon from '../assets/images/icon/issue-opened.svg';
+
+import persona01 from '../assets/images/evaluation/persona-all-bg.png';
+import persona02 from '../assets/images/evaluation/persona-user01.png';
+import persona03 from '../assets/images/evaluation/persona-user02.png';
+import persona04 from '../assets/images/evaluation/persona-user03.png';
+
 import track2 from '../assets/music/nisoft_song.mp3';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
@@ -377,6 +384,16 @@ function AlbumDetail() {
       create_version = 'L&S One (V1.0)';
       break;
   }
+
+
+  const personas = [
+    // { img: persona01, name: 'All' },
+    { img: persona02, name: 'Jinwoo Yoo' },
+    { img: persona03, name: 'Drexx' },
+    { img: persona04, name: 'Elara Moon' },
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -794,7 +811,18 @@ function AlbumDetail() {
         )}
         {activeTab === "AI Singing Evaluation" && (
           <>
-            
+            <article className='main__content-item__persona'>
+              {personas.map((persona, index) => (
+                <div
+                  key={index}
+                  className={`main__content-item__persona__item ${activeIndex === index ? 'active' : ''}`}
+                  onClick={() => setActiveIndex(index)}
+                >
+                  <img src={persona.img} alt={persona.name} />
+                  <p>{persona.name}</p>
+                </div>
+              ))}
+            </article>
             <EvaluationResults/>
           </>
         )}

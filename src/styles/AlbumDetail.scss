@@ -19,6 +19,40 @@
     }
   } //album-detail__title--END--
 
+  .main__content-item__persona{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 0 32px 0;
+    .main__content-item__persona__item{
+      width: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      img{
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+        border: 2px solid transparent;
+        transition: 0.3s;
+      }
+      p{
+        color: #F1F1F1;
+        font-family: Inter500;
+        font-size: 12px;
+      }
+      &.active{
+        img{
+          border: 2px solid #cf0;
+          box-shadow: 0px 0px 3px 0px #CF0;
+        }
+      }
+    }//main__content-item__persona__item--END--
+  }//main__content-item__persona--END--
+  
   .album__content-list__tab {
     display: flex;
     align-items: center;

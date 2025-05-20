@@ -782,7 +782,7 @@ const ListSlider = ({
                   className="swiper-music-list__item__right__user__btn"
                   to={'/song-detail/' + track.id}
                 >
-                  Details
+                  {t('Details')}
                 </Link>
               </div>
             </div>

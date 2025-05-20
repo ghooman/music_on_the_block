@@ -167,8 +167,8 @@ const AlbumCollectionDetails = ({
                 <NoneContent
                   image={NoDataImage}
                   title={`No ${elementsname} in this ${bundlename?.toLowerCase()}`}
-                  message={`This ${elementsname} is currently empty.`}
-                  message2={`Add ${elementsname} to complete your ${bundlename?.toLowerCase()}.`}
+                  message={t(`This ${bundlename?.toLowerCase()} is currently empty.`)}
+                  message2={t(`Add ${elementsname} to complete your ${bundlename?.toLowerCase()}.`)}
                   height={300}
                 />
               )}

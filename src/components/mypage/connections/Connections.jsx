@@ -26,7 +26,7 @@ const Connections = () => {
   const { t } = useTranslation('my_page');
 
   const [searchParamas, setSearchParams] = useSearchParams();
-  const [unFollowUserId, setUnFollowUserId] = useState(null);
+  const [unFollowUser, setUnfollowUser] = useState(null);
 
   const { token } = useContext(AuthContext);
 
@@ -91,14 +91,14 @@ const Connections = () => {
   //====================
 
   const handleFollowing = useCallback(
-    async id => {
+    async userData => {
       try {
-        const res = await axios.post(`${serverApi}/api/user/${id}/follow`, null, {
+        const res = await axios.post(`${serverApi}/api/user/${userData?.user_id}/follow`, null, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        queryUpdate(id);
+        queryUpdate(userData?.user_id);
       } catch (e) {
         console.error(e);
       }
@@ -112,16 +112,20 @@ const Connections = () => {
 
   const handleUnfollowing = useCallback(async () => {
     try {
-      const res = await axios.post(`${serverApi}/api/user/${unFollowUserId}/follow/cancel`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      queryUpdate(unFollowUserId);
+      const res = await axios.post(
+        `${serverApi}/api/user/${unFollowUser?.user_id}/follow/cancel`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      queryUpdate(unFollowUser?.user_id);
     } catch (e) {
       console.error(e);
     }
-  }, [unFollowUserId]);
+  }, [unFollowUser]);
 
   return (
     <div className="connections">
@@ -145,15 +149,15 @@ const Connections = () => {
           userList={connectionsData?.data_list}
           followOption={connectionsType === 'Followers'}
           unFollowOption={connectionsType === 'Following'}
-          handleFollowing={id => handleFollowing(id)}
-          handleUnFollowing={id => setUnFollowUserId(id)}
+          handleFollowing={userData => handleFollowing(userData)}
+          handleUnFollowing={userData => setUnfollowUser(userData)}
         />
         <Pagination totalCount={connectionsData?.total_cnt} viewCount={10} page={page} />
       </ContentWrap>
-      {unFollowUserId && (
+      {unFollowUser && (
         <UnFollowModal
-          setUnFollowModal={setUnFollowUserId}
-          profileData={unFollowUserId}
+          setUnFollowModal={setUnfollowUser}
+          profileData={unFollowUser}
           handleClick={handleUnfollowing}
         />
       )}

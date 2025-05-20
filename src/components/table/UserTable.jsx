@@ -58,9 +58,9 @@ const UserTable = ({
                     type={item.is_follow ? 'follow' : 'unfollow'}
                     handleClick={() => {
                       if (item.is_follow) {
-                        handleFollowing(item.user_id);
+                        handleFollowing(item);
                       } else {
-                        handleUnFollowing(item.user_id);
+                        handleUnFollowing(item);
                       }
                     }}
                   />
@@ -71,7 +71,7 @@ const UserTable = ({
                     type={item.is_follow ? 'following' : 'follow'}
                     handleClick={() => {
                       if (item?.is_follow) return;
-                      handleFollowing(item.user_id);
+                      handleFollowing(item);
                     }}
                   />
                 )}

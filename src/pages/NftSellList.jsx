@@ -10,10 +10,13 @@ import SongPlayTable from '../components/table/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
 import Loading from '../components/IntroLogo2';
 import { AuthContext } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const NftSellList = () => {
+  const { t } = useTranslation('nft_marketplace');
+
   const [searchParams, setSearchParams] = useSearchParams();
   const { token } = useContext(AuthContext);
 
@@ -54,7 +57,7 @@ const NftSellList = () => {
 
   return (
     <div>
-      <ContentWrap title="Sell NFT">
+      <ContentWrap title={t('Sell NFT')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} gradeFilter={true} />
           <Search placeholder="Search" />

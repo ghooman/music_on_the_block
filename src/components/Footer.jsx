@@ -192,7 +192,7 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                 </dl>
                 <dl>
-                  <dt>{t('AI Service')}</dt>
+                  <dt>{t('AI Services')}</dt>
                   <dd>
                     <Link to="/create">{t('AI Lyrics & Songwriting')}</Link>
                   </dd>

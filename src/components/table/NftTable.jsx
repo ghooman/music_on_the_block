@@ -4,7 +4,7 @@ import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
-import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
+import SuccessModal from '../modal/SuccessModal';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -170,7 +170,7 @@ const NftTable = ({
         />
       )}
       {showSuccessModal && (
-        <NftConfirmSuccessModal
+        <SuccessModal
           setShowSuccessModal={setShowSuccessModal}
           title="Your NFT sale has been cancelled successfully!"
           noRedirect={true}

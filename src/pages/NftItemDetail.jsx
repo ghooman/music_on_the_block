@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, use } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Categories from '../components/nft/Categories';
@@ -37,8 +37,11 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { WalletConnect } from '../components/WalletConnect';
 import ShareModal from '../components/ShareModal';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
+import { useTranslation } from 'react-i18next';
 
 const NftItemDetail = () => {
+  const { t } = useTranslation('nft_marketplace');
+
   const [selectCategory, setSelectCategory] = useState('Track Information');
   const [_, setSearchParams] = useSearchParams();
 
@@ -50,22 +53,23 @@ const NftItemDetail = () => {
 
   return (
     <div className="nft-item-detail">
-      <NftItemDetailInfo id={id} />
+      <NftItemDetailInfo id={id} t={t} />
       <Categories
         categories={['Track Information', 'Transaction Statistics', 'History']}
         value={selectCategory}
         onClick={setSelectCategory}
+        translateFn={t}
       />
-      {selectCategory === 'Track Information' && <TrackInformation id={id} />}
-      {selectCategory === 'Transaction Statistics' && <TransactionStatistics id={id} />}
-      {selectCategory === 'History' && <History id={id} />}
+      {selectCategory === 'Track Information' && <TrackInformation id={id} t={t} />}
+      {selectCategory === 'Transaction Statistics' && <TransactionStatistics id={id} t={t} />}
+      {selectCategory === 'History' && <History id={id} t={t} />}
     </div>
   );
 };
 
 export default NftItemDetail;
 
-const NftItemDetailInfo = ({ id }) => {
+const NftItemDetailInfo = ({ id, t }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [cancelNft, setCancelNft] = useState(null);
@@ -199,7 +203,7 @@ const NftItemDetailInfo = ({ id }) => {
       </div>
 
       <div className="nft-item-detail-info-wrap">
-        <p className="nft-item-detail-info-wrap__title">NFT Item Details</p>
+        <p className="nft-item-detail-info-wrap__title">{t('NFT Item Details')}</p>
         <section className="nft-item-detail__song-detail">
           {/* <p className="nft-item-detail__song-detail__title">Song Details</p> */}
           <div className="nft-item-detail__song-detail__bot">
@@ -246,7 +250,7 @@ const NftItemDetailInfo = ({ id }) => {
                   <pre>{nftDetailData?.nft_lyrics}</pre>
                 </div>
                 <button className="nft-item-detail__song-detail__left__img__lyric-btn">
-                  Lyrics
+                  {t('Lyrics')}
                 </button>
               </div>
               <div className="nft-item-detail__song-detail__left__info">
@@ -282,15 +286,15 @@ const NftItemDetailInfo = ({ id }) => {
               </p>
               <div className="nft-item-detail__song-detail__right__info-box">
                 <dl>
-                  <dt>Item ID</dt>
+                  <dt>{t('Item ID')}</dt>
                   <dd># {nftDetailData?.id}</dd>
                 </dl>
                 <dl>
-                  <dt>Collection</dt>
+                  <dt>{t('Collection')}</dt>
                   <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
                 </dl>
                 <dl className="artist">
-                  <dt>Artist</dt>
+                  <dt>{t('Artist')}</dt>
                   <dd>
                     <p className="user">
                       <img src={nftDetailData?.user_profile || defaultUserImg} alt="profile" />
@@ -306,17 +310,17 @@ const NftItemDetailInfo = ({ id }) => {
                   // className="Listed"
                   // className="Sold"
                 >
-                  <dt>Sell Status</dt>
+                  <dt>{t('Sell Status')}</dt>
                   <dd>{nftDetailData?.now_sales_status}</dd>
                 </dl>
                 <dl>
-                  <dt>Mint NFT date</dt>
+                  <dt>{t('Mint NFT date')}</dt>
                   <dd>{formatLocalTime(nftDetailData?.create_dt)}</dd>
                 </dl>
               </div>
               <div className="nft-item-detail__song-detail__right__value-box">
                 <dl className="nft-item-detail__song-detail__right__value-box__price">
-                  <dt>Price</dt>
+                  <dt>{t('Price')}</dt>
                   <dd>
                     {nftDetailData?.price
                       ? `${nftDetailData?.price} ${nftDetailData?.sales_token}`
@@ -333,7 +337,7 @@ const NftItemDetailInfo = ({ id }) => {
                       className="nft-item-detail__song-detail__right__btn-box__btn unlisted-nft"
                       onClick={e => null}
                     >
-                      Unlisted
+                      {t('Unlisted')}
                     </button>
                   )}
                   {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
@@ -341,7 +345,7 @@ const NftItemDetailInfo = ({ id }) => {
                       className="nft-item-detail__song-detail__right__btn-box__btn"
                       onClick={e => handleButtonClick(e, 'buy')}
                     >
-                      Buy NFT
+                      {t('Buy NFT')}
                     </button>
                   )}
                   {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
@@ -349,7 +353,7 @@ const NftItemDetailInfo = ({ id }) => {
                       className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
                       onClick={e => handleButtonClick(e, 'sell')}
                     >
-                      Sell NFT
+                      {t('Sell NFT')}
                     </button>
                   )}
                   {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
@@ -357,7 +361,7 @@ const NftItemDetailInfo = ({ id }) => {
                       className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft"
                       onClick={e => handleButtonClick(e, 'cancel')}
                     >
-                      Cancel NFT
+                      {t('Cancel NFT')}
                     </button>
                   )}
                 </div>
@@ -404,6 +408,8 @@ const NftItemDetailInfo = ({ id }) => {
 };
 
 const TrackInformation = ({ id }) => {
+  const { t } = useTranslation('nft_marketplace');
+
   const { data: activityData } = useQuery(['transaction_activity_data', id], async () => {
     const res = await getNftOverview({ nft_id: id });
     return res.data;
@@ -411,11 +417,11 @@ const TrackInformation = ({ id }) => {
 
   return (
     <>
-      <ContentWrap title="Activity">
-        <NftOverview title="Content Information">
-          <NftOverviewItem title="Tags" value={activityData?.nft_tags || '-'} isLong />
+      <ContentWrap title={t('Activity')}>
+        <NftOverview title={t('Content Information')}>
+          <NftOverviewItem title={t('Tags')} value={activityData?.nft_tags || '-'} isLong />
           <NftOverviewItem
-            title="Creation Date"
+            title={t('Creation Date')}
             value={
               activityData?.nft_song_create_dt
                 ? formatLocalTime(activityData?.nft_song_create_dt)
@@ -423,21 +429,21 @@ const TrackInformation = ({ id }) => {
             }
             isLong
           />
-          <NftOverviewItem title="Type" value="Lyrics + Songwriting" isTwo typeImg />
-          <NftOverviewItem title="Language" value={activityData?.nft_language || '-'} isTwo />
-          <NftOverviewItem title="Genre" value={activityData?.genre || '-'} />
-          <NftOverviewItem title="Gender" value={activityData?.nft_gender || '-'} />
+          <NftOverviewItem title={t('Type')} value="Lyrics + Songwriting" isTwo typeImg />
+          <NftOverviewItem title={t('Language')} value={activityData?.nft_language || '-'} isTwo />
+          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} />
+          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} />
           <NftOverviewItem
-            title="Musical Instrument"
+            title={t('Musical Instrument')}
             value={activityData?.nft_musical_instrument || '-'}
           />
-          <NftOverviewItem title="Tempo" value={activityData?.nft_tempo || '-'} />
-          <NftOverviewItem title="Detail" value={activityData?.nft_detail || '-'} />
-          <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} />
+          <NftOverviewItem title={t('Tempo')} value={activityData?.nft_tempo || '-'} />
+          <NftOverviewItem title={t('Detail')} value={activityData?.nft_detail || '-'} />
+          <NftOverviewItem title={t('Song Length')} value={activityData?.song_length || '-'} />
         </NftOverview>
       </ContentWrap>
       {/* {activityData?.recommand_list && ( */}
-      <ContentWrap title="More from this Collection">
+      <ContentWrap title={t('More from this Collection')}>
         <NftItemList data={activityData?.recommand_list} />
       </ContentWrap>
       {/* )} */}
@@ -446,21 +452,23 @@ const TrackInformation = ({ id }) => {
 };
 
 const TransactionStatistics = ({ id }) => {
+  const { t } = useTranslation('nft_marketplace');
+
   const { data: statisticsData } = useQuery(['transaction_statistics_data', id], async () => {
     const res = await getNftStatistics({ nft_id: id });
     return res.data;
   });
 
   return (
-    <ContentWrap title="Transaction Statistics">
-      <NftOverview title="Key Information Related to Transactions">
+    <ContentWrap title={t('Transaction Statistics')}>
+      <NftOverview title={t('Key Information Related to Transactions')}>
         <NftOverviewItem
-          title="Price"
+          title={t('Price')}
           value={statisticsData?.price?.toLocaleString() || '-'}
           isTwo
         />
         <NftOverviewItem
-          title="Recent Transaction Date"
+          title={t('Recent Transaction Date')}
           value={
             statisticsData?.last_transaction_date
               ? formatLocalTime(statisticsData?.last_transaction_date)
@@ -469,14 +477,14 @@ const TransactionStatistics = ({ id }) => {
           isTwo
         />
       </NftOverview>
-      <NftOverview title="Transaction Statistics">
+      <NftOverview title={t('Transaction Statistics')}>
         <NftOverviewItem
-          title="Number of Transactions"
+          title={t('Number of Transactions')}
           value={statisticsData?.transaction_cnt?.toLocaleString() || '-'}
           isTwo
         />
         <NftOverviewItem
-          title="Total Volume"
+          title={t('Total Volume')}
           value={
             statisticsData?.total_price
               ? `${statisticsData?.total_price?.toLocaleString()} ${statisticsData?.sales_token}`
@@ -485,7 +493,7 @@ const TransactionStatistics = ({ id }) => {
           isTwo
         />
         <NftOverviewItem
-          title="Average Price"
+          title={t('Average Price')}
           value={
             statisticsData?.avg_price
               ? `${statisticsData?.avg_price?.toLocaleString()} ${statisticsData?.sales_token}`
@@ -501,7 +509,7 @@ const TransactionStatistics = ({ id }) => {
           }
         />
         <NftOverviewItem
-          title="Lowest Price"
+          title={t('Lowest Price')}
           value={
             statisticsData?.min_price
               ? `${statisticsData?.min_price?.toLocaleString()} ${statisticsData?.sales_token}`
@@ -509,17 +517,19 @@ const TransactionStatistics = ({ id }) => {
           }
         />
       </NftOverview>
-      <ContentWrap title="Graph List">
+      <ContentWrap title={t('Graph List')}>
         <NftGraph
           barGraphData={statisticsData?.transaction_cnt_progress}
+          barTitle={`${t('Transaction Volume')} ${t('(7-Day Fixed)')}`}
           lineGraphData={statisticsData?.transaction_price_progress}
+          lineTitle={`${t('Average Price')} ${t('(7-Day Fixed)')}`}
         />
       </ContentWrap>
     </ContentWrap>
   );
 };
 
-const History = ({ id }) => {
+const History = ({ id, t }) => {
   const [searchParams] = useSearchParams();
 
   const page = searchParams.get('page');
@@ -542,7 +552,7 @@ const History = ({ id }) => {
   );
 
   return (
-    <ContentWrap title="Information">
+    <ContentWrap title={t('Information')}>
       {/* <InfoRowWrap row={3}>
                 <InfoRowWrap.UserItem
                     title="Most Purchased Artist"

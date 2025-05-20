@@ -30,6 +30,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 
 const Albums = ({ username, isMyProfile }) => {
   const { t } = useTranslation('my_page');
+  const { t: translateModule } = useTranslation('module');
 
   const { token, walletAddress } = useContext(AuthContext);
   const { address } = walletAddress || {};
@@ -152,6 +153,7 @@ const Albums = ({ username, isMyProfile }) => {
                   setDetails(album);
                 }}
                 target="Album"
+                translateFn={translateModule}
               />
             </React.Fragment>
           ))}

@@ -29,6 +29,7 @@ import ErrorModal from '../../modal/ErrorModal';
 
 const Collections = ({ token, username, isMyProfile, walletAddress }) => {
   const { t } = useTranslation('my_page');
+  const { t: translateModule } = useTranslation('module');
 
   const [searchParams] = useSearchParams();
 
@@ -148,6 +149,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
                 handleNavigate={() => navigate(`/nft/collection/detail/${collections?.id}`)}
                 handleDetail={() => setDetails(collections)}
                 target="Collection"
+                translateFn={translateModule}
               />
             </React.Fragment>
           ))}

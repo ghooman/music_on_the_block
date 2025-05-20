@@ -53,7 +53,7 @@ const UserSongsList = ({ username }) => {
       <ContentWrap title={t('Song List')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />
-          <Search reset={{ page: 1 }} placeholder={t('Search by song title') + '...'} />
+          <Search reset={{ page: 1 }} placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         <SongPlayTable
           songList={songList?.data_list}

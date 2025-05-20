@@ -116,8 +116,8 @@ const AlbumCollectionDetails = ({
                   <img
                     src={isPlaying ? stopIcon : playIcon}
                     alt={isPlaying ? 'stop-icon' : 'play-icon'}
-                  />
-                  {isPlaying ? ' Stop' : ' Play'}
+                  />{' '}
+                  {isPlaying ? t('Stop') : t('Play')}
                 </button>
               )}
             </div>

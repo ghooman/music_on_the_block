@@ -42,7 +42,7 @@ const History = ({ username }) => {
       {isLoading && <Loading />}
       <ContentWrap.SubWrap gap={8}>
         <Filter gradeFilter={true} tokenFilter={true} buySellFilter={true} nftSort={true} />
-        <Search placeholder="Search" />
+        <Search placeholder="Search by collection name" />
       </ContentWrap.SubWrap>
       <NftTable
         nftList={data?.data_list}

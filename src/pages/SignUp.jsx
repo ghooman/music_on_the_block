@@ -1,6 +1,8 @@
 // pages/SignUp.js
 import '../styles/SignUp.scss';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useTransition } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import profileImg from '../assets/images/progile-img.svg';
@@ -28,6 +30,8 @@ const AIDetailedSettings = ({
   selectedImageFile,
   setSelectedImageFile,
 }) => {
+  const { t } = useTranslation('sign_up');
+
   const { walletAddress, token } = useContext(AuthContext);
   const [selectedImagePreview, setSelectedImagePreview] = useState(null);
   const [passName, setPassName] = useState(false);
@@ -114,7 +118,7 @@ const AIDetailedSettings = ({
 
   const chekkkk = [
     {
-      title: 'Terms of Service ',
+      title: 'Terms of Service',
     },
     {
       title: 'Privacy Policy',
@@ -139,10 +143,10 @@ const AIDetailedSettings = ({
 
   return (
     <div className="sing-up__setting">
-      <p className="sing-up__setting__title">AI detailed settings</p>
+      <p className="sing-up__setting__title">{t('Sign up')}</p>
       <div className="sing-up__setting__box">
         <div className="sing-up__setting__box__profile">
-          <p className="sing-up__setting__box__title">Artist Profile</p>
+          <p className="sing-up__setting__box__title">{t('Artist Profile')}</p>
           <div className="profile-image-container">
             <label htmlFor="profile-upload" className="profile-upload-label">
               <img
@@ -162,11 +166,11 @@ const AIDetailedSettings = ({
         </div>
         <div className="input-box">
           <p className="input-box__title">
-            Artist Name <span>*</span>
+            {t('Artist Name')} <span>*</span>
           </p>
           <div className="input-box__cover">
             <input
-              placeholder="Please enter your Artist Name here."
+              placeholder={t('Please enter your Artist Name here.')}
               value={formData.artistName}
               onChange={e => {
                 setFormData({
@@ -178,22 +182,22 @@ const AIDetailedSettings = ({
               }}
             />
             <button className="btn" onClick={handleArtistNameCheck}>
-              check
+              {t('Check')}
             </button>
           </div>
-          {passName && <p className="pass-txt">This username is available.</p>}
+          {passName && <p className="pass-txt">{t('This username is available.')}</p>}
           {nameErrorMessage && <p className="err-txt">{nameErrorMessage}</p>}
         </div>
         <div className="input-box">
           <p className="input-box__title two-content">
-            Introduction{' '}
+            {t('Introduction')}{' '}
             <strong>
-              Characters: {formData.introduction.length}/{maxLength}
+              {t('Characters')}: {formData.introduction.length}/{maxLength}
             </strong>
           </p>
           <div className="input-box__cover">
             <textarea
-              placeholder="Introduction"
+              placeholder={t('Introduction')}
               value={formData.introduction}
               onChange={e => {
                 if (e.target.value.length <= maxLength) {
@@ -232,7 +236,7 @@ const AIDetailedSettings = ({
         </div> */}
         <div className="input-box">
           <p className="input-box__title">
-            Wallet Address <span>*</span>
+            {t('Wallet Address')} <span>*</span>
           </p>
           <div className="input-box__cover">
             <input value={walletAddress?.address} readOnly />
@@ -241,12 +245,12 @@ const AIDetailedSettings = ({
       </div>
 
       <div className="check-list">
-        <p className="check-list__title">Terms and Conditions</p>
+        <p className="check-list__title">{t('Terms and Conditions')}</p>
         <label className="check-list__items all">
           <input checked={allChecked} onChange={handleAllCheck} type="checkbox" />
           <span className="check"></span>
           <div className="check-list__items__cover">
-            <p className="check-list__items--title">All Agree</p>
+            <p className="check-list__items--title">{t('All Agree')}</p>
           </div>
         </label>
         {chekkkk.map((item, index) => (
@@ -264,8 +268,8 @@ const AIDetailedSettings = ({
             />
             <span className="check"></span>
             <div className="check-list__items__cover">
-              <p className="check-list__items--title">{item.title}</p>
-              <span className="check-list__items--desc">{item.desc}</span>
+              <p className="check-list__items--title">{t(item.title)}</p>
+              <span className="check-list__items--desc">{t(item.desc)}</span>
             </div>
           </label>
         ))}
@@ -282,7 +286,7 @@ const AIDetailedSettings = ({
             onNext();
           }}
         >
-          Next
+          {t('Next')}
         </button>
       </div>
     </div>
@@ -301,6 +305,8 @@ const PreferredGenre = ({ onBack, onNext, selectedGenre, setSelectedGenre }) => 
     CLASSICAL: classicalImg,
   };
 
+  const { t } = useTranslation('sign_up');
+
   const handleGenreClick = genre => {
     setSelectedGenre(genre);
   };
@@ -308,10 +314,11 @@ const PreferredGenre = ({ onBack, onNext, selectedGenre, setSelectedGenre }) => 
   return (
     <div className="sing-up__setting">
       <dl className="sing-up__setting__banner">
-        <dt>Preferred Genre</dt>
+        <dt>{t('Preferred Genre')}</dt>
         <dd>
-          We collect users’ music tastes to strengthen the personalized recommendation function.
-          After signing up, we provide customized recommended songs & AI services.
+          {t(
+            'We collect users’ music tastes to strengthen the personalized recommendation function. After signing up, we provide customized recommended songs & AI services.'
+          )}
         </dd>
       </dl>
       <div className="sing-up__setting__genre">
@@ -321,7 +328,7 @@ const PreferredGenre = ({ onBack, onNext, selectedGenre, setSelectedGenre }) => 
             key={genre}
             onClick={() => handleGenreClick(genre)}
           >
-            <p className="sing-up__setting__genre__item__title">{genre}</p>
+            <p className="sing-up__setting__genre__item__title">{t(genre)}</p>
             <img src={genreImages[genre]} alt={genre} />
           </button>
         ))}
@@ -334,7 +341,7 @@ const PreferredGenre = ({ onBack, onNext, selectedGenre, setSelectedGenre }) => 
             onBack();
           }}
         >
-          Back
+          {t('Back')}
         </button>
         <button
           className="sing-up__page-btn__next"
@@ -343,7 +350,7 @@ const PreferredGenre = ({ onBack, onNext, selectedGenre, setSelectedGenre }) => 
             onNext();
           }}
         >
-          Completed
+          {t('Completed')}
         </button>
       </div>
     </div>

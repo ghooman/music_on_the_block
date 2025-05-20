@@ -210,7 +210,7 @@ const SongList = () => {
         <ContentWrap title={t('Song List')}>
           <ContentWrap.SubWrap gap={8}>
             <Filter songsSort={true} />
-            <Search placeholder={t('Search by song title')} reset={{ page: 1 }} />
+            <Search placeholder="Search by song title" reset={{ page: 1 }} />
           </ContentWrap.SubWrap>
           {songList.length > 0 ? (
             <div className="songs-list__items">
@@ -233,7 +233,7 @@ const SongList = () => {
               ))}
             </div>
           ) : (
-            <NoneContent message={t('No data')} height={400} />
+            <NoneContent message="No data" height={400} />
           )}
           <Pagination totalCount={totalCount} viewCount={15} page={page} />
         </ContentWrap>

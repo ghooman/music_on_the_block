@@ -154,7 +154,7 @@ const NftTable = ({
           ))}
         </TableBody>
       </Table>
-      {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet" />}
+      {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet." />}
       {showNftConfirmModal && (
         <NftConfirmModal
           setShowModal={setShowNftConfirmModal}

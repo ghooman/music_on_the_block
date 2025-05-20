@@ -160,7 +160,7 @@ const CollectionsEdit = () => {
           <SubCategories categories={subCategoryList} value={subCategoryList?.[0]?.name} />
           <ContentWrap.SubWrap gap={8}>
             <Filter gradeFilter={true} salesFilter={true} />
-            <Search placeholder="Search" />
+            <Search placeholder="Search by NFT name" />
           </ContentWrap.SubWrap>
           <AlbumCollectionEditList
             availableList={availableList}

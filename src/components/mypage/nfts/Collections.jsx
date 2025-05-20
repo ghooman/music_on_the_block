@@ -135,7 +135,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
       <ContentWrap title={t('Collections')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
-          <Search placeholder={t('Search by collection name') + '...'} reset={{ page: 1 }} />
+          <Search placeholder="Search by collection name" reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <AlbumCollectionItems>
           {data?.data_list.map(collections => (
@@ -156,7 +156,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
         </AlbumCollectionItems>
         {(!data?.data_list || data?.data_list.length === 0) && (
           <NoneContent
-            message={'There are no albums created yet.'}
+            message="There are no albums created yet."
             image={NoDataImage}
             height={300}
           />

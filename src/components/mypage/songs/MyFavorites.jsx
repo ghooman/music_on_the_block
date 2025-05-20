@@ -62,7 +62,7 @@ const MyFavorites = () => {
         />
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />
-          <Search placeholder={t('Search by song title') + '...'} />
+          <Search placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}
         <SongPlayTable

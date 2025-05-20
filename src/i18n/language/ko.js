@@ -8,6 +8,8 @@ import song_list from '../../i18n_locales/ko/song_list.json';
 import account_setting from '../../i18n_locales/ko/account_setting.json';
 import album_collection from '../../i18n_locales/ko/album_collection.json';
 import modal from '../../i18n_locales/ko/modal.json';
+import sign_up from '../../i18n_locales/ko/sign_up.json';
+import evaluation from '../../i18n_locales/ko/evaluation.json';
 
 export const ko = {
   main,
@@ -20,4 +22,6 @@ export const ko = {
   account_setting,
   album_collection,
   modal,
+  sign_up,
+  evaluation,
 };

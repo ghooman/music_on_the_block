@@ -137,7 +137,7 @@ const Albums = ({ username, isMyProfile }) => {
       <ContentWrap title={t('Albums')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter albumSort={true} />
-          <Search placeholder={t('Search by album name') + '...'} reset={{ page: 1 }} />
+          <Search placeholder="Search by album name" reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <AlbumCollectionItems>
           {albumsList?.data_list?.map((album, index) => (
@@ -160,7 +160,7 @@ const Albums = ({ username, isMyProfile }) => {
         </AlbumCollectionItems>
         {(!albumsList?.data_list || albumsList?.data_list.length === 0) && (
           <NoneContent
-            message={t('There are no albums created yet.')}
+            message="There are no albums created yet."
             image={NoDataImage}
             height={300}
           />

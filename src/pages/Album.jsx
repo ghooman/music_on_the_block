@@ -522,7 +522,7 @@ function Album() {
               </div>
             </article>
             <List
-              title="Recently Rated"
+              title={t('Recently Rated')}
               className="recently-rated"
               data={totalList}
               id="total"

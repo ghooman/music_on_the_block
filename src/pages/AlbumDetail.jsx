@@ -465,7 +465,9 @@ function AlbumDetail() {
                       ?.trim()}
                   </pre>
                 </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
+                <button className="album-detail__song-detail__left__img__lyrics-btn">
+                  {t('Lyrics')}
+                </button>
               </div>
               <div className="album-detail__song-detail__left__info">
                 {/* <div className="album-detail__song-detail__left__info__number">

@@ -168,7 +168,7 @@ const AlbumsEdit = () => {
           />
           <ContentWrap.SubWrap gap={8}>
             <Filter songsSort={true} />
-            <Search placeholder="Search" />
+            <Search placeholder="Search by artist name or song name" />
           </ContentWrap.SubWrap>
           <AlbumCollectionEditList
             availableList={availableList}

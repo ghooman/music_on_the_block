@@ -79,5 +79,19 @@
  "See More": null,
  "The status of the Polygon network is smooth": null,
  "The Polygon network is experiencing some delays. Transactions may process slower than usual.": null,
- "The Polygon network is operating smoothly. You can proceed with your transaction.": null
+ "The Polygon network is operating smoothly. You can proceed with your transaction.": null,
+ "There are no albums created yet.": null,
+ "There are no collections.": null,
+ "There are no NFT items to show you.": null,
+ "No data": null,
+ "There are no NFTs": null,
+ "There are no Songs": null,
+ "Search by item or affiliated collection": null,
+ "Search by artist name or song name": null,
+ "Search by artist name": null,
+ "Search by collection name": null,
+ "Search by item name": null,
+ "Search by album name": null,
+ "Search by song title": null,
+ "Search by NFT name": null
 }

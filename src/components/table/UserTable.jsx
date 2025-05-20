@@ -80,9 +80,7 @@ const UserTable = ({
           ))}
         </TableBody>
       </Table>
-      {userList.length <= 0 && (
-        <NoneContent message={t('There are no connections yet.')} height={300} />
-      )}
+      {userList.length <= 0 && <NoneContent message="There are no connections yet." height={300} />}
     </TableWrapper>
   );
 };

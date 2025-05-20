@@ -36,9 +36,7 @@ const CollectionTable = ({ collectionList = [] }) => {
           ))}
         </TableBody>
       </Table>
-      {collectionList.length <= 0 && (
-        <NoneContent height={300} message={t('There are no NFTs yet.')} />
-      )}
+      {collectionList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet." />}
     </TableWrapper>
   );
 };

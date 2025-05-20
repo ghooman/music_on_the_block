@@ -210,7 +210,7 @@ const SongPlayTable = ({
           </TableBody>
         </Table>
         {songList.length <= 0 && (
-          <NoneContent message={t('There are no songs created yet.')} height={300} />
+          <NoneContent message="There are no songs created yet." height={300} />
         )}
       </TableWrapper>
     </>

@@ -119,11 +119,7 @@ const MySongsList = ({ token }) => {
         />
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />
-          <Search
-            placeholder={t('Search by song title') + '...'}
-            handler={null}
-            reset={{ page: 1 }}
-          />
+          <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <SongPlayTable
           songList={songsList?.data_list}

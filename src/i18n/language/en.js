@@ -8,6 +8,8 @@ import song_list from '../../i18n_locales/en/song_list.json';
 import account_setting from '../../i18n_locales/en/account_setting.json';
 import album_collection from '../../i18n_locales/en/album_collection.json';
 import modal from '../../i18n_locales/en/modal.json';
+import sign_up from '../../i18n_locales/en/sign_up.json';
+import evaluation from '../../i18n_locales/en/evaluation.json';
 
 export const en = {
   main,
@@ -20,4 +22,6 @@ export const en = {
   account_setting,
   album_collection,
   modal,
+  sign_up,
+  evaluation,
 };

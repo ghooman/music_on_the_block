@@ -9,10 +9,13 @@ import Filter from '../../unit/Filter';
 import Search from '../../unit/Search';
 import NftTable from '../../table/NftTable';
 import Pagination from '../../unit/Pagination';
+import { useTranslation } from 'react-i18next';
 
 const nftFilterItemList = ['Listed', 'Unlisted'];
 
 const NftItems = ({ username, isMyProfile }) => {
+  const { t } = useTranslation('my_page');
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = searchParams.get('page');
@@ -40,7 +43,7 @@ const NftItems = ({ username, isMyProfile }) => {
 
   return (
     <>
-      <ContentWrap title="NFTs">
+      <ContentWrap title={t('NFTs')}>
         <div className="mypage__nfts__button-wrap">
           {nftFilterItemList.map(item => (
             <button
@@ -55,13 +58,13 @@ const NftItems = ({ username, isMyProfile }) => {
                 });
               }}
             >
-              {item}
+              {t(item)}
             </button>
           ))}
         </div>
         <ContentWrap.SubWrap gap={8}>
           <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
-          <Search placeholder="Search by Item ..." reset={{ page: 1 }} />
+          <Search placeholder={t('Search by Item') + '...'} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <NftTable
           saleOption={isMyProfile}

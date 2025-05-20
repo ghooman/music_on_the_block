@@ -5,6 +5,7 @@ import NoneContent from '../../components/unit/NoneContent';
 import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
 
 import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+import { useTranslation } from 'react-i18next';
 
 /**
  *
@@ -59,6 +60,7 @@ const SongPlayTable = ({
   isTrigger,
   setIsTrigger,
 }) => {
+  const { t } = useTranslation('module');
   const [activeSong, setActiveSong] = useState(null);
   const navigate = useNavigate();
   let triggerIndex = useRef(0);
@@ -104,20 +106,20 @@ const SongPlayTable = ({
       <TableWrapper>
         <Table>
           <TableHeader>
-            <TableHeader.Col>#</TableHeader.Col>
-            <TableHeader.Col>Song</TableHeader.Col>
-            <TableHeader.Col>Type</TableHeader.Col>
-            {gradeOption && <TableHeader.Col>Grade</TableHeader.Col>}
-            {nftOption && <TableHeader.Col>NFT</TableHeader.Col>}
-            {artistOption && <TableHeader.Col>Artist</TableHeader.Col>}
-            <TableHeader.Col>Song Title</TableHeader.Col>
-            {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
-            {likesOption && <TableHeader.Col>Likes</TableHeader.Col>}
-            <TableHeader.Col>Details</TableHeader.Col>
-            {deleteOption && <TableHeader.Col>Delete</TableHeader.Col>}
-            {releaseOption && <TableHeader.Col>Release</TableHeader.Col>}
-            {mintOption && <TableHeader.Col>NFT Mint</TableHeader.Col>}
-            {sellOption && <TableHeader.Col>Sell NFT</TableHeader.Col>}
+            <TableHeader.Indexs>#</TableHeader.Indexs>
+            <TableHeader.Col>{t('Song')}</TableHeader.Col>
+            <TableHeader.Col>{t('Type')}</TableHeader.Col>
+            {gradeOption && <TableHeader.Col>{t('Grade')}</TableHeader.Col>}
+            {nftOption && <TableHeader.Col>{t('NFT')}</TableHeader.Col>}
+            {artistOption && <TableHeader.Col>{t('Artist')}</TableHeader.Col>}
+            <TableHeader.Col>{t('Song Title')}</TableHeader.Col>
+            {playsOption && <TableHeader.Col>{t('Plays')}</TableHeader.Col>}
+            {likesOption && <TableHeader.Col>{t('Likes')}</TableHeader.Col>}
+            <TableHeader.Col>{t('Details')}</TableHeader.Col>
+            {deleteOption && <TableHeader.Col>{t('Delete')}</TableHeader.Col>}
+            {releaseOption && <TableHeader.Col>{t('Release')}</TableHeader.Col>}
+            {mintOption && <TableHeader.Col>{t('NFT Mint')}</TableHeader.Col>}
+            {sellOption && <TableHeader.Col>{t('Sell NFT')}</TableHeader.Col>}
           </TableHeader>
           <TableBody>
             {songList &&
@@ -137,7 +139,7 @@ const SongPlayTable = ({
                       }
                     }}
                   >
-                    <TableItem.Indexs text={index + 1} />
+                    <TableItem.Text text={index + 1} />
                     <TableItem.Song
                       image={
                         item.cover_image?.replace('public', '140to140') ||
@@ -155,14 +157,14 @@ const SongPlayTable = ({
                     {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
 
                     <TableItem.Button
-                      title="Details"
+                      title={t('Details')}
                       type="details"
                       handleClick={() => navigate(`/song-detail/${item?.song_id || item?.id} `)}
                     />
 
                     {deleteOption && handleDelete && (
                       <TableItem.Button
-                        title="Delete"
+                        title={t('Delete')}
                         type="delete"
                         disabled={item.is_nft}
                         handleClick={e => {
@@ -174,7 +176,7 @@ const SongPlayTable = ({
 
                     {releaseOption && handleRelease && (
                       <TableItem.Button
-                        title="Release"
+                        title={t('Release')}
                         type="release"
                         handleClick={e => {
                           e.stopPropagation();
@@ -185,7 +187,7 @@ const SongPlayTable = ({
 
                     {mintOption && handleMint && (
                       <TableItem.Button
-                        title="Mint"
+                        title={t('Mint')}
                         type="mint"
                         disabled={item.is_nft}
                         handleClick={e => {
@@ -197,7 +199,7 @@ const SongPlayTable = ({
 
                     {sellOption && handleSell && (
                       <TableItem.Button
-                        title="Sell"
+                        title={t('Sell')}
                         type="sell"
                         handleClick={() => navigate(`/nft/sell/detail/${item.song_id}/${item.id}`)}
                       />
@@ -208,7 +210,7 @@ const SongPlayTable = ({
           </TableBody>
         </Table>
         {songList.length <= 0 && (
-          <NoneContent message={'There are no songs created yet.'} height={300} />
+          <NoneContent message={t('There are no songs created yet.')} height={300} />
         )}
       </TableWrapper>
     </>

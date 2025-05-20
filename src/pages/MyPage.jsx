@@ -194,13 +194,13 @@ const UserProfile = () => {
             {profileData?.is_follow && (
               <ProfileInfo.UnFollowingButton
                 handleUnFollowing={() => setUnFollowModal(true)}
-                title={t('Follow')}
+                title={t('Unfollow')}
               />
             )}
             {!profileData?.is_follow && (
               <ProfileInfo.FollowingButton
                 handleFollowing={() => handleFollowing()}
-                title={t('Unfollow')}
+                title={t('Follow')}
               />
             )}
           </>

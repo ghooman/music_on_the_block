@@ -188,6 +188,7 @@ const AiServices = ({ username }) => {
           categories={AiStatusList}
           handler={setSelectedStatusItem}
           value={selectedStatusChartItem}
+          translateFn={t}
         />
         {/** 콘텐츠 */}
         <div className="ai-status__info">

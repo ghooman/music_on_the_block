@@ -362,7 +362,7 @@ function Album() {
             }`}
             onClick={() => setActiveTab('AI Lyrics & Songwriting')}
           >
-            AI Lyrics & Songwriting
+            {t('AI Lyrics & Songwriting')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -370,7 +370,7 @@ function Album() {
             }`}
             onClick={() => setActiveTab('AI Singing Evaluation')}
           >
-            AI Singing Evaluation
+            {t('AI Singing Evaluation')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -378,13 +378,13 @@ function Album() {
             }`}
             onClick={() => setPreparingModal(true)}
           >
-            AI Cover Creation
+            {t('AI Cover Creation')}
           </button>
         </article>
         {activeTab === 'AI Lyrics & Songwriting' && (
           <article className="main__content-item">
             <List
-              title="Latest"
+              title={t('Latest')}
               data={totalList}
               id="Latest"
               selectedMusic={selectedMusic}
@@ -396,7 +396,7 @@ function Album() {
               audioRef={audioRef}
             />
             <List
-              title="Total"
+              title={t('Total')}
               data={shuffledTotalList}
               // data={[...totalList].sort(() => Math.random() - 0.5)}
               id="total"
@@ -426,7 +426,7 @@ function Album() {
             />
             <section className="album__content-list">
               <List
-                title="AI Lyrics & Songwriting"
+                title={t('AI Lyrics & Songwriting')}
                 data={randomList}
                 id="random"
                 selectedMusic={selectedMusic}
@@ -458,9 +458,9 @@ function Album() {
             </article>
             <article className="album__content-list">
               <p className="album__content-list__title">
-                Evaluation Stage
+                {t('Evaluation Stage')}
                 <Link className="album__content-list__see-more-btn" to="/">
-                  See More
+                  {t('See More')}
                 </Link>
               </p>
               <div className="album__content-list__evaluation-stage">

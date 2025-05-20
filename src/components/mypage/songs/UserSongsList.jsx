@@ -11,10 +11,13 @@ import Loading from '../../../components/IntroLogo2';
 import TopSongsTemplate from './TopSongsTemplate';
 
 import './Songs.scss';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const UserSongsList = ({ username }) => {
+  const { t } = useTranslation('my_page');
+
   const [searchParams] = useSearchParams();
 
   const page = searchParams.get('page');
@@ -47,10 +50,10 @@ const UserSongsList = ({ username }) => {
   return (
     <div className="songs">
       <TopSongsTemplate topSongsData={topSongsData} />
-      <ContentWrap title="Song List">
+      <ContentWrap title={t('Song List')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />
-          <Search reset={{ page: 1 }} placeholder="Search by song title..." />
+          <Search reset={{ page: 1 }} placeholder={t('Search by song title') + '...'} />
         </ContentWrap.SubWrap>
         <SongPlayTable
           songList={songList?.data_list}

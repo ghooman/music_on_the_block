@@ -18,7 +18,7 @@ import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
 import './AlbumCollectionDetails.scss';
-import { useInView } from 'react-intersection-observer';
+import { useTranslation } from 'react-i18next';
 
 const subCategoryList = [
   {
@@ -42,6 +42,8 @@ const AlbumCollectionDetails = ({
   handleEdit,
   target,
 }) => {
+  const { t } = useTranslation('album_collection');
+
   const [isPlaying, setIsPlaying] = useState(null);
   const [activeSong, setActiveSong] = useState(null);
   const [selected] = useState(subCategoryList[0].name);
@@ -53,7 +55,7 @@ const AlbumCollectionDetails = ({
 
   return (
     <div className="album-collection-detail-page">
-      <p className="album-collection-detail-page__title">{target} Details</p>
+      <p className="album-collection-detail-page__title">{t(target + ' Details')}</p>
       <div className="album-collection-detail-page__box">
         <section className="album-collection-detail-page__box__header">
           <article className="album-collection-detail-page__box__header__left">
@@ -77,7 +79,7 @@ const AlbumCollectionDetails = ({
                     onClick={() => handleEdit()}
                     htmlFor="name"
                   >
-                    Edit {target}
+                    {t('Edit ' + target)}
                     <img src={editIcon} alt="edit-icon" />
                   </label>
                 )}
@@ -85,7 +87,7 @@ const AlbumCollectionDetails = ({
               <div className="album-collection-detail-page__box__header__right__box__list">
                 <div className="album-collection-detail-page__box__header__right__box__list__item">
                   <p className="album-collection-detail-page__box__header__right__box__list__item__title">
-                    Artist
+                    {t('Artist')}
                   </p>
                   <p className="album-collection-detail-page__box__header__right__box__list__item__title-value">
                     <img src={userImage || defaultUserImage} alt="user-img" className="user-img" />
@@ -94,8 +96,8 @@ const AlbumCollectionDetails = ({
                 </div>
                 <div className="album-collection-detail-page__box__header__right__box__list__item">
                   <p className="album-collection-detail-page__box__header__right__box__list__item__title">
-                    {target === 'Collection' && 'NFTs'}
-                    {target === 'Album' && 'Songs'}
+                    {target === 'Collection' && t('NFTs')}
+                    {target === 'Album' && t('Songs')}
                   </p>
                   <p className="album-collection-detail-page__box__header__right__box__list__item__title-value">
                     {count}
@@ -123,20 +125,25 @@ const AlbumCollectionDetails = ({
         </section>
         <section className="album-collection-detail-page__box__body">
           <ContentWrap border={false}>
-            <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+            <SubCategories
+              categories={subCategoryList}
+              handler={() => null}
+              value={selected}
+              translateFn={t}
+            />
             <ContentWrap.SubWrap gap={8}>
               <div className="album-collection-detail-page__box__body__edit">
                 <p className="album-collection-detail-page__box__body__edit__song-count">
                   {dataList?.length || 0} {/** */}
-                  {target === 'Collection' && 'NFTs'}
-                  {target === 'Album' && 'Songs'}
+                  {target === 'Collection' && t('NFTs')}
+                  {target === 'Album' && t('Songs')}
                 </p>
                 {isOwner && (
                   <Link
                     to={`/${editListPath}/${id}`}
                     className="album-collection-detail-page__box__body__edit__edit-btn"
                   >
-                    Edit {target === 'Album' ? 'Songs' : 'NFTs'}
+                    {target === 'Album' ? t('Edit Songs') : t('Edit NFTs')}
                     <img src={editIcon} alt="edit-icon" />
                   </Link>
                 )}

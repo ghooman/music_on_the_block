@@ -13,6 +13,7 @@ import Pagination from '../../unit/Pagination';
 import UnFollowModal from '../../UnFollowModal';
 import UserTable from '../../table/UserTable';
 import Loading from '../../../components/IntroLogo2';
+import { useTranslation } from 'react-i18next';
 
 const categories = [
   { name: 'Following', preparing: false },
@@ -22,6 +23,8 @@ const categories = [
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const Connections = () => {
+  const { t } = useTranslation('my_page');
+
   const [searchParamas, setSearchParams] = useSearchParams();
   const [unFollowUserId, setUnFollowUserId] = useState(null);
 
@@ -122,9 +125,10 @@ const Connections = () => {
 
   return (
     <div className="connections">
-      <ContentWrap title="Connections">
+      <ContentWrap title={t('Connections')}>
         <SubCategories
           categories={categories}
+          translateFn={t}
           handler={value =>
             setSearchParams(prev => {
               const { collection_sort, search, ...rest } = Object.fromEntries(prev);
@@ -135,7 +139,7 @@ const Connections = () => {
         />
         <ContentWrap.SubWrap gap={8}>
           <Filter userSort={true} gradeFilter={true} />
-          <Search placeholder="Search by Artist name..." reset={{ page: 1 }} />
+          <Search placeholder={t('Search by Artist name') + '...'} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <UserTable
           userList={connectionsData?.data_list}

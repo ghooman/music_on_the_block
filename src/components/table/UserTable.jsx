@@ -3,6 +3,7 @@ import NoneContent from '../unit/NoneContent';
 import React, { useState } from 'react';
 
 import { Table, TableBody, TableHeader, TableItem, TableWrapper } from '../table/TableCompositions';
+import { useTranslation } from 'react-i18next';
 
 /**
  *
@@ -21,6 +22,7 @@ const UserTable = ({
   handleUnFollowing,
   handleFollowing,
 }) => {
+  const { t } = useTranslation('module');
   const navigate = useNavigate();
 
   return (
@@ -28,13 +30,13 @@ const UserTable = ({
       <Table>
         <TableHeader>
           <TableHeader.Col>#</TableHeader.Col>
-          <TableHeader.Col>Artist</TableHeader.Col>
-          <TableHeader.Col>Level</TableHeader.Col>
-          <TableHeader.Col>Total Songs</TableHeader.Col>
-          <TableHeader.Col>Followers</TableHeader.Col>
-          <TableHeader.Col>Details</TableHeader.Col>
-          {unFollowOption && <TableHeader.Col>Unfollow</TableHeader.Col>}
-          {followOption && <TableHeader.Col>Follow</TableHeader.Col>}
+          <TableHeader.Col>{t('Artist')}</TableHeader.Col>
+          <TableHeader.Col>{t('Level')}</TableHeader.Col>
+          <TableHeader.Col>{t('Total Songs')}</TableHeader.Col>
+          <TableHeader.Col>{t('Followers')}</TableHeader.Col>
+          <TableHeader.Col>{t('Details')}</TableHeader.Col>
+          {unFollowOption && <TableHeader.Col>{t('Unfollow')}</TableHeader.Col>}
+          {followOption && <TableHeader.Col>{t('Follow')}</TableHeader.Col>}
         </TableHeader>
         <TableBody>
           {userList.map((item, index) => (
@@ -46,13 +48,13 @@ const UserTable = ({
                 <TableItem.Text text={item.total_songs} />
                 <TableItem.Text text={item.followers} />
                 <TableItem.Button
-                  title="Details"
+                  title={t('Details')}
                   type="details"
                   handleClick={() => navigate(`/profile?username=${item.artist}`)}
                 />
                 {unFollowOption && (
                   <TableItem.Button
-                    title={item.is_follow ? 'Follow' : 'Unfollow'}
+                    title={item.is_follow ? t('Follow') : t('Unfollow')}
                     type={item.is_follow ? 'follow' : 'unfollow'}
                     handleClick={() => {
                       if (item.is_follow) {
@@ -65,7 +67,7 @@ const UserTable = ({
                 )}
                 {followOption && (
                   <TableItem.Button
-                    title={item.is_follow ? 'Following' : 'Follow'}
+                    title={item.is_follow ? t('Following') : t('Follow')}
                     type={item.is_follow ? 'following' : 'follow'}
                     handleClick={() => {
                       if (item?.is_follow) return;
@@ -79,7 +81,7 @@ const UserTable = ({
         </TableBody>
       </Table>
       {userList.length <= 0 && (
-        <NoneContent message={'There are no connections yet'} height={300} />
+        <NoneContent message={t('There are no connections yet.')} height={300} />
       )}
     </TableWrapper>
   );

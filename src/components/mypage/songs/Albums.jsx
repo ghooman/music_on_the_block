@@ -24,10 +24,13 @@ import subBannerImage4 from '../../../assets/images/create/subbanner-bg4.png';
 import './Albums.scss';
 import SuccessModal from '../../modal/SuccessModal';
 import ErrorModal from '../../modal/ErrorModal';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const Albums = ({ username, isMyProfile }) => {
+  const { t } = useTranslation('my_page');
+
   const { token, walletAddress } = useContext(AuthContext);
   const { address } = walletAddress || {};
 
@@ -121,15 +124,19 @@ const Albums = ({ username, isMyProfile }) => {
       {isMyProfile && (
         <SubBanner>
           <SubBanner.LeftImages src={subBannerImage4} />
-          <SubBanner.Title text="Create Your Own Album" />
-          <SubBanner.Message text="Gather your favorite tracks and organise them into a single. You can showcase your musical world!" />
-          <SubBanner.Button title="Create Album" handler={() => setCreate(true)} />
+          <SubBanner.Title text={t('Create Your Own Album')} />
+          <SubBanner.Message
+            text={t(
+              'Gather your favorite tracks and organise them into a single. You can showcase your musical world!'
+            )}
+          />
+          <SubBanner.Button title={t('Create Album')} handler={() => setCreate(true)} />
         </SubBanner>
       )}
-      <ContentWrap title="Albums">
+      <ContentWrap title={t('Albums')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter albumSort={true} />
-          <Search placeholder="Search by album name..." reset={{ page: 1 }} />
+          <Search placeholder={t('Search by album name') + '...'} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <AlbumCollectionItems>
           {albumsList?.data_list?.map((album, index) => (
@@ -151,7 +158,7 @@ const Albums = ({ username, isMyProfile }) => {
         </AlbumCollectionItems>
         {(!albumsList?.data_list || albumsList?.data_list.length === 0) && (
           <NoneContent
-            message={'There are no albums created yet.'}
+            message={t('There are no albums created yet.')}
             image={NoDataImage}
             height={300}
           />

@@ -11,8 +11,11 @@ import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
 import './TopSongsTemplate.scss';
+import { useTranslation } from 'react-i18next';
 
 const TopSongsTemplates = ({ topSongsData }) => {
+  const { t } = useTranslation('my_page');
+
   const topAlbumsCategoryList = [
     {
       name: 'AI Lyrics & Songwriting',
@@ -26,23 +29,24 @@ const TopSongsTemplates = ({ topSongsData }) => {
   const [topAlbumsCategory, setTopAlbumsCategory] = useState(topAlbumsCategoryList?.[0].name);
 
   return (
-    <ContentWrap title="Songs" border={true}>
+    <ContentWrap title={t('Songs')} border={true}>
       <SubCategories
         categories={topAlbumsCategoryList}
         handler={setTopAlbumsCategory}
+        translateFn={t}
         value={topAlbumsCategory}
       />
       <div className="top-songs-template">
         <div className="top-songs-template__item">
-          <p className="top-songs-template__item--title">Top Plays</p>
+          <p className="top-songs-template__item--title">{t('Top Plays')}</p>
           <AlbumItem track={topSongsData?.top_plays} />
         </div>
         <div className="top-songs-template__item">
-          <p className="top-songs-template__item--title">Top Likes</p>
+          <p className="top-songs-template__item--title">{t('Top Likes')}</p>
           <AlbumItem track={topSongsData?.top_like} />
         </div>
         <div className="top-songs-template__item">
-          <p className="top-songs-template__item--title">Top Comments</p>
+          <p className="top-songs-template__item--title">{t('Top Comments')}</p>
           <AlbumItem track={topSongsData?.top_comments} />
         </div>
       </div>

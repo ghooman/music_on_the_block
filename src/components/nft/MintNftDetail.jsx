@@ -125,7 +125,7 @@ function MintNftDetail() {
               <img src={editIcon} alt="editIcon" />
             </button>
           </div>
-          <Search placeholder="Search Collection" />
+          <Search placeholder="Search by collection name" />
           {allItems.length === 0 ? (
             <NoneContent message="There are no collections." height={300} />
           ) : (

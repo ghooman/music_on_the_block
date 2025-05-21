@@ -15,6 +15,7 @@ import subBg1 from '../../../assets/images/create/subbanner-bg1.png';
 // 언어별 리소스 파일 불러오기
 import koMelody from '../../../locales/koMelody';
 import enMelody from '../../../locales/enMelody';
+import { useTranslation } from 'react-i18next';
 const MelodyChatBot = ({
   createLoading,
   setCreateLoading,
@@ -31,7 +32,10 @@ const MelodyChatBot = ({
   finalPrompt,
   setFinalPrompt,
   selectedVersion,
+  selectedPrivacy,
+  selectedCreationMode,
 }) => {
+  const { t } = useTranslation('song_create');
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
@@ -599,7 +603,7 @@ const MelodyChatBot = ({
           musical_instrument: Array.isArray(melody_instrument)
             ? melody_instrument.join(', ')
             : melody_instrument,
-          ai_service: 1,
+          ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
           ai_service_type: '',
           tempo: parseInt(melody_tempo),
           song_length: '',
@@ -610,6 +614,7 @@ const MelodyChatBot = ({
           prompt: generatedPrompt,
           create_ai_type: create_ai_type,
           ai_model: ai_model,
+          is_release: selectedPrivacy === 'release' ? true : false,
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -621,7 +626,11 @@ const MelodyChatBot = ({
         },
       };
       console.log('formData being sent:', formData);
-      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
+      const url =
+        selectedCreationMode === 'song'
+          ? `${serverApi}/api/music/v2/album/`
+          : `${serverApi}/api/music/v2/album/bgm`;
+      const res = await axios.post(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -682,11 +691,15 @@ const MelodyChatBot = ({
       {createLoading && <CreateLoading />}
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="View Lyrics Lab Results" />
-        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab." />
-        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker." />
+        <SubBanner.Title text={t('View Lyrics Lab Results')} />
+        <SubBanner.Message text={t('These lyrics were previously written by AI in Lyrics Lab.')} />
+        <SubBanner.Message
+          text={t(
+            'Based on these lyrics, AI composition is currently in progress in Melody Maker.'
+          )}
+        />
         <SubBanner.Button
-          title="View Lyrics"
+          title={t('View Lyrics')}
           handler={() => {
             setShowLyricsModal(true);
           }}
@@ -694,7 +707,7 @@ const MelodyChatBot = ({
       </SubBanner>
       <section className="chatbot">
         <div className="chatbot__header">
-          <h2>Melody Maker</h2>
+          <h2>{t('Melody Maker')}</h2>
         </div>
         <div className="chatbot__messages" ref={scrollContainerRef}>
           {chatHistory.map((msg, index) => (
@@ -718,40 +731,40 @@ const MelodyChatBot = ({
             value={userInput}
             onChange={handleUserInput}
             onKeyPress={handleKeyPress}
-            placeholder="Type your message..."
+            placeholder={t('Type your message...')}
           />
         </div>
         <button className="chatbot__button" onClick={handleSendMessage}>
-          Send
+          {t('Send')}
         </button>
       </section>
       <section className={`music__information ${isActive ? 'active' : ''}`}>
         <div className="music__information__header" onClick={handleToggle}>
-          <h2>Music Information</h2>
+          <h2>{t('Music Information')}</h2>
         </div>
         <div className="music__information__tags">
-          <h3>Melody Tags</h3>
+          <h3>{t('Melody Tags')}</h3>
           <input
             type="text"
             value={melodyData?.melody_tag}
-            placeholder="Enter tags separated by commas"
+            placeholder={t('Enter tags separated by commas')}
             readOnly
           />
         </div>
         <div className="music__information__genre">
-          <h3>Melody Title</h3>
-          <input type="text" value={melodyData?.melody_title} placeholder="Enter" readOnly />
+          <h3>{t('Melody Title')}</h3>
+          <input type="text" value={melodyData?.melody_title} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__genre">
-          <h3>Melody Genre</h3>
-          <input type="text" value={melodyData?.melody_genre} placeholder="Enter" readOnly />
+          <h3>{t('Melody Genre')}</h3>
+          <input type="text" value={melodyData?.melody_genre} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__gender">
-          <h3>Melody Gender</h3>
-          <input type="text" value={melodyData?.melody_gender} placeholder="Enter" readOnly />
+          <h3>{t('Melody Gender')}</h3>
+          <input type="text" value={melodyData?.melody_gender} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__instrument">
-          <h3>Melody Instrument</h3>
+          <h3>{t('Melody Instrument')}</h3>
           <input
             type="text"
             value={
@@ -759,17 +772,17 @@ const MelodyChatBot = ({
                 ? melodyData?.melody_instrument.join(', ')
                 : melodyData?.melody_instrument
             }
-            placeholder="Enter"
+            placeholder={t('Enter')}
             readOnly
           />
         </div>
         <div className="music__information__tempo">
-          <h3>Melody Tempo</h3>
-          <input type="text" value={melodyData?.melody_tempo} placeholder="Enter" readOnly />
+          <h3>{t('Melody Tempo')}</h3>
+          <input type="text" value={melodyData?.melody_tempo} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__detail">
-          <h3>Melody Detail</h3>
-          <input type="text" value={melodyData?.melody_detail} placeholder="Enter" readOnly />
+          <h3>{t('Melody Detail')}</h3>
+          <input type="text" value={melodyData?.melody_detail} placeholder={t('Enter')} readOnly />
         </div>
       </section>
       <div className="music__information__buttons">
@@ -778,7 +791,7 @@ const MelodyChatBot = ({
           onClick={handleGenerateSong}
           disabled={isGenerateButtonDisabled} // 버튼 비활성화 조건 추가
         >
-          Generate Song
+          {t('Generate Song')}
         </button>
       </div>
       {showLyricsModal && (

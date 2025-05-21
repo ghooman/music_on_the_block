@@ -31,10 +31,13 @@ import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
+  const { t } = useTranslation('main');
+
   const { token, walletAddress } = useContext(AuthContext);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
@@ -359,7 +362,7 @@ function Album() {
             }`}
             onClick={() => setActiveTab('AI Lyrics & Songwriting')}
           >
-            AI Lyrics & Songwriting
+            {t('AI Lyrics & Songwriting')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -367,7 +370,7 @@ function Album() {
             }`}
             onClick={() => setActiveTab('AI Singing Evaluation')}
           >
-            AI Singing Evaluation
+            {t('AI Singing Evaluation')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -375,13 +378,13 @@ function Album() {
             }`}
             onClick={() => setPreparingModal(true)}
           >
-            AI Cover Creation
+            {t('AI Cover Creation')}
           </button>
         </article>
         {activeTab === 'AI Lyrics & Songwriting' && (
           <article className="main__content-item">
             <List
-              title="Latest"
+              title={t('Latest')}
               data={totalList}
               id="Latest"
               selectedMusic={selectedMusic}
@@ -393,7 +396,7 @@ function Album() {
               audioRef={audioRef}
             />
             <List
-              title="Total"
+              title={t('Total')}
               data={shuffledTotalList}
               // data={[...totalList].sort(() => Math.random() - 0.5)}
               id="total"
@@ -408,7 +411,7 @@ function Album() {
 
             <section className="main__nft-market">
               <Link to="/nft" className="main__nft-market__link">
-                <span className="main__nft-market__link-text">NFT Marketplace</span>
+                <span className="main__nft-market__link-text">{t('NFT Marketplace')}</span>
               </Link>
             </section>
 
@@ -423,7 +426,7 @@ function Album() {
             />
             <section className="album__content-list">
               <List
-                title="AI Lyrics & Songwriting"
+                title={t('AI Lyrics & Songwriting')}
                 data={randomList}
                 id="random"
                 selectedMusic={selectedMusic}
@@ -455,9 +458,9 @@ function Album() {
             </article>
             <article className="album__content-list">
               <p className="album__content-list__title">
-                Evaluation Stage
+                {t('Evaluation Stage')}
                 <Link className="album__content-list__see-more-btn" to="/">
-                  See More
+                  {t('See More')}
                 </Link>
               </p>
               <div className="album__content-list__evaluation-stage">
@@ -512,14 +515,14 @@ function Album() {
                     </dl>
                     <div className="album__content-list__evaluation-stage__item__details-number">
                       <p className={`grade ${item.grade.toLowerCase()}`}>{item.score} </p>
-                      <button className="details-btn">Details</button>
+                      <button className="details-btn">{t('Details')}</button>
                     </div>
                   </button>
                 ))}
               </div>
             </article>
             <List
-              title="Recently Rated"
+              title={t('Recently Rated')}
               className="recently-rated"
               data={totalList}
               id="total"
@@ -536,19 +539,19 @@ function Album() {
 
         <section className="main__stats">
           <dl className="main__stats__title">
-            <dt>Number of Artists</dt>
+            <dt>{t('Number of Artists')}</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_users} />
             </dd>
           </dl>
           <dl className="main__stats__title">
-            <dt>Number of Songs</dt>
+            <dt>{t('Number of Songs')}</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_songs} />
             </dd>
           </dl>
           <dl className="main__stats__title">
-            <dt>Transactions</dt>
+            <dt>{t('Transactions')}</dt>
             <dd>
               <Counter targetNumber={transaction?.transaction} />
             </dd>
@@ -578,6 +581,8 @@ const List = ({
   className,
 }) => {
   // 스와이퍼 옵션
+  const { t } = useTranslation('main');
+
   const swiperOptions = {
     loop: false,
     slidesPerView: 'auto',
@@ -616,7 +621,7 @@ const List = ({
             }
           }}
         >
-          See More
+          {t('See More')}
         </Link>
       </p>
 
@@ -667,6 +672,8 @@ const ListSlider = ({
 
   // \n
 }) => {
+  const { t } = useTranslation('main');
+
   const swiperRef = useRef(null);
 
   const handleSlideChange = swiper => {
@@ -695,7 +702,7 @@ const ListSlider = ({
 
   return (
     <section className="album__slide">
-      <p className="album__slide__title">Hit Music List</p>
+      <p className="album__slide__title">{t('Hit Music List')}</p>
       <Swiper
         ref={swiperRef}
         loop={true}
@@ -775,7 +782,7 @@ const ListSlider = ({
                   className="swiper-music-list__item__right__user__btn"
                   to={'/song-detail/' + track.id}
                 >
-                  Details
+                  {t('Details')}
                 </Link>
               </div>
             </div>

@@ -20,6 +20,7 @@ import grade4Image from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
 import grade5Image from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
 
 import checkIcon from '../../assets/images/check-icon.svg';
+import { useTranslation } from 'react-i18next';
 
 /**
  *
@@ -45,6 +46,8 @@ const Filter = ({
   collectionSort,
   userSort,
 }) => {
+  const { t } = useTranslation('module');
+
   const [searchParamas, setSearchParams] = useSearchParams();
   const [modal, setModal] = useState(false);
   const [paramsObj, setParamsObj] = useState({});
@@ -97,25 +100,25 @@ const Filter = ({
   return (
     <div className="albums__filter">
       <button className="albums__filter__btn" onClick={() => setModal(prev => !prev)}>
-        <span>Filter</span>
+        <span>{t('Filter')}</span>
       </button>
       {queries.map((item, index) => {
         if (!item) return null;
         return (
           <button className="albums__filter__btn" key={`filter-item-${index}`}>
-            <span>{item}</span>
+            <span>{t(item)}</span>
           </button>
         );
       })}
 
       {modal && (
-        <ModalWrap title="Filter" onClose={setModal}>
+        <ModalWrap title={t('Filter')} onClose={setModal}>
           <div className="albums__filter-modal">
             {period && (
               <FilterCategory
                 value={period_}
                 setParamsObj={setParamsObj}
-                title="period"
+                title="Period"
                 filterName="period"
                 filterItems={
                   // songs를 단순 true로 설정 시 프리셋 제공
@@ -128,7 +131,7 @@ const Filter = ({
               <FilterCategory
                 value={generateFilter_}
                 setParamsObj={setParamsObj}
-                title="types"
+                title="Types"
                 filterName="generate_filter"
                 filterItems={
                   typeof generateFilter === 'boolean'
@@ -250,7 +253,7 @@ const Filter = ({
                 filterName="nft_sort"
                 filterItems={
                   typeof nftSort === 'boolean'
-                    ? ['Latest', 'Oldest', 'Highest price', 'Lowest price']
+                    ? ['Latest', 'Oldest', 'Highest Price', 'Lowest Price']
                     : nftSort
                 }
               />
@@ -286,7 +289,7 @@ const Filter = ({
               >
                 {/* View {Object.values(paramsObj).filter((item) => item).length} results
                                 <img src={pencelIcon} alt="icon" /> */}
-                APPLY +{' '}
+                {t('APPLY')} +{' '}
                 <div className="albums__filter-buttons--button-count">
                   {Object.values(paramsObj).filter(item => item).length}
                 </div>
@@ -312,6 +315,7 @@ const FilterItemWrap = ({ title, children }) => {
 
 const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title }) => {
   const [selectItem, setSelectItem] = useState(value);
+  const { t } = useTranslation('module');
 
   useEffect(() => {
     setParamsObj(prev => ({
@@ -321,13 +325,14 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
   }, [selectItem]);
 
   return (
-    <FilterItemWrap title={title}>
+    <FilterItemWrap title={t(title)}>
       {filterItems.map((item, index) => {
         if (typeof item === 'object') {
           // 이미지 넣을 경우
           return (
             <React.Fragment key={item + index}>
               <FilterButton
+                translateFn={t}
                 value={item.name}
                 icon={item.icon}
                 select={selectItem}
@@ -343,6 +348,7 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
         } else {
           return (
             <FilterButton
+              translateFn={t}
               value={item}
               select={selectItem}
               handleClick={() =>
@@ -359,7 +365,7 @@ const FilterCategory = ({ value, setParamsObj, filterItems, filterName, title })
   );
 };
 
-const FilterButton = ({ value, select, handleClick, icon }) => {
+const FilterButton = ({ value, select, handleClick, icon, translateFn }) => {
   return (
     <button
       className={`albums__filter-item-wrap--contents__item ${value === select && 'select'}`}
@@ -373,7 +379,7 @@ const FilterButton = ({ value, select, handleClick, icon }) => {
           <img src={icon} alt="icon" />
         </div>
       )}
-      {value}
+      {translateFn(value)}
     </button>
   );
 };

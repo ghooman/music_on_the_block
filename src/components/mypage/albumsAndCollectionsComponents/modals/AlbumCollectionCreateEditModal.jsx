@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ModalWrap from '../../../ModalWrap';
 import Loading from '../../../Loading';
@@ -17,6 +18,7 @@ const AlbumCollectionCreateEditModal = ({
   loading,
   target,
 }) => {
+  const { t } = useTranslation('modal');
   const [image, setImage] = useState(editData?.image || null);
   const [name, setName] = useState(editData?.name || '');
 
@@ -44,11 +46,13 @@ const AlbumCollectionCreateEditModal = ({
   };
 
   return (
-    <ModalWrap title={title + ' ' + target} onClose={onClose}>
+    <ModalWrap title={t(`${title} ${target}`)} onClose={onClose}>
       <div className="album-collection-module-create-edit-modal">
-        <p className="album-collection-module-create-edit-modal__title">{target} Cover Image</p>
+        <p className="album-collection-module-create-edit-modal__title">
+          {t(`${target}`)} {t('Cover Image')}
+        </p>
         <span className="album-collection-module-create-edit-modal__size-info">
-          (jpg, png, under 4MB)
+          {t('(jpg, png, under 4MB)')}
         </span>
         <div className="album-collection-module-create-edit-modal__image-box">
           <img
@@ -75,14 +79,14 @@ const AlbumCollectionCreateEditModal = ({
         </div>
 
         <p className="album-collection-module-create-edit-modal__error-message">
-          {invalidImageSize && 'The image size is larger than 4MB.'}
+          {invalidImageSize && t('The image size is larger than 4MB.')}
         </p>
 
-        <p className="album-collection-module-create-edit-modal__name">{target} Name</p>
+        <p className="album-collection-module-create-edit-modal__name">{t(`${target} Name`)}</p>
         <div className="album-collection-module-create-edit-modal__name-box">
           <input
             className="album-collection-module-create-edit-modal__name-box__input"
-            placeholder={`Please enter the ${target?.toLowerCase()} name`}
+            placeholder={t(`Please enter the ${target?.toLowerCase()} name`)}
             value={name}
             onChange={e => setName(e.target.value)}
             maxLength={40}
@@ -98,7 +102,7 @@ const AlbumCollectionCreateEditModal = ({
             onClick={onClose}
             disabled={loading}
           >
-            Cancel
+            {t('Cancel')}
           </button>
 
           {(handleCreate || handleEdit) && (
@@ -116,8 +120,8 @@ const AlbumCollectionCreateEditModal = ({
               disabled={loading || invalidImageSize || invalidNameSize}
             >
               {loading && <Loading />}
-              {!loading && handleCreate && 'Create'}
-              {!loading && handleEdit && 'Edit'}
+              {!loading && handleCreate && t('Create')}
+              {!loading && handleEdit && t('Edit')}
             </button>
           )}
         </div>
@@ -127,7 +131,7 @@ const AlbumCollectionCreateEditModal = ({
             onClick={handleDelete}
             disabled={loading}
           >
-            Delete
+            {t('Delete')}
           </button>
         )}
       </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ModalWrap from '../../../ModalWrap';
 import Loading from '../../../Loading';
 
@@ -10,23 +11,28 @@ const AlbumCollectionDeleteConfirmModal = ({
   loading,
   target,
 }) => {
+  const { t } = useTranslation('modal');
+
   return (
-    <ModalWrap title={`Delete ${target}`} onClose={handleClose}>
+    <ModalWrap title={t(`Delete ${target}`)} onClose={handleClose}>
       <div className="album-collection-module-delete-confirm-modal">
         <p className="album-collection-module-delete-confirm-modal__message">
-          This action cannot be undone
+          {t('This action cannot be undone')}
           <br />
-          All {target === 'Collection' ? 'nfts' : 'tracks'} in this {target?.toLowerCase()} will
-          also be permanently deleted.
+          {t(
+            `All ${
+              target === 'Collection' ? 'nfts' : 'tracks'
+            } in this ${target?.toLowerCase()} will also be permanently deleted.`
+          )}
         </p>
         <p className="album-collection-module-delete-confirm-modal__message">
-          Are you sure want to delete
+          {t('Are you sure want to delete')}
           <br />
           <span>"{name}"?</span>
         </p>
         <div className="album-collection-module-delete-confirm-modal__buttons">
           <button className="confirm-button cancel-button" onClick={handleClose}>
-            Cancel
+            {t('Cancel')}
           </button>
           <button
             className="confirm-button delete-button"
@@ -35,7 +41,7 @@ const AlbumCollectionDeleteConfirmModal = ({
             }}
             disabled={loading}
           >
-            {loading ? <Loading /> : `Delete ${target}`}
+            {loading ? <Loading /> : t(`Delete ${target}`)}
           </button>
         </div>
       </div>

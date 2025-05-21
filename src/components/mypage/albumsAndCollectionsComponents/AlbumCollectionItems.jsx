@@ -19,7 +19,10 @@ AlbumCollectionItems.Item = ({
   handleNavigate,
   handleDetail,
   target,
+  translateFn,
 }) => {
+  const element = target === 'Collection' ? 'NFT' : 'Song';
+
   return (
     <div className="album-collections-module-items" onClick={() => handleNavigate()}>
       <div className="album-collections-module-items__info">
@@ -27,7 +30,7 @@ AlbumCollectionItems.Item = ({
         <p>{artist}</p>
         <div className="album-collections-module-items__info--edit">
           <span>
-            {count} {target === 'Collection' ? 'NFT' : 'Song'}
+            {count} {translateFn ? translateFn(element) : element}
             {count > 1 && 's'}
           </span>
           {isOwner && (

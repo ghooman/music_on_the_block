@@ -154,6 +154,8 @@ const MelodyMaker = ({
   finalPrompt,
   setFinalPrompt,
   selectedVersion,
+  selectedPrivacy,
+  selectedCreationMode,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -335,7 +337,7 @@ const MelodyMaker = ({
           style: '',
           gender: melody_gender?.[0] || '',
           musical_instrument: melody_instrument?.join(', ') || '',
-          ai_service: 1,
+          ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
           ai_service_type: '',
           tempo: parseFloat(tempo),
           song_length: '',
@@ -346,6 +348,7 @@ const MelodyMaker = ({
           prompt: finalPrompt,
           create_ai_type: create_ai_type,
           ai_model: ai_model,
+          is_release: selectedPrivacy === 'release' ? true : false,
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -357,7 +360,12 @@ const MelodyMaker = ({
       };
       console.log('formData', formData);
       // axios를 통한 POST 요청
-      const res = await axios.post(`${serverApi}/api/music/v2/album/`, formData, {
+      const url =
+        selectedCreationMode === 'song'
+          ? `${serverApi}/api/music/v2/album/`
+          : `${serverApi}/api/music/v2/album/bgm`;
+
+      const res = await axios.post(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -366,6 +374,7 @@ const MelodyMaker = ({
 
       storeAlbumId(res.data.id, res.data.title);
       setGeneratedMusicResult(res.data);
+      console.log('보낸 url', url);
       console.log('handleSubmit', res);
       console.log('storeAlbumId', res.data.id, res.data.title);
       navigate(`/`);
@@ -424,15 +433,16 @@ const MelodyMaker = ({
           selected={melodyData?.melody_genre}
           preset={genrePreset}
         />
-        <SelectItem
-          mainTitle="Select a Gender"
-          subTitle="Popular Gender"
-          setter={setMelodyData}
-          objKey="melody_gender"
-          selected={melodyData?.melody_gender}
-          preset={genderPreset}
-        />
-
+        {selectedCreationMode === 'song' && (
+          <SelectItem
+            mainTitle="Select a Gender"
+            subTitle="Popular Gender"
+            setter={setMelodyData}
+            objKey="melody_gender"
+            selected={melodyData?.melody_gender}
+            preset={genderPreset}
+          />
+        )}
         <SelectItem
           mainTitle="Instrument"
           subTitle="Instrument Tags"

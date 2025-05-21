@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -9,20 +11,21 @@ import {
 } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
-import { useNavigate } from 'react-router-dom';
+
 const CollectionHistoryTable = ({ data = [] }) => {
+  const { t } = useTranslation('module');
   const navigate = useNavigate();
   return (
     <TableWrapper>
       <Table>
         <TableHeader>
-          <TableHeader.Col>#</TableHeader.Col>
-          <TableHeader.Col>Type</TableHeader.Col>
-          <TableHeader.Col>Grade</TableHeader.Col>
-          <TableHeader.Col>Artistname</TableHeader.Col>
-          <TableHeader.Col>Item</TableHeader.Col>
-          <TableHeader.Col>Price</TableHeader.Col>
-          <TableHeader.Col>Details</TableHeader.Col>
+          <TableHeader.Indexs>#</TableHeader.Indexs>
+          <TableHeader.Col>{t('Type')}</TableHeader.Col>
+          <TableHeader.Col>{t('Grade')}</TableHeader.Col>
+          <TableHeader.Col>{t('Artistname')}</TableHeader.Col>
+          <TableHeader.Col>{t('Item')}</TableHeader.Col>
+          <TableHeader.Col>{t('Price')}</TableHeader.Col>
+          <TableHeader.Col>{t('Details')}</TableHeader.Col>
         </TableHeader>
         <TableBody>
           {data?.map(item => (
@@ -38,7 +41,7 @@ const CollectionHistoryTable = ({ data = [] }) => {
                 <TableItem.Text text={item.nft_name} />
                 <TableItem.Text text={item.price?.toLocaleString() + ' ' + item.sales_token} />
                 <TableItem.Button
-                  title="Details"
+                  title={t('Details')}
                   type="details"
                   handleClick={() => {
                     navigate(`/song-detail/${item?.song_id}`);

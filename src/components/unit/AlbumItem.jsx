@@ -11,6 +11,7 @@ import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 import { useEffect, useState } from 'react';
 import { getSongsGradeIcon, getUserGradeIcon } from '../../utils/getGradeIcon';
+import { useTranslation } from 'react-i18next';
 
 const AlbumItem = ({
   track,
@@ -20,6 +21,7 @@ const AlbumItem = ({
   audioRef,
   formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`,
 }) => {
+  const { t } = useTranslation('module');
   const [runningTime, setRunningTime] = useState();
 
   useEffect(() => {
@@ -120,7 +122,7 @@ const AlbumItem = ({
             className="album__content-list__list__item__right__user__btn"
             to={`/song-detail/${track?.id}`}
           >
-            Details
+            {t('Details')}
           </Link>
         </div>
       </div>

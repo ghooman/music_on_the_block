@@ -4,8 +4,9 @@ import NoneContent from '../unit/NoneContent';
 import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
-import NftConfirmSuccessModal from '../NftConfirmSuccessModal';
+import SuccessModal from '../modal/SuccessModal';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const NftTable = ({
   nftList = [],
@@ -24,6 +25,7 @@ const NftTable = ({
 }) => {
   dateOption = dateOption && !listedDateOption && !mintedDateOption;
 
+  const { t } = useTranslation('module');
   const navigate = useNavigate();
   const [showNftConfirmModal, setShowNftConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -41,21 +43,21 @@ const NftTable = ({
     <TableWrapper>
       <Table>
         <TableHeader>
-          <TableHeader.Col>#</TableHeader.Col>
-          <TableHeader.Col>Type</TableHeader.Col>
-          <TableHeader.Col>Grade</TableHeader.Col>
-          <TableHeader.Col>Item</TableHeader.Col>
+          <TableHeader.Indexs>#</TableHeader.Indexs>
+          <TableHeader.Col>{t('Type')}</TableHeader.Col>
+          <TableHeader.Col>{t('Grade')}</TableHeader.Col>
+          <TableHeader.Col>{t('Item')}</TableHeader.Col>
           {/* {collectionOption && <TableHeader.Col>Collection</TableHeader.Col>} */}
-          {buyerOption && <TableHeader.Col>Buyer</TableHeader.Col>}
-          {sellerOption && <TableHeader.Col>Seller</TableHeader.Col>}
-          {priceOption && <TableHeader.Col>Price</TableHeader.Col>}
-          {playsOption && <TableHeader.Col>Plays</TableHeader.Col>}
-          {dateOption && <TableHeader.Col>Date</TableHeader.Col>}
-          {listedDateOption && <TableHeader.Col>Listed Date</TableHeader.Col>}
-          {mintedDateOption && <TableHeader.Col>Minted Date</TableHeader.Col>}
-          <TableHeader.Col>Details</TableHeader.Col>
-          {saleOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
-          {saleStatusOption && <TableHeader.Col>Sale Action</TableHeader.Col>}
+          {buyerOption && <TableHeader.Col>{t('Buyer')}</TableHeader.Col>}
+          {sellerOption && <TableHeader.Col>{t('Seller')}</TableHeader.Col>}
+          {priceOption && <TableHeader.Col>{t('Price')}</TableHeader.Col>}
+          {playsOption && <TableHeader.Col>{t('Plays')}</TableHeader.Col>}
+          {dateOption && <TableHeader.Col>{t('Date')}</TableHeader.Col>}
+          {listedDateOption && <TableHeader.Col>{t('Listed Date')}</TableHeader.Col>}
+          {mintedDateOption && <TableHeader.Col>{t('Minted Date')}</TableHeader.Col>}
+          <TableHeader.Col>{t('Details')}</TableHeader.Col>
+          {saleOption && <TableHeader.Col>{t('Sale Action')}</TableHeader.Col>}
+          {saleStatusOption && <TableHeader.Col>{t('Sale Action')}</TableHeader.Col>}
         </TableHeader>
         <TableBody>
           {nftList.map((item, index) => (
@@ -84,7 +86,7 @@ const NftTable = ({
                 {mintedDateOption && <TableItem.Date date={item.create_dt} />}
 
                 <TableItem.Button
-                  title="Details"
+                  title={t('Details')}
                   type="details"
                   handleClick={() => {
                     navigate(`/nft/detail/${item?.id}`);
@@ -92,11 +94,11 @@ const NftTable = ({
                 />
 
                 {saleOption && item.status === 'sold' && (
-                  <TableItem.Button title="Sold" type="sold" />
+                  <TableItem.Button title={t('Sold')} type="sold" />
                 )}
                 {saleOption && item.now_sales_status === 'Unlisted' && (
                   <TableItem.Button
-                    title="Sell"
+                    title={t('Sell')}
                     type="sell"
                     handleClick={() => {
                       if (handleSell) {
@@ -109,7 +111,7 @@ const NftTable = ({
                 )}
                 {saleOption && item.now_sales_status === 'Listed' && (
                   <TableItem.Button
-                    title="Cancel"
+                    title={t('Cancel')}
                     type="cancel"
                     handleClick={() => {
                       setNftId(item?.id);
@@ -122,7 +124,7 @@ const NftTable = ({
                 {/* 마이페이지 - NFT - History 페이지 에서 사용됨 */}
                 {saleStatusOption && item.status === 'Sell' && (
                   <TableItem.Button
-                    title="Sold"
+                    title={t('Sold')}
                     type="sold"
                     // handleClick={() => {
                     //   if (handleSell) {
@@ -135,7 +137,7 @@ const NftTable = ({
                 )}
                 {saleStatusOption && item.status === 'Buy' && (
                   <TableItem.Button
-                    title="Purchased"
+                    title={t('Purchased')}
                     type="purchased"
                     // handleClick={() => {
                     //   if (handleSell) {
@@ -152,7 +154,7 @@ const NftTable = ({
           ))}
         </TableBody>
       </Table>
-      {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet" />}
+      {nftList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet." />}
       {showNftConfirmModal && (
         <NftConfirmModal
           setShowModal={setShowNftConfirmModal}
@@ -168,7 +170,7 @@ const NftTable = ({
         />
       )}
       {showSuccessModal && (
-        <NftConfirmSuccessModal
+        <SuccessModal
           setShowSuccessModal={setShowSuccessModal}
           title="Your NFT sale has been cancelled successfully!"
           noRedirect={true}

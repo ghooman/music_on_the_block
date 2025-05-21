@@ -35,6 +35,7 @@ import EvaluationBegin from './pages/EvaluationBegin';
 import { AuthProvider } from './contexts/AuthContext';
 import { WebSocketProvider } from './contexts/WebSocketContext';
 import EvaluationResults from './pages/EvaluationResults';
+import i18n from './i18n/i18n';
 
 function Layout({ children }) {
   return (
@@ -59,6 +60,15 @@ const queryClient = new QueryClient({
 
 function App() {
   const { pathname } = useLocation();
+  const { language } = navigator;
+
+  useEffect(() => {
+    if (language?.startsWith('ko')) {
+      i18n.changeLanguage('한국어');
+    } else {
+      i18n.changeLanguage('English');
+    }
+  }, [language]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

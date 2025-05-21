@@ -1,10 +1,12 @@
 // components/AlbumDetail.js
 import '../styles/AlbumDetail.scss';
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
+
 import coverImg from '../assets/images/black-img.jpg';
 import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
@@ -14,6 +16,12 @@ import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 import issueIcon from '../assets/images/icon/issue-opened.svg';
+
+import persona01 from '../assets/images/evaluation/persona-all-bg.png';
+import persona02 from '../assets/images/evaluation/persona-user01.png';
+import persona03 from '../assets/images/evaluation/persona-user02.png';
+import persona04 from '../assets/images/evaluation/persona-user03.png';
+
 import track2 from '../assets/music/nisoft_song.mp3';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
@@ -35,8 +43,12 @@ import { WalletConnect } from '../components/WalletConnect';
 import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
+import EvaluationResults from './EvaluationResults';
+
 import TransactionsModal from '../components/TransactionsModal';
 function AlbumDetail() {
+  const { t } = useTranslation('song_detail');
+
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
@@ -71,6 +83,8 @@ function AlbumDetail() {
   // 댓글 영역 스크롤 이동을 위한 ref
   const commentRef = useRef(null);
 
+  const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
+
   // 진행바 스크롤 이동 핸들러
   const handleScrollToComment = () => {
     if (commentRef.current) {
@@ -101,7 +115,7 @@ function AlbumDetail() {
       680: {
         slidesPerView: 2,
       },
-      930: {
+      1250: {
         slidesPerView: 3,
       },
     },
@@ -219,6 +233,7 @@ function AlbumDetail() {
     setIsActive(false);
   }, [id]);
   const handleClick = () => {
+    if (album?.ai_service == 0) return;
     setIsActive(prev => !prev);
   };
 
@@ -373,6 +388,14 @@ function AlbumDetail() {
       break;
   }
 
+  const personas = [
+    // { img: persona01, name: 'All' },
+    { img: persona02, name: 'Jinwoo Yoo' },
+    { img: persona03, name: 'Drexx' },
+    { img: persona04, name: 'Elara Moon' },
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+
   // transactions modal 오픈
   const handleTransactionsModal = () => {
     setIsTransactionsModal(true);
@@ -395,7 +418,7 @@ function AlbumDetail() {
 
       <div className="song-detail">
         <dl className="album-detail__title">
-          <dt>Song Details</dt>
+          <dt>{t('Song Details')}</dt>
         </dl>
         <section className="album-detail__song-detail">
           <div className="album-detail__song-detail__title-box">
@@ -467,23 +490,25 @@ function AlbumDetail() {
                       ?.trim()}
                   </pre>
                 </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
+                <button className="album-detail__song-detail__left__img__lyrics-btn">
+                  {t('Lyrics')}
+                </button>
               </div>
               <div className="album-detail__song-detail__left__info">
                 {/* <div className="album-detail__song-detail__left__info__number">
-                                    <p className="love" onClick={handleLike}>
-                                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                                        {album?.like || 0}
-                                    </p>
-                                    <p className="play">
-                                        <img src={playIcon} alt="play Icon" />
-                                        {album?.play_cnt || 0}
-                                    </p>
-                                    <p className="comment" onClick={handleScrollToComment}>
-                                        <img src={commentIcon} alt="comment Icon" />
-                                        {album?.comment_cnt || 0}
-                                    </p>
-                                </div> */}
+                      <p className="love" onClick={handleLike}>
+                          <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                          {album?.like || 0}
+                      </p>
+                      <p className="play">
+                          <img src={playIcon} alt="play Icon" />
+                          {album?.play_cnt || 0}
+                      </p>
+                      <p className="comment" onClick={handleScrollToComment}>
+                          <img src={commentIcon} alt="comment Icon" />
+                          {album?.comment_cnt || 0}
+                      </p>
+                    </div> */}
                 {!setIsLoggedIn && (
                   <div className="album-detail__song-detail__left__info__number">
                     <p className="play">
@@ -573,45 +598,43 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
-                  <dt>Language</dt>
-                  <dd>{album?.language || '-'}</dd>
+                  <dt>{t('Type')}</dt>
+                  <dd>{album?.ai_service == 0 ? 'BGM' : 'Song'}</dd>
                 </dl>
                 <dl>
-                  <dt>Genre</dt>
+                  <dt>{t('Genre')}</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
-                {/* <dl>
-                                    <dt>Stylistic</dt>
-                                    <dd>{album?.Stylistic || '-'}</dd>
-                                </dl> */}
+                {album?.ai_service != 0 && (
+                  <dl>
+                    <dt>{t('Gender')}</dt>
+                    <dd>{album?.gender || '-'}</dd>
+                  </dl>
+                )}
                 <dl>
-                  <dt>Gender</dt>
-                  <dd>{album?.gender || '-'}</dd>
-                </dl>
-                <dl>
-                  <dt>Musical Instrument</dt>
+                  <dt>{t('Musical Instrument')}</dt>
                   <dd>{album?.musical_instrument || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Tempo</dt>
+                  <dt>{t('Tempo')}</dt>
                   <dd>{album?.tempo || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Detail</dt>
+                  <dt>{t('Detail')}</dt>
                   <dd>{album?.detail || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Creation Date</dt>
+                  <dt>{t('Creation Date')}</dt>
                   <dd>
                     <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Song Length</dt>
+                  <dt>{t('Song Length')}</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
                 <dl className="artist">
-                  <dt>Artist</dt>
+                  <dt>{t('Artist')}</dt>
                   <dd>
                     <Link className="user" to={`/profile?username=${album?.name}`}>
                       <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
@@ -619,8 +642,15 @@ function AlbumDetail() {
                     </Link>
                   </dd>
                 </dl>
+                {/* 공간차지용 */}
+                {album?.ai_service == 0 && (
+                  <dl style={{ visibility: 'hidden' }}>
+                    <dt>{t('Blank')}</dt>
+                    <dd>-</dd>
+                  </dl>
+                )}
                 <div className="album-detail__control-guide">
-                  <p className="album-detail__control-guide--text">NFT Status</p>
+                  <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
                   <img
                     className="album-detail__control-guide--icon"
                     src={issueIcon}
@@ -636,14 +666,14 @@ function AlbumDetail() {
                         onClick={e => handleButtonClick(e, 'release')}
                         disabled={album?.is_release}
                       >
-                        Release
+                        {t('Release')}
                       </button>
                       <button
                         className="album-detail__control-button mint-button"
                         onClick={e => handleButtonClick(e, 'mint')}
                         disabled={album?.is_nft || !album?.is_release}
                       >
-                        Mint
+                        {t('Mint')}
                       </button>
                       <button
                         className="album-detail__control-button sell-button"
@@ -654,7 +684,7 @@ function AlbumDetail() {
                           album?.now_sales_status === 'Listed'
                         }
                       >
-                        Sell
+                        {t('Sell')}
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
@@ -665,7 +695,7 @@ function AlbumDetail() {
                           album?.now_sales_status !== 'Listed'
                         }
                       >
-                        Cancel
+                        {t('Cancel')}
                       </button>
                     </div>
                   </>
@@ -678,7 +708,7 @@ function AlbumDetail() {
                     }
                     onClick={e => handleButtonClick(e, 'buy')}
                   >
-                    Buy NFT
+                    {t('Buy NFT')}
                   </button>
                 )}
               </div>
@@ -686,90 +716,141 @@ function AlbumDetail() {
           </div>
         </section>
 
-        <section
-          className={`album-detail__rank-table ${isLoggedIn ? 'is-logged-in' : 'not-logged-in'}`}
-        >
-          <div ref={commentRef}>
-            <AdvancedCommentComponent id={id} />
-          </div>
-          <dl className="album-detail__rank-table__title">
-            <dt>Songs Leaderboard Rank</dt>
-            <dd>Most Plays</dd>
-          </dl>
-          <div className="table-container">
-            <table className="custom-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Artist</th>
-                  <th>Song Title</th>
-                  <th>Plays</th>
-                  <th>Likes</th>
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaderBoardData.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td className="user-info">
-                      <p>
-                        <img src={item.user_profile || defaultCoverImg} alt="user profile" />
-                        {item.name}
-                      </p>
-                    </td>
-                    <td className="title">
-                      <p></p>
-                      {item.title}
-                    </td>
-                    <td>
-                      {/* {formatLocalTime(item.create_dt)} */}
-                      {item?.play_cnt}
-                    </td>
-                    <td>{item.like}</td>
-                    <td>
-                      <Link className="details-btn active" to={'/song-detail/' + item.id}>
-                        Details
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <section className="album__content-list__tab">
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Lyrics & Songwriting' ? 'active' : ''
+            }`}
+            onClick={() => setActiveTab('AI Lyrics & Songwriting')}
+          >
+            {t('AI Lyrics & Songwriting')}
+          </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Singing Evaluation' ? 'active' : ''
+            }`}
+            onClick={() => setActiveTab('AI Singing Evaluation')}
+          >
+            {t('AI Singing Evaluation')}
+          </button>
+          <button
+            className={`album__content-list__tab__item ${
+              activeTab === 'AI Cover Creation' ? 'active' : ''
+            }`}
+            onClick={() => setPreparingModal(true)}
+          >
+            {t('AI Cover Creation')}
+          </button>
         </section>
 
-        <section className="album-detail__slide">
-          <dl className="album-detail__slide__title">
-            <dt>Your Picks</dt>
-            <dd>Top tracks from your favorite genre.</dd>
-          </dl>
-          <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="song-detail-slide">
-              {favoriteGenreList.map(track => (
-                <SwiperSlide key={track.id}>
-                  <AlbumItem track={track} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </section>
+        {activeTab === 'AI Lyrics & Songwriting' && (
+          <>
+            <section
+              className={`album-detail__rank-table ${
+                isLoggedIn ? 'is-logged-in' : 'not-logged-in'
+              }`}
+            >
+              <div ref={commentRef}>
+                <AdvancedCommentComponent id={id} />
+              </div>
+              <dl className="album-detail__rank-table__title">
+                <dt>{t('Songs Leaderboard Rank')}</dt>
+                <dd>{t('Most Plays')}</dd>
+              </dl>
+              <div className="table-container">
+                <table className="custom-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>{t('Artist')}</th>
+                      <th>{t('Song Title')}</th>
+                      <th>{t('Plays')}</th>
+                      <th>{t('Likes')}</th>
+                      <th>{t('Details')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leaderBoardData.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+                        <td className="user-info">
+                          <p>
+                            <img src={item.user_profile || defaultCoverImg} alt="user profile" />
+                            {item.name}
+                          </p>
+                        </td>
+                        <td className="title">
+                          <p></p>
+                          {item.title}
+                        </td>
+                        <td>
+                          {/* {formatLocalTime(item.create_dt)} */}
+                          {item?.play_cnt}
+                        </td>
+                        <td>{item.like}</td>
+                        <td>
+                          <Link className="details-btn active" to={'/song-detail/' + item.id}>
+                            {t('Details')}
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section className="album-detail__slide">
+              <dl className="album-detail__slide__title">
+                <dt>{t('Your Picks')}</dt>
+                <dd>{t('Top tracks from your favorite genre.')}</dd>
+              </dl>
+              <div className="album-detail__slide__swiper">
+                <Swiper {...swiperOptions} className="song-detail-slide">
+                  {favoriteGenreList.map(track => (
+                    <SwiperSlide key={track.id}>
+                      <AlbumItem track={track} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </section>
 
-        <section className="album-detail__slide">
-          <dl className="album-detail__slide__title">
-            <dt>Similar Vibes</dt>
-            <dd>Top tracks from the same genre as this song.</dd>
-          </dl>
-          <div className="album-detail__slide__swiper">
-            <Swiper {...swiperOptions} className="song-detail-slide">
-              {similarVibesList.map(track => (
-                <SwiperSlide key={track.id}>
-                  <AlbumItem track={track} />
-                </SwiperSlide>
+            <section className="album-detail__slide">
+              <dl className="album-detail__slide__title">
+                <dt>{t('Similar Vibes')}</dt>
+                <dd>{t('Top tracks from the same genre as this song.')}</dd>
+              </dl>
+              <div className="album-detail__slide__swiper">
+                <Swiper {...swiperOptions} className="song-detail-slide">
+                  {similarVibesList.map(track => (
+                    <SwiperSlide key={track.id}>
+                      <AlbumItem track={track} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </section>
+          </>
+        )}
+        {activeTab === 'AI Singing Evaluation' && (
+          <>
+            <article className="main__content-item__persona">
+              {personas.map((persona, index) => (
+                <div
+                  key={index}
+                  className={`main__content-item__persona__item ${
+                    activeIndex === index ? 'active' : ''
+                  }`}
+                  onClick={() => setActiveIndex(index)}
+                >
+                  <img src={persona.img} alt={persona.name} />
+                  <p>{persona.name}</p>
+                </div>
               ))}
-            </Swiper>
-          </div>
-        </section>
+            </article>
+            <EvaluationResults />
+          </>
+        )}
       </div>
       {isShareModal && (
         <ShareModal

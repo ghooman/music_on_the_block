@@ -50,6 +50,7 @@ import NftConfirmModal from '../components/NftConfirmModal';
 import EvaluationResults from './EvaluationResults';
 
 import TransactionsModal from '../components/TransactionsModal';
+import DownloadModal from '../components/DownloadModal';
 function AlbumDetail() {
   const { t } = useTranslation('song_detail');
 
@@ -76,6 +77,7 @@ function AlbumDetail() {
   const [isReleaseModal, setIsReleaseModal] = useState(false);
   const [albumGuideModal, setAlbumGuideModal] = useState(false);
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
+  const [isDownloadModal, setIsDownloadModal] = useState(false);
   // 플레이어 상태 및 재생 관련 변수
   const [isPlaying, setIsPlaying] = useState(false);
   const playCountRef = useRef(false);
@@ -635,7 +637,12 @@ function AlbumDetail() {
                         <li onClick={copyToClipboard}>
                           {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
                         </li>
-                        <li onClick={handleCloseMenu}>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            setIsDownloadModal(true);
+                          }}
+                        >
                           Download <img src={downloadIcon} />
                         </li>
                         <li 
@@ -972,6 +979,14 @@ function AlbumDetail() {
           transactions={album?.transactions}
         />
       )}
+      {isDownloadModal && (
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={true}
+          needMint={false}
+        />
+      )}
+      
     </>
   );
 }

@@ -486,16 +486,14 @@
   position: absolute;
   top: 110px;
   left: calc(100% + 8px);
-  opacity: 0;
   height: 0;
   transition: 0.3s all;
   display: flex;
   width: 320px;
-  height: 400px;
-  padding: 32px 16px 24px 16px;
+  padding: 20px 16px 24px 16px;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 8px;
   border-radius: 16px;
   border: 1px solid var(--Color-03, #222);
   background: var(--Color-02, #1a1a1a);
@@ -503,6 +501,25 @@
   &.visible {
     opacity: 1;
     height: 400px;
+  }
+  .menu-box__lang-notification--select-notification-box__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .menu-box__lang-notification--select-notification-box__close-btn {
+      margin-left: 100%;
+    }
+    .menu-box__lang-notification--select-notification-box__header__title {
+      color: var(--Text-music-title, #f1f1f1);
+      text-align: center;
+      font-family: Orbitron600;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.72px;
+      margin-bottom: 24px;
+    }
   }
   .menu-box__lang-notification--select-notification-box__item {
     width: 100%;

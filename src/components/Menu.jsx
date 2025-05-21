@@ -176,7 +176,14 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           option === 'notification' ? 'visible' : ''
         }`}
       >
-        <p className="title">Notifications</p>
+        <div className="menu-box__lang-notification--select-notification-box__header">
+          <button className="menu-box__lang-notification--select-notification-box__close-btn">
+            X
+          </button>
+          <p className="menu-box__lang-notification--select-notification-box__header__title">
+            Notifications
+          </p>
+        </div>
         {flattenedDataList?.map(item => (
           <li key={item.id} className="menu-box__lang-notification--select-notification-box__item">
             <div className="menu-box__lang-notification--select-notification-box__item__img-box">
@@ -186,7 +193,15 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
               <div className="menu-box__lang-notification--select-notification-box__item__txt-box__header">
                 <img src={true ? notificationSong : notificationNFT} alt="song_image" />
                 <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__title">
-                  The <span className={true ? 'sky' : 'purple'}>song </span>has been created!
+                  {item?.notification_type === 'song' ? (
+                    <>
+                      The <span className="sky">song</span> has been created!
+                    </>
+                  ) : (
+                    <>
+                      Your <span className="purple">song</span> sold successfully.
+                    </>
+                  )}
                 </p>
               </div>
               <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__name">

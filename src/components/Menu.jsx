@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Menu.scss';
+import { useQuery, useQueryClient } from 'react-query';
 import useWindowHeight from '../hooks/useWindowHeight';
 
 // 이미지
@@ -25,6 +26,8 @@ import { useTranslation } from 'react-i18next';
 
 import { translatedNationsName } from '../i18n/i18n';
 
+import { getNotifications } from '../api/notifications';
+
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t, i18n } = useTranslation('main');
 
@@ -34,9 +37,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
   const isBelowHeight = useWindowHeight(750);
   const { pathname } = useLocation();
-
+  const queryClient = useQueryClient();
   // AuthContext에서 전역 인증 상태 업데이트 함수 가져오기
-  const { isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const { token, isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
   // WalletConnect에서 전달받은 콜백 함수
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -127,7 +130,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   //   window.addEventListener("scroll", handleScroll);
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
+  const {
+    data: notifications,
+    isLoading: notificationsLoading,
+    error: notificationsError,
+  } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: () => getNotifications(token),
+  });
 
+  useEffect(() => {
+    if (token) {
+      queryClient.invalidateQueries(['notifications']);
+    }
+  }, [token]);
+  console.log('notifications', notifications);
   const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
 
   return (
@@ -151,7 +168,24 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           </li>
         ))}
       </ul>
-
+      <ul
+        className={`menu-box__lang-notification--select-lang-box ${
+          option === 'notification' ? 'visible' : ''
+        }`}
+      >
+        {translatedNationsName.map(lang => (
+          <li
+            className="menu-box__lang-notification--select-lang-box__item"
+            key={lang}
+            onClick={() => {
+              i18n.changeLanguage(lang);
+              setOption('');
+            }}
+          >
+            {lang}
+          </li>
+        ))}
+      </ul>
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
       <div className={`menu ${active ? 'active' : ''} ${isBelowHeight ? 'small-height' : ''}`}>
         <div className="menu__cover">
@@ -182,12 +216,12 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <button
                   className="menu-box__lang-notification--button"
                   onClick={() => {
-                    // setOption(prev => {
-                    //   if (prev === 'notification') return '';
-                    //   else return 'notification';
-                    // });
-                    setOption('');
-                    setPreparingModal(true);
+                    setOption(prev => {
+                      if (prev === 'notification') return '';
+                      else return 'notification';
+                    });
+                    // setOption('');
+                    // setPreparingModal(true);
                   }}
                 >
                   <img src={notificationIcon} alt="icon" />

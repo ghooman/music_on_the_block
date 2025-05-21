@@ -34,4 +34,4 @@ i18n
 
 export default i18n;
 
-export const translatedNationsName = ['English', '한국어'];
+export const translatedNationsName = ['한국어', 'English'];

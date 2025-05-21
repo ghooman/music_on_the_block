@@ -646,30 +646,27 @@ function AlbumDetail() {
                     onClick={handleToggle}
                   >
                     <img src={moreIcon} alt="moreIcon" />
-                    <ul className="album-detail__song-detail__more-btn__list">
-                      <li onClick={copyToClipboard}>
-                        {!copied ? (
-                          <>
-                            Copy Link <img src={copyIcon} />
-                          </>
-                        ) : (
-                          <>
-                            Copied Link <img src={checkIcon} />
-                          </>
-                        )}
-                      </li>
-                      <li onClick={handleCloseMenu}>
-                        Download <img src={downloadIcon} />
-                      </li>
-                      <li
-                        onClick={e => {
-                          handleCloseMenu(e);
-                          handleTransactionsModal();
-                        }}
-                      >
-                        TXIDs
-                      </li>
-                    </ul>
+                      <ul className="album-detail__song-detail__more-btn__list">
+                        <li onClick={copyToClipboard}>
+                          {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
+                        </li>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            setIsDownloadModal(true);
+                          }}
+                        >
+                          Download <img src={downloadIcon} />
+                        </li>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleTransactionsModal();
+                          }}
+                        >
+                          TXIDs
+                        </li>
+                      </ul>
                   </button>
                 </div>
               </div>

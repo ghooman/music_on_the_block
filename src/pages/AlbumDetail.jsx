@@ -597,9 +597,22 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
-                <dl>
+                {/* <dl>
                   <dt>{t('Language')}</dt>
                   <dd>{album?.language || '-'}</dd>
+                </dl> */}
+                <dl className="artist">
+                  <dt>{t('Artist')}</dt>
+                  <dd>
+                    <Link className="user" to={`/profile?username=${album?.name}`}>
+                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
+                      {album?.name || '-'}
+                    </Link>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>{t('Type')}</dt>
+                  <dd>Song</dd>
                 </dl>
                 <dl>
                   <dt>{t('Genre')}</dt>
@@ -635,15 +648,7 @@ function AlbumDetail() {
                   <dt>{t('Song Length')}</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
-                <dl className="artist">
-                  <dt>{t('Artist')}</dt>
-                  <dd>
-                    <Link className="user" to={`/profile?username=${album?.name}`}>
-                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
-                      {album?.name || '-'}
-                    </Link>
-                  </dd>
-                </dl>
+
                 {/* 공간차지용 */}
                 {album?.ai_service == 0 && (
                   <dl style={{ visibility: 'hidden' }}>

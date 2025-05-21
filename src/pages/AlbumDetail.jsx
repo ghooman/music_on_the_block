@@ -161,6 +161,7 @@ function AlbumDetail() {
       const res = await axios.get(
         `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
       );
+      console.log('곡 확인용', res.data);
       setFavoriteGenreList(res.data);
     } catch (error) {
       console.error('getFavoriteGenre error:', error);

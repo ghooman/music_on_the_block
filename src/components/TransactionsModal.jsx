@@ -3,6 +3,7 @@ import ModalWrap from './ModalWrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { formatUtcTime, formatLocalTime } from '../utils/getFormattedTime';
 import './TransactionsModal.scss';
+import NoneContent from './unit/NoneContent';
 
 const TransactionsModal = ({ setTransactionsModal, txidData }) => {
   const leaderBoardData = [
@@ -59,7 +60,10 @@ const TransactionsModal = ({ setTransactionsModal, txidData }) => {
             </tbody>
           </table>
         ) : (
-          <span className="table-container__empty-text">No transactions found.</span>
+          <NoneContent
+          message='No transactions found'
+          />
+          // <span className="table-container__empty-text">No transactions found.</span>
         )}
       </div>
     </ModalWrap>

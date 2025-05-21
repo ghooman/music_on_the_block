@@ -201,7 +201,7 @@ const SongPlayTable = ({
                       <TableItem.Button
                         title={t('Sell')}
                         type="sell"
-                        handleClick={() => navigate(`/nft/sell/detail/${item.song_id}/${item.id}`)}
+                        handleClick={() => navigate(`/nft/sell/details/${item.song_id}/${item.id}`)}
                       />
                     )}
                   </TableItem>

@@ -119,7 +119,7 @@ const NftItemDetailInfo = ({ id, t }) => {
         setNftAction(action);
         break;
       case 'sell':
-        navigate(`/nft/sell/detail/${nftDetailData?.song_id}/${nftDetailData?.id}`);
+        navigate(`/nft/sell/details/${nftDetailData?.song_id}/${nftDetailData?.id}`);
         break;
       case 'cancel':
         // setCancelNft(true);

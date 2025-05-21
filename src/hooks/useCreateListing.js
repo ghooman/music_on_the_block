@@ -33,11 +33,11 @@ export const useSellNFT = () => {
       if (listingEvent) {
         // bigint에러 임시 패스
         // eslint-disable-next-line no-undef
-        const listingId = BigInt(listingEvent.topics[2]).toString(); // listingId는 topic[2] 위치에 있음 abi참고시 확인
+        const listingResult = BigInt(listingEvent.topics[2]).toString(); // listingId는 topic[2] 위치에 있음 abi참고시 확인
 
         const transactionHash = receipt.transactionHash;
-        console.log('listingId:', listingId);
-        return { listingId, transactionHash };
+        console.log('listingId:', listingResult);
+        return { listingResult, transactionHash };
       } else {
         console.warn('NewListing 이벤트를 찾지 못했습니다.');
         return null;

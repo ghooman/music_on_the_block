@@ -287,7 +287,6 @@ const MelodyMaker = ({
       return basicPrompt;
     }
   };
-  console.log('valuesOnly', valuesOnly);
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {

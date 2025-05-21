@@ -44,6 +44,7 @@ import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
 
 import TransactionsModal from '../components/TransactionsModal';
+import DownloadModal from '../components/DownloadModal';
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -82,6 +83,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const [cancelSuccess, setCancelSuccess] = useState(false);
 
   const [isShareModal, setIsShareModal] = useState(false);
+  const [isDownloadModal, setIsDownloadModal] = useState(false);
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   const { token, walletAddress, isLoggedIn, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
@@ -338,7 +340,12 @@ const NftItemDetailInfo = ({ id, t }) => {
                           </>
                         )}
                       </li>
-                      <li onClick={handleCloseMenu}>
+                      <li 
+                        onClick={e => {
+                          handleCloseMenu(e);
+                          setIsDownloadModal(true);
+                        }}
+                      >
                         Download <img src={downloadIcon} />
                       </li>
                       <li
@@ -481,6 +488,13 @@ const NftItemDetailInfo = ({ id, t }) => {
         <TransactionsModal
           setTransactionsModal={setIsTransactionsModal}
           transactions={nftDetailData?.transactions}
+        />
+      )}
+      {isDownloadModal && (
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={true}
+          needMint={false}
         />
       )}
     </>

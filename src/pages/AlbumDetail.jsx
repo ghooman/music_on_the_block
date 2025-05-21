@@ -650,7 +650,12 @@ function AlbumDetail() {
                         <li onClick={copyToClipboard}>
                           {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
                         </li>
-                        <li onClick={handleCloseMenu}>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            setIsDownloadModal(true);
+                          }}
+                        >
                           Download <img src={downloadIcon} />
                         </li>
                         <li 
@@ -659,7 +664,7 @@ function AlbumDetail() {
                             handleTransactionsModal();
                           }}
                         >
-                          TXID
+                          TXIDs
                         </li>
                       </ul>
                   </button>

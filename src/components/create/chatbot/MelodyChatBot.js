@@ -753,15 +753,15 @@ const MelodyChatBot = ({
         </div>
         <div className="music__information__genre">
           <h3>{t('Melody Title')}</h3>
-          <input type="text" value={melodyData?.melody_title} placeholder="Enter" readOnly />
+          <input type="text" value={melodyData?.melody_title} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__genre">
           <h3>{t('Melody Genre')}</h3>
-          <input type="text" value={melodyData?.melody_genre} placeholder="Enter" readOnly />
+          <input type="text" value={melodyData?.melody_genre} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__gender">
           <h3>{t('Melody Gender')}</h3>
-          <input type="text" value={melodyData?.melody_gender} placeholder="Enter" readOnly />
+          <input type="text" value={melodyData?.melody_gender} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__instrument">
           <h3>{t('Melody Instrument')}</h3>
@@ -772,17 +772,17 @@ const MelodyChatBot = ({
                 ? melodyData?.melody_instrument.join(', ')
                 : melodyData?.melody_instrument
             }
-            placeholder="Enter"
+            placeholder={t('Enter')}
             readOnly
           />
         </div>
         <div className="music__information__tempo">
           <h3>{t('Melody Tempo')}</h3>
-          <input type="text" value={melodyData?.melody_tempo} placeholder="Enter" readOnly />
+          <input type="text" value={melodyData?.melody_tempo} placeholder={t('Enter')} readOnly />
         </div>
         <div className="music__information__detail">
           <h3>{t('Melody Detail')}</h3>
-          <input type="text" value={melodyData?.melody_detail} placeholder="Enter" readOnly />
+          <input type="text" value={melodyData?.melody_detail} placeholder={t('Enter')} readOnly />
         </div>
       </section>
       <div className="music__information__buttons">

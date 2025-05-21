@@ -16,6 +16,7 @@ import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 import issueIcon from '../assets/images/icon/issue-opened.svg';
+import downloadIcon from '../assets/images/icon/download-icon.svg';
 
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
 import persona02 from '../assets/images/evaluation/persona-user01.png';
@@ -320,7 +321,7 @@ function AlbumDetail() {
         setIsReleaseModal(true);
         break;
       case 'sell':
-        navigate(`/nft/sell/details/${album?.id}/${album?.nft_id}`);
+        navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`);
         break;
       case 'cancel':
         navigate(`/nft/detail/${album?.nft_id}`);
@@ -419,6 +420,9 @@ function AlbumDetail() {
       <div className="song-detail">
         <dl className="album-detail__title">
           <dt>{t('Song Details')}</dt>
+          <dd>
+            <p className="album-detail__song-detail__right__version">{create_version}</p>
+          </dd>
         </dl>
         <section className="album-detail__song-detail">
           <div className="album-detail__song-detail__title-box">
@@ -576,6 +580,12 @@ function AlbumDetail() {
                     TXID
                   </button>
                   <button
+                    className="album-detail__song-detail__left__info__dow-btn"
+                  >
+                    download
+                    <img src={downloadIcon} alt='downloadIcon'/>
+                  </button>
+                  <button
                     className="album-detail__song-detail__left__info__share-btn"
                     onClick={() => setShareModal(true)}
                   >
@@ -587,7 +597,6 @@ function AlbumDetail() {
             <div className="album-detail__song-detail__right">
               <div className="album-detail__song-detail__right__box">
                 <p className="album-detail__song-detail__right__title">{album?.title}</p>
-                <p className="album-detail__song-detail__right__version">{create_version}</p>
               </div>
               <div className="album-detail__song-detail__right__type">
                 {tagArray.map((type, index) => (
@@ -597,31 +606,38 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
+                {/* <dl>
+                  <dt>{t('Language')}</dt>
+                  <dd>{album?.language || '-'}</dd>
+                </dl> */}
+                <dl className="artist">
+                  <dt>{t('Artist')}</dt>
+                  <dd>
+                    <Link className="user" to={`/profile?username=${album?.name}`}>
+                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
+                      {album?.name || '-'}
+                    </Link>
+                  </dd>
+                </dl>
                 <dl>
                   <dt>{t('Type')}</dt>
-                  <dd>{album?.ai_service == 0 ? 'BGM' : 'Song'}</dd>
+                  <dd>Song</dd>
                 </dl>
                 <dl>
                   <dt>{t('Genre')}</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
-                {album?.ai_service != 0 && (
-                  <dl>
-                    <dt>{t('Gender')}</dt>
-                    <dd>{album?.gender || '-'}</dd>
-                  </dl>
-                )}
+                {/* <dl>
+                        <dt>Stylistic</dt>
+                        <dd>{album?.Stylistic || '-'}</dd>
+                    </dl> */}
                 <dl>
-                  <dt>{t('Musical Instrument')}</dt>
-                  <dd>{album?.musical_instrument || '-'}</dd>
+                  <dt>{t('Gender')}</dt>
+                  <dd>{album?.gender || '-'}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Tempo')}</dt>
                   <dd>{album?.tempo || '-'}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Detail')}</dt>
-                  <dd>{album?.detail || '-'}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Creation Date')}</dt>
@@ -633,19 +649,23 @@ function AlbumDetail() {
                   <dt>{t('Song Length')}</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
-                <dl className="artist">
-                  <dt>{t('Artist')}</dt>
-                  <dd>
-                    <Link className="user" to={`/profile?username=${album?.name}`}>
-                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
-                      {album?.name || '-'}
-                    </Link>
-                  </dd>
-                </dl>
+                {/* <dl>
+                  <dt>{t('Detail')}</dt>
+                  <dd>{album?.detail || '-'}</dd>
+                </dl> */}
+                <p className='album-detail__song-detail__right__info-box__detail'>
+                  <span>{t('Musical Instrument')}</span>
+                  <strong>{album?.musical_instrument || '-'}</strong>
+                </p>
+                <p className='album-detail__song-detail__right__info-box__detail'>
+                  <span>{t('Detail')}</span>
+                  <strong>{album?.detail || '-'}</strong>
+                </p>
+
                 {/* 공간차지용 */}
                 {album?.ai_service == 0 && (
                   <dl style={{ visibility: 'hidden' }}>
-                    <dt>{t('Blank')}</dt>
+                    <dt>Blank</dt>
                     <dd>-</dd>
                   </dl>
                 )}

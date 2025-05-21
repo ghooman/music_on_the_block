@@ -158,6 +158,9 @@ const MelodyMaker = ({
   selectedCreationMode,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
+  console.log('lyricData', lyricData);
+  console.log('lyricStory', lyricStory);
+  console.log('melodyData', melodyData);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -278,14 +281,15 @@ const MelodyMaker = ({
       return basicPrompt;
     }
   };
-
+  console.log('valuesOnly', valuesOnly);
   // 노래 생성 요청 함수
   const musicGenerate = async () => {
     try {
       setLoading(true);
 
-      // 최종 프롬프트 생성
-      const finalPrompt = await generateFinalPrompt();
+      // 최종 프롬프트 생성 selectedVersion 에따라 분기
+
+      const finalPrompt = selectedVersion === 'V4_5' ? valuesOnly : await generateFinalPrompt();
 
       // 앨범 커버 생성 (앨범 커버가 없는 경우만)
       let coverImageUrl = albumCover;

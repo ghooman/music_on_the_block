@@ -13,6 +13,8 @@ import mobIcon from '../assets/images/icon/mob-icon.svg';
 import polIcon from '../assets/images/icon/polygon-icon.svg';
 import usdtIcon from '../assets/images/icon/usdt-icon.svg';
 import usdcIcon from '../assets/images/icon/usdc-icon.svg';
+import langIcon from '../assets/images/icon/lang-icon.svg';
+import notificationIcon from '../assets/images/icon/notification-icon.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
@@ -21,9 +23,12 @@ import { useTokenBalance } from '../hooks/useTokenBalance';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
 
-const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
-  const { t } = useTranslation('main');
+import { translatedNationsName } from '../i18n/i18n';
 
+const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
+  const { t, i18n } = useTranslation('main');
+
+  const [option, setOption] = useState('');
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
@@ -127,6 +132,26 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   return (
     <>
+      {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
+      <ul
+        className={`menu-box__lang-notification--select-lang-box ${
+          option === 'lang' ? 'visible' : ''
+        }`}
+      >
+        {translatedNationsName.map(lang => (
+          <li
+            className="menu-box__lang-notification--select-lang-box__item"
+            key={lang}
+            onClick={() => {
+              i18n.changeLanguage(lang);
+              setOption('');
+            }}
+          >
+            {lang}
+          </li>
+        ))}
+      </ul>
+
       {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
       <div className={`menu ${active ? 'active' : ''} ${isBelowHeight ? 'small-height' : ''}`}>
         <div className="menu__cover">
@@ -140,6 +165,36 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   Log In
                 </button>
               )} */}
+              {/** 언어 및 알림 */}
+              <div className="menu-box__lang-notification">
+                <button
+                  className="menu-box__lang-notification--button"
+                  onClick={() => {
+                    setOption(prev => {
+                      if (prev === 'lang') return '';
+                      else return 'lang';
+                    });
+                  }}
+                >
+                  <img src={langIcon} alt="icon" />
+                  {t('Language')}
+                </button>
+                <button
+                  className="menu-box__lang-notification--button"
+                  onClick={() => {
+                    // setOption(prev => {
+                    //   if (prev === 'notification') return '';
+                    //   else return 'notification';
+                    // });
+                    setOption('');
+                    setPreparingModal(true);
+                  }}
+                >
+                  <img src={notificationIcon} alt="icon" />
+                  {t('Notification')}
+                </button>
+              </div>
+
               <WalletConnect onConnect={handleWalletConnect} />
               {isLoggedIn && (
                 <>

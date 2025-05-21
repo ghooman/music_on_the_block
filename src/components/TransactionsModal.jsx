@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import ModalWrap from './ModalWrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-
+import { formatUtcTime, formatLocalTime } from '../utils/getFormattedTime';
 import './TransactionsModal.scss';
 
 const TransactionsModal = ({ setTransactionsModal, txidData }) => {
@@ -23,6 +23,7 @@ const TransactionsModal = ({ setTransactionsModal, txidData }) => {
     },
   ];
 
+  console.log('txidData', txidData);
   return (
     <ModalWrap
       title="Transactions"
@@ -39,12 +40,16 @@ const TransactionsModal = ({ setTransactionsModal, txidData }) => {
             </tr>
           </thead>
           <tbody>
-            {leaderBoardData.map((item, index) => (
+            {txidData.map((item, index) => (
               <tr key={item.id}>
                 <td className={item.status}>{item.status}</td>
-                <td>{item.time}</td>
+                <td>{item.create_dt}</td>
                 <td>
-                  <Link to="/" className="link-btn">
+                  <Link
+                    to={`https://polygonscan.com/tx/${item.tx_id}`}
+                    className="link-btn"
+                    target="_b"
+                  >
                     link btn
                   </Link>
                 </td>

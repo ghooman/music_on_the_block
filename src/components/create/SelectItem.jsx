@@ -276,6 +276,62 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
   );
 };
 
+export const SelectItemSongLength = ({ songLength, setSongLength }) => {
+  const songLengthRef = useRef(null);
+
+  const songLengthRangesInstance = useRanger({
+    getRangerElement: () => songLengthRef.current,
+    values: songLength,
+    min: 30,
+    max: 240,
+    stepSize: 1,
+    onChange: instance => {
+      setSongLength(instance.sortedValues);
+    },
+  });
+
+  return (
+    <div className="tag-select">
+      <div className="tag-title__block">
+        <h3 className="tag-title">Select a Song Length</h3>
+      </div>
+      <div className="tag-select__range" ref={songLengthRef}>
+        {songLengthRangesInstance?.getSteps().map((item, index) => {
+          return (
+            <div
+              className="tag-select__range--applicable"
+              key={index}
+              style={{ width: `${songLengthRangesInstance.getPercentageForValue(songLength)}%` }}
+            ></div>
+          );
+        })}
+        {songLengthRangesInstance
+          .handles()
+          ?.map(({ value, onKeyDownHandler, onMouseDownHandler, onTouchStart }, i) => (
+            <button
+              className="tag-select__range--thumb"
+              key={i}
+              onKeyDown={onKeyDownHandler}
+              onMouseDown={onMouseDownHandler}
+              onTouchStart={onTouchStart}
+              role="slider"
+              aria-valuemin={songLengthRangesInstance.options.min}
+              aria-valuemax={songLengthRangesInstance.options.max}
+              aria-valuenow={value}
+              style={{
+                left: `${songLengthRangesInstance.getPercentageForValue(value)}%`,
+              }}
+            >
+              <div className="tag-select__range--thumb-tick">
+                <span>{value}</span> Seconds
+              </div>
+            </button>
+          ))}
+      </div>
+    </div>
+  );
+};
+
 export const SelectItemInputOnly = ({ value, setter, title }) => {
   return (
     <div className="tag-select">

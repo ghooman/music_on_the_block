@@ -1,230 +1,228 @@
+.transactions {
+  .modal-content {
+  }
+  .table-container {
+    width: 100%;
+    max-height: 220px;
 
-
-
-
-
-
-
-.transactions{
-    .table-container {
-        width: 100%;
-        // display: flex;
-        // justify-content: center;
-        border-radius: 12px;
-        overflow: auto;
-        border: 1px solid #222;
+    // display: flex;
+    // justify-content: center;
+    border-radius: 12px;
+    overflow: auto;
+    border: 1px solid #222;
+    tr {
+      transition: 0.3s;
+      &:hover {
+        background: #333;
+      }
+    }
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #111;
+      color: #ddd;
+      font-size: 16px;
+      //   min-width: 690px;
+      // table-layout: fixed;
+      thead {
+        background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
         tr {
-          transition: 0.3s;
-          &:hover {
-            background: #333;
+          th {
+            text-align: center;
+            color: var(--primary-200, #a9d400);
+            text-align: center;
+            font-family: Orbitron400;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
           }
         }
-        .custom-table {
-          width: 100%;
-          border-collapse: collapse;
-          background: #111;
-          color: #ddd;
-          font-size: 16px;
-        //   min-width: 690px;
-          // table-layout: fixed;
-          thead {
-            background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
-            tr {
-              th {
-                text-align: center;
-                color: var(--primary-200, #a9d400);
-                text-align: center;
-                font-family: Orbitron400;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-              }
-            }
+      }
+      td {
+        .link-btn {
+          border-radius: 4px;
+          background: #222;
+          height: 30px;
+          width: 38px;
+          padding: 0 12px;
+          font-size: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.3s;
+          &::after {
+            content: '';
+            display: block;
+            background: url('../assets/images/open_in_new.svg') center no-repeat;
+            background-size: cover;
+            width: 18px;
+            height: 18px;
           }
-          td {
+          &:hover {
+          }
+        }
+        &.Minted {
+          color: #cf0;
+          text-align: center;
+          font-family: Inter400;
+          font-size: 14px;
+        }
+        &.Listed {
+          color: #4ee1fb;
+          text-align: center;
+          font-family: Inter400;
+          font-size: 14px;
+        }
+        &.Cancelled {
+          color: #df1919;
+          text-align: center;
+          font-family: Inter400;
+          font-size: 14px;
+        }
+        &.Sold {
+          color: #ffdc55;
+          text-align: center;
+          font-family: Inter400;
+          font-size: 14px;
+        }
 
-            .link-btn{
-                border-radius: 4px;
-                background:#222;
-                height: 30px;
-                width: 38px;
-                padding: 0 12px;
-                font-size: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: 0.3s;
-                &::after{
-                    content: '';
-                    display: block;
-                    background: url('../assets/images/open_in_new.svg') center no-repeat;
-                    background-size: cover;
-                    width: 18px;
-                    height: 18px;
-                }
-                &:hover{
-                    
-                }
-            }
-            &.Buy{
-                color:#CF0;
-                text-align: center;
-                font-family: Inter400;
-                font-size: 14px;
-            }
-            &.Sell{
-                color:#4EE1FB;
-                text-align: center;
-                font-family: Inter400;
-                font-size: 14px;
-            }
-            &.Cancel{
-                color:#DF1919;
-                text-align: center;
-                font-family: Inter400;
-                font-size: 14px;
-            }
-            &.title {
-              // width: 100px;
-            }
-            &.user-info {
-              p {
-                padding: 0 16px 0 0;
-                display: flex;
-                align-items: center;
-                justify-content: start;
-                gap: 8px;
-                color: #aaa;
-                text-align: center;
-                font-family: Inter400;
-                font-size: 14px;
-                font-style: normal;
-                line-height: normal;
-                img {
-                  flex-shrink: 0;
-                  width: 16px;
-                  height: 16px;
-                  overflow: hidden;
-                  border-radius: 100%;
-                }
-              }
-            }
+        &.user-info {
+          p {
+            padding: 0 16px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 8px;
             color: #aaa;
             text-align: center;
             font-family: Inter400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
-            min-height: 60px;
-            &.title {
-              text-align: left;
-            }
-            &:nth-child(1) {
-              width: 40px;
-            }
-            &:nth-child(3) {
-              max-width: 400px;
-              width: 400px;
+            img {
+              flex-shrink: 0;
+              width: 16px;
+              height: 16px;
               overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              p {
-                text-indent: 0px;
-                width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                color: #aaa;
-                text-align: center;
-                font-family: Inter400;
-                font-size: 14px;
-                font-style: normal;
-                line-height: normal;
-                max-width: 10ch;
-              }
-            }
-            &:last-child {
-              width: 60px;
-              max-width: 60px;
+              border-radius: 100%;
             }
           }
         }
-    
-        .custom-table th {
-          color: #aaff00;
+        color: #aaa;
+        text-align: center;
+        font-family: Inter400;
+        font-size: 14px;
+        font-style: normal;
+        line-height: normal;
+        min-height: 60px;
+        &.title {
           text-align: left;
-          padding: 10px;
-          border-bottom: 2px solid #333;
         }
-    
-        .custom-table td {
-          padding: 12px;
-          border-bottom: 1px solid #333;
+        &:nth-child(1) {
+          width: 40px;
         }
-    
-        .heart {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          background: url('../assets/images/album/love-icon.svg') no-repeat center;
-          background-size: contain;
-        }
-    
-        .heart.liked {
-          background: url('../assets/images/album/love-icon-on.svg') no-repeat center;
-          background-size: contain;
-        }
-    
-        .details-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          float: right;
-          width: 100px;
-          height: 24px;
-          background: #00ffb3;
-          position: relative;
-          top: 0;
-          transition: 0.2s;
-          color: #1a1a1a;
-          font-family: Orbitron600;
-          font-size: 12px;
-          font-style: normal;
-          line-height: normal;
-          border-radius: 8px;
-          &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 4px;
-            width: calc(100% - 2px);
-            transition: 0.2s;
-            border-radius: 8px;
-            height: 22px;
-            border: 1px solid #00ffb3;
-          }
-          &:hover {
-            top: 4px;
-            &::before {
-              top: 0;
-            }
+        &:nth-child(3) {
+          max-width: 400px;
+          width: 400px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          p {
+            text-indent: 0px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #aaa;
+            text-align: center;
+            font-family: Inter400;
+            font-size: 14px;
+            font-style: normal;
+            line-height: normal;
+            max-width: 10ch;
           }
         }
-    
-        .details-btn.active {
-          background: #00ff99;
-          color: #000;
-          transition: 0.3s;
-          &:hover {
-          }
+        &:last-child {
+          width: 60px;
+          max-width: 60px;
         }
-    
-        .details-btn.disabled {
-          background: #333;
-          color: #555;
-          cursor: not-allowed;
-        }
-      } //table-container--END--    
-}
+      }
+    }
 
+    .custom-table th {
+      color: #aaff00;
+      text-align: left;
+      padding: 10px;
+      border-bottom: 2px solid #333;
+    }
+
+    .custom-table td {
+      padding: 12px;
+      border-bottom: 1px solid #333;
+    }
+
+    .heart {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: url('../assets/images/album/love-icon.svg') no-repeat center;
+      background-size: contain;
+    }
+
+    .heart.liked {
+      background: url('../assets/images/album/love-icon-on.svg') no-repeat center;
+      background-size: contain;
+    }
+
+    .details-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      float: right;
+      width: 100px;
+      height: 24px;
+      background: #00ffb3;
+      position: relative;
+      top: 0;
+      transition: 0.2s;
+      color: #1a1a1a;
+      font-family: Orbitron600;
+      font-size: 12px;
+      font-style: normal;
+      line-height: normal;
+      border-radius: 8px;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: calc(100% - 2px);
+        transition: 0.2s;
+        border-radius: 8px;
+        height: 22px;
+        border: 1px solid #00ffb3;
+      }
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0;
+        }
+      }
+    }
+
+    .details-btn.active {
+      background: #00ff99;
+      color: #000;
+      transition: 0.3s;
+      &:hover {
+      }
+    }
+
+    .details-btn.disabled {
+      background: #333;
+      color: #555;
+      cursor: not-allowed;
+    }
+  } //table-container--END--
+}

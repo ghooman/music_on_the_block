@@ -1,13 +1,16 @@
 // src/components/WalletConnect.jsx
 import { useEffect, useContext } from 'react';
+import { useQueryClient } from 'react-query';
+import { useTranslation } from 'react-i18next';
 import { createThirdwebClient } from 'thirdweb';
 import { polygon } from 'thirdweb/chains';
 import { ConnectButton, useActiveWallet, useActiveWalletConnectionStatus } from 'thirdweb/react';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 import { AuthContext } from '../contexts/AuthContext';
-import { useQueryClient } from 'react-query';
 
 export const WalletConnect = ({ onConnect, className, text }) => {
+  const { t } = useTranslation('main');
+
   const client = createThirdwebClient({
     clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID,
   });
@@ -41,7 +44,7 @@ export const WalletConnect = ({ onConnect, className, text }) => {
   return (
     <ConnectButton
       connectButton={{
-        label: text || 'Connect Wallet',
+        label: text || t('Connect Wallet'),
         className: className,
       }}
       client={client}

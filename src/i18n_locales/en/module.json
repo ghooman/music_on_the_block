@@ -1,8 +1,8 @@
 {
  "Filter": null,
- "Apply": null,
- "period": null,
- "types": null,
+ "APPLY": null,
+ "Period": null,
+ "Types": null,
  "Grade": null,
  "Sort by": null,
  "Token": null,
@@ -86,12 +86,12 @@
  "No data": null,
  "There are no NFTs": null,
  "There are no Songs": null,
- "Search by item or affiliated collection": null,
  "Search by artist name or song name": null,
  "Search by artist name": null,
  "Search by collection name": null,
  "Search by item name": null,
  "Search by album name": null,
  "Search by song title": null,
- "Search by NFT name": null
+ "Search by NFT name": null,
+ "Search": null
 }

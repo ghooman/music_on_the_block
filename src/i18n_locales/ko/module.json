@@ -1,8 +1,8 @@
 {
  "Filter": "필터",
- "Apply": "적용",
- "period": "기간",
- "types": "유형",
+ "APPLY": "적용",
+ "Period": "기간",
+ "Types": "유형",
  "Grade": "등급",
  "Sort by": "정렬 기준",
  "Token": "토큰",
@@ -86,12 +86,12 @@
  "No data": "데이터 없음",
  "There are no NFTs": "NFT가 없습니다.",
  "There are no Songs": "노래가 없습니다.",
- "Search by item or affiliated collection": null,
  "Search by artist name or song name": "아티스트 이름 또는 노래 제목으로 검색",
  "Search by artist name": "아티스트 이름으로 검색",
  "Search by collection name": "컬렉션 이름으로 검색",
  "Search by item name": "아이템 검색",
  "Search by album name": "앨범 이름으로 검색",
  "Search by song title": "노래 제목으로 검색",
- "Search by NFT name": "NFT 이름으로 검색"
+ "Search by NFT name": "NFT 이름으로 검색",
+ "Search": "검색"
 }

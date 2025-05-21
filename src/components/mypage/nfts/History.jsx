@@ -9,9 +9,12 @@ import Filter from '../../unit/Filter';
 import Search from '../../unit/Search';
 import NftTable from '../../table/NftTable';
 import Pagination from '../../unit/Pagination';
+import { useTranslation } from 'react-i18next';
 
 const History = ({ username }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useTranslation('my_page');
+
+  const [searchParams] = useSearchParams();
 
   const page = searchParams.get('page');
   const search = searchParams.get('search');
@@ -35,11 +38,11 @@ const History = ({ username }) => {
   );
 
   return (
-    <ContentWrap title="History">
+    <ContentWrap title={t('History')}>
       {isLoading && <Loading />}
       <ContentWrap.SubWrap gap={8}>
         <Filter gradeFilter={true} tokenFilter={true} buySellFilter={true} nftSort={true} />
-        <Search placeholder="Search" />
+        <Search placeholder="Search by collection name" />
       </ContentWrap.SubWrap>
       <NftTable
         nftList={data?.data_list}

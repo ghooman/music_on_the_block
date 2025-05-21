@@ -11,11 +11,14 @@ import Albums from './Albums';
 // 🎨 스타일
 import './Songs.scss';
 import MyFavorites from './MyFavorites';
+import { useTranslation } from 'react-i18next';
 
 const myPageCategories = [{ name: 'Songs' }, { name: 'Favorites' }, { name: 'Albums' }];
 const userPageCategories = [{ name: 'Songs' }, { name: 'Albums' }];
 
 const Songs = ({ token, username, isMyProfile }) => {
+  const { t } = useTranslation('my_page');
+
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = searchParams.get('tab') || 'Songs';
 
@@ -26,6 +29,7 @@ const Songs = ({ token, username, isMyProfile }) => {
       <SubCategories
         categories={categories}
         value={tab}
+        translateFn={t}
         handler={value =>
           setSearchParams(prev => {
             return {
@@ -37,7 +41,6 @@ const Songs = ({ token, username, isMyProfile }) => {
           })
         }
       />
-
       {isMyProfile && (
         <>
           {tab === 'Songs' && <MySongsList token={token} />}

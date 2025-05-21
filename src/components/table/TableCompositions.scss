@@ -26,6 +26,9 @@
   font-family: Orbitron400;
   font-size: 14px;
   white-space: nowrap;
+  &.index {
+    width: 40px;
+  }
 }
 
 .table__body {

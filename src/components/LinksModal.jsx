@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import './LinksModal.scss';
 import ModalWrap from './ModalWrap';
+import { useTranslation } from 'react-i18next';
 
 const LinksModal = ({ linkItems, setLinksModal }) => {
+  const { t } = useTranslation('modal');
+
   const onClose = () => {
     setLinksModal(false);
   };
@@ -10,7 +13,7 @@ const LinksModal = ({ linkItems, setLinksModal }) => {
   const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
 
   return (
-    <ModalWrap title="Links" onClose={onClose}>
+    <ModalWrap title={t('Links')} onClose={onClose}>
       <div className="links-modal">
         {linkItems.map((item, index) => {
           return (

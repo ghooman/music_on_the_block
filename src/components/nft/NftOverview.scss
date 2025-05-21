@@ -45,6 +45,8 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
+        width: 100%;
+        padding: 0 16px;
         .sub_value {
           color: var(--Text-music-sub, #aaa);
           text-align: center;
@@ -78,6 +80,8 @@
       .nft-overview__content--item {
         &.long {
           grid-column: none;
+          height: auto;
+          padding: 12px 0;
         }
       }
     }

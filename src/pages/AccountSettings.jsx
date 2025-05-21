@@ -3,6 +3,9 @@ import '../styles/AccountSettings.scss';
 import { useState, useRef, useContext, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { useUserDetail } from '../hooks/useUserDetail';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 // 이미지
 import demoUser from '../assets/images/account/demo-user1.png';
 import defaultProfileImage from '../assets/images/header/logo.svg';
@@ -16,13 +19,14 @@ import { AuthContext } from '../contexts/AuthContext';
 import Modal from '../components/modal/Modal';
 import ErrorModal from '../components/modal/ErrorModal';
 import Loading from '../components/CreateLoading';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
 
 const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
 
 const AccountSettings = () => {
+  const { t } = useTranslation('account_setting');
+
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: userData, refetch } = useUserDetail();
   const { token } = useContext(AuthContext);
@@ -252,12 +256,12 @@ const AccountSettings = () => {
 
   return (
     <div className="account-setting">
-      <h1 className="account-setting--title">Account Settings</h1>
+      <h1 className="account-setting--title">{t('Account Settings')}</h1>
       <section className="account-setting__info">
         <div className="account-setting__info-box">
-          <p className="info-box__title">Profile Information</p>
+          <p className="info-box__title">{t('Profile Information')}</p>
           <div className="info-box__picture-box">
-            <p className="picture-box__title">Artist Profile</p>
+            <p className="picture-box__title">{t('Artist Profile')}</p>
             <div className="picture-box__edit-box">
               <img src={profileImg} alt="profile-img" />
               <button
@@ -267,22 +271,22 @@ const AccountSettings = () => {
                 <img src={editIcon1} alt="edit" />
               </button>
             </div>
-            <span className="picture-box__desc">40px X 40px, 3MB or less</span>
+            <span className="picture-box__desc">40px X 40px, {t('3MB or less')}</span>
             {selectedFile?.size > imgMaxSize && (
               <p className="account-setting__error">
-                This image exceeds 3MB. Please try a different image.
+                {t('This image exceeds 3MB. Please try a different image.')}
               </p>
             )}
           </div>
         </div>
         <div className="account-setting__background-box">
-          <p className="background-box__title">Background Image</p>
+          <p className="background-box__title">{t('Background Image')}</p>
           <div
             className="background-box__edit-box"
             style={{ backgroundImage: `url(${memoPreview})` }}
           >
             <label className="background-box__edit-btn" htmlFor="bg-image">
-              <img src={editIcon1} alt="edit" /> <span>Update</span>
+              <img src={editIcon1} alt="edit" /> <span>{t('Update')}</span>
             </label>
             <input
               type="file"
@@ -295,10 +299,10 @@ const AccountSettings = () => {
             />
           </div>
           <p className="background-box__desc">
-            960px X 170px, 3MB or less{' '}
+            960px X 170px, {t('3MB or less')}{' '}
             {bgImg?.size > imgMaxSize && (
               <span className="account-setting__error">
-                This image exceeds 3MB. Please try a different image.
+                {t('This image exceeds 3MB. Please try a different image.')}
               </span>
             )}
           </p>
@@ -356,18 +360,20 @@ const AccountSettings = () => {
                           ))}
                       </div> */}
           <div className="user-info__item">
-            <p className="user-info__title">Introduction </p>
+            <p className="user-info__title">{t('Introduction')}</p>
             <div className="user-info__desc-box">
               <span className="user-info__desc">
-                Write your Introduction in 150 characters or less.
+                {t('Write your Introduction in 150 characters or less.')}
               </span>
-              <span className="user-info__count">Characters: {intro ? intro.length : 0}/150</span>
+              <span className="user-info__count">
+                {t('Characters')}: {intro ? intro.length : 0}/150
+              </span>
             </div>
             <div className="user-info__input-box">
               <input
                 type="text"
                 className="user-info__input"
-                placeholder="Introduction"
+                placeholder={t('Introduction')}
                 value={intro}
                 onChange={e => setIntro(e.target.value)}
                 maxLength={150}
@@ -440,7 +446,7 @@ const AccountSettings = () => {
         disabled={bgSizeCheck || socialValid || profileSizeCheck}
         // type="submit"
       >
-        Update User Info
+        {t('Update User Info')}
       </button>
       {/* Hidden file input for profile image change */}
       <input
@@ -554,6 +560,8 @@ const AccountSettings = () => {
 export default AccountSettings;
 
 const Social = ({ socials, setSocials }) => {
+  const { t } = useTranslation('account_setting');
+
   const [overIndex, setOverIndex] = useState(null);
   const dragItem = useRef(null);
 
@@ -596,8 +604,8 @@ const Social = ({ socials, setSocials }) => {
   return (
     <section className="account-setting__info">
       <div className="account-setting__info-box" style={{ width: '100%' }}>
-        <p className="info-box__title">Link Your Social Profiles</p>
-        {socials?.length > 0 && <p>Link</p>}
+        <p className="info-box__title">{t('Link Your Social Profiles')}</p>
+        {socials?.length > 0 && <p>{t('Link')}</p>}
         {socials.map((item, index) => (
           <div
             className="account-setting__social-item"
@@ -641,7 +649,9 @@ const Social = ({ socials, setSocials }) => {
                 }}
               />
               {item && !urlRegex.test(item) && (
-                <p className="account-setting__social-item--input-error">Invalid URL format.</p>
+                <p className="account-setting__social-item--input-error">
+                  {t('Invalid URL format.')}
+                </p>
               )}
             </div>
             <img
@@ -655,7 +665,7 @@ const Social = ({ socials, setSocials }) => {
         ))}
         {socials?.length < 5 && (
           <button className="account-setting__social-add-btn" onClick={() => handleAdd()}>
-            Add link
+            {t('Add link')}
             <img src={plusIcon} />
           </button>
         )}

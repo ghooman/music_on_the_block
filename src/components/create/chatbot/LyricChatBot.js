@@ -13,6 +13,7 @@ import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 // 언어별 리소스 파일 불러오기
 import koLyric from '../../../locales/koLyric';
 import enLyric from '../../../locales/enLyric';
+import { useTranslation } from 'react-i18next';
 const LyricChatBot = ({
   selectedLanguage,
   createLoading,
@@ -25,6 +26,8 @@ const LyricChatBot = ({
   setPageNumber,
   selectedVersion,
 }) => {
+  const { t } = useTranslation('song_create');
+
   const { data: userData } = useUserDetail();
   const generatedLyricsRef = useRef(null);
   // 선택된 언어에 따라 리소스 파일 선택
@@ -149,7 +152,7 @@ const LyricChatBot = ({
         {createLoading && <CreateLoading />}
         <section className="chatbot">
           <div className="chatbot__header">
-            <h2>Chat bot</h2>
+            <h2>{t('Chat bot')}</h2>
           </div>
           <div className="chatbot__messages" ref={scrollContainerRef}>
             {chatHistory.map((msg, index) => (
@@ -190,7 +193,7 @@ const LyricChatBot = ({
             />
           </div>
           <button className="chatbot__button" onClick={handleSendMessage}>
-            Send
+            {t('Send')}
           </button>
         </section>
         <div className="music__information__buttons">
@@ -201,7 +204,7 @@ const LyricChatBot = ({
               handleIsStatus();
             }}
           >
-            Confirm
+            {t('Confirm')}
           </button>
         </div>
       </div>
@@ -209,7 +212,7 @@ const LyricChatBot = ({
   else
     return (
       <div ref={generatedLyricsRef} className="create__lyric-lab">
-        <h2>Generated Lyrics</h2>
+        <h2>{t('Generated Lyrics')}</h2>
         {mode === 'read' && <pre className="generated-lyrics__lyrics">{generatedLyric}</pre>}
         {mode === 'edit' && (
           <pre className="generated-lyrics__lyrics">
@@ -242,7 +245,7 @@ const LyricChatBot = ({
                 selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
               }`}
             >
-              Lyrics Length : {generatedLyric?.length} / 1000
+              {t('Lyrics Length')} : {generatedLyric?.length} / 1000
             </p>
           )}
 
@@ -251,7 +254,7 @@ const LyricChatBot = ({
               className="generated-lyrics__confirm-buttons--button edit"
               onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
             >
-              EDIT
+              {t('EDIT')}
             </button>
             <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
@@ -264,7 +267,7 @@ const LyricChatBot = ({
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              CONFIRM
+              {t('CONFIRM')}
             </button>
           </div>
         </div>
@@ -281,7 +284,7 @@ const LyricChatBot = ({
               document.body.removeChild(element);
             }}
           >
-            Download as text (.txt)
+            {t('Download as text')} (.txt)
           </button>
           <button
             className="generated-lyrics__download-buttons--button pdf"
@@ -299,7 +302,7 @@ const LyricChatBot = ({
               }
             }}
           >
-            Download as pdf (.pdf)
+            {t('Download as pdf')} (.pdf)
           </button>
         </div>
       </div>

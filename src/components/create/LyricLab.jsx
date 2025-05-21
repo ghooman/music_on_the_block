@@ -12,6 +12,7 @@ import ExpandedButton from './ExpandedButton';
 import CreateLoading from '../CreateLoading';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import { generateKoreanPdf } from '../../utils/pdfGenerator';
+import { useTranslation } from 'react-i18next';
 const tagPreset = {
   Love: ['Love'],
   Moon: ['Moon'],
@@ -77,6 +78,8 @@ const LyricsLab = ({
   tempo,
   setAlbumCover,
 }) => {
+  const { t } = useTranslation('song_create');
+
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState('read');
   // ================ 가사 생성 ================ //
@@ -307,7 +310,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
               document.body.removeChild(element);
             }}
           >
-            Download as text (.txt)
+            {t('Download as text')} (.txt)
           </button>
           <button
             className="generated-lyrics__download-buttons--button pdf"
@@ -325,7 +328,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
               }
             }}
           >
-            Download as pdf (.pdf)
+            {t('Download as pdf')} (.pdf)
           </button>
         </div>
       </div>

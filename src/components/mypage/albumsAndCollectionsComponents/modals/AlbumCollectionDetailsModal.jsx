@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ModalWrap from '../../../ModalWrap';
 
 import './AlbumCollectionDetailsModal.scss';
@@ -12,16 +13,18 @@ const AlbumCollectionDetailsModal = ({
   count,
   target,
 }) => {
+  const { t } = useTranslation('modal');
+
   const elementname = target === 'Collection' ? 'NTFs' : 'Songs';
 
   return (
-    <ModalWrap title={`${target} Details`} onClose={handleClose}>
+    <ModalWrap title={t(`${target} Details`)} onClose={handleClose}>
       <div className="album-collection-module-detail-modal">
         <div className="album-collection-module-detail-modal__info">
           <p className="album-collection-module-detail-modal__info__title">[{name}]</p>
           <p className="album-collection-module-detail-modal__info__artist">{artist}</p>
           <p className="album-collection-module-detail-modal__info__songs">
-            {count} {elementname}
+            {count} {t(elementname)}
           </p>
         </div>
         <div className="album-collection-module-detail-modal__button-box">
@@ -30,7 +33,7 @@ const AlbumCollectionDetailsModal = ({
               className="album-collection-module-detail-modal__button__edit"
               onClick={onEditClick}
             >
-              Edit Details
+              {t('Edit Details')}
             </button>
             <button
               className="album-collection-module-detail-modal__button__edit-songs"
@@ -38,14 +41,14 @@ const AlbumCollectionDetailsModal = ({
                 if (onNavigate) onNavigate();
               }}
             >
-              Edit {elementname}
+              {t(`Edit ${elementname}`)}
             </button>
           </div>
           <button
             className="album-collection-module-detail-modal__button__delete"
             onClick={onDeleteClick}
           >
-            Delete {target}
+            {t(`Delete ${target}`)}
           </button>
         </div>
       </div>

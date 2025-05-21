@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../contexts/AuthContext';
 
 import ContentWrap from '../components/unit/ContentWrap';
@@ -11,9 +12,12 @@ import SongPlayTable from '../components/table/SongPlayTable';
 import Pagination from '../components/unit/Pagination';
 import Loading from '../components/IntroLogo2';
 import NftConfirmModal from '../components/NftConfirmModal';
+
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const NftMintList = () => {
+  const { t } = useTranslation('nft_marketplace');
+
   const [showMintSuccess, setShowMintSuccess] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
   const [mintData, setMintData] = useState(null);
@@ -63,7 +67,7 @@ const NftMintList = () => {
 
   return (
     <div>
-      <ContentWrap title="Mint NFT">
+      <ContentWrap title={t('Mint NFT')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} gradeFilter={true} />
           <Search placeholder="Search" />

@@ -34,7 +34,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modules';
 import PreparingModal from './PreparingModal';
 
+import { useTranslation } from 'react-i18next';
+
 const Footer = ({ setIsLoggedIn }) => {
+  const { t } = useTranslation('main');
+
   const [transactions, setTransactions] = useState([]);
   const [isPreparingModal, setPreparingModal] = useState(false);
 
@@ -178,39 +182,41 @@ const Footer = ({ setIsLoggedIn }) => {
             <article className="footer__top__right">
               <div className="footer__top__right__menu">
                 <dl>
-                  <dt>Main</dt>
+                  <dt>{t('Main')}</dt>
                   <dd>
-                    <Link to="/">Main</Link>
+                    <Link to="/">{t('Main')}</Link>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>AI Service</dt>
+                  <dt>{t('AI Services')}</dt>
                   <dd>
-                    <Link to="/create">AI Lyrics & Songwriting</Link>
+                    <Link to="/create">{t('AI Lyrics & Songwriting')}</Link>
                   </dd>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>AI Singing Evaluation</Link>
+                    <Link onClick={() => setPreparingModal(true)}>
+                      {t('AI Singing Evaluation')}
+                    </Link>
                   </dd>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>AI Cover Creation</Link>
+                    <Link onClick={() => setPreparingModal(true)}>{t('AI Cover Creation')}</Link>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>NFT MarketPlace</dt>
+                  <dt>{t('NFT MarketPlace')}</dt>
                   <dd>
                     <Link
                       to="/nft"
                       // onClick={() => setPreparingModal(true)}
                     >
-                      NFT MarketPlace
+                      {t('NFT MarketPlace')}
                     </Link>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Eco System</dt>
+                  <dt>{t('Eco System')}</dt>
                   <dd>
                     <Link to="https://eco.musicontheblock.com/" target="_blank">
-                      Eco System
+                      {t('Eco System')}
                     </Link>
                   </dd>
                 </dl>
@@ -224,7 +230,7 @@ const Footer = ({ setIsLoggedIn }) => {
                   <img src={musicTokenIcon} className="token-logo" />
                   <dl>
                     <dt>MOB</dt>
-                    <dd>Music on the block Token</dd>
+                    <dd>{t('Music on the block Token')}</dd>
                   </dl>
                 </div>
                 <dl className="footer__bottom__left__music-token__number">
@@ -233,15 +239,15 @@ const Footer = ({ setIsLoggedIn }) => {
                 </dl>
               </div>
               <dl className="footer__bottom__left__token-value">
-                <dt>Transactions</dt>
+                <dt>{t('Transactions')}</dt>
                 <dd>64,494,473</dd>
               </dl>
               <dl className="footer__bottom__left__token-value">
-                <dt>Circulating supply</dt>
+                <dt>{t('Circulating supply')}</dt>
                 <dd>41,757,721</dd>
               </dl>
               <dl className="footer__bottom__left__token-value">
-                <dt>Market cap</dt>
+                <dt>{t('Market cap')}</dt>
                 <dd>17,713,115</dd>
               </dl>
             </article>
@@ -272,10 +278,12 @@ const Footer = ({ setIsLoggedIn }) => {
                         <img src={item.coinLogo} alt={item.coin} />
                         <dl>
                           <dt>
-                            <p>hash : </p>
+                            <p>{t('hash')} : </p>
                             <span>{formatHash(item.hash)}</span>
                           </dt>
-                          <dd>Method : {item.method}</dd>
+                          <dd>
+                            {t('Method')} : {item.method}
+                          </dd>
                         </dl>
                       </div>
                     </div>

@@ -2,12 +2,19 @@ import { useEffect } from 'react';
 import ModalWrap from './ModalWrap';
 
 import './PreparingModal.scss';
+import { useTranslation } from 'react-i18next';
 
 const PreparingModal = ({ setPreparingModal }) => {
+  const { t } = useTranslation('modal');
+
   return (
-    <ModalWrap title="PREPARING" onClose={() => setPreparingModal(false)} className="preparing">
+    <ModalWrap
+      title={t('PREPARING')}
+      onClose={() => setPreparingModal(false)}
+      className="preparing"
+    >
       <button className="preparing-btn" onClick={() => setPreparingModal(false)}>
-        OK
+        {t('OK')}
       </button>
     </ModalWrap>
   );

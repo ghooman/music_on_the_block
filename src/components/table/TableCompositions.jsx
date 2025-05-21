@@ -63,6 +63,14 @@ TableHeader.Col = React.memo(({ style, children, width }) => {
   );
 });
 
+TableHeader.Indexs = React.memo(({ style, children }) => {
+  return (
+    <th className="table__thead--item index" style={style}>
+      {children}
+    </th>
+  );
+});
+
 // 테이블 바디
 export const TableBody = React.memo(({ children }) => {
   return <tbody>{children}</tbody>;

@@ -4,6 +4,7 @@ import { WalletConnect } from '../WalletConnect';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 const GetStarted = ({
@@ -18,6 +19,7 @@ const GetStarted = ({
   selectedCreationMode,
   setSelectedCreationMode,
 }) => {
+  const { t } = useTranslation('song_create');
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -31,12 +33,12 @@ const GetStarted = ({
     {
       title: 'Chatbot Format',
       description: 'Chat with AI to create your own song.',
-      keywords: 'AI Chatbot · Conversation · Flow',
+      keywords: ['AI Chatbot', 'Conversation', 'Flow'],
     },
     {
       title: 'General Format',
       description: 'Select and input to create your own song.',
-      keywords: 'Selection · Input · Control',
+      keywords: ['Selection', 'Input', 'Control'],
     },
   ];
   const languages = ['한국어', 'English'];
@@ -76,34 +78,34 @@ const GetStarted = ({
   // radio 버튼 상태
   return (
     <div className="create__get-started">
-      <h1 className="create__get-started--title">Create Your Own Song With AI</h1>
-      {/* <h2 className="create__get-started--subtitle">
-        Turn your ideas into beautiful lyrics and melodies with the power of AI
+      <h1 className="create__get-started--title">{t('Create Your Own Song With AI')}</h1>
+      <h2 className="create__get-started--subtitle">
+        {t('Turn your ideas into beautiful lyrics and melodies with the power of AI')}
       </h2>
       <div className="create__get-started--features">
-        <h3 className="create__get-started--features-title">Code Features</h3>
+        <h3 className="create__get-started--features-title">{t('Code Features')}</h3>
         <div className="create__get-started--features-items">
           {['Lyrics Generation', 'Melody Composition', 'Style Adaptation'].map((item, index) => (
             <div className="create__get-started--features-item" key={index}>
-              {item}
+              {t(item)}
             </div>
           ))}
         </div>
       </div>
       <div className="create__get-started--features sequence">
         <div>
-          <h3 className="create__get-started--features-title">Cost</h3>
+          <h3 className="create__get-started--features-title">{t('Cost')}</h3>
           <p className="create__get-started--features-item">-- MOB</p>
         </div>
         <div>
-          <h3 className="create__get-started--features-title">Used</h3>
+          <h3 className="create__get-started--features-title">{t('Used')}</h3>
           <p className="create__get-started--features-item">--</p>
         </div>
         <div>
-          <h3 className="create__get-started--features-title">Precision</h3>
+          <h3 className="create__get-started--features-title">{t('Precision')}</h3>
           <p className="create__get-started--features-item ">--%</p>
         </div>
-      </div> */}
+      </div>
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
       <div className="create__get-started--radio-box">
@@ -165,7 +167,7 @@ const GetStarted = ({
       </div>
 
       <div className={`create__get-started--version${open ? ' active' : ''}`}>
-        <p className="create__get-started--version__title">&lt;Ai Version&gt;</p>
+        <p className="create__get-started--version__title">&lt;{t('Ai Version')}&gt;</p>
         <div className="create__get-started--version__select">
           <p className="create__get-started--version__select__title" onClick={() => setOpen(!open)}>
             {title}
@@ -176,21 +178,21 @@ const GetStarted = ({
               onClick={() => versionList.suno && handleSelect('L&S Plus(V2.2)')}
             >
               <p>L&S Plus(V2.2)</p>
-              <span>Advanced AI Model for High-Quality and Extended Song Generation</span>
+              <span>{t('Advanced AI Model for High-Quality and Extended Song Generation')}</span>
             </li>
             <li
               className={!versionList.mureka ? 'disabled' : ''}
               onClick={() => versionList.mureka && handleSelect('L&S Pro(V2.0)')}
             >
               <p>L&S Pro(V2.0)</p>
-              <span>Standard AI Model Offering Enhanced Audio Quality and Stability</span>
+              <span>{t('Standard AI Model Offering Enhanced Audio Quality and Stability')}</span>
             </li>
             <li
               className={!versionList.topmediai ? 'disabled' : ''}
               onClick={() => versionList.topmediai && handleSelect('L&S One(V1.0)')}
             >
               <p>L&S One(V1.0)</p>
-              <span>Basic AI Model for Simple Lyrics and Music Composition</span>
+              <span>{t('Basic AI Model for Simple Lyrics and Music Composition')}</span>
             </li>
           </ul>
         </div>
@@ -203,13 +205,21 @@ const GetStarted = ({
             className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
             onClick={() => handleArticleClick(idx)}
           >
-            <h3 className="create__get-started--format-item-title">&lt;{format.title}&gt;</h3>
+            <h3 className="create__get-started--format-item-title">&lt;{t(format.title)}&gt;</h3>
             <p className="create__get-started--format-item-txt">
-              {format.description}
-              <span>* Keywords: {format.keywords}</span>
+              {t(format.description)}
+              <span>
+                * {t('Keywords')}:{' '}
+                {format.keywords.map((keyword, index, { length }) => {
+                  let suffix = index === length - 1 ? '' : ' · ';
+                  return t(keyword) + suffix;
+                })}
+              </span>
             </p>
             <div className="create__get-started--format-item-select">
-              <p className="create__get-started--format-item-select-title">Language selection</p>
+              <p className="create__get-started--format-item-select-title">
+                {t('Language selection')}
+              </p>
               <div className="create__get-started--format-item-select-items">
                 <div className="container">
                   {languages.map((lang, langIdx) => (
@@ -225,7 +235,7 @@ const GetStarted = ({
                         }}
                       />
                       <label htmlFor={`radio-${idx}-${langIdx}`} className="radio-label">
-                        {lang}
+                        {t(lang)}
                       </label>
                     </div>
                   ))}
@@ -250,7 +260,7 @@ const GetStarted = ({
             }}
             disabled={createPossibleCount === 0 || activeIndex === null}
           >
-            Create
+            {t('Create')}
           </button>
         ) : (
           <WalletConnect onConnect={handleWalletConnect} />

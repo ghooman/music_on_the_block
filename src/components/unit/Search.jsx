@@ -3,6 +3,7 @@ import searchIcon from '../../assets/images/icon/search.svg';
 
 import './Search.scss';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /**
  *
@@ -13,6 +14,8 @@ import { useSearchParams } from 'react-router-dom';
  * @returns
  */
 const Search = ({ placeholder, handler, queryParameterName = 'search', reset }) => {
+  const { t } = useTranslation('module');
+
   const [focus, setFocus] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -49,7 +52,7 @@ const Search = ({ placeholder, handler, queryParameterName = 'search', reset }) 
           className="search__input"
           type="text"
           name="search"
-          placeholder={placeholder}
+          placeholder={t(placeholder) + '...'}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           defaultValue={search}

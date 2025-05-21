@@ -22,6 +22,7 @@ import { getLikeList } from '../../../api/getLikeAndUnLikeList';
 
 // Context
 import { AuthContext } from '../../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },
@@ -30,6 +31,8 @@ const subCategoryList = [
 ];
 
 const MyFavorites = () => {
+  const { t } = useTranslation('my_page');
+
   const [searchParams] = useSearchParams();
   const [selected, setSelected] = useState(subCategoryList[0].name);
   const { token } = useContext(AuthContext);
@@ -50,11 +53,16 @@ const MyFavorites = () => {
 
   return (
     <>
-      <ContentWrap title="Favorites">
-        <SubCategories categories={subCategoryList} handler={() => null} value={selected} />
+      <ContentWrap title={t('Favorites')}>
+        <SubCategories
+          categories={subCategoryList}
+          handler={() => null}
+          value={selected}
+          translateFn={t}
+        />
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />
-          <Search placeholder="Search By song title..." />
+          <Search placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}
         <SongPlayTable

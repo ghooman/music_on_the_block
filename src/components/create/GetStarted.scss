@@ -189,7 +189,7 @@
       }
     }
     .create__get-started--version__select__list {
-      height: 154px !important;
+      height: 166px !important;
       opacity: 1 !important;
       border: 1px solid #678300 !important;
     }
@@ -245,11 +245,12 @@
       overflow: hidden;
       position: absolute;
       top: 58px;
+      z-index: 1;
       left: 0;
       height: 0;
       opacity: 0;
       li {
-        padding: 8px 16px;
+        padding: 10px 16px;
         transition: 0.3s;
         cursor: pointer;
         &:hover {
@@ -453,7 +454,7 @@
     }
   }
   .create__get-started {
-    padding: 32px 32px 64px;
+    padding: 0px 32px 64px;
     margin-top: 32px;
     .create__get-started--title {
       font-size: 28px;

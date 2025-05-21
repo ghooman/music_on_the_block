@@ -110,7 +110,7 @@ const GetStarted = ({
 
       <div className="create__get-started--radio-box">
         <div className="created__get-started--privacy">
-          <h3>&lt;Privacy&gt;</h3>
+          <h3>&lt;{t('Privacy')}&gt;</h3>
           <div className="creation-mode-options">
             <div className="privacy-option">
               <input
@@ -121,7 +121,7 @@ const GetStarted = ({
                 checked={selectedPrivacy === 'release'}
                 onChange={e => setSelectedPrivacy(e.target.value)}
               />
-              <label htmlFor="release">Release</label>
+              <label htmlFor="release">{t('Release')}</label>
             </div>
             <div className="privacy-option">
               <input
@@ -132,13 +132,13 @@ const GetStarted = ({
                 checked={selectedPrivacy === 'unrelease'}
                 onChange={e => setSelectedPrivacy(e.target.value)}
               />
-              <label htmlFor="unrelease">Unrelease</label>
+              <label htmlFor="unrelease">{t('Unrelease')}</label>
             </div>
           </div>
         </div>
 
         <div className="created__get-started--creation-mode">
-          <h3>&lt;Creation Mode&gt;</h3>
+          <h3>&lt;{t('Creation Mode')}&gt;</h3>
           <div className="creation-mode-options">
             <div className="privacy-option">
               <input
@@ -149,7 +149,7 @@ const GetStarted = ({
                 checked={selectedCreationMode === 'song'}
                 onChange={e => setSelectedCreationMode(e.target.value)}
               />
-              <label htmlFor="song">Song</label>
+              <label htmlFor="song">{t('Song')}</label>
             </div>
             <div className="privacy-option">
               <input

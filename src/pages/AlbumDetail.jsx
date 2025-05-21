@@ -598,21 +598,19 @@ function AlbumDetail() {
               </div>
               <div className="album-detail__song-detail__right__info-box">
                 <dl>
-                  <dt>{t('Language')}</dt>
-                  <dd>{album?.language || '-'}</dd>
+                  <dt>Type</dt>
+                  <dd>{album?.ai_service == 0 ? 'BGM' : 'Song'}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Genre')}</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
-                {/* <dl>
-                        <dt>Stylistic</dt>
-                        <dd>{album?.Stylistic || '-'}</dd>
-                    </dl> */}
-                <dl>
-                  <dt>{t('Gender')}</dt>
-                  <dd>{album?.gender || '-'}</dd>
-                </dl>
+                {album?.ai_service != 0 && (
+                  <dl>
+                    <dt>Gender</dt>
+                    <dd>{album?.gender || '-'}</dd>
+                  </dl>
+                )}
                 <dl>
                   <dt>{t('Musical Instrument')}</dt>
                   <dd>{album?.musical_instrument || '-'}</dd>

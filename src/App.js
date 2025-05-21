@@ -241,7 +241,7 @@ function App() {
                 }
               />
               <Route
-                path="nft/sell/detail/:id/:nft_id"
+                path="nft/sell/details/:id/:nft_id"
                 element={
                   <Layout>
                     <ProtectedRoute>

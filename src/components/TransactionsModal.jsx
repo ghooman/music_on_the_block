@@ -31,32 +31,36 @@ const TransactionsModal = ({ setTransactionsModal, txidData }) => {
       className="transactions"
     >
       <div className="table-container">
-        <table className="custom-table">
-          <thead>
-            <tr>
-              <th>Status</th>
-              <th>Time</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {txidData.map((item, index) => (
-              <tr key={item.id}>
-                <td className={item.status}>{item.status}</td>
-                <td>{item.create_dt}</td>
-                <td>
-                  <Link
-                    to={`https://polygonscan.com/tx/${item.tx_id}`}
-                    className="link-btn"
-                    target="_b"
-                  >
-                    link btn
-                  </Link>
-                </td>
+        {txidData.length > 0 ? (
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Link</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {txidData.map((item, index) => (
+                <tr key={item.id}>
+                  <td className={item.status}>{item.status}</td>
+                  <td>{formatLocalTime(item.create_dt)}</td>
+                  <td>
+                    <Link
+                      to={`https://polygonscan.com/tx/${item.tx_id}`}
+                      className="link-btn"
+                      target="_b"
+                    >
+                      link btn
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <span className="table-container__empty-text">No transactions found.</span>
+        )}
       </div>
     </ModalWrap>
   );

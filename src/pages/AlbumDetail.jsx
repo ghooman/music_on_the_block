@@ -646,22 +646,30 @@ function AlbumDetail() {
                     onClick={handleToggle}
                   >
                     <img src={moreIcon} alt="moreIcon" />
-                      <ul className="album-detail__song-detail__more-btn__list">
-                        <li onClick={copyToClipboard}>
-                          {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
-                        </li>
-                        <li onClick={handleCloseMenu}>
-                          Download <img src={downloadIcon} />
-                        </li>
-                        <li 
-                          onClick={e => {
-                            handleCloseMenu(e);
-                            handleTransactionsModal();
-                          }}
-                        >
-                          TXID
-                        </li>
-                      </ul>
+                    <ul className="album-detail__song-detail__more-btn__list">
+                      <li onClick={copyToClipboard}>
+                        {!copied ? (
+                          <>
+                            Copy Link <img src={copyIcon} />
+                          </>
+                        ) : (
+                          <>
+                            Copied Link <img src={checkIcon} />
+                          </>
+                        )}
+                      </li>
+                      <li onClick={handleCloseMenu}>
+                        Download <img src={downloadIcon} />
+                      </li>
+                      <li
+                        onClick={e => {
+                          handleCloseMenu(e);
+                          handleTransactionsModal();
+                        }}
+                      >
+                        TXIDs
+                      </li>
+                    </ul>
                   </button>
                 </div>
               </div>
@@ -985,13 +993,8 @@ function AlbumDetail() {
         <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
-        <DownloadModal
-          setIsDownloadModal={setIsDownloadModal}
-          needOwner={true}
-          needMint={false}
-        />
+        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
       )}
-      
     </>
   );
 }

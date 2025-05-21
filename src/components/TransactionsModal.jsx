@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import './TransactionsModal.scss';
 
-const TransactionsModal = ({ setTransactionsModal }) => {
+const TransactionsModal = ({ setTransactionsModal, txidData }) => {
   const leaderBoardData = [
     {
       id: 1,

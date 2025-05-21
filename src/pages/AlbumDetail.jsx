@@ -51,6 +51,7 @@ function AlbumDetail() {
 
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
+  console.log('id', id);
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
   const listenTime = useRef(0);
   const navigate = useNavigate();
@@ -61,8 +62,9 @@ function AlbumDetail() {
   const [albumDuration, setAlbumDuration] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 리더보드, Your Picks, Similar Vibes 관련 상태
+  // 리더보드, txid, Your Picks, Similar Vibes 관련 상태
   const [leaderBoardData, setLeaderBoardData] = useState([]);
+  const [txidData, setTxidData] = useState([]);
   const [favoriteGenreList, setFavoriteGenreList] = useState([]);
   const [similarVibesList, setSimilarVibesList] = useState([]);
 
@@ -154,6 +156,16 @@ function AlbumDetail() {
     }
   };
 
+  const getTxidData = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/${id}/all/transactions`);
+      console.log('getTxidData', res.data);
+      setTxidData(res.data);
+    } catch (error) {
+      console.error('getTxidData error:', error);
+    }
+  };
+
   // Your Picks 데이터 가져오기
   const getFavoriteGenre = async () => {
     try {
@@ -242,6 +254,7 @@ function AlbumDetail() {
     setIsPlaying(false);
     fetchAlbumDetail();
     getLeaderboardData();
+    getTxidData();
     getFavoriteGenre();
     getSimilarVibes();
     // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
@@ -569,12 +582,14 @@ function AlbumDetail() {
                   </div>
                 )}
                 <div className="album-detail__song-detail__left__info__btn-box">
-                  <button
-                    className="album-detail__song-detail__left__info__txid-btn"
-                    onClick={handleTransactionsModal}
-                  >
-                    TXID
-                  </button>
+                  {txidData.length > 0 && (
+                    <button
+                      className="album-detail__song-detail__left__info__txid-btn"
+                      onClick={handleTransactionsModal}
+                    >
+                      TXID
+                    </button>
+                  )}
                   <button
                     className="album-detail__song-detail__left__info__share-btn"
                     onClick={() => setShareModal(true)}
@@ -890,10 +905,7 @@ function AlbumDetail() {
         />
       )}
       {isTransactionsModal && (
-        <TransactionsModal
-          setTransactionsModal={setIsTransactionsModal}
-          transactions={album?.transactions}
-        />
+        <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
     </>
   );

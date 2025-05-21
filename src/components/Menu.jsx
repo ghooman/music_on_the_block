@@ -16,6 +16,8 @@ import usdtIcon from '../assets/images/icon/usdt-icon.svg';
 import usdcIcon from '../assets/images/icon/usdc-icon.svg';
 import langIcon from '../assets/images/icon/lang-icon.svg';
 import notificationIcon from '../assets/images/icon/notification-icon.svg';
+import notificationSong from '../assets/images/menu/notifications/song.png';
+import notificationNFT from '../assets/images/menu/notifications/nft.png';
 
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
@@ -146,7 +148,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   }, [token]);
   console.log('notifications', notifications);
   const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
-
+  const flattenedDataList = notifications?.flatMap(item => item.data_list);
+  console.log('flattenedDataList', flattenedDataList);
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -169,20 +172,33 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
         ))}
       </ul>
       <ul
-        className={`menu-box__lang-notification--select-lang-box ${
+        className={`menu-box__lang-notification--select-notification-box ${
           option === 'notification' ? 'visible' : ''
         }`}
       >
-        {translatedNationsName.map(lang => (
-          <li
-            className="menu-box__lang-notification--select-lang-box__item"
-            key={lang}
-            onClick={() => {
-              i18n.changeLanguage(lang);
-              setOption('');
-            }}
-          >
-            {lang}
+        <p className="title">Notifications</p>
+        {flattenedDataList?.map(item => (
+          <li key={item.id} className="menu-box__lang-notification--select-notification-box__item">
+            <div className="menu-box__lang-notification--select-notification-box__item__img-box">
+              <img src={item?.image} alt="song_image" />
+            </div>
+            <div className="menu-box__lang-notification--select-notification-box__item__txt-box">
+              <div className="menu-box__lang-notification--select-notification-box__item__txt-box__header">
+                <img src={true ? notificationSong : notificationNFT} alt="song_image" />
+                <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__title">
+                  The <span className={true ? 'sky' : 'purple'}>song </span>has been created!
+                </p>
+              </div>
+              <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__name">
+                {item?.name}
+              </p>
+              <p className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
+                {item?.create_dt}
+              </p>
+            </div>
+            <button className="menu-box__lang-notification--select-notification-box__item__btn">
+              x
+            </button>
           </li>
         ))}
       </ul>

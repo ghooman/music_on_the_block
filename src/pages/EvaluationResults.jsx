@@ -114,7 +114,7 @@ const FullEvaluation = ({ t }) => {
           <p className="full-evaluation__feed-back__human__title">Jinwoo Yoo</p>
         </article>
         <article className={`full-evaluation__feed-back__txt ${isActive ? 'active' : ''}`}>
-          <p className="ull-evaluation__feed-back__txt__title">Feedback</p>
+          <p className="ull-evaluation__feed-back__txt__title">{t('Feedback')}</p>
           <div className="ull-evaluation__feed-back__txt__memo">
             This song conveys emotions well. The emotional explosion in the chorus is particularly
             impressive. However, adding more original elements could make it shine even more. This

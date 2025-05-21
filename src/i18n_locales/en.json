@@ -249,7 +249,7 @@
  "Transaction Volume": null,
  "Information": null
 ,
- "Wallet Connect": null,
+ "Connect Wallet": null,
  "Number of Artists": null,
  "Number of Songs": null,
  "Transactions": null,
@@ -632,6 +632,7 @@
  "Selected Song": null,
  "Critic": null,
  "Todays Left": null,
+ "Select": null,
  "View Results": null,
  "Result": null,
  "Full Evaluation": null,

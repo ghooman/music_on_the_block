@@ -11,8 +11,11 @@ import playIcon from '../../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import loverIcon from '../../assets/images/icon/heart.svg';
 import typeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+import { useTranslation } from 'react-i18next';
 
 const SongsBar = ({ songId }) => {
+  const { t } = useTranslation('module');
+
   const { token, walletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
@@ -88,11 +91,11 @@ const SongsBar = ({ songId }) => {
         <article className="songs-bar__value-box">
           <div className="songs-bar__value-box__item">
             <p>
-              Grade
+              {t('Grade')}
               <img src={grade01Icon} alt="grade-icon" />
             </p>
             <p>
-              Type
+              {t('Type')}
               <img src={typeIcon} alt="type-icon" />
             </p>
           </div>
@@ -107,7 +110,7 @@ const SongsBar = ({ songId }) => {
             </p>
           </div>
           <Link className="songs-bar__details-btn" to={`/song-detail/${songId || id}`}>
-            Details
+            {t('Details')}
           </Link>
         </article>
       </section>

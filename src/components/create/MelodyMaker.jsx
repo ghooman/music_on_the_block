@@ -5,7 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OpenAI from 'openai';
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemInputOnly } from './SelectItem';
+import {
+  SelectItem,
+  SelectItemTempo,
+  SelectItemWrap,
+  SelectItemInputOnly,
+  SelectItemSongLength,
+} from './SelectItem';
 import ExpandedButton from './ExpandedButton';
 import CompleteModal from './../SingUpCompleteModal';
 import subBg1 from '../../assets/images/create/subbanner-bg1.png';
@@ -156,11 +162,10 @@ const MelodyMaker = ({
   selectedVersion,
   selectedPrivacy,
   selectedCreationMode,
+  songLength,
+  setSongLength,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
-  console.log('lyricData', lyricData);
-  console.log('lyricStory', lyricStory);
-  console.log('melodyData', melodyData);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -188,6 +193,7 @@ const MelodyMaker = ({
       ${melody_instrument ? 'Instrument : ' + melody_instrument.join(', ') : ''}
       Tempo : ${tempo},
       ${melodyDetail ? 'Detail : ' + melodyDetail + ',' : ''}
+      ${selectedCreationMode === 'bgm' ? `Song Length : ${songLength}` : ''}
       `;
   // 함수: promptPreview에서 밸류 부분(콜론(:) 다음의 텍스트만)을 추출하여 하나의 문자열로 만듭니다.
   function extractValues(str) {
@@ -458,6 +464,9 @@ const MelodyMaker = ({
           add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
+        {selectedCreationMode === 'bgm' && (
+          <SelectItemSongLength songLength={songLength} setSongLength={setSongLength} />
+        )}
         <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />
         <div className="selected-tag-list">
           <div className="selected-tag-list__title">
@@ -508,6 +517,9 @@ const MelodyMaker = ({
             value={melodyData?.melody_instrument}
           />
           <SelectedItem title="Tempo" value={tempo} />
+          {selectedCreationMode === 'bgm' && (
+            <SelectedItem title="Song Length" value={songLength} />
+          )}
         </SelectedWrap>
       )}
       <div className="button-wrap">

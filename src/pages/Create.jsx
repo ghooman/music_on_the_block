@@ -72,7 +72,6 @@ const Create = () => {
   const [lyricData, setLyricData] = useState({
     lyric_tag: [],
     lyric_genre: [],
-    // lyric_stylistic: [],
   });
   const [lyricStory, setLyricStory] = useState('');
   const [melodyData, setMelodyData] = useState({
@@ -85,7 +84,6 @@ const Create = () => {
     melody_title: [],
   });
   const [melodyDetail, setMelodyDetail] = useState('');
-  const [melodyTitle, setMelodyTitle] = useState('');
   // 남은 생성횟수 확인
   const [createPossibleCount, setCreatePossibleCount] = useState(0);
   useEffect(() => {
@@ -104,11 +102,10 @@ const Create = () => {
   const [generatedLyric, setGeneratedLyric] = useState('');
   const [generatedMusicResult, setGeneratedMusicResult] = useState(null);
   const [tempo, setTempo] = useState([90]);
-  const [checkList, setCheckList] = useState(false);
+  const [songLength, setSongLength] = useState([90]);
   const [skipLyric, setSkipLyric] = useState(false);
   const [skipMelody, setSkipMelody] = useState(false);
   const [skip, setSkip] = useState('');
-  const [createCompleteModal, setCreateCompleteModal] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('KOR');
   const [albumCover, setAlbumCover] = useState(null);
 
@@ -203,6 +200,8 @@ const Create = () => {
               selectedVersion={selectedVersion}
               selectedPrivacy={selectedPrivacy}
               selectedCreationMode={selectedCreationMode}
+              songLength={songLength}
+              setSongLength={setSongLength}
             />
           )}
         </>
@@ -262,6 +261,8 @@ const Create = () => {
               selectedVersion={selectedVersion}
               selectedPrivacy={selectedPrivacy}
               selectedCreationMode={selectedCreationMode}
+              songLength={songLength}
+              setSongLength={setSongLength}
             ></MelodyMaker>
           )}
         </>

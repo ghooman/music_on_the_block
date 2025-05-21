@@ -1,6 +1,7 @@
 // components/AlbumDetail.js
 import '../styles/AlbumDetail.scss';
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
@@ -44,7 +45,10 @@ import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
 import EvaluationResults from './EvaluationResults';
 
+import TransactionsModal from '../components/TransactionsModal';
 function AlbumDetail() {
+  const { t } = useTranslation('song_detail');
+
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
@@ -67,7 +71,7 @@ function AlbumDetail() {
   const [isShareModal, setShareModal] = useState(false);
   const [isReleaseModal, setIsReleaseModal] = useState(false);
   const [albumGuideModal, setAlbumGuideModal] = useState(false);
-
+  const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   // 플레이어 상태 및 재생 관련 변수
   const [isPlaying, setIsPlaying] = useState(false);
   const playCountRef = useRef(false);
@@ -79,9 +83,7 @@ function AlbumDetail() {
   // 댓글 영역 스크롤 이동을 위한 ref
   const commentRef = useRef(null);
 
-
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
-
 
   // 진행바 스크롤 이동 핸들러
   const handleScrollToComment = () => {
@@ -231,6 +233,7 @@ function AlbumDetail() {
     setIsActive(false);
   }, [id]);
   const handleClick = () => {
+    if (album?.ai_service == 0) return;
     setIsActive(prev => !prev);
   };
 
@@ -385,7 +388,6 @@ function AlbumDetail() {
       break;
   }
 
-
   const personas = [
     // { img: persona01, name: 'All' },
     { img: persona02, name: 'Jinwoo Yoo' },
@@ -394,6 +396,10 @@ function AlbumDetail() {
   ];
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // transactions modal 오픈
+  const handleTransactionsModal = () => {
+    setIsTransactionsModal(true);
+  };
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -412,7 +418,7 @@ function AlbumDetail() {
 
       <div className="song-detail">
         <dl className="album-detail__title">
-          <dt>Song Details</dt>
+          <dt>{t('Song Details')}</dt>
         </dl>
         <section className="album-detail__song-detail">
           <div className="album-detail__song-detail__title-box">
@@ -484,7 +490,9 @@ function AlbumDetail() {
                       ?.trim()}
                   </pre>
                 </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">Lyrics</button>
+                <button className="album-detail__song-detail__left__img__lyrics-btn">
+                  {t('Lyrics')}
+                </button>
               </div>
               <div className="album-detail__song-detail__left__info">
                 {/* <div className="album-detail__song-detail__left__info__number">
@@ -560,12 +568,20 @@ function AlbumDetail() {
                     )}
                   </div>
                 )}
-                <button
-                  className="album-detail__song-detail__left__info__share-btn"
-                  onClick={() => setShareModal(true)}
-                >
-                  <img src={shareIcon} alt="share Icon" />
-                </button>
+                <div className="album-detail__song-detail__left__info__btn-box">
+                  <button
+                    className="album-detail__song-detail__left__info__txid-btn"
+                    onClick={handleTransactionsModal}
+                  >
+                    TXID
+                  </button>
+                  <button
+                    className="album-detail__song-detail__left__info__share-btn"
+                    onClick={() => setShareModal(true)}
+                  >
+                    <img src={shareIcon} alt="share Icon" />
+                  </button>
+                </div>
               </div>
             </div>
             <div className="album-detail__song-detail__right">
@@ -581,25 +597,12 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
-                <dl className="artist">
-                  <dt>Artist</dt>
-                  <dd>
-                    <Link className="user" to={`/profile?username=${album?.name}`}>
-                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
-                      {album?.name || '-'}
-                    </Link>
-                  </dd>
-                </dl>
                 <dl>
-                  <dt>Type</dt>
-                  <dd>Song</dd>
-                </dl>
-                <dl>
-                  <dt>Language</dt>
+                  <dt>{t('Language')}</dt>
                   <dd>{album?.language || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Genre</dt>
+                  <dt>{t('Genre')}</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
                 {/* <dl>
@@ -607,33 +610,49 @@ function AlbumDetail() {
                         <dd>{album?.Stylistic || '-'}</dd>
                     </dl> */}
                 <dl>
-                  <dt>Gender</dt>
+                  <dt>{t('Gender')}</dt>
                   <dd>{album?.gender || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Musical Instrument</dt>
+                  <dt>{t('Musical Instrument')}</dt>
                   <dd>{album?.musical_instrument || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Tempo</dt>
+                  <dt>{t('Tempo')}</dt>
                   <dd>{album?.tempo || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Creation Date</dt>
+                  <dt>{t('Detail')}</dt>
+                  <dd>{album?.detail || '-'}</dd>
+                </dl>
+                <dl>
+                  <dt>{t('Creation Date')}</dt>
                   <dd>
                     <span>{formatLocalTime(album?.create_dt)}</span>
                   </dd>
                 </dl>
                 <dl>
-                  <dt>Song Length</dt>
+                  <dt>{t('Song Length')}</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
-                <dl>
-                  <dt>Detail</dt>
-                  <dd>{album?.detail || '-'}</dd>
+                <dl className="artist">
+                  <dt>{t('Artist')}</dt>
+                  <dd>
+                    <Link className="user" to={`/profile?username=${album?.name}`}>
+                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
+                      {album?.name || '-'}
+                    </Link>
+                  </dd>
                 </dl>
+                {/* 공간차지용 */}
+                {album?.ai_service == 0 && (
+                  <dl style={{ visibility: 'hidden' }}>
+                    <dt>Blank</dt>
+                    <dd>-</dd>
+                  </dl>
+                )}
                 <div className="album-detail__control-guide">
-                  <p className="album-detail__control-guide--text">NFT Status</p>
+                  <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
                   <img
                     className="album-detail__control-guide--icon"
                     src={issueIcon}
@@ -649,14 +668,14 @@ function AlbumDetail() {
                         onClick={e => handleButtonClick(e, 'release')}
                         disabled={album?.is_release}
                       >
-                        Release
+                        {t('Release')}
                       </button>
                       <button
                         className="album-detail__control-button mint-button"
                         onClick={e => handleButtonClick(e, 'mint')}
                         disabled={album?.is_nft || !album?.is_release}
                       >
-                        Mint
+                        {t('Mint')}
                       </button>
                       <button
                         className="album-detail__control-button sell-button"
@@ -667,7 +686,7 @@ function AlbumDetail() {
                           album?.now_sales_status === 'Listed'
                         }
                       >
-                        Sell
+                        {t('Sell')}
                       </button>
                       <button
                         className="album-detail__control-button cancel-button"
@@ -678,7 +697,7 @@ function AlbumDetail() {
                           album?.now_sales_status !== 'Listed'
                         }
                       >
-                        Cancel
+                        {t('Cancel')}
                       </button>
                     </div>
                   </>
@@ -691,7 +710,7 @@ function AlbumDetail() {
                     }
                     onClick={e => handleButtonClick(e, 'buy')}
                   >
-                    Buy NFT
+                    {t('Buy NFT')}
                   </button>
                 )}
               </div>
@@ -706,7 +725,7 @@ function AlbumDetail() {
             }`}
             onClick={() => setActiveTab('AI Lyrics & Songwriting')}
           >
-            AI Lyrics & Songwriting
+            {t('AI Lyrics & Songwriting')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -714,7 +733,7 @@ function AlbumDetail() {
             }`}
             onClick={() => setActiveTab('AI Singing Evaluation')}
           >
-            AI Singing Evaluation
+            {t('AI Singing Evaluation')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -722,32 +741,34 @@ function AlbumDetail() {
             }`}
             onClick={() => setPreparingModal(true)}
           >
-            AI Cover Creation
+            {t('AI Cover Creation')}
           </button>
         </section>
 
-        {activeTab === "AI Lyrics & Songwriting" && (
+        {activeTab === 'AI Lyrics & Songwriting' && (
           <>
             <section
-              className={`album-detail__rank-table ${isLoggedIn ? 'is-logged-in' : 'not-logged-in'}`}
+              className={`album-detail__rank-table ${
+                isLoggedIn ? 'is-logged-in' : 'not-logged-in'
+              }`}
             >
               <div ref={commentRef}>
                 <AdvancedCommentComponent id={id} />
               </div>
               <dl className="album-detail__rank-table__title">
-                <dt>Songs Leaderboard Rank</dt>
-                <dd>Most Plays</dd>
+                <dt>{t('Songs Leaderboard Rank')}</dt>
+                <dd>{t('Most Plays')}</dd>
               </dl>
               <div className="table-container">
                 <table className="custom-table">
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Artist</th>
-                      <th>Song Title</th>
-                      <th>Plays</th>
-                      <th>Likes</th>
-                      <th>Details</th>
+                      <th>{t('Artist')}</th>
+                      <th>{t('Song Title')}</th>
+                      <th>{t('Plays')}</th>
+                      <th>{t('Likes')}</th>
+                      <th>{t('Details')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -771,7 +792,7 @@ function AlbumDetail() {
                         <td>{item.like}</td>
                         <td>
                           <Link className="details-btn active" to={'/song-detail/' + item.id}>
-                            Details
+                            {t('Details')}
                           </Link>
                         </td>
                       </tr>
@@ -782,8 +803,8 @@ function AlbumDetail() {
             </section>
             <section className="album-detail__slide">
               <dl className="album-detail__slide__title">
-                <dt>Your Picks</dt>
-                <dd>Top tracks from your favorite genre.</dd>
+                <dt>{t('Your Picks')}</dt>
+                <dd>{t('Top tracks from your favorite genre.')}</dd>
               </dl>
               <div className="album-detail__slide__swiper">
                 <Swiper {...swiperOptions} className="song-detail-slide">
@@ -798,8 +819,8 @@ function AlbumDetail() {
 
             <section className="album-detail__slide">
               <dl className="album-detail__slide__title">
-                <dt>Similar Vibes</dt>
-                <dd>Top tracks from the same genre as this song.</dd>
+                <dt>{t('Similar Vibes')}</dt>
+                <dd>{t('Top tracks from the same genre as this song.')}</dd>
               </dl>
               <div className="album-detail__slide__swiper">
                 <Swiper {...swiperOptions} className="song-detail-slide">
@@ -813,13 +834,15 @@ function AlbumDetail() {
             </section>
           </>
         )}
-        {activeTab === "AI Singing Evaluation" && (
+        {activeTab === 'AI Singing Evaluation' && (
           <>
-            <article className='main__content-item__persona'>
+            <article className="main__content-item__persona">
               {personas.map((persona, index) => (
                 <div
                   key={index}
-                  className={`main__content-item__persona__item ${activeIndex === index ? 'active' : ''}`}
+                  className={`main__content-item__persona__item ${
+                    activeIndex === index ? 'active' : ''
+                  }`}
                   onClick={() => setActiveIndex(index)}
                 >
                   <img src={persona.img} alt={persona.name} />
@@ -827,10 +850,9 @@ function AlbumDetail() {
                 </div>
               ))}
             </article>
-            <EvaluationResults/>
+            <EvaluationResults />
           </>
         )}
-
       </div>
       {isShareModal && (
         <ShareModal
@@ -867,6 +889,12 @@ function AlbumDetail() {
           //   }
           // }}
           nftData={album}
+        />
+      )}
+      {isTransactionsModal && (
+        <TransactionsModal
+          setTransactionsModal={setIsTransactionsModal}
+          transactions={album?.transactions}
         />
       )}
     </>

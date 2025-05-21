@@ -1,0 +1,17 @@
+{
+ "Account Settings": "계정 설정",
+ "Profile Information": "프로필 정보",
+ "Artist Profile": "아티스트 프로필",
+ "3MB or less": "3MB 이하",
+ "Background Image": "배경 이미지",
+ "Update": "업데이트",
+ "This image exceeds 3MB. Please try a different image.": "이 이미지는 3MB를 초과합니다. 다른 이미지를 시도해주세요.",
+ "Introduction": "소개",
+ "Write your Introduction in 150 characters or less.": "150자 이내로 소개글을 작성해주세요",
+ "Characters": "글자 수",
+ "Link Your Social Profiles": "소셜 프로필 연결하기",
+ "Link": "링크",
+ "Add link": "링크 추가",
+ "Invalid URL format.": "잘못된 URL 형식입니다",
+ "Update User Info": "사용자 정보 업데이트"
+}

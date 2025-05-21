@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import NoneContent from '../../components/unit/NoneContent';
 
@@ -9,16 +11,17 @@ import songIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
 
 import './NftItem.scss';
-import { useState } from 'react';
 
 export const NftItemList = ({ data }) => {
+  const { t } = useTranslation('module');
+
   return (
     <>
       <div className="nft-item-wrap">
         {data &&
           data?.map((item, index) => (
             <React.Fragment key={index}>
-              <NftItem item={item} />
+              <NftItem item={item} t={t} />
             </React.Fragment>
           ))}
       </div>
@@ -35,6 +38,8 @@ export const CollectionItemList = ({
   selectedCollection,
   setSelectedCollection,
 }) => {
+  const { t } = useTranslation('module');
+
   return (
     <>
       <div className="nft-item-collection-wrap">
@@ -46,6 +51,7 @@ export const CollectionItemList = ({
                 linkMove={linkMove}
                 setSelectedCollection={setSelectedCollection}
                 selectedCollection={selectedCollection}
+                t={t}
               />
             </React.Fragment>
           ))}
@@ -57,7 +63,7 @@ export const CollectionItemList = ({
   );
 };
 
-const NftItem = ({ item }) => {
+const NftItem = ({ item, t }) => {
   const [duration, setDuration] = useState('');
   const formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
@@ -85,7 +91,10 @@ const NftItem = ({ item }) => {
       {/* <Title title={item.nft_name} /> */}
       {/* <SubTitle subTitle={item.connect_collection_name} /> */}
       <div className="nft-item__prices col">
-        <PriceItems title="Price" value={item.price ? `${item?.price} ${item.sales_token}` : '-'} />
+        <PriceItems
+          title={t('Price')}
+          value={item.price ? `${item?.price} ${item.sales_token}` : '-'}
+        />
         {/* <PriceItems title="NFT Quantity" value={item.quantity} /> */}
       </div>
     </Link>
@@ -97,6 +106,7 @@ export const CollectionItem = ({
   linkMove = true,
   selectedCollection,
   setSelectedCollection,
+  t,
 }) => {
   console.log(item, '컬렉션 아이템');
   const Wrapper = linkMove ? Link : 'div';
@@ -130,10 +140,10 @@ export const CollectionItem = ({
       <User userName={item.user_name} userProfile={item?.user_profile} />
       <div className="nft-item__prices raw">
         <PriceItems
-          title="Lowest Price"
+          title={t('Lowest Price')}
           value={`${item.min_price || 0} ${item.min_price_token || 'MOB'}`}
         />
-        <PriceItems title="Total NFT Items" value={item?.nft_cnt?.toLocaleString()} />
+        <PriceItems title={t('Total NFT Items')} value={item?.nft_cnt?.toLocaleString()} />
       </div>
     </Link>
   );

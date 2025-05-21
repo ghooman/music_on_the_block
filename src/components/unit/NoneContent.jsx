@@ -1,8 +1,9 @@
-import offImage from "../../assets/images/none-icon.svg";
-import NoDataImage from "../../assets/images/mypage/albums-no-data.svg";
-import loadingImg from "../../assets/images/loading-img.gif";
+import offImage from '../../assets/images/none-icon.svg';
+import NoDataImage from '../../assets/images/mypage/albums-no-data.svg';
+import loadingImg from '../../assets/images/loading-img.gif';
 
-import "./NoneContent.scss";
+import './NoneContent.scss';
+import { useTranslation } from 'react-i18next';
 
 const NoneContent = ({
   height,
@@ -14,25 +15,16 @@ const NoneContent = ({
 }) => {
   if (loading) {
     image = loadingImg;
-    message = "Loading";
+    message = 'Loading';
   }
 
+  const { t } = useTranslation('module');
+
   return (
-    <div
-      className="unit-component-none-content"
-      style={{ ...style, height: height }}
-    >
-      {image && (
-        <img
-          className="unit-component-none-content__image"
-          src={image}
-          alt="icon"
-        />
-      )}
-      <p className="unit-component-none-content--text">{message}</p>
-      {message2 && (
-        <p className="unit-component-none-content--text">{message2}</p>
-      )}
+    <div className="unit-component-none-content" style={{ ...style, height: height }}>
+      {image && <img className="unit-component-none-content__image" src={image} alt="icon" />}
+      <p className="unit-component-none-content--text">{t(message)}</p>
+      {message2 && <p className="unit-component-none-content--text">{message2}</p>}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { useTranslation } from 'react-i18next';
 
 import {
   createNftCollection,
@@ -27,6 +28,9 @@ import SuccessModal from '../../modal/SuccessModal';
 import ErrorModal from '../../modal/ErrorModal';
 
 const Collections = ({ token, username, isMyProfile, walletAddress }) => {
+  const { t } = useTranslation('my_page');
+  const { t: translateModule } = useTranslation('module');
+
   const [searchParams] = useSearchParams();
 
   const [details, setDetails] = useState(null);
@@ -119,15 +123,19 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
       {isMyProfile && (
         <SubBanner>
           <SubBanner.LeftImages src={subBannerImage4} />
-          <SubBanner.Title text="Create Your Own Collection" />
-          <SubBanner.Message text="Bring your favofite NFT music together and curate a collection that's uniquely yours. Now's the time to show the world your taste in music!" />
-          <SubBanner.Button title="Create Collection" handler={() => setCreate(true)} />
+          <SubBanner.Title text={t('Create Your Own Collection')} />
+          <SubBanner.Message
+            text={t(
+              "Bring your favofite NFT music together and curate a collection that's uniquely yours. Now's the time to show the world your taste in music!"
+            )}
+          />
+          <SubBanner.Button title={t('Create Collection')} handler={() => setCreate(true)} />
         </SubBanner>
       )}
-      <ContentWrap title="Collections">
+      <ContentWrap title={t('Collections')}>
         <ContentWrap.SubWrap gap={8}>
           <Filter collectionSort={['Latest', 'Oldest', 'Most NFT Items', 'Least NFT Items']} />
-          <Search placeholder="Search by collection name..." reset={{ page: 1 }} />
+          <Search placeholder="Search by collection name" reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <AlbumCollectionItems>
           {data?.data_list.map(collections => (
@@ -141,13 +149,14 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
                 handleNavigate={() => navigate(`/nft/collection/detail/${collections?.id}`)}
                 handleDetail={() => setDetails(collections)}
                 target="Collection"
+                translateFn={translateModule}
               />
             </React.Fragment>
           ))}
         </AlbumCollectionItems>
         {(!data?.data_list || data?.data_list.length === 0) && (
           <NoneContent
-            message={'There are no albums created yet.'}
+            message="There are no albums created yet."
             image={NoDataImage}
             height={300}
           />

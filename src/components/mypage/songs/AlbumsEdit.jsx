@@ -15,6 +15,7 @@ import lyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-s
 import coverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 
 import './AlbumsEdit.scss';
+import { useTranslation } from 'react-i18next';
 
 const subCategoryList = [
   { name: 'AI Lyrics & Songwriting', image: lyricSongwritingIcon, preparing: false },
@@ -25,12 +26,9 @@ const dataCategoryList = ['My Songs', 'Liked Songs', 'Following'];
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
-// 데이터를 가져오기
-// 가져온 데이터는 왼쪽 테이블에 뿌림
-// Add 핸들러를 통해 오른쪽 테이블로 옮김
-// 왼쪽 테이블에 있는 걸로다가 수정 완료!
-
 const AlbumsEdit = () => {
+  const { t } = useTranslation('album_collection');
+
   const [availableList, setAvailableList] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
   const [albumName, setAlbumName] = useState('');
@@ -145,7 +143,7 @@ const AlbumsEdit = () => {
       <div className="albums-edit">
         <ContentWrap ontentWrap border={false} style={{ padding: 0 }}>
           <ContentWrap.SubWrap gap={40}>
-            <h1 className="albums-edit__title">Edit Album Songs</h1>
+            <h1 className="albums-edit__title">{t('Edit Album Songs')}</h1>
             <h3 className="albums-edit__album-name">{albumName}</h3>
           </ContentWrap.SubWrap>
           <div className="albums-edit__category">
@@ -159,14 +157,18 @@ const AlbumsEdit = () => {
                   });
                 }}
               >
-                {category}
+                {t(category)}
               </button>
             ))}
           </div>
-          <SubCategories categories={subCategoryList} value={subCategoryList?.[0]?.name} />
+          <SubCategories
+            categories={subCategoryList}
+            value={subCategoryList?.[0]?.name}
+            translateFn={t}
+          />
           <ContentWrap.SubWrap gap={8}>
             <Filter songsSort={true} />
-            <Search placeholder="Search" />
+            <Search placeholder="Search by artist name or song name" />
           </ContentWrap.SubWrap>
           <AlbumCollectionEditList
             availableList={availableList}
@@ -176,7 +178,7 @@ const AlbumsEdit = () => {
             target="Album"
           />
           <button className="albums-edit__edit-button" onClick={() => update()}>
-            Edit
+            {t('Edit')}
           </button>
         </ContentWrap>
       </div>

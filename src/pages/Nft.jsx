@@ -12,8 +12,11 @@ import PreparingModal from '../components/PreparingModal';
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from '../components/WalletConnect';
 import Loading from '../components/IntroLogo2';
+import { useTranslation } from 'react-i18next';
 
 const Nft = () => {
+  const { t } = useTranslation('nft_marketplace');
+
   const [nftList, setNftList] = useState([]);
   const [collectionList, setCollectionList] = useState([]);
   const [showPreparingModal, setShowPreparingModal] = useState(false);
@@ -59,41 +62,41 @@ const Nft = () => {
     <div className="nft">
       <NftExchange navigate={navigate} />
       <Search
-        placeholder="Search"
+        placeholder="Search by item name"
         handler={search => navigate(`/nft/list?category?=NFT+Items&page=1&search=${search}`)}
       />
-      <ContentWrap title="TOP NFTs" link="/nft/list?category=NFT+Items&page=1">
+      <ContentWrap title={t('TOP NFTs')} link="/nft/list?category=NFT+Items&page=1">
         <NftItemList data={nftList} />
       </ContentWrap>
       {/* <ContentWrap title="Popular Collection" link="/nft/list?category=Collections&page=1">
         <CollectionItemList data={collectionList} />
       </ContentWrap> */}
-      <ContentWrap title="Popular Genre">
+      <ContentWrap title={t('Popular Genre')}>
         <NftSlider />
       </ContentWrap>
-      <ContentWrap title="Data">
+      <ContentWrap title={t('Data')}>
         <InfoRowWrap row={4}>
           <InfoRowWrap.ValueItem
-            title="Total Volume"
+            title={t('Total Volume')}
             value={'$ ' + nftStatistics?.total_price?.toLocaleString()}
           />
           <InfoRowWrap.ValueItem
-            title="Average Price"
+            title={t('Average Price')}
             value={'$ ' + nftStatistics?.avg_price?.toLocaleString()}
           />
           <InfoRowWrap.ValueItem
-            title="Number of NFTs Issued"
+            title={t('Number of NFTs Issued')}
             value={nftStatistics?.create_nft_cnt?.toLocaleString()}
           />
           <InfoRowWrap.ValueItem
-            title="Highest Deal Today"
+            title={t('Highest Deal Today')}
             value={'$ ' + nftStatistics?.today_max_price?.toLocaleString()}
           />
         </InfoRowWrap>
         <NftGraph
-          barTitle="Number of Transactions"
+          barTitle={t('Number of Transactions')}
           barGraphData={nftStatistics?.total_transaction_price_progress}
-          lineTitle="NFT Price Change Trend"
+          lineTitle={t('NFT Price Change Trend')}
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>
@@ -105,6 +108,8 @@ const Nft = () => {
 export default Nft;
 
 const NftExchange = () => {
+  const { t } = useTranslation('nft_marketplace');
+
   const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const walletConnectRef = React.useRef(null);
 
@@ -149,11 +154,11 @@ const NftExchange = () => {
 
   return (
     <div className="nft__exchange">
-      <h1 className="nft__exchange--title">NFT MarketPlace</h1>
+      <h1 className="nft__exchange--title">{t('NFT MarketPlace')}</h1>
       <p className="nft__exchange--desc">
-        Your music, now as an NFT
+        {t('Your music, now as an NFT')}
         <br />
-        Connect AI-generated creations with the world
+        {t('Connect AI-generated creations with the world')}
       </p>
 
       {/* 숨겨진 WalletConnect 컴포넌트 */}
@@ -175,7 +180,7 @@ const NftExchange = () => {
             to="/my-page?category=NFTs"
             onClick={handleButtonClick}
           >
-            My NFTs
+            {t('My NFTs')}
           </Link>
         </div>
         <div className="nft__exchange--btns__right">
@@ -184,10 +189,10 @@ const NftExchange = () => {
             to="/nft/mint/list"
             onClick={handleButtonClick}
           >
-            Mint NFT
+            {t('Mint NFT')}
           </Link>
           <Link className="nft__exchange--button" to="/nft/sell/list" onClick={handleButtonClick}>
-            Sell NFT
+            {t('Sell NFT')}
           </Link>
         </div>
       </div>

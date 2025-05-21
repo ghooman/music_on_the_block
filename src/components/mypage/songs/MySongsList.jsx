@@ -18,6 +18,7 @@ import SongPlayTable from '../../table/SongPlayTable';
 import NftConfirmModal from '../../NftConfirmModal';
 import SongDeleteAndReleaseModal from '../../SongDeleteAndReleaseModal';
 import Loading from '../../IntroLogo2';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -27,6 +28,8 @@ const myAlbumsCategoryList = [
 ];
 
 const MySongsList = ({ token }) => {
+  const { t } = useTranslation('my_page');
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [deleteMusic, setDeleteMusic] = useState(null);
   const [releaseMusic, setReleaseMusic] = useState(null);
@@ -102,9 +105,10 @@ const MySongsList = ({ token }) => {
   return (
     <div className="songs">
       <TopSongsTemplate topSongsData={topSongsData} />
-      <ContentWrap title="Song List">
+      <ContentWrap title={t('Song List')}>
         <SubCategories
           categories={myAlbumsCategoryList}
+          translateFn={t}
           handler={value => {
             setSearchParams(prev => {
               const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
@@ -115,7 +119,7 @@ const MySongsList = ({ token }) => {
         />
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} />
-          <Search placeholder="Search by song title..." handler={null} reset={{ page: 1 }} />
+          <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <SongPlayTable
           songList={songsList?.data_list}

@@ -9,6 +9,7 @@ import typeImage from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import arrowIcon from '../../assets/images/add-icon.svg';
 import defaultUserImage from '../../assets/images/header/logo-png.png';
 import { useInView } from 'react-intersection-observer';
+import { useTranslation } from 'react-i18next';
 
 /**
  * SongPlayEditTable
@@ -22,15 +23,17 @@ export const SongPlayEditTableWrapper = ({ children }) => {
 };
 
 export const SongPlayEditButtons = ({ handleAdd, handleDelete }) => {
+  const { t } = useTranslation('album_collection');
+
   return (
     <div className="song-play-edit-table-add-delete-button">
       <button className="button-item add-button" onClick={handleAdd}>
-        Add
+        {t('Add')}
         <img src={arrowIcon} alt="icon" />
       </button>
       <button className="button-item delete-button" onClick={handleDelete}>
         <img src={arrowIcon} alt="icon" />
-        Delete
+        {t('Delete')}
       </button>
     </div>
   );
@@ -52,7 +55,8 @@ export const SongPlayEditTable = ({
   gradeOption,
   itemOption,
 }) => {
-  const { ref, inView } = useInView();
+  const { t } = useTranslation('album_collection');
+
   const allCheck = dataList?.length > 0 && dataList?.every(item => item.check);
   const elementName = target === 'Collection' ? 'NFT' : 'Song';
 
@@ -78,13 +82,13 @@ export const SongPlayEditTable = ({
   return (
     <div className="song-play-edit-table">
       <div className="song-play-edit-table__selected">
-        {title}
+        {t(title)}
         <p className="song-play-edit-table__selected--numbers">
           (<span>{dataList?.length || 0}</span>&nbsp;
-          {dataList?.length === 1 ? elementName : elementName + 's'}{' '}
+          {dataList?.length === 1 ? t(elementName) : t(elementName + 's')}{' '}
           {limit ? (
             <>
-              / {limit} {elementName + 's'}
+              / {limit} {t(elementName + 's')}
             </>
           ) : (
             ''
@@ -99,11 +103,11 @@ export const SongPlayEditTable = ({
           <div className="table-items">
             <input type="checkbox" onChange={handleSelectAll} checked={allCheck} />
           </div>
-          {songOption && <div className="table-items head-song">Song</div>}
-          {typeOption && <div className="table-items head-type">Type</div>}
-          {gradeOption && <div className="table-items head-grade">Grade</div>}
-          {titleOption && <div className="table-items head-title">Title</div>}
-          {itemOption && <div className="table-items head-item">Item</div>}
+          {songOption && <div className="table-items head-song">{t('Song')}</div>}
+          {typeOption && <div className="table-items head-type">{t('Type')}</div>}
+          {gradeOption && <div className="table-items head-grade">{t('Grade')}</div>}
+          {titleOption && <div className="table-items head-title">{t('Title')}</div>}
+          {itemOption && <div className="table-items head-item">{t('Item')}</div>}
         </div>
 
         {/** 테이블 바디 */}

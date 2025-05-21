@@ -8,6 +8,7 @@ import {
 import './AlbumCollectionEditList.scss';
 import ErrorModal from '../../modal/ErrorModal';
 import AlbumCollectionNoticeModal from './modals/AlbumCollectionNoticeModal';
+import { useTranslation } from 'react-i18next';
 
 const AlbumCollectionEditList = ({
   availableList,
@@ -20,6 +21,8 @@ const AlbumCollectionEditList = ({
 
   target,
 }) => {
+  const { t } = useTranslation('album_collection');
+
   const [errorMessage, setErrorMessage] = useState('');
   const [duplicateCount, setDuplicateCount] = useState(0);
   const [activeSong, setActiveSong] = useState(null);

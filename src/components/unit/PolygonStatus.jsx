@@ -6,7 +6,10 @@ import './PolygonStatus.scss';
 
 import { checkPolygonStatus } from '../../api/checkPolygonStatus';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 export default function PolygonStatus() {
+  const { t } = useTranslation('module');
+
   const [polygonStatus, setPolygonStatus] = useState({
     image: blue,
     text: 'The status of the Polygon network is smooth',
@@ -40,7 +43,7 @@ export default function PolygonStatus() {
     <div className="polygon-status">
       <div className="polygon-status__img-box">
         <img src={polygonStatus.image} alt="polygon status" />
-        <p>{polygonStatus.text}</p>
+        <p>{t(polygonStatus.text)}</p>
       </div>
     </div>
   );

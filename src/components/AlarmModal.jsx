@@ -1,12 +1,15 @@
 // components/AlarmModal.js
 import './AlarmModal.scss';
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import closeIcon from '../assets/images/close.svg';
 import { AuthContext } from '../contexts/AuthContext';
 import { WebSocketContext } from '../contexts/WebSocketContext';
 
 const AlarmModal = () => {
+  const { t } = useTranslation('modal');
+
   const albumIdStorageKey = 'generatedAlbumId';
   const albumTimerStorageKeyBase = 'generatedAlbumTimerStart';
   const MAX_GENERATION_TIME = 600; // 10분(600초) 최대 생성 시간
@@ -405,14 +408,14 @@ const AlarmModal = () => {
           >
             {isError ? (
               <>
-                <span className="err-txt">Music generation failed.</span> <br />
+                <span className="err-txt">{t('Music generation failed.')}</span> <br />
                 <br />
                 <span className="err-txt">{errorMessage}</span>
               </>
             ) : albumPk ? (
-              'Song generation completed!'
+              t('Song generation completed!')
             ) : (
-              'The generation process may take up to 10 minutes.'
+              t('The generation process may take up to 10 minutes.')
             )}
           </p>
 
@@ -429,14 +432,14 @@ const AlarmModal = () => {
 
           {isError ? (
             <button className="alarm__modal__item__link" onClick={errorClose}>
-              OK
+              {t('OK')}
             </button>
           ) : (
             albumPk &&
             !storedAlbumData &&
             (isAutoCompleted ? (
               <button className="alarm__modal__item__link" onClick={navigateToMain}>
-                My Song Link
+                {t('My Song Link')}
               </button>
             ) : (
               <Link
@@ -447,7 +450,7 @@ const AlarmModal = () => {
                   setElapsedSeconds(0);
                 }}
               >
-                My Song Link
+                {t('My Song Link')}
               </Link>
             ))
           )}

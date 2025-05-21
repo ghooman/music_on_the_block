@@ -11,7 +11,7 @@ import './SubCategories.scss';
  * @param { any } value : 셀렉트 표시를 위한 값을 넣어주세요
  * @returns { JSX }
  */
-const SubCategories = ({ categories, handler, value }) => {
+const SubCategories = ({ categories, handler, value, translateFn }) => {
   const [preparingModal, setPreparingModal] = useState(false);
 
   if (!categories || categories?.length === 0) {
@@ -40,7 +40,7 @@ const SubCategories = ({ categories, handler, value }) => {
                 <img src={category.image} alt="icon" />
               </div>
             )}
-            {category.name}
+            {translateFn ? translateFn(category.name) : category.name}
           </button>
         ))}
       </div>

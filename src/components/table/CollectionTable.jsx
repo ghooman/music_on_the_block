@@ -2,19 +2,21 @@ import React from 'react';
 import { Table, TableBody, TableHeader, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CollectionTable = ({ collectionList = [] }) => {
+  const { t } = useTranslation('module');
   const navigate = useNavigate();
 
   return (
     <TableWrapper>
       <Table>
         <TableHeader>
-          <TableHeader.Col>#</TableHeader.Col>
-          <TableHeader.Col>Collection</TableHeader.Col>
-          <TableHeader.Col>Date</TableHeader.Col>
-          <TableHeader.Col>NFTs</TableHeader.Col>
-          <TableHeader.Col>Details</TableHeader.Col>
+          <TableHeader.Indexs>#</TableHeader.Indexs>
+          <TableHeader.Col>{t('Collection')}</TableHeader.Col>
+          <TableHeader.Col>{t('Date')}</TableHeader.Col>
+          <TableHeader.Col>{t('NFTs')}</TableHeader.Col>
+          <TableHeader.Col>{t('Details')}</TableHeader.Col>
         </TableHeader>
         <TableBody>
           {collectionList.map((item, index) => (
@@ -25,7 +27,7 @@ const CollectionTable = ({ collectionList = [] }) => {
                 <TableItem.Date date={item.create_dt} />
                 <TableItem.Text text={item.nft_cnt?.toLocaleString() || '-'} />
                 <TableItem.Button
-                  title="Details"
+                  title={t('Details')}
                   type="details"
                   handleClick={() => navigate(`/nft/collection/detail/${item.id}`)}
                 />
@@ -34,7 +36,7 @@ const CollectionTable = ({ collectionList = [] }) => {
           ))}
         </TableBody>
       </Table>
-      {collectionList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet" />}
+      {collectionList.length <= 0 && <NoneContent height={300} message="There are no NFTs yet." />}
     </TableWrapper>
   );
 };

@@ -21,25 +21,23 @@ import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
 
 //스와이프
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Autoplay,
-  FreeMode,
-} from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
-import "swiper/css/free-mode";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay, FreeMode } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
+import { useTranslation } from 'react-i18next';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
+  const { t } = useTranslation('main');
+
   const { token, walletAddress } = useContext(AuthContext);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
@@ -189,7 +187,6 @@ function Album() {
 
   const audioRef = useRef(null); // 오디오 제어용 ref
 
-
   const personas = [
     { img: persona01, name: 'All' },
     { img: persona02, name: 'Jinwoo Yoo' },
@@ -198,7 +195,7 @@ function Album() {
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
-  
+
   const dummyData = [
     {
       id: 0,
@@ -281,11 +278,10 @@ function Album() {
       grade: 'Gold',
     },
   ];
-  
-  
+
   const [activeId, setActiveId] = useState(null);
 
-  const handleToggle = (id) => {
+  const handleToggle = id => {
     setActiveId(prev => (prev === id ? null : id));
   };
 
@@ -366,7 +362,7 @@ function Album() {
             }`}
             onClick={() => setActiveTab('AI Lyrics & Songwriting')}
           >
-            AI Lyrics & Songwriting
+            {t('AI Lyrics & Songwriting')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -374,7 +370,7 @@ function Album() {
             }`}
             onClick={() => setActiveTab('AI Singing Evaluation')}
           >
-            AI Singing Evaluation
+            {t('AI Singing Evaluation')}
           </button>
           <button
             className={`album__content-list__tab__item ${
@@ -382,13 +378,13 @@ function Album() {
             }`}
             onClick={() => setPreparingModal(true)}
           >
-            AI Cover Creation
+            {t('AI Cover Creation')}
           </button>
         </article>
-        {activeTab === "AI Lyrics & Songwriting" && (
-          <article className='main__content-item'>
+        {activeTab === 'AI Lyrics & Songwriting' && (
+          <article className="main__content-item">
             <List
-              title="Latest"
+              title={t('Latest')}
               data={totalList}
               id="Latest"
               selectedMusic={selectedMusic}
@@ -400,9 +396,9 @@ function Album() {
               audioRef={audioRef}
             />
             <List
-              title="Total"
+              title={t('Total')}
               data={shuffledTotalList}
-              // data={[...totalList].sort(() => Math.random() - 0.5)} 
+              // data={[...totalList].sort(() => Math.random() - 0.5)}
               id="total"
               selectedMusic={selectedMusic}
               selectedId={selectedId}
@@ -412,14 +408,14 @@ function Album() {
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
             />
-    
-        <section className="main__nft-market">
-          <Link to="/nft" className="main__nft-market__link">
-            <span className="main__nft-market__link-text">NFT Marketplace</span>
-          </Link>
-        </section>
 
-        <ListSlider
+            <section className="main__nft-market">
+              <Link to="/nft" className="main__nft-market__link">
+                <span className="main__nft-market__link-text">{t('NFT Marketplace')}</span>
+              </Link>
+            </section>
+
+            <ListSlider
               hitMusicList={hitList}
               currentTime={currentTime}
               handleLikeClick={handleLikeClick}
@@ -430,7 +426,7 @@ function Album() {
             />
             <section className="album__content-list">
               <List
-                title="AI Lyrics & Songwriting"
+                title={t('AI Lyrics & Songwriting')}
                 data={randomList}
                 id="random"
                 selectedMusic={selectedMusic}
@@ -444,13 +440,15 @@ function Album() {
           </article>
         )}
 
-        {activeTab === "AI Singing Evaluation" && (
-          <section className='main__content-item'>
-            <article className='main__content-item__persona'>
+        {activeTab === 'AI Singing Evaluation' && (
+          <section className="main__content-item">
+            <article className="main__content-item__persona">
               {personas.map((persona, index) => (
                 <div
                   key={index}
-                  className={`main__content-item__persona__item ${activeIndex === index ? 'active' : ''}`}
+                  className={`main__content-item__persona__item ${
+                    activeIndex === index ? 'active' : ''
+                  }`}
                   onClick={() => setActiveIndex(index)}
                 >
                   <img src={persona.img} alt={persona.name} />
@@ -460,15 +458,12 @@ function Album() {
             </article>
             <article className="album__content-list">
               <p className="album__content-list__title">
-                Evaluation Stage
-                <Link
-                  className="album__content-list__see-more-btn"
-                  to='/'
-                >
-                  See More
+                {t('Evaluation Stage')}
+                <Link className="album__content-list__see-more-btn" to="/">
+                  {t('See More')}
                 </Link>
               </p>
-              <div className='album__content-list__evaluation-stage'>
+              <div className="album__content-list__evaluation-stage">
                 {/* <button className='album__content-list__evaluation-stage__item'>
                   <div className='album__content-list__evaluation-stage__item__thought'>
                     <p className='album__content-list__evaluation-stage__item__thought__play'>
@@ -491,12 +486,14 @@ function Album() {
                 {dummyData.map(item => (
                   <button
                     key={item.id}
-                    className={`album__content-list__evaluation-stage__item ${activeId === item.id ? 'music-play' : ''}`}
+                    className={`album__content-list__evaluation-stage__item ${
+                      activeId === item.id ? 'music-play' : ''
+                    }`}
                     onClick={() => handleToggle(item.id)}
                   >
-                    <div className='album__content-list__evaluation-stage__item__thought'>
-                      <p className='album__content-list__evaluation-stage__item__thought__play'>
-                        <img src={coverImg10} alt='coverImg' />
+                    <div className="album__content-list__evaluation-stage__item__thought">
+                      <p className="album__content-list__evaluation-stage__item__thought__play">
+                        <img src={coverImg10} alt="coverImg" />
                         <div className="loading-wave">
                           <div className="loading-bar"></div>
                           <div className="loading-bar"></div>
@@ -504,28 +501,28 @@ function Album() {
                           <div className="loading-bar"></div>
                         </div>
                       </p>
-                      <p className='album__content-list__evaluation-stage__item__thought__txt'>
-                        <img src={persona02} alt='Jinwoo-Yoo-img' />
+                      <p className="album__content-list__evaluation-stage__item__thought__txt">
+                        <img src={persona02} alt="Jinwoo-Yoo-img" />
                         <span>{item.quote}</span>
                       </p>
                     </div>
-                    <dl className='album__content-list__evaluation-stage__item__title'>
+                    <dl className="album__content-list__evaluation-stage__item__title">
                       <dt>{item.trackName}</dt>
                       <dd>
-                        <img src={defaultCoverImg} alt='user-name' />
+                        <img src={defaultCoverImg} alt="user-name" />
                         {item.artistName}
                       </dd>
                     </dl>
-                    <div className='album__content-list__evaluation-stage__item__details-number'>
+                    <div className="album__content-list__evaluation-stage__item__details-number">
                       <p className={`grade ${item.grade.toLowerCase()}`}>{item.score} </p>
-                      <button className='details-btn'>Details</button>
+                      <button className="details-btn">{t('Details')}</button>
                     </div>
                   </button>
                 ))}
               </div>
             </article>
             <List
-              title="Recently Rated"
+              title={t('Recently Rated')}
               className="recently-rated"
               data={totalList}
               id="total"
@@ -540,23 +537,21 @@ function Album() {
           </section>
         )}
 
-
-
         <section className="main__stats">
           <dl className="main__stats__title">
-            <dt>Number of Artists</dt>
+            <dt>{t('Number of Artists')}</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_users} />
             </dd>
           </dl>
           <dl className="main__stats__title">
-            <dt>Number of Songs</dt>
+            <dt>{t('Number of Songs')}</dt>
             <dd>
               <Counter targetNumber={transaction?.number_of_songs} />
             </dd>
           </dl>
           <dl className="main__stats__title">
-            <dt>Transactions</dt>
+            <dt>{t('Transactions')}</dt>
             <dd>
               <Counter targetNumber={transaction?.transaction} />
             </dd>
@@ -583,33 +578,35 @@ const List = ({
   setPreparingModal,
   link,
   audioRef,
-  className
+  className,
 }) => {
-    // 스와이퍼 옵션
-    const swiperOptions = {
-      loop: false,
-      slidesPerView:'auto',
-      spaceBetween: 16,
-      grabCursor: true,
-      pagination: {
-        clickable: true,
-      },
-      FreeMode:true,
-      navigation: true,
-      modules: [FreeMode,Navigation],
-      // modules: [Pagination, Navigation, Autoplay],
-      // breakpoints: {
-      //   0: {
-      //     slidesPerView: 1,
-      //   },
-      //   680: {
-      //     slidesPerView: 2,
-      //   },
-      //   930: {
-      //     slidesPerView: 3,
-      //   },
-      // },
-    };
+  // 스와이퍼 옵션
+  const { t } = useTranslation('main');
+
+  const swiperOptions = {
+    loop: false,
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    FreeMode: true,
+    navigation: true,
+    modules: [FreeMode, Navigation],
+    // modules: [Pagination, Navigation, Autoplay],
+    // breakpoints: {
+    //   0: {
+    //     slidesPerView: 1,
+    //   },
+    //   680: {
+    //     slidesPerView: 2,
+    //   },
+    //   930: {
+    //     slidesPerView: 3,
+    //   },
+    // },
+  };
   return (
     <section className={`album__content-list ${className}`}>
       <p className="album__content-list__title">
@@ -624,7 +621,7 @@ const List = ({
             }
           }}
         >
-          See More
+          {t('See More')}
         </Link>
       </p>
 
@@ -644,7 +641,6 @@ const List = ({
               />
             </SwiperSlide>
           ))}
-            
         </Swiper>
         {/* {data?.slice(0, 9).map((track, _, list) => (
           <React.Fragment key={`${id}+${track.id}`}>
@@ -676,6 +672,8 @@ const ListSlider = ({
 
   // \n
 }) => {
+  const { t } = useTranslation('main');
+
   const swiperRef = useRef(null);
 
   const handleSlideChange = swiper => {
@@ -704,7 +702,7 @@ const ListSlider = ({
 
   return (
     <section className="album__slide">
-      <p className="album__slide__title">Hit Music List</p>
+      <p className="album__slide__title">{t('Hit Music List')}</p>
       <Swiper
         ref={swiperRef}
         loop={true}
@@ -784,7 +782,7 @@ const ListSlider = ({
                   className="swiper-music-list__item__right__user__btn"
                   to={'/song-detail/' + track.id}
                 >
-                  Details
+                  {t('Details')}
                 </Link>
               </div>
             </div>

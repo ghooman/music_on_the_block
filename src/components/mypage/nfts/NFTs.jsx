@@ -1,6 +1,7 @@
 // React & Routing
 import { useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Context
 import { AuthContext } from '../../../contexts/AuthContext';
@@ -27,6 +28,8 @@ const subCategoryList = [
  * @returns
  */
 const NftMarketPlace = ({ username, isMyProfile }) => {
+  const { t } = useTranslation('my_page');
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { token, walletAddress } = useContext(AuthContext);
@@ -37,6 +40,7 @@ const NftMarketPlace = ({ username, isMyProfile }) => {
     <div className="mypage__nfts">
       <SubCategories
         categories={subCategoryList}
+        translateFn={t}
         handler={category => {
           if (category === tab) return;
           setSearchParams({

@@ -16,6 +16,7 @@ import { getNftCollections } from '../api/nfts/nftCollectionsApi';
 import '../styles/NftList.scss';
 import { useQuery } from 'react-query';
 import SubCategories from '../components/unit/SubCategories';
+import { useTranslation } from 'react-i18next';
 
 const subCategoryList = [
   { name: 'All', preparing: false },
@@ -24,6 +25,8 @@ const subCategoryList = [
 ];
 
 const NftList = () => {
+  const { t } = useTranslation('nft_marketplace');
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const category = searchParams.get('category');
@@ -58,16 +61,18 @@ const NftList = () => {
       <Categories
         categories={['NFT Items', 'Collections']}
         value={category}
+        translateFn={t}
         onClick={category => {
           setSearchParams({ category, page: 1 });
         }}
       />
-      <ContentWrap title={` ${category === 'NFT Items' ? 'NFT Items' : 'Collections'}`}>
+      <ContentWrap title={` ${category === 'NFT Items' ? t('NFT Items') : t('Collections')}`}>
         {category === 'NFT Items' && (
           <>
             <SubCategories
               categories={subCategoryList}
               value={nowSalesStatus}
+              translateFn={t}
               handler={handleSubCategory}
             />
             <NFTList

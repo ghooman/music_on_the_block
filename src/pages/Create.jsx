@@ -17,6 +17,7 @@ import '../styles/Create.scss';
 import { getCreatePossibleCount } from '../api/getCreatePossibleCount';
 import { useUserDetail } from '../hooks/useUserDetail';
 import ErrorModal from '../components/modal/ErrorModal';
+import { useTranslation } from 'react-i18next';
 
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
@@ -27,6 +28,8 @@ const Create = () => {
   const [finalPrompt, setFinalPrompt] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState('V4_5');
+  const [selectedPrivacy, setSelectedPrivacy] = useState('release');
+  const [selectedCreationMode, setSelectedCreationMode] = useState('song');
   const { data: userData, refetch } = useUserDetail();
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
@@ -49,7 +52,12 @@ const Create = () => {
   const handleStartPageNext = async () => {
     const isCreating = await checkUserCreatingStatus();
     if (!isCreating) {
-      setPageNumber(0);
+      // BGM 모드인 경우 가사 생성 단계를 건너뛰고 바로 멜로디 생성 단계로 이동
+      if (selectedCreationMode === 'bgm') {
+        setPageNumber(1);
+      } else {
+        setPageNumber(0);
+      }
     }
   };
 
@@ -128,12 +136,23 @@ const Create = () => {
           setSelectedLanguage={setSelectedLanguage}
           setSelectedVersion={setSelectedVersion}
           selectedVersion={selectedVersion}
+          selectedPrivacy={selectedPrivacy}
+          setSelectedPrivacy={setSelectedPrivacy}
+          selectedCreationMode={selectedCreationMode}
+          setSelectedCreationMode={setSelectedCreationMode}
         />
         {showErrorModal && (
           <ErrorModal
-            title="Create Modal"
-            message="Song generation is in progress. You can proceed after it's done."
+            title="Cannot create duplicates"
+            message={
+              <>
+                Song generation is in progress.
+                <br />
+                You can proceed after it's done.
+              </>
+            }
             setShowErrorModal={setShowErrorModal}
+            button={true}
           />
         )}
       </>
@@ -182,6 +201,8 @@ const Create = () => {
               finalPrompt={finalPrompt}
               setFinalPrompt={setFinalPrompt}
               selectedVersion={selectedVersion}
+              selectedPrivacy={selectedPrivacy}
+              selectedCreationMode={selectedCreationMode}
             />
           )}
         </>
@@ -239,6 +260,8 @@ const Create = () => {
               finalPrompt={finalPrompt}
               setFinalPrompt={setFinalPrompt}
               selectedVersion={selectedVersion}
+              selectedPrivacy={selectedPrivacy}
+              selectedCreationMode={selectedCreationMode}
             ></MelodyMaker>
           )}
         </>
@@ -250,10 +273,14 @@ const Create = () => {
 export default Create;
 
 const Title = () => {
-  return <h1 className="title">Recommended Music Source</h1>;
+  const { t } = useTranslation('song_create');
+
+  return <h1 className="title">{t('Recommended Music Source')}</h1>;
 };
 
 const Progress = ({ pageNumber }) => {
+  const { t } = useTranslation('song_create');
+
   const pages = [
     'Lyrics Lab',
     'Melody Maker',
@@ -267,7 +294,7 @@ const Progress = ({ pageNumber }) => {
         <React.Fragment key={item}>
           <div className="progress__item">
             <div className={`progress__square ${pageNumber >= index ? 'enable' : ''}`}></div>
-            <p className={`progress__text ${pageNumber >= index ? 'enable' : ''}`}>{item}</p>
+            <p className={`progress__text ${pageNumber >= index ? 'enable' : ''}`}>{t(item)}</p>
           </div>
           {length - 1 > index && (
             <span className={`progress__arrow ${pageNumber >= index ? 'enable' : ''}`}></span>

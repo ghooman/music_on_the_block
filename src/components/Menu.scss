@@ -432,7 +432,7 @@
     } //menu__box__gnb-list--END--
 
 
-    
+
     .menu-box__lang-notification {
       display: flex;
       gap: 8px;
@@ -458,17 +458,21 @@
   position: absolute;
   top: 110px;
   left: calc(100% + 8px);
-  width: 140px;
-  padding: 8px 0px;
+  width: 116px;
+  // padding: 8px 0px;
+  padding: 0;
   border-radius: 12px;
   border: 1px solid #678300;
   background-color: #cf0;
   opacity: 0;
   height: 0;
   transition: 0.3s all;
+  overflow: hidden;
   &.visible {
     opacity: 1;
     height: 108px;
+    padding: 8px 0px;
+    
   }
 }
 .menu-box__lang-notification--select-lang-box__item {

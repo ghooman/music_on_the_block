@@ -12,6 +12,22 @@
       font-size: 30px;
       font-style: normal;
       margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      span{
+        color: #f1f1f1;
+        font-family: Orbitron500;
+        font-size: 12px;
+        font-style: normal;
+        line-height: normal;
+        border: 1px solid #00ffb3;
+        border-radius: 12px;
+        padding: 8px 12px;
+        white-space: nowrap;
+      }
     }
   } //nft-item-detail-info-wrap--END--
   .nft-item-detail-info {
@@ -436,6 +452,18 @@
             align-self: stretch;
             border-radius: 6px;
             background: var(--Color-03, #222);
+            
+          }
+          .nft-item-detail__song-detail__left__info__dow-btn{
+            font-size: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background-color: #222;
+            gap: 0;
           }
         }
         .nft-item-detail__song-detail__left__info__number {
@@ -781,6 +809,18 @@
 }
 
 @media screen and (max-width: 930px) {
+  .nft-item-detail__song-detail{
+    .nft-item-detail__song-detail__bot{
+      .nft-item-detail__song-detail__left{
+        .nft-item-detail__song-detail__left__info{
+          flex-direction: column;
+          justify-content: start !important;
+          align-items: start !important;
+          gap: 12px !important;
+        }
+      }
+    }
+  }
   .nft-item-detail {
     .nft-item-detail__song-detail {
       .nft-item-detail__song-detail__bot {
@@ -793,6 +833,7 @@
 }
 
 @media screen and (max-width: 768px) {
+
   .nft-item-detail__song-detail {
     .nft-item-detail__song-detail__bot {
       .nft-item-detail__song-detail__right {
@@ -878,4 +919,5 @@
       order: 2;
     }
   }
+
 }

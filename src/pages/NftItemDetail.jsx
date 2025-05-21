@@ -15,6 +15,7 @@ import grade1Icon from '../assets/images/icon/grade-icon/Grade01-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import defaultCoverImg from '../assets/images/intro/mob-album-cover.png';
 import defaultUserImg from '../assets/images/header/logo-png.png';
+import downloadIcon from '../assets/images/icon/download-icon.svg';
 
 import AudioPlayer from 'react-h5-audio-player';
 
@@ -193,6 +194,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const handleTransactionsModal = () => {
     setIsTransactionsModal(true);
   };
+
   return (
     <>
       {/* 숨겨진 WalletConnect 컴포넌트 */}
@@ -208,7 +210,9 @@ const NftItemDetailInfo = ({ id, t }) => {
       </div>
 
       <div className="nft-item-detail-info-wrap">
-        <p className="nft-item-detail-info-wrap__title">{t('NFT Item Details')}</p>
+        <p className="nft-item-detail-info-wrap__title">{t('NFT Item Details')}
+          <span>{t('L&S One (V1.0)')}</span>
+        </p>
         <section className="nft-item-detail__song-detail">
           <div className="nft-item-detail__song-detail__bot">
             <div className="nft-item-detail__song-detail__left">
@@ -272,6 +276,12 @@ const NftItemDetailInfo = ({ id, t }) => {
                     onClick={handleTransactionsModal}
                   >
                     TXID
+                  </button>
+                  <button
+                    className="nft-item-detail__song-detail__left__info__dow-btn"
+                  >
+                    download
+                    <img src={downloadIcon} alt='downloadIcon'/>
                   </button>
                   <button className="share" onClick={() => setIsShareModal(true)}>
                     <img src={shareIcon} alt="share" />

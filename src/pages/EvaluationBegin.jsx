@@ -26,17 +26,6 @@ import step4Img from '../assets/images/evaluation/step4-img.png';
 import SongsBar from '../components/unit/SongsBar';
 
 const EvaluationBegin = () => {
-  const songList = [101, 102, 103];
-  const criticList = [
-    { id: 0, name: 'Jinwoo Yoo', img: judgeImg01 },
-    { id: 1, name: 'Drexx', img: judgeImg02 },
-    { id: 2, name: 'Elara Moon', img: judgeImg03 },
-  ];
-  const [selectedSong, setSelectedSong] = useState(null);
-  const [selectedCritic, setSelectedCritic] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const { t } = useTranslation('evaluation');
 
   return (
@@ -53,9 +42,7 @@ const EvaluationBegin = () => {
         </ContentWrap>
         <ViewResults t={t} />
       </ContentWrap>
-
-      <ViewResults disabled={!selectedSong || selectedCritic === null} />
-    </ContentWrap>
+    </>
   );
 };
 

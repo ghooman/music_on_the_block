@@ -82,7 +82,7 @@ const GetStarted = ({
       <h2 className="create__get-started--subtitle">
         {t('Turn your ideas into beautiful lyrics and melodies with the power of AI')}
       </h2>
-      <div className="create__get-started--features">
+      {/* <div className="create__get-started--features">
         <h3 className="create__get-started--features-title">{t('Code Features')}</h3>
         <div className="create__get-started--features-items">
           {['Lyrics Generation', 'Melody Composition', 'Style Adaptation'].map((item, index) => (
@@ -105,7 +105,7 @@ const GetStarted = ({
           <h3 className="create__get-started--features-title">{t('Precision')}</h3>
           <p className="create__get-started--features-item ">--%</p>
         </div>
-      </div>
+      </div> */}
       <RemainCountButton createPossibleCount={createPossibleCount} />
 
       <div className="create__get-started--radio-box">

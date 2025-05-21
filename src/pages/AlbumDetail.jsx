@@ -14,6 +14,9 @@ import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
+import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
+import copyIcon from '../assets/images/icon/content_copy-icon.svg';
+import checkIcon from '../assets/images/icon/check-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 import issueIcon from '../assets/images/icon/issue-opened.svg';
 import downloadIcon from '../assets/images/icon/download-icon.svg';
@@ -402,6 +405,37 @@ function AlbumDetail() {
   const handleTransactionsModal = () => {
     setIsTransactionsModal(true);
   };
+
+
+
+  const [copied, setCopied] = useState(false);
+  const [isActiveMore, setIsActiveMore] = useState(false);
+
+  const handleToggle = () => {
+    setIsActiveMore(prev => !prev);
+  };
+
+  const handleCloseMenu = e => {
+    e.stopPropagation();
+    setIsActiveMore(false);
+  };
+
+  const copyToClipboard = e => {
+    e.stopPropagation();
+
+    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+          setIsActiveMore(false);
+        }, 1500);
+      })
+      .catch(console.error);
+  };
+
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -574,7 +608,7 @@ function AlbumDetail() {
                   </div>
                 )}
                 <div className="album-detail__song-detail__left__info__btn-box">
-                  <button
+                  {/* <button
                     className="album-detail__song-detail__left__info__txid-btn"
                     onClick={handleTransactionsModal}
                   >
@@ -591,6 +625,28 @@ function AlbumDetail() {
                     onClick={() => setShareModal(true)}
                   >
                     <img src={shareIcon} alt="share Icon" />
+                  </button> */}
+                  <button
+                    className={`album-detail__song-detail__more-btn ${isActiveMore ? "active" : ""}`}
+                    onClick={handleToggle}
+                  >
+                    <img src={moreIcon} alt="moreIcon" />
+                      <ul className="album-detail__song-detail__more-btn__list">
+                        <li onClick={copyToClipboard}>
+                          {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
+                        </li>
+                        <li onClick={handleCloseMenu}>
+                          Download <img src={downloadIcon} />
+                        </li>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleTransactionsModal();
+                          }}
+                        >
+                          TXID
+                        </li>
+                      </ul>
                   </button>
                 </div>
               </div>
@@ -664,12 +720,12 @@ function AlbumDetail() {
                 </p>
 
                 {/* 공간차지용 */}
-                {album?.ai_service == 0 && (
+                {/* {album?.ai_service == 0 && (
                   <dl style={{ visibility: 'hidden' }}>
                     <dt>Blank</dt>
                     <dd>-</dd>
                   </dl>
-                )}
+                )} */}
                 <div className="album-detail__control-guide">
                   <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
                   <img

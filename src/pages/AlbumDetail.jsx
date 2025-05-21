@@ -581,6 +581,19 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
+                <dl className="artist">
+                  <dt>Artist</dt>
+                  <dd>
+                    <Link className="user" to={`/profile?username=${album?.name}`}>
+                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
+                      {album?.name || '-'}
+                    </Link>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>Type</dt>
+                  <dd>Song</dd>
+                </dl>
                 <dl>
                   <dt>Language</dt>
                   <dd>{album?.language || '-'}</dd>
@@ -606,10 +619,6 @@ function AlbumDetail() {
                   <dd>{album?.tempo || '-'}</dd>
                 </dl>
                 <dl>
-                  <dt>Detail</dt>
-                  <dd>{album?.detail || '-'}</dd>
-                </dl>
-                <dl>
                   <dt>Creation Date</dt>
                   <dd>
                     <span>{formatLocalTime(album?.create_dt)}</span>
@@ -619,14 +628,9 @@ function AlbumDetail() {
                   <dt>Song Length</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
-                <dl className="artist">
-                  <dt>Artist</dt>
-                  <dd>
-                    <Link className="user" to={`/profile?username=${album?.name}`}>
-                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
-                      {album?.name || '-'}
-                    </Link>
-                  </dd>
+                <dl>
+                  <dt>Detail</dt>
+                  <dd>{album?.detail || '-'}</dd>
                 </dl>
                 <div className="album-detail__control-guide">
                   <p className="album-detail__control-guide--text">NFT Status</p>

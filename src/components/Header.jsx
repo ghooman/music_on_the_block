@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './Header.scss';
 import {
   BrowserRouter,
@@ -32,6 +32,17 @@ const Header = ({ setIsLoggedIn }) => {
   const handleClick = () => {
     setIsActive(prev => !prev);
   };
+
+  useEffect(() => {
+    if (isActive) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isActive]);
 
   return (
     <>

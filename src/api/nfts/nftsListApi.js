@@ -57,6 +57,7 @@ export const getNftTransactionHistory = async ({
   sales_token,
   sort_by,
   search_keyword,
+  buy_sell_status,
 }) => {
   try {
     const res = await axios.get(`${serverApi}/api/nfts/transaction/history`, {
@@ -68,6 +69,7 @@ export const getNftTransactionHistory = async ({
         sales_token,
         sort_by,
         search_keyword,
+        buy_sell_status,
       },
     });
     return res.data;

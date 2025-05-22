@@ -61,7 +61,7 @@ const MyFavorites = () => {
           translateFn={t}
         />
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} />
+          <Filter songsSort={true} generateFilter={true} gradeFilter={true} />
           <Search placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}

@@ -10,8 +10,10 @@ import stopIcon from '../../assets/images/stop-icon.svg';
 import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 import { useEffect, useState } from 'react';
-import { getSongsGradeIcon, getUserGradeIcon } from '../../utils/getGradeIcon';
+import { getSongsGradeIcon } from '../../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
+
+import { criticsDataForObject } from '../../data/criticsData';
 
 const AlbumItem = ({
   track,
@@ -20,6 +22,7 @@ const AlbumItem = ({
   onClick,
   audioRef,
   formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`,
+  type = 'song',
 }) => {
   const { t } = useTranslation('module');
   const [runningTime, setRunningTime] = useState();
@@ -81,7 +84,7 @@ const AlbumItem = ({
             backgroundImage: `url(${
               track?.cover_image === 'string'
                 ? coverImg10
-                : track?.cover_image.replace('public', '140to140')
+                : track?.cover_image?.replace('public', '140to140')
             })`,
           }}
         ></p>
@@ -102,32 +105,95 @@ const AlbumItem = ({
         </span>
       </div>
       <div className="album__content-list__list__item__right">
-        <p className="album__content-list__list__item__right__title">{track?.title}</p>
-        <div className="album__content-list__list__item__right__love-play">
-          <p className="play">
-            <img src={playIcon} />
-            {track?.play_cnt || 0}
-          </p>
-          <p className="love">
-            <img src={track?.is_like ? halfHeartIcon : loveIcon} />
-            {track.like || 0}
-          </p>
-        </div>
-        <div className="album__content-list__list__item__right__user">
-          <p className="album__content-list__list__item__right__user__info">
-            <img src={track?.user_profile || defaultCoverImg} />
-            {track?.name || 'unKnown'}
-          </p>
-          <Link
-            className="album__content-list__list__item__right__user__btn"
-            to={`/song-detail/${track?.id}`}
-          >
-            {t('Details')}
-          </Link>
-        </div>
+        {type === 'song' && (
+          <>
+            <SongTitle title={track?.title} />
+            <Counts playCnt={track?.play_cnt} isLike={track?.is_like} like={track?.like} />
+            <Profile userProfile={track?.user_profile} name={track?.name} />
+            <SongDetailsButton id={track?.id} />
+          </>
+        )}
+        {type === 'evaluation' && (
+          <>
+            <Critics critic="Jinwoo Yoo" />
+            <SongTitle title={track?.title} />
+            <Profile userProfile={track?.user_profile} name={track?.name} />
+            <EvaluationScore score={track?.score} />
+            <EvaluationDetailsButton id={track?.song_id} critic={track?.critic} />
+          </>
+        )}
       </div>
     </button>
   );
 };
 
 export default AlbumItem;
+
+const SongTitle = ({ title }) => {
+  return <p className="album__content-list__list__item__right__title">{title}</p>;
+};
+
+const Counts = ({ playCnt, isLike, like }) => {
+  return (
+    <div className="album__content-list__list__item__right__love-play">
+      <p className="play">
+        <img src={playIcon} alt="play" />
+        {playCnt || 0}
+      </p>
+      <p className="love">
+        <img src={isLike ? halfHeartIcon : loveIcon} alt="like" />
+        {like || 0}
+      </p>
+    </div>
+  );
+};
+
+const Profile = ({ userProfile, name }) => {
+  return (
+    <p className="album__content-list__list__item__right__user__info">
+      <img src={userProfile || defaultCoverImg} alt="profile" />
+      {name || 'unKnown'}
+    </p>
+  );
+};
+
+const SongDetailsButton = ({ id }) => {
+  const { t } = useTranslation('module');
+  return (
+    <Link
+      className="album__content-list__list__item__right__user__btn song"
+      to={`/song-detail/${id}`}
+    >
+      {t('Details')}
+    </Link>
+  );
+};
+
+const EvaluationDetailsButton = ({ id, critic }) => {
+  const { t } = useTranslation('module');
+  return (
+    <Link
+      className="album__content-list__list__item__right__user__btn evaluation"
+      to={`/song-detail/${id}?service=AI+Singing+Evaluation&critic=${critic}`}
+    >
+      {t('Details')}
+    </Link>
+  );
+};
+
+const Critics = ({ critic, evaluation_dt }) => {
+  return (
+    <div className="album__content-list__list__item__right__critic">
+      <img src={criticsDataForObject[critic].image} alt="critic" />
+      <p>1 minutes ago</p>
+    </div>
+  );
+};
+
+const EvaluationScore = ({ score = 0 }) => {
+  return (
+    <div className="album__content-list__list__item__right__evaluation-score">
+      {score.toFixed(2)}
+    </div>
+  );
+};

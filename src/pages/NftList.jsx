@@ -118,7 +118,7 @@ const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter, nowSalesSt
   return (
     <>
       <ContentWrap.SubWrap gap={8}>
-        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
+        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} generateFilter={true} />
         <Search placeholder="Search" />
       </ContentWrap.SubWrap>
       <NftItemList data={data?.data_list} />

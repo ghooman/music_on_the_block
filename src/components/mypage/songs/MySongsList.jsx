@@ -118,7 +118,7 @@ const MySongsList = ({ token }) => {
           value={releaseType}
         />
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} />
+          <Filter songsSort={['Latest', 'Oldest']} generateFilter={true} />
           <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <SongPlayTable

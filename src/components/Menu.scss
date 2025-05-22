@@ -458,14 +458,16 @@
   top: 110px;
   left: calc(100% + 8px);
   width: 248px;
-  padding: 8px 0px;
   border-radius: 12px;
   border: 1px solid #678300;
   background-color: #cf0;
   opacity: 0;
   height: 0;
   transition: 0.3s all;
+  overflow: hidden;
+  padding: 0;
   &.visible {
+    padding: 8px 0px;
     opacity: 1;
     height: 108px;
   }

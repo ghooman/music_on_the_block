@@ -52,7 +52,7 @@ const UserSongsList = ({ username }) => {
       <TopSongsTemplate topSongsData={topSongsData} />
       <ContentWrap title={t('Song List')}>
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} />
+          <Filter songsSort={['Latest', 'Oldest']} generateFilter={true} />
           <Search reset={{ page: 1 }} placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         <SongPlayTable

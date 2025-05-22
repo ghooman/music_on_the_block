@@ -12,6 +12,7 @@ export const getReleaseAndUnReleaseSongData = async ({
   sort_by,
   search_keyword,
   type,
+  rating,
 }) => {
   if (type === 'Unreleased' || type === 'Released') {
     const path = type === 'Unreleased' ? 'unrelease' : 'release';
@@ -20,6 +21,7 @@ export const getReleaseAndUnReleaseSongData = async ({
         page,
         sort_by,
         search_keyword,
+        rating,
       },
       headers: {
         Authorization: `Bearer ${token}`,

@@ -10,16 +10,16 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @returns
  */
 export const getLikeList = async ({ token, page, search_keyword, sort_by }) => {
-    return await axios.get(`${serverApi}/api/music/my/like/list`, {
-        params: {
-            page,
-            search_keyword,
-            sort_by,
-        },
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+  return await axios.get(`${serverApi}/api/music/my/like/list`, {
+    params: {
+      page,
+      search_keyword,
+      sort_by,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const getUnLikeList = () => {};

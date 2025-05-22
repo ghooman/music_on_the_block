@@ -136,8 +136,8 @@ const Filter = ({
                 filterItems={
                   typeof generateFilter === 'boolean'
                     ? [
-                        { name: 'Lyrics + Songwriting', icon: LyricsAndSongwritingIcon },
-                        // { name: 'Songwriting', icon: SongwritingIcon },
+                        { name: 'Song', icon: LyricsAndSongwritingIcon },
+                        { name: 'BGM', icon: SongwritingIcon },
                       ]
                     : generateFilter
                 }

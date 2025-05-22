@@ -237,7 +237,10 @@ const NftItemDetailInfo = ({ id, t }) => {
                 onClick={handleClick}
               >
                 {nftDetailData ? (
-                  <img src={nftDetailData?.nft_image || defaultCoverImg} alt="앨범 이미지" />
+                  <img
+                    src={nftDetailData?.nft_image?.replace('public', '400to400') || defaultCoverImg}
+                    alt="앨범 이미지"
+                  />
                 ) : (
                   <img src={defaultCoverImg} alt="기본 이미지" />
                 )}

@@ -20,10 +20,20 @@ const History = ({ username }) => {
   const search = searchParams.get('search');
   const gradeFilter = searchParams.get('grade_filter');
   const tokenFilter = searchParams.get('token_filter');
+  const buySellFilter = searchParams.get('buy_sell_filter');
   const nftSort = searchParams.get('nft_sort');
 
   const { data, isLoading, refetch } = useQuery(
-    ['nft_transaction_history_data', page, search, gradeFilter, tokenFilter, username, nftSort],
+    [
+      'nft_transaction_history_data',
+      page,
+      search,
+      gradeFilter,
+      tokenFilter,
+      username,
+      nftSort,
+      buySellFilter,
+    ],
     async () => {
       const response = await getNftTransactionHistory({
         page: page,
@@ -32,6 +42,7 @@ const History = ({ username }) => {
         sales_token: tokenFilter,
         sort_by: nftSort,
         user_name: username,
+        buy_sell_status: buySellFilter,
       });
       return response.data;
     }
@@ -41,7 +52,13 @@ const History = ({ username }) => {
     <ContentWrap title={t('History')}>
       {isLoading && <Loading />}
       <ContentWrap.SubWrap gap={8}>
-        <Filter gradeFilter={true} tokenFilter={true} buySellFilter={true} nftSort={true} />
+        <Filter
+          gradeFilter={true}
+          tokenFilter={true}
+          buySellFilter={true}
+          nftSort={true}
+          generateFilter={true}
+        />
         <Search placeholder="Search by collection name" />
       </ContentWrap.SubWrap>
       <NftTable

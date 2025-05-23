@@ -51,6 +51,9 @@ import EvaluationResults from './EvaluationResults';
 
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
+import { getNftTransactions } from '../api/nfts/nftDetailApi';
+import { useQuery } from 'react-query';
+import { musicDownload } from '../utils/musicDownload';
 function AlbumDetail() {
   const { t } = useTranslation('song_detail');
 
@@ -69,7 +72,6 @@ function AlbumDetail() {
 
   // 리더보드, txid, Your Picks, Similar Vibes 관련 상태
   const [leaderBoardData, setLeaderBoardData] = useState([]);
-  const [txidData, setTxidData] = useState([]);
   const [favoriteGenreList, setFavoriteGenreList] = useState([]);
   const [similarVibesList, setSimilarVibesList] = useState([]);
 
@@ -165,15 +167,12 @@ function AlbumDetail() {
     }
   };
 
-  const getTxidData = async () => {
-    try {
-      const res = await axios.get(`${serverApi}/api/music/${id}/all/transactions`);
-      console.log('getTxidData', res.data);
-      setTxidData(res.data);
-    } catch (error) {
-      console.error('getTxidData error:', error);
-    }
-  };
+  // txid 가져오기
+  const {
+    data: txidData,
+    isLoading: isTxidLoading,
+    error: txidError,
+  } = useQuery(['nft_txid_data', id], () => getNftTransactions(id), { enabled: !!id });
 
   // Your Picks 데이터 가져오기
   const getFavoriteGenre = async () => {
@@ -264,7 +263,6 @@ function AlbumDetail() {
     setIsPlaying(false);
     fetchAlbumDetail();
     getLeaderboardData();
-    getTxidData();
     getFavoriteGenre();
     getSimilarVibes();
     // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
@@ -450,6 +448,21 @@ function AlbumDetail() {
         }, 1500);
       })
       .catch(console.error);
+  };
+
+  // 음원 다운로드
+  const handleDownloadClick = async e => {
+    e.stopPropagation();
+    if (album?.is_owner && album?.nft_id) {
+      try {
+        await musicDownload({ token, id, title: album.title });
+      } catch (error) {
+        alert('A server error occurred. Please try again later.');
+        console.error(error);
+      }
+    } else {
+      setIsDownloadModal(true);
+    }
   };
 
   return (
@@ -649,27 +662,35 @@ function AlbumDetail() {
                     onClick={handleToggle}
                   >
                     <img src={moreIcon} alt="moreIcon" />
-                      <ul className="album-detail__song-detail__more-btn__list">
-                        <li onClick={copyToClipboard}>
-                          {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
-                        </li>
-                        <li 
-                          onClick={e => {
-                            handleCloseMenu(e);
-                            setIsDownloadModal(true);
-                          }}
-                        >
-                          Download <img src={downloadIcon} />
-                        </li>
-                        <li 
-                          onClick={e => {
-                            handleCloseMenu(e);
-                            handleTransactionsModal();
-                          }}
-                        >
-                          TXIDs
-                        </li>
-                      </ul>
+                    <ul className="album-detail__song-detail__more-btn__list">
+                      <li onClick={copyToClipboard}>
+                        {!copied ? (
+                          <>
+                            Copy Link <img src={copyIcon} />
+                          </>
+                        ) : (
+                          <>
+                            Copied Link <img src={checkIcon} />
+                          </>
+                        )}
+                      </li>
+                      <li
+                        onClick={e => {
+                          handleCloseMenu(e);
+                          handleDownloadClick(e);
+                        }}
+                      >
+                        Download <img src={downloadIcon} />
+                      </li>
+                      <li
+                        onClick={e => {
+                          handleCloseMenu(e);
+                          handleTransactionsModal();
+                        }}
+                      >
+                        TXIDs
+                      </li>
+                    </ul>
                   </button>
                 </div>
               </div>
@@ -701,7 +722,7 @@ function AlbumDetail() {
                 </dl>
                 <dl>
                   <dt>{t('Type')}</dt>
-                  <dd>Song</dd>
+                  <dd>{album?.ai_service === 0 ? `BGM` : `Song`}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Genre')}</dt>
@@ -993,7 +1014,11 @@ function AlbumDetail() {
         <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
-        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={!album?.is_owner}
+          needMint={album?.is_owner && !album?.nft_id}
+        />
       )}
     </>
   );

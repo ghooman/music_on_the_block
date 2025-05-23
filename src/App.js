@@ -62,6 +62,8 @@ function App() {
   const { pathname } = useLocation();
   const { language } = navigator;
 
+  console.log('navigator', navigator);
+
   useEffect(() => {
     if (language?.startsWith('ko')) {
       i18n.changeLanguage('한국어');

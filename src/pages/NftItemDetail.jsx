@@ -35,6 +35,7 @@ import {
   getNftOverview,
   getNftsHistory,
   getNftStatistics,
+  getNftTransactions,
 } from '../api/nfts/nftDetailApi';
 import NftHistoryTable from '../components/table/NftHistoryTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -45,6 +46,7 @@ import { useTranslation } from 'react-i18next';
 
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
+import { musicDownload } from '../utils/musicDownload';
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -154,14 +156,29 @@ const NftItemDetailInfo = ({ id, t }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  // nft 데이터 가져오기
   const { data: nftDetailData, refetch: nftDetailRefetch } = useQuery(
     ['nft_detail_data', id, walletAddress?.address],
-    async () => {
-      const res = await getNftDetail({ nft_id: id, wallet_address: walletAddress?.address });
-      return res.data;
+    () => getNftDetail({ nft_id: id, wallet_address: walletAddress?.address }),
+    {
+      enabled: !!id && !!walletAddress?.address,
     }
   );
+
   console.log('nftDetailData', nftDetailData);
+
+  // txid 가져오기
+  const {
+    data: txidData,
+    isLoading: isTxidLoading,
+    error: txidError,
+  } = useQuery(
+    ['nft_txid_data', nftDetailData?.song_id],
+    () => getNftTransactions(nftDetailData.song_id),
+    {
+      enabled: !!nftDetailData?.song_id, // song_id가 생길 때만 실행
+    }
+  );
 
   const handleLikes = async () => {
     if (!nftDetailData?.is_like) {
@@ -201,6 +218,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   };
 
   const [album, setAlbum] = useState(null);
+  console.log('album', album);
   const [copied, setCopied] = useState(false);
   const [isActiveMore, setIsActiveMore] = useState(false);
 
@@ -216,7 +234,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const copyToClipboard = e => {
     e.stopPropagation();
 
-    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    const textToCopy = `${window.location.href}\n\nTitle: ${nftDetailData?.nft_name}`;
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -227,6 +245,21 @@ const NftItemDetailInfo = ({ id, t }) => {
         }, 1500);
       })
       .catch(console.error);
+  };
+
+  // 음원 다운로드
+  const handleDownloadClick = async e => {
+    e.stopPropagation();
+    if (nftDetailData?.is_owner) {
+      try {
+        await musicDownload({ token, id: nftDetailData?.song_id, title: nftDetailData.nft_name });
+      } catch (error) {
+        alert('A server error occurred. Please try again later.');
+        console.error(error);
+      }
+    } else {
+      setIsDownloadModal(true);
+    }
   };
 
   return (
@@ -340,10 +373,10 @@ const NftItemDetailInfo = ({ id, t }) => {
                           </>
                         )}
                       </li>
-                      <li 
+                      <li
                         onClick={e => {
                           handleCloseMenu(e);
-                          setIsDownloadModal(true);
+                          handleDownloadClick(e);
                         }}
                       >
                         Download <img src={downloadIcon} />
@@ -485,16 +518,12 @@ const NftItemDetailInfo = ({ id, t }) => {
         />
       )}
       {isTransactionsModal && (
-        <TransactionsModal
-          setTransactionsModal={setIsTransactionsModal}
-          transactions={nftDetailData?.transactions}
-        />
+        <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
         <DownloadModal
           setIsDownloadModal={setIsDownloadModal}
-          needOwner={true}
-          needMint={false}
+          needOwner={!nftDetailData?.is_owner}
         />
       )}
     </>

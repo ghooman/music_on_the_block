@@ -344,7 +344,7 @@ function Album() {
                   audioRef={audioRef}
               />
           </div> */}
-        <PlayerHeader
+        {/* <PlayerHeader
           selectedMusic={selectedMusic}
           isPlaying={isPlaying}
           isScrolled={isScrolled}
@@ -356,7 +356,7 @@ function Album() {
           handleGetMusicList={handleGetMusicList}
           setIsPlaying={setIsPlaying}
           audioRef={audioRef}
-        />
+        /> */}
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${

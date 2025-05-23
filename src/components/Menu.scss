@@ -31,10 +31,10 @@
     left: -16px;
     opacity: 1;
     width: calc(100% + 32px);
-    height: calc(100vh - 96px);
+    height: calc(100vh - 150px);
   }
   &.small-height {
-    height: calc(100vh - 96px);
+    height: calc(100vh - 150px);
     .menu__cover {
       height: 100%;
       // max-height: 400px;
@@ -50,7 +50,7 @@
     flex-direction: column;
     gap: 10px;
     height: 100%;
-    max-height: calc(100vh - 136px);
+    max-height: calc(100vh - 190px);
     // overflow-y: scroll;
     width: calc(100% + 15px);
     // overflow: auto;

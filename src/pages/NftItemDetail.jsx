@@ -161,7 +161,7 @@ const NftItemDetailInfo = ({ id, t }) => {
     ['nft_detail_data', id, walletAddress?.address],
     () => getNftDetail({ nft_id: id, wallet_address: walletAddress?.address }),
     {
-      enabled: !!id && !!walletAddress?.address,
+      enabled: !!id,
     }
   );
 
@@ -399,14 +399,6 @@ const NftItemDetailInfo = ({ id, t }) => {
                 {nftDetailData?.nft_name}
               </p>
               <div className="nft-item-detail__song-detail__right__info-box">
-                <dl>
-                  <dt>{t('Item ID')}</dt>
-                  <dd># {nftDetailData?.id}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Collection')}</dt>
-                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
-                </dl>
                 <dl className="artist">
                   <dt>{t('Artist')}</dt>
                   <dd>
@@ -419,6 +411,15 @@ const NftItemDetailInfo = ({ id, t }) => {
                                         </Link> */}
                   </dd>
                 </dl>
+                <dl>
+                  <dt>{t('Item ID')}</dt>
+                  <dd># {nftDetailData?.id}</dd>
+                </dl>
+                <dl>
+                  <dt>{t('Collection')}</dt>
+                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
+                </dl>
+
                 <dl
                   className={nftDetailData?.now_sales_status}
                   // className="Listed"

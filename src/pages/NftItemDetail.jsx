@@ -13,6 +13,9 @@ import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import grade1Icon from '../assets/images/icon/grade-icon/Grade01-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
+import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
+import copyIcon from '../assets/images/icon/content_copy-icon.svg';
+import checkIcon from '../assets/images/icon/check-icon.svg';
 import defaultCoverImg from '../assets/images/intro/mob-album-cover.png';
 import defaultUserImg from '../assets/images/header/logo-png.png';
 import downloadIcon from '../assets/images/icon/download-icon.svg';
@@ -41,6 +44,7 @@ import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
 
 import TransactionsModal from '../components/TransactionsModal';
+import DownloadModal from '../components/DownloadModal';
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -79,6 +83,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const [cancelSuccess, setCancelSuccess] = useState(false);
 
   const [isShareModal, setIsShareModal] = useState(false);
+  const [isDownloadModal, setIsDownloadModal] = useState(false);
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   const { token, walletAddress, isLoggedIn, setIsLoggedIn, setWalletAddress } =
     useContext(AuthContext);
@@ -195,6 +200,35 @@ const NftItemDetailInfo = ({ id, t }) => {
     setIsTransactionsModal(true);
   };
 
+  const [album, setAlbum] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const [isActiveMore, setIsActiveMore] = useState(false);
+
+  const handleToggle = () => {
+    setIsActiveMore(prev => !prev);
+  };
+
+  const handleCloseMenu = e => {
+    e.stopPropagation();
+    setIsActiveMore(false);
+  };
+
+  const copyToClipboard = e => {
+    e.stopPropagation();
+
+    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+          setIsActiveMore(false);
+        }, 1500);
+      })
+      .catch(console.error);
+  };
+
   return (
     <>
       {/* 숨겨진 WalletConnect 컴포넌트 */}
@@ -210,7 +244,8 @@ const NftItemDetailInfo = ({ id, t }) => {
       </div>
 
       <div className="nft-item-detail-info-wrap">
-        <p className="nft-item-detail-info-wrap__title">{t('NFT Item Details')}
+        <p className="nft-item-detail-info-wrap__title">
+          {t('NFT Item Details')}
           <span>{t('L&S One (V1.0)')}</span>
         </p>
         <section className="nft-item-detail__song-detail">
@@ -271,7 +306,7 @@ const NftItemDetailInfo = ({ id, t }) => {
                   </p>
                 </div>
                 <div className="nft-item-detail__song-detail__left__info__btn-box">
-                  <button
+                  {/* <button
                     className="nft-item-detail__song-detail__left__info__txid-btn"
                     onClick={handleTransactionsModal}
                   >
@@ -285,6 +320,43 @@ const NftItemDetailInfo = ({ id, t }) => {
                   </button>
                   <button className="share" onClick={() => setIsShareModal(true)}>
                     <img src={shareIcon} alt="share" />
+                  </button> */}
+                  <button
+                    className={`nft-item-detail__song-detail__more-btn ${
+                      isActiveMore ? 'active' : ''
+                    }`}
+                    onClick={handleToggle}
+                  >
+                    <img src={moreIcon} alt="moreIcon" />
+                    <ul className="nft-item-detail__song-detail__more-btn__list">
+                      <li onClick={copyToClipboard}>
+                        {!copied ? (
+                          <>
+                            Copy Link <img src={copyIcon} />
+                          </>
+                        ) : (
+                          <>
+                            Copied Link <img src={checkIcon} />
+                          </>
+                        )}
+                      </li>
+                      <li 
+                        onClick={e => {
+                          handleCloseMenu(e);
+                          setIsDownloadModal(true);
+                        }}
+                      >
+                        Download <img src={downloadIcon} />
+                      </li>
+                      <li
+                        onClick={e => {
+                          handleCloseMenu(e);
+                          handleTransactionsModal();
+                        }}
+                      >
+                        TXIDs
+                      </li>
+                    </ul>
                   </button>
                 </div>
               </div>
@@ -416,6 +488,13 @@ const NftItemDetailInfo = ({ id, t }) => {
         <TransactionsModal
           setTransactionsModal={setIsTransactionsModal}
           transactions={nftDetailData?.transactions}
+        />
+      )}
+      {isDownloadModal && (
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={true}
+          needMint={false}
         />
       )}
     </>

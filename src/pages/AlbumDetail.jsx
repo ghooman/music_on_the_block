@@ -14,6 +14,9 @@ import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
+import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
+import copyIcon from '../assets/images/icon/content_copy-icon.svg';
+import checkIcon from '../assets/images/icon/check-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
 import issueIcon from '../assets/images/icon/issue-opened.svg';
 import downloadIcon from '../assets/images/icon/download-icon.svg';
@@ -47,11 +50,13 @@ import NftConfirmModal from '../components/NftConfirmModal';
 import EvaluationResults from './EvaluationResults';
 
 import TransactionsModal from '../components/TransactionsModal';
+import DownloadModal from '../components/DownloadModal';
 function AlbumDetail() {
   const { t } = useTranslation('song_detail');
 
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
+  console.log('id', id);
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
   const listenTime = useRef(0);
   const navigate = useNavigate();
@@ -62,8 +67,9 @@ function AlbumDetail() {
   const [albumDuration, setAlbumDuration] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 리더보드, Your Picks, Similar Vibes 관련 상태
+  // 리더보드, txid, Your Picks, Similar Vibes 관련 상태
   const [leaderBoardData, setLeaderBoardData] = useState([]);
+  const [txidData, setTxidData] = useState([]);
   const [favoriteGenreList, setFavoriteGenreList] = useState([]);
   const [similarVibesList, setSimilarVibesList] = useState([]);
 
@@ -73,6 +79,7 @@ function AlbumDetail() {
   const [isReleaseModal, setIsReleaseModal] = useState(false);
   const [albumGuideModal, setAlbumGuideModal] = useState(false);
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
+  const [isDownloadModal, setIsDownloadModal] = useState(false);
   // 플레이어 상태 및 재생 관련 변수
   const [isPlaying, setIsPlaying] = useState(false);
   const playCountRef = useRef(false);
@@ -152,6 +159,16 @@ function AlbumDetail() {
       setLeaderBoardData(res.data);
     } catch (error) {
       console.error('getLeaderboardData error:', error);
+    }
+  };
+
+  const getTxidData = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/${id}/all/transactions`);
+      console.log('getTxidData', res.data);
+      setTxidData(res.data);
+    } catch (error) {
+      console.error('getTxidData error:', error);
     }
   };
 
@@ -244,6 +261,7 @@ function AlbumDetail() {
     setIsPlaying(false);
     fetchAlbumDetail();
     getLeaderboardData();
+    getTxidData();
     getFavoriteGenre();
     getSimilarVibes();
     // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
@@ -402,6 +420,35 @@ function AlbumDetail() {
   const handleTransactionsModal = () => {
     setIsTransactionsModal(true);
   };
+
+  const [copied, setCopied] = useState(false);
+  const [isActiveMore, setIsActiveMore] = useState(false);
+
+  const handleToggle = () => {
+    setIsActiveMore(prev => !prev);
+  };
+
+  const handleCloseMenu = e => {
+    e.stopPropagation();
+    setIsActiveMore(false);
+  };
+
+  const copyToClipboard = e => {
+    e.stopPropagation();
+
+    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+          setIsActiveMore(false);
+        }, 1500);
+      })
+      .catch(console.error);
+  };
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -574,7 +621,7 @@ function AlbumDetail() {
                   </div>
                 )}
                 <div className="album-detail__song-detail__left__info__btn-box">
-                  <button
+                  {/* <button
                     className="album-detail__song-detail__left__info__txid-btn"
                     onClick={handleTransactionsModal}
                   >
@@ -591,6 +638,35 @@ function AlbumDetail() {
                     onClick={() => setShareModal(true)}
                   >
                     <img src={shareIcon} alt="share Icon" />
+                  </button> */}
+                  <button
+                    className={`album-detail__song-detail__more-btn ${
+                      isActiveMore ? 'active' : ''
+                    }`}
+                    onClick={handleToggle}
+                  >
+                    <img src={moreIcon} alt="moreIcon" />
+                      <ul className="album-detail__song-detail__more-btn__list">
+                        <li onClick={copyToClipboard}>
+                          {!copied ? <>Copy Link <img src={copyIcon} /></> : <>Copied Link <img src={checkIcon} /></>}
+                        </li>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            setIsDownloadModal(true);
+                          }}
+                        >
+                          Download <img src={downloadIcon} />
+                        </li>
+                        <li 
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleTransactionsModal();
+                          }}
+                        >
+                          TXIDs
+                        </li>
+                      </ul>
                   </button>
                 </div>
               </div>
@@ -654,22 +730,22 @@ function AlbumDetail() {
                   <dt>{t('Detail')}</dt>
                   <dd>{album?.detail || '-'}</dd>
                 </dl> */}
-                <p className='album-detail__song-detail__right__info-box__detail'>
+                <p className="album-detail__song-detail__right__info-box__detail">
                   <span>{t('Musical Instrument')}</span>
                   <strong>{album?.musical_instrument || '-'}</strong>
                 </p>
-                <p className='album-detail__song-detail__right__info-box__detail'>
+                <p className="album-detail__song-detail__right__info-box__detail">
                   <span>{t('Detail')}</span>
                   <strong>{album?.detail || '-'}</strong>
                 </p>
 
                 {/* 공간차지용 */}
-                {album?.ai_service == 0 && (
+                {/* {album?.ai_service == 0 && (
                   <dl style={{ visibility: 'hidden' }}>
                     <dt>Blank</dt>
                     <dd>-</dd>
                   </dl>
-                )}
+                )} */}
                 <div className="album-detail__control-guide">
                   <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
                   <img
@@ -911,10 +987,10 @@ function AlbumDetail() {
         />
       )}
       {isTransactionsModal && (
-        <TransactionsModal
-          setTransactionsModal={setIsTransactionsModal}
-          transactions={album?.transactions}
-        />
+        <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
+      )}
+      {isDownloadModal && (
+        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
       )}
     </>
   );

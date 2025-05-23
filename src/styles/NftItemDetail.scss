@@ -441,6 +441,72 @@
           display: flex;
           align-items: center;
           gap: 8px;
+
+          .nft-item-detail__song-detail__more-btn{
+            // padding: 4px 6px;
+            border-radius: 6px;
+            background-color: #222;
+            height: 32px;
+            width: 32px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            position: relative;
+            &:hover{
+              border: 1px solid #a9d400;
+            }
+            &.active{
+              .nft-item-detail__song-detail__more-btn__list{
+                height: 116px !important;
+                opacity: 1;
+              }
+            }
+            .nft-item-detail__song-detail__more-btn__list{
+              position: absolute;
+              right: 0;
+              top: 38px;
+              border-radius: 12px;
+              border: 1px solid #678300;
+              background: #0B0B0C;
+              transition: 0.3s;
+              display: flex;
+              flex-direction: column;
+              overflow: hidden;
+              width: 140px;
+              transition: 0.3s;
+              height: 0;
+              opacity: 0;
+              li{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                gap: 16px;
+                align-items: center;
+                cursor: pointer;
+                padding: 0px 12px;
+                height: 38px;
+                transition: 0.3s;
+                color: #FFF;
+                font-family: Inter400;
+                font-size: 14px;
+                transition: 0.3s;
+                text-align: left;
+                img{
+                  width: 18px;
+                  height: 18px;
+                  object-fit: cover;
+                }
+                &:hover{
+                  background: #222;
+                }
+              }
+            }//album-detail__song-detail__more-btn__list--END--
+          }//album-detail__song-detail__more-btn--END--
+
+
           .nft-item-detail__song-detail__left__info__txid-btn {
             display: flex;
             width: 70px;

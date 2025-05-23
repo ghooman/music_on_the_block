@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Header.scss';
 import {
   BrowserRouter,
@@ -22,6 +22,7 @@ import MyPage from '../pages/MyPage';
 import SignInModal from './SignInModal';
 import CreateLoading from './CreateLoading';
 import AlarmModal from './AlarmModal';
+import AlarmNftModal from './AlarmNftModal';
 
 const Header = ({ setIsLoggedIn }) => {
   const [isSignInModal, setSignInModal] = useState(false);
@@ -187,6 +188,7 @@ const Header = ({ setIsLoggedIn }) => {
       </Routes> */}
 
       <AlarmModal />
+      <AlarmNftModal />
     </>
   );
 };

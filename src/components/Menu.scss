@@ -44,7 +44,7 @@
   //   top:16px;
   //   height:calc(100% - 30px);
   // }
-  .menu__cover{
+  .menu__cover {
     // padding: 24px 16px;
     display: flex;
     flex-direction: column;
@@ -72,13 +72,13 @@
       width: 100%;
       width: 100%;
       height: 40px;
-      color:#1a1a1a;
+      color: #1a1a1a;
       font-family: Orbitron600;
       font-size: 16px;
       font-style: normal;
       line-height: normal;
       border-radius: 12px;
-      background:#00ffb3;
+      background: #00ffb3;
       position: relative;
     } //tw-connect-wallet--END--
     &:nth-child(1) {
@@ -142,7 +142,7 @@
         gap: 8px;
         padding: 8px;
         border-radius: 12px 4px 12px 12px;
-        background:#00ffb3;
+        background: #00ffb3;
         margin-bottom: 10px;
         .menu__box__my-page__level {
           // flex: 52px;
@@ -436,8 +436,6 @@
       } //menu__box__gnb-list__item--END--
     } //menu__box__gnb-list--END--
 
-
-
     .menu-box__lang-notification {
       display: flex;
       gap: 8px;
@@ -477,9 +475,8 @@
     opacity: 1;
     height: 108px;
     padding: 8px 0px;
-    
   }
-  &.mobile{
+  &.mobile {
     display: none;
   }
 }
@@ -495,24 +492,170 @@
     cursor: pointer;
   }
 }
+.menu-box__lang-notification--select-notification-box {
+  position: absolute;
+  top: 110px;
+  left: calc(100% + 8px);
+  height: 0;
+  transition: 0.3s all;
+  display: none;
+  width: 320px;
+  padding: 20px 16px 24px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border-radius: 16px;
+  border: 1px solid var(--Color-03, #222);
+  background: var(--Color-02, #1a1a1a);
+  overflow: auto;
+  &.visible {
+    opacity: 1;
+    height: 400px;
+    display: flex;
+  }
+  .menu-box__lang-notification--select-notification-box__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .menu-box__lang-notification--select-notification-box__close-btn {
+      margin-left: 100%;
+    }
+    .menu-box__lang-notification--select-notification-box__header__btn {
+      margin-left: auto;
+      border-radius: 100px;
+      background: var(--Color-03, #222);
+      display: flex;
+      padding: 8px 16px;
+      align-items: center;
+      gap: 8px;
+      color: var(--Text-music-title, #f1f1f1);
+      font-family: Inter500;
+      font-size: 12px;
+      font-style: normal;
+      line-height: 100%; /* 12px */
+      letter-spacing: 0.36px;
+    }
+    .menu-box__lang-notification--select-notification-box__header__title {
+      color: var(--Text-music-title, #f1f1f1);
+      text-align: center;
+      font-family: Orbitron600;
+      font-size: 24px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: 0.72px;
+      margin-bottom: 24px;
+    }
+  }
+  .menu-box__lang-notification--select-notification-box__item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 4px;
+    padding: 8px;
+    background: var(--Dark-Color-01, #0b0b0c);
+    height: 68px;
+    .menu-box__lang-notification--select-notification-box__item__img-box {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 2px;
+      }
+    }
+    .menu-box__lang-notification--select-notification-box__item__txt-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      .menu-box__lang-notification--select-notification-box__item__txt-box__header {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        min-width: 200px;
+        .menu-box__lang-notification--select-notification-box__item__txt-box__header__title {
+          overflow: hidden;
+          color: var(--Text-music-title, #f1f1f1);
+          text-overflow: ellipsis;
+          font-family: Inter600;
+          font-size: 10px;
+          font-style: normal;
+          line-height: 100%; /* 10px */
+          letter-spacing: 0.3px;
+          .sky {
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            color: var(--secondary-base, #00ffb3);
+            text-overflow: ellipsis;
+            font-family: Inter600;
+            font-size: 10px;
+            font-style: normal;
+            line-height: 100%;
+            letter-spacing: 0.3px;
+          }
+          .purple {
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            color: var(--tertiary-400, #6458ff);
+            text-overflow: ellipsis;
+            font-family: Inter600;
+            font-size: 10px;
+            font-style: normal;
+            line-height: 100%;
+            letter-spacing: 0.3px;
+          }
+        }
+      }
+      .menu-box__lang-notification--select-notification-box__item__txt-box__header__name {
+        color: var(--Text-music-title, #f1f1f1);
+        font-family: Inter400;
+        font-size: 10px;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 0.3px;
+      }
+      .menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time {
+        color: var(--Text-music-sub, #aaa);
+        display: flex;
+        font-family: Inter400;
+        font-size: 7px;
+        font-style: normal;
+        line-height: normal;
+        text-align: right;
+        margin-left: auto;
+        img {
+          margin-right: 5px;
+        }
+      }
+      .menu-box__lang-notification--select-notification-box__item__btn {
+        margin-left: auto;
+      }
+    }
+  }
+}
 
 @media screen and (max-width: 1000px) {
-  .menu-box__lang-notification--select-lang-box{
-    &.pc{
+  .menu-box__lang-notification--select-lang-box {
+    &.pc {
       display: none !important;
     }
-    &.mobile{
+    &.mobile {
       display: block !important;
       position: relative;
       left: auto;
       top: auto;
       width: 100%;
       margin-bottom: 0px;
-      &.visible{
+      &.visible {
         margin-bottom: 16px;
       }
     }
-  }//menu-box__lang-notification--select-lang-box--END--
+  } //menu-box__lang-notification--select-lang-box--END--
   .menu {
     transition: 0.3s;
     position: relative;
@@ -536,7 +679,6 @@
     //   height: 100%;
     //   background: #0b0b0c;
     // }
-
   }
 
   .menu-box__lang-notification--select-lang-box {

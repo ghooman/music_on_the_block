@@ -250,7 +250,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   // 음원 다운로드
   const handleDownloadClick = async e => {
     e.stopPropagation();
-    if (nftDetailData?.is_owner && nftDetailData?.nft_id) {
+    if (nftDetailData?.is_owner) {
       try {
         await musicDownload({ token, id: nftDetailData?.song_id, title: nftDetailData.nft_name });
       } catch (error) {
@@ -524,7 +524,6 @@ const NftItemDetailInfo = ({ id, t }) => {
         <DownloadModal
           setIsDownloadModal={setIsDownloadModal}
           needOwner={!nftDetailData?.is_owner}
-          needMint={nftDetailData?.is_owner && !nftDetailData?.nft_id}
         />
       )}
     </>

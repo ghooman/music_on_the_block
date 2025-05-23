@@ -33,7 +33,7 @@ const AlarmModal = () => {
   const item = localStorage.getItem(albumIdStorageKey);
   // console.log('item', item);
   const { walletAddress } = useContext(AuthContext);
-  const { lastMessage, isConnected } = useContext(WebSocketContext);
+  const { lastAlbumMessage, isAlbumConnected } = useContext(WebSocketContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -295,19 +295,19 @@ const AlarmModal = () => {
 
   // 웹소켓 메시지 처리
   useEffect(() => {
-    if (!lastMessage) return;
+    if (!lastAlbumMessage) return;
 
     // 동일한 메시지 재처리 방지
     if (
       processedMessageRef.current &&
-      processedMessageRef.current.pk === lastMessage.pk &&
-      processedMessageRef.current.status === lastMessage.status
+      processedMessageRef.current.pk === lastAlbumMessage.pk &&
+      processedMessageRef.current.status === lastAlbumMessage.status
     ) {
       return;
     }
 
     try {
-      const data = lastMessage;
+      const data = lastAlbumMessage;
 
       // — 필터링 시작 —
       // 내 앨범 ID와 일치하거나 내 지갑 주소와 일치하는 경우만 처리
@@ -357,14 +357,14 @@ const AlarmModal = () => {
     } catch (err) {
       console.error('메시지 처리 에러:', err);
     }
-  }, [lastMessage, storedAlbumData, walletAddress]);
+  }, [lastAlbumMessage, storedAlbumData, walletAddress]);
 
   // WebSocketContext가 재연결될 때 processedMessageRef 초기화
   useEffect(() => {
-    if (isConnected) {
+    if (isAlbumConnected) {
       processedMessageRef.current = null;
     }
-  }, [isConnected]);
+  }, [isAlbumConnected]);
 
   const handleClose = () => setIsClosed(true);
   const handleOverlayClick = () => setIsClosed(false);
@@ -393,6 +393,7 @@ const AlarmModal = () => {
 
   if (!shouldRenderModal) return null;
 
+  console.log('소켓 메시지 :', lastAlbumMessage);
   return (
     <>
       <div className={`alarm__modal ${isClosed ? 'active' : ''}`}>

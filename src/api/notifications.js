@@ -35,7 +35,28 @@ export const postNotificationCheck = async token => {
 };
 
 /**
- * 개별 알림 삭제
+ * 개별 알림 확인
+ * @param {string} token - 사용자 인증 토큰
+ * @param {number} // path 알림 id
+ * @query {string} // query notification_type (song,nft)
+ */
+export const checkNotification = async (token, id, notification_type) => {
+  console.log('token', token);
+
+  const response = await axios.post(
+    `${serverApi}/api/music/user/notification/${id}/check?notification_type=${notification_type}`,
+    null,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+/**
+ * 개별 알림 확인
  * @param {string} token - 사용자 인증 토큰
  * @param {number} // path 알림 id
  * @query {string} // query notification_type (song,nft)
@@ -44,7 +65,7 @@ export const deleteNotification = async (token, id, notification_type) => {
   console.log('token', token);
 
   const response = await axios.post(
-    `${serverApi}/api/music/user/notification/${id}/check?notification_type=${notification_type}`,
+    `${serverApi}/api/music/user/notification/${id}/delete?notification_type=${notification_type}`,
     null,
     {
       headers: {

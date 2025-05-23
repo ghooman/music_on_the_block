@@ -18,6 +18,7 @@ import langIcon from '../assets/images/icon/lang-icon.svg';
 import notificationIcon from '../assets/images/icon/notification-icon.svg';
 import notificationSong from '../assets/images/menu/notifications/song.png';
 import notificationNFT from '../assets/images/menu/notifications/nft.png';
+import notificationCalendar from '../assets/images/menu/notifications/calendar.svg';
 import notificationNone from '../assets/images/icon/notifications_off.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
@@ -340,9 +341,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__name">
                   {item?.name}
                 </p>
-                <p className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
+                <div className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
+                  <img src={notificationCalendar} alt="calendar" />
                   {item?.create_dt}
-                </p>
+                </div>
               </div>
               <button
                 className="menu-box__lang-notification--select-notification-box__item__btn"

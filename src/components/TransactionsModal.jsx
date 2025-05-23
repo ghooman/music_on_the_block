@@ -60,9 +60,7 @@ const TransactionsModal = ({ setTransactionsModal, txidData }) => {
             </tbody>
           </table>
         ) : (
-          <NoneContent
-          message='No transactions found'
-          />
+          <NoneContent message="No transactions found" />
           // <span className="table-container__empty-text">No transactions found.</span>
         )}
       </div>

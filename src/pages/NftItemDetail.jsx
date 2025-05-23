@@ -35,6 +35,7 @@ import {
   getNftOverview,
   getNftsHistory,
   getNftStatistics,
+  getNftTransactions,
 } from '../api/nfts/nftDetailApi';
 import NftHistoryTable from '../components/table/NftHistoryTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -45,6 +46,7 @@ import { useTranslation } from 'react-i18next';
 
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
+import { musicDownload } from '../utils/musicDownload';
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -154,14 +156,29 @@ const NftItemDetailInfo = ({ id, t }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  // nft 데이터 가져오기
   const { data: nftDetailData, refetch: nftDetailRefetch } = useQuery(
     ['nft_detail_data', id, walletAddress?.address],
-    async () => {
-      const res = await getNftDetail({ nft_id: id, wallet_address: walletAddress?.address });
-      return res.data;
+    () => getNftDetail({ nft_id: id, wallet_address: walletAddress?.address }),
+    {
+      enabled: !!id,
     }
   );
+
   console.log('nftDetailData', nftDetailData);
+
+  // txid 가져오기
+  const {
+    data: txidData,
+    isLoading: isTxidLoading,
+    error: txidError,
+  } = useQuery(
+    ['nft_txid_data', nftDetailData?.song_id],
+    () => getNftTransactions(nftDetailData.song_id),
+    {
+      enabled: !!nftDetailData?.song_id, // song_id가 생길 때만 실행
+    }
+  );
 
   const handleLikes = async () => {
     if (!nftDetailData?.is_like) {
@@ -201,6 +218,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   };
 
   const [album, setAlbum] = useState(null);
+  console.log('album', album);
   const [copied, setCopied] = useState(false);
   const [isActiveMore, setIsActiveMore] = useState(false);
 
@@ -216,7 +234,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const copyToClipboard = e => {
     e.stopPropagation();
 
-    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    const textToCopy = `${window.location.href}\n\nTitle: ${nftDetailData?.nft_name}`;
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -227,6 +245,21 @@ const NftItemDetailInfo = ({ id, t }) => {
         }, 1500);
       })
       .catch(console.error);
+  };
+
+  // 음원 다운로드
+  const handleDownloadClick = async e => {
+    e.stopPropagation();
+    if (nftDetailData?.is_owner) {
+      try {
+        await musicDownload({ token, id: nftDetailData?.song_id, title: nftDetailData.nft_name });
+      } catch (error) {
+        alert('A server error occurred. Please try again later.');
+        console.error(error);
+      }
+    } else {
+      setIsDownloadModal(true);
+    }
   };
 
   return (
@@ -280,12 +313,44 @@ const NftItemDetailInfo = ({ id, t }) => {
                 ) : (
                   <img src={defaultCoverImg} alt="기본 이미지" />
                 )}
-                <div className="nft-item-detail__song-detail__left__img__txt">
-                  <pre>{nftDetailData?.nft_lyrics}</pre>
-                </div>
-                <button className="nft-item-detail__song-detail__left__img__lyric-btn">
-                  {t('Lyrics')}
-                </button>
+                {nftDetailData.ai_service !== 0 && (
+                  <>
+                    <div className="nft-item-detail__song-detail__left__img__txt">
+                      <pre>
+                        {nftDetailData?.nft_lyrics
+                          // 1. "###"와 그 이후 공백을 제거
+                          ?.replace(/#\s*/g, '')
+                          ?.replace(/###\s*/g, '')
+                          // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                          ?.replace(/(\*\*.*?\*\*)/g, '')
+                          // 3. 대괄호([]) 안 텍스트 제거
+                          ?.replace(/\[([^\]]+)\]/g, '')
+                          // 4. 소괄호 안 텍스트 처리:
+                          //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                          //    - 그 외의 경우에는 내용 자체를 제거
+                          ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                            if (
+                              /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
+                                p1.trim()
+                              )
+                            ) {
+                              return p1.trim();
+                            }
+                            return '';
+                          })
+                          // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                          ?.replace(
+                            /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
+                            '\n$1'
+                          )
+                          ?.trim()}
+                      </pre>
+                    </div>
+                    <button className="nft-item-detail__song-detail__left__img__lyric-btn">
+                      {t('Lyrics')}
+                    </button>
+                  </>
+                )}
               </div>
               <div className="nft-item-detail__song-detail__left__info">
                 <div className="nft-item-detail__song-detail__left__info__number">
@@ -340,10 +405,10 @@ const NftItemDetailInfo = ({ id, t }) => {
                           </>
                         )}
                       </li>
-                      <li 
+                      <li
                         onClick={e => {
                           handleCloseMenu(e);
-                          setIsDownloadModal(true);
+                          handleDownloadClick(e);
                         }}
                       >
                         Download <img src={downloadIcon} />
@@ -366,14 +431,6 @@ const NftItemDetailInfo = ({ id, t }) => {
                 {nftDetailData?.nft_name}
               </p>
               <div className="nft-item-detail__song-detail__right__info-box">
-                <dl>
-                  <dt>{t('Item ID')}</dt>
-                  <dd># {nftDetailData?.id}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Collection')}</dt>
-                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
-                </dl>
                 <dl className="artist">
                   <dt>{t('Artist')}</dt>
                   <dd>
@@ -386,6 +443,19 @@ const NftItemDetailInfo = ({ id, t }) => {
                                         </Link> */}
                   </dd>
                 </dl>
+                <dl>
+                  <dt>{t('Type')}</dt>
+                  <dd>{nftDetailData?.ai_service === 0 ? `BGM` : `Song`}</dd>
+                </dl>
+                <dl>
+                  <dt>{t('Item ID')}</dt>
+                  <dd># {nftDetailData?.id}</dd>
+                </dl>
+                <dl>
+                  <dt>{t('Collection')}</dt>
+                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
+                </dl>
+
                 <dl
                   className={nftDetailData?.now_sales_status}
                   // className="Listed"
@@ -485,16 +555,12 @@ const NftItemDetailInfo = ({ id, t }) => {
         />
       )}
       {isTransactionsModal && (
-        <TransactionsModal
-          setTransactionsModal={setIsTransactionsModal}
-          transactions={nftDetailData?.transactions}
-        />
+        <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
         <DownloadModal
           setIsDownloadModal={setIsDownloadModal}
-          needOwner={true}
-          needMint={false}
+          needOwner={!nftDetailData?.is_owner}
         />
       )}
     </>

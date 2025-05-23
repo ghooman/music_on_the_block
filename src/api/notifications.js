@@ -22,11 +22,15 @@ export const getNotifications = async token => {
  * @param {string} token - 사용자 인증 토큰
  */
 export const postNotificationCheck = async token => {
-  const response = await axios.post(`${serverApi}/api/music/user/alarm/check`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await axios.post(
+    `${serverApi}/api/music/user/alarm/check`,
+    null, // POST 요청에서 body가 필요 없으면 null 또는 {}
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };
 
@@ -37,13 +41,30 @@ export const postNotificationCheck = async token => {
  * @query {string} // query notification_type (song,nft)
  */
 export const deleteNotification = async (token, id, notification_type) => {
+  console.log('token', token);
+
   const response = await axios.post(
     `${serverApi}/api/music/user/notification/${id}/check?notification_type=${notification_type}`,
+    null,
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
   );
+  return response.data;
+};
+
+/**
+ * 알림 기록 전체 삭제
+ * @param {string} token - 사용자 인증 토큰
+ */
+export const deleteAllNotifications = async token => {
+  const response = await axios.post(`${serverApi}/api/user/alarm/delete`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log('deleteAllNotifications', response);
   return response.data;
 };

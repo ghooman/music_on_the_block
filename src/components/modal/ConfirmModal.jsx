@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import ModalWrap from '../ModalWrap';
-
+import Loading from '../Loading';
 import './ConfirmModal.scss';
 
 const ConfirmModal = ({
@@ -10,6 +10,8 @@ const ConfirmModal = ({
   cancelMessage,
   okMessage,
   okHandler,
+  loading,
+  setLoading,
 }) => {
   const { t } = useTranslation('modal');
 
@@ -25,8 +27,12 @@ const ConfirmModal = ({
           <button className="confirm-modal__button cancel" onClick={handleClose}>
             {cancelMessage}
           </button>
-          <button className="confirm-modal__button" onClick={okHandler}>
-            {okMessage}
+
+          <button
+            className={`confirm-modal__button ${loading ? 'loading' : ''}`}
+            onClick={okHandler}
+          >
+            {loading ? <Loading /> : okMessage}
           </button>
         </div>
       </div>

@@ -507,7 +507,7 @@
   border-radius: 16px;
   border: 1px solid var(--Color-03, #222);
   background: var(--Color-02, #1a1a1a);
-  overflow: scroll;
+  overflow: auto;
   &.visible {
     opacity: 1;
     height: 400px;
@@ -579,10 +579,9 @@
           overflow: hidden;
           color: var(--Text-music-title, #f1f1f1);
           text-overflow: ellipsis;
-          font-family: Inter;
+          font-family: Inter600;
           font-size: 10px;
           font-style: normal;
-          font-weight: 600;
           line-height: 100%; /* 10px */
           letter-spacing: 0.3px;
           .sky {
@@ -591,10 +590,9 @@
             -webkit-line-clamp: 2;
             color: var(--secondary-base, #00ffb3);
             text-overflow: ellipsis;
-            font-family: Inter;
+            font-family: Inter600;
             font-size: 10px;
             font-style: normal;
-            font-weight: 600;
             line-height: 100%;
             letter-spacing: 0.3px;
           }
@@ -604,10 +602,9 @@
             -webkit-line-clamp: 2;
             color: var(--tertiary-400, #6458ff);
             text-overflow: ellipsis;
-            font-family: Inter;
+            font-family: Inter600;
             font-size: 10px;
             font-style: normal;
-            font-weight: 600;
             line-height: 100%;
             letter-spacing: 0.3px;
           }

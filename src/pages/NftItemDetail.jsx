@@ -35,6 +35,7 @@ import {
   getNftOverview,
   getNftsHistory,
   getNftStatistics,
+  getNftTransactions,
 } from '../api/nfts/nftDetailApi';
 import NftHistoryTable from '../components/table/NftHistoryTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -154,14 +155,28 @@ const NftItemDetailInfo = ({ id, t }) => {
     return () => clearTimeout(timer);
   }, []);
 
+
+  // nft 데이터 가져오기
   const { data: nftDetailData, refetch: nftDetailRefetch } = useQuery(
     ['nft_detail_data', id, walletAddress?.address],
-    async () => {
-      const res = await getNftDetail({ nft_id: id, wallet_address: walletAddress?.address });
-      return res.data;
+    () => getNftDetail({ nft_id: id, wallet_address: walletAddress?.address }),
+    {
+      enabled: !!id && !!walletAddress?.address,
     }
   );
-  console.log('nftDetailData', nftDetailData);
+
+  // txid 가져오기
+  const {
+    data: txidData,
+    isLoading: isTxidLoading,
+    error: txidError,
+  } = useQuery(
+    ['nft_txid_data', nftDetailData?.song_id],
+    () => getNftTransactions(nftDetailData.song_id),
+    {
+      enabled: !!nftDetailData?.song_id, // song_id가 생길 때만 실행
+    }
+  );
 
   const handleLikes = async () => {
     if (!nftDetailData?.is_like) {
@@ -340,7 +355,7 @@ const NftItemDetailInfo = ({ id, t }) => {
                           </>
                         )}
                       </li>
-                      <li 
+                      <li
                         onClick={e => {
                           handleCloseMenu(e);
                           setIsDownloadModal(true);
@@ -485,17 +500,10 @@ const NftItemDetailInfo = ({ id, t }) => {
         />
       )}
       {isTransactionsModal && (
-        <TransactionsModal
-          setTransactionsModal={setIsTransactionsModal}
-          transactions={nftDetailData?.transactions}
-        />
+        <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
-        <DownloadModal
-          setIsDownloadModal={setIsDownloadModal}
-          needOwner={true}
-          needMint={false}
-        />
+        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
       )}
     </>
   );

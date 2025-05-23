@@ -145,6 +145,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   useEffect(() => {
     if (token) {
       queryClient.invalidateQueries(['notifications']);
+    } else {
+      queryClient.setQueryData(['notifications'], []);
+      setOption('');
     }
   }, [token]);
 

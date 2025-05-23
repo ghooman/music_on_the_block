@@ -19,6 +19,8 @@ import sns02 from '../assets/images/footer/sns-discode.svg';
 import sns03 from '../assets/images/footer/sns-you.svg';
 import sns04 from '../assets/images/footer/sns04.svg';
 import sns05 from '../assets/images/footer/mideum-icon.svg';
+import naverIcon from '../assets/images/footer/Naver-Blog.svg';
+import threadsIcon from '../assets/images/footer/Threads.svg';
 // import sns05 from "../assets/images/footer/sns05.svg";
 import sns06 from '../assets/images/footer/sns06.svg';
 import musicTokenIcon from '../assets/images/icon/mob-icon01.svg';
@@ -131,7 +133,7 @@ const Footer = ({ setIsLoggedIn }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="https://discord.gg/7ptURuat" target="_blank">
+                  <Link to="https://discord.com/invite/7zm6bcn76H" target="_blank">
                     <img src={sns02} />
                   </Link>
                 </li>
@@ -145,15 +147,24 @@ const Footer = ({ setIsLoggedIn }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link onClick={() => setPreparingModal(true)}>
-                    <img src={sns03} />
+                  <Link
+                    to="https://www.threads.com/@musicaiblock?hl=ko"
+                    target="_blank"
+                    // onClick={() => setPreparingModal(true)}
+                  >
+                    <img src={threadsIcon} />
                   </Link>
                 </li>
                 <li>
-                  <Link onClick={() => setPreparingModal(true)}>
-                    <img src={sns04} />
+                  <Link
+                    to="https://blog.naver.com/musicontheblock"
+                    target="_blank"
+                    // onClick={() => setPreparingModal(true)}
+                  >
+                    <img src={naverIcon} />
                   </Link>
                 </li>
+
 
                 {/* <li>
                   <Link>

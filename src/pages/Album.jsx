@@ -32,6 +32,7 @@ import 'swiper/css/free-mode';
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
+import MusicPlayer from '../components/AudioPlayer';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -292,6 +293,7 @@ function Album() {
   return (
     <>
       <div className="main">
+        {/* <MusicPlayer/> */}
         {/* <div
               className={`main__header 
               ${selectedMusic !== null ? 'active' : ''} 

@@ -333,7 +333,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </>
                     ) : (
                       <>
-                        Your <span className="purple">NFT</span> sold successfully.
+                        Your <span className="purple">NFT</span> has been sold successfully.
                       </>
                     )}
                   </p>

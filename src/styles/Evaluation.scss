@@ -106,9 +106,6 @@
   }//join-evaluation__item--END--
 }//join-evaluation--END--
 
-
-
-
 .judge{
   width: 100%;
   display: flex;
@@ -118,6 +115,7 @@
   margin-top: 32px;
   .judge__item{
     width: 280px;
+    min-height: 400px;
     .judge__item__title{
       width: 100%;
       height: 58px;

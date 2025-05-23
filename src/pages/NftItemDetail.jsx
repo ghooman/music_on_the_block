@@ -46,6 +46,7 @@ import { useTranslation } from 'react-i18next';
 
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
+import { musicDownload } from '../utils/musicDownload';
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -155,7 +156,6 @@ const NftItemDetailInfo = ({ id, t }) => {
     return () => clearTimeout(timer);
   }, []);
 
-
   // nft 데이터 가져오기
   const { data: nftDetailData, refetch: nftDetailRefetch } = useQuery(
     ['nft_detail_data', id, walletAddress?.address],
@@ -164,6 +164,8 @@ const NftItemDetailInfo = ({ id, t }) => {
       enabled: !!id && !!walletAddress?.address,
     }
   );
+
+  console.log('nftDetailData', nftDetailData);
 
   // txid 가져오기
   const {
@@ -216,6 +218,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   };
 
   const [album, setAlbum] = useState(null);
+  console.log('album', album);
   const [copied, setCopied] = useState(false);
   const [isActiveMore, setIsActiveMore] = useState(false);
 
@@ -231,7 +234,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const copyToClipboard = e => {
     e.stopPropagation();
 
-    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    const textToCopy = `${window.location.href}\n\nTitle: ${nftDetailData?.nft_name}`;
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -242,6 +245,21 @@ const NftItemDetailInfo = ({ id, t }) => {
         }, 1500);
       })
       .catch(console.error);
+  };
+
+  // 음원 다운로드
+  const handleDownloadClick = async e => {
+    e.stopPropagation();
+    if (nftDetailData?.is_owner && nftDetailData?.nft_id) {
+      try {
+        await musicDownload({ token, id: nftDetailData?.song_id, title: nftDetailData.nft_name });
+      } catch (error) {
+        alert('A server error occurred. Please try again later.');
+        console.error(error);
+      }
+    } else {
+      setIsDownloadModal(true);
+    }
   };
 
   return (
@@ -358,7 +376,7 @@ const NftItemDetailInfo = ({ id, t }) => {
                       <li
                         onClick={e => {
                           handleCloseMenu(e);
-                          setIsDownloadModal(true);
+                          handleDownloadClick(e);
                         }}
                       >
                         Download <img src={downloadIcon} />
@@ -503,7 +521,11 @@ const NftItemDetailInfo = ({ id, t }) => {
         <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
-        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={!nftDetailData?.is_owner}
+          needMint={nftDetailData?.is_owner && !nftDetailData?.nft_id}
+        />
       )}
     </>
   );

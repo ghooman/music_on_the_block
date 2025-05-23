@@ -53,6 +53,7 @@ import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
 import { getNftTransactions } from '../api/nfts/nftDetailApi';
 import { useQuery } from 'react-query';
+import { musicDownload } from '../utils/musicDownload';
 function AlbumDetail() {
   const { t } = useTranslation('song_detail');
 
@@ -446,6 +447,21 @@ function AlbumDetail() {
       .catch(console.error);
   };
 
+  // 음원 다운로드
+  const handleDownloadClick = async e => {
+    e.stopPropagation();
+    if (album?.is_owner && album?.nft_id) {
+      try {
+        await musicDownload({ token, id, title: album.title });
+      } catch (error) {
+        alert('A server error occurred. Please try again later.');
+        console.error(error);
+      }
+    } else {
+      setIsDownloadModal(true);
+    }
+  };
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -658,7 +674,7 @@ function AlbumDetail() {
                       <li
                         onClick={e => {
                           handleCloseMenu(e);
-                          setIsDownloadModal(true);
+                          handleDownloadClick(e);
                         }}
                       >
                         Download <img src={downloadIcon} />
@@ -995,7 +1011,11 @@ function AlbumDetail() {
         <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
-        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={!album?.is_owner}
+          needMint={album?.is_owner && !album?.nft_id}
+        />
       )}
     </>
   );

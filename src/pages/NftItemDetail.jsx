@@ -313,7 +313,7 @@ const NftItemDetailInfo = ({ id, t }) => {
                 ) : (
                   <img src={defaultCoverImg} alt="기본 이미지" />
                 )}
-                {nftDetailData.ai_service !== 0 && (
+                {nftDetailData?.ai_service !== 0 && (
                   <>
                     <div className="nft-item-detail__song-detail__left__img__txt">
                       <pre>

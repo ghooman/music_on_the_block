@@ -266,6 +266,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       alert('알림 삭제 중 오류가 발생했습니다.');
     }
   };
+  // console.log('flattenedDataList', flattenedDataList);
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}

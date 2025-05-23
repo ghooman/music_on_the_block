@@ -134,7 +134,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
       <ul
-        className={`menu-box__lang-notification--select-lang-box ${
+        className={`menu-box__lang-notification--select-lang-box pc ${
           option === 'lang' ? 'visible' : ''
         }`}
       >
@@ -194,7 +194,24 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   {t('Notification')}
                 </button>
               </div>
-
+              <ul
+                className={`menu-box__lang-notification--select-lang-box mobile ${
+                  option === 'lang' ? 'visible' : ''
+                }`}
+              >
+                {translatedNationsName.map(lang => (
+                  <li
+                    className="menu-box__lang-notification--select-lang-box__item"
+                    key={lang}
+                    onClick={() => {
+                      i18n.changeLanguage(lang);
+                      setOption('');
+                    }}
+                  >
+                    {lang}
+                  </li>
+                ))}
+              </ul>
               <WalletConnect onConnect={handleWalletConnect} />
               {isLoggedIn && (
                 <>

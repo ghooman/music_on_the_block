@@ -13,50 +13,28 @@ import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from '../components/WalletConnect';
 import Loading from '../components/IntroLogo2';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 
 const Nft = () => {
   const { t } = useTranslation('nft_marketplace');
 
-  const [nftList, setNftList] = useState([]);
-  const [collectionList, setCollectionList] = useState([]);
-  const [showPreparingModal, setShowPreparingModal] = useState(false);
-  const [nftStatistics, setNftStatistics] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    //=================
-    // 스테이티스틱스
-    //=================
-    const fetchNftStatistics = async () => {
-      try {
-        const response = await getNftsStatistics();
-        console.log(response?.data, '스테이티스틱스');
-        setNftStatistics(response.data);
-      } catch (e) {
-        console.error('Failed to fetch NFTs Statistics', e);
-      }
-    };
+  const { data: nftStatistics, isLoading: statisticsLoading } = useQuery(
+    ['nft_statistics'],
+    async () => {
+      const res = await getNftsStatistics();
+      return res.data;
+    }
+  );
 
-    //=================
-    // 메인 데이터
-    //=================
-    const fetchNftsMain = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getNftsMain();
-        console.log(response.data, '리스폰스 데이터');
-        setNftList(response.data.nft_list);
-        setCollectionList(response.data.nft_collection_list);
-      } catch (error) {
-        console.error('Failed to fetch NFTs:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchNftStatistics();
-    fetchNftsMain();
-  }, []);
+  const { data: nftListData, isLoading: listLoading } = useQuery(
+    ['nft_main_list_data'],
+    async () => {
+      const res = await getNftsMain();
+      return res.data;
+    }
+  );
 
   return (
     <div className="nft">
@@ -66,7 +44,7 @@ const Nft = () => {
         handler={search => navigate(`/nft/list?category?=NFT+Items&page=1&search=${search}`)}
       />
       <ContentWrap title={t('TOP NFTs')} link="/nft/list?category=NFT+Items&page=1">
-        <NftItemList data={nftList} />
+        <NftItemList data={nftListData?.nft_list} />
       </ContentWrap>
       {/* <ContentWrap title="Popular Collection" link="/nft/list?category=Collections&page=1">
         <CollectionItemList data={collectionList} />
@@ -100,7 +78,7 @@ const Nft = () => {
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>
-      {isLoading && <Loading />}
+      {(statisticsLoading || listLoading) && <Loading />}
     </div>
   );
 };

@@ -13,11 +13,15 @@ import generatedSigingEvaluationIcon from '../../assets/images/icon/generated-si
 import generatedCoverCreationIcon from '../../assets/images/icon/generated-cover-creation.svg';
 
 import LyricsAndSongwritingIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
-import grade1Image from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
-import grade2Image from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
-import grade3Image from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
-import grade4Image from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
-import grade5Image from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
+import grade1Icon from '../../assets/images/icon/grade-icon/Grade01-icon.svg';
+import grade2Icon from '../../assets/images/icon/grade-icon/Grade2-icon.svg';
+import grade3Icon from '../../assets/images/icon/grade-icon/Grade3-icon.svg';
+import grade4Icon from '../../assets/images/icon/grade-icon/Grade4-icon.svg';
+import grade5Icon from '../../assets/images/icon/grade-icon/Grade5-icon.svg';
+
+import criticJinwooYooIcon from '../../assets/images/evaluation/persona-user01.png';
+import criticDrexxIcon from '../../assets/images/evaluation/persona-user02.png';
+import criticElaraMoonIcon from '../../assets/images/evaluation/persona-user03.png';
 
 import checkIcon from '../../assets/images/check-icon.svg';
 import { useTranslation } from 'react-i18next';
@@ -34,11 +38,13 @@ import { useTranslation } from 'react-i18next';
 const Filter = ({
   period,
   // 필터링 옵션
-  generateFilter,
+  aiServiceFilter,
   gradeFilter,
   salesFilter,
   tokenFilter,
   buySellFilter,
+  criticFilter,
+  mintedFilter,
   // 정렬 옵션
   songsSort,
   albumSort,
@@ -58,11 +64,13 @@ const Filter = ({
 
   const period_ = searchParamas.get('period');
   //필터
-  const generateFilter_ = searchParamas.get('generate_filter');
+  const aiServiceFilter_ = searchParamas.get('ai_service_filter');
   const gradeFilter_ = searchParamas.get('grade_filter');
   const salesFilter_ = searchParamas.get('sales_filter');
   const tokenFilter_ = searchParamas.get('token_filter');
   const buySellFilter_ = searchParamas.get('buy_sell_filter');
+  const criticFilter_ = searchParamas.get('critic_filter');
+  const mintedFilter_ = searchParamas.get('minted_filter');
   // 정렬
   const songsSort_ = searchParamas.get('songs_sort');
   const collectionSort_ = searchParamas.get('collection_sort');
@@ -74,11 +82,12 @@ const Filter = ({
   const queries = [
     period_,
     //필터
-    generateFilter_,
+    aiServiceFilter_,
     gradeFilter_,
     salesFilter_,
     tokenFilter_,
     buySellFilter_,
+    mintedFilter_,
     //정렬
     songsSort_,
     collectionSort_,
@@ -127,23 +136,22 @@ const Filter = ({
                 }
               />
             )}
-            {generateFilter && (
+            {aiServiceFilter && (
               <FilterCategory
-                value={generateFilter_}
+                value={aiServiceFilter_}
                 setParamsObj={setParamsObj}
                 title="Types"
-                filterName="generate_filter"
+                filterName="ai_service_filter"
                 filterItems={
-                  typeof generateFilter === 'boolean'
+                  typeof aiServiceFilter === 'boolean'
                     ? [
                         { name: 'Song', icon: LyricsAndSongwritingIcon },
                         { name: 'BGM', icon: SongwritingIcon },
                       ]
-                    : generateFilter
+                    : aiServiceFilter
                 }
               />
             )}
-
             {gradeFilter && (
               <FilterCategory
                 value={gradeFilter_}
@@ -153,11 +161,11 @@ const Filter = ({
                 filterItems={
                   typeof gradeFilter === 'boolean'
                     ? [
-                        { name: 'New', icon: grade1Image },
-                        { name: 'Indie', icon: grade2Image },
-                        { name: 'Rising', icon: grade3Image },
-                        { name: 'Top', icon: grade4Image },
-                        { name: 'Legend', icon: grade5Image },
+                        { name: 'New', icon: grade1Icon },
+                        { name: 'Indie', icon: grade2Icon },
+                        { name: 'Rising', icon: grade3Icon },
+                        { name: 'Top', icon: grade4Icon },
+                        { name: 'Legend', icon: grade5Icon },
                       ]
                     : gradeFilter
                 }
@@ -192,6 +200,42 @@ const Filter = ({
                 title="Sale Action"
                 filterName="buy_sell_filter"
                 filterItems={typeof buySellFilter === 'boolean' ? ['Buy', 'Sell'] : buySellFilter}
+              />
+            )}
+            {criticFilter && (
+              <FilterCategory
+                value={criticFilter_}
+                setParamsObj={setParamsObj}
+                title="Type"
+                filterName="critic_filter"
+                filterItems={
+                  typeof criticFilter === 'boolean'
+                    ? [
+                        { name: 'Jinwoo Yoo', icon: criticJinwooYooIcon },
+                        {
+                          name: 'Drexx',
+                          icon: criticDrexxIcon,
+                        },
+                        {
+                          name: 'Elara Moon',
+                          icon: criticElaraMoonIcon,
+                        },
+                      ]
+                    : criticFilter
+                }
+              />
+            )}
+            {mintedFilter && (
+              <FilterCategory
+                value={mintedFilter_}
+                setParamsObj={setParamsObj}
+                title="NFT Mint Status"
+                filterName="minted_filter"
+                filterItems={
+                  typeof mintedFilter === 'boolean'
+                    ? [{ name: 'Minted' }, { name: 'Unminted' }]
+                    : mintedFilter
+                }
               />
             )}
             {songsSort && (

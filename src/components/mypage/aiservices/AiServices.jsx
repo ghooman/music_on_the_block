@@ -22,13 +22,13 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 
 const AiServiceTypeList = [
   { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },
-  { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: true },
+  { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: false },
   { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
 ];
 const AiStatusList = [
   { name: 'All' },
-  { name: 'Lyrics + Songwriting', image: LyricsAndSongwritingIcon, preparing: false },
-  { name: 'Songwriting', image: SongwritingIcon, preparing: true },
+  { name: 'Song', image: LyricsAndSongwritingIcon, preparing: false },
+  { name: 'BGM', image: SongwritingIcon, preparing: false },
 ];
 
 const AiServices = ({ username }) => {
@@ -73,18 +73,20 @@ const AiServices = ({ username }) => {
   const [aiStatusData, setAiStatusData] = useState();
   const aiStatusChartData = [
     {
-      id: 'Lyrics + Songwriting',
-      value: aiStatusData?.total_creation,
+      id: 'Song',
+      value: aiStatusData?.total_song_creation,
       color: 'hsl(101, 100.00%, 26.10%)',
       preparing: false,
     },
     {
-      id: 'Songwriting',
-      value: 0,
+      id: 'BGM',
+      value: aiStatusData?.total_bgm_creation,
       color: 'hsl(139, 100.00%, 11.00%)',
       preparing: true,
     },
   ];
+
+  console.log(aiStatusData, '졸림');
 
   useEffect(() => {
     if (!username) return;

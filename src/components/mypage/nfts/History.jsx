@@ -57,7 +57,7 @@ const History = ({ username }) => {
           tokenFilter={true}
           buySellFilter={true}
           nftSort={true}
-          generateFilter={true}
+          aiServiceFilter={true}
         />
         <Search placeholder="Search by collection name" />
       </ContentWrap.SubWrap>

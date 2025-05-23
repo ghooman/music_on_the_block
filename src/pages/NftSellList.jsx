@@ -59,7 +59,7 @@ const NftSellList = () => {
     <div>
       <ContentWrap title={t('Sell NFT')}>
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} gradeFilter={true} generateFilter={true} />
+          <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
           <Search placeholder="Search" />
         </ContentWrap.SubWrap>
         <SongPlayTable

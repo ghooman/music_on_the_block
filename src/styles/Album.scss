@@ -61,32 +61,39 @@
       }
     } //album__content-list__tab__item--END--
   } //album__content-list__tab--END--
-  // .recently-rated{
-  //   .album__content-list__list__item__right__user__btn{
-  //     background: url('../assets/images/details-bg.png') center no-repeat !important;
-  //     background-size: 100% 100% !important;
-  //     overflow: hidden;
-  //     border-radius: 100px !important;
-  //     box-shadow: 0 0 20px 8px rgba(204, 255, 0, 0.08);
-  //     color: #f1f1f1 !important;
-  //     transition: 0.3s;
-  //     border:1px solid transparent ;
-  //     &:hover{
-  //       top: 0 !important;
-  //       border-radius: 36px;
-  //       border: 1px solid #80B17D !important;
-  //       background: linear-gradient(90deg, #4b5d00 0%, #61921f 40%, #7dc783 70%, #67b270 100%) !important;
-  //       box-shadow: 0px 1px 24px 0px rgba(204, 255, 0, 0.12) !important;
-  //     }
-  //     &::before{
-  //       display: none !important;
-  //     }
-  //   }
-  // }//recently-rated--END--
+  .recently-rated {
+    .album__content-list__list__item__right__user__btn {
+      background: url('../assets/images/details-bg.png') center no-repeat !important;
+      background-size: 100% 100% !important;
+      overflow: hidden;
+      border-radius: 100px !important;
+      box-shadow: 0 0 20px 8px rgba(204, 255, 0, 0.08);
+      color: #f1f1f1 !important;
+      transition: 0.3s;
+      border: 1px solid transparent;
+      &:hover {
+        top: 0 !important;
+        border-radius: 36px;
+        border: 1px solid #80b17d !important;
+        background: linear-gradient(
+          90deg,
+          #4b5d00 0%,
+          #61921f 40%,
+          #7dc783 70%,
+          #67b270 100%
+        ) !important;
+        box-shadow: 0px 1px 24px 0px rgba(204, 255, 0, 0.12) !important;
+      }
+      &::before {
+        display: none !important;
+      }
+    }
+  } //recently-rated--END--
   .album__content-list__title {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     color: #cf0;
     font-family: Orbitron400;
     font-size: 24px;

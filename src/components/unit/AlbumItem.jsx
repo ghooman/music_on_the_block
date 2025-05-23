@@ -119,7 +119,7 @@ const AlbumItem = ({
             <SongTitle title={track?.title} />
             <Profile userProfile={track?.user_profile} name={track?.name} />
             <EvaluationScore score={track?.score} />
-            <EvaluationDetailsButton id={track?.song_id} critic={track?.critic} />
+            <EvaluationDetailsButton id={track?.song_id || track?.id} critic={track?.critic} />
           </>
         )}
       </div>

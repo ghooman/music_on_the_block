@@ -213,7 +213,7 @@ function Album() {
   }, []);
 
   const audioRef = useRef(null); // 오디오 제어용 ref
-
+  const player = audioRef?.current?.audio?.current;
   // const [activeId, setActiveId] = useState(null);
   // const handleToggle = id => {
   //   setActiveId(prev => (prev === id ? null : id));
@@ -429,10 +429,19 @@ function Album() {
                   <button
                     key={item.id}
                     className={`album__content-list__evaluation-stage__item ${
-                      selectedMusic?.id === item.id ? 'music-play' : ''
+                      selectedMusic?.id === item.id && !player?.paused ? 'music-play' : ''
                     }`}
                     onClick={() => {
-                      setSelectedMusic(item);
+                      setSelectedMusic(prev => {
+                        if (prev?.id === item?.id) {
+                          if (player?.paused) {
+                            player?.play();
+                          } else {
+                            player?.pause();
+                          }
+                        }
+                        return item;
+                      });
                     }}
                   >
                     <div className="album__content-list__evaluation-stage__item__thought">

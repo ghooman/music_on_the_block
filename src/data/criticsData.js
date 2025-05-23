@@ -1,6 +1,6 @@
-import jinwooYooImage from '../assets/images/evaluation/persona-user01.png';
-import drexxImage from '../assets/images/evaluation/persona-user02.png';
-import elaraMoonImage from '../assets/images/evaluation/persona-user03.png';
+import jinwooYooImage from '../assets/images/evaluation/judge-img01.png';
+import drexxImage from '../assets/images/evaluation/judge-img02.png';
+import elaraMoonImage from '../assets/images/evaluation/judge-img03.png';
 
 // 세부 스텟은..나중에..
 

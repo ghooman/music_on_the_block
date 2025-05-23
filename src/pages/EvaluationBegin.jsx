@@ -241,7 +241,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
           <dl className="step3__selected-song__critic">
             <dt>{t('Critic')}</dt>
             <dd>
-              <p>{selectCritic?.name}</p>
+              <p>{selectCritic?.name || '-'}</p>
               <span>
                 {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
               </span>

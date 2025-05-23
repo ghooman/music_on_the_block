@@ -1,7 +1,7 @@
 import { ResponsivePie } from '@nivo/pie';
 import { ResponsiveLine } from '@nivo/line';
 import { ResponsiveBar } from '@nivo/bar';
-import { ResponsiveRadar } from '@nivo/radar'
+import { ResponsiveRadar } from '@nivo/radar';
 
 import './Chart.scss';
 import { useEffect, useState } from 'react';
@@ -306,45 +306,25 @@ export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
   );
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const radarDummy = [
-  { item: '12',  chardonay: 80, carmenere: 111, syrah: 35 },
-  { item: '10',  chardonay: 53, carmenere: 106, syrah: 23 },
-  { item: '80',   chardonay: 66, carmenere: 107, syrah: 107 },
-  { item: '60',  chardonay: 99, carmenere: 107, syrah: 104 },
-  { item: '80',   chardonay: 61, carmenere: 43,  syrah: 28 },
+  { item: '12', chardonay: 80, carmenere: 111, syrah: 35 },
+  { item: '10', chardonay: 53, carmenere: 106, syrah: 23 },
+  { item: '80', chardonay: 66, carmenere: 107, syrah: 107 },
+  { item: '60', chardonay: 99, carmenere: 107, syrah: 104 },
+  { item: '80', chardonay: 61, carmenere: 43, syrah: 28 },
 ];
 
 export const RadarChart = ({
-  data   = radarDummy,   // 넘겨주는 데이터가 없으면 더미 사용
+  data = radarDummy, // 넘겨주는 데이터가 없으면 더미 사용
   height = '100%',
-  width  = '100%',
+  width = '100%',
 }) => (
-  <div 
-    style={{ height, width, }}
-  >
+  <div style={{ height, width }}>
     <ResponsiveRadar
       /* ───── 핵심 파라미터 ───── */
       data={data}
-      keys={['chardonay',]} // 축 레이블
-      indexBy="item"                             // 다각형 구분 필드
-
+      keys={['item']} // 축 레이블
+      indexBy="item" // 다각형 구분 필드
       /* ───── 레이아웃 ───── */
       // maxValue="auto"
       margin={{ top: 20, right: 10, bottom: 10, left: 10 }}
@@ -352,27 +332,24 @@ export const RadarChart = ({
       gridLevels={8}
       curve="linearClosed"
       valueFormat=">-.2f"
-
       /* ───── 스타일 ───── */
-      colors={[ '#cf0']}
-      fillOpacity={0.5}                   
-      borderWidth={2}                          
+      colors={['#cf0']}
+      fillOpacity={0.5}
+      borderWidth={2}
       borderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
       dotSize={4}
       dotColor={{ theme: 'background' }}
       dotBorderWidth={2}
       gridLabelOffset={8}
-
       /* ───── 모션 & 인터랙션 ───── */
       motionConfig="wobbly"
       isInteractive={false}
-
+      maxValue={100}
       /* ───── 테마 (축·격자 색상) ───── */
       theme={{
         axis: { ticks: { text: { fill: '#fff', fontSize: 14 } } },
         grid: { line: { stroke: '#0F71B8', strokeWidth: 1 } },
       }}
-
     />
   </div>
 );

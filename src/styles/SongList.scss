@@ -2,27 +2,40 @@
   padding: 126px 0 0 0;
   .songs-list__items {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
+    .album__content-list__list__item {
+      width: 302px !important;
+    }
   }
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 1900px) {
+  .songs-list {
+    .songs-list__items {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .songs-list {
+    .songs-list__items {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
   .songs-list {
     .songs-list__items {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 }
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 700px) {
   .songs-list {
     padding: 128px 0 0 0;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .songs-list {
     .songs-list__items {
       grid-template-columns: repeat(1, 1fr);
     }

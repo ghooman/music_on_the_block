@@ -18,6 +18,7 @@ import langIcon from '../assets/images/icon/lang-icon.svg';
 import notificationIcon from '../assets/images/icon/notification-icon.svg';
 import notificationSong from '../assets/images/menu/notifications/song.png';
 import notificationNFT from '../assets/images/menu/notifications/nft.png';
+import notificationNone from '../assets/images/icon/notifications_off.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 import { WalletConnect } from './WalletConnect';
@@ -28,8 +29,9 @@ import { useTranslation } from 'react-i18next';
 
 import { translatedNationsName } from '../i18n/i18n';
 
-import { getNotifications } from '../api/notifications';
-
+import { getNotifications, deleteNotification, postNotificationCheck } from '../api/notifications';
+import NoneContent from '../components/unit/NoneContent';
+import ConfirmModal from './modal/ConfirmModal';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t, i18n } = useTranslation('main');
 
@@ -37,6 +39,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const isBelowHeight = useWindowHeight(750);
   const { pathname } = useLocation();
   const queryClient = useQueryClient();
@@ -52,7 +55,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
-
+  console.log('userData', userData);
   const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
@@ -118,20 +121,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       });
   };
 
-  // const [isScrolled, setIsScrolled] = useState(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 80) {
-  //       setIsScrolled(true);
-  //     } else {
-  //       setIsScrolled(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
   const {
     data: notifications,
     isLoading: notificationsLoading,
@@ -146,10 +135,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       queryClient.invalidateQueries(['notifications']);
     }
   }, [token]);
-  console.log('notifications', notifications);
   const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
   const flattenedDataList = notifications?.flatMap(item => item.data_list);
-  console.log('flattenedDataList', flattenedDataList);
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -177,59 +164,70 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
         }`}
       >
         <div className="menu-box__lang-notification--select-notification-box__header">
-          <button className="menu-box__lang-notification--select-notification-box__close-btn">
+          <button
+            className="menu-box__lang-notification--select-notification-box__close-btn"
+            onClick={() => setOption('')}
+          >
             X
           </button>
           <p className="menu-box__lang-notification--select-notification-box__header__title">
             Notifications
           </p>
+          <button
+            className="menu-box__lang-notification--select-notification-box__header__btn"
+            onClick={() => setShowConfirmModal(true)}
+          >
+            Delete All
+          </button>
         </div>
-        {flattenedDataList?.map(item => (
-          <li key={item.id} className="menu-box__lang-notification--select-notification-box__item">
-            <div className="menu-box__lang-notification--select-notification-box__item__img-box">
-              <img src={item?.image} alt="song_image" />
-            </div>
-            <div className="menu-box__lang-notification--select-notification-box__item__txt-box">
-              <div className="menu-box__lang-notification--select-notification-box__item__txt-box__header">
-                <img src={true ? notificationSong : notificationNFT} alt="song_image" />
-                <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__title">
-                  {item?.notification_type === 'song' ? (
-                    <>
-                      The <span className="sky">song</span> has been created!
-                    </>
-                  ) : (
-                    <>
-                      Your <span className="purple">song</span> sold successfully.
-                    </>
-                  )}
+        {flattenedDataList?.length > 0 ? (
+          flattenedDataList?.map(item => (
+            <li
+              key={item.id}
+              className="menu-box__lang-notification--select-notification-box__item"
+            >
+              <div className="menu-box__lang-notification--select-notification-box__item__img-box">
+                <img src={item?.image} alt="song_image" />
+              </div>
+              <div className="menu-box__lang-notification--select-notification-box__item__txt-box">
+                <div className="menu-box__lang-notification--select-notification-box__item__txt-box__header">
+                  <img src={true ? notificationSong : notificationNFT} alt="song_image" />
+                  <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__title">
+                    {item?.notification_type === 'song' ? (
+                      <>
+                        The <span className="sky">song</span> has been created!
+                      </>
+                    ) : (
+                      <>
+                        Your <span className="purple">song</span> sold successfully.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__name">
+                  {item?.name}
+                </p>
+                <p className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
+                  {item?.create_dt}
                 </p>
               </div>
-              <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__name">
-                {item?.name}
-              </p>
-              <p className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
-                {item?.create_dt}
-              </p>
-            </div>
-            <button className="menu-box__lang-notification--select-notification-box__item__btn">
-              x
-            </button>
-          </li>
-        ))}
+              <button className="menu-box__lang-notification--select-notification-box__item__btn">
+                x
+              </button>
+            </li>
+          ))
+        ) : (
+          <NoneContent
+            message="You have no notifications yet."
+            height={300}
+            image={notificationNone}
+          />
+        )}
       </ul>
-      {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
       <div className={`menu ${active ? 'active' : ''} ${isBelowHeight ? 'small-height' : ''}`}>
         <div className="menu__cover">
           <dl className="menu__box">
             <dd>
-              {/* {!login && (
-                <button
-                  className="menu__box__login-btn"
-                  onClick={() => setSignInModal(true)}
-                >
-                  Log In
-                </button>
-              )} */}
               {/** 언어 및 알림 */}
               <div className="menu-box__lang-notification">
                 <button
@@ -251,8 +249,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       if (prev === 'notification') return '';
                       else return 'notification';
                     });
-                    // setOption('');
-                    // setPreparingModal(true);
                   }}
                 >
                   <img src={notificationIcon} alt="icon" />
@@ -617,6 +613,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           </dl> */}
         </div>
       </div>
+      {showConfirmModal && (
+        <ConfirmModal
+          title="Confirm Delete"
+          content="Are you sure you want to delete all notifications?"
+          cancelMessage="Cancel"
+          okMessage="Yes, Continue"
+          setShowConfirmModal={setShowConfirmModal}
+          okHandler={() => {
+            console.log('ok');
+          }}
+        />
+      )}
     </>
   );
 };

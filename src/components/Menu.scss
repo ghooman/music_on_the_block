@@ -684,9 +684,6 @@
   .menu-box__lang-notification--select-lang-box {
     left: 230px;
   }
-}
-
-@media screen and (max-width: 768px) {
   .menu-box__lang-notification--select-notification-box.visible{
     position: fixed;
     z-index: 11;
@@ -697,6 +694,10 @@
     // min-height: 400px;
     top: auto;
   }
+}
+
+@media screen and (max-width: 768px) {
+
 }
 
 @media screen and (max-width: 480px) {

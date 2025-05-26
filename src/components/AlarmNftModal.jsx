@@ -1,12 +1,14 @@
 import './AlarmNftModal.scss';
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import closeIcon from '../assets/images/close.svg';
 import { WebSocketContext } from '../contexts/WebSocketContext';
 
 const AlarmNftModal = () => {
   const { t } = useTranslation('modal');
   const { lastNftMessage } = useContext(WebSocketContext);
+  const navigate = useNavigate();
 
   const [nftData, setNftData] = useState(null);
   const [isClosed, setIsClosed] = useState(false);
@@ -19,11 +21,13 @@ const AlarmNftModal = () => {
     try {
       const data = lastNftMessage;
 
-      // NFT 판매 완료 메시지인지 확인 (status나 type으로 구분)
-      if (data.type === 'nft_sold' || data.status === 'nft_sold') {
+      // NFT 판매 데이터가 있는지 확인 (pk가 있으면 NFT 판매 알림으로 판단)
+      if (data.pk && data.song_name) {
         setNftData({
-          name: data.nft_name || data.name || 'NFT',
-          message: data.message || 'NFT 판매가 완료되었습니다.',
+          pk: data.pk,
+          song_name: data.song_name,
+          seller_user_name: data.seller_user_name,
+          buy_user_name: data.buy_user_name,
         });
         setIsClosed(false); // 모달 표시
       }
@@ -36,6 +40,9 @@ const AlarmNftModal = () => {
   const handleOverlayClick = () => setIsClosed(false);
 
   const handleOk = () => {
+    if (nftData?.pk) {
+      navigate(`/nft/detail/${nftData.pk}`);
+    }
     setNftData(null);
     setIsClosed(true);
   };

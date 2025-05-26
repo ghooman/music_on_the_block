@@ -16,6 +16,7 @@ import usdtIcon from '../assets/images/icon/usdt-icon.svg';
 import usdcIcon from '../assets/images/icon/usdc-icon.svg';
 import langIcon from '../assets/images/icon/lang-icon.svg';
 import notificationIcon from '../assets/images/icon/notification-icon.svg';
+import notificationOnIcon from '../assets/images/icon/notifications_on.svg';
 import notificationSong from '../assets/images/menu/notifications/song.png';
 import notificationNFT from '../assets/images/menu/notifications/nft.png';
 import notificationCalendar from '../assets/images/menu/notifications/calendar.svg';
@@ -68,7 +69,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
-  // console.log('userData', userData);
   const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
@@ -155,15 +155,33 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트
   useEffect(() => {
     if (lastMessage && token) {
+      console.log('Menu.jsx - WebSocket lastMessage:', lastMessage); // 디버깅 로그 추가
+
       if (
         lastMessage.type === 'notification' ||
         lastMessage.notification_type ||
         lastMessage.message_type === 'notification' ||
         (lastMessage.status &&
-          (lastMessage.status === 'notification' || lastMessage.status === 'alert'))
+          (lastMessage.status === 'notification' || lastMessage.status === 'alert')) ||
+        (lastMessage.pk && lastMessage.title && lastMessage.status === 'complt')
       ) {
+        console.log('Menu.jsx - 알림 메시지 감지됨, is_alarm_check를 false로 설정'); // 디버깅 로그 추가
+
         // 알림 목록 다시 가져오기
         queryClient.invalidateQueries(['notifications']);
+
+        // is_alarm_check를 false로 업데이트 (새로운 알림이 왔음을 표시)
+        queryClient.setQueryData(['userDetail'], oldData => {
+          console.log('Menu.jsx - 기존 userData:', oldData); // 디버깅 로그 추가
+          const newData = {
+            ...oldData,
+            is_alarm_check: false,
+          };
+          console.log('Menu.jsx - 업데이트된 userData:', newData); // 디버깅 로그 추가
+          return newData;
+        });
+      } else {
+        console.log('Menu.jsx - 알림 조건에 맞지 않음'); // 디버깅 로그 추가
       }
     }
   }, [lastMessage, token, queryClient]);
@@ -267,6 +285,23 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   // console.log('flattenedDataList', flattenedDataList);
+
+  // 알림 버튼 클릭 함수
+  const handleNotificationClick = () => {
+    if (!userData) {
+      return;
+    }
+    setOption(prev => (prev === 'notification' ? '' : 'notification'));
+
+    // React Query를 통해 userData 업데이트 (알림을 확인했으므로 알림 없음으로 표시)
+    queryClient.setQueryData(['userDetail'], oldData => ({
+      ...oldData,
+      is_alarm_check: true,
+    }));
+
+    postNotificationCheck(token);
+  };
+
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -386,18 +421,20 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   <img src={langIcon} alt="icon" />
                   {t('Language')}
                 </button>
-                <button
-                  className="menu-box__lang-notification--button"
-                  onClick={() => {
-                    setOption(prev => {
-                      if (prev === 'notification') return '';
-                      else return 'notification';
-                    });
-                  }}
-                >
-                  <img src={notificationIcon} alt="icon" />
-                  {t('Notification')}
-                </button>
+                {userData && (
+                  <button
+                    className="menu-box__lang-notification--button"
+                    onClick={handleNotificationClick}
+                    disabled={!userData}
+                  >
+                    {userData?.is_alarm_check ? (
+                      <img src={notificationIcon} alt="icon" />
+                    ) : (
+                      <img src={notificationOnIcon} alt="icon" />
+                    )}
+                    {t('Notification')}
+                  </button>
+                )}
               </div>
               <ul
                 className={`menu-box__lang-notification--select-lang-box mobile ${

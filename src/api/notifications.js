@@ -23,7 +23,7 @@ export const getNotifications = async token => {
  */
 export const postNotificationCheck = async token => {
   const response = await axios.post(
-    `${serverApi}/api/music/user/alarm/check`,
+    `${serverApi}/api/user/alarm/check`,
     null, // POST 요청에서 body가 필요 없으면 null 또는 {}
     {
       headers: {
@@ -31,6 +31,7 @@ export const postNotificationCheck = async token => {
       },
     }
   );
+  console.log('postNotificationCheck', response);
   return response.data;
 };
 
@@ -56,7 +57,7 @@ export const checkNotification = async (token, id, notification_type) => {
 };
 
 /**
- * 개별 알림 확인
+ * 개별 알림 삭제
  * @param {string} token - 사용자 인증 토큰
  * @param {number} // path 알림 id
  * @query {string} // query notification_type (song,nft)

@@ -1,5 +1,5 @@
 .songs-list {
-  padding: 126px 0 0 0;
+  padding: 176px 0 0 0;
   .songs-list__items {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -33,7 +33,7 @@
     }
   }
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
   .songs-list {
     padding: 128px 0 0 0;
     .songs-list__items {

@@ -12,7 +12,7 @@
     // flex: 1;
     width: calc(33.33% - 16px);
     .album__content-list__list__item {
-      width: 320px;
+      // width: 320px;
     }
   }
   &__item--title {
@@ -48,6 +48,9 @@
     flex-direction: column;
     &__item {
       width: 100%;
+      .album__content-list__list__item {
+        width: 300px;
+      }
     }
   }
 }

@@ -58,7 +58,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const { token, isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
 
   // WebSocket 컨텍스트에서 lastMessage 가져오기
-  const { lastMessage } = useContext(WebSocketContext);
+  const { lastAlbumMessage, lastNftMessage } = useContext(WebSocketContext);
 
   // WalletConnect에서 전달받은 콜백 함수
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -154,37 +154,57 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트
   useEffect(() => {
-    if (lastMessage && token) {
-      console.log('Menu.jsx - WebSocket lastMessage:', lastMessage); // 디버깅 로그 추가
-
+    if (lastAlbumMessage && token) {
       if (
-        lastMessage.type === 'notification' ||
-        lastMessage.notification_type ||
-        lastMessage.message_type === 'notification' ||
-        (lastMessage.status &&
-          (lastMessage.status === 'notification' || lastMessage.status === 'alert')) ||
-        (lastMessage.pk && lastMessage.title && lastMessage.status === 'complt')
+        lastAlbumMessage.type === 'notification' ||
+        lastAlbumMessage.notification_type ||
+        lastAlbumMessage.message_type === 'notification' ||
+        (lastAlbumMessage.status &&
+          (lastAlbumMessage.status === 'notification' || lastAlbumMessage.status === 'alert')) ||
+        (lastAlbumMessage.pk && lastAlbumMessage.title && lastAlbumMessage.status === 'complt')
       ) {
-        console.log('Menu.jsx - 알림 메시지 감지됨, is_alarm_check를 false로 설정'); // 디버깅 로그 추가
-
         // 알림 목록 다시 가져오기
         queryClient.invalidateQueries(['notifications']);
 
         // is_alarm_check를 false로 업데이트 (새로운 알림이 왔음을 표시)
         queryClient.setQueryData(['userDetail'], oldData => {
-          console.log('Menu.jsx - 기존 userData:', oldData); // 디버깅 로그 추가
           const newData = {
             ...oldData,
             is_alarm_check: false,
           };
-          console.log('Menu.jsx - 업데이트된 userData:', newData); // 디버깅 로그 추가
           return newData;
         });
       } else {
-        console.log('Menu.jsx - 알림 조건에 맞지 않음'); // 디버깅 로그 추가
       }
     }
-  }, [lastMessage, token, queryClient]);
+  }, [lastAlbumMessage, token, queryClient]);
+
+  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트
+  useEffect(() => {
+    if (lastNftMessage && token) {
+      if (
+        lastNftMessage.type === 'notification' ||
+        lastNftMessage.notification_type ||
+        lastNftMessage.message_type === 'notification' ||
+        (lastNftMessage.status &&
+          (lastNftMessage.status === 'notification' || lastNftMessage.status === 'alert')) ||
+        (lastNftMessage.pk && lastNftMessage.title && lastNftMessage.status === 'complt')
+      ) {
+        // 알림 목록 다시 가져오기
+        queryClient.invalidateQueries(['notifications']);
+
+        // is_alarm_check를 false로 업데이트 (새로운 알림이 왔음을 표시)
+        queryClient.setQueryData(['userDetail'], oldData => {
+          const newData = {
+            ...oldData,
+            is_alarm_check: false,
+          };
+          return newData;
+        });
+      } else {
+      }
+    }
+  }, [lastNftMessage, token, queryClient]);
 
   // 알림 패널을 열 때 알림 목록 새로고침
   useEffect(() => {

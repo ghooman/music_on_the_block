@@ -188,7 +188,7 @@ const Header = ({ setIsLoggedIn }) => {
       </Routes> */}
 
       <AlarmModal />
-      <AlarmNftModal />
+      {/* <AlarmNftModal /> */}
     </>
   );
 };

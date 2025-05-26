@@ -694,6 +694,17 @@
     // min-height: 400px;
     top: auto;
   }
+  .menu-box__lang-notification--select-notification-box{
+    .menu-box__lang-notification--select-notification-box__item{
+      padding: 8px 16px;
+      .menu-box__lang-notification--select-notification-box__item__txt-box{
+
+      }
+      .menu-box__lang-notification--select-notification-box__item__btn{
+        margin-left: auto;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {

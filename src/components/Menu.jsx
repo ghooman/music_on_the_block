@@ -152,7 +152,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   }, [token]);
 
-  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트
+  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트 (Album)
   useEffect(() => {
     if (lastAlbumMessage && token) {
       if (
@@ -174,12 +174,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           };
           return newData;
         });
-      } else {
       }
     }
   }, [lastAlbumMessage, token, queryClient]);
 
-  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트
+  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트 (NFT)
   useEffect(() => {
     if (lastNftMessage && token) {
       if (
@@ -188,7 +187,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
         lastNftMessage.message_type === 'notification' ||
         (lastNftMessage.status &&
           (lastNftMessage.status === 'notification' || lastNftMessage.status === 'alert')) ||
-        (lastNftMessage.pk && lastNftMessage.title && lastNftMessage.status === 'complt')
+        (lastNftMessage.pk && (lastNftMessage.seller_user_name || lastNftMessage.buy_user_name))
       ) {
         // 알림 목록 다시 가져오기
         queryClient.invalidateQueries(['notifications']);
@@ -201,7 +200,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           };
           return newData;
         });
-      } else {
       }
     }
   }, [lastNftMessage, token, queryClient]);

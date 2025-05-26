@@ -110,8 +110,8 @@ function AlbumDetail() {
   // 스와이퍼 옵션
   const swiperOptions = {
     loop: true,
-    slidesPerView: 3,
-    spaceBetween: 8,
+    slidesPerView: 4,
+    // spaceBetween: 16,
     grabCursor: true,
     pagination: {
       clickable: true,
@@ -122,11 +122,14 @@ function AlbumDetail() {
       0: {
         slidesPerView: 1,
       },
-      680: {
+      768: {
         slidesPerView: 2,
       },
-      1250: {
+      1280: {
         slidesPerView: 3,
+      },
+      1600: {
+        slidesPerView: 4,
       },
     },
   };
@@ -852,7 +855,8 @@ function AlbumDetail() {
             className={`album__content-list__tab__item ${
               activeTab === 'AI Singing Evaluation' ? 'active' : ''
             }`}
-            onClick={() => setActiveTab('AI Singing Evaluation')}
+            // onClick={() => setActiveTab('AI Singing Evaluation')}
+            onClick={() => setPreparingModal(true)}
           >
             {t('AI Singing Evaluation')}
           </button>

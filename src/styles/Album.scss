@@ -1,5 +1,6 @@
 .main {
-  padding-top: 116px;
+  padding-top: 156px;
+
 
   // .album__content-list {
     .album__content-list__tab {
@@ -86,7 +87,7 @@
     .album__content-list__title {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      // justify-content: space-between;
       gap: 16px;
       color:#cf0;
       font-family: Orbitron400;
@@ -432,13 +433,15 @@
     } //album__content-list__list--END--
     .album__content-list__see-more-btn {
       color: #aaa;
+      // width: 88px;
       // text-align: right;
       font-family: Orbitron500;
       font-size: 14px;
       font-style: normal;
       line-height: 100%; /* 14px */
       // margin-top: 24px;
-      margin-left: auto;
+      // margin-left: auto;
+      margin-left: 52px;
       // display: inline-block;
       float: right;
       position: relative;
@@ -1012,6 +1015,18 @@
       .album__content-list__tab {
         padding-bottom: 16px;
       }
+      .album__content-list{
+        .album__content-list{
+          .album__content-list__title{
+            width: 300px;
+          }
+          .album__content-list__see-more-btn{
+            white-space:nowrap;
+            text-align: right;
+            margin-top: 34px;
+          }
+        }
+      }//album__content-list--END--{
   }
 
   .main__stats {
@@ -1038,8 +1053,8 @@
   .main {
     .album__content-list {
       .album__content-list__title {
-        flex-direction: column;
-        align-items: start;
+        // flex-direction: column;
+        // align-items: start;
         gap: 16px;
       }
       .album__content-list__list {

@@ -1231,6 +1231,12 @@
 
   .song-detail-slide {
     padding: 16px 0 40px;
+    .album__content-list__list__item {
+      width: 302px !important;
+      margin: 0 auto;
+      .swiper-slide{
+      }
+    }
     .swiper-button-prev {
       width: 24px;
       height: 24px;

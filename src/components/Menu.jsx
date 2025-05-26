@@ -155,7 +155,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트
   useEffect(() => {
     if (lastMessage && token) {
-      console.log('WebSocket lastMessage:', lastMessage); // 디버깅 로그 추가
+      console.log('Menu.jsx - WebSocket lastMessage:', lastMessage); // 디버깅 로그 추가
 
       if (
         lastMessage.type === 'notification' ||
@@ -165,19 +165,23 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           (lastMessage.status === 'notification' || lastMessage.status === 'alert')) ||
         (lastMessage.pk && lastMessage.title && lastMessage.status === 'complt')
       ) {
-        console.log('알림 메시지 감지됨, is_alarm_check를 false로 설정'); // 디버깅 로그 추가
+        console.log('Menu.jsx - 알림 메시지 감지됨, is_alarm_check를 false로 설정'); // 디버깅 로그 추가
 
         // 알림 목록 다시 가져오기
         queryClient.invalidateQueries(['notifications']);
 
         // is_alarm_check를 false로 업데이트 (새로운 알림이 왔음을 표시)
         queryClient.setQueryData(['userDetail'], oldData => {
+          console.log('Menu.jsx - 기존 userData:', oldData); // 디버깅 로그 추가
           const newData = {
             ...oldData,
             is_alarm_check: false,
           };
+          console.log('Menu.jsx - 업데이트된 userData:', newData); // 디버깅 로그 추가
           return newData;
         });
+      } else {
+        console.log('Menu.jsx - 알림 조건에 맞지 않음'); // 디버깅 로그 추가
       }
     }
   }, [lastMessage, token, queryClient]);

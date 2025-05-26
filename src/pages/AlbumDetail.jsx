@@ -527,40 +527,45 @@ function AlbumDetail() {
                 ) : (
                   <div style={{ backgroundColor: 'black' }} />
                 )}
-                <div className="album-detail__song-detail__left__img__txt">
-                  <pre>
-                    {album?.lyrics
-                      // 1. "###"와 그 이후 공백을 제거
-                      ?.replace(/#\s*/g, '')
-                      ?.replace(/###\s*/g, '')
-                      // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
-                      ?.replace(/(\*\*.*?\*\*)/g, '')
-                      // 3. 대괄호([]) 안 텍스트 제거
-                      ?.replace(/\[([^\]]+)\]/g, '')
-                      // 4. 소괄호 안 텍스트 처리:
-                      //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
-                      //    - 그 외의 경우에는 내용 자체를 제거
-                      ?.replace(/\(([^)]+)\)/g, (match, p1) => {
-                        if (
-                          /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
-                            p1.trim()
+                {album?.ai_service !== 0 && (
+                  <>
+                    <div className="album-detail__song-detail__left__img__txt">
+                      <pre>
+                        {album?.lyrics
+                          // 1. "###"와 그 이후 공백을 제거
+                          ?.replace(/#\s*/g, '')
+                          ?.replace(/###\s*/g, '')
+                          // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                          ?.replace(/(\*\*.*?\*\*)/g, '')
+                          // 3. 대괄호([]) 안 텍스트 제거
+                          ?.replace(/\[([^\]]+)\]/g, '')
+                          // 4. 소괄호 안 텍스트 처리:
+                          //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                          //    - 그 외의 경우에는 내용 자체를 제거
+                          ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                            if (
+                              /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
+                                p1.trim()
+                              )
+                            ) {
+                              return p1.trim();
+                            }
+                            return '';
+                          })
+                          // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                          ?.replace(
+                            /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
+                            '\n$1'
                           )
-                        ) {
-                          return p1.trim();
-                        }
-                        return '';
-                      })
-                      // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
-                      ?.replace(
-                        /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
-                        '\n$1'
-                      )
-                      ?.trim()}
-                  </pre>
-                </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">
-                  {t('Lyrics')}
-                </button>
+                          ?.trim()}
+                      </pre>
+                    </div>
+
+                    <button className="album-detail__song-detail__left__img__lyrics-btn">
+                      {t('Lyrics')}
+                    </button>
+                  </>
+                )}
               </div>
               <div className="album-detail__song-detail__left__info">
                 {/* <div className="album-detail__song-detail__left__info__number">
@@ -850,7 +855,8 @@ function AlbumDetail() {
             className={`album__content-list__tab__item ${
               activeTab === 'AI Singing Evaluation' ? 'active' : ''
             }`}
-            onClick={() => setActiveTab('AI Singing Evaluation')}
+            // onClick={() => setActiveTab('AI Singing Evaluation')}
+            onClick={() => setPreparingModal(true)}
           >
             {t('AI Singing Evaluation')}
           </button>

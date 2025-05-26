@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Header.scss';
 import {
   BrowserRouter,
@@ -14,7 +14,8 @@ import Album from '../pages/Album';
 import PreparingModal from './PreparingModal';
 
 //이미지
-import mainLogo from '../assets/images/header/logo.svg';
+// import mainLogo from '../assets/images/header/logo.svg';
+import mainLogo from '../assets/images/header/header-logo.svg';
 import betaLogo from '../assets/images/header/beta.svg';
 import closeIcon from '../assets/images/close.svg';
 import Menu from './Menu';
@@ -22,7 +23,7 @@ import MyPage from '../pages/MyPage';
 import SignInModal from './SignInModal';
 import CreateLoading from './CreateLoading';
 import AlarmModal from './AlarmModal';
-import MusicPlayer from './AudioPlayer';
+import AlarmNftModal from './AlarmNftModal';
 
 const Header = ({ setIsLoggedIn }) => {
   const [isSignInModal, setSignInModal] = useState(false);
@@ -58,8 +59,9 @@ const Header = ({ setIsLoggedIn }) => {
           </button>
           <h1>
             <Link to="/">
-              <img src={mainLogo} className="logo" />
-              <div className="text-box pc">
+              <img src={mainLogo} alt='mainLogo'/>
+              {/* <img src={mainLogo} className="logo" /> */}
+              {/* <div className="text-box pc">
                 <div className="text-wrap">
                   <svg width={220} height={30} viewBox="0 0 220 30">
                     <text x="0" y="90%">
@@ -111,8 +113,8 @@ const Header = ({ setIsLoggedIn }) => {
                     </text>
                   </svg>
                 </div>
-              </div>
-              <div className="text-box mobile">
+              </div> */}
+              {/* <div className="text-box mobile">
                 <div className="text-wrap">
                   <svg width={110} height={22} viewBox="0 0 110 22">
                     <text x="0" y="90%">
@@ -164,7 +166,7 @@ const Header = ({ setIsLoggedIn }) => {
                     </text>
                   </svg>
                 </div>
-              </div>
+              </div> */}
             </Link>
             <img src={betaLogo} className="beta-logo" />
           </h1>
@@ -188,7 +190,7 @@ const Header = ({ setIsLoggedIn }) => {
       </Routes> */}
 
       <AlarmModal />
-      <MusicPlayer/>
+      <AlarmNftModal />
     </>
   );
 };

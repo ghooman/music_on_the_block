@@ -11,6 +11,9 @@
     flex-direction: column;
     // flex: 1;
     width: calc(33.33% - 16px);
+    .album__content-list__list__item {
+      width: 320px;
+    }
   }
   &__item--title {
     color: var(--primary-base, #cf0);
@@ -20,6 +23,23 @@
     line-height: normal;
     letter-spacing: 0.54px;
     margin-bottom: 16px;
+  }
+}
+
+
+@media screen and (max-width: 1300px) {
+  .top-songs-template{
+    width: 100%;
+    overflow: auto;
+    flex-wrap: nowrap;
+    justify-content: start;
+    padding-bottom: 16px;
+    &__item {
+      width: 320px;
+      .album__content-list__list__item {
+        width: 320px;
+      }
+    }
   }
 }
 

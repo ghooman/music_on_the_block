@@ -199,11 +199,12 @@ img {
   /* margin: 0 auto; */
   margin-left: auto;
   padding: 32px 16px 100px;
+  /* padding: 186px 16px 100px; */
 }
 
 @media screen and (max-width: 1000px) {
   .inner {
-    /* padding: 114px 16px 100px; */
+    padding: 114px 16px 100px;
     width: 100%;
   }
 }

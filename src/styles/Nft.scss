@@ -108,6 +108,11 @@
 
 @media screen and (max-width: 768px) {
   .nft {
+    .nft__exchange--btns{
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+    }
     .nft__exchange {
       padding: 20px;
       display: flex;

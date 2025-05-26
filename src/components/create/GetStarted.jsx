@@ -55,6 +55,7 @@ const GetStarted = ({
   useEffect(() => {
     const fetchVersionList = async () => {
       const res = await axios.get(`${serverApi}/api/music/ai/active`);
+      // setVersionList({ suno: true, mureka: true, topmediai: true });
       setVersionList(res.data);
       console.log(res.data);
       setTitle(

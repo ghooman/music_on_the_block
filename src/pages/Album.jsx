@@ -33,6 +33,7 @@ import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
 import MusicPlayer from '../components/AudioPlayer';
+import CreateLoading from '../components/CreateLoading';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -344,7 +345,7 @@ function Album() {
                   audioRef={audioRef}
               />
           </div> */}
-        {/* <PlayerHeader
+        <PlayerHeader
           selectedMusic={selectedMusic}
           isPlaying={isPlaying}
           isScrolled={isScrolled}
@@ -356,7 +357,7 @@ function Album() {
           handleGetMusicList={handleGetMusicList}
           setIsPlaying={setIsPlaying}
           audioRef={audioRef}
-        /> */}
+        />
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${
@@ -563,6 +564,7 @@ function Album() {
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
       <IntroLogo2 />
+      {/* <CreateLoading/> */}
     </>
   );
 }

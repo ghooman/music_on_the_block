@@ -231,6 +231,21 @@ const Footer = ({ setIsLoggedIn }) => {
                     </Link>
                   </dd>
                 </dl>
+                <dl>
+                  <dt>{t('My Page')}</dt>
+                  <dd>
+                    <Link to="/my-page?category=AI+Services">{t('AI Services')}</Link>
+                  </dd>
+                  <dd>
+                    <Link to="/my-page?category=Songs">{t('Songs')}</Link>
+                  </dd>
+                  <dd>
+                    <Link to="/my-page?category=Connections">{t('Connections')}</Link>
+                  </dd>
+                  <dd>
+                    <Link to="/my-page?category=NFTs">{t('NFTs')}</Link>
+                  </dd>
+                </dl>
               </div>
             </article>
           </section>

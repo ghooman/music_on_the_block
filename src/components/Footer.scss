@@ -147,11 +147,12 @@
         justify-content: space-between;
         gap: 16px;
         height: 100%;
+        padding-right: 20px;
         dl{
           display: flex;
           flex-direction: column;
           gap: 16px;
-          min-height: 110px;
+          min-height: 140px;
           dt{
             color: var(--primary-300, #87AA00);
             font-family: Inter500;

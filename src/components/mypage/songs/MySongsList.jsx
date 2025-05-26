@@ -39,6 +39,7 @@ const MySongsList = ({ token }) => {
   const search = searchParams.get('search') || '';
   const songsSort = searchParams.get('songs_sort');
   const releaseType = searchParams.get('release_type') || 'Unreleased';
+  const aiServiceFilter = searchParams.get('ai_service_filter');
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const MySongsList = ({ token }) => {
     isLoading: songsListLoading,
     refetch: songListRefetch,
   } = useQuery(
-    ['songs_list', { token, page, songsSort, search, releaseType }],
+    ['songs_list', { token, page, songsSort, search, releaseType, aiServiceFilter }],
     async () => {
       const { data } = await getReleaseAndUnReleaseSongData({
         token,
@@ -67,6 +68,7 @@ const MySongsList = ({ token }) => {
         sort_by: songsSort,
         search_keyword: search,
         type: releaseType,
+        ai_service: aiServiceFilter,
       });
       return data;
     },

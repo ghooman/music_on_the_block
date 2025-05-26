@@ -38,6 +38,7 @@ const NftList = () => {
   const songsSort = searchParams.get('songs_sort');
   const collectionSort = searchParams.get('collection_sort');
   const nowSalesStatus = searchParams.get('now_sales_status') || 'All';
+  const aiServiceFilter = searchParams.get('ai_service_filter');
 
   const handleSubCategory = value => {
     setSearchParams({ category: 'NFT Items', page: 1, now_sales_status: value });
@@ -82,6 +83,7 @@ const NftList = () => {
               songsSort={songsSort}
               tokenFilter={tokenFilter}
               nowSalesStatus={nowSalesStatus}
+              aiServiceFilter={aiServiceFilter}
             />
           </>
         )}
@@ -99,9 +101,26 @@ export default NftList;
 //======컴포넌트=====
 //=================
 
-const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter, nowSalesStatus }) => {
+const NFTList = ({
+  page,
+  search,
+  gradeFilter,
+  songsSort,
+  tokenFilter,
+  nowSalesStatus,
+  aiServiceFilter,
+}) => {
   const { data, isLoading } = useQuery(
-    ['nft_list_all', page, search, gradeFilter, songsSort, tokenFilter, nowSalesStatus],
+    [
+      'nft_list_all',
+      page,
+      search,
+      gradeFilter,
+      songsSort,
+      tokenFilter,
+      nowSalesStatus,
+      aiServiceFilter,
+    ],
     async () => {
       const response = await getNftsList({
         page: page,
@@ -110,6 +129,7 @@ const NFTList = ({ page, search, gradeFilter, songsSort, tokenFilter, nowSalesSt
         nft_rating: gradeFilter,
         sales_token: tokenFilter,
         now_sales_status: nowSalesStatus,
+        ai_service: aiServiceFilter,
       });
       return response.data;
     }

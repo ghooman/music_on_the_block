@@ -10,7 +10,6 @@ import {
   TabelGrade,
 } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
-import songTypeIcon from '../../assets/images/icon/Songwriting-Icon.svg';
 
 const CollectionHistoryTable = ({ data = [] }) => {
   const { t } = useTranslation('module');
@@ -32,7 +31,7 @@ const CollectionHistoryTable = ({ data = [] }) => {
             <React.Fragment key={item.id}>
               <TableItem>
                 <TableItem.Indexs text={1} />
-                <TableItem.Type image={songTypeIcon} />
+                <TableItem.AiServiceType service={item?.ai_service} />
                 <TableItem.Grade grade={item.rating} />
                 <TableItem.UserInfo
                   image={item.buy_user_profile}

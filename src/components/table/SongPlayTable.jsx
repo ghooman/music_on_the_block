@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import NoneContent from '../../components/unit/NoneContent';
 import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
 
-import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -84,8 +83,6 @@ const SongPlayTable = ({
     }
   }, [isTrigger]);
 
-  console.log(songList, '리스트 데이터');
-
   return (
     <>
       <div className="audio-container" style={{ display: 'none' }}>
@@ -148,7 +145,7 @@ const SongPlayTable = ({
                       active={item?.id === activeSong?.id}
                       width={40}
                     />
-                    <TableItem.Type image={songTypeIcon} />
+                    <TableItem.AiServiceType service={item?.ai_service} />
                     {gradeOption && <TableItem.Grade grade={item.rating} />}
                     {nftOption && <TableItem.Text text={item.is_nft ? 'NFT' : '-'} />}
                     {artistOption && <TableItem.UserInfo image={item.profile} name={item.name} />}

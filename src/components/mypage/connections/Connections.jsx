@@ -143,7 +143,7 @@ const Connections = () => {
         />
         <ContentWrap.SubWrap gap={8}>
           <Filter userSort={true} gradeFilter={true} />
-          <Search placeholder={'Search by Artist name'} reset={{ page: 1 }} />
+          <Search placeholder={'Search by artist name'} reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <UserTable
           userList={connectionsData?.data_list}

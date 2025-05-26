@@ -23,6 +23,7 @@ const UserSongsList = ({ username }) => {
   const page = searchParams.get('page');
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
+  const aiServiceFilter = searchParams.get('ai_service_filter');
 
   const { data: topSongsData, isLoading: topSongLoading } = useQuery(
     ['top_songs_data_by_username', { username }],
@@ -41,6 +42,7 @@ const UserSongsList = ({ username }) => {
           search_keyword: search,
           sort_by: songsSort,
           name: username,
+          ai_service: aiServiceFilter,
         },
       });
       return res.data;

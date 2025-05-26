@@ -4,6 +4,9 @@ import ContentWrap from '../components/unit/ContentWrap';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/Evaluation.scss';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+
+import { WalletConnect } from '../components/WalletConnect';
 import Loading from '../components/IntroLogo2';
 
 //이미지
@@ -25,20 +28,76 @@ import step4Img from '../assets/images/evaluation/step4-img.png';
 const Evaluation = () => {
   const { t } = useTranslation('evaluation');
 
+  const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const walletConnectRef = React.useRef(null);
+
+  const navigate = useNavigate();
+
+  const handleWalletConnect = (loggedIn, walletAddress) => {
+    setIsLoggedIn(loggedIn);
+    if (loggedIn && walletAddress) {
+      setWalletAddress(walletAddress);
+    }
+  };
+
+  // useEffect를 사용하여 ThirdWeb 버튼을 참조
+  useEffect(() => {
+    // 컴포넌트가 마운트된 후에 참조할 수 있도록 약간의 지연 추가
+    const timer = setTimeout(() => {
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          // 버튼 스타일 설정
+          walletConnectButton.style.position = 'absolute';
+          walletConnectButton.style.opacity = '0';
+          walletConnectButton.style.pointerEvents = 'none';
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleButtonClick = e => {
+    if (!isRegistered) {
+      e.preventDefault();
+
+      // 버튼 클릭 이벤트 발생시키기
+      if (walletConnectRef.current) {
+        const walletConnectButton = walletConnectRef.current.querySelector('.tw-connect-wallet');
+        if (walletConnectButton) {
+          walletConnectButton.click();
+        }
+      }
+    } else {
+      navigate('/evaluation-begin');
+    }
+  };
+
   return (
     <>
+      <div
+        ref={walletConnectRef}
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          visibility: 'hidden',
+        }}
+      >
+        <WalletConnect onConnect={handleWalletConnect} />
+      </div>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
         <ContentWrap title={t('Why Join The Evaluation?')} border={false} className="Evaluation">
           <JoinEvaluation t={t} />
-          <BeginNowBtn t={t} />
+          <BeginNowBtn t={t} handleClick={handleButtonClick} />
         </ContentWrap>
         <ContentWrap title={t('Professional Music Critics Waiting For You.')} border={false}>
           <Judge t={t} />
-          <BeginNowBtn t={t} />
+          <BeginNowBtn t={t} handleClick={handleButtonClick} />
         </ContentWrap>
         <ContentWrap title={t('AI Simple Guide To Help Your Journey.')} border={false}>
           <AiStep t={t} />
-          <BeginNowBtn t={t} />
+          <BeginNowBtn t={t} handleClick={handleButtonClick} />
         </ContentWrap>
       </ContentWrap>
     </>
@@ -47,12 +106,17 @@ const Evaluation = () => {
 
 export default Evaluation;
 
-const BeginNowBtn = ({ t }) => {
+const BeginNowBtn = ({ t, handleClick }) => {
   return (
     <>
-      <Link to="/evaluation-begin" className="begin-now-btn">
+      <button
+        className="begin-now-btn"
+        onClick={e => {
+          if (handleClick) handleClick(e);
+        }}
+      >
         {t('Begin Now')}
-      </Link>
+      </button>
     </>
   );
 };

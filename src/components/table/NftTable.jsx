@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Table, TableHeader, TableBody, TableItem, TableWrapper } from './TableCompositions';
 import NoneContent from '../unit/NoneContent';
-import songTypeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
+
 import { useNavigate } from 'react-router-dom';
 import NftConfirmModal from '../NftConfirmModal';
 import SuccessModal from '../modal/SuccessModal';
@@ -64,7 +64,7 @@ const NftTable = ({
             <React.Fragment key={item.id}>
               <TableItem>
                 <TableItem.Indexs text={index + 1} />
-                <TableItem.Type image={songTypeIcon} />
+                <TableItem.AiServiceType service={item?.ai_service} />
                 <TableItem.Grade grade={item.nft_rating} />
                 <TableItem.Text text={item.nft_name} />
                 {/* {collectionOption && <TableItem.Text text={item.connect_collection_name || '-'} />} */}

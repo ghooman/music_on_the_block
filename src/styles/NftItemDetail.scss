@@ -17,7 +17,7 @@
       justify-content: space-between;
       gap: 16px;
       width: 100%;
-      span{
+      span {
         color: #f1f1f1;
         font-family: Orbitron500;
         font-size: 12px;
@@ -442,7 +442,7 @@
           align-items: center;
           gap: 8px;
 
-          .nft-item-detail__song-detail__more-btn{
+          .nft-item-detail__song-detail__more-btn {
             // padding: 4px 6px;
             border-radius: 6px;
             background-color: #222;
@@ -455,22 +455,22 @@
             transition: 0.3s;
             border: 1px solid transparent;
             position: relative;
-            &:hover{
+            &:hover {
               border: 1px solid #a9d400;
             }
-            &.active{
-              .nft-item-detail__song-detail__more-btn__list{
+            &.active {
+              .nft-item-detail__song-detail__more-btn__list {
                 height: 116px !important;
                 opacity: 1;
               }
             }
-            .nft-item-detail__song-detail__more-btn__list{
+            .nft-item-detail__song-detail__more-btn__list {
               position: absolute;
               right: 0;
               top: 38px;
               border-radius: 12px;
               border: 1px solid #678300;
-              background: #0B0B0C;
+              background: #0b0b0c;
               transition: 0.3s;
               display: flex;
               flex-direction: column;
@@ -479,7 +479,7 @@
               transition: 0.3s;
               height: 0;
               opacity: 0;
-              li{
+              li {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
@@ -489,23 +489,22 @@
                 padding: 0px 12px;
                 height: 38px;
                 transition: 0.3s;
-                color: #FFF;
+                color: #fff;
                 font-family: Inter400;
                 font-size: 14px;
                 transition: 0.3s;
                 text-align: left;
-                img{
+                img {
                   width: 18px;
                   height: 18px;
                   object-fit: cover;
                 }
-                &:hover{
+                &:hover {
                   background: #222;
                 }
               }
-            }//album-detail__song-detail__more-btn__list--END--
-          }//album-detail__song-detail__more-btn--END--
-
+            } //album-detail__song-detail__more-btn__list--END--
+          } //album-detail__song-detail__more-btn--END--
 
           .nft-item-detail__song-detail__left__info__txid-btn {
             display: flex;
@@ -518,9 +517,8 @@
             align-self: stretch;
             border-radius: 6px;
             background: var(--Color-03, #222);
-            
           }
-          .nft-item-detail__song-detail__left__info__dow-btn{
+          .nft-item-detail__song-detail__left__info__dow-btn {
             font-size: 0;
             width: 32px;
             height: 32px;
@@ -720,7 +718,7 @@
         gap: 16px;
         margin-top: 16px;
         .nft-item-detail__song-detail__right__value-box__price {
-          min-height: 250px;
+          min-height: 208px;
           flex: 1;
           border-radius: 12px;
           border: 1px solid var(--secondary-base, #00ffb3);
@@ -875,10 +873,10 @@
 }
 
 @media screen and (max-width: 930px) {
-  .nft-item-detail__song-detail{
-    .nft-item-detail__song-detail__bot{
-      .nft-item-detail__song-detail__left{
-        .nft-item-detail__song-detail__left__info{
+  .nft-item-detail__song-detail {
+    .nft-item-detail__song-detail__bot {
+      .nft-item-detail__song-detail__left {
+        .nft-item-detail__song-detail__left__info {
           flex-direction: column;
           justify-content: start !important;
           align-items: start !important;
@@ -899,7 +897,6 @@
 }
 
 @media screen and (max-width: 768px) {
-
   .nft-item-detail__song-detail {
     .nft-item-detail__song-detail__bot {
       .nft-item-detail__song-detail__right {
@@ -985,5 +982,4 @@
       order: 2;
     }
   }
-
 }

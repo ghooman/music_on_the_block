@@ -200,7 +200,6 @@ const NftItemDetailInfo = ({ id, t }) => {
     setIsTransactionsModal(true);
   };
 
-  const [album, setAlbum] = useState(null);
   const [copied, setCopied] = useState(false);
   const [isActiveMore, setIsActiveMore] = useState(false);
 
@@ -216,7 +215,7 @@ const NftItemDetailInfo = ({ id, t }) => {
   const copyToClipboard = e => {
     e.stopPropagation();
 
-    const textToCopy = `${window.location.href}\n\nTitle: ${album?.title}`;
+    const textToCopy = `${window.location.href}\n\nTitle: ${nftDetailData?.nft_name}`;
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -369,14 +368,6 @@ const NftItemDetailInfo = ({ id, t }) => {
                 {nftDetailData?.nft_name}
               </p>
               <div className="nft-item-detail__song-detail__right__info-box">
-                <dl>
-                  <dt>{t('Item ID')}</dt>
-                  <dd># {nftDetailData?.id}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Collection')}</dt>
-                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
-                </dl>
                 <dl className="artist">
                   <dt>{t('Artist')}</dt>
                   <dd>
@@ -389,6 +380,25 @@ const NftItemDetailInfo = ({ id, t }) => {
                                         </Link> */}
                   </dd>
                 </dl>
+                <dl>
+                  <dt>{t('Type')}</dt>
+                  <dd>
+                    {nftDetailData?.ai_service === 0
+                      ? 'BGM'
+                      : nftDetailData?.ai_service === 1
+                      ? 'Song'
+                      : '-'}
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>{t('Item ID')}</dt>
+                  <dd># {nftDetailData?.id}</dd>
+                </dl>
+                <dl>
+                  <dt>{t('Collection')}</dt>
+                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
+                </dl>
+
                 <dl
                   className={nftDetailData?.now_sales_status}
                   // className="Listed"

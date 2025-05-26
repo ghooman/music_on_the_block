@@ -10,6 +10,7 @@ import '../styles/EvaluationResults.scss';
 
 import Filter from '../components/unit/Filter';
 import Loading from '../components/IntroLogo2';
+import EvaluationGuideModal from '../components/EvaluationGuideModal';
 
 //이미지
 import issueIcon from '../assets/images/icon/issue-opened.svg';
@@ -45,6 +46,10 @@ const EvaluationResults = ({ evaluationData, handleSave }) => {
 export default EvaluationResults;
 
 const Result = ({ t, evaluationData }) => {
+  console.log(evaluationData);
+
+  const [evaluationGuideModal, setEvaluationGuideModal] = useState(false);
+
   return (
     <>
       <section className="result">
@@ -59,17 +64,17 @@ const Result = ({ t, evaluationData }) => {
         <article className="result__graph">
           <button className="result__graph__title">
             {t('Evaluation Graph')}
-            <img src={issueIcon} alt="icon" />
+            <img src={issueIcon} alt="icon" onClick={() => setEvaluationGuideModal(true)} />
           </button>
           <div className="result__graph__score">
             <div className="result__graph__score__graph">
               <RadarChart
                 data={[
-                  { item: evaluationData?.emotional_impact },
-                  { item: evaluationData?.creativity_individuality },
-                  { item: evaluationData?.structure_composition },
-                  { item: evaluationData?.sound_quality_mixing },
-                  { item: evaluationData?.relatibility_popularity },
+                  { item: evaluationData?.emotion, value: evaluationData?.emotion },
+                  { item: evaluationData?.creativity, value: evaluationData?.creativity },
+                  { item: evaluationData?.structure, value: evaluationData?.structure },
+                  { item: evaluationData?.sound, value: evaluationData?.sound },
+                  { item: evaluationData?.popularity, value: evaluationData?.popularity },
                 ]}
               />
             </div>
@@ -79,30 +84,33 @@ const Result = ({ t, evaluationData }) => {
               </p>
               <div className="result__graph__score__number__txt">
                 <dl>
-                  <dt>{t('Emotional Impact')} :</dt>
-                  <dd>{evaluationData?.emotional_impact}</dd>
+                  <dt>{t('Emotion')} :</dt>
+                  <dd>{evaluationData?.emotion}</dd>
                 </dl>
                 <dl>
-                  <dt>{t('Creativity & Individuality')} :</dt>
-                  <dd>{evaluationData?.creativity_individuality}</dd>
+                  <dt>{t('Creativity')} :</dt>
+                  <dd>{evaluationData?.creativity}</dd>
                 </dl>
                 <dl>
-                  <dt>{t('Structure & Composition')} :</dt>
-                  <dd>{evaluationData?.structure_composition}</dd>
+                  <dt>{t('Structure')} :</dt>
+                  <dd>{evaluationData?.structure}</dd>
                 </dl>
                 <dl>
-                  <dt>{t('Sound Quality & Mixing')} :</dt>
-                  <dd>{evaluationData?.sound_quality_mixing}</dd>
+                  <dt>{t('Sound')} :</dt>
+                  <dd>{evaluationData?.sound}</dd>
                 </dl>
                 <dl>
-                  <dt>{t('Relatability & Popularity')} :</dt>
-                  <dd>{evaluationData?.relatibility_popularity}</dd>
+                  <dt>{t('Popularity')} :</dt>
+                  <dd>{evaluationData?.popularity}</dd>
                 </dl>
               </div>
             </div>
           </div>
         </article>
       </section>
+      {evaluationGuideModal && (
+        <EvaluationGuideModal setEvaluationGuideModal={setEvaluationGuideModal} />
+      )}
     </>
   );
 };
@@ -190,11 +198,26 @@ const SongsCritic = ({ t, critic, id }) => {
             <div className="critic-list__item__right">
               <RadarChart
                 data={[
-                  { item: item?.emotional_impact },
-                  { item: item?.creativity_individuality },
-                  { item: item?.structure_composition },
-                  { item: item?.sound_quality_mixing },
-                  { item: item?.relatibility_popularity },
+                  {
+                    item: item?.evaluationData?.emotion,
+                    value: item?.evaluationData?.emotion,
+                  },
+                  {
+                    item: item?.evaluationData?.creativity,
+                    value: item?.evaluationData?.creativity,
+                  },
+                  {
+                    item: item?.evaluationData?.structure,
+                    value: item?.evaluationData?.structure,
+                  },
+                  {
+                    item: item?.evaluationData?.sound,
+                    value: item?.evaluationData?.sound,
+                  },
+                  {
+                    item: item?.evaluationData?.popularity,
+                    value: item?.evaluationData?.popularity,
+                  },
                 ]}
               />
             </div>

@@ -22,6 +22,7 @@ const History = ({ username }) => {
   const tokenFilter = searchParams.get('token_filter');
   const buySellFilter = searchParams.get('buy_sell_filter');
   const nftSort = searchParams.get('nft_sort');
+  const aiServiceFilter = searchParams.get('ai_service_filter');
 
   const { data, isLoading, refetch } = useQuery(
     [
@@ -33,6 +34,7 @@ const History = ({ username }) => {
       username,
       nftSort,
       buySellFilter,
+      aiServiceFilter,
     ],
     async () => {
       const response = await getNftTransactionHistory({
@@ -43,6 +45,7 @@ const History = ({ username }) => {
         sort_by: nftSort,
         user_name: username,
         buy_sell_status: buySellFilter,
+        ai_service: aiServiceFilter,
       });
       return response.data;
     }

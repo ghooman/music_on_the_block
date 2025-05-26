@@ -307,11 +307,11 @@ export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
 };
 
 const radarDummy = [
-  { item: '12', chardonay: 80, carmenere: 111, syrah: 35 },
-  { item: '10', chardonay: 53, carmenere: 106, syrah: 23 },
-  { item: '80', chardonay: 66, carmenere: 107, syrah: 107 },
-  { item: '60', chardonay: 99, carmenere: 107, syrah: 104 },
-  { item: '80', chardonay: 61, carmenere: 43, syrah: 28 },
+  { item: '80 (Emotion)', value: 80 },
+  { item: 'Creativity', value: 90 },
+  { item: 'Structure', value: 70 },
+  { item: 'Sound', value: 80 },
+  { item: 'Popularity', value: 90 },
 ];
 
 export const RadarChart = ({
@@ -323,7 +323,7 @@ export const RadarChart = ({
     <ResponsiveRadar
       /* ───── 핵심 파라미터 ───── */
       data={data}
-      keys={['item']} // 축 레이블
+      keys={['value']} // 축 레이블
       indexBy="item" // 다각형 구분 필드
       /* ───── 레이아웃 ───── */
       // maxValue="auto"

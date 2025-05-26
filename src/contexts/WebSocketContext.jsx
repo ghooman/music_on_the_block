@@ -29,6 +29,7 @@ export const WebSocketProvider = ({ children }) => {
       socket.onmessage = e => {
         try {
           const data = JSON.parse(e.data);
+          console.log(data, '웹소켓 메시지');
           setLastMessage(data);
         } catch (err) {
           console.error('메시지 파싱 에러:', err);

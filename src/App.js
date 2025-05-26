@@ -190,7 +190,9 @@ function App() {
                 path="evaluation-begin"
                 element={
                   <Layout>
-                    <EvaluationBegin />
+                    <ProtectedRoute>
+                      <EvaluationBegin />
+                    </ProtectedRoute>
                   </Layout>
                 }
               />

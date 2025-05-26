@@ -31,12 +31,15 @@ import { useInView } from 'react-intersection-observer';
 import { AuthContext } from '../contexts/AuthContext';
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
+import ErrorModal from '../components/modal/ErrorModal';
 
 const EvaluationBegin = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
   const [selectMusic, setSelectMusic] = useState(null);
   const [selectCritic, setSelectCritic] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   //================
   // 생성 가능 횟수 체크
@@ -45,6 +48,37 @@ const EvaluationBegin = () => {
     const res = await getPossibleCount({ token });
     return res.data.cnt;
   });
+
+  //================
+  // 평가 프로세스
+  //================
+  const handleEvaluation = async () => {
+    // 평가 프로세스 결과를 가지고
+    // 결과 페이지로 이동
+    // 결과 페이지에서는 navigate로 state 값을 수신 받고
+    // 새로고침 및 뒤로가기 버튼 클릭시 안내 창을 띄움
+
+    try {
+      navigate('/evaluation-results', {
+        state: {
+          song_data: selectMusic,
+          critic: selectCritic.name,
+          emotion: 80,
+          creativity: 94,
+          structure: 66,
+          sound: 75,
+          popularity: 56,
+          score: 80,
+          feedback: 'Good',
+          to_improve: 'good',
+          why_this_score: 'good',
+          key_points: 'good',
+        },
+      });
+    } catch (e) {
+      setErrorMessage(e?.response?.data?.detail || e?.message);
+    }
+  };
 
   return (
     <>
@@ -68,8 +102,10 @@ const EvaluationBegin = () => {
           possibleCnt={possibleCnt}
           selectMusic={selectMusic}
           selectCritic={selectCritic}
+          handleClick={handleEvaluation}
         />
       </ContentWrap>
+      {errorMessage && <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} />}
     </>
   );
 };
@@ -253,18 +289,13 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
   );
 };
 
-const ViewResults = ({ t, possibleCnt, selectMusic, selectCritic }) => {
-  const navigate = useNavigate();
+const ViewResults = ({ t, possibleCnt, selectMusic, selectCritic, handleClick }) => {
   // 비활성화 조건
   const disabled = !possibleCnt || possibleCnt < 1 || !selectMusic || !selectCritic;
 
   return (
     <>
-      <button
-        onClick={() => navigate('/evaluation-results')}
-        className="view-results"
-        disabled={disabled}
-      >
+      <button onClick={handleClick} className="view-results" disabled={disabled}>
         {t('View Results')}
       </button>
     </>

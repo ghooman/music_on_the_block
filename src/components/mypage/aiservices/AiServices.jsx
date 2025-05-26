@@ -86,8 +86,6 @@ const AiServices = ({ username }) => {
     },
   ];
 
-  console.log(aiStatusData, '졸림');
-
   useEffect(() => {
     if (!username) return;
 

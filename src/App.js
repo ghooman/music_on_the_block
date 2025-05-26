@@ -200,7 +200,9 @@ function App() {
                 path="evaluation-results"
                 element={
                   <Layout>
-                    <EvaluationResults />
+                    <ProtectedRoute>
+                      <EvaluationResults />
+                    </ProtectedRoute>
                   </Layout>
                 }
               />

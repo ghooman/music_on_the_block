@@ -35,7 +35,7 @@ export const getEvaluationDetailFromCriticSongId = async ({ critic, song_id }) =
     });
     return res.data;
   } catch (e) {
-    console.error(e, '아니');
+    console.error(e);
     throw new Error(e);
   }
 };

@@ -47,7 +47,7 @@ import { WalletConnect } from '../components/WalletConnect';
 import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
-import EvaluationResults from './EvaluationResults';
+import EvaluationResultsComp from '../components/evaluation/EvaluationResultsComp';
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
 import {
@@ -990,7 +990,7 @@ function AlbumDetail() {
                 </div>
               ))}
             </article>
-            <EvaluationResults evaluationData={evaluationData} />
+            <EvaluationResultsComp evaluationData={evaluationData} />
           </>
         )}
       </div>

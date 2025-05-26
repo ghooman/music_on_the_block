@@ -693,6 +693,10 @@
     height: 100%;
     // min-height: 400px;
     top: auto;
+    // &::after{
+    //   content:'';
+    //   width: 100%;
+    // }
   }
   .menu-box__lang-notification--select-notification-box{
     .menu-box__lang-notification--select-notification-box__item{

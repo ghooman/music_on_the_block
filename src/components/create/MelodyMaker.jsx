@@ -209,6 +209,16 @@ const MelodyMaker = ({
   // console.log("valuesOnly:", valuesOnly);
   // console.log("valuesOnly length:", valuesOnly.length);
 
+  const sunoPrompt = `장르 : ${melody_genre?.[0] || '임의의 장르'},
+    태그 : ${melody_tag?.[0] || '임의의 태그'},
+    성별 : ${melody_gender?.[0] || '임의의 성별'},
+    악기 : ${melody_instrument?.[0] || '임의의 악기'},
+    템포 : ${tempo},
+    세부 설명 : ${melodyDetail || '없음'},
+  `;
+
+  console.log('sunoPrompt:', sunoPrompt);
+
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
     const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
@@ -285,7 +295,7 @@ const MelodyMaker = ({
 
       // 최종 프롬프트 생성 selectedVersion 에따라 분기
 
-      const finalPrompt = selectedVersion === 'V4_5' ? valuesOnly : await generateFinalPrompt();
+      const finalPrompt = selectedVersion === 'V4_5' ? sunoPrompt : await generateFinalPrompt();
 
       // 앨범 커버 생성 (앨범 커버가 없는 경우만)
       let coverImageUrl = albumCover;

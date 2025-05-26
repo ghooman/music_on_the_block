@@ -440,7 +440,13 @@ const MelodyChatBot = ({
 
   // 최종 프롬프트 변형 함수
   // gpt를 이용하여서 데이터를 받고 "예시 형식으로 프롬프트를 전환합니다."
-
+  const sunoPrompt = `장르 : ${melody_genre?.[0] || '임의의 장르'},
+    태그 : ${melody_tag?.[0] || '임의의 태그'},
+    성별 : ${melody_gender?.[0] || '임의의 성별'},
+    악기 : ${melody_instrument?.[0] || '임의의 악기'},
+    템포 : ${melody_tempo},
+    세부 설명 : ${melody_detail || '없음'},
+  `;
   const generateFinalPrompt = async () => {
     try {
       // Genre를 대문자로 변환 (genrePreset 기반)
@@ -611,7 +617,7 @@ const MelodyChatBot = ({
           mood: '',
           tags: Array.isArray(melody_tag) ? melody_tag.join(', ') : melody_tag || '',
           cover_image: coverUrl,
-          prompt: generatedPrompt,
+          prompt: selectedVersion === 'V4_5' ? sunoPrompt : generatedPrompt,
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,

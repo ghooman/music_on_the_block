@@ -607,8 +607,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     </li>
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
-                      onClick={() => handleSubItemClick('ai-singing')}
-                      // onClick={() => setPreparingModal(true)}
+                      // onClick={() => handleSubItemClick('ai-singing')}
+                      onClick={() => setPreparingModal(true)}
                     >
                       <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
                     </li>

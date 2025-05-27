@@ -371,7 +371,8 @@ function Album() {
             className={`album__content-list__tab__item ${
               activeTab === 'AI Singing Evaluation' ? 'active' : ''
             }`}
-            onClick={() => setActiveTab('AI Singing Evaluation')}
+            onClick={() => setPreparingModal(true)}
+            // onClick={() => setActiveTab('AI Singing Evaluation')}
           >
             {t('AI Singing Evaluation')}
           </button>

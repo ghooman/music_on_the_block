@@ -30,7 +30,7 @@ import { useTokenBalance } from '../hooks/useTokenBalance';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
 import { translatedNationsName } from '../i18n/i18n';
-
+import { formatLocalTime } from '../utils/getFormattedTime';
 import {
   getNotifications,
   deleteNotification,
@@ -398,7 +398,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 </p>
                 <div className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
                   <img src={notificationCalendar} alt="calendar" />
-                  {item?.create_dt}
+                  {formatLocalTime(item?.create_dt)}
                 </div>
               </div>
               <button

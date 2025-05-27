@@ -17,6 +17,8 @@ import SubCategories from '../../unit/SubCategories';
 import { BarChart, LineChart, PieChart } from '../../unit/Chart';
 import { formatLocalTime } from '../../../utils/getFormattedTime';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
+import { criticsDataForArray } from '../../../data/criticsData';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -25,11 +27,6 @@ const AiServiceTypeList = [
   { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: false },
   { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
 ];
-const AiStatusList = [
-  { name: 'All' },
-  { name: 'Song', image: LyricsAndSongwritingIcon, preparing: false },
-  { name: 'BGM', image: SongwritingIcon, preparing: false },
-];
 
 const AiServices = ({ username }) => {
   const { t } = useTranslation('my_page');
@@ -37,110 +34,36 @@ const AiServices = ({ username }) => {
   const [openModal, setOpenModal] = useState(false);
   const [showPreparingModal, setShowPreparingModal] = useState(false);
 
-  const [selectedServiceChartItem, setSelectedSErviceChartItem] = useState(
+  const [selectedServiceChartItem, setSelectedServiceChartItem] = useState(
     AiServiceTypeList[0].name
   );
-  const [selectedStatusChartItem, setSelectedStatusItem] = useState(AiStatusList[0]?.name);
 
-  const [dailyUsageData, setDailyUsageData] = useState([]);
-  const [songRatingCountData, setSongRatingCountData] = useState();
+  // 최상단 차트 데이터 GET
+  const { data: aiServiceData } = useQuery(['ai_service_data_overview', username], async () => {
+    const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
+    return res.data;
+  });
 
-  const [aiServiceData, setAiServiceData] = useState();
   const aiServiceChartData = [
     {
       id: 'AI Lyrics & Songwriting',
       value: aiServiceData?.song_writing,
       color: 'hsl(252, 100%, 50%)',
-      preparing: false,
       image: generatedLyricSongwritingIcon,
     },
     {
       id: 'AI Singing Evaluation',
       value: aiServiceData?.singing_evaluation,
       color: 'hsl(162, 100%, 50%)',
-      preparing: true,
       image: generatedSigingEvaluationIcon,
     },
     {
       id: 'AI Cover Creation',
       value: aiServiceData?.cover_creation,
       color: 'hsl(342, 100%, 50%)',
-      preparing: true,
       image: generatedCoverCreationIcon,
     },
   ];
-
-  const [aiStatusData, setAiStatusData] = useState();
-  const aiStatusChartData = [
-    {
-      id: 'Song',
-      value: aiStatusData?.total_song_creation,
-      color: 'hsl(101, 100.00%, 26.10%)',
-      preparing: false,
-    },
-    {
-      id: 'BGM',
-      value: aiStatusData?.total_bgm_creation,
-      color: 'hsl(139, 100.00%, 11.00%)',
-      preparing: true,
-    },
-  ];
-
-  useEffect(() => {
-    if (!username) return;
-
-    const getAiServiceData = async () => {
-      try {
-        const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
-        setAiServiceData(res.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    const getStatusData = async () => {
-      try {
-        const res = await axios.get(`${serverApi}/api/user/ai/service/statistics?name=${username}`);
-        setAiStatusData(res.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    const getSongRatingCount = async () => {
-      try {
-        const res = await axios.get(
-          `${serverApi}/api/user/song/rating/count?user_name=${username}`
-        );
-        console.log('등급별 카운트', res.data);
-        const data = Object.entries(res.data)?.map(([key, value]) => {
-          return { date: key, value: value };
-        });
-        console.log(data, '등급별 카운트2');
-
-        setSongRatingCountData(data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    const getDailyUsageData = async () => {
-      try {
-        const res = await axios.get(
-          `${serverApi}/api/user/daily/ai/usage/statistics?name=${username}`
-        );
-        const formatXY = res.data?.map(item => ({ x: item.record_date, y: item.cnt }));
-        setDailyUsageData(formatXY);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    getSongRatingCount();
-    getAiServiceData();
-    getStatusData();
-    getDailyUsageData();
-  }, [username]);
 
   return (
     <>
@@ -159,7 +82,7 @@ const AiServices = ({ username }) => {
                   setShowPreparingModal(true);
                   return;
                 }
-                setSelectedSErviceChartItem(item.name);
+                setSelectedServiceChartItem(item.name);
               }}
             >
               <div className="ai__service-btn--image">
@@ -171,6 +94,7 @@ const AiServices = ({ username }) => {
         </div>
 
         {/** 콘텐츠 */}
+
         <div className="ai__chart">
           <PieChart
             height={300}
@@ -182,83 +106,19 @@ const AiServices = ({ username }) => {
         </div>
       </section>
       {/** 차트 조작 */}
-      <section className="ai__ai-status">
-        <p className="ai-status__title">{t('AI Service Status')}</p>
-        <SubCategories
-          categories={AiStatusList}
-          handler={setSelectedStatusItem}
-          value={selectedStatusChartItem}
-          translateFn={t}
-        />
-        {/** 콘텐츠 */}
-        <div className="ai-status__info">
-          <div className="ai-status__chart">
-            {/* <img src={demoChart2} alt="chart" /> */}
-            <PieChart
-              height={300}
-              width={300}
-              data={aiStatusChartData}
-              selectedItem={selectedStatusChartItem}
-            />
-          </div>
-          <div className="ai-status__detail">
-            <p className="ai-status__detail-title">{t('AI Service Details')}</p>
-            <div className="ai-status__detail-box">
-              <div className="ai-status__detail-item">
-                <p className="detail-item__title">{t('Top Genre')}</p>
-                <p className="detail-item__value">{aiStatusData?.top_type || '-'}</p>
-              </div>
-              <div className="ai-status__detail-item">
-                <p className="detail-item__title">{t('Total Creation')}</p>
-                <p className="detail-item__value">
-                  {aiStatusData?.total_creation?.toLocaleString() || '-'}
-                </p>
-              </div>
-              <div className="ai-status__detail-item">
-                <p className="detail-item__title">{t('Total Earn')}</p>
-                <p className="detail-item__value">
-                  {aiStatusData?.total_earn?.toLocaleString() || '-'} MIC
-                </p>
-              </div>
-              <div className="ai-status__detail-item">
-                <p className="detail-item__title">{t('Total Likes')}</p>
-                <p className="detail-item__value">
-                  {aiStatusData?.total_likes?.toLocaleString() || '-'}
-                </p>
-              </div>
-              <div className="ai-status__detail-item">
-                <p className="detail-item__title">{t('Total Plays')}</p>
-                <p className="detail-item__value">
-                  {aiStatusData?.total_plays?.toLocaleString() || '-'}
-                </p>
-              </div>
-              <div className="ai-status__detail-item">
-                <p className="detail-item__title">{t('Last Used Date')}</p>
-                <p className="detail-item__value">
-                  {aiStatusData?.last_used_date
-                    ? formatLocalTime(aiStatusData?.last_used_date)
-                    : '-'}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {selectedServiceChartItem === 'AI Lyrics & Songwriting' && (
+        <>
+          <LyricsAndSonwritingStatus t={t} username={username} />
+          <LyricsAndSonwritingGraph t={t} username={username} />
+        </>
+      )}
+      {selectedServiceChartItem === 'AI Singing Evaluation' && (
+        <>
+          <EvaluationStatus t={t} username={username} />
+          <EvaluationGraph t={t} username={username} />
+        </>
+      )}
 
-      <section className="ai__period">
-        <p className="period__title">{t('Graph List')}</p>
-        <div className="period__menu"></div>
-        <div className="period__chart">
-          <div className="period__chart--item">
-            <p>{t('AI Work Trends By Period (7-Dates Fixed)')}</p>
-            {dailyUsageData && <LineChart data={dailyUsageData} />}
-          </div>
-          <div className="period__chart--item">
-            <p>{t('Song Grade Distribution')}</p>
-            {songRatingCountData && <BarChart data={songRatingCountData} />}
-          </div>
-        </div>
-      </section>
       {openModal && <FilterDateModal setOpenModal={setOpenModal} />}
       {showPreparingModal && <PreparingModal setPreparingModal={setShowPreparingModal} />}
     </>
@@ -266,3 +126,252 @@ const AiServices = ({ username }) => {
 };
 
 export default AiServices;
+
+//===================
+// 곡 생성 상세 정보
+//===================
+
+const LyricsAndSonwritingStatus = ({ t, username }) => {
+  const [select, setSelect] = useState('All');
+
+  const { data: statusData } = useQuery(
+    [`status_data_for_lyrics_songwriting`, username],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/user/ai/service/statistics?name=${username}`);
+
+      return res.data;
+    }
+  );
+
+  const AiStatusList = [
+    { name: 'All' },
+    { name: 'Song', image: LyricsAndSongwritingIcon, preparing: false },
+    { name: 'BGM', image: SongwritingIcon, preparing: false },
+  ];
+
+  const aiStatusChartData = [
+    {
+      id: 'Song',
+      value: statusData?.total_song_creation,
+      color: 'hsl(101, 100.00%, 26.10%)',
+    },
+    {
+      id: 'BGM',
+      value: statusData?.total_bgm_creation,
+      color: 'hsl(139, 100.00%, 11.00%)',
+    },
+  ];
+
+  const detailsArray = [
+    { title: 'Top Genre', value: statusData?.top_type || '-' },
+    { title: 'Total Creation', value: statusData?.total_creation?.toLocaleString() || '-' },
+    { title: 'Total Earn', value: (statusData?.total_earn?.toLocaleString() || '-') + 'MIC' },
+    { title: 'Total Likes', value: statusData?.total_likes?.toLocaleString() || '-' },
+    { title: 'Total Plays', value: statusData?.total_plays?.toLocaleString() || '-' },
+    {
+      title: 'Last Used Date',
+      value: statusData?.last_used_date ? formatLocalTime(statusData?.last_used_date) : '-',
+    },
+  ];
+
+  return (
+    <StatusTemplate
+      t={t}
+      categories={AiStatusList}
+      select={select}
+      setSelect={setSelect}
+      pieChartData={aiStatusChartData}
+      detailData={detailsArray}
+    />
+  );
+};
+
+//===================
+// 평가 관련 상세 정보
+//===================
+
+const EvaluationStatus = ({ t, username }) => {
+  const [select, setSelect] = useState('All');
+
+  const { data: statusData } = useQuery(['status_data_for_evaluation_data', username], async () => {
+    const res = await axios.get(
+      `${serverApi}/api/user/evaluation/service/statistics?name=${username}`
+    );
+
+    return res.data;
+  });
+
+  const categories = [{ name: 'All' }, ...criticsDataForArray.map(item => ({ name: item.name }))];
+  const detailsArray = [
+    { title: 'Total Evaluation', value: statusData?.total_evaluation || 0 },
+    { title: 'Top Score', value: statusData?.top_score || 0 },
+    { title: 'Top Emotion', value: statusData?.top_emotion || 0 },
+    { title: 'Top Creativity', value: statusData?.top_creativity || 0 },
+    { title: 'Top Structure', value: statusData?.top_structure || 0 },
+    { title: 'Top Sound', value: statusData?.top_sound || 0 },
+    { title: 'Top Popularity', value: statusData?.top_popularity || 0 },
+  ];
+
+  const findCriticsCount = name => {
+    if (statusData?.data_list) {
+      return statusData?.data_list?.find(item => item.critic === name)?.cnt || 0;
+    }
+  };
+
+  const aiStatusChartData = [
+    {
+      id: 'Jinwoo Yoo',
+      value: findCriticsCount('Jinwoo Yoo'),
+      color: 'hsl(101, 100.00%, 26.10%)',
+    },
+    {
+      id: 'Drexx',
+      value: findCriticsCount('Drexx'),
+      color: 'hsl(139, 100.00%, 11.00%)',
+    },
+    {
+      id: 'Elara Moon',
+      value: findCriticsCount('Elara Moon'),
+      color: 'hsl(139, 100.00%, 11.00%)',
+    },
+  ];
+
+  return (
+    <StatusTemplate
+      t={t}
+      categories={categories}
+      select={select}
+      setSelect={setSelect}
+      pieChartData={aiStatusChartData}
+      detailData={detailsArray}
+    />
+  );
+};
+
+//===============
+// 음악 생성 그래프
+//===============
+const LyricsAndSonwritingGraph = ({ t, username }) => {
+  const { data: dailyUsageData } = useQuery(
+    ['graph_data_for_daily_usage', username],
+    async () => {
+      const res = await axios.get(
+        `${serverApi}/api/user/daily/ai/usage/statistics?name=${username}`
+      );
+      const formatXY = res.data?.map(item => ({ x: item.record_date, y: item.cnt }));
+      return formatXY;
+    },
+    { enabled: !!username }
+  );
+
+  const { data: ratingCountData } = useQuery(
+    ['graph_data_for_rating_count', username],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/user/song/rating/count?user_name=${username}`);
+      const data = Object.entries(res.data)?.map(([key, value]) => {
+        return { date: key, value: value };
+      });
+      console.log(data, '비와이');
+
+      return data;
+    },
+    { enabled: !!username }
+  );
+
+  return (
+    <GraphTemplate
+      t={t}
+      lineDataTitle="AI Work Trends By Period (7-Dates Fixed)"
+      lineData={dailyUsageData}
+      barDataTitle="Song Grade Distribution"
+      barData={ratingCountData}
+    />
+  );
+};
+
+//=============
+// 평가 그래프
+//=============
+const EvaluationGraph = ({ t, username }) => {
+  const { data: dailyUsageData } = useQuery(
+    ['graph_data_for_daily_usage_score', username],
+    async () => {
+      const res = await axios.get(
+        `${serverApi}/api/user/evaluation/usage/statistics?name=${username}`
+      );
+      const formatXY = res.data?.map(item => ({ x: item.record_date, y: item.cnt }));
+      return formatXY;
+    },
+    { enabled: !!username }
+  );
+
+  const { data: scoreData } = useQuery(
+    ['graph_data_for_score', username],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/user/evaluation/average?name=${username}`);
+      const data = Object.entries(res.data)?.map(([key, value]) => {
+        return { date: key, value: value };
+      });
+      console.log(data, '수퍼비');
+      return data;
+    },
+    { enabled: !!username }
+  );
+
+  console.log(scoreData, dailyUsageData, '데이터들입니다.');
+
+  return (
+    // <div></div>
+    <GraphTemplate
+      t={t}
+      lineDataTitle="AI Work Trends By Period (7-Dates Fixed)"
+      lineData={dailyUsageData}
+      barDataTitle="Song Grade Distribution"
+      barData={scoreData}
+    />
+  );
+};
+
+const StatusTemplate = ({ t, categories, select, setSelect, pieChartData, detailData }) => {
+  return (
+    <section className="ai__ai-status">
+      <p className="ai-status__title">{t('AI Service Status')}</p>
+      <SubCategories categories={categories} translateFn={t} value={select} handler={setSelect} />
+      <div className="ai-status__info">
+        <div className="ai-status__chart">
+          <PieChart height={300} width={300} data={pieChartData} selectedItem={select} />
+        </div>
+        <div className="ai-status__detail">
+          <p className="ai-status__detail-title">{t('AI Service Details')}</p>
+          <div className="ai-status__detail-box">
+            {detailData.map((item, key) => (
+              <div className="ai-status__detail-item">
+                <p className="detail-item__title">{t(item.title)}</p>
+                <p className="detail-item__value">{item?.value || '-'}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const GraphTemplate = ({ t, lineDataTitle, lineData, barDataTitle, barData }) => {
+  return (
+    <section className="ai__period">
+      <p className="period__title">{t('Graph List')}</p>
+      <div className="period__menu"></div>
+      <div className="period__chart">
+        <div className="period__chart--item">
+          <p>{t(lineDataTitle)}</p>
+          {lineData && <LineChart data={lineData} />}
+        </div>
+        <div className="period__chart--item">
+          <p>{t(barDataTitle)}</p>
+          {barData && <BarChart data={barData} />}
+        </div>
+      </div>
+    </section>
+  );
+};

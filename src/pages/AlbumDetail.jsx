@@ -220,12 +220,15 @@ function AlbumDetail() {
 
   // 노래 평가 데이터 가져오기
   const getEvaluationData = async () => {
+    setIsLoading(true);
     try {
       const res = await getEvaluationDetailFromCriticSongId({ critic, song_id: id });
       setEvaluationData(res.data);
     } catch (e) {
       setEvaluationData(null);
       console.error(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -302,7 +305,6 @@ function AlbumDetail() {
   }, [id, walletAddress, token, serverApi]);
 
   useEffect(() => {
-    console.log(service, '싸비스');
     if (service !== 'AI Singing Evaluation') return;
     getEvaluationData();
   }, [critic, id]);

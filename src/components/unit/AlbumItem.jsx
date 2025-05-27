@@ -26,22 +26,22 @@ const AlbumItem = ({
   type = 'song',
 }) => {
   const { t } = useTranslation('module');
-  const [runningTime, setRunningTime] = useState();
+  // const [runningTime, setRunningTime] = useState();
 
-  useEffect(() => {
-    if (!track) return;
-    const audio = new Audio(track.music_url);
+  // useEffect(() => {
+  //   if (!track) return;
+  //   const audio = new Audio(track.music_url);
 
-    const setting = () => {
-      let time;
-      time = audio.duration;
-      setRunningTime(time);
-    };
-    audio.addEventListener('loadedmetadata', setting);
-    return () => {
-      audio.removeEventListener('loadedmetadata', setting);
-    };
-  }, [track]);
+  //   const setting = () => {
+  //     let time;
+  //     time = audio.duration;
+  //     setRunningTime(time);
+  //   };
+  //   audio.addEventListener('loadedmetadata', setting);
+  //   return () => {
+  //     audio.removeEventListener('loadedmetadata', setting);
+  //   };
+  // }, [track]);
 
   const handleTogglePlay = e => {
     e.stopPropagation();
@@ -100,12 +100,16 @@ const AlbumItem = ({
         </div>
         <span className="time">
           <strong>
-            {isActive ? formatTime(currentTime) : runningTime && formatTime(runningTime)}
+            {/* {isActive ? formatTime(currentTime) : runningTime && formatTime(runningTime)} */}
+            {track?.song_length}
           </strong>
           {/* <strong>{runningTime && formatTime(runningTime)}</strong> */}
         </span>
       </div>
       <div className="album__content-list__list__item__right">
+        {/**
+         * 조합 형태로 진행됩니다.
+         */}
         {type === 'song' && (
           <>
             <SongTitle title={track?.title} />

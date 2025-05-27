@@ -10,8 +10,11 @@ import { useEffect, useState } from 'react';
 
 export const PieChart = ({ height, width, data, selectedItem, legends }) => {
   const total = data ? data.reduce((a, b) => a + b.value, 0) : 0;
+  const [renderData, setRenderData] = useState([{}]);
 
   const getColor = datum => {
+    if (!renderData.find(item => item.value)) return;
+
     const hslString = datum?.data?.color;
     const hslRegex = /hsl\(\s*(\d+),\s*([\d.]+)%?,\s*([\d.]+)%?\s*\)/;
     const match = hslString.match(hslRegex);
@@ -26,6 +29,17 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
 
   const matchedData = data.find(item => item.id === selectedItem);
 
+  useEffect(() => {
+    let TO;
+    TO = setTimeout(() => {
+      setRenderData(data);
+    }, 100);
+
+    return () => {
+      clearTimeout(TO);
+    };
+  }, []);
+
   return (
     <div
       className="chart__pie"
@@ -35,7 +49,7 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
         sortByValue={true}
         activeId={matchedData?.id}
         tooltip={() => null}
-        data={data}
+        data={renderData}
         margin={{ top: 10, right: 10, bottom: 30, left: 10 }}
         innerRadius={0.5}
         padAngle={2}

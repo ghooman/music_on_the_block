@@ -8,7 +8,7 @@ import axios from 'axios';
 import { GetMyTopAlbumList } from '../../../api/GetMyTopAlbumList';
 import { getReleaseAndUnReleaseSongData } from '../../../api/getReleaseAndUnReleaseSongData';
 
-import TopSongsTemplate from './TopSongsTemplate';
+import TopSongsTemplates from './TopSongsTemplate';
 import ContentWrap from '../../unit/ContentWrap';
 import SubCategories from '../../unit/SubCategories';
 import Filter from '../../unit/Filter';
@@ -20,6 +20,10 @@ import SongDeleteAndReleaseModal from '../../SongDeleteAndReleaseModal';
 import Loading from '../../IntroLogo2';
 import { useTranslation } from 'react-i18next';
 
+import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
+
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const myAlbumsCategoryList = [
@@ -27,13 +31,34 @@ const myAlbumsCategoryList = [
   { name: 'Released', preparing: false },
 ];
 
-const MySongsList = ({ token }) => {
+const topAlbumsCategoryList = [
+  {
+    name: 'AI Lyrics & Songwriting',
+    image: generatedLyricSongwritingIcon,
+    preparing: false,
+  },
+  {
+    name: 'AI Singing Evaluation',
+    image: generatedSigingEvaluationIcon,
+    preparing: false,
+  },
+  {
+    name: 'AI Cover Creation',
+    image: generatedCoverCreationIcon,
+    preparing: true,
+  },
+];
+
+const MySongsList = ({ token, username }) => {
   const { t } = useTranslation('my_page');
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [deleteMusic, setDeleteMusic] = useState(null);
   const [releaseMusic, setReleaseMusic] = useState(null);
   const [mintMusic, setMintMusic] = useState(null);
+
+  const selectAiServiceCategory =
+    searchParams.get('ai_service_category') || 'AI Lyrics & Songwriting';
 
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search') || '';
@@ -43,16 +68,6 @@ const MySongsList = ({ token }) => {
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
-
-  // 내 TOP 앨범 리스트 API 호출
-  const { data: topSongsData, isLoading: topSongLoading } = useQuery(
-    ['top_songs'],
-    async () => {
-      const { data } = await GetMyTopAlbumList(token);
-      return data;
-    },
-    { refetchOnWindowFocus: false, enabled: !!token }
-  );
 
   // 송 리스트 get API
   const {
@@ -106,7 +121,21 @@ const MySongsList = ({ token }) => {
 
   return (
     <div className="songs">
-      <TopSongsTemplate topSongsData={topSongsData} />
+      <ContentWrap title={t('Songs')}>
+        <SubCategories
+          categories={topAlbumsCategoryList}
+          value={selectAiServiceCategory}
+          handler={value =>
+            setSearchParams(prev => {
+              return { ...Object.fromEntries(prev), ai_service_category: value };
+            })
+          }
+        />
+        <TopSongsTemplates
+          topSong={selectAiServiceCategory === 'AI Lyrics & Songwriting'}
+          username={username}
+        />
+      </ContentWrap>
       <ContentWrap title={t('Song List')}>
         <SubCategories
           categories={myAlbumsCategoryList}
@@ -139,7 +168,7 @@ const MySongsList = ({ token }) => {
         />
         <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />
       </ContentWrap>
-      {(topSongLoading || songsListLoading) && <Loading />}
+      {songsListLoading && <Loading />}
       {deleteMusic && (
         <SongDeleteAndReleaseModal
           setter={setDeleteMusic}

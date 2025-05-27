@@ -239,7 +239,7 @@ const MelodyMaker = ({
       // V4_5인지 여부에 따라 시스템 메시지를 분기
       const isV4_5 = selectedVersion === 'V4_5';
       const systemPrompt = isV4_5
-        ? 'You are an AI assistant that transforms music metadata into a concise English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song.'
+        ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
         : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
 
       // 사용자 메시지(메타데이터)
@@ -295,7 +295,8 @@ const MelodyMaker = ({
 
       // 최종 프롬프트 생성 selectedVersion 에따라 분기
 
-      const finalPrompt = selectedVersion === 'V4_5' ? sunoPrompt : await generateFinalPrompt();
+      // const finalPrompt = selectedVersion === 'V4_5' ? sunoPrompt : await generateFinalPrompt();
+      const finalPrompt = await generateFinalPrompt();
 
       // 앨범 커버 생성 (앨범 커버가 없는 경우만)
       let coverImageUrl = albumCover;

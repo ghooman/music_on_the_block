@@ -175,23 +175,27 @@ const Critics = ({ critic, evaluationDt }) => {
 
   useEffect(() => {
     const ms = new Date() - new Date(evaluationDt);
+    let time;
+    let suffix;
 
-    const seconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(ms / (1000 * 60));
-    const hours = Math.floor(ms / (1000 * 60 * 60));
-    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-
-    if (seconds < 60) {
-      setTimeAgo({ time: seconds, suffix: 'seconds' });
-    } else if (minutes < 60) {
-      setTimeAgo({ time: minutes, suffix: 'minutes' });
-    } else if (hours < 24) {
-      setTimeAgo({ time: hours, suffix: 'hours' });
-    } else if (days < 30) {
-      setTimeAgo({ time: days, suffix: 'days' });
+    if (Math.floor(ms / 1000) < 60) {
+      time = Math.floor(ms / 1000);
+      suffix = 'seconds';
+    } else if (Math.floor(ms / (1000 * 60)) < 60) {
+      time = Math.floor(ms / (1000 * 60));
+      suffix = 'minutes';
+    } else if (Math.floor(ms / (1000 * 60 * 60)) < 24) {
+      time = Math.floor(ms / (1000 * 60 * 60));
+      suffix = 'hours';
+    } else if (Math.floor(ms / (1000 * 60 * 60 * 24)) < 30) {
+      time = Math.floor(ms / (1000 * 60 * 60 * 24));
+      suffix = 'days';
     } else {
-      setTimeAgo({ time: '', suffix: 'More than 30days' });
+      time = '';
+      suffix = 'More than 30days';
     }
+
+    setTimeAgo({ time, suffix });
   }, []);
 
   return (

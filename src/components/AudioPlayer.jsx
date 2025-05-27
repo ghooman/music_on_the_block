@@ -8,26 +8,30 @@ import track1 from '../assets/music/nisoft_song.mp3';
 
 
 
-const playList = [
-  {
-    id: 1,
-    src: track1,
-    img: demoImg,
-    name: "I Just Wanna Dance",     // 제목
-    writer: "Kim Nac-il",           // 아티스트
-    description: "MOTB Demo Track"  // 한 줄 설명(선택)
-  },
-  {
-    id: 2,
-    src: track1,
-    img: demoImg,
-    name: "Endless Loop",
-    writer: "AI Composer",
-    description: "Generated with MOTB v2"
-  }
-];
+
 
 export default function MusicPlayer() {
+
+  const playList = [
+    {
+      id: 1,
+      src: track1,
+      img: demoImg,
+      name: "I Just Wanna Dance",     // 제목
+      writer: "Kim Nac-il",           // 아티스트
+      description: "MOTB Demo Track"  // 한 줄 설명(선택)
+    },
+    {
+      id: 2,
+      src: track1,
+      img: demoImg,
+      name: "Endless Loop",
+      writer: "AI Composer",
+      description: "Generated with MOTB v2"
+    }
+  ];
+  
+  
   return (
     <>
       <AudioPlayer

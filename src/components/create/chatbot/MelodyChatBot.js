@@ -169,7 +169,7 @@ const MelodyChatBot = ({
           const extractedTags = tagMatch[1]
             .trim()
             .split(',')
-            .map(tag => tag.trim())
+            .map(tag => tag.trim().replace(/^['"]+|['"]+$/g, ''))
             .filter(tag => tag !== ''); // 빈 태그 필터링
           console.log('Extracted tags (standard):', extractedTags);
           setMelodyData(prevData => ({
@@ -189,7 +189,7 @@ const MelodyChatBot = ({
           const extractedTags = tagMatch[1]
             .trim()
             .split(',')
-            .map(tag => tag.trim())
+            .map(tag => tag.trim().replace(/^['"]+|['"]+$/g, ''))
             .filter(tag => tag !== ''); // 빈 태그 필터링
           console.log('Extracted tags (prompt):', extractedTags);
           setMelodyData(prevData => ({

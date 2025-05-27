@@ -62,7 +62,7 @@ function App() {
   const { pathname } = useLocation();
   const { language } = navigator;
 
-  console.log('navigator', navigator);
+  // console.log('navigator', navigator);
 
   useEffect(() => {
     if (language?.startsWith('ko')) {

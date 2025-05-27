@@ -10,8 +10,6 @@ export const useUserDetail = () => {
   const { walletAddress, isLoggedIn, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log('token', token);
-
   const query = useQuery(
     'userDetail',
     async () => {

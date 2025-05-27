@@ -57,7 +57,6 @@ const GetStarted = ({
       const res = await axios.get(`${serverApi}/api/music/ai/active`);
       // setVersionList({ suno: true, mureka: true, topmediai: true });
       setVersionList(res.data);
-      console.log(res.data);
       setTitle(
         res.data.suno ? 'L&S Plus(V2.2)' : res.data.mureka ? 'L&S Pro(V2.0)' : 'L&S One(V1.0)'
       );

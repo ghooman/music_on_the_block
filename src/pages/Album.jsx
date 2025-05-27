@@ -377,7 +377,6 @@ function Album() {
             </section>
           </article>
         )}
-
         {service === 'AI Singing Evaluation' && (
           <section className="main__content-item">
             <article className="main__content-item__persona">
@@ -401,7 +400,10 @@ function Album() {
             <article className="album__content-list">
               <p className="album__content-list__title">
                 {t('Evaluation Stage')}
-                <Link className="album__content-list__see-more-btn" to="/">
+                <Link
+                  className="album__content-list__see-more-btn"
+                  to="/song/list?service=AI+Singing+Evaluation"
+                >
                   {t('See More')}
                 </Link>
               </p>

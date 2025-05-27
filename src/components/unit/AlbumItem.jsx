@@ -200,7 +200,7 @@ const Critics = ({ critic, evaluationDt }) => {
 
   return (
     <div className="album__content-list__list__item__right__critic">
-      <img src={criticsDataForObject[critic].image} alt="critic" />
+      <img src={criticsDataForObject[critic]?.image} alt="critic" />
       <p>
         {timeAgo?.time} {timeAgo?.suffix} ago
       </p>

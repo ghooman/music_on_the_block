@@ -21,6 +21,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
 import ErrorModal from '../components/modal/ErrorModal';
+import axios from 'axios';
 
 const EvaluationBegin = () => {
   const navigate = useNavigate();
@@ -42,7 +43,8 @@ const EvaluationBegin = () => {
         critic: selectCritic?.name,
       });
       return res.data.cnt;
-    }
+    },
+    { enabled: !!selectCritic && !!selectMusic }
   );
 
   //================
@@ -54,26 +56,32 @@ const EvaluationBegin = () => {
     // 결과 페이지에서는 navigate로 state 값을 수신 받고
     // 새로고침 및 뒤로가기 버튼 클릭시 안내 창을 띄움
 
-    try {
-      navigate('/evaluation-results', {
-        state: {
-          song_data: selectMusic,
-          critic: selectCritic.name,
-          emotion: 80,
-          creativity: 94,
-          structure: 66,
-          sound: 75,
-          popularity: 56,
-          score: 80,
-          feedback: 'Good',
-          to_improve: 'good',
-          why_this_score: 'good',
-          key_points: 'good',
-        },
-      });
-    } catch (e) {
-      setErrorMessage(e?.response?.data?.detail || e?.message);
-    }
+    const res = await axios.get(`http://127.0.0.1:8000/pybo/evaluation/`, {
+      params: {
+        music_url: encodeURIComponent(selectMusic?.music_url),
+      },
+    });
+
+    // try {
+    //   navigate('/evaluation-results', {
+    //     state: {
+    //       song_data: selectMusic,
+    //       critic: selectCritic.name,
+    //       emotion: 80,
+    //       creativity: 94,
+    //       structure: 66,
+    //       sound: 75,
+    //       popularity: 56,
+    //       score: 80,
+    //       feedback: 'Good',
+    //       to_improve: 'good',
+    //       why_this_score: 'good',
+    //       key_points: 'good',
+    //     },
+    //   });
+    // } catch (e) {
+    //   setErrorMessage(e?.response?.data?.detail || e?.message);
+    // }
   };
 
   return (

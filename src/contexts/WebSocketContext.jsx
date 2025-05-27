@@ -74,7 +74,6 @@ export const WebSocketProvider = ({ children }) => {
     return () => window.removeEventListener('online', handleOnline);
   }, [isAlbumConnected, isNftConnected]);
 
-  console.log('메시지', lastAlbumMessage, lastNftMessage);
   return (
     <WebSocketContext.Provider
       value={{

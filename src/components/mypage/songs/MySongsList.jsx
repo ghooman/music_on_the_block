@@ -23,6 +23,10 @@ import { useTranslation } from 'react-i18next';
 import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
+import { getEvaluationList } from '../../../api/evaluation/getList';
+import SongsBar from '../../unit/SongsBar';
+import { EvaluationListItem, EvaluationListItemWrapper } from '../../unit/EvaluationListItem';
+import NoneContent from '../../unit/NoneContent';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -65,6 +69,7 @@ const MySongsList = ({ token, username }) => {
   const songsSort = searchParams.get('songs_sort');
   const releaseType = searchParams.get('release_type') || 'Unreleased';
   const aiServiceFilter = searchParams.get('ai_service_filter');
+  const criticFilter = searchParams.get('critic_filter');
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -87,7 +92,28 @@ const MySongsList = ({ token, username }) => {
       });
       return data;
     },
-    { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!token && !!releaseType && selectAiServiceCategory === 'AI Lyrics & Songwriting',
+    }
+  );
+
+  // 평가 리스트 get API
+  const { data: evaluationData, isLoading: evaluationListLoading } = useQuery(
+    ['evaluation_list', { page, songsSort, search, username, criticFilter }],
+    async () => {
+      const res = await getEvaluationList({
+        page,
+        sort_by: songsSort,
+        search_keyword: search,
+        name: username,
+        critic: criticFilter,
+      });
+      return res.data;
+    },
+    {
+      enabled: !!token && selectAiServiceCategory === 'AI Singing Evaluation',
+    }
   );
 
   //=============
@@ -126,49 +152,83 @@ const MySongsList = ({ token, username }) => {
           categories={topAlbumsCategoryList}
           value={selectAiServiceCategory}
           handler={value =>
-            setSearchParams(prev => {
-              return { ...Object.fromEntries(prev), ai_service_category: value };
+            setSearchParams({
+              category: 'Songs',
+              ai_service_category: value,
+              page: 1,
             })
           }
         />
         <TopSongsTemplates
           topSong={selectAiServiceCategory === 'AI Lyrics & Songwriting'}
+          topScore={selectAiServiceCategory === 'AI Singing Evaluation'}
           username={username}
         />
       </ContentWrap>
       <ContentWrap title={t('Song List')}>
-        <SubCategories
-          categories={myAlbumsCategoryList}
-          translateFn={t}
-          handler={value => {
-            setSearchParams(prev => {
-              const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
-              return { ...rest, release_type: value, page: 1 };
-            });
-          }}
-          value={releaseType}
-        />
-        <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={['Latest', 'Oldest']} aiServiceFilter={true} />
-          <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
-        </ContentWrap.SubWrap>
-        <SongPlayTable
-          songList={songsList?.data_list}
-          deleteOption={true}
-          releaseOption={releaseType === 'Unreleased'}
-          gradeOption={releaseType === 'Released'}
-          nftOption={releaseType === 'Released'}
-          mintOption={releaseType === 'Released'}
-          playsOption={releaseType === 'Released'}
-          likesOption={releaseType === 'Released'}
-          handleDelete={setDeleteMusic}
-          handleRelease={setReleaseMusic}
-          handleMint={handleMint}
-          artistOption={false}
-        />
-        <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />
+        {selectAiServiceCategory === 'AI Lyrics & Songwriting' && (
+          <SubCategories
+            categories={myAlbumsCategoryList}
+            translateFn={t}
+            handler={value => {
+              setSearchParams(prev => {
+                const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
+                return { ...rest, release_type: value, page: 1 };
+              });
+            }}
+            value={releaseType}
+          />
+        )}
+        {selectAiServiceCategory === 'AI Lyrics & Songwriting' && (
+          <>
+            <ContentWrap.SubWrap gap={8}>
+              <Filter songsSort={['Latest', 'Oldest']} aiServiceFilter={true} />
+              <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
+            </ContentWrap.SubWrap>
+            <SongPlayTable
+              songList={songsList?.data_list}
+              deleteOption={true}
+              releaseOption={releaseType === 'Unreleased'}
+              gradeOption={releaseType === 'Released'}
+              nftOption={releaseType === 'Released'}
+              mintOption={releaseType === 'Released'}
+              playsOption={releaseType === 'Released'}
+              likesOption={releaseType === 'Released'}
+              handleDelete={setDeleteMusic}
+              handleRelease={setReleaseMusic}
+              handleMint={handleMint}
+              artistOption={false}
+            />
+            <Pagination
+              totalCount={songsList?.total_cnt}
+              handler={null}
+              viewCount={15}
+              page={page}
+            />
+          </>
+        )}
+        {selectAiServiceCategory === 'AI Singing Evaluation' && (
+          <>
+            <ContentWrap.SubWrap gap={8}>
+              <Filter
+                criticFilter={true}
+                songsSort={['Highest Score', 'Lowest Score', 'Latest', 'Oldest']}
+              />
+              <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
+            </ContentWrap.SubWrap>
+            <EvaluationListItemWrapper>
+              {evaluationData?.data_list?.map(item => (
+                <EvaluationListItem data={item} />
+              ))}
+              {evaluationData?.data_list?.length <= 0 && (
+                <NoneContent height={300} message="There are no songs evaluated yet." />
+              )}
+            </EvaluationListItemWrapper>
+            <Pagination totalCount={evaluationData?.total_cnt} viewCount={15} page={page} />
+          </>
+        )}
       </ContentWrap>
-      {songsListLoading && <Loading />}
+      {(songsListLoading || evaluationListLoading) && <Loading />}
       {deleteMusic && (
         <SongDeleteAndReleaseModal
           setter={setDeleteMusic}

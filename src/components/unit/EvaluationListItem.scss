@@ -1,0 +1,240 @@
+.unit-component-evaluation-list-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.unit-component-evaluation-list-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 4px;
+  background: #1a1a1a;
+  padding: 8px 12px;
+  transition: 0.3s;
+  &.music-play {
+    .unit-component-evaluation-list-item__thought {
+      .unit-component-evaluation-list-item__thought__play {
+        border: 1px solid #cf0;
+        &::after {
+          opacity: 0 !important;
+        }
+        .loading-wave {
+          opacity: 1;
+        }
+      }
+    }
+  } //music-play--END--
+  &:hover {
+    .unit-component-evaluation-list-item__thought {
+      .unit-component-evaluation-list-item__thought__play {
+        border: 1px solid #cf0;
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .unit-component-evaluation-list-item__thought {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    .unit-component-evaluation-list-item__thought__play {
+      width: 30px;
+      height: 30px;
+      transition: 0.3s;
+      border: 1px solid transparent;
+      overflow: hidden;
+      border-radius: 2px;
+      transition: 0.3s;
+      position: relative;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        background: url('../../assets/images/table-play-icon.svg') center no-repeat;
+        background-size: cover;
+        transition: 0.3s;
+        opacity: 0;
+      }
+      .loading-wave {
+        width: 50px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: 0.3s;
+        opacity: 0;
+        .loading-bar {
+          width: 2px;
+          height: 6px;
+          margin: 0 1px;
+          background-color: #fff;
+          border-radius: 5px;
+          animation: loading-wave-animation 1s ease-in-out infinite;
+        }
+      }
+
+      .loading-bar:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+
+      .loading-bar:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      .loading-bar:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+
+      @keyframes loading-wave-animation {
+        0% {
+          height: 5px;
+        }
+
+        50% {
+          height: 18px;
+        }
+
+        100% {
+          height: 5px;
+        }
+      }
+    } //unit-component-evaluation-list-item__thought__play--END--
+    .unit-component-evaluation-list-item__thought__txt {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 530px;
+      span {
+        text-align: left;
+        color: #f1f1f1;
+        font-family: Inter500;
+        font-size: 14px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* 줄 수 설정 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      img {
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        overflow: hidden;
+        object-fit: cover;
+      }
+    } //unit-component-evaluation-list-item__thought__txt--END--
+  } //unit-component-evaluation-list-item__thought--END--
+  .unit-component-evaluation-list-item__title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 400px;
+    align-items: start;
+    dt {
+      color: #f1f1f1;
+      font-family: Inter400;
+      font-size: 14px;
+      text-align: left;
+    }
+    dd {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      img {
+        width: 12px;
+        height: 12px;
+        border-radius: 100%;
+        overflow: hidden;
+      }
+      color: #aaa;
+      text-align: center;
+      font-family: Inter400;
+      font-size: 12px;
+    }
+  } //unit-component-evaluation-list-item__title--END--
+  .unit-component-evaluation-list-item__details-number {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 400px;
+    .grade {
+      background: url('../../assets/images/evaluation/evaluation-basic-bg.png') center no-repeat;
+      background-size: 100% 100% !important;
+      border-radius: 50px;
+      width: 80px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
+      font-family: Inter700;
+      font-size: 14px;
+      &.gold {
+        background: url('../../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
+      }
+      &.silver {
+        background: url('../../assets/images/evaluation/evaluation-Silver-bg.png') center no-repeat;
+      }
+      &.bronze {
+        background: url('../../assets/images/evaluation/evaluation-Bronze-bg.png') center no-repeat;
+      }
+    } //grade--END--
+
+    .details-btn {
+      width: 100px;
+      height: 24px;
+      background: #222;
+      position: relative;
+      top: 0;
+      transition: 0.2s;
+      color: #aaa;
+      font-family: Orbitron600;
+      font-size: 12px;
+      font-style: normal;
+      line-height: normal;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: calc(100% - 2px);
+        transition: 0.2s;
+        border-radius: 8px;
+        height: 23px;
+        border: 1px solid #222;
+      }
+      &:hover {
+        top: 4px;
+        &::before {
+          top: 0;
+        }
+      }
+    } //details-btn--END--
+  } //unit-component-evaluation-list-item__details-number--END--
+} //unit-component-evaluation-list-item--END--

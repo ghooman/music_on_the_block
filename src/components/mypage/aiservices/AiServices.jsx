@@ -271,7 +271,6 @@ const LyricsAndSonwritingGraph = ({ t, username }) => {
       const data = Object.entries(res.data)?.map(([key, value]) => {
         return { date: key, value: value };
       });
-      console.log(data, '비와이');
 
       return data;
     },

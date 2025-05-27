@@ -10,20 +10,9 @@ import NoneContent from '../components/unit/NoneContent';
 import Loading from '../components/IntroLogo2';
 
 //이미지
-import earnMicIcon from '../assets/images/evaluation/earnMicIcon.svg';
-import algorithmIcon from '../assets/images/evaluation/algorithmIcon.svg';
-import songValueIcon from '../assets/images/evaluation/songValueIcon.svg';
-import newMusicIcon from '../assets/images/evaluation/newMusicIcon.svg';
-import biggerRewardsIcon from '../assets/images/evaluation/biggerRewardsIcon.svg';
-
 import judgeImg01 from '../assets/images/evaluation/judge-img01.png';
 import judgeImg02 from '../assets/images/evaluation/judge-img02.png';
 import judgeImg03 from '../assets/images/evaluation/judge-img03.png';
-
-import step1Img from '../assets/images/evaluation/step1-img.png';
-import step2Img from '../assets/images/evaluation/step2-img.png';
-import step3Img from '../assets/images/evaluation/step3-img.png';
-import step4Img from '../assets/images/evaluation/step4-img.png';
 
 import SongsBar from '../components/unit/SongsBar';
 import { useInfiniteQuery, useQuery } from 'react-query';
@@ -44,10 +33,17 @@ const EvaluationBegin = () => {
   //================
   // 생성 가능 횟수 체크
   //================
-  const { data: possibleCnt } = useQuery(['evaluation_possible_cnt', token], async () => {
-    const res = await getPossibleCount({ token });
-    return res.data.cnt;
-  });
+  const { data: possibleCnt } = useQuery(
+    ['evaluation_possible_cnt', token, selectMusic?.id, selectCritic?.name],
+    async () => {
+      const res = await getPossibleCount({
+        token,
+        song_id: selectMusic?.id,
+        critic: selectCritic?.name,
+      });
+      return res.data.cnt;
+    }
+  );
 
   //================
   // 평가 프로세스
@@ -278,6 +274,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
             <dt>{t('Critic')}</dt>
             <dd>
               <p>{selectCritic?.name || '-'}</p>
+
               <span>
                 {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
               </span>

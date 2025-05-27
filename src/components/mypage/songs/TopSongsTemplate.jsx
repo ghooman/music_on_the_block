@@ -5,10 +5,20 @@ import axios from 'axios';
 // 🧩 유닛 컴포넌트
 import AlbumItem from '../../unit/AlbumItem';
 
-// 🖼️ 이미지/에셋
+//스와이프
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay, FreeMode } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
 
 import './TopSongsTemplate.scss';
 import { useTranslation } from 'react-i18next';
+import { getEvaluationList } from '../../../api/evaluation/getList';
+import NoneContent from '../../unit/NoneContent';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -36,6 +46,8 @@ const LyricsAndSongwriting = ({ username }) => {
     }
   );
 
+  console.log(topSongsData, '탑 송스 데이터');
+
   return (
     <div className="top-songs-template">
       <div className="top-songs-template__item">
@@ -55,5 +67,44 @@ const LyricsAndSongwriting = ({ username }) => {
 };
 
 const SingingEvaluation = ({ username }) => {
-  return <div className="top-songs-template"></div>;
+  const { data: topScoreData } = useQuery(['top_score_data_by_username', username], async () => {
+    const res = await axios.get(`${serverApi}/api/music/evaluation/list`, {
+      params: {
+        page: 1,
+        sort_by: 'Highest Score',
+        name: username,
+      },
+    });
+    return res.data.data.data_list;
+  });
+
+  const swiperOptions = {
+    loop: false,
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    FreeMode: true,
+    navigation: true,
+    modules: [FreeMode, Navigation],
+  };
+
+  return (
+    <div className="top-songs-template">
+      {topScoreData?.length > 0 && (
+        <Swiper {...swiperOptions}>
+          {topScoreData?.map(item => (
+            <SwiperSlide key={item.id}>
+              <AlbumItem track={item} type="evaluation" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+      {topScoreData?.length <= 0 && (
+        <NoneContent height={160} message="There are no songs evaluated yet." />
+      )}
+    </div>
+  );
 };

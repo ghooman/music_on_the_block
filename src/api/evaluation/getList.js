@@ -10,7 +10,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @param {string} sort_by : 정렬
  * @returns
  */
-export const getEvaluationList = async ({ page, search_keyword, critic, sort_by }) => {
+export const getEvaluationList = async ({ page, search_keyword, critic, sort_by, name }) => {
   critic = critic === 'All' ? null : critic;
 
   try {
@@ -20,6 +20,7 @@ export const getEvaluationList = async ({ page, search_keyword, critic, sort_by 
         search_keyword,
         critic,
         sort_by,
+        name,
       },
     });
     return res.data;

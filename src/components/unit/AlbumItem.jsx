@@ -120,7 +120,7 @@ const AlbumItem = ({
         )}
         {type === 'evaluation' && (
           <>
-            <Critics critic="Jinwoo Yoo" />
+            <Critics critic="Jinwoo Yoo" evaluationDt={track?.evaluation_dt} />
             <SongTitle title={track?.title} />
             <Profile userProfile={track?.user_profile} name={track?.name} />
             <EvaluationScore score={track?.score} />
@@ -186,7 +186,8 @@ const EvaluationDetailsButton = ({ id, critic }) => {
   );
 };
 
-const Critics = ({ critic, evaluation_dt }) => {
+const Critics = ({ critic, evaluationDt }) => {
+  console.log(evaluationDt, '평가 날짜');
   return (
     <div className="album__content-list__list__item__right__critic">
       <img src={criticsDataForObject[critic].image} alt="critic" />

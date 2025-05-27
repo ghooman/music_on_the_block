@@ -30,6 +30,7 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
   const matchedData = data.find(item => item.id === selectedItem);
 
   useEffect(() => {
+    if (!data) return;
     let TO;
     TO = setTimeout(() => {
       setRenderData(data);
@@ -38,7 +39,7 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
     return () => {
       clearTimeout(TO);
     };
-  }, []);
+  }, [data]);
 
   return (
     <div

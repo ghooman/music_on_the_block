@@ -135,7 +135,7 @@ const MelodyChatBot = ({
     setLoading(true);
     try {
       const response = await client.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-nano',
         messages: [
           {
             role: 'system',
@@ -449,12 +449,18 @@ const MelodyChatBot = ({
         ? melody_instrument.join(', ')
         : melody_instrument;
 
+      // V4_5인지 여부에 따라 시스템 메시지를 분기
+      const isV4_5 = selectedVersion === 'V4_5';
+      const systemPrompt = isV4_5
+        ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
+        : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
+
       const response = await client.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-nano',
         messages: [
           {
             role: 'system',
-            content: `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`,
+            content: systemPrompt,
           },
           {
             role: 'user',
@@ -467,24 +473,17 @@ const MelodyChatBot = ({
 
       let promptText = response.choices[0].message.content.trim();
 
-      if (promptText.length > 200) {
-        promptText = promptText.substring(0, 197) + '...';
+      if (!isV4_5) {
+        // V4_5가 아닐 때만 200자 초과 시 잘라내기
+        if (promptText.length > 200) {
+          promptText = promptText.substring(0, 197) + '...';
+        }
       }
 
-      // "입니다. 이대로 곡을 생성하시겠습니까?" 등의 문구 제거
-      promptText = promptText.replace(
-        /['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
-        ''
-      );
-      promptText = promptText.replace(
-        /입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i,
-        ''
-      );
-      // 영어 버전 문구 제거
-      promptText = promptText.replace(
-        /['"]?\s*Would you like to generate a song with this\??\s*$/i,
-        ''
-      );
+      // 공통: 불필요한 문구 제거
+      promptText = promptText
+        .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
+        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '');
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -493,11 +492,7 @@ const MelodyChatBot = ({
     } catch (error) {
       console.error('Error generating final prompt:', error);
       const standardizedGenre = convertGenreToPreset(melody_genre);
-      const basicPrompt =
-        `A ${melody_gender.toLowerCase()} ${standardizedGenre} song at ${melody_tempo} BPM with ${melody_instrument}.`.substring(
-          0,
-          200
-        );
+      const basicPrompt = `A ${melody_gender.toLowerCase()} ${standardizedGenre} song at ${melody_tempo} BPM with ${melody_instrument}.`;
       setFinalPrompt(basicPrompt);
       return basicPrompt;
     }

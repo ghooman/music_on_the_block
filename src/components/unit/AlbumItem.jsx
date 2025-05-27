@@ -26,22 +26,6 @@ const AlbumItem = ({
   type = 'song',
 }) => {
   const { t } = useTranslation('module');
-  // const [runningTime, setRunningTime] = useState();
-
-  // useEffect(() => {
-  //   if (!track) return;
-  //   const audio = new Audio(track.music_url);
-
-  //   const setting = () => {
-  //     let time;
-  //     time = audio.duration;
-  //     setRunningTime(time);
-  //   };
-  //   audio.addEventListener('loadedmetadata', setting);
-  //   return () => {
-  //     audio.removeEventListener('loadedmetadata', setting);
-  //   };
-  // }, [track]);
 
   const handleTogglePlay = e => {
     e.stopPropagation();
@@ -100,8 +84,8 @@ const AlbumItem = ({
         </div>
         <span className="time">
           <strong>
-            {/* {isActive ? formatTime(currentTime) : runningTime && formatTime(runningTime)} */}
-            {track?.song_length}
+            {isActive ? formatTime(currentTime) : track?.song_length}
+            {/* {track?.song_length} */}
           </strong>
           {/* <strong>{runningTime && formatTime(runningTime)}</strong> */}
         </span>
@@ -120,9 +104,9 @@ const AlbumItem = ({
         )}
         {type === 'evaluation' && (
           <>
-            <Critics critic="Jinwoo Yoo" evaluationDt={track?.evaluation_dt} />
+            <Critics critic={track?.critic} evaluationDt={track?.evaluation_dt} />
             <SongTitle title={track?.title} />
-            <Profile userProfile={track?.user_profile} name={track?.name} />
+            <Profile userProfile={track?.artist_profile} name={track?.artist} />
             <EvaluationScore score={track?.score} />
             <EvaluationDetailsButton id={track?.song_id || track?.id} critic={track?.critic} />
           </>
@@ -187,11 +171,35 @@ const EvaluationDetailsButton = ({ id, critic }) => {
 };
 
 const Critics = ({ critic, evaluationDt }) => {
-  console.log(evaluationDt, '평가 날짜');
+  const [timeAgo, setTimeAgo] = useState({ time: 0, suffix: '' });
+
+  useEffect(() => {
+    const ms = new Date() - new Date(evaluationDt);
+
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(ms / (1000 * 60));
+    const hours = Math.floor(ms / (1000 * 60 * 60));
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+
+    if (seconds < 60) {
+      setTimeAgo({ time: seconds, suffix: 'seconds' });
+    } else if (minutes < 60) {
+      setTimeAgo({ time: minutes, suffix: 'minutes' });
+    } else if (hours < 24) {
+      setTimeAgo({ time: hours, suffix: 'hours' });
+    } else if (days < 30) {
+      setTimeAgo({ time: days, suffix: 'days' });
+    } else {
+      setTimeAgo({ time: '', suffix: 'More than 30days' });
+    }
+  }, []);
+
   return (
     <div className="album__content-list__list__item__right__critic">
       <img src={criticsDataForObject[critic].image} alt="critic" />
-      <p>1 minutes ago</p>
+      <p>
+        {timeAgo?.time} {timeAgo?.suffix} ago
+      </p>
     </div>
   );
 };

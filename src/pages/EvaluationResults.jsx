@@ -39,7 +39,7 @@ const EvaluationResults = () => {
       navigate('/');
     } catch (e) {
       setErrorMessage(e?.response?.data?.detail || e?.message);
-      console.erro(e);
+      console.error(e);
     }
   };
 

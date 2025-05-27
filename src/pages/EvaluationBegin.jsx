@@ -274,10 +274,11 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
             <dt>{t('Critic')}</dt>
             <dd>
               <p>{selectCritic?.name || '-'}</p>
-
-              <span>
-                {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
-              </span>
+              {selectCritic && (
+                <span>
+                  {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
+                </span>
+              )}
             </dd>
           </dl>
         </div>

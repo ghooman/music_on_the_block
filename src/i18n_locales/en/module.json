@@ -90,9 +90,9 @@
  "There are no collections.": null,
  "There are no NFT items to show you.": null,
  "No evaluation history yet.": null,
- "No data": null,
- "There are no NFTs": null,
- "There are no Songs": null,
+ "No data.": null,
+ "There are no NFTs.": null,
+ "There are no songs.": null,
  "There are no songs evaluated yet.": null,
  "Please select your song and music critic.": null,
  "Search by artist name or song name": null,
@@ -102,5 +102,6 @@
  "Search by album name": null,
  "Search by song title": null,
  "Search by NFT name": null,
- "Search": null
+ "Search": null,
+ "Select an Album": null
 }

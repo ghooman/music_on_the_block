@@ -90,9 +90,9 @@
  "There are no collections.": "컬렉션이 없습니다.",
  "There are no NFT items to show you.": "표시할 NFT 아이템이 없습니다.",
  "No evaluation history yet.": "아직 평가 이력이 없습니다.",
- "No data": "데이터 없음",
- "There are no NFTs": "NFT가 없습니다.",
- "There are no Songs": "노래가 없습니다.",
+ "No data.": "데이터 없음",
+ "There are no NFTs.": "NFT가 없습니다.",
+ "There are no songs.": "노래가 없습니다.",
  "There are no songs evaluated yet.": "아직 평가된 노래가 없습니다.",
  "Please select your song and music critic.": "노래와 음악 평론가를 선택해 주세요.",
  "Search by artist name or song name": "아티스트 이름 또는 노래 제목으로 검색",
@@ -102,5 +102,6 @@
  "Search by album name": "앨범 이름으로 검색",
  "Search by song title": "노래 제목으로 검색",
  "Search by NFT name": "NFT 이름으로 검색",
- "Search": "검색"
+ "Search": "검색",
+ "Select an Album": "재생할 곡을 선택해주세요"
 }

@@ -335,6 +335,7 @@ function Album() {
               link="/song/list?songs=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
+              noDataMessage="There are no songs."
             />
             <List
               title={t('Total')}
@@ -348,6 +349,7 @@ function Album() {
               link="/song/list?songs=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
+              noDataMessage="There are no songs."
             />
 
             <section className="main__nft-market">
@@ -376,6 +378,7 @@ function Album() {
                 currentTime={currentTime}
                 setPreparingModal={setPreparingModal}
                 link="/song/list?songs=Latest"
+                noDataMessage="There are no songs."
               />
             </section>
           </article>
@@ -688,92 +691,96 @@ const ListSlider = ({
   return (
     <section className="album__slide">
       <p className="album__slide__title">{t('Hit Music List')}</p>
-      <Swiper
-        ref={swiperRef}
-        loop={true}
-        slidesPerView={5}
-        centeredSlides={true}
-        spaceBetween={0}
-        initialSlide={2}
-        grabCursor={true}
-        pagination={{
-          clickable: true,
-        }}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        modules={[Pagination, Autoplay]}
-        className="swiper-music-list"
-        onSlideChange={swiper => handleSlideChange(swiper)}
-      >
-        {hitMusicList.map((track, index) => (
-          <SwiperSlide
-            key={track.id}
-            className={`swiper-music-list__item ${
-              selectedId + selectedMusic?.id === id + track?.id ? 'active' : ''
-            }`}
-            onClick={() => handlePlay({ track: track, id: id, list: hitMusicList })}
-          >
-            <div className="swiper-music-list__item__left">
-              <div
-                className="swiper-music-list__item__left__img"
-                style={{
-                  backgroundImage: `url(${
-                    track.cover_image === 'string'
-                      ? coverImg10
-                      : track?.cover_image?.replace('public', '280to280')
-                  })`,
-                }}
-              ></div>
-              <span className="time">
-                {`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`
-                  ? `${formatTime(currentTime)}`
-                  : formatTime(track.duration)}
-              </span>
-              <div className={`swiper-music-list__item__left__grade ${track.rating}`}>
-                <img
-                  className="swiper-music-list__item__left__grade--image"
-                  src={getSongsGradeIcon(track.rating)}
-                  alt="icon"
-                />
-                {track?.is_nft && (
-                  <>
-                    <div className="swiper-music-list__item__left__grade--section"></div>
-                    <p className="swiper-music-list__item__left__grade--nft">NFT</p>
-                  </>
-                )}
+
+      {hitMusicList?.length > 0 && (
+        <Swiper
+          ref={swiperRef}
+          loop={true}
+          slidesPerView={5}
+          centeredSlides={true}
+          spaceBetween={0}
+          initialSlide={2}
+          grabCursor={true}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          modules={[Pagination, Autoplay]}
+          className="swiper-music-list"
+          onSlideChange={swiper => handleSlideChange(swiper)}
+        >
+          {hitMusicList.map((track, index) => (
+            <SwiperSlide
+              key={track.id}
+              className={`swiper-music-list__item ${
+                selectedId + selectedMusic?.id === id + track?.id ? 'active' : ''
+              }`}
+              onClick={() => handlePlay({ track: track, id: id, list: hitMusicList })}
+            >
+              <div className="swiper-music-list__item__left">
+                <div
+                  className="swiper-music-list__item__left__img"
+                  style={{
+                    backgroundImage: `url(${
+                      track.cover_image === 'string'
+                        ? coverImg10
+                        : track?.cover_image?.replace('public', '280to280')
+                    })`,
+                  }}
+                ></div>
+                <span className="time">
+                  {`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`
+                    ? `${formatTime(currentTime)}`
+                    : formatTime(track.duration)}
+                </span>
+                <div className={`swiper-music-list__item__left__grade ${track.rating}`}>
+                  <img
+                    className="swiper-music-list__item__left__grade--image"
+                    src={getSongsGradeIcon(track.rating)}
+                    alt="icon"
+                  />
+                  {track?.is_nft && (
+                    <>
+                      <div className="swiper-music-list__item__left__grade--section"></div>
+                      <p className="swiper-music-list__item__left__grade--nft">NFT</p>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="swiper-music-list__item__right">
-              <p className="swiper-music-list__item__right__title">{track.title}</p>
-              <div className="swiper-music-list__item__right__love-play">
-                <p className="play">
-                  <img src={playIcon} alt="PlayIcon" />
-                  {track?.play_cnt || 0}
-                </p>
-                <p className="love" onClick={() => handleLikeClick(track)}>
-                  <img src={track.is_like ? halfHeartIcon : loveIcon} alt="LikeIcon" />
-                  {track?.like || 0}
-                </p>
+              <div className="swiper-music-list__item__right">
+                <p className="swiper-music-list__item__right__title">{track.title}</p>
+                <div className="swiper-music-list__item__right__love-play">
+                  <p className="play">
+                    <img src={playIcon} alt="PlayIcon" />
+                    {track?.play_cnt || 0}
+                  </p>
+                  <p className="love" onClick={() => handleLikeClick(track)}>
+                    <img src={track.is_like ? halfHeartIcon : loveIcon} alt="LikeIcon" />
+                    {track?.like || 0}
+                  </p>
+                </div>
+                <div className="swiper-music-list__item__right__user">
+                  <p className="swiper-music-list__item__right__user__info">
+                    <img src={track?.user_profile || defaultCoverImg} alt="likeIcon" />
+                    {track?.name || 'unKnown'}
+                  </p>
+                  <Link
+                    className="swiper-music-list__item__right__user__btn"
+                    to={'/song-detail/' + track.id}
+                  >
+                    {t('Details')}
+                  </Link>
+                </div>
               </div>
-              <div className="swiper-music-list__item__right__user">
-                <p className="swiper-music-list__item__right__user__info">
-                  <img src={track?.user_profile || defaultCoverImg} alt="likeIcon" />
-                  {track?.name || 'unKnown'}
-                </p>
-                <Link
-                  className="swiper-music-list__item__right__user__btn"
-                  to={'/song-detail/' + track.id}
-                >
-                  {t('Details')}
-                </Link>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+      {hitMusicList?.length <= 0 && <NoneContent height={240} message="There are no songs." />}
     </section>
   );
 };

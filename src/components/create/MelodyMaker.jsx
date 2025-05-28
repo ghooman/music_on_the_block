@@ -158,7 +158,7 @@ const MelodyMaker = ({
   selectedCreationMode,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
-  const serverApi = process.env.REACT_APP_SERVER_API;
+  const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

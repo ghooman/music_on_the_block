@@ -15,7 +15,7 @@ import PreparingModal from './PreparingModal';
 
 //이미지
 // import mainLogo from '../assets/images/header/logo.svg';
-import mainLogo from '../assets/images/header/header-logo.svg';
+import mainLogo from '../assets/images/header/header-logo.png';
 import betaLogo from '../assets/images/header/beta.svg';
 import closeIcon from '../assets/images/close.svg';
 import Menu from './Menu';

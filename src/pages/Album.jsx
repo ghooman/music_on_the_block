@@ -33,6 +33,8 @@ import 'swiper/css/free-mode';
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
+import MusicPlayer from '../components/AudioPlayer';
+import CreateLoading from '../components/CreateLoading';
 import { getEvaluationList } from '../api/evaluation/getList';
 
 // 데이터
@@ -226,6 +228,7 @@ function Album() {
   return (
     <>
       <div className="main">
+        {/* <MusicPlayer/> */}
         {/* <div
               className={`main__header 
               ${selectedMusic !== null ? 'active' : ''} 
@@ -538,6 +541,7 @@ function Album() {
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
       <IntroLogo2 />
+      {/* <CreateLoading/> */}
     </>
   );
 }

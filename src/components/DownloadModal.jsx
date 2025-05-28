@@ -13,17 +13,9 @@ const DownloadModal = ({ setIsDownloadModal, needOwner, needMint }) => {
       onClose={() => setIsDownloadModal(false)}
       className="down-load-modal"
     >
-      {needOwner && (
-        <p className="down-load-modal__txt">
-          {t('ONLY_OWNER_DOWNLOAD', 'Only owners can download')}
-        </p>
-      )}
+      {needOwner && <p className="down-load-modal__txt">{t('Only owners can download.')}</p>}
 
-      {needMint && (
-        <p className="down-load-modal__txt">
-          {t('NEED_MINT_DOWNLOAD', "You'll need Mint to download.")}
-        </p>
-      )}
+      {needMint && <p className="down-load-modal__txt">{t(`You'll need Mint to download.`)}</p>}
 
       <button className="down-load-modal-btn" onClick={() => setIsDownloadModal(false)}>
         {t('OK')}

@@ -6,12 +6,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import closeIcon from '../assets/images/close.svg';
 import { AuthContext } from '../contexts/AuthContext';
 import { WebSocketContext } from '../contexts/WebSocketContext';
+import { checkCreatingSong } from '../api/cheekCreatingSong';
 
 const AlarmModal = () => {
   const { t } = useTranslation('modal');
 
   const albumIdStorageKey = 'generatedAlbumId';
   const albumTimerStorageKeyBase = 'generatedAlbumTimerStart';
+  const albumStatusStorageKeyBase = 'generatedAlbumStatus'; // 앨범 상태 저장용
+  const albumModalClosedKeyBase = 'generatedAlbumModalClosed'; // 모달 닫기 상태 저장용
   const MAX_GENERATION_TIME = 600; // 10분(600초) 최대 생성 시간
 
   const getStoredAlbumData = () => {
@@ -33,14 +36,23 @@ const AlarmModal = () => {
   const item = localStorage.getItem(albumIdStorageKey);
   // console.log('item', item);
   const { walletAddress } = useContext(AuthContext);
-  const { lastMessage, isConnected } = useContext(WebSocketContext);
+  const { lastAlbumMessage, isAlbumConnected } = useContext(WebSocketContext);
   const location = useLocation();
   const navigate = useNavigate();
 
   const [albumPk, setAlbumPk] = useState(null);
   const [albumWalletAddress, setAlbumWalletAddress] = useState(null);
   const [storedAlbumData, setStoredAlbumData] = useState(getStoredAlbumData());
-  const [isClosed, setIsClosed] = useState(false);
+  // 모달 닫기 상태 초기화 - localStorage에서 가져오기
+  const getInitialClosedState = () => {
+    const data = getStoredAlbumData();
+    if (!data?.id) return false;
+
+    const closedKey = `${albumModalClosedKeyBase}_${data.id}`;
+    return localStorage.getItem(closedKey) === 'true';
+  };
+
+  const [isClosed, setIsClosed] = useState(getInitialClosedState());
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -178,11 +190,11 @@ const AlarmModal = () => {
               // console.log('타이머 업데이트:', diffSeconds);
               setElapsedSeconds(diffSeconds);
 
-              // 10분(600초)이 지나면 자동으로 완료 처리
-              if (diffSeconds >= MAX_GENERATION_TIME) {
-                // console.log('최대 생성 시간 초과 - 자동 완료');
-                handleAutoComplete();
-              }
+              // 10분(600초)이 지나면 자동으로 완료 처리 - 주석처리
+              // if (diffSeconds >= MAX_GENERATION_TIME) {
+              //   // console.log('최대 생성 시간 초과 - 자동 완료');
+              //   handleAutoComplete();
+              // }
             } else {
               // console.log('타이머 값이 유효하지 않음 - 초기화');
               initializeTimer();
@@ -221,6 +233,11 @@ const AlarmModal = () => {
         setAlbumWalletAddress(null);
         setIsError(false);
         setErrorMessage('');
+
+        // 모달 닫기 상태도 동기화
+        const closedKey = `${albumModalClosedKeyBase}_${data.id}`;
+        const isModalClosed = localStorage.getItem(closedKey) === 'true';
+        setIsClosed(isModalClosed);
 
         // 타이머 상태는 localStorage 기반으로 확인
         const timerKey = `${albumTimerStorageKeyBase}_${data.id}`;
@@ -266,6 +283,7 @@ const AlarmModal = () => {
       setErrorMessage('');
       setElapsedSeconds(0);
       setIsAutoCompleted(false);
+      setIsClosed(false); // 새 곡 생성 시 모달 열기
 
       // 새 타이머 시작 - 앨범 ID를 포함한 키 사용
       const timerKey = `${albumTimerStorageKeyBase}_${storedAlbumData.id}`;
@@ -295,19 +313,19 @@ const AlarmModal = () => {
 
   // 웹소켓 메시지 처리
   useEffect(() => {
-    if (!lastMessage) return;
+    if (!lastAlbumMessage) return;
 
     // 동일한 메시지 재처리 방지
     if (
       processedMessageRef.current &&
-      processedMessageRef.current.pk === lastMessage.pk &&
-      processedMessageRef.current.status === lastMessage.status
+      processedMessageRef.current.pk === lastAlbumMessage.pk &&
+      processedMessageRef.current.status === lastAlbumMessage.status
     ) {
       return;
     }
 
     try {
-      const data = lastMessage;
+      const data = lastAlbumMessage;
 
       // — 필터링 시작 —
       // 내 앨범 ID와 일치하거나 내 지갑 주소와 일치하는 경우만 처리
@@ -357,18 +375,125 @@ const AlarmModal = () => {
     } catch (err) {
       console.error('메시지 처리 에러:', err);
     }
-  }, [lastMessage, storedAlbumData, walletAddress]);
+  }, [lastAlbumMessage, storedAlbumData, walletAddress]);
 
   // WebSocketContext가 재연결될 때 processedMessageRef 초기화
   useEffect(() => {
-    if (isConnected) {
+    if (isAlbumConnected) {
       processedMessageRef.current = null;
     }
-  }, [isConnected]);
+  }, [isAlbumConnected]);
+  // 생성 상태 확인 - 5분마다 자동 호출
+  useEffect(() => {
+    const checkSongStatus = async () => {
+      try {
+        const response = await checkCreatingSong(storedAlbumData?.id);
+        // console.log('checkSongStatus', response);
 
-  const handleClose = () => setIsClosed(true);
-  const handleOverlayClick = () => setIsClosed(false);
+        if (response?.status === 'success') {
+          // 성공: My Song Link 화면 표시
+          setAlbumPk(storedAlbumData.id);
+          setAlbumWalletAddress(walletAddress?.address);
+          setIsAutoCompleted(false);
+
+          // 완료 상태를 localStorage에 저장
+          const statusKey = `${albumStatusStorageKeyBase}_${storedAlbumData.id}`;
+          localStorage.setItem(
+            statusKey,
+            JSON.stringify({ status: 'success', albumPk: storedAlbumData.id })
+          );
+
+          // 로컬 스토리지 정리
+          localStorage.removeItem(albumIdStorageKey);
+          if (storedAlbumData?.id) {
+            localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
+          } else {
+            localStorage.removeItem(albumTimerStorageKeyBase);
+          }
+          setStoredAlbumData(null);
+        } else if (response?.status === 'fail') {
+          // 실패: 에러 메시지 표시
+          setIsError(true);
+          setErrorMessage(response?.message || 'Song generation failed');
+
+          // 실패 상태를 localStorage에 저장
+          const statusKey = `${albumStatusStorageKeyBase}_${storedAlbumData.id}`;
+          localStorage.setItem(
+            statusKey,
+            JSON.stringify({
+              status: 'fail',
+              errorMessage: response?.message || 'Song generation failed',
+            })
+          );
+        } else if (response?.status === 'creating') {
+          // 생성중: 현재 화면 유지 (아무것도 하지 않음)
+          // console.log('Song is still being created...');
+        }
+      } catch (error) {
+        console.error('checkSongStatus error:', error);
+      }
+    };
+
+    if (storedAlbumData?.id && !albumPk && !isError) {
+      // 저장된 상태 확인
+      const statusKey = `${albumStatusStorageKeyBase}_${storedAlbumData.id}`;
+      const savedStatus = localStorage.getItem(statusKey);
+
+      if (savedStatus) {
+        try {
+          const statusData = JSON.parse(savedStatus);
+          if (statusData.status === 'success') {
+            // 이미 완료된 상태
+            setAlbumPk(statusData.albumPk);
+            setAlbumWalletAddress(walletAddress?.address);
+            setStoredAlbumData(null);
+            return;
+          } else if (statusData.status === 'fail') {
+            // 이미 실패한 상태
+            setIsError(true);
+            setErrorMessage(statusData.errorMessage || 'Song generation failed');
+            return;
+          }
+        } catch (error) {
+          console.error('저장된 상태 파싱 오류:', error);
+          localStorage.removeItem(statusKey);
+        }
+      }
+
+      // 저장된 상태가 없거나 creating 상태인 경우에만 API 호출
+      checkSongStatus();
+
+      // 5분(300초)마다 반복 호출
+      const interval = setInterval(() => {
+        checkSongStatus();
+      }, 300000); // 5분 = 300,000ms
+
+      return () => clearInterval(interval);
+    }
+  }, [storedAlbumData, albumPk, isError]);
+  const handleClose = () => {
+    setIsClosed(true);
+    // localStorage에 닫기 상태 저장
+    const currentAlbumId = storedAlbumData?.id || albumPk;
+    if (currentAlbumId) {
+      const closedKey = `${albumModalClosedKeyBase}_${currentAlbumId}`;
+      localStorage.setItem(closedKey, 'true');
+    }
+  };
+
+  const handleOverlayClick = () => {
+    setIsClosed(false);
+    // localStorage에서 닫기 상태 제거
+    const currentAlbumId = storedAlbumData?.id || albumPk;
+    if (currentAlbumId) {
+      const closedKey = `${albumModalClosedKeyBase}_${currentAlbumId}`;
+      localStorage.removeItem(closedKey);
+    }
+  };
   const errorClose = () => {
+    // 상태 정리 전에 현재 앨범 ID 저장
+    const currentAlbumId = storedAlbumData?.id || albumPk;
+
     setAlbumPk(null);
     setStoredAlbumData(null);
     setIsError(false);
@@ -376,9 +501,12 @@ const AlarmModal = () => {
     setElapsedSeconds(0);
     setIsAutoCompleted(false);
     localStorage.removeItem(albumIdStorageKey);
-    // 앨범 ID별 타이머 키가 있으면 제거
-    if (storedAlbumData?.id) {
-      localStorage.removeItem(`${albumTimerStorageKeyBase}_${storedAlbumData.id}`);
+
+    // 앨범 관련 모든 데이터 정리
+    if (currentAlbumId) {
+      localStorage.removeItem(`${albumTimerStorageKeyBase}_${currentAlbumId}`);
+      localStorage.removeItem(`${albumStatusStorageKeyBase}_${currentAlbumId}`);
+      localStorage.removeItem(`${albumModalClosedKeyBase}_${currentAlbumId}`);
     } else {
       localStorage.removeItem(albumTimerStorageKeyBase);
     }

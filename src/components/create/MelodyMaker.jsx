@@ -5,13 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OpenAI from 'openai';
 import SubBanner from './SubBanner';
-import {
-  SelectItem,
-  SelectItemTempo,
-  SelectItemWrap,
-  SelectItemInputOnly,
-  SelectItemSongLength,
-} from './SelectItem';
+import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemInputOnly } from './SelectItem';
 import ExpandedButton from './ExpandedButton';
 import CompleteModal from './../SingUpCompleteModal';
 import subBg1 from '../../assets/images/create/subbanner-bg1.png';
@@ -162,8 +156,6 @@ const MelodyMaker = ({
   selectedVersion,
   selectedPrivacy,
   selectedCreationMode,
-  songLength,
-  setSongLength,
 }) => {
   const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -193,7 +185,6 @@ const MelodyMaker = ({
       ${melody_instrument ? 'Instrument : ' + melody_instrument.join(', ') : ''}
       Tempo : ${tempo},
       ${melodyDetail ? 'Detail : ' + melodyDetail + ',' : ''}
-      ${selectedCreationMode === 'bgm' ? `Song Length : ${songLength}` : ''}
       `;
   // 함수: promptPreview에서 밸류 부분(콜론(:) 다음의 텍스트만)을 추출하여 하나의 문자열로 만듭니다.
   function extractValues(str) {
@@ -218,6 +209,16 @@ const MelodyMaker = ({
   // console.log("valuesOnly:", valuesOnly);
   // console.log("valuesOnly length:", valuesOnly.length);
 
+  const sunoPrompt = `장르 : ${melody_genre?.[0] || '임의의 장르'},
+    태그 : ${melody_tag?.[0] || '임의의 태그'},
+    성별 : ${melody_gender?.[0] || '임의의 성별'},
+    악기 : ${melody_instrument?.[0] || '임의의 악기'},
+    템포 : ${tempo},
+    세부 설명 : ${melodyDetail || '없음'},
+  `;
+
+  console.log('sunoPrompt:', sunoPrompt);
+
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
     const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
@@ -238,7 +239,7 @@ const MelodyMaker = ({
       // V4_5인지 여부에 따라 시스템 메시지를 분기
       const isV4_5 = selectedVersion === 'V4_5';
       const systemPrompt = isV4_5
-        ? 'You are an AI assistant that transforms music metadata into a concise English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song.'
+        ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
         : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
 
       // 사용자 메시지(메타데이터)
@@ -294,7 +295,8 @@ const MelodyMaker = ({
 
       // 최종 프롬프트 생성 selectedVersion 에따라 분기
 
-      const finalPrompt = selectedVersion === 'V4_5' ? valuesOnly : await generateFinalPrompt();
+      // const finalPrompt = selectedVersion === 'V4_5' ? sunoPrompt : await generateFinalPrompt();
+      const finalPrompt = await generateFinalPrompt();
 
       // 앨범 커버 생성 (앨범 커버가 없는 경우만)
       let coverImageUrl = albumCover;
@@ -463,9 +465,6 @@ const MelodyMaker = ({
           add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
-        {selectedCreationMode === 'bgm' && (
-          <SelectItemSongLength songLength={songLength} setSongLength={setSongLength} />
-        )}
         <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />
         <div className="selected-tag-list">
           <div className="selected-tag-list__title">
@@ -516,9 +515,6 @@ const MelodyMaker = ({
             value={melodyData?.melody_instrument}
           />
           <SelectedItem title="Tempo" value={tempo} />
-          {selectedCreationMode === 'bgm' && (
-            <SelectedItem title="Song Length" value={songLength} />
-          )}
         </SelectedWrap>
       )}
       <div className="button-wrap">

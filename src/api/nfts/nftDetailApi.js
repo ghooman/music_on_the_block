@@ -7,6 +7,18 @@ export const getNftDetail = async ({ nft_id, wallet_address }) => {
     const res = await axios.get(
       `${serverApi}/api/nfts/${nft_id}/detail?wallet_address=${wallet_address}`
     );
+    console.log('getNftDetail', res);
+    return res.data.data;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+export const getNftTransactions = async song_id => {
+  try {
+    const res = await axios.get(`${serverApi}/api/music/${song_id}/all/transactions`);
+    console.log('getNftTransactions', getNftTransactions);
     return res.data;
   } catch (e) {
     console.error(e);

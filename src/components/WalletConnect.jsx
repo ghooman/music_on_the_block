@@ -57,7 +57,7 @@ export const WalletConnect = ({ onConnect, className, text }) => {
       onDisconnect={() => {
         localStorage.removeItem('walletAddress');
         logout(); // AuthContext의 상태 초기화
-        queryClient.resetQueries('userDetail'); // React Query 캐시 초기화
+        queryClient.removeQueries('userDetail'); // React Query 캐시 초기화
       }}
     />
   );

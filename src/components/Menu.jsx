@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Menu.scss';
+import { useQuery, useQueryClient, useMutation } from 'react-query';
 import useWindowHeight from '../hooks/useWindowHeight';
 
 // 이미지
@@ -15,16 +16,30 @@ import usdtIcon from '../assets/images/icon/usdt-icon.svg';
 import usdcIcon from '../assets/images/icon/usdc-icon.svg';
 import langIcon from '../assets/images/icon/lang-icon.svg';
 import notificationIcon from '../assets/images/icon/notification-icon.svg';
+import notificationOnIcon from '../assets/images/icon/notifications_on.svg';
+import notificationSong from '../assets/images/menu/notifications/song.png';
+import notificationNFT from '../assets/images/menu/notifications/nft.png';
+import notificationCalendar from '../assets/images/menu/notifications/calendar.svg';
+import notificationNone from '../assets/images/icon/notifications_off.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
+import { WebSocketContext } from '../contexts/WebSocketContext';
 import { WalletConnect } from './WalletConnect';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { useTokenBalance } from '../hooks/useTokenBalance';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
-
 import { translatedNationsName } from '../i18n/i18n';
-
+import { formatLocalTime } from '../utils/getFormattedTime';
+import {
+  getNotifications,
+  deleteNotification,
+  postNotificationCheck,
+  deleteAllNotifications,
+} from '../api/notifications';
+import NoneContent from '../components/unit/NoneContent';
+import ConfirmModal from './modal/ConfirmModal';
+import SuccessModal from './modal/SuccessModal';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t, i18n } = useTranslation('main');
 
@@ -32,11 +47,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   const [activeMenus, setActiveMenus] = useState([]);
   const [activeSingle, setActiveSingle] = useState(null); // 단일 선택용 상태
   const [activeSubItem, setActiveSubItem] = useState(null); // 하위 메뉴 li 활성화 상태
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deletingIds, setDeletingIds] = useState(new Set()); // 삭제 중인 알림 ID들 관리
+  const [deleteNotificationLoading, setDeleteNotificationLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const isBelowHeight = useWindowHeight(750);
   const { pathname } = useLocation();
-
+  const queryClient = useQueryClient();
   // AuthContext에서 전역 인증 상태 업데이트 함수 가져오기
-  const { isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const { token, isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+
+  // WebSocket 컨텍스트에서 lastMessage 가져오기
+  const { lastAlbumMessage, lastNftMessage } = useContext(WebSocketContext);
 
   // WalletConnect에서 전달받은 콜백 함수
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -47,8 +69,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   };
   const { data: userData, isLoading, error } = useUserDetail();
-
-  const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
+  // console.log('userData', userData);
+  const micBalance = userData?.mic_point?.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
     setActiveMenus(
@@ -82,9 +104,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     setActive(false);
   };
 
-  const closeMenu = () => {
-    setActive(false);
-  };
   const [copied, setCopied] = useState(false);
 
   // userData.wallet_address가 존재하면 앞 5글자와 뒤 4글자만 표시합니다.
@@ -113,22 +132,194 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       });
   };
 
-  // const [isScrolled, setIsScrolled] = useState(false);
+  const {
+    data: notifications,
+    isLoading: notificationsLoading,
+    error: notificationsError,
+  } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: () => getNotifications(token),
+    enabled: !!token, // 토큰이 있을 때만 실행
+    refetchInterval: 30000, // 30초마다 자동 새로고침
+    refetchIntervalInBackground: false, // 백그라운드에서는 새로고침 안함
+  });
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 80) {
-  //       setIsScrolled(true);
-  //     } else {
-  //       setIsScrolled(false);
-  //     }
-  //   };
+  useEffect(() => {
+    if (token) {
+      queryClient.invalidateQueries(['notifications']);
+    } else {
+      queryClient.setQueryData(['notifications'], []);
+      setOption('');
+    }
+  }, [token]);
 
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
+  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트 (Album)
+  useEffect(() => {
+    if (lastAlbumMessage && token) {
+      if (
+        lastAlbumMessage.type === 'notification' ||
+        lastAlbumMessage.notification_type ||
+        lastAlbumMessage.message_type === 'notification' ||
+        (lastAlbumMessage.status &&
+          (lastAlbumMessage.status === 'notification' || lastAlbumMessage.status === 'alert')) ||
+        (lastAlbumMessage.pk && lastAlbumMessage.title && lastAlbumMessage.status === 'complt')
+      ) {
+        // 알림 목록 다시 가져오기
+        queryClient.invalidateQueries(['notifications']);
+
+        // is_alarm_check를 false로 업데이트 (새로운 알림이 왔음을 표시)
+        queryClient.setQueryData(['userDetail'], oldData => {
+          const newData = {
+            ...oldData,
+            is_alarm_check: false,
+          };
+          return newData;
+        });
+      }
+    }
+  }, [lastAlbumMessage, token, queryClient]);
+
+  // WebSocket으로 새로운 알림이 올 때 알림 목록 업데이트 (NFT)
+  useEffect(() => {
+    if (lastNftMessage && token) {
+      if (
+        lastNftMessage.type === 'notification' ||
+        lastNftMessage.notification_type ||
+        lastNftMessage.message_type === 'notification' ||
+        (lastNftMessage.status &&
+          (lastNftMessage.status === 'notification' || lastNftMessage.status === 'alert')) ||
+        (lastNftMessage.pk && (lastNftMessage.seller_user_name || lastNftMessage.buy_user_name))
+      ) {
+        // 알림 목록 다시 가져오기
+        queryClient.invalidateQueries(['notifications']);
+
+        // is_alarm_check를 false로 업데이트 (새로운 알림이 왔음을 표시)
+        queryClient.setQueryData(['userDetail'], oldData => {
+          const newData = {
+            ...oldData,
+            is_alarm_check: false,
+          };
+          return newData;
+        });
+      }
+    }
+  }, [lastNftMessage, token, queryClient]);
+
+  // 알림 패널을 열 때 알림 목록 새로고침
+  useEffect(() => {
+    if (option === 'notification' && token) {
+      queryClient.invalidateQueries(['notifications']);
+    }
+  }, [option, token, queryClient]);
 
   const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
+  const flattenedDataList = notifications?.flatMap(item => item.data_list);
+
+  // 개별 알림 삭제 mutation
+  const deleteNotificationMutation = useMutation(
+    ({ id, notification_type }) => {
+      if (!token) {
+        return Promise.reject(new Error('인증 토큰이 없습니다'));
+      }
+      return deleteNotification(token, id, notification_type);
+    },
+    {
+      onMutate: async ({ id, notification_type }) => {
+        // 토큰 체크
+        if (!token) {
+          throw new Error('로그인이 필요합니다');
+        }
+
+        // 삭제 중 상태 추가
+        setDeletingIds(prev => new Set([...prev, id]));
+
+        // 기존 쿼리 취소
+        await queryClient.cancelQueries(['notifications']);
+
+        // 이전 데이터 백업 (rollback용)
+        const previousNotifications = queryClient.getQueryData(['notifications']);
+
+        // Optimistic Update: UI에서 즉시 해당 알림 제거
+        queryClient.setQueryData(['notifications'], old => {
+          if (!old) return old;
+
+          return old
+            .map(group => ({
+              ...group,
+              data_list: group.data_list.filter(item => item.id !== id),
+            }))
+            .filter(group => group.data_list.length > 0);
+        });
+
+        return { previousNotifications };
+      },
+      onError: (err, variables, context) => {
+        // 에러 발생 시 이전 상태로 복원
+        if (context?.previousNotifications) {
+          queryClient.setQueryData(['notifications'], context.previousNotifications);
+        }
+        console.error('알림 삭제 실패:', err);
+        // 에러 토스트나 알림을 표시할 수 있습니다
+      },
+      onSuccess: (data, variables) => {
+        // 성공적으로 삭제되었으므로 아무것도 하지 않음 (이미 optimistic update 적용됨)
+        console.log('알림이 성공적으로 삭제되었습니다');
+      },
+      onSettled: (data, error, variables) => {
+        // 삭제 중 상태 제거
+        setDeletingIds(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(variables.id);
+          return newSet;
+        });
+      },
+    }
+  );
+
+  // 알림 기록 개별 삭제 함수
+  const handleDeleteNotification = (id, notification_type) => {
+    if (!token) {
+      return;
+    }
+    deleteNotificationMutation.mutate({ id, notification_type });
+  };
+  // 알람 기록 전체 삭제 함수
+  const handleDeleteAllNotifications = async () => {
+    try {
+      setDeleteNotificationLoading(true);
+      const response = await deleteAllNotifications(token);
+      console.log('response', response);
+
+      if (response.status === 'success') {
+        // 알림 목록을 빈 배열로 업데이트
+        queryClient.setQueryData(['notifications'], []);
+        setShowConfirmModal(false);
+        setDeleteNotificationLoading(false);
+        setShowSuccessModal(true);
+      }
+    } catch (error) {
+      console.error('알림 삭제 중 오류 발생:', error);
+      setDeleteNotificationLoading(false);
+      alert('알림 삭제 중 오류가 발생했습니다.');
+    }
+  };
+  // console.log('flattenedDataList', flattenedDataList);
+
+  // 알림 버튼 클릭 함수
+  const handleNotificationClick = () => {
+    if (!userData) {
+      return;
+    }
+    setOption(prev => (prev === 'notification' ? '' : 'notification'));
+
+    // React Query를 통해 userData 업데이트 (알림을 확인했으므로 알림 없음으로 표시)
+    queryClient.setQueryData(['userDetail'], oldData => ({
+      ...oldData,
+      is_alarm_check: true,
+    }));
+
+    postNotificationCheck(token);
+  };
 
   return (
     <>
@@ -151,20 +342,90 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           </li>
         ))}
       </ul>
-
-      {/* <div className={`menu ${active ? 'active' : ''} ${isScrolled ? 'fixed' : ''}`}> */}
+      <ul
+        className={`menu-box__lang-notification--select-notification-box ${
+          option === 'notification' ? 'visible' : ''
+        }`}
+      >
+        <div className="menu-box__lang-notification--select-notification-box__header">
+          <button
+            className="menu-box__lang-notification--select-notification-box__close-btn"
+            onClick={() => setOption('')}
+          >
+            X
+          </button>
+          <p className="menu-box__lang-notification--select-notification-box__header__title">
+            Notifications
+          </p>
+          <button
+            className="menu-box__lang-notification--select-notification-box__header__btn"
+            onClick={() => setShowConfirmModal(true)}
+            disabled={flattenedDataList?.length === 0}
+            style={{
+              opacity: flattenedDataList?.length === 0 ? 0.5 : 1,
+              cursor: flattenedDataList?.length === 0 ? 'not-allowed' : 'pointer',
+            }}
+          >
+            Delete All
+          </button>
+        </div>
+        {flattenedDataList?.length > 0 ? (
+          flattenedDataList?.map(item => (
+            <li
+              key={item.id}
+              className="menu-box__lang-notification--select-notification-box__item"
+            >
+              <div className="menu-box__lang-notification--select-notification-box__item__img-box">
+                <img src={item?.image} alt="song_image" />
+              </div>
+              <div className="menu-box__lang-notification--select-notification-box__item__txt-box">
+                <div className="menu-box__lang-notification--select-notification-box__item__txt-box__header">
+                  <img src={true ? notificationSong : notificationNFT} alt="song_image" />
+                  <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__title">
+                    {item?.notification_type === 'song' ? (
+                      <>
+                        The <span className="sky">song</span> has been created!
+                      </>
+                    ) : (
+                      <>
+                        Your <span className="purple">NFT</span> has been sold successfully.
+                      </>
+                    )}
+                  </p>
+                </div>
+                <p className="menu-box__lang-notification--select-notification-box__item__txt-box__header__name">
+                  {item?.name}
+                </p>
+                <div className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
+                  <img src={notificationCalendar} alt="calendar" />
+                  {formatLocalTime(item?.create_dt)}
+                </div>
+              </div>
+              <button
+                className="menu-box__lang-notification--select-notification-box__item__btn"
+                onClick={() => handleDeleteNotification(item?.id, item?.notification_type)}
+                disabled={deletingIds.has(item?.id)}
+                style={{
+                  opacity: deletingIds.has(item?.id) ? 0.5 : 1,
+                  cursor: deletingIds.has(item?.id) ? 'not-allowed' : 'pointer',
+                }}
+              >
+                {deletingIds.has(item?.id) ? '...' : 'x'}
+              </button>
+            </li>
+          ))
+        ) : (
+          <NoneContent
+            message="You have no notifications yet."
+            height={300}
+            image={notificationNone}
+          />
+        )}
+      </ul>
       <div className={`menu ${active ? 'active' : ''} ${isBelowHeight ? 'small-height' : ''}`}>
         <div className="menu__cover">
           <dl className="menu__box">
             <dd>
-              {/* {!login && (
-                <button
-                  className="menu__box__login-btn"
-                  onClick={() => setSignInModal(true)}
-                >
-                  Log In
-                </button>
-              )} */}
               {/** 언어 및 알림 */}
               <div className="menu-box__lang-notification">
                 <button
@@ -179,20 +440,20 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   <img src={langIcon} alt="icon" />
                   {t('Language')}
                 </button>
-                <button
-                  className="menu-box__lang-notification--button"
-                  onClick={() => {
-                    // setOption(prev => {
-                    //   if (prev === 'notification') return '';
-                    //   else return 'notification';
-                    // });
-                    setOption('');
-                    setPreparingModal(true);
-                  }}
-                >
-                  <img src={notificationIcon} alt="icon" />
-                  {t('Notification')}
-                </button>
+                {userData && (
+                  <button
+                    className="menu-box__lang-notification--button"
+                    onClick={handleNotificationClick}
+                    disabled={!userData}
+                  >
+                    {userData?.is_alarm_check ? (
+                      <img src={notificationIcon} alt="icon" />
+                    ) : (
+                      <img src={notificationOnIcon} alt="icon" />
+                    )}
+                    {t('Notification')}
+                  </button>
+                )}
               </div>
               <ul
                 className={`menu-box__lang-notification--select-lang-box mobile ${
@@ -346,10 +607,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     </li>
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
-                      onClick={() => handleSubItemClick('ai-singing')}
-                      // onClick={() => setPreparingModal(true)}
+                      // onClick={() => handleSubItemClick('ai-singing')}
+                      onClick={() => setPreparingModal(true)}
                     >
-                      <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
+                      {/* <Link to="/evaluation">{t('AI Singing Evaluation')}</Link> */}
+                      <Link >{t('AI Singing Evaluation')}</Link>
                     </li>
                     <li
                       className={activeSubItem === 'ai-cover' ? 'active' : ''}
@@ -552,6 +814,25 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
           </dl> */}
         </div>
       </div>
+      {showConfirmModal && (
+        <ConfirmModal
+          title="Confirm Delete"
+          content="Are you sure you want to delete all notifications?"
+          cancelMessage="Cancel"
+          okMessage="Yes, Continue"
+          setShowConfirmModal={setShowConfirmModal}
+          okHandler={handleDeleteAllNotifications}
+          loading={deleteNotificationLoading}
+          setLoading={setDeleteNotificationLoading}
+        />
+      )}
+      {showSuccessModal && (
+        <SuccessModal
+          title="Success"
+          content="Notifications deleted successfully."
+          setShowSuccessModal={setShowSuccessModal}
+        />
+      )}
     </>
   );
 };

@@ -67,11 +67,28 @@ const SongPlayTable = ({
 
   useEffect(() => {
     if (!activeSong) {
-      audioRef.current.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
     } else {
-      audioRef.current.currentTime = 0;
-      audioRef.current.src = activeSong?.music_url || activeSong?.nft_music_url;
-      audioRef.current.play();
+      const audio = audioRef.current;
+      if (audio) {
+        // 이전 재생 중지
+        audio.pause();
+        audio.currentTime = 0;
+        
+        // 새로운 소스 설정
+        audio.src = activeSong?.music_url || activeSong?.nft_music_url;
+        
+        // 로드 완료 후 재생
+        audio.load();
+        audio.oncanplaythrough = () => {
+          audio.play().catch(error => {
+            console.log('Playback failed:', error);
+          });
+        };
+      }
     }
   }, [activeSong]);
 

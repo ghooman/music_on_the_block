@@ -50,6 +50,9 @@ import NftConfirmModal from '../components/NftConfirmModal';
 import EvaluationResultsComp from '../components/evaluation/EvaluationResultsComp';
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
+import { getNftTransactions } from '../api/nfts/nftDetailApi';
+import { useQuery } from 'react-query';
+import { musicDownload } from '../utils/musicDownload';
 import {
   getEvaluationDetail,
   getEvaluationDetailFromCriticSongId,
@@ -91,7 +94,6 @@ function AlbumDetail() {
 
   // 리더보드, txid, Your Picks, Similar Vibes 관련 상태
   const [leaderBoardData, setLeaderBoardData] = useState([]);
-  const [txidData, setTxidData] = useState([]);
   const [favoriteGenreList, setFavoriteGenreList] = useState([]);
   const [similarVibesList, setSimilarVibesList] = useState([]);
 
@@ -131,8 +133,8 @@ function AlbumDetail() {
   // 스와이퍼 옵션
   const swiperOptions = {
     loop: true,
-    slidesPerView: 3,
-    spaceBetween: 8,
+    slidesPerView: 4,
+    // spaceBetween: 16,
     grabCursor: true,
     pagination: {
       clickable: true,
@@ -143,11 +145,14 @@ function AlbumDetail() {
       0: {
         slidesPerView: 1,
       },
-      680: {
+      768: {
         slidesPerView: 2,
       },
-      1250: {
+      1280: {
         slidesPerView: 3,
+      },
+      1600: {
+        slidesPerView: 4,
       },
     },
   };
@@ -185,15 +190,12 @@ function AlbumDetail() {
     }
   };
 
-  const getTxidData = async () => {
-    try {
-      const res = await axios.get(`${serverApi}/api/music/${id}/all/transactions`);
-      console.log('getTxidData', res.data);
-      setTxidData(res.data);
-    } catch (error) {
-      console.error('getTxidData error:', error);
-    }
-  };
+  // txid 가져오기
+  const {
+    data: txidData,
+    isLoading: isTxidLoading,
+    error: txidError,
+  } = useQuery(['nft_txid_data', id], () => getNftTransactions(id), { enabled: !!id });
 
   // Your Picks 데이터 가져오기
   const getFavoriteGenre = async () => {
@@ -298,7 +300,6 @@ function AlbumDetail() {
     setIsPlaying(false);
     fetchAlbumDetail();
     getLeaderboardData();
-    getTxidData();
     getFavoriteGenre();
     getSimilarVibes();
     // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
@@ -491,6 +492,21 @@ function AlbumDetail() {
       .catch(console.error);
   };
 
+  // 음원 다운로드
+  const handleDownloadClick = async e => {
+    e.stopPropagation();
+    if (album?.is_owner && album?.nft_id) {
+      try {
+        await musicDownload({ token, id, title: album.title });
+      } catch (error) {
+        alert('A server error occurred. Please try again later.');
+        console.error(error);
+      }
+    } else {
+      setIsDownloadModal(true);
+    }
+  };
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -553,40 +569,45 @@ function AlbumDetail() {
                 ) : (
                   <div style={{ backgroundColor: 'black' }} />
                 )}
-                <div className="album-detail__song-detail__left__img__txt">
-                  <pre>
-                    {album?.lyrics
-                      // 1. "###"와 그 이후 공백을 제거
-                      ?.replace(/#\s*/g, '')
-                      ?.replace(/###\s*/g, '')
-                      // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
-                      ?.replace(/(\*\*.*?\*\*)/g, '')
-                      // 3. 대괄호([]) 안 텍스트 제거
-                      ?.replace(/\[([^\]]+)\]/g, '')
-                      // 4. 소괄호 안 텍스트 처리:
-                      //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
-                      //    - 그 외의 경우에는 내용 자체를 제거
-                      ?.replace(/\(([^)]+)\)/g, (match, p1) => {
-                        if (
-                          /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
-                            p1.trim()
+                {album?.ai_service !== 0 && (
+                  <>
+                    <div className="album-detail__song-detail__left__img__txt">
+                      <pre>
+                        {album?.lyrics
+                          // 1. "###"와 그 이후 공백을 제거
+                          ?.replace(/#\s*/g, '')
+                          ?.replace(/###\s*/g, '')
+                          // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                          ?.replace(/(\*\*.*?\*\*)/g, '')
+                          // 3. 대괄호([]) 안 텍스트 제거
+                          ?.replace(/\[([^\]]+)\]/g, '')
+                          // 4. 소괄호 안 텍스트 처리:
+                          //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                          //    - 그 외의 경우에는 내용 자체를 제거
+                          ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                            if (
+                              /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
+                                p1.trim()
+                              )
+                            ) {
+                              return p1.trim();
+                            }
+                            return '';
+                          })
+                          // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                          ?.replace(
+                            /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
+                            '\n$1'
                           )
-                        ) {
-                          return p1.trim();
-                        }
-                        return '';
-                      })
-                      // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
-                      ?.replace(
-                        /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
-                        '\n$1'
-                      )
-                      ?.trim()}
-                  </pre>
-                </div>
-                <button className="album-detail__song-detail__left__img__lyrics-btn">
-                  {t('Lyrics')}
-                </button>
+                          ?.trim()}
+                      </pre>
+                    </div>
+
+                    <button className="album-detail__song-detail__left__img__lyrics-btn">
+                      {t('Lyrics')}
+                    </button>
+                  </>
+                )}
               </div>
               <div className="album-detail__song-detail__left__info">
                 {/* <div className="album-detail__song-detail__left__info__number">
@@ -703,7 +724,7 @@ function AlbumDetail() {
                       <li
                         onClick={e => {
                           handleCloseMenu(e);
-                          setIsDownloadModal(true);
+                          handleDownloadClick(e);
                         }}
                       >
                         Download <img src={downloadIcon} />
@@ -748,7 +769,7 @@ function AlbumDetail() {
                 </dl>
                 <dl>
                   <dt>{t('Type')}</dt>
-                  <dd>Song</dd>
+                  <dd>{album?.ai_service === 0 ? `BGM` : `Song`}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Genre')}</dt>
@@ -1037,7 +1058,11 @@ function AlbumDetail() {
         <TransactionsModal setTransactionsModal={setIsTransactionsModal} txidData={txidData} />
       )}
       {isDownloadModal && (
-        <DownloadModal setIsDownloadModal={setIsDownloadModal} needOwner={true} needMint={false} />
+        <DownloadModal
+          setIsDownloadModal={setIsDownloadModal}
+          needOwner={!album?.is_owner}
+          needMint={album?.is_owner && !album?.nft_id}
+        />
       )}
     </>
   );

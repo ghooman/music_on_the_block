@@ -513,10 +513,12 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       <div className="menu__box__my-page__level">
                         <p className="level">{t('Level')}</p>
                         <p className="menu__box__my-page__level__img">
-                          <img
-                            src={getUserGradeSquareIcon(userData?.user_rating)}
-                            alt="level icon"
-                          />
+                          {getUserGradeSquareIcon(userData?.user_rating) && (
+                            <img
+                              src={getUserGradeSquareIcon(userData?.user_rating)}
+                              alt="level icon"
+                            />
+                          )}
                         </p>
                         <p className="grade">{userData?.user_rating}</p>
                       </div>
@@ -608,10 +610,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
                       // onClick={() => handleSubItemClick('ai-singing')}
-                      onClick={() => setPreparingModal(true)}
+                      // onClick={() => setPreparingModal(true)}
                     >
-                      {/* <Link to="/evaluation">{t('AI Singing Evaluation')}</Link> */}
-                      <Link >{t('AI Singing Evaluation')}</Link>
+                      <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
+                      {/* <Link >{t('AI Singing Evaluation')}</Link> */}
                     </li>
                     <li
                       className={activeSubItem === 'ai-cover' ? 'active' : ''}

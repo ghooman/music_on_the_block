@@ -22,9 +22,8 @@ import { useInView } from 'react-intersection-observer';
 import { AuthContext } from '../contexts/AuthContext';
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
-import { audioAnalysis } from '../utils/audioAnalysis';
 
-import musicSample from '../assets/music/song01.mp3';
+const serverApi = process.env.REACT_APP_SERVER_API;
 
 const EvaluationBegin = () => {
   const navigate = useNavigate();
@@ -65,9 +64,15 @@ const EvaluationBegin = () => {
     //   },
     // });
 
-    const res = await audioAnalysis({ music_url: encodeURIComponent(selectMusic?.music_url) });
-    // const res = await audioAnalysis({ music_url: musicSample });
-    console.log(res);
+    const res = await axios.get(`${serverApi}/api/music/${selectMusic?.id}/evaluation/pre/work`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        critic: selectCritic?.name,
+      },
+    });
+    console.log(res.data);
 
     // try {
     //   navigate('/evaluation-results', {
@@ -129,6 +134,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
 
   const songs_sort = searchParams.get('songs_sort');
   const grade_fiter = searchParams.get('grade_filter');
+  const ai_service_filter = searchParams.get('ai_service_filter');
 
   const { ref, inView } = useInView();
 
@@ -136,7 +142,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
   // 무한 스크롤
   //===============
   const { data, hasNextPage, isLoading, fetchNextPage } = useInfiniteQuery(
-    ['song_data_in_infinite', songs_sort, grade_fiter],
+    ['song_data_in_infinite', songs_sort, grade_fiter, ai_service_filter],
     async ({ pageParam = 1 }) => {
       const res = await getReleaseAndUnReleaseSongData({
         token,
@@ -144,6 +150,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
         type: 'Released',
         sort_by: songs_sort,
         rating: grade_fiter,
+        ai_service: ai_service_filter,
       });
 
       return res.data;
@@ -171,7 +178,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
           <br />
           {t('Click the song, then tap “Select” below to continue.')}
         </p>
-        <Filter songsSort={true} gradeFilter={true} />
+        <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
         <div className="step1__list">
           {isLoading && (
             <div className="step1__list--loading-box">

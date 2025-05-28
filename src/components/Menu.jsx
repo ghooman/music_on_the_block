@@ -30,7 +30,7 @@ import { useTokenBalance } from '../hooks/useTokenBalance';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import { useTranslation } from 'react-i18next';
 import { translatedNationsName } from '../i18n/i18n';
-
+import { formatLocalTime } from '../utils/getFormattedTime';
 import {
   getNotifications,
   deleteNotification,
@@ -70,7 +70,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   };
   const { data: userData, isLoading, error } = useUserDetail();
   // console.log('userData', userData);
-  const micBalance = userData?.mic_point.toFixed(4) || '0.0000';
+  const micBalance = userData?.mic_point?.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
     setActiveMenus(
@@ -398,7 +398,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 </p>
                 <div className="menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time">
                   <img src={notificationCalendar} alt="calendar" />
-                  {item?.create_dt}
+                  {formatLocalTime(item?.create_dt)}
                 </div>
               </div>
               <button

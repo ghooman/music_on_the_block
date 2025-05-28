@@ -5,6 +5,8 @@ import ContentWrap from '../components/unit/ContentWrap';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/EvaluationBegin.scss';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import OpenAI from 'openai';
+
 import Filter from '../components/unit/Filter';
 import NoneContent from '../components/unit/NoneContent';
 // import Loading from '../components/IntroLogo2';
@@ -22,13 +24,13 @@ import { useInView } from 'react-intersection-observer';
 import { AuthContext } from '../contexts/AuthContext';
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
-
-const serverApi = process.env.REACT_APP_SERVER_API;
+import { getAnalysisData } from '../api/evaluation/getAnalysisData';
 
 const EvaluationBegin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
+
   const [selectMusic, setSelectMusic] = useState(null);
   const [selectCritic, setSelectCritic] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -50,50 +52,106 @@ const EvaluationBegin = () => {
   );
 
   //================
+  // GPT 점수 정의
+  //================
+  const getScoreByOpenAI = async ({ analysisData }) => {
+    // OpenAI 클라이언트 초기화
+    const client = new OpenAI({
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true,
+    });
+
+    let retryCnt = 0;
+    let responses = null;
+
+    // GPT 점수 요청
+    const request = async () => {
+      try {
+        const response = await client.chat.completions.create({
+          model: 'gpt-4.1-nano',
+          messages: [
+            {
+              role: 'system',
+              content: `
+                다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
+
+                  1. 입력된 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함한다.
+                  2. 각 항목은 100점 만점 기준으로 평가하시오.
+                  3. 말투는 변수 ${selectCritic?.speechStyle || '정중한 말투'} 스타일로 작성하시오.
+                  4. 응답은 반드시 한글로 작성하시오.
+                  5. 아래 JSON 형식을 반드시 지킬 것:
+
+                  {
+                    "emotion": 감정 전달력에 대한 점수 (0~100),
+                    "creativity": 창의성에 대한 점수 (0~100),
+                    "structure": 구성력에 대한 점수 (0~100),
+                    "sound": 사운드/음악적 완성도 점수 (0~100),
+                    "popularity": 대중성에 대한 점수 (0~100),
+                    "feedback": 전반적인 피드백 (자연어),
+                    "to_improve": 개선이 필요한 점 (자연어),
+                    "why_this_score": 각 점수를 준 이유에 대한 설명 (자연어),
+                    "key_point": 핵심적인 개선 포인트 요약 (자연어)
+                  }
+
+                  ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
+              `,
+            },
+            { role: 'user', content: `${analysisData}` },
+          ],
+        });
+        responses = JSON.parse(response?.choices[0]?.message?.content);
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    };
+
+    while (retryCnt < 3) {
+      // 에러 발생 시 재시도
+      // JSON 형식 반환 중 에러가 발생하거나
+      // GPT 서버 오류로 인한 에러 발생 시
+      // 3번까지 재시도
+      const res = await request();
+      if (res === true) retryCnt = 100;
+      else retryCnt++;
+    }
+
+    if (responses === null) {
+      throw new Error('점수 산정에 실패하였습니다');
+    }
+
+    return responses;
+  };
+
+  //================
   // 평가 프로세스
   //================
+
   const handleEvaluation = async () => {
-    // 평가 프로세스 결과를 가지고
-    // 결과 페이지로 이동
-    // 결과 페이지에서는 navigate로 state 값을 수신 받고
-    // 새로고침 및 뒤로가기 버튼 클릭시 안내 창을 띄움
-
-    // const res = await axios.get(`http://127.0.0.1:8000/pybo/evaluation/`, {
-    //   params: {
-    //     music_url: encodeURIComponent(selectMusic?.music_url),
-    //   },
-    // });
-
-    const res = await axios.get(`${serverApi}/api/music/${selectMusic?.id}/evaluation/pre/work`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
+    try {
+      // 1. 서버에서 음악 분석 데이터를 불러옴
+      const { data: analysisData } = await getAnalysisData({
+        token,
+        song_id: selectMusic?.id,
         critic: selectCritic?.name,
-      },
-    });
-    console.log(res.data);
-
-    // try {
-    //   navigate('/evaluation-results', {
-    //     state: {
-    //       song_data: selectMusic,
-    //       critic: selectCritic.name,
-    //       emotion: 80,
-    //       creativity: 94,
-    //       structure: 66,
-    //       sound: 75,
-    //       popularity: 56,
-    //       score: 80,
-    //       feedback: 'Good',
-    //       to_improve: 'good',
-    //       why_this_score: 'good',
-    //       key_points: 'good',
-    //     },
-    //   });
-    // } catch (e) {
-    //   setErrorMessage(e?.response?.data?.detail || e?.message);
-    // }
+      });
+      // 2. JSON으로 파싱
+      const analysisDataJSON = JSON.stringify(analysisData);
+      // 3. ChatGPT를 통해 점수 산정
+      const scoringData = await getScoreByOpenAI({ analysisData: analysisDataJSON });
+      // 4. 결과 페이지로 이동
+      navigate('/evaluation-results', {
+        state: {
+          song_data: selectMusic,
+          critic: selectCritic.name,
+          ...scoringData,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      setErrorMessage(e?.response?.detail?.data || e?.message);
+    }
   };
 
   return (

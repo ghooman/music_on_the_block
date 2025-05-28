@@ -93,6 +93,8 @@
  "No data": "데이터 없음",
  "There are no NFTs": "NFT가 없습니다.",
  "There are no Songs": "노래가 없습니다.",
+ "There are no songs evaluated yet.": "아직 평가된 노래가 없습니다.",
+ "Please select your song and music critic.": "노래와 음악 평론가를 선택해 주세요.",
  "Search by artist name or song name": "아티스트 이름 또는 노래 제목으로 검색",
  "Search by artist name": "아티스트 이름으로 검색",
  "Search by collection name": "컬렉션 이름으로 검색",

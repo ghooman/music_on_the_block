@@ -220,7 +220,7 @@ const MySongsList = ({ token, username }) => {
               {evaluationData?.data_list?.map(item => (
                 <EvaluationListItem data={item} />
               ))}
-              {evaluationData?.data_list?.length <= 0 && (
+              {(!evaluationData || evaluationData?.data_list?.length <= 0) && (
                 <NoneContent height={300} message="There are no songs evaluated yet." />
               )}
             </EvaluationListItemWrapper>

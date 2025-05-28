@@ -192,6 +192,7 @@ const Header = ({ setIsLoggedIn }) => {
 
       <AlarmModal />
       {/* <AlarmNftModal /> */}
+
       {/* <MusicPlayer/> */}
     </>
   );

@@ -24,28 +24,36 @@ import { getLikeList } from '../../../api/getLikeAndUnLikeList';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 
-const subCategoryList = [
-  { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },
-  { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: true },
-  { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
-];
-
 const MyFavorites = () => {
   const { t } = useTranslation('my_page');
 
   const [searchParams] = useSearchParams();
-  const [selected, setSelected] = useState(subCategoryList[0].name);
   const { token } = useContext(AuthContext);
 
   const search = searchParams.get('search') || '';
   const page = searchParams.get('page') || 1;
-  const generateType = searchParams.get('generate_type');
+
+  const aiServiceFilter = searchParams.get('ai_service_filter');
+  const gradeFilter = searchParams.get('grade_filter');
+  const mintedFiter = searchParams.get('minted_filter');
+
   const songsSort = searchParams.get('songs_sort') || 'Latest';
 
   const { data: favoritesSongsList, isLoading } = useQuery(
-    ['favoritest_songs', { token, search, page, generateType, songsSort }],
+    [
+      'favoritest_songs',
+      { token, search, page, songsSort, aiServiceFilter, gradeFilter, mintedFiter },
+    ],
     async () => {
-      let res = await getLikeList({ token, page, search_keyword: search, sort_by: songsSort });
+      let res = await getLikeList({
+        token,
+        page,
+        search_keyword: search,
+        sort_by: songsSort,
+        ai_service: aiServiceFilter,
+        rating: gradeFilter,
+        is_minted: mintedFiter,
+      });
       return res.data;
     },
     { refetchOnWindowFocus: false, enabled: !!token }
@@ -54,14 +62,8 @@ const MyFavorites = () => {
   return (
     <>
       <ContentWrap title={t('Favorites')}>
-        <SubCategories
-          categories={subCategoryList}
-          handler={() => null}
-          value={selected}
-          translateFn={t}
-        />
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} />
+          <Filter songsSort={true} aiServiceFilter={true} gradeFilter={true} mintedFilter={true} />
           <Search placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         {/* <AlbumsTable songList={favoritesSongsList?.data_list}></AlbumsTable> */}

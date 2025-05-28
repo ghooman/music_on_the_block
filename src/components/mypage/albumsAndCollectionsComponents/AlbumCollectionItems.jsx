@@ -30,8 +30,7 @@ AlbumCollectionItems.Item = ({
         <p>{artist}</p>
         <div className="album-collections-module-items__info--edit">
           <span>
-            {count} {translateFn ? translateFn(element) : element}
-            {count > 1 && 's'}
+            {count} {translateFn ? translateFn(element + (count > 1 ? 's' : '')) : element}
           </span>
           {isOwner && (
             <button

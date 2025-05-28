@@ -1,14 +1,19 @@
-/**
- * @param {string} search_keyword : 검색어
- * @param {string} sort_by : 정렬
- * @param {string | number} page : 페이징
- * @param {Promise} param0
- */
-
 import axios from 'axios';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
+/**
+ *
+ * @param {string | number} page : 페이지
+ * @param {"Latest" | "Oldest" | "Highest Price" | "Lowest Price"} : 정렬
+ * @param {string} search_keyword : "검색어"
+ * @param {"Listed" | "Unlisted"} now_sales_status : 판매중, 등록되지 않음
+ * @param {"Song" | "BGM"} ai_service : 노래냐 BGM이냐
+ * @param {"New" | "Indie" | "Rising" | "Star" | "Legend"} nft_rating : nft 등급
+ * @param {"MOB" | "POL" | "USDT" | "USDC"} sales_token : 토큰
+ * @param {string} user_name : 유저네임
+ * @returns
+ */
 export const getNftsList = async ({
   page,
   sort_by,
@@ -57,6 +62,7 @@ export const getNftTransactionHistory = async ({
   sales_token,
   sort_by,
   search_keyword,
+  buy_sell_status,
 }) => {
   try {
     const res = await axios.get(`${serverApi}/api/nfts/transaction/history`, {
@@ -68,6 +74,7 @@ export const getNftTransactionHistory = async ({
         sales_token,
         sort_by,
         search_keyword,
+        buy_sell_status,
       },
     });
     return res.data;

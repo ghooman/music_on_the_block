@@ -8,7 +8,7 @@ import axios from 'axios';
 import { GetMyTopAlbumList } from '../../../api/GetMyTopAlbumList';
 import { getReleaseAndUnReleaseSongData } from '../../../api/getReleaseAndUnReleaseSongData';
 
-import TopSongsTemplate from './TopSongsTemplate';
+import TopSongsTemplates from './TopSongsTemplate';
 import ContentWrap from '../../unit/ContentWrap';
 import SubCategories from '../../unit/SubCategories';
 import Filter from '../../unit/Filter';
@@ -20,6 +20,14 @@ import SongDeleteAndReleaseModal from '../../SongDeleteAndReleaseModal';
 import Loading from '../../IntroLogo2';
 import { useTranslation } from 'react-i18next';
 
+import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
+import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
+import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
+import { getEvaluationList } from '../../../api/evaluation/getList';
+import SongsBar from '../../unit/SongsBar';
+import { EvaluationListItem, EvaluationListItemWrapper } from '../../unit/EvaluationListItem';
+import NoneContent from '../../unit/NoneContent';
+
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const myAlbumsCategoryList = [
@@ -27,7 +35,25 @@ const myAlbumsCategoryList = [
   { name: 'Released', preparing: false },
 ];
 
-const MySongsList = ({ token }) => {
+const topAlbumsCategoryList = [
+  {
+    name: 'AI Lyrics & Songwriting',
+    image: generatedLyricSongwritingIcon,
+    preparing: false,
+  },
+  {
+    name: 'AI Singing Evaluation',
+    image: generatedSigingEvaluationIcon,
+    preparing: false,
+  },
+  {
+    name: 'AI Cover Creation',
+    image: generatedCoverCreationIcon,
+    preparing: true,
+  },
+];
+
+const MySongsList = ({ token, username }) => {
   const { t } = useTranslation('my_page');
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,23 +61,18 @@ const MySongsList = ({ token }) => {
   const [releaseMusic, setReleaseMusic] = useState(null);
   const [mintMusic, setMintMusic] = useState(null);
 
+  const selectAiServiceCategory =
+    searchParams.get('ai_service_category') || 'AI Lyrics & Songwriting';
+
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search') || '';
   const songsSort = searchParams.get('songs_sort');
   const releaseType = searchParams.get('release_type') || 'Unreleased';
+  const aiServiceFilter = searchParams.get('ai_service_filter');
+  const criticFilter = searchParams.get('critic_filter');
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
-
-  // 내 TOP 앨범 리스트 API 호출
-  const { data: topSongsData, isLoading: topSongLoading } = useQuery(
-    ['top_songs'],
-    async () => {
-      const { data } = await GetMyTopAlbumList(token);
-      return data;
-    },
-    { refetchOnWindowFocus: false, enabled: !!token }
-  );
 
   // 송 리스트 get API
   const {
@@ -59,7 +80,7 @@ const MySongsList = ({ token }) => {
     isLoading: songsListLoading,
     refetch: songListRefetch,
   } = useQuery(
-    ['songs_list', { token, page, songsSort, search, releaseType }],
+    ['songs_list', { token, page, songsSort, search, releaseType, aiServiceFilter }],
     async () => {
       const { data } = await getReleaseAndUnReleaseSongData({
         token,
@@ -67,10 +88,32 @@ const MySongsList = ({ token }) => {
         sort_by: songsSort,
         search_keyword: search,
         type: releaseType,
+        ai_service: aiServiceFilter,
       });
       return data;
     },
-    { refetchOnWindowFocus: false, enabled: !!token && !!releaseType }
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!token && !!releaseType && selectAiServiceCategory === 'AI Lyrics & Songwriting',
+    }
+  );
+
+  // 평가 리스트 get API
+  const { data: evaluationData, isLoading: evaluationListLoading } = useQuery(
+    ['evaluation_list', { page, songsSort, search, username, criticFilter }],
+    async () => {
+      const res = await getEvaluationList({
+        page,
+        sort_by: songsSort,
+        search_keyword: search,
+        name: username,
+        critic: criticFilter,
+      });
+      return res.data;
+    },
+    {
+      enabled: !!token && selectAiServiceCategory === 'AI Singing Evaluation',
+    }
   );
 
   //=============
@@ -104,40 +147,88 @@ const MySongsList = ({ token }) => {
 
   return (
     <div className="songs">
-      <TopSongsTemplate topSongsData={topSongsData} />
-      <ContentWrap title={t('Song List')}>
+      <ContentWrap title={t('Songs')}>
         <SubCategories
-          categories={myAlbumsCategoryList}
-          translateFn={t}
-          handler={value => {
-            setSearchParams(prev => {
-              const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
-              return { ...rest, release_type: value, page: 1 };
-            });
-          }}
-          value={releaseType}
+          categories={topAlbumsCategoryList}
+          value={selectAiServiceCategory}
+          handler={value =>
+            setSearchParams({
+              category: 'Songs',
+              ai_service_category: value,
+              page: 1,
+            })
+          }
         />
-        <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} />
-          <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
-        </ContentWrap.SubWrap>
-        <SongPlayTable
-          songList={songsList?.data_list}
-          deleteOption={true}
-          releaseOption={releaseType === 'Unreleased'}
-          gradeOption={releaseType === 'Released'}
-          nftOption={releaseType === 'Released'}
-          mintOption={releaseType === 'Released'}
-          playsOption={releaseType === 'Released'}
-          likesOption={releaseType === 'Released'}
-          handleDelete={setDeleteMusic}
-          handleRelease={setReleaseMusic}
-          handleMint={handleMint}
-          artistOption={false}
+        <TopSongsTemplates
+          topSong={selectAiServiceCategory === 'AI Lyrics & Songwriting'}
+          topScore={selectAiServiceCategory === 'AI Singing Evaluation'}
+          username={username}
         />
-        <Pagination totalCount={songsList?.total_cnt} handler={null} viewCount={15} page={page} />
       </ContentWrap>
-      {(topSongLoading || songsListLoading) && <Loading />}
+      <ContentWrap title={t('Song List')}>
+        {selectAiServiceCategory === 'AI Lyrics & Songwriting' && (
+          <SubCategories
+            categories={myAlbumsCategoryList}
+            translateFn={t}
+            handler={value => {
+              setSearchParams(prev => {
+                const { page, search, songs_sort, ...rest } = Object.fromEntries(prev);
+                return { ...rest, release_type: value, page: 1 };
+              });
+            }}
+            value={releaseType}
+          />
+        )}
+        {selectAiServiceCategory === 'AI Lyrics & Songwriting' && (
+          <>
+            <ContentWrap.SubWrap gap={8}>
+              <Filter songsSort={['Latest', 'Oldest']} aiServiceFilter={true} />
+              <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
+            </ContentWrap.SubWrap>
+            <SongPlayTable
+              songList={songsList?.data_list}
+              deleteOption={true}
+              releaseOption={releaseType === 'Unreleased'}
+              gradeOption={releaseType === 'Released'}
+              nftOption={releaseType === 'Released'}
+              mintOption={releaseType === 'Released'}
+              playsOption={releaseType === 'Released'}
+              likesOption={releaseType === 'Released'}
+              handleDelete={setDeleteMusic}
+              handleRelease={setReleaseMusic}
+              handleMint={handleMint}
+              artistOption={false}
+            />
+            <Pagination
+              totalCount={songsList?.total_cnt}
+              handler={null}
+              viewCount={15}
+              page={page}
+            />
+          </>
+        )}
+        {selectAiServiceCategory === 'AI Singing Evaluation' && (
+          <>
+            <ContentWrap.SubWrap gap={8}>
+              <Filter
+                criticFilter={true}
+                songsSort={['Highest Score', 'Lowest Score', 'Latest', 'Oldest']}
+              />
+              <Search placeholder="Search by song title" handler={null} reset={{ page: 1 }} />
+            </ContentWrap.SubWrap>
+            <EvaluationListItemWrapper>
+              {evaluationData?.data_list?.map(item => (
+                <EvaluationListItem data={item} />
+              ))}
+              {evaluationData?.data_list?.length <= 0 && (
+                <NoneContent height={300} message="There are no songs evaluated yet." />
+              )}
+            </EvaluationListItemWrapper>
+            <Pagination totalCount={evaluationData?.total_cnt} viewCount={15} page={page} />
+          </>
+        )}
+      </ContentWrap>
+      {(songsListLoading || evaluationListLoading) && <Loading />}
       {deleteMusic && (
         <SongDeleteAndReleaseModal
           setter={setDeleteMusic}

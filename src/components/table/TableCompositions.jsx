@@ -15,6 +15,9 @@ import user_grade3Icon from '../../assets/images/icon/grade-icon/user_Grade3-ico
 import user_grade4Icon from '../../assets/images/icon/grade-icon/user_Grade4-icon.svg';
 import user_grade5Icon from '../../assets/images/icon/grade-icon/user_Grade5-icon.svg';
 
+import ai_service_songIcon from '../../assets/images/icon/Songwriting-Icon.svg';
+import ai_service_BGMIcon from '../../assets/images/icon/Composition-Icon.svg';
+
 import './TableCompositions.scss';
 
 const gradeIcons = {
@@ -33,6 +36,10 @@ const userGradeIcons = {
   Legend: user_grade5Icon,
 };
 
+const aiServiceTypeIcons = {
+  0: ai_service_BGMIcon, // BGM
+  1: ai_service_songIcon, // Song
+};
 // 테이블 태그
 export const TableWrapper = React.memo(({ children }) => {
   return <div className="table__wrapper">{children}</div>;
@@ -134,12 +141,16 @@ TableItem.Button = React.memo(({ title, handleClick, type = 'details', disabled 
   );
 });
 
-TableItem.Type = React.memo(({ image }) => {
+TableItem.AiServiceType = React.memo(({ service }) => {
   return (
     <td className="table__body--item" style={{ width: 26 }}>
-      <div className="type">
-        <img src={image} alt="icon" />
-      </div>
+      {aiServiceTypeIcons[service] ? (
+        <div className="type">
+          <img src={aiServiceTypeIcons[service]} alt="icon" />
+        </div>
+      ) : (
+        '-'
+      )}
     </td>
   );
 });

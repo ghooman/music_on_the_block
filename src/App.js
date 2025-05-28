@@ -192,7 +192,9 @@ function App() {
                 path="evaluation-begin"
                 element={
                   <Layout>
-                    <EvaluationBegin />
+                    <ProtectedRoute>
+                      <EvaluationBegin />
+                    </ProtectedRoute>
                   </Layout>
                 }
               />
@@ -200,7 +202,9 @@ function App() {
                 path="evaluation-results"
                 element={
                   <Layout>
-                    <EvaluationResults />
+                    <ProtectedRoute>
+                      <EvaluationResults />
+                    </ProtectedRoute>
                   </Layout>
                 }
               />

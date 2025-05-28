@@ -309,7 +309,10 @@ const NftItemDetailInfo = ({ id, t }) => {
                 onClick={handleClick}
               >
                 {nftDetailData ? (
-                  <img src={nftDetailData?.nft_image || defaultCoverImg} alt="앨범 이미지" />
+                  <img
+                    src={nftDetailData?.nft_image?.replace('public', '400to400') || defaultCoverImg}
+                    alt="앨범 이미지"
+                  />
                 ) : (
                   <img src={defaultCoverImg} alt="기본 이미지" />
                 )}
@@ -445,7 +448,13 @@ const NftItemDetailInfo = ({ id, t }) => {
                 </dl>
                 <dl>
                   <dt>{t('Type')}</dt>
-                  <dd>{nftDetailData?.ai_service === 0 ? `BGM` : `Song`}</dd>
+                  <dd>
+                    {nftDetailData?.ai_service === 0
+                      ? 'BGM'
+                      : nftDetailData?.ai_service === 1
+                      ? 'Song'
+                      : '-'}
+                  </dd>
                 </dl>
                 <dl>
                   <dt>{t('Item ID')}</dt>

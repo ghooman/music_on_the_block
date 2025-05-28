@@ -24,13 +24,25 @@ const NftItems = ({ username, isMyProfile }) => {
   const tokenFilter = searchParams.get('token_filter');
   const nftSort = searchParams.get('nft_sort');
   const nftFilter = searchParams.get('nft_filter') || 'Listed';
+  const aiServiceFilter = searchParams.get('ai_service_filter');
 
   const { data, isLoading, refetch } = useQuery(
-    ['nfts_data', page, nftFilter, search, gradeFilter, tokenFilter, nftSort, username],
+    [
+      'nfts_data',
+      page,
+      nftFilter,
+      search,
+      gradeFilter,
+      tokenFilter,
+      nftSort,
+      username,
+      aiServiceFilter,
+    ],
     async () => {
       const res = await getNftsList({
         page: page,
         now_sales_status: nftFilter,
+        ai_service: aiServiceFilter,
         search_keyword: search,
         nft_rating: gradeFilter,
         sales_token: tokenFilter,
@@ -63,7 +75,7 @@ const NftItems = ({ username, isMyProfile }) => {
           ))}
         </div>
         <ContentWrap.SubWrap gap={8}>
-          <Filter nftSort={true} gradeFilter={true} tokenFilter={true} />
+          <Filter nftSort={true} gradeFilter={true} tokenFilter={true} aiServiceFilter={true} />
           <Search placeholder="Search by NFT name" reset={{ page: 1 }} />
         </ContentWrap.SubWrap>
         <NftTable

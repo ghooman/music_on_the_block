@@ -29,7 +29,7 @@ const UserTable = ({
     <TableWrapper>
       <Table>
         <TableHeader>
-          <TableHeader.Col>#</TableHeader.Col>
+          <TableHeader.Indexs>#</TableHeader.Indexs>
           <TableHeader.Col>{t('Artist')}</TableHeader.Col>
           <TableHeader.Col>{t('Level')}</TableHeader.Col>
           <TableHeader.Col>{t('Total Songs')}</TableHeader.Col>

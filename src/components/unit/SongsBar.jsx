@@ -13,9 +13,8 @@ import loverIcon from '../../assets/images/icon/heart.svg';
 import typeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useTranslation } from 'react-i18next';
 
-const SongsBar = ({ songId }) => {
+const SongsBar = ({ songId, itemData, play }) => {
   const { t } = useTranslation('module');
-
   const { token, walletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
@@ -60,8 +59,16 @@ const SongsBar = ({ songId }) => {
   };
 
   useEffect(() => {
-    fetchAlbumDetail();
-  }, [id]);
+    if (songId && !itemData) {
+      fetchAlbumDetail();
+    } else {
+      setAlbum(itemData);
+    }
+  }, [id, itemData]);
+
+  useEffect(() => {
+    setBarActive(play);
+  }, [play]);
 
   return (
     <>
@@ -72,7 +79,10 @@ const SongsBar = ({ songId }) => {
       )}
       <section
         className={`songs-bar ${barActive ? 'active' : ''}`}
-        onClick={() => setBarActive(prev => !prev)}
+        onClick={() => {
+          if (typeof play === 'boolean') return;
+          setBarActive(prev => !prev);
+        }}
       >
         <article className="songs-bar__play-box">
           <p className="songs-bar__play-box__img">
@@ -109,7 +119,10 @@ const SongsBar = ({ songId }) => {
               {album?.like}
             </p>
           </div>
-          <Link className="songs-bar__details-btn" to={`/song-detail/${songId || id}`}>
+          <Link
+            className="songs-bar__details-btn"
+            to={`/song-detail/${songId || id || itemData?.id}`}
+          >
             {t('Details')}
           </Link>
         </article>

@@ -1,0 +1,28 @@
+@mixin fonts() {
+  color: #aaa;
+  font-size: 14px;
+  font-family: Inter400;
+}
+
+.evaluation-guide-modal {
+  .evaluation-guide-modal__chart-parent {
+    width: 100%;
+    height: 200px;
+  }
+
+  .evaluation-guide-modal__text {
+    @include fonts();
+  }
+
+  .evaluation-guide-modal__item--content {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mb16 {
+    margin-bottom: 16px;
+  }
+  .mb8 {
+    margin-bottom: 8px;
+  }
+}

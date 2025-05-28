@@ -1,55 +1,168 @@
 import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import ContentWrap from '../components/unit/ContentWrap';
 import { InfoRowWrap } from '../components/nft/InfoRow';
 import '../styles/EvaluationBegin.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Filter from '../components/unit/Filter';
+import NoneContent from '../components/unit/NoneContent';
+// import Loading from '../components/IntroLogo2';
 import Loading from '../components/IntroLogo2';
+import ErrorModal from '../components/modal/ErrorModal';
 
 //이미지
-import earnMicIcon from '../assets/images/evaluation/earnMicIcon.svg';
-import algorithmIcon from '../assets/images/evaluation/algorithmIcon.svg';
-import songValueIcon from '../assets/images/evaluation/songValueIcon.svg';
-import newMusicIcon from '../assets/images/evaluation/newMusicIcon.svg';
-import biggerRewardsIcon from '../assets/images/evaluation/biggerRewardsIcon.svg';
-
 import judgeImg01 from '../assets/images/evaluation/judge-img01.png';
 import judgeImg02 from '../assets/images/evaluation/judge-img02.png';
 import judgeImg03 from '../assets/images/evaluation/judge-img03.png';
 
-import step1Img from '../assets/images/evaluation/step1-img.png';
-import step2Img from '../assets/images/evaluation/step2-img.png';
-import step3Img from '../assets/images/evaluation/step3-img.png';
-import step4Img from '../assets/images/evaluation/step4-img.png';
-
 import SongsBar from '../components/unit/SongsBar';
+import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
+import { AuthContext } from '../contexts/AuthContext';
+import { getPossibleCount } from '../api/evaluation/getPossibleCount';
+import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
+import { audioAnalysis } from '../utils/audioAnalysis';
+
+import musicSample from '../assets/music/song01.mp3';
 
 const EvaluationBegin = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
+  const { token } = useContext(AuthContext);
+  const [selectMusic, setSelectMusic] = useState(null);
+  const [selectCritic, setSelectCritic] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  //================
+  // 생성 가능 횟수 체크
+  //================
+  const { data: possibleCnt } = useQuery(
+    ['evaluation_possible_cnt', token, selectMusic?.id, selectCritic?.name],
+    async () => {
+      const res = await getPossibleCount({
+        token,
+        song_id: selectMusic?.id,
+        critic: selectCritic?.name,
+      });
+      return res.data.cnt;
+    },
+    { enabled: !!selectCritic && !!selectMusic }
+  );
+
+  //================
+  // 평가 프로세스
+  //================
+  const handleEvaluation = async () => {
+    // 평가 프로세스 결과를 가지고
+    // 결과 페이지로 이동
+    // 결과 페이지에서는 navigate로 state 값을 수신 받고
+    // 새로고침 및 뒤로가기 버튼 클릭시 안내 창을 띄움
+
+    // const res = await axios.get(`http://127.0.0.1:8000/pybo/evaluation/`, {
+    //   params: {
+    //     music_url: encodeURIComponent(selectMusic?.music_url),
+    //   },
+    // });
+
+    const res = await audioAnalysis({ music_url: encodeURIComponent(selectMusic?.music_url) });
+    // const res = await audioAnalysis({ music_url: musicSample });
+    console.log(res);
+
+    // try {
+    //   navigate('/evaluation-results', {
+    //     state: {
+    //       song_data: selectMusic,
+    //       critic: selectCritic.name,
+    //       emotion: 80,
+    //       creativity: 94,
+    //       structure: 66,
+    //       sound: 75,
+    //       popularity: 56,
+    //       score: 80,
+    //       feedback: 'Good',
+    //       to_improve: 'good',
+    //       why_this_score: 'good',
+    //       key_points: 'good',
+    //     },
+    //   });
+    // } catch (e) {
+    //   setErrorMessage(e?.response?.data?.detail || e?.message);
+    // }
+  };
 
   return (
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
         <ContentWrap title={t('Step 1')}>
-          <Step1 t={t} />
+          <Step1 t={t} token={token} setSelectMusic={setSelectMusic} />
         </ContentWrap>
         <ContentWrap title={t('Step 2')} border={false}>
-          <Step2 t={t} />
+          <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
         </ContentWrap>
         <ContentWrap title={t('Step 3')}>
-          <Step3 t={t} />
+          <Step3
+            t={t}
+            possibleCnt={possibleCnt}
+            selectCritic={selectCritic}
+            selectMusic={selectMusic}
+          />
         </ContentWrap>
-        <ViewResults t={t} />
+        <ViewResults
+          t={t}
+          possibleCnt={possibleCnt}
+          selectMusic={selectMusic}
+          selectCritic={selectCritic}
+          handleClick={handleEvaluation}
+        />
       </ContentWrap>
+      {errorMessage && <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} />}
     </>
   );
 };
 
 export default EvaluationBegin;
 
-const Step1 = ({ t }) => {
-  const dummySongIds = [101, 102, 103];
+const Step1 = ({ t, token, setSelectMusic }) => {
+  const [temporarySelect, setTemporarySelect] = useState(null);
+  const [searchParams] = useSearchParams();
+
+  const songs_sort = searchParams.get('songs_sort');
+  const grade_fiter = searchParams.get('grade_filter');
+
+  const { ref, inView } = useInView();
+
+  //===============
+  // 무한 스크롤
+  //===============
+  const { data, hasNextPage, isLoading, fetchNextPage } = useInfiniteQuery(
+    ['song_data_in_infinite', songs_sort, grade_fiter],
+    async ({ pageParam = 1 }) => {
+      const res = await getReleaseAndUnReleaseSongData({
+        token,
+        page: pageParam,
+        type: 'Released',
+        sort_by: songs_sort,
+        rating: grade_fiter,
+      });
+
+      return res.data;
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const totalLoaded = allPages.reduce((sum, page) => sum + page?.data_list?.length, 0);
+        return totalLoaded < lastPage.total_cnt ? allPages.length + 1 : undefined;
+      },
+    }
+  );
+  const listData = data?.pages?.flatMap(item => item.data_list) || [];
+
+  useEffect(() => {
+    if (hasNextPage && inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
   return (
     <>
       <div className="step1">
@@ -58,80 +171,104 @@ const Step1 = ({ t }) => {
           <br />
           {t('Click the song, then tap “Select” below to continue.')}
         </p>
-        <Filter songsSort={true} gradeFilter={true} tokenFilter={true} />
+        <Filter songsSort={true} gradeFilter={true} />
         <div className="step1__list">
-          {dummySongIds.map(id => (
-            <SongsBar key={id} songId={id} />
-          ))}
+          {isLoading && (
+            <div className="step1__list--loading-box">
+              <Loading />
+            </div>
+          )}
+          {!isLoading && listData?.length === 0 && <NoneContent message="No data" height={220} />}
+          {!isLoading &&
+            listData.map(item => (
+              <span
+                key={item.id}
+                onClick={() => {
+                  setTemporarySelect(prev => {
+                    if (prev?.id === item?.id) {
+                      return null;
+                    } else {
+                      return item;
+                    }
+                  });
+                }}
+              >
+                <SongsBar itemData={item} play={item?.id === temporarySelect?.id} />
+              </span>
+            ))}
+          <span ref={ref} style={{ width: '100%', height: 1 }}></span>
         </div>
-        <button className="select-btn">{t('Select')}</button>
+        <button
+          className="select-btn"
+          onClick={() => {
+            setSelectMusic(prev => {
+              return { ...temporarySelect };
+            });
+          }}
+        >
+          {t('Select')}
+        </button>
       </div>
     </>
   );
 };
 
-const Step2 = ({ t }) => {
-  const [activeIdx, setActiveIdx] = useState(null);
-
-  const handleClick = idx => {
-    setActiveIdx(prev => (prev === idx ? null : idx));
-  };
+const Step2 = ({ t, selectCritic, setSelectCritic }) => {
+  const criticData = [
+    {
+      id: 1,
+      name: 'Jinwoo Yoo',
+      desc: '<span>Soul</span> first, sound second.',
+      image: judgeImg01,
+    },
+    {
+      id: 2,
+      name: 'Drexx',
+      desc: 'No <span>flow?</span> No mercy. Off-beat? Game over.',
+      image: judgeImg02,
+    },
+    {
+      id: 3,
+      name: 'Elara Moon',
+      desc: 'Between the <span>Melody</span>, she finds the truth.',
+      image: judgeImg03,
+    },
+  ];
 
   return (
     <>
       <div className="step2">
         <p className="step2__title">{t('Choose your music critic.')}</p>
         <div className="step2__choose">
-          <button
-            className={`step2__choose__item ${activeIdx === 0 ? 'active' : ''}`}
-            onClick={() => handleClick(0)}
-          >
-            <img src={judgeImg01} alt="Jinwoo Yoo" />
-            <dl className="step2__choose__item__title">
-              <dt
-                dangerouslySetInnerHTML={{ __html: t('"<span>Soul</span> first, sound second."') }}
-              ></dt>
-              <dd>Jinwoo Yoo</dd>
-            </dl>
-          </button>
-
-          <button
-            className={`step2__choose__item ${activeIdx === 1 ? 'active' : ''}`}
-            onClick={() => handleClick(1)}
-          >
-            <img src={judgeImg02} alt="Drexx" />
-            <dl className="step2__choose__item__title">
-              <dt
-                dangerouslySetInnerHTML={{
-                  __html: t('"No <span>flow?</span> No mercy. Off-beat? Game over."'),
-                }}
-              ></dt>
-              <dd>Drexx</dd>
-            </dl>
-          </button>
-
-          <button
-            className={`step2__choose__item ${activeIdx === 2 ? 'active' : ''}`}
-            onClick={() => handleClick(2)}
-          >
-            <img src={judgeImg03} alt="Elara Moon" />
-            <dl className="step2__choose__item__title">
-              <dt
-                dangerouslySetInnerHTML={{
-                  __html: t('"Between the <span>Melody</span>, she finds the truth."'),
-                }}
-              ></dt>
-              <dd>Elara Moon</dd>
-            </dl>
-          </button>
+          {criticData?.map(critic => (
+            <button
+              className={`step2__choose__item ${critic?.id === selectCritic?.id ? 'active' : ''}`}
+              onClick={() =>
+                setSelectCritic(prev => {
+                  if (prev?.id === critic?.id) return null;
+                  return critic;
+                })
+              }
+              key={critic?.id}
+            >
+              <img src={critic?.image} alt="Jinwoo Yoo" />
+              <dl className="step2__choose__item__title">
+                <dt
+                  dangerouslySetInnerHTML={{
+                    __html: t(`"${critic.desc}"`),
+                  }}
+                ></dt>
+                <dd>{critic?.name}</dd>
+              </dl>
+            </button>
+          ))}
         </div>
       </div>
     </>
   );
 };
 
-const Step3 = ({ t }) => {
-  const dummySongIds = [100];
+const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
   return (
     <>
       <div className="step3">
@@ -144,16 +281,19 @@ const Step3 = ({ t }) => {
         </p>
         <div className="step3__selected-song">
           <p className="step3__selected-song__title">{t('Selected Song')}</p>
-          {dummySongIds.map(id => (
-            <SongsBar key={id} songId={id} />
-          ))}
+          {selectMusic && <SongsBar itemData={selectMusic} />}
+          {!selectMusic && (
+            <NoneContent height={130} message="Please select your song and music critic." />
+          )}
           <dl className="step3__selected-song__critic">
             <dt>{t('Critic')}</dt>
             <dd>
-              <p>Jinwoo Yoo</p>
-              <span>
-                {t('Todays Left')}: <strong>1/1</strong>
-              </span>
+              <p>{selectCritic?.name || '-'}</p>
+              {selectCritic && (
+                <span>
+                  {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
+                </span>
+              )}
             </dd>
           </dl>
         </div>
@@ -162,12 +302,15 @@ const Step3 = ({ t }) => {
   );
 };
 
-const ViewResults = ({ t }) => {
+const ViewResults = ({ t, possibleCnt, selectMusic, selectCritic, handleClick }) => {
+  // 비활성화 조건
+  const disabled = !possibleCnt || possibleCnt < 1 || !selectMusic || !selectCritic;
+
   return (
     <>
-      <Link to="/evaluation-results" className="view-results">
+      <button onClick={handleClick} className="view-results" disabled={disabled}>
         {t('View Results')}
-      </Link>
+      </button>
     </>
   );
 };

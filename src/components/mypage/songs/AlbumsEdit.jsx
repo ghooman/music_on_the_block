@@ -44,6 +44,7 @@ const AlbumsEdit = () => {
   const search = searchParams.get('search');
   const songsFilter = searchParams.get('songs_filter') || 'My Songs';
   const songsSort = searchParams.get('songs_sort');
+  const aiServiceFilter = searchParams.get('ai_service_filter');
 
   //===============
   // 디테일 데이터 Fetch
@@ -94,6 +95,7 @@ const AlbumsEdit = () => {
         params: {
           search_keyword: search,
           sort_by: songsSort,
+          ai_service: aiServiceFilter,
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -132,7 +134,7 @@ const AlbumsEdit = () => {
 
   useEffect(() => {
     getList();
-  }, [search, songsFilter, songsSort]);
+  }, [search, songsFilter, songsSort, aiServiceFilter]);
 
   if (isLoading) {
     return <Loading />;
@@ -167,7 +169,7 @@ const AlbumsEdit = () => {
             translateFn={t}
           />
           <ContentWrap.SubWrap gap={8}>
-            <Filter songsSort={true} />
+            <Filter songsSort={true} aiServiceFilter={true} />
             <Search placeholder="Search by artist name or song name" />
           </ContentWrap.SubWrap>
           <AlbumCollectionEditList

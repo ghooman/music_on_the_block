@@ -43,7 +43,7 @@ const Songs = ({ token, username, isMyProfile }) => {
       />
       {isMyProfile && (
         <>
-          {tab === 'Songs' && <MySongsList token={token} />}
+          {tab === 'Songs' && <MySongsList username={username} token={token} />}
           {tab === 'Favorites' && <MyFavorites />}
           {tab === 'Albums' && <Albums username={username} isMyProfile />}
         </>

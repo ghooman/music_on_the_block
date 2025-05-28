@@ -13,10 +13,7 @@ const ModalWrap = ({ className = '', children, onClose, title = 'MODAL' }) => {
   }, []);
 
   const modalClose = e => {
-    // if (e.target.className === 'modal-wrap') {
-    //     onClose(false);
-    // }
-    if (e.target.className.includes('modal-wrap')) {
+    if (typeof e.target.className === 'string' && e?.target?.className?.includes('modal-wrap')) {
       onClose(false);
     }
   };
@@ -25,7 +22,12 @@ const ModalWrap = ({ className = '', children, onClose, title = 'MODAL' }) => {
     <div className={`modal-wrap ${className}`} onClick={e => modalClose(e)}>
       <div className="modal-content-box">
         <div className="modal-header">
-          <img className="modal-close" src={modalCloseImg} onClick={() => onClose(false)} />
+          <img
+            className="modal-close"
+            src={modalCloseImg}
+            onClick={() => onClose(false)}
+            alt="close"
+          />
           <h2 className="modal-title">{title}</h2>
         </div>
         <div className="modal-content">{children}</div>

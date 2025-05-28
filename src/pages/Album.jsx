@@ -1,16 +1,15 @@
 import '../styles/Album.scss';
 import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
-import persona02 from '../assets/images/evaluation/persona-user01.png';
-import persona03 from '../assets/images/evaluation/persona-user02.png';
-import persona04 from '../assets/images/evaluation/persona-user03.png';
 import PreparingModal from '../components/PreparingModal';
 
 import axios from 'axios';
@@ -19,6 +18,7 @@ import { getHitMusicList } from '../api/HitMusicList';
 import AlbumItem from '../components/unit/AlbumItem';
 import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
+import NoneContent from '../components/unit/NoneContent';
 
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -29,17 +29,23 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
+
+// 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
-import { useTranslation } from 'react-i18next';
 import MusicPlayer from '../components/AudioPlayer';
 import CreateLoading from '../components/CreateLoading';
+import { getEvaluationList } from '../api/evaluation/getList';
+
+// 데이터
+import { criticsDataForArray, criticsDataForObject } from '../data/criticsData';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
   const { t } = useTranslation('main');
 
+  const [searchParams, setSearchParams] = useSearchParams();
   const { token, walletAddress } = useContext(AuthContext);
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
@@ -53,12 +59,17 @@ function Album() {
   const [totalList, setTotalList] = useState([]);
   const [hitList, setHitList] = useState([]);
   const [randomList, setRandomList] = useState([]);
+  const [evaluationListByHighScore, setEvaluationListByHighScore] = useState([]);
+  const [evaluationListByLatest, setEvaluationListByLatest] = useState([]);
 
   const [selectedList, setSelectedList] = useState(null);
   const [selectedMusic, setSelectedMusic] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
   const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
+
+  const service = searchParams.get('service') || 'AI Lyrics & Songwriting';
+  const critic = searchParams.get('critic') || 'All';
 
   useEffect(() => {
     const fetchTransaction = async () => {
@@ -130,6 +141,17 @@ function Album() {
     }
   };
 
+  const getEvaluationData = async () => {
+    try {
+      const evaluationHigestScore = await getEvaluationList({ critic, sort_by: 'Highest Score' });
+      const evaluationLatest = await getEvaluationList({ critic, sort_by: 'Latest' });
+      setEvaluationListByHighScore(evaluationHigestScore.data?.data_list);
+      setEvaluationListByLatest(evaluationLatest.data?.data_list);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // 아이템 클릭하여 음악 재생시 사용되는 함수입니다.
   // 카테고리 리스트와, id를 설정해야 재생시 나타나는 UI 중복 랜더링을 막을 수 있습니다.
   const handlePlay = ({ list, id, track }) => {
@@ -179,6 +201,11 @@ function Album() {
     getRandomTracks();
   }, [walletAddress]);
 
+  // 심사위원 변경 시
+  useEffect(() => {
+    getEvaluationData();
+  }, [critic]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY >= 88);
@@ -188,104 +215,11 @@ function Album() {
   }, []);
 
   const audioRef = useRef(null); // 오디오 제어용 ref
-
-  const personas = [
-    { img: persona01, name: 'All' },
-    { img: persona02, name: 'Jinwoo Yoo' },
-    { img: persona03, name: 'Drexx' },
-    { img: persona04, name: 'Elara Moon' },
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const dummyData = [
-    {
-      id: 0,
-      quote: `"A melancholic drift that lingers long after the final note."`,
-      trackName: `Fading Light - Mina Velour`,
-      artistName: `Mina Velour`,
-      score: 87,
-      grade: 'Silver',
-    },
-    {
-      id: 1,
-      quote: `"The rhythm felt like waves crashing in my chest. Powerful."`,
-      trackName: `Ocean Pulse - Raye Nakamura`,
-      artistName: `Raye Nakamura`,
-      score: 92,
-      grade: 'Gold',
-    },
-    {
-      id: 2,
-      quote: `"Creative, chaotic, and strangely captivating."`,
-      trackName: `Color Spill - Drexx`,
-      artistName: `Drexx`,
-      score: 78,
-      grade: 'Bronze',
-    },
-    {
-      id: 3,
-      quote: `"A clean composition with a haunting undertone. Very impressive."`,
-      trackName: `Whispers in Bloom - Elara Moon`,
-      artistName: `Elara Moon`,
-      score: 95,
-      grade: 'Gold',
-    },
-    {
-      id: 4,
-      quote: `"The hook is solid, but the middle section loses momentum."`,
-      trackName: `Midway Collapse - Jinwoo Yoo`,
-      artistName: `Jinwoo Yoo`,
-      score: 70,
-      grade: 'Bronze',
-    },
-    {
-      id: 5,
-      quote: `"This track almost made me feel something. Almost. That’s a masterpiece."`,
-      trackName: `he dances through his masks like breathing - Yolkhead`,
-      artistName: `Yolkhead`,
-      score: 100,
-      grade: 'Gold',
-    },
-    {
-      id: 6,
-      quote: `"Subtle, emotional, and immersive. A delicate journey."`,
-      trackName: `Feather Skin - Aoi Ren`,
-      artistName: `Aoi Ren`,
-      score: 89,
-      grade: 'Silver',
-    },
-    {
-      id: 7,
-      quote: `"There's a beauty in how the imperfections blend together."`,
-      trackName: `Broken Lace - V!DA`,
-      artistName: `V!DA`,
-      score: 84,
-      grade: 'Silver',
-    },
-    {
-      id: 8,
-      quote: `"Too polished. I miss the raw emotion."`,
-      trackName: `Glass Sky - Lumen`,
-      artistName: `Lumen`,
-      score: 68,
-      grade: 'Basic',
-    },
-    {
-      id: 9,
-      quote: `"The rhythm is clever, the harmony is brilliant. I’m impressed."`,
-      trackName: `Fire Within - Leo.K`,
-      artistName: `Leo.K`,
-      score: 93,
-      grade: 'Gold',
-    },
-  ];
-
-  const [activeId, setActiveId] = useState(null);
-
-  const handleToggle = id => {
-    setActiveId(prev => (prev === id ? null : id));
-  };
+  const player = audioRef?.current?.audio?.current;
+  // const [activeId, setActiveId] = useState(null);
+  // const handleToggle = id => {
+  //   setActiveId(prev => (prev === id ? null : id));
+  // };
 
   const shuffledTotalList = useMemo(() => {
     return [...totalList].sort(() => Math.random() - 0.5);
@@ -361,31 +295,34 @@ function Album() {
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${
-              activeTab === 'AI Lyrics & Songwriting' ? 'active' : ''
+              service === 'AI Lyrics & Songwriting' ? 'active' : ''
             }`}
-            onClick={() => setActiveTab('AI Lyrics & Songwriting')}
+            onClick={() => {
+              setSearchParams({ service: 'AI Lyrics & Songwriting' });
+            }}
           >
             {t('AI Lyrics & Songwriting')}
           </button>
           <button
             className={`album__content-list__tab__item ${
-              activeTab === 'AI Singing Evaluation' ? 'active' : ''
+              service === 'AI Singing Evaluation' ? 'active' : ''
             }`}
-            onClick={() => setPreparingModal(true)}
-            // onClick={() => setActiveTab('AI Singing Evaluation')}
+            onClick={() => {
+              setSearchParams({ service: 'AI Singing Evaluation', critic: 'All' });
+            }}
           >
             {t('AI Singing Evaluation')}
           </button>
           <button
             className={`album__content-list__tab__item ${
-              activeTab === 'AI Cover Creation' ? 'active' : ''
+              service === 'AI Cover Creation' ? 'active' : ''
             }`}
             onClick={() => setPreparingModal(true)}
           >
             {t('AI Cover Creation')}
           </button>
         </article>
-        {activeTab === 'AI Lyrics & Songwriting' && (
+        {service === 'AI Lyrics & Songwriting' && (
           <article className="main__content-item">
             <List
               title={t('Latest')}
@@ -401,7 +338,7 @@ function Album() {
             />
             <List
               title={t('Total')}
-              data={shuffledTotalList}
+              data={randomList}
               // data={[...totalList].sort(() => Math.random() - 0.5)}
               id="total"
               selectedMusic={selectedMusic}
@@ -443,19 +380,22 @@ function Album() {
             </section>
           </article>
         )}
-
-        {activeTab === 'AI Singing Evaluation' && (
+        {service === 'AI Singing Evaluation' && (
           <section className="main__content-item">
             <article className="main__content-item__persona">
-              {personas.map((persona, index) => (
+              {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
                 <div
                   key={index}
                   className={`main__content-item__persona__item ${
-                    activeIndex === index ? 'active' : ''
+                    critic === persona?.name ? 'active' : ''
                   }`}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() =>
+                    setSearchParams(prev => {
+                      return { ...Object.fromEntries(prev), critic: persona.name };
+                    })
+                  }
                 >
-                  <img src={persona.img} alt={persona.name} />
+                  <img src={persona.image} alt={persona.name} />
                   <p>{persona.name}</p>
                 </div>
               ))}
@@ -463,7 +403,10 @@ function Album() {
             <article className="album__content-list">
               <p className="album__content-list__title">
                 {t('Evaluation Stage')}
-                <Link className="album__content-list__see-more-btn" to="/">
+                <Link
+                  className="album__content-list__see-more-btn"
+                  to="/song/list?service=AI+Singing+Evaluation"
+                >
                   {t('See More')}
                 </Link>
               </p>
@@ -487,17 +430,28 @@ function Album() {
                     <button className='details-btn'>Details</button>
                   </div>
                 </button> */}
-                {dummyData.map(item => (
+                {evaluationListByHighScore.map(item => (
                   <button
                     key={item.id}
                     className={`album__content-list__evaluation-stage__item ${
-                      activeId === item.id ? 'music-play' : ''
+                      selectedMusic?.id === item.id && !player?.paused ? 'music-play' : ''
                     }`}
-                    onClick={() => handleToggle(item.id)}
+                    onClick={() => {
+                      setSelectedMusic(prev => {
+                        if (prev?.id === item?.id) {
+                          if (player?.paused) {
+                            player?.play();
+                          } else {
+                            player?.pause();
+                          }
+                        }
+                        return item;
+                      });
+                    }}
                   >
                     <div className="album__content-list__evaluation-stage__item__thought">
                       <p className="album__content-list__evaluation-stage__item__thought__play">
-                        <img src={coverImg10} alt="coverImg" />
+                        <img src={item.cover_image || coverImg10} alt="coverImg" />
                         <div className="loading-wave">
                           <div className="loading-bar"></div>
                           <div className="loading-bar"></div>
@@ -506,29 +460,49 @@ function Album() {
                         </div>
                       </p>
                       <p className="album__content-list__evaluation-stage__item__thought__txt">
-                        <img src={persona02} alt="Jinwoo-Yoo-img" />
-                        <span>{item.quote}</span>
+                        <img src={criticsDataForObject[item.critic]?.image} alt="Jinwoo-Yoo-img" />
+                        <span>"{item.feedback}"</span>
                       </p>
                     </div>
                     <dl className="album__content-list__evaluation-stage__item__title">
-                      <dt>{item.trackName}</dt>
+                      <dt>{item.title}</dt>
                       <dd>
-                        <img src={defaultCoverImg} alt="user-name" />
-                        {item.artistName}
+                        <img src={item?.artist_profile || defaultCoverImg} alt="user-name" />
+                        {item.artist}
                       </dd>
                     </dl>
                     <div className="album__content-list__evaluation-stage__item__details-number">
-                      <p className={`grade ${item.grade.toLowerCase()}`}>{item.score} </p>
-                      <button className="details-btn">{t('Details')}</button>
+                      <p
+                        className={`grade ${
+                          item.score >= 90
+                            ? 'gold'
+                            : item.score >= 80
+                            ? 'silver'
+                            : item.score >= 70
+                            ? 'bronze'
+                            : ''
+                        }`}
+                      >
+                        {item?.score}{' '}
+                      </p>
+                      <Link
+                        to={`/song-detail/${item.song_id}?service=AI+Singing+Evaluation&critic=${item.critic}`}
+                        className="details-btn"
+                      >
+                        {t('Details')}
+                      </Link>
                     </div>
                   </button>
                 ))}
+                {evaluationListByHighScore.length <= 0 && (
+                  <NoneContent height={300} message="No evaluation history yet." />
+                )}
               </div>
             </article>
             <List
               title={t('Recently Rated')}
               className="recently-rated"
-              data={totalList}
+              data={evaluationListByLatest}
               id="total"
               selectedMusic={selectedMusic}
               selectedId={selectedId}
@@ -537,6 +511,8 @@ function Album() {
               link="/song/list?songs=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
+              noDataMessage="No evaluation history yet."
+              type="evaluation"
             />
           </section>
         )}
@@ -584,6 +560,8 @@ const List = ({
   link,
   audioRef,
   className,
+  noDataMessage,
+  type,
 }) => {
   // 스와이퍼 옵션
   const { t } = useTranslation('main');
@@ -631,6 +609,7 @@ const List = ({
       </p>
 
       <article className="album__content-list__list">
+        {data?.length <= 0 && <NoneContent message={noDataMessage} height={300} />}
         <Swiper {...swiperOptions} className="song-detail-slide">
           {data?.slice(0, 9).map((track, _, list) => (
             <SwiperSlide key={track.id}>
@@ -643,6 +622,7 @@ const List = ({
                   handlePlay({ list: list, track: track, id: id });
                 }}
                 audioRef={audioRef}
+                type={type}
               />
             </SwiperSlide>
           ))}
@@ -743,7 +723,7 @@ const ListSlider = ({
                   backgroundImage: `url(${
                     track.cover_image === 'string'
                       ? coverImg10
-                      : track.cover_image.replace('public', '280to280')
+                      : track?.cover_image?.replace('public', '280to280')
                   })`,
                 }}
               ></div>

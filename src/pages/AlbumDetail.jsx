@@ -2,7 +2,7 @@
 import '../styles/AlbumDetail.scss';
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
@@ -47,23 +47,45 @@ import { WalletConnect } from '../components/WalletConnect';
 import SongDeleteAndReleaseModal from '../components/SongDeleteAndReleaseModal';
 import AlbumGuideModal from '../components/AlbumGuideModal';
 import NftConfirmModal from '../components/NftConfirmModal';
-import EvaluationResults from './EvaluationResults';
-
+import EvaluationResultsComp from '../components/evaluation/EvaluationResultsComp';
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
 import { getNftTransactions } from '../api/nfts/nftDetailApi';
 import { useQuery } from 'react-query';
 import { musicDownload } from '../utils/musicDownload';
+import {
+  getEvaluationDetail,
+  getEvaluationDetailFromCriticSongId,
+} from '../api/evaluation/getDetail';
+
+const serviceCategory = [
+  {
+    service: 'AI Lyrics & Songwriting',
+    preparing: false,
+  },
+  {
+    service: 'AI Singing Evaluation',
+    preparing: false,
+  },
+  {
+    service: 'AI Cover Creation',
+    preparing: true,
+  },
+];
+
 function AlbumDetail() {
   const { t } = useTranslation('song_detail');
 
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
-  console.log('id', id);
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
   const listenTime = useRef(0);
   const navigate = useNavigate();
   const walletConnectRef = React.useRef(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const service = searchParams.get('service') || 'AI Lyrics & Songwriting';
+  const critic = searchParams.get('critic') || 'Jinwoo Yoo';
 
   // 앨범 상세 정보 상태 및 로딩 상태
   const [album, setAlbum] = useState(null);
@@ -90,10 +112,11 @@ function AlbumDetail() {
   // NFT 액션 정의
   const [nftAction, setNftAction] = useState('');
 
+  // AI 심사 데이터
+  const [evaluationData, setEvaluationData] = useState(null);
+
   // 댓글 영역 스크롤 이동을 위한 ref
   const commentRef = useRef(null);
-
-  const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
 
   // 진행바 스크롤 이동 핸들러
   const handleScrollToComment = () => {
@@ -197,6 +220,20 @@ function AlbumDetail() {
     }
   };
 
+  // 노래 평가 데이터 가져오기
+  const getEvaluationData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getEvaluationDetailFromCriticSongId({ critic, song_id: id });
+      setEvaluationData(res.data);
+    } catch (e) {
+      setEvaluationData(null);
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // 플레이 카운트 업데이트를 위한 전용 함수
   // 전체 앨범 데이터를 다시 불러오지 않고, play_cnt 값만 직접 업데이트합니다.
   const updatePlayCount = async () => {
@@ -267,6 +304,11 @@ function AlbumDetail() {
     getSimilarVibes();
     // walletAddress나 id가 변경될 때마다 데이터를 업데이트합니다.
   }, [id, walletAddress, token, serverApi]);
+
+  useEffect(() => {
+    if (service !== 'AI Singing Evaluation') return;
+    getEvaluationData();
+  }, [critic, id]);
 
   // 앨범 데이터가 로드되면 자동 재생
   useEffect(() => {
@@ -513,7 +555,7 @@ function AlbumDetail() {
                 />
                 <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
                   <img
-                    src={album?.cover_image?.replace('public', '280to280') || coverImg}
+                    src={album?.cover_image?.replace('public', '400to400') || coverImg}
                     alt="album cover"
                   />
                 </p>
@@ -843,34 +885,26 @@ function AlbumDetail() {
         </section>
 
         <section className="album__content-list__tab">
-          <button
-            className={`album__content-list__tab__item ${
-              activeTab === 'AI Lyrics & Songwriting' ? 'active' : ''
-            }`}
-            onClick={() => setActiveTab('AI Lyrics & Songwriting')}
-          >
-            {t('AI Lyrics & Songwriting')}
-          </button>
-          <button
-            className={`album__content-list__tab__item ${
-              activeTab === 'AI Singing Evaluation' ? 'active' : ''
-            }`}
-            // onClick={() => setActiveTab('AI Singing Evaluation')}
-            onClick={() => setPreparingModal(true)}
-          >
-            {t('AI Singing Evaluation')}
-          </button>
-          <button
-            className={`album__content-list__tab__item ${
-              activeTab === 'AI Cover Creation' ? 'active' : ''
-            }`}
-            onClick={() => setPreparingModal(true)}
-          >
-            {t('AI Cover Creation')}
-          </button>
+          {serviceCategory.map(item => (
+            <button
+              key={item.service}
+              className={`album__content-list__tab__item ${
+                service === item.service ? 'active' : ''
+              }`}
+              onClick={() => {
+                if (item.preparing) {
+                  setPreparingModal(true);
+                  return;
+                }
+                setSearchParams({ service: item.service });
+              }}
+            >
+              {t(item.service)}
+            </button>
+          ))}
         </section>
 
-        {activeTab === 'AI Lyrics & Songwriting' && (
+        {service === 'AI Lyrics & Songwriting' && (
           <>
             <section
               className={`album-detail__rank-table ${
@@ -959,23 +993,27 @@ function AlbumDetail() {
             </section>
           </>
         )}
-        {activeTab === 'AI Singing Evaluation' && (
+        {service === 'AI Singing Evaluation' && (
           <>
             <article className="main__content-item__persona">
               {personas.map((persona, index) => (
                 <div
                   key={index}
                   className={`main__content-item__persona__item ${
-                    activeIndex === index ? 'active' : ''
+                    critic === persona.name ? 'active' : ''
                   }`}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => {
+                    setSearchParams(prev => {
+                      return { ...Object.fromEntries(prev), critic: persona.name };
+                    });
+                  }}
                 >
                   <img src={persona.img} alt={persona.name} />
                   <p>{persona.name}</p>
                 </div>
               ))}
             </article>
-            <EvaluationResults />
+            <EvaluationResultsComp evaluationData={evaluationData} />
           </>
         )}
       </div>

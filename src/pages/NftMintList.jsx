@@ -28,6 +28,7 @@ const NftMintList = () => {
   const search = searchParams.get('search');
   const songsSort = searchParams.get('songs_sort');
   const gradeFilter = searchParams.get('grade_filter');
+  const aiServiceFilter = searchParams.get('ai_service_filter');
   const navigate = useNavigate();
 
   // 더미
@@ -36,7 +37,7 @@ const NftMintList = () => {
     isLoading,
     refetch,
   } = useQuery(
-    ['nft_mint_list', { page, search, songsSort, gradeFilter }],
+    ['nft_mint_list', { page, search, songsSort, gradeFilter, aiServiceFilter }],
     async () => {
       const res = await axios.get(`${serverApi}/api/nfts/mitable`, {
         params: {
@@ -44,6 +45,7 @@ const NftMintList = () => {
           search_keyword: search,
           sort_by: songsSort,
           nft_rating: gradeFilter,
+          ai_service: aiServiceFilter,
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +71,7 @@ const NftMintList = () => {
     <div>
       <ContentWrap title={t('Mint NFT')}>
         <ContentWrap.SubWrap gap={8}>
-          <Filter songsSort={true} gradeFilter={true} />
+          <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
           <Search placeholder="Search" />
         </ContentWrap.SubWrap>
         <SongPlayTable

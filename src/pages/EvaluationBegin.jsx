@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import ContentWrap from '../components/unit/ContentWrap';
 import { InfoRowWrap } from '../components/nft/InfoRow';
@@ -8,6 +9,7 @@ import Filter from '../components/unit/Filter';
 import NoneContent from '../components/unit/NoneContent';
 // import Loading from '../components/IntroLogo2';
 import Loading from '../components/IntroLogo2';
+import ErrorModal from '../components/modal/ErrorModal';
 
 //이미지
 import judgeImg01 from '../assets/images/evaluation/judge-img01.png';
@@ -20,8 +22,9 @@ import { useInView } from 'react-intersection-observer';
 import { AuthContext } from '../contexts/AuthContext';
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
-import ErrorModal from '../components/modal/ErrorModal';
-import axios from 'axios';
+import { audioAnalysis } from '../utils/audioAnalysis';
+
+import musicSample from '../assets/music/song01.mp3';
 
 const EvaluationBegin = () => {
   const navigate = useNavigate();
@@ -56,11 +59,15 @@ const EvaluationBegin = () => {
     // 결과 페이지에서는 navigate로 state 값을 수신 받고
     // 새로고침 및 뒤로가기 버튼 클릭시 안내 창을 띄움
 
-    const res = await axios.get(`http://127.0.0.1:8000/pybo/evaluation/`, {
-      params: {
-        music_url: encodeURIComponent(selectMusic?.music_url),
-      },
-    });
+    // const res = await axios.get(`http://127.0.0.1:8000/pybo/evaluation/`, {
+    //   params: {
+    //     music_url: encodeURIComponent(selectMusic?.music_url),
+    //   },
+    // });
+
+    const res = await audioAnalysis({ music_url: encodeURIComponent(selectMusic?.music_url) });
+    // const res = await audioAnalysis({ music_url: musicSample });
+    console.log(res);
 
     // try {
     //   navigate('/evaluation-results', {

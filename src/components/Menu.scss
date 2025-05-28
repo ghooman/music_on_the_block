@@ -34,7 +34,7 @@
     height: calc(100vh - 96px);
   }
   &.small-height {
-    height: calc(100vh - 150px);
+    height: calc(100vh - 96px);
     .menu__cover {
       height: 100%;
       // max-height: 400px;
@@ -659,13 +659,17 @@
   } //menu-box__lang-notification--select-lang-box--END--
   .menu {
     transition: 0.3s;
-    position: relative;
-    top: -11px;
+    position: fixed;
+    top: 96px;
     left: -300px;
     opacity: 0;
     width: 220px;
     // padding: 16px 32px 16px 16px;
-    padding: 16px;
+    padding: 16px !important;
+    &.active{
+      width: 100%;
+      left: 0;
+    }
     .menu__cover {
       // width: calc(100% + 31px);
       width: 100%;

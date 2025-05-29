@@ -50,8 +50,8 @@ const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHan
         {isComplete ? (
           <p className="song-delete-and-release-modal__message--complete">
             {t(
-              `The song has been ${deleteHandler && 'delete'} ${
-                releaseHandler && 'release'
+              `The song has been ${deleteHandler ? 'delete' : ''} ${
+                releaseHandler ? 'release' : ''
               } successfully`
             )}
           </p>
@@ -61,9 +61,9 @@ const SongDeleteAndReleaseModal = ({ songData, setter, deleteHandler, releaseHan
             <p className="song-delete-and-release-modal__message">
               *{' '}
               {t(
-                `Are you sure you want to ${deleteHandler && 'delete'} ${
+                `Are you sure you want to ${deleteHandler ? 'delete' : ''} ${
                   releaseHandler ? 'release' : ''
-                }this song?`
+                } this song?`
               )}
             </p>
           </div>

@@ -1,5 +1,6 @@
 // PlayerHeader.jsx
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import MyAudioPlayer from '../components/MyAudioPlayer';
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
@@ -22,6 +23,8 @@ const PlayerHeader = ({
   setIsPlaying,
   audioRef,
 }) => {
+  const { t } = useTranslation('module');
+
   return (
     <div
       className={`main__header 
@@ -40,10 +43,10 @@ const PlayerHeader = ({
             })`,
           }}
         ></p>
-        <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
+        <p className="main__header__title">{selectedMusic?.title || t('Select an Album')}</p>
       </div>
       <p className="main__header--mobile-title">
-        {selectedMusic?.title || 'Select an Album'}
+        {selectedMusic?.title || t('Select an Album')}
         <span>
           <img src={selectedMusic?.user_profile || defaultCoverImg} alt="user-profile" />
           {selectedMusic?.name || 'unKnown'}
@@ -66,7 +69,7 @@ const PlayerHeader = ({
           </p>
         </div>
         <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedMusic?.id}`}>
-          Details
+          {t('Details')}
         </Link>
       </div>
       <MyAudioPlayer

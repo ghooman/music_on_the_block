@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import NoneContent from '../../components/unit/NoneContent';
@@ -77,10 +77,10 @@ const SongPlayTable = ({
         // 이전 재생 중지
         audio.pause();
         audio.currentTime = 0;
-        
+
         // 새로운 소스 설정
         audio.src = activeSong?.music_url || activeSong?.nft_music_url;
-        
+
         // 로드 완료 후 재생
         audio.load();
         audio.oncanplaythrough = () => {

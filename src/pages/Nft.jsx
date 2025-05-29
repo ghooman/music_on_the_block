@@ -56,19 +56,19 @@ const Nft = () => {
         <InfoRowWrap row={4}>
           <InfoRowWrap.ValueItem
             title={t('Total Volume')}
-            value={'$ ' + nftStatistics?.total_price?.toLocaleString()}
+            value={'$ ' + (nftStatistics?.total_price?.toLocaleString() || 0)}
           />
           <InfoRowWrap.ValueItem
             title={t('Average Price')}
-            value={'$ ' + nftStatistics?.avg_price?.toLocaleString()}
+            value={'$ ' + (nftStatistics?.avg_price?.toLocaleString() || 0)}
           />
           <InfoRowWrap.ValueItem
             title={t('Number of NFTs Issued')}
-            value={nftStatistics?.create_nft_cnt?.toLocaleString()}
+            value={nftStatistics?.create_nft_cnt?.toLocaleString() || 0}
           />
           <InfoRowWrap.ValueItem
             title={t('Highest Deal Today')}
-            value={'$ ' + nftStatistics?.today_max_price?.toLocaleString()}
+            value={'$ ' + (nftStatistics?.today_max_price?.toLocaleString() || 0)}
           />
         </InfoRowWrap>
         <NftGraph

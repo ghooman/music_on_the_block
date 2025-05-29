@@ -22,30 +22,10 @@ const EvaluationResults = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { state } = location;
 
-  //==================
-  // 평가 결과 저장
-  //==================
-  const handleSave = async () => {
-    try {
-      const res = await axios.post(
-        `${serverApi}/api/music/${evaluationData?.song_data?.id}/evaluation`,
-        evaluationData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      navigate('/');
-    } catch (e) {
-      setErrorMessage(e?.response?.data?.detail || e?.message);
-      console.error(e);
-    }
-  };
-
   useEffect(() => {
     if (!state) {
       alert('Invalid access');
+      navigate('/');
       return;
     }
     // 새로고침 시 정보 유실 알림.
@@ -67,7 +47,8 @@ const EvaluationResults = () => {
     <>
       <EvaluationResultsComp
         evaluationData={evaluationData}
-        handleSave={evaluationData ? handleSave : null}
+        critic={evaluationData?.critic}
+        buttons
       />
       {errorMessage && (
         <ErrorModal setShowErrorModal={setErrorMessage} button message={errorMessage} />

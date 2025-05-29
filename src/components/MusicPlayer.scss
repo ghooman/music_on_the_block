@@ -1,33 +1,3 @@
-.global-audio-player-wrapper {
-  position: relative;
-
-  .global-audio-player-close {
-    position: fixed;
-    bottom: 60px;
-    right: 16px;
-    background: rgba(0, 0, 0, 0.7);
-    border: none;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    transition: all 0.2s ease;
-    z-index: 11;
-
-    &:hover {
-      color: #fff;
-      background: rgba(0, 0, 0, 0.9);
-      transform: scale(1.1);
-    }
-  }
-}
-
 .rm-audio-player-provider {
   position: fixed;
   left: 0;
@@ -51,6 +21,7 @@
 
   --rm-audio-player-volume-panel-background: #1a1a1a; /* 원하는 색 */
   --rm-audio-player-volume-panel-border: #444; /* 필요 없으면 transparent */
+  --rm-audio-player-interface-container: #1a1a1a;
 
   .bar-progress-wrapper {
     .rm-player-progress-bar {
@@ -85,16 +56,6 @@
 } //rm-audio-player-provider--END--
 
 @media screen and (max-width: 768px) {
-  .global-audio-player-wrapper {
-    .global-audio-player-close {
-      bottom: 55px;
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      font-size: 14px;
-    }
-  }
-
   .sc-jXbUNg.isWNvN.progress-container {
     display: block !important;
     top: -12px;

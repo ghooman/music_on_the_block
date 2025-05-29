@@ -1,35 +1,36 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import ContentWrap from '../components/unit/ContentWrap';
-import { InfoRowWrap } from '../components/nft/InfoRow';
-import '../styles/EvaluationBegin.scss';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import OpenAI from 'openai';
+
 import Filter from '../components/unit/Filter';
 import NoneContent from '../components/unit/NoneContent';
-// import Loading from '../components/IntroLogo2';
 import Loading from '../components/IntroLogo2';
 import ErrorModal from '../components/modal/ErrorModal';
-
-//이미지
-import judgeImg01 from '../assets/images/evaluation/judge-img01.png';
-import judgeImg02 from '../assets/images/evaluation/judge-img02.png';
-import judgeImg03 from '../assets/images/evaluation/judge-img03.png';
-
 import SongsBar from '../components/unit/SongsBar';
+import ContentWrap from '../components/unit/ContentWrap';
+
+import { getPossibleCount } from '../api/evaluation/getPossibleCount';
+import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
+import { getAnalysisResult, getAnalysisTaskId } from '../api/evaluation/getAnalysisData';
+import { saveEvaluationData } from '../api/evaluation/saveEvaluationData';
+
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import { AuthContext } from '../contexts/AuthContext';
-import { getPossibleCount } from '../api/evaluation/getPossibleCount';
-import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
-import { audioAnalysis } from '../utils/audioAnalysis';
 
-import musicSample from '../assets/music/song01.mp3';
+import { criticsDataForArray } from '../data/criticsData';
+
+import '../styles/EvaluationBegin.scss';
 
 const EvaluationBegin = () => {
+  let TO;
+
   const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
   const [selectCritic, setSelectCritic] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -37,7 +38,7 @@ const EvaluationBegin = () => {
   //================
   // 생성 가능 횟수 체크
   //================
-  const { data: possibleCnt } = useQuery(
+  const { data: possibleCnt, isFe: possibleCntLoading } = useQuery(
     ['evaluation_possible_cnt', token, selectMusic?.id, selectCritic?.name],
     async () => {
       const res = await getPossibleCount({
@@ -51,45 +52,162 @@ const EvaluationBegin = () => {
   );
 
   //================
-  // 평가 프로세스
+  // GPT 점수 정의
   //================
-  const handleEvaluation = async () => {
-    // 평가 프로세스 결과를 가지고
-    // 결과 페이지로 이동
-    // 결과 페이지에서는 navigate로 state 값을 수신 받고
-    // 새로고침 및 뒤로가기 버튼 클릭시 안내 창을 띄움
+  const getEvaluationResult = async ({ analysisResult }) => {
+    // OpenAI 클라이언트 초기화
+    const client = new OpenAI({
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true,
+    });
 
-    // const res = await axios.get(`http://127.0.0.1:8000/pybo/evaluation/`, {
-    //   params: {
-    //     music_url: encodeURIComponent(selectMusic?.music_url),
-    //   },
-    // });
+    let retryCnt = 0;
+    let responses = null;
 
-    const res = await audioAnalysis({ music_url: encodeURIComponent(selectMusic?.music_url) });
-    // const res = await audioAnalysis({ music_url: musicSample });
-    console.log(res);
+    // GPT 점수 요청
+    const request = async () => {
+      try {
+        const response = await client.chat.completions.create({
+          model: 'gpt-4.1-nano',
+          messages: [
+            {
+              role: 'system',
+              content: `
+                음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
+                가사 : ${selectMusic?.lyrics || '가사 없음.'}
+               
 
-    // try {
-    //   navigate('/evaluation-results', {
-    //     state: {
-    //       song_data: selectMusic,
-    //       critic: selectCritic.name,
-    //       emotion: 80,
-    //       creativity: 94,
-    //       structure: 66,
-    //       sound: 75,
-    //       popularity: 56,
-    //       score: 80,
-    //       feedback: 'Good',
-    //       to_improve: 'good',
-    //       why_this_score: 'good',
-    //       key_points: 'good',
-    //     },
-    //   });
-    // } catch (e) {
-    //   setErrorMessage(e?.response?.data?.detail || e?.message);
-    // }
+                다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
+
+                  1. 위 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함한다.
+                  2. 음악 분석데이터 항목 중 features 키 내의 데이터와 가사를 종합하여 점수를 정의한다. 가사가 없는 경우 BGM 음악으로써 가사를 제외한 평가를 실시한다.
+                  2. 각 항목은 100점 만점 기준으로 평가하시오.
+                  3. 말투는 ${selectCritic?.speechStyle || '정중한 말투'} 스타일로 작성하시오.
+                  4. 응답은 반드시 한글로 작성하시오.
+                  5. 아래 JSON 형식을 반드시 지킬 것:
+
+                  {
+                    "emotion": 감정 전달력에 대한 점수 (0~100),
+                    "creativity": 창의성에 대한 점수 (0~100),
+                    "structure": 구성력에 대한 점수 (0~100),
+                    "sound": 사운드/음악적 완성도 점수 (0~100),
+                    "popularity": 대중성에 대한 점수 (0~100),
+                    "feedback": 전반적인 피드백 (자연어, 60자 이상),
+                    "to_improve": 개선이 필요한 점 (자연어, 60자 이내),
+                    "why_this_score": 각 점수를 준 이유에 대한 설명 (자연어, 60자 이내),
+                    "key_points": 핵심적인 개선 포인트 요약 (자연어, 60자 이내)
+                  }
+
+                  ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
+              `,
+            },
+            // { role: 'user', content: `${JSON.stringify(analysisResult)}` },
+          ],
+        });
+        responses = JSON.parse(response?.choices[0]?.message?.content);
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    };
+
+    while (retryCnt < 3) {
+      // 에러 발생 시 재시도
+      // JSON 형식 반환 중 에러가 발생하거나
+      // GPT 서버 오류로 인한 에러 발생 시
+      // 3번까지 재시도
+      const res = await request();
+      if (res === true) retryCnt = 100;
+      else retryCnt++;
+    }
+
+    if (responses === null) {
+      throw new Error('점수 산정에 실패하였습니다');
+    }
+
+    return responses;
   };
+
+  //=================
+  // 분석 데이터 산출
+  //=================
+  const getAnalysisData = async ({ task_id }) => {
+    return new Promise((resolve, reject) => {
+      const getData = async () => {
+        try {
+          const res = await getAnalysisResult({ task_id });
+          const { status } = res.data;
+          if (status === 'done') {
+            clearTimeout(TO);
+            resolve(res.data);
+          } else if (status === 'processing') {
+            TO = setTimeout(getData, 3000);
+          } else if (status === 'fail') {
+            clearTimeout(TO);
+            reject('Fail');
+          }
+        } catch (e) {
+          console.log(e, '에러');
+          clearTimeout(TO);
+          reject('Fail');
+        }
+      };
+      getData();
+    });
+  };
+
+  //==================
+  // 평가 점수 저장
+  //==================
+  const saveEvaluationScore = async evaluationResultData => {
+    const { emotion, creativity, structure, sound, popularity } = evaluationResultData;
+    evaluationResultData.score = (emotion + creativity + structure + sound + popularity) / 5;
+    evaluationResultData.critic = selectCritic?.name;
+    evaluationResultData.song_id = selectMusic?.id;
+    try {
+      await saveEvaluationData({
+        token,
+        song_id: selectMusic?.id,
+        evalution_data: evaluationResultData,
+      });
+
+      return evaluationResultData;
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  };
+
+  //==================
+  // 평가
+  //==================
+  const handleEvaluation = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getAnalysisTaskId({
+        token,
+        song_id: selectMusic?.id,
+        critic: selectCritic?.name,
+      });
+      const { task_id } = res.data;
+      const analData = await getAnalysisData({ task_id });
+      const evaluationResultData = await getEvaluationResult({ analysisResult: analData?.result });
+      const result = await saveEvaluationScore(evaluationResultData);
+      navigate('/evaluation-results', { state: result });
+    } catch (e) {
+      console.error(e);
+      setErrorMessage(e?.response?.data?.detail || e?.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(TO);
+    };
+  }, []);
 
   return (
     <>
@@ -113,10 +231,12 @@ const EvaluationBegin = () => {
           possibleCnt={possibleCnt}
           selectMusic={selectMusic}
           selectCritic={selectCritic}
+          possibleCntLoading={possibleCntLoading}
           handleClick={handleEvaluation}
         />
       </ContentWrap>
       {errorMessage && <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} />}
+      {isLoading && <Loading autoClose={false} />}
     </>
   );
 };
@@ -129,6 +249,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
 
   const songs_sort = searchParams.get('songs_sort');
   const grade_fiter = searchParams.get('grade_filter');
+  const ai_service_filter = searchParams.get('ai_service_filter');
 
   const { ref, inView } = useInView();
 
@@ -136,7 +257,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
   // 무한 스크롤
   //===============
   const { data, hasNextPage, isLoading, fetchNextPage } = useInfiniteQuery(
-    ['song_data_in_infinite', songs_sort, grade_fiter],
+    ['song_data_in_infinite', songs_sort, grade_fiter, ai_service_filter],
     async ({ pageParam = 1 }) => {
       const res = await getReleaseAndUnReleaseSongData({
         token,
@@ -144,6 +265,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
         type: 'Released',
         sort_by: songs_sort,
         rating: grade_fiter,
+        ai_service: ai_service_filter,
       });
 
       return res.data;
@@ -171,7 +293,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
           <br />
           {t('Click the song, then tap “Select” below to continue.')}
         </p>
-        <Filter songsSort={true} gradeFilter={true} />
+        <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
         <div className="step1__list">
           {isLoading && (
             <div className="step1__list--loading-box">
@@ -200,6 +322,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
         </div>
         <button
           className="select-btn"
+          disabled={!temporarySelect}
           onClick={() => {
             setSelectMusic(prev => {
               return { ...temporarySelect };
@@ -214,38 +337,19 @@ const Step1 = ({ t, token, setSelectMusic }) => {
 };
 
 const Step2 = ({ t, selectCritic, setSelectCritic }) => {
-  const criticData = [
-    {
-      id: 1,
-      name: 'Jinwoo Yoo',
-      desc: '<span>Soul</span> first, sound second.',
-      image: judgeImg01,
-    },
-    {
-      id: 2,
-      name: 'Drexx',
-      desc: 'No <span>flow?</span> No mercy. Off-beat? Game over.',
-      image: judgeImg02,
-    },
-    {
-      id: 3,
-      name: 'Elara Moon',
-      desc: 'Between the <span>Melody</span>, she finds the truth.',
-      image: judgeImg03,
-    },
-  ];
-
   return (
     <>
       <div className="step2">
         <p className="step2__title">{t('Choose your music critic.')}</p>
         <div className="step2__choose">
-          {criticData?.map(critic => (
+          {criticsDataForArray?.map(critic => (
             <button
-              className={`step2__choose__item ${critic?.id === selectCritic?.id ? 'active' : ''}`}
+              className={`step2__choose__item ${
+                critic?.name === selectCritic?.name ? 'active' : ''
+              }`}
               onClick={() =>
                 setSelectCritic(prev => {
-                  if (prev?.id === critic?.id) return null;
+                  if (prev?.name === critic?.name) return null;
                   return critic;
                 })
               }
@@ -255,7 +359,7 @@ const Step2 = ({ t, selectCritic, setSelectCritic }) => {
               <dl className="step2__choose__item__title">
                 <dt
                   dangerouslySetInnerHTML={{
-                    __html: t(`"${critic.desc}"`),
+                    __html: t(`"${critic.introductionForReactNode}"`),
                   }}
                 ></dt>
                 <dd>{critic?.name}</dd>
@@ -268,7 +372,7 @@ const Step2 = ({ t, selectCritic, setSelectCritic }) => {
   );
 };
 
-const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
+const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }) => {
   return (
     <>
       <div className="step3">
@@ -289,9 +393,9 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
             <dt>{t('Critic')}</dt>
             <dd>
               <p>{selectCritic?.name || '-'}</p>
-              {selectCritic && (
+              {selectCritic && selectMusic && !possibleCntLoading && (
                 <span>
-                  {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
+                  {t('Todays Left')}: <strong>{possibleCnt >= 0 ? possibleCnt : '-'} / 1</strong>
                 </span>
               )}
             </dd>

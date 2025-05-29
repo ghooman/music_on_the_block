@@ -49,20 +49,26 @@ const LyricsAndSongwriting = ({ username }) => {
   console.log(topSongsData, '탑 송스 데이터');
 
   return (
-    <div className="top-songs-template">
-      <div className="top-songs-template__item">
-        <p className="top-songs-template__item--title">{t('Top Plays')}</p>
-        <AlbumItem track={topSongsData?.top_plays} />
-      </div>
-      <div className="top-songs-template__item">
-        <p className="top-songs-template__item--title">{t('Top Likes')}</p>
-        <AlbumItem track={topSongsData?.top_like} />
-      </div>
-      <div className="top-songs-template__item">
-        <p className="top-songs-template__item--title">{t('Top Comments')}</p>
-        <AlbumItem track={topSongsData?.top_comments} />
-      </div>
-    </div>
+    <>
+      {topSongsData ? (
+        <div className="top-songs-template">
+          <div className="top-songs-template__item">
+            <p className="top-songs-template__item--title">{t('Top Plays')}</p>
+            <AlbumItem track={topSongsData?.top_plays} />
+          </div>
+          <div className="top-songs-template__item">
+            <p className="top-songs-template__item--title">{t('Top Likes')}</p>
+            <AlbumItem track={topSongsData?.top_like} />
+          </div>
+          <div className="top-songs-template__item">
+            <p className="top-songs-template__item--title">{t('Top Comments')}</p>
+            <AlbumItem track={topSongsData?.top_comments} />
+          </div>
+        </div>
+      ) : (
+        <NoneContent height={160} message="There are no songs created yet." />
+      )}
+    </>
   );
 };
 
@@ -102,7 +108,7 @@ const SingingEvaluation = ({ username }) => {
           ))}
         </Swiper>
       )}
-      {topScoreData?.length <= 0 && (
+      {(!topScoreData || topScoreData?.length <= 0) && (
         <NoneContent height={160} message="There are no songs evaluated yet." />
       )}
     </div>

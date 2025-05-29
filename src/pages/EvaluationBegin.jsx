@@ -359,7 +359,7 @@ const Step2 = ({ t, selectCritic, setSelectCritic }) => {
               <dl className="step2__choose__item__title">
                 <dt
                   dangerouslySetInnerHTML={{
-                    __html: t(critic.introductionForReactNode),
+                    __html: t(`"${critic.introductionForReactNode}"`),
                   }}
                 ></dt>
                 <dd>{critic?.name}</dd>

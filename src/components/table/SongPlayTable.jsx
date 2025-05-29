@@ -5,7 +5,6 @@ import NoneContent from '../../components/unit/NoneContent';
 import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
 
 import { useTranslation } from 'react-i18next';
-import { AudioPlayContext } from '../../contexts/AudioPlayContext';
 
 /**
  *
@@ -60,7 +59,6 @@ const SongPlayTable = ({
   isTrigger,
   setIsTrigger,
 }) => {
-  const { playData, setPlayData } = useContext(AudioPlayContext);
   const { t } = useTranslation('module');
   const [activeSong, setActiveSong] = useState(null);
   const navigate = useNavigate();
@@ -145,15 +143,14 @@ const SongPlayTable = ({
                   <TableItem
                     isHover={true}
                     handleClick={() => {
-                      // if (activeSong?.id === item?.id) {
-                      //   setActiveSong(null);
-                      // } else {
-                      //   setActiveSong(item);
-                      //   if (isTrigger && setIsTrigger) {
-                      //     triggerIndex.current = index;
-                      //   }
-                      // }
-                      setPlayData({ list: songList, currentId: item.id });
+                      if (activeSong?.id === item?.id) {
+                        setActiveSong(null);
+                      } else {
+                        setActiveSong(item);
+                        if (isTrigger && setIsTrigger) {
+                          triggerIndex.current = index;
+                        }
+                      }
                     }}
                   >
                     <TableItem.Text text={index + 1} />

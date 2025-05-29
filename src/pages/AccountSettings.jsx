@@ -39,7 +39,7 @@ const AccountSettings = () => {
   const [profileImg, setProfileImg] = useState(userData?.profile || defaultProfileImage);
   const [selectedFile, setSelectedFile] = useState(null);
   const [bgImg, setBgImg] = useState(userData?.background_image);
-  const [socials, setSocials] = useState(userData?.link_list.map(item => item.link));
+  const [socials, setSocials] = useState(userData?.link_list?.map(item => item.link));
   const imgMaxSize = 3 * 1024 * 1024;
 
   const [userName, setUserName] = useState(userData?.name);
@@ -252,7 +252,7 @@ const AccountSettings = () => {
 
   const profileSizeCheck = selectedFile?.size > imgMaxSize;
   const bgSizeCheck = bgImg?.size > imgMaxSize;
-  const socialValid = !socials.every(item => urlRegex.test(item) || item === '');
+  const socialValid = !socials?.every(item => urlRegex.test(item) || item === '');
 
   return (
     <div className="account-setting">
@@ -380,7 +380,7 @@ const AccountSettings = () => {
               />
               {/* <button className="user-info__edit-btn">Change</button> */}
             </div>
-            {errorMessages.intro.map((err, idx) => (
+            {errorMessages?.intro?.map((err, idx) => (
               <span key={idx} className="user-info__error">
                 {err}
               </span>
@@ -606,7 +606,7 @@ const Social = ({ socials, setSocials }) => {
       <div className="account-setting__info-box" style={{ width: '100%' }}>
         <p className="info-box__title">{t('Link Your Social Profiles')}</p>
         {socials?.length > 0 && <p>{t('Link')}</p>}
-        {socials.map((item, index) => (
+        {socials?.map((item, index) => (
           <div
             className="account-setting__social-item"
             key={index}

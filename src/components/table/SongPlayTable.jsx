@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import NoneContent from '../../components/unit/NoneContent';
 import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
 
 import { useTranslation } from 'react-i18next';
+import { AudioPlayContext } from '../../contexts/AudioPlayContext';
 
 /**
  *
@@ -59,6 +60,7 @@ const SongPlayTable = ({
   isTrigger,
   setIsTrigger,
 }) => {
+  const { playData, setPlayData } = useContext(AudioPlayContext);
   const { t } = useTranslation('module');
   const [activeSong, setActiveSong] = useState(null);
   const navigate = useNavigate();
@@ -77,10 +79,10 @@ const SongPlayTable = ({
         // 이전 재생 중지
         audio.pause();
         audio.currentTime = 0;
-        
+
         // 새로운 소스 설정
         audio.src = activeSong?.music_url || activeSong?.nft_music_url;
-        
+
         // 로드 완료 후 재생
         audio.load();
         audio.oncanplaythrough = () => {
@@ -143,14 +145,15 @@ const SongPlayTable = ({
                   <TableItem
                     isHover={true}
                     handleClick={() => {
-                      if (activeSong?.id === item?.id) {
-                        setActiveSong(null);
-                      } else {
-                        setActiveSong(item);
-                        if (isTrigger && setIsTrigger) {
-                          triggerIndex.current = index;
-                        }
-                      }
+                      // if (activeSong?.id === item?.id) {
+                      //   setActiveSong(null);
+                      // } else {
+                      //   setActiveSong(item);
+                      //   if (isTrigger && setIsTrigger) {
+                      //     triggerIndex.current = index;
+                      //   }
+                      // }
+                      setPlayData({ list: songList, currentId: item.id });
                     }}
                   >
                     <TableItem.Text text={index + 1} />

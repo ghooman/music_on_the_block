@@ -25,8 +25,6 @@ const AlbumItem = ({
   formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`,
   type = 'song',
 }) => {
-  const { t } = useTranslation('module');
-
   const handleTogglePlay = e => {
     e.stopPropagation();
 

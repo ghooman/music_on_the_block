@@ -8,14 +8,28 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @param {number | string} song_id : 곡의 id
  * @returns {Promise<object>} : 분석 정보
  */
-export const getAnalysisData = async ({ token, song_id, critic }) => {
+
+export const getAnalysisTaskId = async ({ token, song_id, critic }) => {
   try {
-    const res = await axios.get(`${serverApi}/api/music/${song_id}/evaluation/pre/work`, {
+    const res = await axios.get(`${serverApi}/api/music/${song_id}/evaluation/pre/work2`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
         critic,
+      },
+    });
+    return res;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export const getAnalysisResult = async ({ task_id }) => {
+  try {
+    const res = await axios.get(`${serverApi}/api/music/evaluation/pre/work/result`, {
+      params: {
+        task_id,
       },
     });
     return res;

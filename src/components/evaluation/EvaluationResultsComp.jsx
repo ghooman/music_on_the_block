@@ -14,8 +14,9 @@ import issueIcon from '../../assets/images/icon/issue-opened.svg';
 // 데이터 및 함수
 import { criticsDataForObject } from '../../data/criticsData';
 import { getCriticEvaluationList } from '../../api/evaluation/getList';
+import { useNavigate } from 'react-router-dom';
 
-const EvaluationResultsComp = ({ evaluationData, handleSave }) => {
+const EvaluationResultsComp = ({ evaluationData, buttons }) => {
   const { t } = useTranslation('evaluation');
 
   console.log(evaluationData, '평가 데이터 입니다.');
@@ -26,7 +27,7 @@ const EvaluationResultsComp = ({ evaluationData, handleSave }) => {
         <ContentWrap title={t('Result')} border={false}>
           {evaluationData && <Result t={t} evaluationData={evaluationData} />}
           {!evaluationData && <NoneContent height={300} message="No evaluation history yet." />}
-          {handleSave && <Btns t={t} handleClick={handleSave} />}
+          {buttons && <Btns t={t} evaluationData={evaluationData} />}
         </ContentWrap>
         <ContentWrap title={t('Full Evaluation')}>
           {evaluationData && <FullEvaluation t={t} evaluationData={evaluationData} />}
@@ -35,7 +36,7 @@ const EvaluationResultsComp = ({ evaluationData, handleSave }) => {
         <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
           <SongsCritic t={t} critic={evaluationData?.critic} id={evaluationData?.id} />
         </ContentWrap>
-        {handleSave && <Btns t={t} handleClick={handleSave} />}
+        {buttons && <Btns t={t} evaluationData={evaluationData} />}
       </ContentWrap>
     </>
   );
@@ -53,7 +54,7 @@ const Result = ({ t, evaluationData }) => {
           <p className="result__critic__title">{t('Critic')}</p>
           <img src={criticsDataForObject[evaluationData?.critic]?.image} alt="critic" />
           <dl className="result__critic__txt">
-            <dt>{t('"Soul first, sound second."')}</dt>
+            <dt>{t(criticsDataForObject[evaluationData?.critic]?.introduction)}</dt>
             <dd>{evaluationData?.critic}</dd>
           </dl>
         </article>
@@ -112,12 +113,31 @@ const Result = ({ t, evaluationData }) => {
   );
 };
 
-const Btns = ({ t, handleClick }) => {
+const Btns = ({ t, evaluationData }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="btns">
-      {/* <button className="rate-again">{t('Rate Again')}</button> */}
-      <button className="save-evaluation" onClick={handleClick}>
-        {t('Save Evaluation')}
+      <button
+        className="rate-again"
+        onClick={() => {
+          navigate(
+            `/song-detail/${
+              evaluationData?.song_id || evaluationData?.id
+            }?service=AI+Singing+Evaluation&critic=${evaluationData?.critic}`,
+            { replace: true }
+          );
+        }}
+      >
+        {t('Complete')}
+      </button>
+      <button
+        className="save-evaluation"
+        onClick={() => {
+          navigate(`/evaluation-begin`, { replace: true });
+        }}
+      >
+        {t('Try Another')}
       </button>
     </div>
   );

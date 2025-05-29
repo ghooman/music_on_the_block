@@ -7,15 +7,21 @@ import elaraMoonImage from '../assets/images/evaluation/judge-img03.png';
 export const criticsDataForObject = {
   'Jinwoo Yoo': {
     image: jinwooYooImage,
-    speechStyle: '손절을 부르는 말투',
+    speechStyle: '정중한',
+    introduction: '"Soul first, sound second."',
+    introductionForReactNode: '<span>Soul</span> first, sound second.',
   },
   Drexx: {
     image: drexxImage,
-    speechStyle: '손절을 부르는 말투',
+    speechStyle: '직설적인',
+    introduction: '"No flow? No mercy. Off-beat? Game over."',
+    introductionForReactNode: 'No <span>flow?</span> No mercy. Off-beat? Game over.',
   },
   'Elara Moon': {
     image: elaraMoonImage,
-    speechStyle: '손절을 부르는 말투',
+    speechStyle: '세련된',
+    introduction: '"Between the Melody, she finds the truth."',
+    introductionForReactNode: 'Between the <span>Melody</span>, she finds the truth.',
   },
 };
 

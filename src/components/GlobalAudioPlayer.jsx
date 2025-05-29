@@ -14,7 +14,7 @@ const GlobalAudioPlayer = () => {
     handleTimeUpdate,
     setIsPlaying,
     hidePlayer,
-    setSelectedMusic,
+    changeTrackInCurrentList,
   } = useGlobalMusic();
 
   // 직접 오디오 요소를 추적하기 위한 ref
@@ -79,7 +79,7 @@ const GlobalAudioPlayer = () => {
 
           if (currentTrack && currentTrack.id !== selectedMusic?.id) {
             console.log('플레이어 상태 동기화:', currentTrack.title);
-            setSelectedMusic(currentTrack);
+            changeTrackInCurrentList(currentTrack);
           }
         }
       }
@@ -91,8 +91,53 @@ const GlobalAudioPlayer = () => {
         audioElementRef.current = audioElement;
         audioElement.addEventListener('timeupdate', handleTimeUpdateEvent);
 
-        // 주기적으로 플레이어 상태 동기화
-        syncInterval = setInterval(syncPlayerState, 1000);
+        // 주기적으로 플레이어 상태 동기화 (임시 비활성화)
+        // syncInterval = setInterval(syncPlayerState, 1000);
+
+        // 다음곡/이전곡 버튼 클릭 감지
+        const setupButtonListeners = () => {
+          const playerContainer = document.querySelector('#rm-audio-player');
+          if (!playerContainer) return;
+
+          let changeTimeout;
+          const handleTrackChange = () => {
+            // 기존 타이머 클리어
+            if (changeTimeout) {
+              clearTimeout(changeTimeout);
+            }
+
+            // 500ms 후에 트랙 변경 확인 (debounce)
+            changeTimeout = setTimeout(() => {
+              const currentAudio = document.querySelector('#rm-audio-player audio');
+              if (currentAudio && currentAudio.src && selectedList) {
+                // 현재 재생 중인 URL을 기반으로 트랙 찾기
+                const currentTrack = selectedList.find(
+                  track =>
+                    currentAudio.src.includes(track.music_url) ||
+                    track.music_url.includes(currentAudio.src.split('/').pop())
+                );
+
+                if (currentTrack && currentTrack.id !== selectedMusic?.id) {
+                  console.log('트랙 변경 감지:', currentTrack.title);
+                  // 재생을 멈추지 않고 상태만 업데이트
+                  changeTrackInCurrentList(currentTrack);
+                }
+              }
+            }, 500);
+          };
+
+          // 모든 버튼을 찾아서 클릭 이벤트 리스너 추가
+          const buttons = playerContainer.querySelectorAll('button');
+          buttons.forEach(button => {
+            if (!button.hasAttribute('data-track-listener')) {
+              button.setAttribute('data-track-listener', 'true');
+              button.addEventListener('click', handleTrackChange);
+            }
+          });
+        };
+
+        // 버튼 리스너 설정
+        setTimeout(setupButtonListeners, 500);
 
         return true;
       }
@@ -118,7 +163,13 @@ const GlobalAudioPlayer = () => {
         audioElement.removeEventListener('timeupdate', handleTimeUpdateEvent);
       }
     };
-  }, [isPlayerVisible, selectedMusic?.id, handleTimeUpdate, selectedList, setSelectedMusic]);
+  }, [
+    isPlayerVisible,
+    selectedMusic?.id,
+    handleTimeUpdate,
+    selectedList,
+    changeTrackInCurrentList,
+  ]);
 
   // 오디오 이벤트 핸들러들
   const handleAudioPlay = useCallback(() => {
@@ -153,7 +204,7 @@ const GlobalAudioPlayer = () => {
           id: 'rm-audio-player',
         }}
         audioInitialState={{
-          isPlaying: false, // 자동 재생 방지
+          isPlaying: isPlaying,
           curPlayId: selectedMusic.id,
           currentTrackIndex: currentTrackIndex,
         }}

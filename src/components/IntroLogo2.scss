@@ -11,10 +11,9 @@
   align-items: center;
   transition: 0.3s ease-out;
 
-  animation-delay: 2s;
-
   &.auto-close {
     animation: fadeOut 0.5s ease-in forwards;
+    animation-delay: 2s;
   }
 
   img {

@@ -74,13 +74,13 @@ const EvaluationBegin = () => {
               role: 'system',
               content: `
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
-                가사 : ${selectMusic?.lyrics}
+                가사 : ${selectMusic?.lyrics || '가사 없음.'}
                
 
                 다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
                   1. 위 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함한다.
-                  2. 음악 분석데이터 항목 중 features 키 내의 데이터와 가사를 종합하여 점수를 정의한다.
+                  2. 음악 분석데이터 항목 중 features 키 내의 데이터와 가사를 종합하여 점수를 정의한다. 가사가 없는 경우 BGM 음악으로써 가사를 제외한 평가를 실시한다.
                   2. 각 항목은 100점 만점 기준으로 평가하시오.
                   3. 말투는 ${selectCritic?.speechStyle || '정중한 말투'} 스타일로 작성하시오.
                   4. 응답은 반드시 한글로 작성하시오.
@@ -92,7 +92,7 @@ const EvaluationBegin = () => {
                     "structure": 구성력에 대한 점수 (0~100),
                     "sound": 사운드/음악적 완성도 점수 (0~100),
                     "popularity": 대중성에 대한 점수 (0~100),
-                    "feedback": 전반적인 피드백 (자연어),
+                    "feedback": 전반적인 피드백 (자연어, 60자 이상),
                     "to_improve": 개선이 필요한 점 (자연어, 60자 이내),
                     "why_this_score": 각 점수를 준 이유에 대한 설명 (자연어, 60자 이내),
                     "key_points": 핵심적인 개선 포인트 요약 (자연어, 60자 이내)

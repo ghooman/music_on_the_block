@@ -8,8 +8,6 @@ export default function MusicPlayer() {
   const [playList, setPlayList] = useState(null);
   const [currentId, setCurrentId] = useState();
 
-  console.count('리랜더링');
-
   return (
     <>
       {playList && playList?.length > 0 && (

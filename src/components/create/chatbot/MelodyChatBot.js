@@ -15,6 +15,8 @@ import subBg1 from '../../../assets/images/create/subbanner-bg1.png';
 // 언어별 리소스 파일 불러오기
 import koMelody from '../../../locales/koMelody';
 import enMelody from '../../../locales/enMelody';
+import enBgmChat from '../../../locales/enBgmChat';
+import koBgmChat from '../../../locales/koBgmChat';
 import { useTranslation } from 'react-i18next';
 const MelodyChatBot = ({
   createLoading,
@@ -36,13 +38,20 @@ const MelodyChatBot = ({
   selectedCreationMode,
 }) => {
   const { t } = useTranslation('song_create');
-  const serverApi = process.env.REACT_APP_SERVER_API;
+  const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
   const navigate = useNavigate();
   const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 선택된 언어에 따라 리소스 파일 선택
-  const locale = selectedLanguage === 'ENG' ? enMelody : koMelody;
+  const locale =
+    selectedCreationMode === 'song'
+      ? selectedLanguage === 'ENG'
+        ? enMelody
+        : koMelody
+      : selectedLanguage === 'ENG'
+      ? enBgmChat
+      : koBgmChat;
   const {
     melody_tag = [],
     melody_genre = '',

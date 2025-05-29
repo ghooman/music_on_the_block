@@ -730,7 +730,9 @@ const ListSlider = ({
               <span className="time">
                 {`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`
                   ? `${formatTime(currentTime)}`
-                  : formatTime(track.duration)}
+                  : track?.ai_service == 1
+                  ? 'Song'
+                  : 'BGM'}
               </span>
               <div className={`swiper-music-list__item__left__grade ${track.rating}`}>
                 <img

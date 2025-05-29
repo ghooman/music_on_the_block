@@ -14,7 +14,6 @@ import CreateLoading from '../CreateLoading';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import LyricsModal from '../LyricsModal';
-
 const tagPreset = {
   Love: ['Love'],
   Moon: ['Moon'],

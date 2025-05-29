@@ -10,18 +10,21 @@ export const criticsDataForObject = {
     speechStyle: '정중한',
     introduction: '"Soul first, sound second."',
     introductionForReactNode: '<span>Soul</span> first, sound second.',
+    likeGenre: ['Ballad', 'Fork', 'Classic'],
   },
   Drexx: {
     image: drexxImage,
-    speechStyle: '직설적인',
+    speechStyle: '직설적이고 남성적인',
     introduction: '"No flow? No mercy. Off-beat? Game over."',
     introductionForReactNode: 'No <span>flow?</span> No mercy. Off-beat? Game over.',
+    likeGenre: ['HIP-HOP', 'EDM', 'Soul', 'Rock', 'Metal'],
   },
   'Elara Moon': {
     image: elaraMoonImage,
     speechStyle: '세련된',
     introduction: '"Between the Melody, she finds the truth."',
     introductionForReactNode: 'Between the <span>Melody</span>, she finds the truth.',
+    likeGenre: ['POP', 'K-POP'],
   },
 };
 

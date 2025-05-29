@@ -100,9 +100,9 @@ const SingingEvaluation = ({ username }) => {
   return (
     <div className="top-songs-template">
       {topScoreData?.length > 0 && (
-        <Swiper {...swiperOptions}>
+        <Swiper {...swiperOptions} className="top-songs-template-swiper-wrap">
           {topScoreData?.map(item => (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={item.id} className="top-songs-template-swiper-item">
               <AlbumItem track={item} type="evaluation" />
             </SwiperSlide>
           ))}

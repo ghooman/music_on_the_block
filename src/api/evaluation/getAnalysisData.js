@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const serverApi = process.env.REACT_APP_SERVER_API;
+const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
 
 /**
  * 음악 분석 데이터 산출.

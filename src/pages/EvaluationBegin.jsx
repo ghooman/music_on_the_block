@@ -80,7 +80,7 @@ const EvaluationBegin = () => {
                 다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
                   1. 위 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함한다.
-                  2. 음악 분석데이터의 features 키 내의 데이터와 가사를 종합하여 점수를 정의한다.
+                  2. 음악 분석데이터 항목 중 features 키 내의 데이터와 가사를 종합하여 점수를 정의한다.
                   2. 각 항목은 100점 만점 기준으로 평가하시오.
                   3. 말투는 ${selectCritic?.speechStyle || '정중한 말투'} 스타일로 작성하시오.
                   4. 응답은 반드시 한글로 작성하시오.

@@ -16,7 +16,7 @@ import { criticsDataForObject } from '../../data/criticsData';
 import { getCriticEvaluationList } from '../../api/evaluation/getList';
 import { useNavigate } from 'react-router-dom';
 
-const EvaluationResultsComp = ({ evaluationData, buttons }) => {
+const EvaluationResultsComp = ({ evaluationData, critic, buttons }) => {
   const { t } = useTranslation('evaluation');
 
   console.log(evaluationData, '평가 데이터 입니다.');
@@ -34,7 +34,7 @@ const EvaluationResultsComp = ({ evaluationData, buttons }) => {
           {!evaluationData && <NoneContent height={185} message="No evaluation history yet." />}
         </ContentWrap>
         <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
-          <SongsCritic t={t} critic={evaluationData?.critic} id={evaluationData?.id} />
+          <SongsCritic t={t} critic={critic} id={evaluationData?.id} />
         </ContentWrap>
         {buttons && <Btns t={t} evaluationData={evaluationData} />}
       </ContentWrap>
@@ -192,7 +192,7 @@ const SongsCritic = ({ t, critic, id }) => {
     const getData = async () => {
       try {
         const res = await getCriticEvaluationList({ critic });
-        setCriticEvaluationList(res.data.filter(item => item.id !== id));
+        setCriticEvaluationList(res.data);
       } catch (e) {
         setCriticEvaluationList([]);
         // console.error(e);
@@ -218,24 +218,24 @@ const SongsCritic = ({ t, critic, id }) => {
               <RadarChart
                 data={[
                   {
-                    item: item?.evaluationData?.emotion,
-                    value: item?.evaluationData?.emotion,
+                    item: item?.emotion,
+                    value: item?.emotion,
                   },
                   {
-                    item: item?.evaluationData?.creativity,
-                    value: item?.evaluationData?.creativity,
+                    item: item?.creativity,
+                    value: item?.creativity,
                   },
                   {
-                    item: item?.evaluationData?.structure,
-                    value: item?.evaluationData?.structure,
+                    item: item?.structure,
+                    value: item?.structure,
                   },
                   {
-                    item: item?.evaluationData?.sound,
-                    value: item?.evaluationData?.sound,
+                    item: item?.sound,
+                    value: item?.sound,
                   },
                   {
-                    item: item?.evaluationData?.popularity,
-                    value: item?.evaluationData?.popularity,
+                    item: item?.popularity,
+                    value: item?.popularity,
                   },
                 ]}
               />

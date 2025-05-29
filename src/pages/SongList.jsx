@@ -74,6 +74,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useGlobalMusic } from '../contexts/GlobalMusicContext';
 import axios from 'axios';
 
 import ContentWrap from '../components/unit/ContentWrap';
@@ -119,6 +120,18 @@ const SongList = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // 전역 음악 컨텍스트 사용
+  const {
+    selectedMusic,
+    selectedId,
+    isPlaying,
+    currentTime,
+    audioRef,
+    playMusic,
+    handleTimeUpdate,
+    setIsPlaying,
+  } = useGlobalMusic();
+
   const service = searchParams.get('service') || categories[0]?.name;
   const page = searchParams.get('page');
   const search = searchParams.get('search');
@@ -136,16 +149,7 @@ const SongList = () => {
   const [songList, setSongList] = useState([]);
   const [totalCount, setTotalCount] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  // 플레이어 관련 상태
-  const [selectedMusic, setSelectedMusic] = useState(null);
-  const [selectedList, setSelectedList] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const audioRef = useRef(null);
 
   // 곡 목록 API 호출
   useEffect(() => {
@@ -200,10 +204,10 @@ const SongList = () => {
         setIsLoading(false);
       }
     };
+
     getData();
   }, [page, search, songsSort, service, aiServiceFilter, criticFilter]);
 
-  // 스크롤 감지: 상단 고정 효과
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY >= 88);
@@ -212,99 +216,39 @@ const SongList = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 오디오 시간 업데이트 핸들러
-  const handleTimeUpdate = time => {
-    setCurrentTime(time);
-  };
-
-  // AlbumItem 클릭 시 플레이어에 반영하는 함수 (list와 id 전달)
-  const handlePlay = ({ list, track, id }) => {
-    setSelectedList(list);
-    setSelectedId(id);
-    setSelectedMusic(track);
-    setIsPlaying(true);
-    setCurrentTime(0);
-  };
-
-  // 선택된 곡이 없으면 2초 후 첫 번째 트랙을 자동 선택
-  useEffect(() => {
-    if (!songList) return;
-    const timer = setTimeout(() => {
-      if (songList.length > 0 && !selectedMusic) {
-        handlePlay({ list: songList, id: 'songlist', track: songList[0] });
-      }
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [songList, selectedMusic]);
-
-  // 다음 곡 재생
-  const handleNext = () => {
-    if (!selectedList.length || !selectedMusic) return;
-    const currentIndex = selectedList.findIndex(t => t.id === selectedMusic.id);
-    const nextIndex = (currentIndex + 1) % selectedList.length;
-    setSelectedMusic(selectedList[nextIndex]);
-  };
-
-  // 이전 곡 재생
-  const handlePrev = () => {
-    if (!selectedList.length || !selectedMusic) return;
-    const currentIndex = selectedList.findIndex(t => t.id === selectedMusic.id);
-    const prevIndex = (currentIndex - 1 + selectedList.length) % selectedList.length;
-    setSelectedMusic(selectedList[prevIndex]);
-  };
-
-  // 좋아요 클릭 핸들러 (필요 시 API 연동)
-  const handleLikeClick = track => {
-    console.log('좋아요 클릭', track);
-  };
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [page]);
-
   return (
     <>
       <div className="songs-list">
-        {/* PlayerHeader를 추가하여 상단에서 재생 UI 제공 */}
         <PlayerHeader
           selectedMusic={selectedMusic}
           isPlaying={isPlaying}
           isScrolled={isScrolled}
           handleTimeUpdate={handleTimeUpdate}
-          handleLikeClick={handleLikeClick}
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-          // 여기서는 빈 함수 또는 적절한 함수들을 전달하세요.
+          handleLikeClick={() => {}}
+          handlePrev={() => {}}
+          handleNext={() => {}}
           getTracks={() => {}}
           handleGetMusicList={() => {}}
           setIsPlaying={setIsPlaying}
           audioRef={audioRef}
         />
         <ContentWrap title={t('Song List')}>
-          <SubCategories
-            categories={categories}
-            value={service}
-            handler={service => {
-              setSearchParams(prev => {
-                return { search: '', page: 1, service };
-              });
-            }}
-          />
           <ContentWrap.SubWrap gap={8}>
-            <Filter
-              songsSort={
-                definedService === 'song'
-                  ? true
-                  : definedService === 'evaluation'
-                  ? ['Highest Score', 'Lowest Score', 'Latest', 'Oldest']
-                  : null
-              }
-              aiServiceFilter={definedService === 'song'}
-              gradeFilter={definedService === 'song'}
-              mintedFilter={definedService === 'song'}
-              criticFilter={definedService === 'evaluation'}
+            <SubCategories
+              categories={categories}
+              handler={({ name }) => {
+                setSearchParams(prev => {
+                  const newParams = new URLSearchParams(prev);
+                  newParams.set('service', name);
+                  newParams.set('page', '1');
+                  return newParams;
+                });
+              }}
+              value={service}
+              translateFn={t}
             />
-            <Search placeholder="Search by song title" reset={{ page: 1 }} />
+            <Filter songs />
+            <Search reset={{ page: 1 }} />
           </ContentWrap.SubWrap>
           <>
             {!isLoading && songList?.length > 0 ? (
@@ -317,7 +261,7 @@ const SongList = () => {
                     isActive={`${selectedId}+${selectedMusic?.id}` === `songlist+${track.id}`}
                     currentTime={currentTime}
                     onClick={() => {
-                      handlePlay({
+                      playMusic({
                         list: songList,
                         track: track,
                         id: 'songlist',

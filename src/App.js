@@ -30,6 +30,7 @@ import SellNftDetail from './components/nft/SellNftDetail';
 import Intro from './pages/Intro';
 import Evaluation from './pages/Evaluation';
 import EvaluationBegin from './pages/EvaluationBegin';
+import GlobalAudioPlayer from './components/GlobalAudioPlayer';
 
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
@@ -45,6 +46,7 @@ function Layout({ children }) {
         <div className="inner">{children}</div>
       </div>
       <Footer />
+      <GlobalAudioPlayer />
     </>
   );
 }

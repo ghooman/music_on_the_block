@@ -38,7 +38,7 @@ const EvaluationBegin = () => {
   //================
   // 생성 가능 횟수 체크
   //================
-  const { data: possibleCnt } = useQuery(
+  const { data: possibleCnt, isFe: possibleCntLoading } = useQuery(
     ['evaluation_possible_cnt', token, selectMusic?.id, selectCritic?.name],
     async () => {
       const res = await getPossibleCount({
@@ -231,6 +231,7 @@ const EvaluationBegin = () => {
           possibleCnt={possibleCnt}
           selectMusic={selectMusic}
           selectCritic={selectCritic}
+          possibleCntLoading={possibleCntLoading}
           handleClick={handleEvaluation}
         />
       </ContentWrap>
@@ -321,6 +322,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
         </div>
         <button
           className="select-btn"
+          disabled={!temporarySelect}
           onClick={() => {
             setSelectMusic(prev => {
               return { ...temporarySelect };
@@ -370,7 +372,7 @@ const Step2 = ({ t, selectCritic, setSelectCritic }) => {
   );
 };
 
-const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
+const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }) => {
   return (
     <>
       <div className="step3">
@@ -391,9 +393,9 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic }) => {
             <dt>{t('Critic')}</dt>
             <dd>
               <p>{selectCritic?.name || '-'}</p>
-              {selectCritic && (
+              {selectCritic && selectMusic && !possibleCntLoading && (
                 <span>
-                  {t('Todays Left')}: <strong>{possibleCnt}/1</strong>
+                  {t('Todays Left')}: <strong>{possibleCnt >= 0 ? possibleCnt : '-'} / 1</strong>
                 </span>
               )}
             </dd>

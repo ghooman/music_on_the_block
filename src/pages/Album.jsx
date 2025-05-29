@@ -196,19 +196,6 @@ function Album() {
   return (
     <>
       <div className="main">
-        <PlayerHeader
-          selectedMusic={selectedMusic}
-          isPlaying={isPlaying}
-          isScrolled={isScrolled}
-          handleTimeUpdate={handleTimeUpdate}
-          handleLikeClick={handleLikeClick}
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-          getTracks={getTracks}
-          handleGetMusicList={handleGetMusicList}
-          setIsPlaying={setIsPlaying}
-          audioRef={audioRef}
-        />
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${

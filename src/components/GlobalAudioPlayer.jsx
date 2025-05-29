@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect, useRef } from 'react';
 import AudioPlayer from 'react-modern-audio-player';
 import 'react-modern-audio-player/dist/index.css';
 import { useGlobalMusic } from '../contexts/GlobalMusicContext';
@@ -15,6 +15,10 @@ const GlobalAudioPlayer = () => {
     setIsPlaying,
     hidePlayer,
   } = useGlobalMusic();
+
+  // 직접 오디오 요소를 추적하기 위한 ref
+  const audioElementRef = useRef(null);
+  const intervalRef = useRef(null);
 
   // 현재 선택된 음악을 플레이리스트 형태로 변환
   const playList = useMemo(() => {
@@ -40,27 +44,63 @@ const GlobalAudioPlayer = () => {
     return index >= 0 ? index : 0;
   }, [selectedMusic, selectedList]);
 
+  // 오디오 요소를 찾아서 시간 업데이트를 직접 처리
+  useEffect(() => {
+    if (!isPlayerVisible) return;
+
+    let findAudioInterval;
+    let audioElement = null;
+
+    const handleTimeUpdateEvent = () => {
+      if (audioElement) {
+        const currentTime = audioElement.currentTime;
+        handleTimeUpdate(currentTime);
+      }
+    };
+
+    const findAudioElement = () => {
+      audioElement = document.querySelector('#rm-audio-player audio');
+      if (audioElement) {
+        audioElementRef.current = audioElement;
+        audioElement.addEventListener('timeupdate', handleTimeUpdateEvent);
+        return true;
+      }
+      return false;
+    };
+
+    // 오디오 요소를 찾을 때까지 재시도
+    findAudioInterval = setInterval(() => {
+      if (findAudioElement()) {
+        clearInterval(findAudioInterval);
+      }
+    }, 100);
+
+    // cleanup 함수
+    return () => {
+      if (findAudioInterval) {
+        clearInterval(findAudioInterval);
+      }
+      if (audioElement) {
+        audioElement.removeEventListener('timeupdate', handleTimeUpdateEvent);
+      }
+    };
+  }, [isPlayerVisible, selectedMusic?.id, handleTimeUpdate]);
+
   // 오디오 이벤트 핸들러들
   const handleAudioPlay = useCallback(() => {
+    console.log('재생 시작됨'); // 디버깅 로그
     setIsPlaying(true);
   }, [setIsPlaying]);
 
   const handleAudioPause = useCallback(() => {
+    console.log('재생 일시정지됨'); // 디버깅 로그
     setIsPlaying(false);
   }, [setIsPlaying]);
 
   const handleAudioEnded = useCallback(() => {
+    console.log('재생 종료됨'); // 디버깅 로그
     setIsPlaying(false);
   }, [setIsPlaying]);
-
-  const handleAudioTimeUpdate = useCallback(
-    time => {
-      if (typeof time === 'number' && !isNaN(time)) {
-        handleTimeUpdate(time);
-      }
-    },
-    [handleTimeUpdate]
-  );
 
   if (!isPlayerVisible || !selectedMusic || playList.length === 0) {
     return null;
@@ -77,6 +117,7 @@ const GlobalAudioPlayer = () => {
           position: 'fixed',
           width: '100%',
           zIndex: 10,
+          id: 'rm-audio-player', // ID 추가하여 쉽게 찾을 수 있도록
         }}
         audioInitialState={{
           isPlaying: isPlaying, // 현재 재생 상태 반영
@@ -86,7 +127,6 @@ const GlobalAudioPlayer = () => {
         onAudioPlay={handleAudioPlay}
         onAudioPause={handleAudioPause}
         onAudioEnded={handleAudioEnded}
-        onAudioTimeUpdate={handleAudioTimeUpdate}
       />
       {/* 플레이어 닫기 버튼 */}✕
     </div>

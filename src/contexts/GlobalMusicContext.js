@@ -12,6 +12,13 @@ export const GlobalMusicProvider = ({ children }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
 
+  console.log('selectedMusic', selectedMusic);
+  console.log('selectedList', selectedList);
+  console.log('selectedId', selectedId);
+  console.log('isPlaying', isPlaying);
+  console.log('currentTime', currentTime);
+  console.log('isPlayerVisible', isPlayerVisible);
+
   // 오디오 제어용 ref
   const audioRef = useRef(null);
   const hasCountedRef = useRef(false);
@@ -67,6 +74,7 @@ export const GlobalMusicProvider = ({ children }) => {
 
   // 시간 업데이트 및 재생 카운트 처리
   const handleTimeUpdate = async time => {
+    console.log('handleTimeUpdate 호출됨:', time);
     setCurrentTime(time);
 
     // 현재 재생 시간이 이전 재생 시간보다 작으면 hasCountedRef를 false로 설정

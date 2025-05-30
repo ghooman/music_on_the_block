@@ -52,15 +52,8 @@ function Album() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { token, walletAddress } = useContext(AuthContext);
-  const {
-    currentTrack,
-    currentTime,
-    isPlaying,
-    playTrack,
-    isTrackActive,
-    audioRef,
-    togglePlayPause,
-  } = useAudio();
+  const { currentTrack, currentTime, playTrack, isTrackActive, audioRef, togglePlayPause } =
+    useAudio();
 
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');

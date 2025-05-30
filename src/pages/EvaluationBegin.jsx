@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAudio } from '../contexts/AudioContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import OpenAI from 'openai';
 
@@ -29,6 +30,9 @@ const EvaluationBegin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
+  const { currentTrack, currentTime, playTrack, isTrackActive, audioRef, togglePlayPause } =
+    useAudio();
+  const audioPlayer = audioRef?.current?.audio?.current;
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
@@ -224,7 +228,15 @@ const EvaluationBegin = () => {
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
         <ContentWrap title={t('Step 1')}>
-          <Step1 t={t} token={token} setSelectMusic={setSelectMusic} />
+          <Step1
+            t={t}
+            token={token}
+            setSelectMusic={setSelectMusic}
+            currentTrack={currentTrack}
+            togglePlayPause={togglePlayPause}
+            playTrack={playTrack}
+            audioPlayer={audioPlayer}
+          />
         </ContentWrap>
         <ContentWrap title={t('Step 2')} border={false}>
           <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
@@ -254,7 +266,15 @@ const EvaluationBegin = () => {
 
 export default EvaluationBegin;
 
-const Step1 = ({ t, token, setSelectMusic }) => {
+const Step1 = ({
+  t,
+  token,
+  setSelectMusic,
+  currentTrack,
+  togglePlayPause,
+  playTrack,
+  audioPlayer,
+}) => {
   const [temporarySelect, setTemporarySelect] = useState(null);
   const [searchParams] = useSearchParams();
 
@@ -263,7 +283,20 @@ const Step1 = ({ t, token, setSelectMusic }) => {
   const ai_service_filter = searchParams.get('ai_service_filter');
 
   const { ref, inView } = useInView();
-
+  // 평가에서 노래 선택시 함수
+  const handleSelectMusic = item => {
+    if (item?.id === currentTrack?.id) {
+      audioPlayer?.pause();
+      setTemporarySelect(item);
+    } else {
+      playTrack({
+        track: item,
+        playlist: listData,
+        playlistId: 'evaluation-playlist',
+      });
+      setTemporarySelect(null);
+    }
+  };
   //===============
   // 무한 스크롤
   //===============
@@ -314,18 +347,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
           {!isLoading && listData?.length === 0 && <NoneContent message="No data" height={220} />}
           {!isLoading &&
             listData.map(item => (
-              <span
-                key={item.id}
-                onClick={() => {
-                  setTemporarySelect(prev => {
-                    if (prev?.id === item?.id) {
-                      return null;
-                    } else {
-                      return item;
-                    }
-                  });
-                }}
-              >
+              <span key={item.id} onClick={() => handleSelectMusic(item)}>
                 <SongsBar itemData={item} play={item?.id === temporarySelect?.id} />
               </span>
             ))}

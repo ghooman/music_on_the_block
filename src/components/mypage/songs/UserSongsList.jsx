@@ -15,6 +15,7 @@ import { EvaluationListItemWrapper, EvaluationListItem } from '../../unit/Evalua
 import NoneContent from '../../unit/NoneContent';
 
 import { getEvaluationList } from '../../../api/evaluation/getList';
+import { disableEvaluation } from '../../../data/service';
 
 import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated-lryric-songwriting.svg';
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
@@ -33,7 +34,7 @@ const topAlbumsCategoryList = [
   {
     name: 'AI Singing Evaluation',
     image: generatedSigingEvaluationIcon,
-    preparing: false,
+    preparing: disableEvaluation,
   },
   {
     name: 'AI Cover Creation',

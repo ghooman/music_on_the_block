@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 
 import './AiServices.scss';
 
@@ -15,16 +17,21 @@ import FilterDateModal from '../../../components/unit/FilterDateModal';
 import PreparingModal from '../../PreparingModal';
 import SubCategories from '../../unit/SubCategories';
 import { BarChart, LineChart, PieChart } from '../../unit/Chart';
+
 import { formatLocalTime } from '../../../utils/getFormattedTime';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
+
+import { disableEvaluation } from '../../../data/service';
 import { criticsDataForArray } from '../../../data/criticsData';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const AiServiceTypeList = [
   { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },
-  { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: false },
+  {
+    name: 'AI Singing Evaluation',
+    image: generatedSigingEvaluationIcon,
+    preparing: disableEvaluation,
+  },
   { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
 ];
 

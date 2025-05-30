@@ -36,6 +36,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { WebSocketProvider } from './contexts/WebSocketContext';
 import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
+import { disableEvaluation } from './data/service';
 
 function Layout({ children }) {
   return (
@@ -180,34 +181,38 @@ function App() {
                   </Layout>
                 }
               />
-              <Route
-                path="evaluation"
-                element={
-                  <Layout>
-                    <Evaluation />
-                  </Layout>
-                }
-              />
-              <Route
-                path="evaluation-begin"
-                element={
-                  <Layout>
-                    <ProtectedRoute>
-                      <EvaluationBegin />
-                    </ProtectedRoute>
-                  </Layout>
-                }
-              />
-              <Route
-                path="evaluation-results"
-                element={
-                  <Layout>
-                    <ProtectedRoute>
-                      <EvaluationResults />
-                    </ProtectedRoute>
-                  </Layout>
-                }
-              />
+              {!disableEvaluation && (
+                <>
+                  <Route
+                    path="evaluation"
+                    element={
+                      <Layout>
+                        <Evaluation />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="evaluation-begin"
+                    element={
+                      <Layout>
+                        <ProtectedRoute>
+                          <EvaluationBegin />
+                        </ProtectedRoute>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="evaluation-results"
+                    element={
+                      <Layout>
+                        <ProtectedRoute>
+                          <EvaluationResults />
+                        </ProtectedRoute>
+                      </Layout>
+                    }
+                  />
+                </>
+              )}
               <Route
                 path="nft/list"
                 element={

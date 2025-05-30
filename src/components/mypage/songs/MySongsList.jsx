@@ -27,6 +27,7 @@ import { getEvaluationList } from '../../../api/evaluation/getList';
 import SongsBar from '../../unit/SongsBar';
 import { EvaluationListItem, EvaluationListItemWrapper } from '../../unit/EvaluationListItem';
 import NoneContent from '../../unit/NoneContent';
+import { disableEvaluation } from '../../../data/service';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -44,7 +45,7 @@ const topAlbumsCategoryList = [
   {
     name: 'AI Singing Evaluation',
     image: generatedSigingEvaluationIcon,
-    preparing: false,
+    preparing: disableEvaluation,
   },
   {
     name: 'AI Cover Creation',

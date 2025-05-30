@@ -32,6 +32,8 @@ import Evaluation from './pages/Evaluation';
 import EvaluationBegin from './pages/EvaluationBegin';
 import GlobalAudioPlayer from './components/GlobalAudioPlayer';
 import PlayerHeader from './components/PlayerHeader';
+import AlarmModal from './components/AlarmModal';
+
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
 import { WebSocketProvider } from './contexts/WebSocketContext';
@@ -48,6 +50,7 @@ function Layout({ children }) {
       </div>
       <Footer />
       <PlayerHeader />
+      <AlarmModal />
       {/* <GlobalAudioPlayer /> */}
     </>
   );

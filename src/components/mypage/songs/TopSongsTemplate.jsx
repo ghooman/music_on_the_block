@@ -66,7 +66,7 @@ const LyricsAndSongwriting = ({ username }) => {
           </div>
         </div>
       ) : (
-        <NoneContent height={160} message="There are no songs created yet." />
+        <NoneContent height={200} message="There are no songs created yet." />
       )}
     </>
   );
@@ -109,7 +109,7 @@ const SingingEvaluation = ({ username }) => {
         </Swiper>
       )}
       {(!topScoreData || topScoreData?.length <= 0) && (
-        <NoneContent height={160} message="There are no songs evaluated yet." />
+        <NoneContent height={200} message="There are no songs evaluated yet." />
       )}
     </div>
   );

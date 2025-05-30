@@ -40,6 +40,7 @@ import {
 import NoneContent from '../components/unit/NoneContent';
 import ConfirmModal from './modal/ConfirmModal';
 import SuccessModal from './modal/SuccessModal';
+import { disableEvaluation } from '../data/service';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t, i18n } = useTranslation('main');
 
@@ -610,9 +611,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
                       // onClick={() => handleSubItemClick('ai-singing')}
-                      // onClick={() => setPreparingModal(true)}
                     >
-                      <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
+                      <Link
+                        onClick={e => {
+                          if (disableEvaluation) {
+                            e?.preventDefault();
+                            setPreparingModal(true);
+                          }
+                        }}
+                        to="/evaluation"
+                      >
+                        {t('AI Singing Evaluation')}
+                      </Link>
                       {/* <Link >{t('AI Singing Evaluation')}</Link> */}
                     </li>
                     <li

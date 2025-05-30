@@ -37,6 +37,7 @@ import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modul
 import PreparingModal from './PreparingModal';
 
 import { useTranslation } from 'react-i18next';
+import { disableEvaluation } from '../data/service';
 
 const Footer = ({ setIsLoggedIn }) => {
   const { t } = useTranslation('main');
@@ -165,7 +166,6 @@ const Footer = ({ setIsLoggedIn }) => {
                   </Link>
                 </li>
 
-
                 {/* <li>
                   <Link>
                     <img src={sns06}/>
@@ -204,7 +204,15 @@ const Footer = ({ setIsLoggedIn }) => {
                     <Link to="/create">{t('AI Lyrics & Songwriting')}</Link>
                   </dd>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>
+                    <Link
+                      onClick={e => {
+                        if (disableEvaluation) {
+                          e?.preventDefault();
+                          setPreparingModal(true);
+                        }
+                      }}
+                      to="/evaluation"
+                    >
                       {t('AI Singing Evaluation')}
                     </Link>
                   </dd>

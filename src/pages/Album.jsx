@@ -39,6 +39,11 @@ import { getEvaluationList } from '../api/evaluation/getList';
 
 // 데이터
 import { criticsDataForArray, criticsDataForObject } from '../data/criticsData';
+import { disableEvaluation } from '../data/service';
+import {
+  EvaluationListItem,
+  EvaluationListItemWrapper,
+} from '../components/unit/EvaluationListItem';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -308,6 +313,11 @@ function Album() {
               service === 'AI Singing Evaluation' ? 'active' : ''
             }`}
             onClick={() => {
+              if (disableEvaluation) {
+                setPreparingModal(true);
+                return;
+              }
+
               setSearchParams({ service: 'AI Singing Evaluation', critic: 'All' });
             }}
           >
@@ -433,70 +443,29 @@ function Album() {
                     <button className='details-btn'>Details</button>
                   </div>
                 </button> */}
-                {evaluationListByHighScore.map(item => (
-                  <button
-                    key={item.id}
-                    className={`album__content-list__evaluation-stage__item ${
-                      selectedMusic?.id === item.id && !player?.paused ? 'music-play' : ''
-                    }`}
-                    onClick={() => {
-                      setSelectedMusic(prev => {
-                        if (prev?.id === item?.id) {
-                          if (player?.paused) {
-                            player?.play();
-                          } else {
-                            player?.pause();
-                          }
+                {evaluationListByHighScore.length > 0 && (
+                  <EvaluationListItemWrapper>
+                    {evaluationListByHighScore.map(item => (
+                      <EvaluationListItem
+                        data={item}
+                        selectedMusic={selectedMusic}
+                        player={player}
+                        handler={() =>
+                          setSelectedMusic(prev => {
+                            if (prev?.id === item?.id) {
+                              if (player?.paused) {
+                                player?.play();
+                              } else {
+                                player?.pause();
+                              }
+                            }
+                            return item;
+                          })
                         }
-                        return item;
-                      });
-                    }}
-                  >
-                    <div className="album__content-list__evaluation-stage__item__thought">
-                      <p className="album__content-list__evaluation-stage__item__thought__play">
-                        <img src={item.cover_image || coverImg10} alt="coverImg" />
-                        <div className="loading-wave">
-                          <div className="loading-bar"></div>
-                          <div className="loading-bar"></div>
-                          <div className="loading-bar"></div>
-                          <div className="loading-bar"></div>
-                        </div>
-                      </p>
-                      <p className="album__content-list__evaluation-stage__item__thought__txt">
-                        <img src={criticsDataForObject[item.critic]?.image} alt="Jinwoo-Yoo-img" />
-                        <span>"{item.feedback}"</span>
-                      </p>
-                    </div>
-                    <dl className="album__content-list__evaluation-stage__item__title">
-                      <dt>{item.title}</dt>
-                      <dd>
-                        <img src={item?.artist_profile || defaultCoverImg} alt="user-name" />
-                        {item.artist}
-                      </dd>
-                    </dl>
-                    <div className="album__content-list__evaluation-stage__item__details-number">
-                      <p
-                        className={`grade ${
-                          item.score >= 90
-                            ? 'gold'
-                            : item.score >= 80
-                            ? 'silver'
-                            : item.score >= 70
-                            ? 'bronze'
-                            : ''
-                        }`}
-                      >
-                        {item?.score}{' '}
-                      </p>
-                      <Link
-                        to={`/song-detail/${item.song_id}?service=AI+Singing+Evaluation&critic=${item.critic}`}
-                        className="details-btn"
-                      >
-                        {t('Details')}
-                      </Link>
-                    </div>
-                  </button>
-                ))}
+                      />
+                    ))}
+                  </EvaluationListItemWrapper>
+                )}
                 {evaluationListByHighScore.length <= 0 && (
                   <NoneContent height={300} message="No evaluation history yet." />
                 )}

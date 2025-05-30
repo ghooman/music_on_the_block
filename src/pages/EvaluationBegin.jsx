@@ -75,8 +75,16 @@ const EvaluationBegin = () => {
               content: `
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
                 가사 : ${selectMusic?.lyrics || '가사 없음.'}
-                심사위원 정보 : ${JSON.stringify(selectCritic)}
-               
+                심사위원 성향 :
+                  - 스타일 : ${selectCritic?.style}
+                  - 선호 장르 : ${selectCritic?.likeGenre}
+                  - 심사 철학 : ${selectCritic?.introduction}
+                  - 평가 기준 비중 :
+                    - emotion : ${selectCritic?.evaluationWeight?.emotion * 100} %
+                    - creativity : ${selectCritic?.evaluationWeight?.creativity * 100}%
+                    - structure : ${selectCritic?.evaluationWeight?.structure * 100}%
+                    - sound : ${selectCritic?.evaluationWeight?.sound * 100}%
+                    - popularity : ${selectCritic?.evaluationWeight?.popularity * 100}%
 
                 다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
@@ -100,7 +108,7 @@ const EvaluationBegin = () => {
                   }
 
                   7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
-                    selectCritic?.speechStyle
+                    selectCritic?.style
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
                   9. 심사위원의 특성에 따른 변별력을 추가하시오

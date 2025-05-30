@@ -52,7 +52,15 @@ function Album() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { token, walletAddress } = useContext(AuthContext);
-  const { currentTrack, currentTime, isPlaying, playTrack, isTrackActive, audioRef } = useAudio();
+  const {
+    currentTrack,
+    currentTime,
+    isPlaying,
+    playTrack,
+    isTrackActive,
+    audioRef,
+    togglePlayPause,
+  } = useAudio();
 
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
@@ -181,9 +189,21 @@ function Album() {
 
   const audioPlayer = audioRef?.current?.audio?.current;
 
-  const shuffledTotalList = useMemo(() => {
-    return [...totalList].sort(() => Math.random() - 0.5);
-  }, [totalList]); // totalList가 바뀔 때만 새로 셔플
+  // 평가 노래 재생 함수
+  const handlePlayEvaluation = item => {
+    const evaluationPlaylistId = 'evaluation-high-score';
+    const isCurrentlyActive = isTrackActive(item, evaluationPlaylistId);
+
+    if (isCurrentlyActive) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: evaluationListByHighScore,
+        playlistId: evaluationPlaylistId,
+      });
+    }
+  };
 
   return (
     <>
@@ -322,7 +342,7 @@ function Album() {
                     </p>
                     <p className='album__content-list__evaluation-stage__item__thought__txt'>
                       <img src={persona02} alt='Jinwoo-Yoo-img'/>
-                      “This track almost made me feel something. Almost. That’s a masterpiece.”
+                      "This track almost made me feel something. Almost. That's a masterpiece."
                     </p>
                   </div>
                   <dl className='album__content-list__evaluation-stage__item__title'>
@@ -338,18 +358,11 @@ function Album() {
                   <EvaluationListItemWrapper>
                     {evaluationListByHighScore.map(item => (
                       <EvaluationListItem
+                        key={item.id}
                         data={item}
                         selectedMusic={currentTrack}
                         player={audioPlayer}
-                        handler={() => {
-                          if (currentTrack?.id === item?.id) {
-                            if (audioPlayer?.paused) {
-                              audioPlayer?.play();
-                            } else {
-                              audioPlayer?.pause();
-                            }
-                          }
-                        }}
+                        handler={() => handlePlayEvaluation(item)}
                       />
                     ))}
                   </EvaluationListItemWrapper>

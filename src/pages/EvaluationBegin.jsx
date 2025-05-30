@@ -30,8 +30,15 @@ const EvaluationBegin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
-  const { currentTrack, currentTime, playTrack, isTrackActive, audioRef, togglePlayPause } =
-    useAudio();
+  const {
+    currentTrack,
+    currentTime,
+    playTrack,
+    isTrackActive,
+    audioRef,
+    togglePlayPause,
+    isPlaying,
+  } = useAudio();
   const audioPlayer = audioRef?.current?.audio?.current;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -236,6 +243,7 @@ const EvaluationBegin = () => {
             togglePlayPause={togglePlayPause}
             playTrack={playTrack}
             audioPlayer={audioPlayer}
+            isPlaying={isPlaying}
           />
         </ContentWrap>
         <ContentWrap title={t('Step 2')} border={false}>
@@ -274,6 +282,7 @@ const Step1 = ({
   togglePlayPause,
   playTrack,
   audioPlayer,
+  isPlaying,
 }) => {
   const [temporarySelect, setTemporarySelect] = useState(null);
   const [searchParams] = useSearchParams();
@@ -285,16 +294,20 @@ const Step1 = ({
   const { ref, inView } = useInView();
   // 평가에서 노래 선택시 함수
   const handleSelectMusic = item => {
+    // span 클릭 시에는 임시 선택만 하고 재생하지 않음
+    setTemporarySelect(item);
+  };
+
+  // SongsBar에서 앨범 커버 클릭 시 재생을 위한 함수
+  const handlePlayMusic = item => {
     if (item?.id === currentTrack?.id) {
-      audioPlayer?.pause();
-      setTemporarySelect(item);
+      togglePlayPause();
     } else {
       playTrack({
         track: item,
         playlist: listData,
         playlistId: 'evaluation-playlist',
       });
-      setTemporarySelect(null);
     }
   };
   //===============
@@ -335,7 +348,7 @@ const Step1 = ({
         <p className="step1__title">
           {t('Select your song.')}
           <br />
-          {t('Click the song, then tap “Select” below to continue.')}
+          {t('Click the song, then tap "Select" below to continue.')}
         </p>
         <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
         <div className="step1__list">
@@ -348,7 +361,12 @@ const Step1 = ({
           {!isLoading &&
             listData.map(item => (
               <span key={item.id} onClick={() => handleSelectMusic(item)}>
-                <SongsBar itemData={item} play={item?.id === temporarySelect?.id} />
+                <SongsBar
+                  itemData={item}
+                  play={item?.id === currentTrack?.id && isPlaying}
+                  onPlayClick={() => handlePlayMusic(item)}
+                  isSelected={item?.id === temporarySelect?.id}
+                />
               </span>
             ))}
           <span ref={ref} style={{ width: '100%', height: 1 }}></span>
@@ -413,7 +431,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
           {t('Please review your selected options.')}
           <br />
           {t(
-            'If you would like to proceed with these choices, click “View Results” at the bottom of the screen.'
+            'If you would like to proceed with these choices, click "View Results" at the bottom of the screen.'
           )}
         </p>
         <div className="step3__selected-song">

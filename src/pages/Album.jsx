@@ -339,20 +339,17 @@ function Album() {
                     {evaluationListByHighScore.map(item => (
                       <EvaluationListItem
                         data={item}
-                        selectedMusic={selectedMusic}
-                        player={player}
-                        handler={() =>
-                          setSelectedMusic(prev => {
-                            if (prev?.id === item?.id) {
-                              if (player?.paused) {
-                                player?.play();
-                              } else {
-                                player?.pause();
-                              }
+                        selectedMusic={currentTrack}
+                        player={audioPlayer}
+                        handler={() => {
+                          if (currentTrack?.id === item?.id) {
+                            if (audioPlayer?.paused) {
+                              audioPlayer?.play();
+                            } else {
+                              audioPlayer?.pause();
                             }
-                            return item;
-                          })
-                        }
+                          }
+                        }}
                       />
                     ))}
                   </EvaluationListItemWrapper>

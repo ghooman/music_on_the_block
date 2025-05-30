@@ -76,15 +76,9 @@ const EvaluationBegin = () => {
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
                 가사 : ${selectMusic?.lyrics || '가사 없음.'}
                 심사위원 성향 :
-                  - 스타일 : ${selectCritic?.style}
-                  - 선호 장르 : ${selectCritic?.likeGenre}
                   - 심사 철학 : ${selectCritic?.introduction}
-                  - 평가 기준 비중 :
-                    - emotion : ${selectCritic?.evaluationWeight?.emotion * 100} %
-                    - creativity : ${selectCritic?.evaluationWeight?.creativity * 100}%
-                    - structure : ${selectCritic?.evaluationWeight?.structure * 100}%
-                    - sound : ${selectCritic?.evaluationWeight?.sound * 100}%
-                    - popularity : ${selectCritic?.evaluationWeight?.popularity * 100}%
+                  - 평가 기준 중 다음 항목들을 특히 중시합니다 :
+                            ${selectCritic?.important?.join(',')}
 
                 다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
@@ -96,15 +90,15 @@ const EvaluationBegin = () => {
                   6. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
 
                   {
-                    "emotion": 0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수 (0~100)
-                    "creativity": 0,       // creativity.features 내 데이터 분석 기반 창의성 점수 (0~100)
-                    "structure": 0,        // structure.features 내 데이터 분석 기반 구성력 점수 (0~100)
-                    "sound": 0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수 (0~100)
-                    "popularity": 0,       // popularity.features 내 데이터 분석 기반 대중성 점수 (0~100)
-                    "feedback": "",        // 전반적인 평가 피드백 (한글 60자 이상)
-                    "to_improve": "",      // 개선이 필요한 점 (한글 60자 이내)
-                    "why_this_score": "",  // 각 점수를 준 이유에 대한 간략한 설명 (한글 60자 이내)
-                    "key_points": ""       // 핵심 개선 포인트 요약 (한글 60자 이내)
+                    "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수 (0.0~100.0)
+                    "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수 (0.0~100.0)
+                    "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수 (0.0~100.0)
+                    "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수 (0.0~100.0)
+                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수 (0.0~100.0)
+                    "feedback": "",        // 항목별 모든 속성을 반드시 평가 
+                    "to_improve": "",      // 개선이 필요한 점
+                    "why_this_score": "",  // 각 점수를 준 이유에 대한 간략한 설명
+                    "key_points": ""       // 핵심 개선 포인트 요약
                   }
 
                   7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
@@ -112,6 +106,8 @@ const EvaluationBegin = () => {
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
                   9. 심사위원의 특성에 따른 변별력을 추가하시오
+                  10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
+                  10. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,

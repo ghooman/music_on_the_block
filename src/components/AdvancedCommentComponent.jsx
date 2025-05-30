@@ -133,7 +133,8 @@ const AdvancedCommentComponent = ({ id }) => {
         placeHolder={t('Write a comment') + '...'}
         customNoComment={() => (
           <div className="no-comment">
-            {t('No comments here.')}<br/>
+            {t('No comments here.')}
+            <br />
             {t('Be the first one to comment!')}
           </div>
         )}

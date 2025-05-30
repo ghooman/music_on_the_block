@@ -21,16 +21,7 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
         selectedMusic?.id === data.id && !player?.paused ? 'music-play' : ''
       }`}
       onClick={() => {
-        // setSelectedMusic(prev => {
-        //   if (prev?.id === data?.id) {
-        //     if (player?.paused) {
-        //       player?.play();
-        //     } else {
-        //       player?.pause();
-        //     }
-        //   }
-        //   return data;
-        // });
+        if (handler) handler();
       }}
     >
       <div className="unit-component-evaluation-list-item__thought">

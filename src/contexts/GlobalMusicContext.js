@@ -106,19 +106,6 @@ export const GlobalMusicProvider = ({ children }) => {
     setCurrentTime(0);
   };
 
-  // 현재 리스트 내에서 트랙만 변경하는 함수
-  const changeTrackInCurrentList = newTrack => {
-    if (selectedList && selectedId && newTrack) {
-      // 같은 트랙이면 무시
-      if (selectedMusic?.id === newTrack.id) {
-        return;
-      }
-
-      setSelectedMusic(newTrack);
-      // 시간 관련 상태는 리셋하지 않음 (재생 유지)
-    }
-  };
-
   const value = {
     // 상태
     selectedMusic,
@@ -138,7 +125,6 @@ export const GlobalMusicProvider = ({ children }) => {
     hidePlayer,
     setIsPlaying,
     setSelectedMusic,
-    changeTrackInCurrentList,
   };
 
   return <GlobalMusicContext.Provider value={value}>{children}</GlobalMusicContext.Provider>;

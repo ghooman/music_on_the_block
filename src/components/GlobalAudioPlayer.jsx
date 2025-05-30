@@ -14,12 +14,10 @@ const GlobalAudioPlayer = () => {
     handleTimeUpdate,
     setIsPlaying,
     hidePlayer,
-    changeTrackInCurrentList,
   } = useGlobalMusic();
 
   // 직접 오디오 요소를 추적하기 위한 ref
   const audioElementRef = useRef(null);
-  const intervalRef = useRef(null);
 
   // 현재 선택된 음악을 플레이리스트 형태로 변환
   const playList = useMemo(() => {
@@ -45,12 +43,11 @@ const GlobalAudioPlayer = () => {
     return index >= 0 ? index : 0;
   }, [selectedMusic, selectedList]);
 
-  // 오디오 요소를 찾아서 시간 업데이트를 직접 처리
+  // 시간 업데이트만 처리하는 단순한 로직
   useEffect(() => {
     if (!isPlayerVisible) return;
 
     let findAudioInterval;
-    let syncInterval;
     let audioElement = null;
 
     const handleTimeUpdateEvent = () => {
@@ -60,85 +57,11 @@ const GlobalAudioPlayer = () => {
       }
     };
 
-    // 플레이어 상태 동기화 함수
-    const syncPlayerState = () => {
-      const playerContainer = document.querySelector('#rm-audio-player');
-      if (playerContainer && selectedList) {
-        // 현재 재생 중인 트랙 정보 찾기
-        const trackNameElement = playerContainer.querySelector(
-          '.track-info .name, .rm-track-info .name, .track-name, [class*="track"][class*="name"]'
-        );
-
-        if (trackNameElement) {
-          const currentTrackName = trackNameElement.textContent.trim();
-
-          // 현재 표시된 트랙과 선택된 트랙이 다른 경우
-          const currentTrack = selectedList.find(
-            track => track.title === currentTrackName || track.name === currentTrackName
-          );
-
-          if (currentTrack && currentTrack.id !== selectedMusic?.id) {
-            console.log('플레이어 상태 동기화:', currentTrack.title);
-            changeTrackInCurrentList(currentTrack);
-          }
-        }
-      }
-    };
-
     const findAudioElement = () => {
       audioElement = document.querySelector('#rm-audio-player audio');
       if (audioElement) {
         audioElementRef.current = audioElement;
         audioElement.addEventListener('timeupdate', handleTimeUpdateEvent);
-
-        // 주기적으로 플레이어 상태 동기화 (임시 비활성화)
-        // syncInterval = setInterval(syncPlayerState, 1000);
-
-        // 다음곡/이전곡 버튼 클릭 감지
-        const setupButtonListeners = () => {
-          const playerContainer = document.querySelector('#rm-audio-player');
-          if (!playerContainer) return;
-
-          let changeTimeout;
-          const handleTrackChange = () => {
-            // 기존 타이머 클리어
-            if (changeTimeout) {
-              clearTimeout(changeTimeout);
-            }
-
-            // 500ms 후에 트랙 변경 확인 (debounce)
-            changeTimeout = setTimeout(() => {
-              const currentAudio = document.querySelector('#rm-audio-player audio');
-              if (currentAudio && currentAudio.src && selectedList) {
-                // 현재 재생 중인 URL을 기반으로 트랙 찾기
-                const currentTrack = selectedList.find(
-                  track =>
-                    currentAudio.src.includes(track.music_url) ||
-                    track.music_url.includes(currentAudio.src.split('/').pop())
-                );
-
-                if (currentTrack && currentTrack.id !== selectedMusic?.id) {
-                  console.log('트랙 변경 감지:', currentTrack.title);
-                  // 재생을 멈추지 않고 상태만 업데이트
-                  changeTrackInCurrentList(currentTrack);
-                }
-              }
-            }, 500);
-          };
-
-          // 모든 버튼을 찾아서 클릭 이벤트 리스너 추가
-          const buttons = playerContainer.querySelectorAll('button');
-          buttons.forEach(button => {
-            if (!button.hasAttribute('data-track-listener')) {
-              button.setAttribute('data-track-listener', 'true');
-              button.addEventListener('click', handleTrackChange);
-            }
-          });
-        };
-
-        // 버튼 리스너 설정
-        setTimeout(setupButtonListeners, 500);
-
         return true;
       }
       return false;
@@ -156,34 +79,22 @@ const GlobalAudioPlayer = () => {
       if (findAudioInterval) {
         clearInterval(findAudioInterval);
       }
-      if (syncInterval) {
-        clearInterval(syncInterval);
-      }
       if (audioElement) {
         audioElement.removeEventListener('timeupdate', handleTimeUpdateEvent);
       }
     };
-  }, [
-    isPlayerVisible,
-    selectedMusic?.id,
-    handleTimeUpdate,
-    selectedList,
-    changeTrackInCurrentList,
-  ]);
+  }, [isPlayerVisible, handleTimeUpdate]);
 
-  // 오디오 이벤트 핸들러들
+  // 오디오 이벤트 핸들러들 - 단순화
   const handleAudioPlay = useCallback(() => {
-    console.log('재생 시작됨'); // 디버깅 로그
     setIsPlaying(true);
   }, [setIsPlaying]);
 
   const handleAudioPause = useCallback(() => {
-    console.log('재생 일시정지됨'); // 디버깅 로그
     setIsPlaying(false);
   }, [setIsPlaying]);
 
   const handleAudioEnded = useCallback(() => {
-    console.log('재생 종료됨'); // 디버깅 로그
     setIsPlaying(false);
   }, [setIsPlaying]);
 
@@ -212,7 +123,6 @@ const GlobalAudioPlayer = () => {
         onAudioPause={handleAudioPause}
         onAudioEnded={handleAudioEnded}
       />
-      {/* 플레이어 닫기 버튼 */}✕
     </div>
   );
 };

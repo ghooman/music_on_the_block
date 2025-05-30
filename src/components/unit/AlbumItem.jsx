@@ -39,7 +39,6 @@ const AlbumItem = ({
   };
 
   if (!track) return;
-  // console.log('track', track);
   return (
     <button
       className={`album__content-list__list__item ${isActive ? 'active' : ''}`}

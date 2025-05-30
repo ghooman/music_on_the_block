@@ -1,22 +1,13 @@
-
-
-
-
-
-
-
-
-
-.rm-audio-player-provider{
+.rm-audio-player-provider {
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 10;
   width: 100%;
-  .track-info-container{
+  .track-info-container {
     width: auto !important;
   }
-  input{
+  input {
     border: 0;
     padding: 0;
     background: #cf0 !important;
@@ -24,77 +15,72 @@
     filter: 0 !important;
     // height: auto !important;
   }
-  --rm-audio-player-volume-fill:  #00D293; /* 채워지는 부분 */
+  --rm-audio-player-volume-fill: #00d293; /* 채워지는 부분 */
   --rm-audio-player-volume-track: #333333; /* 남은 트랙 배경 */
-  --rm-audio-player-volume-thumb: #00D293; /* 핸들(동그라미) */
+  --rm-audio-player-volume-thumb: #00d293; /* 핸들(동그라미) */
 
-  --rm-audio-player-volume-panel-background: #1a1a1a;   /* 원하는 색 */
-  --rm-audio-player-volume-panel-border:     #444;      /* 필요 없으면 transparent */
+  --rm-audio-player-volume-panel-background: #1a1a1a; /* 원하는 색 */
+  --rm-audio-player-volume-panel-border: #444; /* 필요 없으면 transparent */
+  --rm-audio-player-interface-container: #1a1a1a;
 
-
-  .bar-progress-wrapper{
-    .rm-player-progress-bar{
-      .rm-player-progress{
+  .bar-progress-wrapper {
+    .rm-player-progress-bar {
+      .rm-player-progress {
         background: #cf0 !important;
       }
-
     }
-    .rm-player-progress-handle{
+    .rm-player-progress-handle {
       background: #cf0 !important;
     }
   }
-  .track-current-time{
+  .track-current-time {
     color: #cf0 !important;
   }
-  .progress-container{
+  .progress-container {
     position: absolute;
     top: -8px;
     left: 0;
     width: 100%;
   }
-  .track-duration,.track-current-time{
+  .track-duration,
+  .track-current-time {
     font-size: 12px !important;
     position: relative;
     bottom: -16px;
   }
-  .sc-eqUAAy.caxgAb.drawer-container{
+  .sc-eqUAAy.caxgAb.drawer-container {
     display: none;
     width: 0 !important;
     padding: 0 !important;
   }
-}//rm-audio-player-provider--END--
-
-
+} //rm-audio-player-provider--END--
 
 @media screen and (max-width: 768px) {
-
-  .sc-jXbUNg.isWNvN.progress-container{
+  .sc-jXbUNg.isWNvN.progress-container {
     display: block !important;
-    top:-12px;
-    .iaaVMa.bar-progress-wrapper{
+    top: -12px;
+    .iaaVMa.bar-progress-wrapper {
       height: 22px;
     }
   }
-  .rm-audio-player-provider{
-    .track-duration,.track-current-time{
+  .rm-audio-player-provider {
+    .track-duration,
+    .track-current-time {
       display: none !important;
     }
-    .interface-grid{
-      div{
+    .interface-grid {
+      div {
         &:nth-child(3),
         &:nth-child(4),
         // &:nth-child(5),
         &:nth-child(6),
-        &:nth-child(8){
+        &:nth-child(8) {
           display: none !important;
         }
       }
-      .prev-n-next-button{
+      .prev-n-next-button {
         display: none !important;
       }
     }
-  }//rm-audio-player-provider--END--
-
+  } //rm-audio-player-provider--END--
 }
-
-

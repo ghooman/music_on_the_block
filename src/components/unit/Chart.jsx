@@ -80,7 +80,7 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
             ? isNaN(matchedData?.value / total)
               ? '-'
               : ((matchedData?.value / total) * 100)?.toFixed(2)
-            : '-'}
+            : '100'}{' '}
           %
         </p>
       </div>

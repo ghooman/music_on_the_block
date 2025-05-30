@@ -320,7 +320,6 @@ const EvaluationGraph = ({ t, username }) => {
   console.log(scoreData, dailyUsageData, '데이터들입니다.');
 
   return (
-    // <div></div>
     <GraphTemplate
       t={t}
       lineDataTitle="AI Work Trends By Period (7-Dates Fixed)"
@@ -343,8 +342,8 @@ const StatusTemplate = ({ t, categories, select, setSelect, pieChartData, detail
         <div className="ai-status__detail">
           <p className="ai-status__detail-title">{t('AI Service Details')}</p>
           <div className="ai-status__detail-box">
-            {detailData.map((item, key) => (
-              <div className="ai-status__detail-item">
+            {detailData.map(item => (
+              <div className="ai-status__detail-item" key={item.id}>
                 <p className="detail-item__title">{t(item.title)}</p>
                 <p className="detail-item__value">{item?.value || '-'}</p>
               </div>

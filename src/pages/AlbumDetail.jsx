@@ -1013,7 +1013,7 @@ function AlbumDetail() {
                 </div>
               ))}
             </article>
-            <EvaluationResultsComp evaluationData={evaluationData} />
+            <EvaluationResultsComp evaluationData={evaluationData} critic={critic} />
           </>
         )}
       </div>

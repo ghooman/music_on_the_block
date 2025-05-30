@@ -21,6 +21,9 @@ export const AudioProvider = ({ children }) => {
   const [currentPlaylist, setCurrentPlaylist] = useState([]);
   const [currentPlaylistId, setCurrentPlaylistId] = useState(null);
 
+  // 자동 재생 옵션
+  const [isContinue, setIsContinue] = useState(true);
+
   // 오디오 관련 ref
   const audioRef = useRef(null);
 
@@ -28,13 +31,17 @@ export const AudioProvider = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // 음악 재생 함수
-  const playTrack = useCallback(({ track, playlist = [], playlistId = null }) => {
-    setCurrentTrack(track);
-    setCurrentPlaylist(playlist);
-    setCurrentPlaylistId(playlistId);
-    setIsPlaying(true);
-    setCurrentTime(0);
-  }, []);
+  const playTrack = useCallback(
+    ({ track, playlist = [], playlistId = null, continuePlay = true }) => {
+      setCurrentTrack(track);
+      setCurrentPlaylist(playlist);
+      setCurrentPlaylistId(playlistId);
+      setIsContinue(continuePlay);
+      setIsPlaying(true);
+      setCurrentTime(0);
+    },
+    []
+  );
 
   // 다음 곡 재생
   const playNext = useCallback(() => {
@@ -42,11 +49,21 @@ export const AudioProvider = ({ children }) => {
 
     const currentIndex = currentPlaylist.findIndex(track => track.id === currentTrack.id);
     const nextIndex = (currentIndex + 1) % currentPlaylist.length;
+
+    // 마지막 곡이고 자동 재생이 비활성화된 경우 재생 중지
+    if (currentIndex === currentPlaylist.length - 1 && !isContinue) {
+      setIsPlaying(false);
+      return;
+    }
+
     const nextTrack = currentPlaylist[nextIndex];
 
-    setCurrentTrack(nextTrack);
+    setCurrentTrack({
+      ...nextTrack,
+      music_url: nextTrack?.music_url || nextTrack?.nft_music_url,
+    });
     setCurrentTime(0);
-  }, [currentPlaylist, currentTrack]);
+  }, [currentPlaylist, currentTrack, isContinue]);
 
   // 이전 곡 재생
   const playPrevious = useCallback(() => {
@@ -56,7 +73,10 @@ export const AudioProvider = ({ children }) => {
     const prevIndex = (currentIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
     const prevTrack = currentPlaylist[prevIndex];
 
-    setCurrentTrack(prevTrack);
+    setCurrentTrack({
+      ...prevTrack,
+      music_url: prevTrack?.music_url || prevTrack?.nft_music_url,
+    });
     setCurrentTime(0);
   }, [currentPlaylist, currentTrack]);
 
@@ -105,6 +125,7 @@ export const AudioProvider = ({ children }) => {
     duration,
     currentPlaylist,
     currentPlaylistId,
+    isContinue,
     isScrolled,
     audioRef,
 
@@ -119,6 +140,7 @@ export const AudioProvider = ({ children }) => {
     setIsPlaying,
     setIsScrolled,
     setCurrentTrack,
+    setIsContinue,
   };
 
   return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;

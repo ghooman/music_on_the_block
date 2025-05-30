@@ -46,8 +46,6 @@ const LyricsAndSongwriting = ({ username }) => {
     }
   );
 
-  console.log(topSongsData, '탑 송스 데이터');
-
   return (
     <>
       {topSongsData ? (

@@ -40,6 +40,7 @@ import { WebSocketProvider } from './contexts/WebSocketContext';
 import { AudioProvider } from './contexts/AudioContext';
 import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
+import { disableEvaluation } from './data/service';
 
 function Layout({ children }) {
   return (

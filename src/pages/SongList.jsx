@@ -93,6 +93,7 @@ import generatedCoverCreationIcon from '../assets/images/icon/generated-cover-cr
 import '../styles/SongList.scss';
 
 import { getEvaluationList } from '../api/evaluation/getList';
+import { disableEvaluation } from '../data/service';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -105,7 +106,7 @@ const categories = [
   {
     name: 'AI Singing Evaluation',
     image: generatedSigingEvaluationIcon,
-    preparing: false,
+    preparing: disableEvaluation,
   },
   {
     name: 'AI Cover Creation',

@@ -58,6 +58,7 @@ import {
   getEvaluationDetail,
   getEvaluationDetailFromCriticSongId,
 } from '../api/evaluation/getDetail';
+import { disableEvaluation } from '../data/service';
 
 const serviceCategory = [
   {
@@ -66,7 +67,7 @@ const serviceCategory = [
   },
   {
     service: 'AI Singing Evaluation',
-    preparing: false,
+    preparing: disableEvaluation,
   },
   {
     service: 'AI Cover Creation',

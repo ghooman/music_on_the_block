@@ -92,6 +92,9 @@
         display: flex;
         align-items: center;
         gap: 4px;
+        img{
+          width: 100%;
+        }
       }
       img {
         &.logo {
@@ -240,7 +243,7 @@
       align-items: start;
       .menu-btn {
         display: block;
-        margin-top: 10px;
+        margin-top: 6px;
       }
       h1 {
         a {

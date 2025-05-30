@@ -25,8 +25,6 @@ const AlbumItem = ({
   formatTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`,
   type = 'song',
 }) => {
-  const { t } = useTranslation('module');
-
   const handleTogglePlay = e => {
     e.stopPropagation();
 
@@ -41,7 +39,7 @@ const AlbumItem = ({
   };
 
   if (!track) return;
-
+  // console.log('track', track);
   return (
     <button
       className={`album__content-list__list__item ${isActive ? 'active' : ''}`}
@@ -82,12 +80,15 @@ const AlbumItem = ({
             </>
           )}
         </div>
-        <span className="time">
+        {/* <span className="time">
           <strong>
             {isActive ? formatTime(currentTime) : track?.song_length}
-            {/* {track?.song_length} */}
           </strong>
-          {/* <strong>{runningTime && formatTime(runningTime)}</strong> */}
+        </span> */}
+        <span className="time">
+          <strong>
+            {isActive ? formatTime(currentTime) : track?.ai_service == 1 ? 'Song' : 'BGM'}
+          </strong>
         </span>
       </div>
       <div className="album__content-list__list__item__right">

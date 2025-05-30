@@ -14,8 +14,9 @@ import issueIcon from '../../assets/images/icon/issue-opened.svg';
 // 데이터 및 함수
 import { criticsDataForObject } from '../../data/criticsData';
 import { getCriticEvaluationList } from '../../api/evaluation/getList';
+import { useNavigate } from 'react-router-dom';
 
-const EvaluationResultsComp = ({ evaluationData, handleSave }) => {
+const EvaluationResultsComp = ({ evaluationData, critic, buttons }) => {
   const { t } = useTranslation('evaluation');
 
   console.log(evaluationData, '평가 데이터 입니다.');
@@ -26,16 +27,16 @@ const EvaluationResultsComp = ({ evaluationData, handleSave }) => {
         <ContentWrap title={t('Result')} border={false}>
           {evaluationData && <Result t={t} evaluationData={evaluationData} />}
           {!evaluationData && <NoneContent height={300} message="No evaluation history yet." />}
-          {handleSave && <Btns t={t} handleClick={handleSave} />}
+          {buttons && <Btns t={t} evaluationData={evaluationData} />}
         </ContentWrap>
         <ContentWrap title={t('Full Evaluation')}>
           {evaluationData && <FullEvaluation t={t} evaluationData={evaluationData} />}
           {!evaluationData && <NoneContent height={185} message="No evaluation history yet." />}
         </ContentWrap>
         <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
-          <SongsCritic t={t} critic={evaluationData?.critic} id={evaluationData?.id} />
+          <SongsCritic t={t} critic={critic} id={evaluationData?.id} />
         </ContentWrap>
-        {handleSave && <Btns t={t} handleClick={handleSave} />}
+        {buttons && <Btns t={t} evaluationData={evaluationData} />}
       </ContentWrap>
     </>
   );
@@ -53,7 +54,7 @@ const Result = ({ t, evaluationData }) => {
           <p className="result__critic__title">{t('Critic')}</p>
           <img src={criticsDataForObject[evaluationData?.critic]?.image} alt="critic" />
           <dl className="result__critic__txt">
-            <dt>{t('"Soul first, sound second."')}</dt>
+            <dt>{t(criticsDataForObject[evaluationData?.critic]?.introduction)}</dt>
             <dd>{evaluationData?.critic}</dd>
           </dl>
         </article>
@@ -112,12 +113,31 @@ const Result = ({ t, evaluationData }) => {
   );
 };
 
-const Btns = ({ t, handleClick }) => {
+const Btns = ({ t, evaluationData }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="btns">
-      {/* <button className="rate-again">{t('Rate Again')}</button> */}
-      <button className="save-evaluation" onClick={handleClick}>
-        {t('Save Evaluation')}
+      <button
+        className="rate-again"
+        onClick={() => {
+          navigate(
+            `/song-detail/${
+              evaluationData?.song_id || evaluationData?.id
+            }?service=AI+Singing+Evaluation&critic=${evaluationData?.critic}`,
+            { replace: true }
+          );
+        }}
+      >
+        {t('Complete')}
+      </button>
+      <button
+        className="save-evaluation"
+        onClick={() => {
+          navigate(`/evaluation-begin`, { replace: true });
+        }}
+      >
+        {t('Try Another')}
       </button>
     </div>
   );
@@ -172,7 +192,7 @@ const SongsCritic = ({ t, critic, id }) => {
     const getData = async () => {
       try {
         const res = await getCriticEvaluationList({ critic });
-        setCriticEvaluationList(res.data.filter(item => item.id !== id));
+        setCriticEvaluationList(res.data);
       } catch (e) {
         setCriticEvaluationList([]);
         // console.error(e);
@@ -198,24 +218,24 @@ const SongsCritic = ({ t, critic, id }) => {
               <RadarChart
                 data={[
                   {
-                    item: item?.evaluationData?.emotion,
-                    value: item?.evaluationData?.emotion,
+                    item: item?.emotion,
+                    value: item?.emotion,
                   },
                   {
-                    item: item?.evaluationData?.creativity,
-                    value: item?.evaluationData?.creativity,
+                    item: item?.creativity,
+                    value: item?.creativity,
                   },
                   {
-                    item: item?.evaluationData?.structure,
-                    value: item?.evaluationData?.structure,
+                    item: item?.structure,
+                    value: item?.structure,
                   },
                   {
-                    item: item?.evaluationData?.sound,
-                    value: item?.evaluationData?.sound,
+                    item: item?.sound,
+                    value: item?.sound,
                   },
                   {
-                    item: item?.evaluationData?.popularity,
-                    value: item?.evaluationData?.popularity,
+                    item: item?.popularity,
+                    value: item?.popularity,
                   },
                 ]}
               />

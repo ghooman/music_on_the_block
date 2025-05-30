@@ -18,6 +18,15 @@
   align-items: center;
   justify-content: center;
 
+  &:disabled {
+    &::before {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid;
+      border-color: #2c3a00;
+    }
+  }
+
   &::before {
     content: '';
     position: absolute;

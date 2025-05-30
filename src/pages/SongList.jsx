@@ -174,7 +174,7 @@ const SongList = () => {
         page,
         search_keyword: search,
         critic: criticFilter,
-        sort_by: '',
+        sort_by: songsSort,
       });
       return res.data;
     };

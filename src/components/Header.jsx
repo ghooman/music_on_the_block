@@ -60,7 +60,7 @@ const Header = ({ setIsLoggedIn }) => {
           </button>
           <h1>
             <Link to="/">
-              <img src={mainLogo} alt='mainLogo'/>
+              <img src={mainLogo} alt="mainLogo" />
               {/* <img src={mainLogo} className="logo" /> */}
               {/* <div className="text-box pc">
                 <div className="text-wrap">
@@ -193,7 +193,7 @@ const Header = ({ setIsLoggedIn }) => {
       <AlarmModal />
       {/* <AlarmNftModal /> */}
 
-      {/* <MusicPlayer/> */}
+      {/* <MusicPlayer /> */}
     </>
   );
 };

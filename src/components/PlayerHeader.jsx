@@ -1,7 +1,10 @@
 // PlayerHeader.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useAudio } from '../contexts/AudioContext';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import MyAudioPlayer from '../components/MyAudioPlayer';
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/album/love-icon.svg';
@@ -9,26 +12,75 @@ import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import './PlayerHeader.scss';
+import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 
-const PlayerHeader = ({
-  selectedMusic,
-  isPlaying,
-  isScrolled,
-  handleTimeUpdate,
-  handleLikeClick,
-  handlePrev,
-  handleNext,
-  getTracks,
-  handleGetMusicList,
-  setIsPlaying,
-  audioRef,
-}) => {
+const PlayerHeader = () => {
   const { t } = useTranslation('module');
+  const { token } = useContext(AuthContext);
+  const {
+    currentTrack,
+    isPlaying,
+    isScrolled,
+    setIsScrolled,
+    handleTimeUpdate,
+    playNext,
+    playPrevious,
+    setIsPlaying,
+    audioRef,
+    setCurrentTrack,
+  } = useAudio();
+
+  // 스크롤 이벤트 리스너
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY >= 88);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [setIsScrolled]);
+
+  // 좋아요 클릭 핸들러
+  const handleLikeClick = async track => {
+    if (!track || !token) return;
+
+    try {
+      if (track?.is_like) {
+        await cancelLikeAlbum(track?.id, token);
+        setCurrentTrack(prev =>
+          prev
+            ? {
+                ...prev,
+                like: Math.max(0, prev.like - 1),
+                is_like: false,
+              }
+            : prev
+        );
+      } else {
+        await likeAlbum(track?.id, token);
+        setCurrentTrack(prev =>
+          prev
+            ? {
+                ...prev,
+                like: prev.like + 1,
+                is_like: true,
+              }
+            : prev
+        );
+      }
+    } catch (e) {
+      console.error('좋아요 처리 에러:', e);
+    }
+  };
+
+  // 트랙이 없으면 PlayerHeader를 숨김
+  if (!currentTrack) {
+    return null;
+  }
 
   return (
     <div
       className={`main__header 
-        ${selectedMusic ? 'active' : ''} 
+        ${currentTrack ? 'active' : ''} 
         ${isScrolled ? 'scrolled' : ''} 
         ${isPlaying ? 'playing' : 'no-playing'}`}
     >
@@ -37,48 +89,48 @@ const PlayerHeader = ({
           className="main__header__album-cover__img"
           style={{
             backgroundImage: `url(${
-              selectedMusic?.cover_image === 'string'
+              currentTrack?.cover_image === 'string'
                 ? coverImg10
-                : selectedMusic?.cover_image.replace('public', '140to140')
+                : currentTrack?.cover_image?.replace('public', '140to140')
             })`,
           }}
         ></p>
-        <p className="main__header__title">{selectedMusic?.title || t('Select an Album')}</p>
+        <p className="main__header__title">{currentTrack?.title || t('Select an Album')}</p>
       </div>
       <p className="main__header--mobile-title">
-        {selectedMusic?.title || t('Select an Album')}
+        {currentTrack?.title || t('Select an Album')}
         <span>
-          <img src={selectedMusic?.user_profile || defaultCoverImg} alt="user-profile" />
-          {selectedMusic?.name || 'unKnown'}
+          <img src={currentTrack?.user_profile || defaultCoverImg} alt="user-profile" />
+          {currentTrack?.name || 'unKnown'}
         </span>
       </p>
       <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">
           <p className="play">
             <img src={playIcon} alt="play-icon" />
-            {selectedMusic?.play_cnt || 0}
+            {currentTrack?.play_cnt || 0}
           </p>
-          <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
-            <img src={selectedMusic?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
-            {selectedMusic?.like || 0}
+          <p className="love" onClick={() => handleLikeClick(currentTrack)}>
+            <img src={currentTrack?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
+            {currentTrack?.like || 0}
           </p>
           <p>|</p>
           <p className="name">
-            <img src={selectedMusic?.user_profile || defaultCoverImg} alt="user-profile" />
-            {selectedMusic?.name || 'unKnown'}
+            <img src={currentTrack?.user_profile || defaultCoverImg} alt="user-profile" />
+            {currentTrack?.name || 'unKnown'}
           </p>
         </div>
-        <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedMusic?.id}`}>
+        <Link className="main__header__cover-info__btn" to={`/song-detail/${currentTrack?.id}`}>
           {t('Details')}
         </Link>
       </div>
       <MyAudioPlayer
-        track={selectedMusic}
+        track={currentTrack}
         onTimeUpdate={handleTimeUpdate}
-        onClickPrevious={handlePrev}
-        onClickNext={handleNext}
-        getTracks={getTracks}
-        handleGetMusicList={handleGetMusicList}
+        onClickPrevious={playPrevious}
+        onClickNext={playNext}
+        getTracks={() => {}} // 전역에서 관리하므로 필요 시 별도 구현
+        handleGetMusicList={() => {}} // 전역에서 관리하므로 필요 시 별도 구현
         setIsPlaying={setIsPlaying}
         audioRef={audioRef}
       />

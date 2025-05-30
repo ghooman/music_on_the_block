@@ -1,5 +1,5 @@
 .main__header {
-  .main__header--mobile-title{
+  .main__header--mobile-title {
     display: none;
   }
   .main__header__mobile-detail-btn {
@@ -9,15 +9,15 @@
   align-items: center;
   gap: 16px;
   position: fixed;
-  top: 32px;
+  bottom: 0;
   right: 16px;
   // left: 50%;
   // transform: translate(-50%, 0%);
   // max-width: 960px;
+  // width: calc(100% - 278px);
   width: 100%;
-  width: calc(100% - 278px);
   height: 156px;
-  z-index: 9;
+  z-index: 10;
   border-radius: 16px;
   border: 1px solid #222;
   background: #1a1a1a;
@@ -72,7 +72,7 @@
     }
   } //active--END--
   &.scrolled {
-    top: 16px;
+    // top: 16px;
   } //scrolled--END--
   .main__header__album-cover {
     display: flex;
@@ -92,14 +92,14 @@
       z-index: 1;
     } //main__header__album-cover__img--END--
     &::after {
-      content: "";
+      content: '';
       width: 200px;
       height: 200px;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: url("../assets/images/album/album-bg.png") center no-repeat;
+      background: url('../assets/images/album/album-bg.png') center no-repeat;
       background-size: cover;
       z-index: -2;
     }
@@ -168,7 +168,7 @@
       align-items: center;
       justify-content: center;
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         top: 4px;
@@ -287,13 +287,13 @@
 }
 
 @media screen and (max-width: 768px) {
-  .main__header{
-    .rhap_additional-controls{
+  .main__header {
+    .rhap_additional-controls {
       display: block !important;
       position: absolute;
       left: 0;
       bottom: 14px;
-      .rhap_repeat-button{
+      .rhap_repeat-button {
         opacity: 1;
       }
     }
@@ -303,7 +303,7 @@
     padding: 42px 16px 16px 16px;
     gap: 0;
     height: auto;
-    .main__header--mobile-title{
+    .main__header--mobile-title {
       position: absolute;
       top: 16px;
       left: 16px;
@@ -313,17 +313,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      span{
+      span {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 4px;
-        color:#aaa;
+        color: #aaa;
         font-family: Inter400;
         font-size: 12px;
         font-style: normal;
         line-height: 100%;
-        img{
+        img {
           width: 16px;
           height: 16px;
           overflow: hidden;
@@ -331,26 +331,26 @@
         }
       }
     }
-    .rhap_main{
+    .rhap_main {
       flex-direction: column;
       width: calc(100% + 60px);
       position: relative;
       left: -60px;
       z-index: 1;
-      .rhap_button-clear.rhap_skip-button svg{
+      .rhap_button-clear.rhap_skip-button svg {
         font-size: 20px;
         display: none;
       }
-      .rhap_button-clear.rhap_play-pause-button svg{
+      .rhap_button-clear.rhap_play-pause-button svg {
         font-size: 34px;
       }
-      .rhap_button-clear.rhap_play-pause-button{
+      .rhap_button-clear.rhap_play-pause-button {
         top: 10px;
         // left: -28px;
         left: 0px;
       }
     }
-    .rhap_container{
+    .rhap_container {
       padding: 0;
     }
     .rhap_stacked .rhap_controls-section {

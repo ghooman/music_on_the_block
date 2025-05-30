@@ -63,8 +63,21 @@ export const AudioProvider = ({ children }) => {
   // 재생/일시정지 토글
   const togglePlayPause = useCallback(() => {
     if (!currentTrack) return;
-    setIsPlaying(prev => !prev);
-  }, [currentTrack]);
+
+    const audioElement = audioRef.current?.audio?.current;
+    if (audioElement) {
+      if (isPlaying) {
+        audioElement.pause();
+        setIsPlaying(false);
+      } else {
+        audioElement.play().catch(console.error);
+        setIsPlaying(true);
+      }
+    } else {
+      // audioRef가 없는 경우 상태만 변경
+      setIsPlaying(prev => !prev);
+    }
+  }, [currentTrack, isPlaying]);
 
   // 시간 업데이트 핸들러
   const handleTimeUpdate = useCallback(time => {

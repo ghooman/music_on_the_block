@@ -98,7 +98,13 @@ const NftItemDetailInfo = ({ id, t }) => {
   const walletConnectRef = React.useRef(null);
 
   // AudioContext에서 재생 관련 함수들 가져오기
-  const { playTrack, currentTrack, isPlaying: globalIsPlaying, togglePlayPause } = useAudio();
+  const {
+    playTrack,
+    currentTrack,
+    isPlaying: globalIsPlaying,
+    togglePlayPause,
+    audioRef,
+  } = useAudio();
 
   const handleClick = () => {
     setIsActive(prev => !prev);
@@ -273,7 +279,18 @@ const NftItemDetailInfo = ({ id, t }) => {
     if (nftDetailData) {
       // 현재 같은 트랙이 재생 중이면 일시정지/재생 토글
       if (currentTrack?.id === nftDetailData.song_id) {
-        togglePlayPause();
+        // audioRef를 통해 직접 제어
+        const audioElement = audioRef.current?.audio?.current;
+        if (audioElement) {
+          if (globalIsPlaying) {
+            audioElement.pause();
+          } else {
+            audioElement.play().catch(console.error);
+          }
+        } else {
+          // fallback으로 togglePlayPause 사용
+          togglePlayPause();
+        }
       } else {
         // 다른 트랙이거나 재생 중이 아니면 새로 재생
         const track = {

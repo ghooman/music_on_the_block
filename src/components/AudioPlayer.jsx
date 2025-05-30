@@ -1,6 +1,6 @@
 import AudioPlayer from 'react-modern-audio-player';
 import 'react-modern-audio-player/dist/index.css'; // ⑤: 스타일이 없으면 직접 import
-import './MusicPlayer.scss';
+// import './MusicPlayer.scss';
 
 import { useContext, useEffect, useState } from 'react';
 

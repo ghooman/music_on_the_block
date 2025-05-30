@@ -3,7 +3,7 @@ import AudioPlayer from 'react-modern-audio-player';
 import 'react-modern-audio-player/dist/index.css';
 import { useGlobalMusic } from '../contexts/GlobalMusicContext';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
-import './MusicPlayer.scss';
+import './GlobalAudioPlayer.scss';
 
 const GlobalAudioPlayer = () => {
   const {
@@ -11,8 +11,10 @@ const GlobalAudioPlayer = () => {
     selectedList,
     isPlayerVisible,
     isPlaying,
+    userPaused,
     handleTimeUpdate,
     setIsPlaying,
+    setUserPaused,
     hidePlayer,
   } = useGlobalMusic();
 
@@ -62,6 +64,20 @@ const GlobalAudioPlayer = () => {
       if (audioElement) {
         audioElementRef.current = audioElement;
         audioElement.addEventListener('timeupdate', handleTimeUpdateEvent);
+
+        // 직접 오디오 이벤트 리스너 추가 (디버깅용)
+        audioElement.addEventListener('play', () => {
+          console.log('🎵 직접 이벤트: 재생 시작');
+        });
+
+        audioElement.addEventListener('pause', () => {
+          console.log('⏸️ 직접 이벤트: 재생 일시정지');
+        });
+
+        audioElement.addEventListener('ended', () => {
+          console.log('⏹️ 직접 이벤트: 재생 종료');
+        });
+
         return true;
       }
       return false;
@@ -81,20 +97,34 @@ const GlobalAudioPlayer = () => {
       }
       if (audioElement) {
         audioElement.removeEventListener('timeupdate', handleTimeUpdateEvent);
+        audioElement.removeEventListener('play', () => {
+          console.log('🎵 직접 이벤트: 재생 시작');
+        });
+        audioElement.removeEventListener('pause', () => {
+          console.log('⏸️ 직접 이벤트: 재생 일시정지');
+        });
+        audioElement.removeEventListener('ended', () => {
+          console.log('⏹️ 직접 이벤트: 재생 종료');
+        });
       }
     };
   }, [isPlayerVisible, handleTimeUpdate]);
 
   // 오디오 이벤트 핸들러들 - 단순화
   const handleAudioPlay = useCallback(() => {
+    console.log('🎵 재생 시작됨');
     setIsPlaying(true);
-  }, [setIsPlaying]);
+    setUserPaused(false);
+  }, [setIsPlaying, setUserPaused]);
 
   const handleAudioPause = useCallback(() => {
+    console.log('⏸️ 재생 일시정지됨');
     setIsPlaying(false);
-  }, [setIsPlaying]);
+    setUserPaused(true);
+  }, [setIsPlaying, setUserPaused]);
 
   const handleAudioEnded = useCallback(() => {
+    console.log('⏹️ 재생 종료됨');
     setIsPlaying(false);
   }, [setIsPlaying]);
 
@@ -115,7 +145,6 @@ const GlobalAudioPlayer = () => {
           id: 'rm-audio-player',
         }}
         audioInitialState={{
-          isPlaying: isPlaying,
           curPlayId: selectedMusic.id,
           currentTrackIndex: currentTrackIndex,
         }}

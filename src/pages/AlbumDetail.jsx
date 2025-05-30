@@ -57,6 +57,7 @@ import {
   getEvaluationDetail,
   getEvaluationDetailFromCriticSongId,
 } from '../api/evaluation/getDetail';
+import { useGlobalMusic } from '../contexts/GlobalMusicContext';
 
 const serviceCategory = [
   {
@@ -79,6 +80,7 @@ function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
+  const { playMusic, selectedMusic, isPlaying: globalIsPlaying } = useGlobalMusic();
   const listenTime = useRef(0);
   const navigate = useNavigate();
   const walletConnectRef = React.useRef(null);
@@ -104,10 +106,7 @@ function AlbumDetail() {
   const [albumGuideModal, setAlbumGuideModal] = useState(false);
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   const [isDownloadModal, setIsDownloadModal] = useState(false);
-  // 플레이어 상태 및 재생 관련 변수
-  const [isPlaying, setIsPlaying] = useState(false);
-  const playCountRef = useRef(false);
-  const [prevTime, setPrevTime] = useState(0);
+  // 플레이어 상태는 이제 GlobalMusicContext에서 관리됩니다
 
   // NFT 액션 정의
   const [nftAction, setNftAction] = useState('');
@@ -297,7 +296,6 @@ function AlbumDetail() {
 
   useEffect(() => {
     listenTime.current = 0;
-    setIsPlaying(false);
     fetchAlbumDetail();
     getLeaderboardData();
     getFavoriteGenre();
@@ -312,18 +310,18 @@ function AlbumDetail() {
 
   // 앨범 데이터가 로드되면 자동 재생
   useEffect(() => {
-    if (album?.music_url) {
-      // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
-      const timer = setTimeout(() => {
-        setIsPlaying(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
+    // if (album?.music_url) {
+    //   // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
+    //   const timer = setTimeout(() => {
+    //     setIsPlaying(true);
+    //   }, 1000);
+    //   return () => clearTimeout(timer);
+    // }
   }, [album]);
 
   useEffect(() => {
     let interval;
-    if (isPlaying) {
+    if (globalIsPlaying) {
       interval = setInterval(() => {
         ++listenTime.current;
         if (listenTime.current === 90) updatePlayCount();
@@ -334,7 +332,7 @@ function AlbumDetail() {
     return () => {
       clearInterval(interval);
     };
-  }, [isPlaying]);
+  }, [globalIsPlaying]);
 
   // 가사 출력 전 텍스트 포맷 함수
   const formatTime = time => {
@@ -537,7 +535,24 @@ function AlbumDetail() {
           </div>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
-              <section className="album-detail__audio">
+              {/* 임시 재생버튼 */}
+              <button
+                className="album-detail__song-detail__left__play-btn"
+                onClick={() => {
+                  if (album) {
+                    console.log('🎵 AlbumDetail 재생 버튼 클릭:', album);
+                    console.log('🎵 album.music_url:', album.music_url);
+                    playMusic({
+                      list: [album],
+                      id: 'albumDetail',
+                      track: album,
+                    });
+                  }
+                }}
+              >
+                <img src={playIcon} alt="play Icon" />
+              </button>
+              {/* <section className="album-detail__audio">
                 <AudioPlayer
                   src={album?.music_url}
                   onPlay={() => {
@@ -559,7 +574,7 @@ function AlbumDetail() {
                     alt="album cover"
                   />
                 </p>
-              </section>
+              </section> */}
               <div
                 className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                 onClick={handleClick}
@@ -969,7 +984,17 @@ function AlbumDetail() {
                 <Swiper {...swiperOptions} className="song-detail-slide">
                   {favoriteGenreList.map(track => (
                     <SwiperSlide key={track.id}>
-                      <AlbumItem track={track} />
+                      <AlbumItem
+                        track={track}
+                        isActive={selectedMusic?.id === track.id}
+                        onClick={() =>
+                          playMusic({
+                            list: favoriteGenreList,
+                            id: 'favoriteGenre',
+                            track: track,
+                          })
+                        }
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -985,7 +1010,17 @@ function AlbumDetail() {
                 <Swiper {...swiperOptions} className="song-detail-slide">
                   {similarVibesList.map(track => (
                     <SwiperSlide key={track.id}>
-                      <AlbumItem track={track} />
+                      <AlbumItem
+                        track={track}
+                        isActive={selectedMusic?.id === track.id}
+                        onClick={() =>
+                          playMusic({
+                            list: similarVibesList,
+                            id: 'similarVibes',
+                            track: track,
+                          })
+                        }
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>

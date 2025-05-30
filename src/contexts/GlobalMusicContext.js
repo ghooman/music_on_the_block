@@ -9,6 +9,7 @@ export const GlobalMusicProvider = ({ children }) => {
   const [selectedList, setSelectedList] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
 
@@ -28,16 +29,22 @@ export const GlobalMusicProvider = ({ children }) => {
 
   // 음악 재생 함수
   const playMusic = ({ list, id, track }) => {
+    console.log('🎵 playMusic 호출됨:', { list, id, track });
+    console.log('🎵 현재 selectedMusic:', selectedMusic);
+
     // 같은 트랙이면 무시
     if (selectedMusic?.id === track?.id) {
+      console.log('🎵 같은 트랙이므로 무시됨');
       return;
     }
 
+    console.log('🎵 새로운 트랙 재생 시작');
     setSelectedList(list);
     setSelectedId(id);
     setSelectedMusic(track);
     setIsPlayerVisible(true);
     setIsPlaying(true);
+    setUserPaused(false); // 새 트랙 재생 시 userPaused 리셋
     setCurrentTime(0);
     hasCountedRef.current = false;
     prevTimeRef.current = 0;
@@ -112,6 +119,7 @@ export const GlobalMusicProvider = ({ children }) => {
     selectedList,
     selectedId,
     isPlaying,
+    userPaused,
     currentTime,
     isPlayerVisible,
     audioRef,
@@ -125,6 +133,7 @@ export const GlobalMusicProvider = ({ children }) => {
     hidePlayer,
     setIsPlaying,
     setSelectedMusic,
+    setUserPaused,
   };
 
   return <GlobalMusicContext.Provider value={value}>{children}</GlobalMusicContext.Provider>;

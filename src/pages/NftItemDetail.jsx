@@ -12,6 +12,8 @@ import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import stopIcon from '../assets/images/stop-icon.svg';
+import playSongIcon from '../assets/images/icon/album-detail-play-icon.svg';
+import stopSongIcon from '../assets/images/like-icon/like-icon.svg'; // 임시 이미지
 import grade1Icon from '../assets/images/icon/grade-icon/Grade01-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
@@ -94,7 +96,6 @@ const NftItemDetailInfo = ({ id, t }) => {
     useContext(AuthContext);
 
   const [isActive, setIsActive] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const walletConnectRef = React.useRef(null);
 
   // AudioContext에서 재생 관련 함수들 가져오기
@@ -104,6 +105,7 @@ const NftItemDetailInfo = ({ id, t }) => {
     isPlaying: globalIsPlaying,
     togglePlayPause,
     audioRef,
+    setIsPlaying,
   } = useAudio();
 
   const handleClick = () => {
@@ -277,39 +279,41 @@ const NftItemDetailInfo = ({ id, t }) => {
   // 재생 버튼 클릭 핸들러 추가
   const handlePlayClick = () => {
     if (nftDetailData) {
-      // 현재 같은 트랙이 재생 중이면 일시정지/재생 토글
-      if (currentTrack?.id === nftDetailData.song_id) {
-        // audioRef를 통해 직접 제어
+      // 현재 같은 트랙이 재생 중이면 일시정지
+      if (currentTrack?.id === nftDetailData.song_id && globalIsPlaying) {
         const audioElement = audioRef.current?.audio?.current;
         if (audioElement) {
-          if (globalIsPlaying) {
-            audioElement.pause();
-          } else {
-            audioElement.play().catch(console.error);
-          }
-        } else {
-          // fallback으로 togglePlayPause 사용
-          togglePlayPause();
+          audioElement.pause();
         }
+        setIsPlaying(false);
       } else {
-        // 다른 트랙이거나 재생 중이 아니면 새로 재생
-        const track = {
-          id: nftDetailData.song_id,
-          title: nftDetailData.nft_name,
-          music_url: nftDetailData.nft_music_url || nftDetailData.music_url,
-          cover_image: nftDetailData.nft_image,
-          user_profile: nftDetailData.user_profile,
-          name: nftDetailData.user_name,
-          play_cnt: nftDetailData.play_cnt,
-          like: nftDetailData.like,
-          is_like: nftDetailData.is_like,
-        };
+        // 재생 중이 아닐 때
+        const audioElement = audioRef.current?.audio?.current;
 
-        playTrack({
-          track,
-          playlist: [track], // 단일 트랙 플레이리스트
-          playlistId: `nft-${id}`,
-        });
+        // 같은 트랙이 로드되어 있고 일시정지 상태라면 다시 재생
+        if (currentTrack?.id === nftDetailData.song_id && audioElement && audioElement.paused) {
+          audioElement.play().catch(console.error);
+          setIsPlaying(true);
+        } else {
+          // 다른 트랙이거나 처음 재생하는 경우 새로 재생
+          const track = {
+            id: nftDetailData.song_id,
+            title: nftDetailData.nft_name,
+            music_url: nftDetailData.nft_music_url || nftDetailData.music_url,
+            cover_image: nftDetailData.nft_image,
+            user_profile: nftDetailData.user_profile,
+            name: nftDetailData.user_name,
+            play_cnt: nftDetailData.play_cnt,
+            like: nftDetailData.like,
+            is_like: nftDetailData.is_like,
+          };
+
+          playTrack({
+            track,
+            playlist: [track], // 단일 트랙 플레이리스트
+            playlistId: `nft-${id}`,
+          });
+        }
       }
     }
   };
@@ -336,26 +340,6 @@ const NftItemDetailInfo = ({ id, t }) => {
         <section className="nft-item-detail__song-detail">
           <div className="nft-item-detail__song-detail__bot">
             <div className="nft-item-detail__song-detail__left">
-              {/* 재생버튼 */}
-              <button
-                className={`album-detail__song-detail__left__img__play-btn ${
-                  currentTrack?.id === nftDetailData?.song_id && globalIsPlaying ? 'playing' : ''
-                }`}
-                onClick={handlePlayClick}
-              >
-                <img
-                  src={
-                    currentTrack?.id === nftDetailData?.song_id && globalIsPlaying
-                      ? stopIcon
-                      : playIcon
-                  }
-                  alt={
-                    currentTrack?.id === nftDetailData?.song_id && globalIsPlaying
-                      ? 'stop Icon'
-                      : 'play Icon'
-                  }
-                />
-              </button>
               <div
                 className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                 onClick={handleClick}
@@ -407,6 +391,27 @@ const NftItemDetailInfo = ({ id, t }) => {
                   </>
                 )}
               </div>
+              {/* 재생 / 정지버튼 */}
+              <button
+                className={`album-detail__song-detail__left__img__play-btn ${
+                  currentTrack?.id === nftDetailData?.song_id && globalIsPlaying ? 'playing' : ''
+                }`}
+                onClick={handlePlayClick}
+              >
+                <img
+                  src={
+                    currentTrack?.id === nftDetailData?.song_id && globalIsPlaying
+                      ? stopSongIcon
+                      : playSongIcon
+                  }
+                  alt={
+                    currentTrack?.id === nftDetailData?.song_id && globalIsPlaying
+                      ? 'stop Icon'
+                      : 'play Icon'
+                  }
+                />
+                {currentTrack?.id === nftDetailData?.song_id && globalIsPlaying ? 'Stop' : 'Play'}
+              </button>
               <div className="nft-item-detail__song-detail__left__info">
                 <div className="nft-item-detail__song-detail__left__info__number">
                   <p className="play">

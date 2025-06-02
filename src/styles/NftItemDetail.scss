@@ -265,6 +265,33 @@
       width: 420px;
       flex-shrink: 0;
       position: relative;
+      .album-detail__song-detail__left__img__play-btn {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        border-radius: 16px;
+        border: 1px solid #cf0;
+        color: #fff;
+        font-family: Orbitron500;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 100%; /* 14px */
+        img {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 26px;
+          height: 26px;
+          object-fit: cover;
+          margin-right: 12px;
+          background: #fff;
+          border-radius: 100%;
+        }
+      }
       .nft-item-detail__song-detail__left__img__lyric-btn {
         position: absolute;
         right: 16px;

@@ -180,7 +180,7 @@
     gap: 16px;
     width: 400px;
     .grade {
-      background: url('../../assets/images/evaluation/evaluation-basic-bg.png') center no-repeat;
+      // background: url('../../assets/images/evaluation/evaluation-basic-bg.png') center no-repeat;
       background-size: 100% 100% !important;
       border-radius: 50px;
       width: 80px;
@@ -188,17 +188,30 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
-      font-family: Inter700;
-      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: Inter400;
+      font-size: 16px;
       &.gold {
-        background: url('../../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
+        color: #cf0;
+        font-size: 24px;
+        text-shadow: 0px 2px 20px rgba(204, 255, 0, 0.8);
+        letter-spacing: 0.48px;
+        font-family: Inter800;
+        // background: url('../../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
       }
       &.silver {
-        background: url('../../assets/images/evaluation/evaluation-Silver-bg.png') center no-repeat;
+        color: #fff;
+        font-size: 20px;
+        font-family: Inter800;
+        letter-spacing: 0.4px;
+        text-shadow: 0px 2px 20px rgba(255, 255, 255, 0.8);
+        // background: url('../../assets/images/evaluation/evaluation-Silver-bg.png') center no-repeat;
       }
       &.bronze {
-        background: url('../../assets/images/evaluation/evaluation-Bronze-bg.png') center no-repeat;
+        font-size: 16px;
+        color: #fff;
+        font-family: Inter700;
+        // background: url('../../assets/images/evaluation/evaluation-Bronze-bg.png') center no-repeat;
       }
     } //grade--END--
 

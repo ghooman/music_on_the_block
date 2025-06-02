@@ -1014,7 +1014,11 @@ function AlbumDetail() {
                 </div>
               ))}
             </article>
-            <EvaluationResultsComp evaluationData={evaluationData} critic={critic} />
+            <EvaluationResultsComp
+              evaluationData={evaluationData}
+              critic={critic}
+              isOwner={album?.is_owner}
+            />
           </>
         )}
       </div>

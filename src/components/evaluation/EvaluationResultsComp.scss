@@ -175,28 +175,29 @@
           align-items: center;
           justify-content: space-between;
           gap: 16px;
-          &:nth-child(2) {
-            dt {
-              color: #7bbe9e;
-            }
-          }
-          &:nth-child(3) {
-            dt {
-              color: #5f8d74;
-            }
-          }
-          &:nth-child(4) {
-            dt {
-              color: #3f5c4b;
-            }
-          }
-          &:nth-child(5) {
-            dt {
-              color: #2c4437;
-            }
-          }
+
+          // &:nth-child(2) {
+          //   dt {
+          //     color: #7bbe9e;
+          //   }
+          // }
+          // &:nth-child(3) {
+          //   dt {
+          //     color: #5f8d74;
+          //   }
+          // }
+          // &:nth-child(4) {
+          //   dt {
+          //     color: #3f5c4b;
+          //   }
+          // }
+          // &:nth-child(5) {
+          //   dt {
+          //     color: #2c4437;
+          //   }
+          // }
           dt {
-            color: #a4bfa3;
+            color: #5f8d74 !important;
             font-family: Inter400;
             font-size: 16px;
           }
@@ -239,6 +240,8 @@
           text-overflow: inherit;
           white-space: pre-line;
           height: auto;
+          font-size: 20px;
+          letter-spacing: 0.6px;
         }
         .full-evaluation__feed-back__txt__see-more {
           span {
@@ -324,7 +327,7 @@
         color: var(--Text-music-title, #f1f1f1);
         text-align: center;
         font-family: Inter500;
-        font-size: 12px;
+        font-size: 16px !important;
       }
     }
   } //full-evaluation__point-box--END--
@@ -365,6 +368,44 @@
       }
     }
   } //critic-list__item--END--
+
+  .critic-list__swiper-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 48px;
+  }
+  .critic-list__swiper-slide {
+    width: 302px !important;
+  }
+
+  .swiper-button-prev {
+    position: absolute;
+    right: 40px !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 30px;
+    height: 30px;
+    background: url('../../assets/images/album/prev-btn.svg') center no-repeat;
+    background-size: cover;
+    &::after {
+      display: none;
+    }
+  }
+  .swiper-button-next {
+    position: absolute;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 30px;
+    height: 30px;
+    background: url('../../assets/images/album/next-btn.svg') center no-repeat;
+    background-size: cover;
+    &::after {
+      display: none;
+    }
+  }
 } //critic-list--END--
 
 @media screen and (max-width: 1300px) {

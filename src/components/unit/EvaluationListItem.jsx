@@ -42,7 +42,7 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
       <dl className="unit-component-evaluation-list-item__title">
         <dt>{data.title}</dt>
         <dd>
-          <img src={data?.artist_profile || defaultCoverImg} alt="user-name" />
+          {/* <img src={data?.artist_profile || defaultCoverImg} alt="user-name" /> */}
           {data.artist}
         </dd>
       </dl>

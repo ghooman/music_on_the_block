@@ -22,6 +22,8 @@ import { AuthContext } from '../contexts/AuthContext';
 import { criticsDataForArray } from '../data/criticsData';
 
 import '../styles/EvaluationBegin.scss';
+import ConfirmModal from '../components/modal/ConfirmModal';
+import EvaluationConfirmModal from '../components/EvaluationConfirmModal';
 
 const EvaluationBegin = () => {
   let TO;
@@ -34,6 +36,8 @@ const EvaluationBegin = () => {
   const [selectMusic, setSelectMusic] = useState(null);
   const [selectCritic, setSelectCritic] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [evaluationConfirmModal, setEvaluationConfirmModal] = useState(false);
 
   //================
   // 생성 가능 횟수 체크
@@ -80,28 +84,28 @@ const EvaluationBegin = () => {
                   - 평가 기준 중 다음 항목들을 특히 중시합니다 :
                             ${selectCritic?.important?.join(',')}
 
-                다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
+                  다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
                   1. 입력 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함합니다.
                   2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
                   3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
-                  4. 각 항목의 점수는 0점에서 100점까지의 정수로 평가합니다.
+                  4. 각 항목의 점수는 0점에서 100점까지의 실수형태로 평가합니다.
                   5. 응답은 반드시 한글로 작성하시오.
                   6. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
 
                   {
-                    "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수 (0.0~100.0)
-                    "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수 (0.0~100.0)
-                    "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수 (0.0~100.0)
-                    "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수 (0.0~100.0)
-                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수 (0.0~100.0)
-                    "feedback": "",        // 항목별 모든 속성을 반드시 평가 
-                    "to_improve": "",      // 개선이 필요한 점
-                    "why_this_score": "",  // 각 점수를 준 이유에 대한 간략한 설명
-                    "key_points": ""       // 핵심 개선 포인트 요약
+                    "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수(0.0~100.0)
+                    "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수(0.0~100.0)
+                    "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
+                    "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
+                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)
+                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 
+                    "to_improve": "",        // 개선이 필요한 점
+                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
+                    "key_points": ""         // 핵심 개선 포인트 요약
                   }
 
-                  7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
+                  7. 응답은 반드시 영문으로, 문자열 답변의 경우 ${
                     selectCritic?.style
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
@@ -116,6 +120,7 @@ const EvaluationBegin = () => {
           ],
         });
         responses = JSON.parse(response?.choices[0]?.message?.content);
+
         return true;
       } catch (error) {
         console.error(error);
@@ -201,13 +206,14 @@ const EvaluationBegin = () => {
         song_id: selectMusic?.id,
         critic: selectCritic?.name,
       });
-      const { task_id } = res.data;
-      const analData = await getAnalysisData({ task_id });
-      const evaluationResultData = await getEvaluationResult({ analysisResult: analData?.result });
-      const result = await saveEvaluationScore(evaluationResultData);
+      const { task_id } = res.data; // task_id 발급
+      const analData = await getAnalysisData({ task_id }); // 분석 데이터 반환
+      const evaluationResultData = await getEvaluationResult({ analysisResult: analData?.result }); // GPT로 최종 점수 정의
+      const result = await saveEvaluationScore(evaluationResultData); // 저장
       navigate('/evaluation-results', { state: result });
     } catch (e) {
       console.error(e);
+      setEvaluationConfirmModal(false);
       setErrorMessage(e?.response?.data?.detail || e?.message);
     } finally {
       setIsLoading(false);
@@ -224,7 +230,7 @@ const EvaluationBegin = () => {
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
         <ContentWrap title={t('Step 1')}>
-          <Step1 t={t} token={token} setSelectMusic={setSelectMusic} />
+          <Step1 t={t} token={token} selectMusic={selectMusic} setSelectMusic={setSelectMusic} />
         </ContentWrap>
         <ContentWrap title={t('Step 2')} border={false}>
           <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
@@ -243,19 +249,26 @@ const EvaluationBegin = () => {
           selectMusic={selectMusic}
           selectCritic={selectCritic}
           possibleCntLoading={possibleCntLoading}
-          handleClick={handleEvaluation}
+          handleClick={() => setEvaluationConfirmModal(true)}
         />
       </ContentWrap>
-      {errorMessage && <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} />}
-      {isLoading && <Loading autoClose={false} />}
+      {errorMessage && (
+        <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />
+      )}
+      {evaluationConfirmModal && (
+        <EvaluationConfirmModal
+          setEvaluationConfirmModal={setEvaluationConfirmModal}
+          isLoading={isLoading}
+          handler={handleEvaluation}
+        />
+      )}
     </>
   );
 };
 
 export default EvaluationBegin;
 
-const Step1 = ({ t, token, setSelectMusic }) => {
-  const [temporarySelect, setTemporarySelect] = useState(null);
+const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
   const [searchParams] = useSearchParams();
 
   const songs_sort = searchParams.get('songs_sort');
@@ -317,21 +330,18 @@ const Step1 = ({ t, token, setSelectMusic }) => {
               <span
                 key={item.id}
                 onClick={() => {
-                  setTemporarySelect(prev => {
-                    if (prev?.id === item?.id) {
-                      return null;
-                    } else {
-                      return item;
-                    }
+                  setSelectMusic(prev => {
+                    if (prev?.id === item?.id) return null;
+                    return item;
                   });
                 }}
               >
-                <SongsBar itemData={item} play={item?.id === temporarySelect?.id} />
+                <SongsBar itemData={item} play={item?.id === selectMusic?.id} />
               </span>
             ))}
           <span ref={ref} style={{ width: '100%', height: 1 }}></span>
         </div>
-        <button
+        {/* <button
           className="select-btn"
           disabled={!temporarySelect}
           onClick={() => {
@@ -341,7 +351,7 @@ const Step1 = ({ t, token, setSelectMusic }) => {
           }}
         >
           {t('Select')}
-        </button>
+        </button> */}
       </div>
     </>
   );

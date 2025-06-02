@@ -141,7 +141,7 @@ const Counts = ({ playCnt, isLike, like }) => {
 const Profile = ({ userProfile, name }) => {
   return (
     <p className="album__content-list__list__item__right__user__info">
-      <img src={userProfile || defaultCoverImg} alt="profile" />
+      {/* <img src={userProfile || defaultCoverImg} alt="profile" /> */}
       {name || 'unKnown'}
     </p>
   );

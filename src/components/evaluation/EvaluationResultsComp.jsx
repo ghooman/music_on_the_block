@@ -14,7 +14,7 @@ import issueIcon from '../../assets/images/icon/issue-opened.svg';
 
 // 데이터 및 함수
 import { criticsDataForObject } from '../../data/criticsData';
-import { getCriticEvaluationList, getEvaluationList } from '../../api/evaluation/getList';
+import { getEvaluationList } from '../../api/evaluation/getList';
 import { useNavigate } from 'react-router-dom';
 
 // 스와이퍼

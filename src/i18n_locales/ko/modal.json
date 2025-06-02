@@ -99,6 +99,7 @@
  "Link btn": "링크 버튼",
  "link btn": "링크 버튼",
  "Successfully updated": "성공적으로 업데이트됨",
+ "Evaluation Graph": "평가 그래프",
  "These five items are scored individually, but the weighted score calculation varies according to the emphasis each Evaluationer places on them.": "이 다섯 항목은 각각 개별적으로 점수가 매겨지지만, 최종 가중 점수는 평가자마다 각 항목에 두는 중요도에 따라 달라집니다.",
  "Emotion": "감정",
  "Evaluates how genuinely the song conveys emotion, focusing on natural and heartfelt expression.": "노래가 감정을 얼마나 진솔하고 자연스럽게 표현하는지를 평가합니다.",

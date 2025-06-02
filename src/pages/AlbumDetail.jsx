@@ -299,16 +299,16 @@ function AlbumDetail() {
 
   // 앨범 데이터가 로드되면 전역 플레이어에 설정
   useEffect(() => {
-    if (album?.music_url) {
-      // 현재 재생중인 트랙이 다른 트랙이라면, 이 앨범으로 변경
-      if (!currentTrack || currentTrack.id !== album.id) {
-        playTrack({
-          track: album,
-          playlist: [album],
-          playlistId: 'album-detail',
-        });
-      }
-    }
+    // if (album?.music_url) {
+    //   // 현재 재생중인 트랙이 다른 트랙이라면, 이 앨범으로 변경
+    //   if (!currentTrack || currentTrack.id !== album.id) {
+    //     playTrack({
+    //       track: album,
+    //       playlist: [album],
+    //       playlistId: 'album-detail',
+    //     });
+    //   }
+    // }
   }, [album, currentTrack, playTrack]);
 
   // 가사 출력 전 텍스트 포맷 함수
@@ -514,7 +514,16 @@ function AlbumDetail() {
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
               {/* 임시 재생버튼 */}
-              <button className="album-detail__song-detail__left__img__play-btn">
+              <button
+                className="album-detail__song-detail__left__img__play-btn"
+                onClick={() => {
+                  playTrack({
+                    track: album,
+                    playlist: [album],
+                    playlistId: 'album-detail',
+                  });
+                }}
+              >
                 <img src={playIcon} alt="play Icon" />
               </button>
               <div

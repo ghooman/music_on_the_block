@@ -48,10 +48,16 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
       <div className="unit-component-evaluation-list-item__details-number">
         <p
           className={`grade ${
-            data.score >= 90 ? 'gold' : data.score >= 80 ? '' : data.score >= 70 ? 'bronze' : ''
+            data.score >= 90
+              ? 'gold'
+              : data.score >= 80
+              ? 'silver'
+              : data.score >= 70
+              ? 'bronze'
+              : ''
           }`}
         >
-          {data?.score}{' '}
+          {data?.score?.toFixed(2)}{' '}
         </p>
         <Link
           to={`/song-detail/${data.song_id}?service=AI+Singing+Evaluation&critic=${data.critic}`}

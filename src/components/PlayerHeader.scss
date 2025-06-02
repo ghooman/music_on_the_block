@@ -6,7 +6,7 @@
   .main__header__like{
     position: absolute;
     right: 136px;
-    bottom: 28px;
+    bottom: 26px;
     z-index: 1;
     cursor: pointer;
     img{
@@ -20,7 +20,7 @@
     z-index: 1;
     cursor: pointer;
     img{
-      width: 26px;
+      width: 22px;
     }
   }//main__header__sound-btn--END--
   .rhap_progress-container {
@@ -389,142 +389,143 @@
 
 @media screen and (max-width: 980px) {
   .main__header {
+    left: 16px;
     width: calc(100% - 32px);
-    top: 96px;
+    // top: 96px;
     &.scrolled {
-      top: 96px;
+      // top: 96px;
     }
   }
 }
 
-@media screen and (max-width: 768px) {
-  .main__header {
-    .rhap_additional-controls {
-      display: block !important;
-      position: absolute;
-      left: 0;
-      bottom: 14px;
-      .rhap_repeat-button {
-        opacity: 1;
-      }
-    }
-  }
-  .main__header {
-    top: 86px !important;
-    padding: 42px 16px 16px 16px;
-    gap: 0;
-    height: auto;
-    .main__header--mobile-title {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      display: block;
-      width: calc(100% - 32px);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        color: #aaa;
-        font-family: Inter400;
-        font-size: 12px;
-        font-style: normal;
-        line-height: 100%;
-        img {
-          width: 16px;
-          height: 16px;
-          overflow: hidden;
-          border-radius: 100%;
-        }
-      }
-    }
-    .rhap_main {
-      flex-direction: column;
-      width: calc(100% + 60px);
-      position: relative;
-      left: -60px;
-      z-index: 1;
-      .rhap_button-clear.rhap_skip-button svg {
-        font-size: 20px;
-        display: none;
-      }
-      .rhap_button-clear.rhap_play-pause-button svg {
-        font-size: 34px;
-      }
-      .rhap_button-clear.rhap_play-pause-button {
-        top: 10px;
-        // left: -28px;
-        left: 0px;
-      }
-    }
-    .rhap_container {
-      padding: 0;
-    }
-    .rhap_stacked .rhap_controls-section {
-      // margin-top: 32px;
-      // margin-bottom: 16px;
-    }
-    .main__header__mobile-detail-btn {
-      // display: block !important;
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 1;
-      width: 100%;
-    } //main__header__mobile-detail-btn--END--
-    .main__header__cover-info__btn {
-      // display: none !important;
-      width: 80px !important;
-      margin-left: auto;
-    } //main__header__cover-info__btn--END--
-    .main__header__album-cover {
-      // position: static;
-      &::after {
-        // display: none;
-      }
-      .main__header__album-cover__img {
-        // display: none;
-        opacity: 0.6;
-      }
-      .main__header__title {
-        top: 0px;
-        left: 16px;
-        width: calc(100% - 32px);
-        display: none;
-      }
-    }
-    .main__header__cover-info {
-      left: 16px;
-      right: auto;
-      top: 60px;
-      flex-direction: row;
-      align-items: center;
-      padding-right: 32px;
-      width: 100%;
-      display: none;
-    }
-    .rhap_main .rhap_time {
-      width: 58px;
-      color: #fff !important;
-    }
-    .rhap_main-controls {
-      margin-top: -16px;
-      button {
-        height: 30px;
-      }
-    }
-    .rhap_container {
-      // margin-top: 60px;
-    }
-    .rhap_volume-controls {
-      width: 100px;
-      right: 0px;
-      bottom: 16px;
+// @media screen and (max-width: 768px) {
+//   .main__header {
+//     .rhap_additional-controls {
+//       display: block !important;
+//       position: absolute;
+//       left: 0;
+//       bottom: 14px;
+//       .rhap_repeat-button {
+//         opacity: 1;
+//       }
+//     }
+//   }
+//   .main__header {
+//     top: 86px !important;
+//     padding: 42px 16px 16px 16px;
+//     gap: 0;
+//     height: auto;
+//     .main__header--mobile-title {
+//       position: absolute;
+//       top: 16px;
+//       left: 16px;
+//       display: block;
+//       width: calc(100% - 32px);
+//       font-size: 14px;
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
+//       span {
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//         gap: 4px;
+//         color: #aaa;
+//         font-family: Inter400;
+//         font-size: 12px;
+//         font-style: normal;
+//         line-height: 100%;
+//         img {
+//           width: 16px;
+//           height: 16px;
+//           overflow: hidden;
+//           border-radius: 100%;
+//         }
+//       }
+//     }
+//     .rhap_main {
+//       flex-direction: column;
+//       width: calc(100% + 60px);
+//       position: relative;
+//       left: -60px;
+//       z-index: 1;
+//       .rhap_button-clear.rhap_skip-button svg {
+//         font-size: 20px;
+//         display: none;
+//       }
+//       .rhap_button-clear.rhap_play-pause-button svg {
+//         font-size: 34px;
+//       }
+//       .rhap_button-clear.rhap_play-pause-button {
+//         top: 10px;
+//         // left: -28px;
+//         left: 0px;
+//       }
+//     }
+//     .rhap_container {
+//       padding: 0;
+//     }
+//     .rhap_stacked .rhap_controls-section {
+//       // margin-top: 32px;
+//       // margin-bottom: 16px;
+//     }
+//     .main__header__mobile-detail-btn {
+//       // display: block !important;
+//       position: absolute;
+//       top: 16px;
+//       right: 16px;
+//       z-index: 1;
+//       width: 100%;
+//     } //main__header__mobile-detail-btn--END--
+//     .main__header__cover-info__btn {
+//       // display: none !important;
+//       width: 80px !important;
+//       margin-left: auto;
+//     } //main__header__cover-info__btn--END--
+//     .main__header__album-cover {
+//       // position: static;
+//       &::after {
+//         // display: none;
+//       }
+//       .main__header__album-cover__img {
+//         // display: none;
+//         opacity: 0.6;
+//       }
+//       .main__header__title {
+//         top: 0px;
+//         left: 16px;
+//         width: calc(100% - 32px);
+//         display: none;
+//       }
+//     }
+//     .main__header__cover-info {
+//       left: 16px;
+//       right: auto;
+//       top: 60px;
+//       flex-direction: row;
+//       align-items: center;
+//       padding-right: 32px;
+//       width: 100%;
+//       display: none;
+//     }
+//     .rhap_main .rhap_time {
+//       width: 58px;
+//       color: #fff !important;
+//     }
+//     .rhap_main-controls {
+//       margin-top: -16px;
+//       button {
+//         height: 30px;
+//       }
+//     }
+//     .rhap_container {
+//       // margin-top: 60px;
+//     }
+//     .rhap_volume-controls {
+//       width: 100px;
+//       right: 0px;
+//       bottom: 16px;
       
-    }
-  }
-}
+//     }
+//   }
+// }

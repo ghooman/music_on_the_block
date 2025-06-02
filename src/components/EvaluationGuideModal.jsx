@@ -88,7 +88,7 @@ const GuideItem = ({ t, index, title, content }) => {
   return (
     <>
       <p className="evaluation-guide-modal__text mb8">
-        {index} {t(title)}
+        {index}. {t(title)}
       </p>
       <div className="evaluation-guide-modal__item--content mb8">
         <span className="evaluation-guide-modal__text">-</span>

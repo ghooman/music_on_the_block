@@ -21,6 +21,7 @@ import notificationSong from '../assets/images/menu/notifications/song.png';
 import notificationNFT from '../assets/images/menu/notifications/nft.png';
 import notificationCalendar from '../assets/images/menu/notifications/calendar.svg';
 import notificationNone from '../assets/images/icon/notifications_off.svg';
+import arrDownIcon from '../assets/images/arrow_down.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 import { WebSocketContext } from '../contexts/WebSocketContext';
@@ -40,6 +41,7 @@ import {
 import NoneContent from '../components/unit/NoneContent';
 import ConfirmModal from './modal/ConfirmModal';
 import SuccessModal from './modal/SuccessModal';
+import { disableEvaluation } from '../data/service';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t, i18n } = useTranslation('main');
 
@@ -321,6 +323,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     postNotificationCheck(token);
   };
 
+  const [isActive, setIsActive] = useState(false);
+
+
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -489,7 +494,9 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
                     </div> */}
-                    <div className="menu__box__my-page__info">
+                    <div
+                      className={`menu__box__my-page__info ${isActive ? ' active' : ''}`}
+                    >
                       <div className="menu__box__my-page__info__top">
                         <p
                           className="menu__box__my-page__info__top__img"
@@ -500,29 +507,42 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         <dl className="menu__box__my-page__info__top__txt">
                           <dt>
                             {truncatedAddress}
-                            <button onClick={copyAddress}>
+                            {/* <button onClick={copyAddress}>
                               <img
                                 src={copied ? checkIcon : copyIcon}
                                 alt={copied ? '복사 완료' : '복사 아이콘'}
                               />
-                            </button>
+                            </button> */}
                           </dt>
                           <dd>{userData?.name || 'No Sign up'}</dd>
-                        </dl>
-                      </div>
-                      <div className="menu__box__my-page__level">
-                        <p className="level">{t('Level')}</p>
-                        <p className="menu__box__my-page__level__img">
-                          {getUserGradeSquareIcon(userData?.user_rating) && (
-                            <img
-                              src={getUserGradeSquareIcon(userData?.user_rating)}
-                              alt="level icon"
-                            />
-                          )}
-                        </p>
-                        <p className="grade">{userData?.user_rating}</p>
-                      </div>
-                      <div className="menu__box__my-page__info__bottom">
+                          <dd>
+                          <div 
+                            className="menu__box__my-page__level"
+                          >
+                            {/* <p className="level">{t('Level')}</p> */}
+                            <p className="menu__box__my-page__level__img">
+                              {getUserGradeSquareIcon(userData?.user_rating) && (
+                                <img
+                                  src={getUserGradeSquareIcon(userData?.user_rating)}
+                                  alt="level icon"
+                                />
+                              )}
+                            </p>
+                            <p className="grade">{userData?.user_rating}</p>
+                            <button 
+                              className='menu__box__my-page__level__arr-btn'
+                              onClick={() => setIsActive(prev => !prev)}
+                            >
+                              <img src={arrDownIcon} alt='arrDownIcon'/>
+                            </button>
+                          </div>
+                              </dd>
+                            </dl>
+                          </div>
+
+                      <div 
+                        className={`menu__box__my-page__info__bottom ${isActive ? ' active' : ''}`}
+                      >
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>{mobBalance}</p>
                           <span>
@@ -610,9 +630,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
                       // onClick={() => handleSubItemClick('ai-singing')}
-                      // onClick={() => setPreparingModal(true)}
                     >
-                      <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
+                      <Link
+                        onClick={e => {
+                          if (disableEvaluation) {
+                            e?.preventDefault();
+                            setPreparingModal(true);
+                          }
+                        }}
+                        to="/evaluation"
+                      >
+                        {t('AI Singing Evaluation')}
+                      </Link>
                       {/* <Link >{t('AI Singing Evaluation')}</Link> */}
                     </li>
                     <li

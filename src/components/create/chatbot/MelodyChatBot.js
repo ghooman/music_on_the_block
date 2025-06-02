@@ -603,7 +603,7 @@ const MelodyChatBot = ({
           language: selectedLanguage,
           genre: standardizedGenre,
           style: '',
-          gender: melody_gender,
+          gender: melody_gender.length > 0 ? melody_gender : '',
           musical_instrument: Array.isArray(melody_instrument)
             ? melody_instrument.join(', ')
             : melody_instrument,

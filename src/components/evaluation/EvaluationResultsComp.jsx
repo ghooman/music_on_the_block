@@ -28,10 +28,17 @@ import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 import { useQuery } from 'react-query';
 
-const EvaluationResultsComp = ({ evaluationData, critic, isResult, isOwner }) => {
+/**
+ *
+ * @param {object} evaluationData : 평가 데이터
+ * @param {object} songData : 곡 데이터 - Begin Now 버튼(평가하러가기) 클릭시 경로 이동을 위한 정보
+ * @param {string} critic : 심사위원 이름
+ * @param {boolean} isResult : 결과창을 보는 옵션 (버튼이 추가 됨)
+ * @param {boolean} isOwner : 조회한 곡이 나의 곡인지 확인하는 파라미터 (Begin Now 버튼 랜더링 여부를 결정)
+ * @returns
+ */
+const EvaluationResultsComp = ({ evaluationData, songData, critic, isResult, isOwner }) => {
   const { t } = useTranslation('evaluation');
-
-  console.log(evaluationData, '평가 데이터 입니다.');
 
   return (
     <>
@@ -40,7 +47,7 @@ const EvaluationResultsComp = ({ evaluationData, critic, isResult, isOwner }) =>
           {evaluationData && <Result t={t} evaluationData={evaluationData} />}
           {!evaluationData && (
             <NoneContent height={300} message="No evaluation history yet.">
-              {isOwner && <BeginBtn />}
+              {isOwner && <BeginBtn t={t} songData={songData} critic={critic} />}
             </NoneContent>
           )}
           {isResult && <ResultBtn t={t} evaluationData={evaluationData} />}
@@ -137,12 +144,20 @@ const Result = ({ t, evaluationData }) => {
   );
 };
 
-const BeginBtn = ({ t }) => {
+const BeginBtn = ({ t, songData, critic }) => {
   const navigate = useNavigate();
 
   return (
     <div className="btns">
-      <button onClick={() => navigate('/evaluation-begin')}>Begin Now</button>
+      <button
+        onClick={() =>
+          navigate(
+            `/evaluation-begin?search=${songData?.title}&song_id=${songData?.id}&critic=${critic}`
+          )
+        }
+      >
+        {t('Begin Now')}
+      </button>
     </div>
   );
 };

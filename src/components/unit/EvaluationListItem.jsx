@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { criticsDataForObject } from '../../data/criticsData';
 
-import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 
 import './EvaluationListItem.scss';
@@ -49,13 +48,7 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
       <div className="unit-component-evaluation-list-item__details-number">
         <p
           className={`grade ${
-            data.score >= 90
-              ? 'gold'
-              : data.score >= 80
-              ? 'silver'
-              : data.score >= 70
-              ? 'bronze'
-              : ''
+            data.score >= 90 ? 'gold' : data.score >= 80 ? '' : data.score >= 70 ? 'bronze' : ''
           }`}
         >
           {data?.score}{' '}

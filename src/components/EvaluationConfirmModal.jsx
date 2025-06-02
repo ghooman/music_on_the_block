@@ -17,25 +17,12 @@ const dot = 3; // 로딩 메시지 . 갯수 정의
 
 const EvaluationConfirmModal = ({ setEvaluationConfirmModal, handler, isLoading }) => {
   const { t } = useTranslation('modal');
-  const [selectMessageIdx, setSelectMessageIdx] = useState(0);
+  const [selectMessageIdx] = useState(Math.floor(Math.random() * loadingMessage.length));
   const [dotCnt, setDotCnt] = useState(0);
 
   const handleClose = () => {
+    if (isLoading) return;
     setEvaluationConfirmModal(false);
-  };
-
-  //==============
-  // 로딩 메시지 배열 인덱스 정의
-  //==============
-  const random = () => {
-    setSelectMessageIdx(prev => {
-      let idx = Math.floor(Math.random() * 6);
-      while (idx === prev) {
-        // 동일한 난수 생성 시 재시도
-        idx = Math.floor(Math.random() * 6);
-      }
-      return idx;
-    });
   };
 
   useEffect(() => {
@@ -52,7 +39,6 @@ const EvaluationConfirmModal = ({ setEvaluationConfirmModal, handler, isLoading 
     interval = setInterval(() => {
       if (cnt === 0) {
         type = 'increase';
-        random();
       } else if (cnt === dot) {
         type = 'decrease';
       }
@@ -62,7 +48,7 @@ const EvaluationConfirmModal = ({ setEvaluationConfirmModal, handler, isLoading 
       } else if (type === 'decrease') {
         setDotCnt(--cnt);
       }
-    }, 1000);
+    }, 500);
 
     return () => {
       clearInterval(interval);
@@ -70,7 +56,7 @@ const EvaluationConfirmModal = ({ setEvaluationConfirmModal, handler, isLoading 
   }, [isLoading]);
 
   return (
-    <ModalWrap title="Start the Evaluation" closeIcon={false} onClose={handleClose}>
+    <ModalWrap title={t('Start the Evaluation')} closeIcon={false} onClose={handleClose}>
       <div className="evaluation-confirm-modal">
         <p className="evaluation-confirm-modal__message">
           {t('Would you like to proceed with the evaluation using the selected information?')}
@@ -92,8 +78,8 @@ const EvaluationConfirmModal = ({ setEvaluationConfirmModal, handler, isLoading 
               </button>
             </>
           ) : (
-            <button className="evaluation-confirm-modal__button loading" onClick={random}>
-              {loadingMessage[selectMessageIdx]}
+            <button className="evaluation-confirm-modal__button loading">
+              {t(loadingMessage[selectMessageIdx])}
               {Array.from({ length: dotCnt }).map((item, index) => (
                 <span key={index}>.</span>
               ))}

@@ -9,6 +9,8 @@ import Loading from '../components/IntroLogo2';
 import ErrorModal from '../components/modal/ErrorModal';
 import SongsBar from '../components/unit/SongsBar';
 import ContentWrap from '../components/unit/ContentWrap';
+import Search from '../components/unit/Search';
+import EvaluationConfirmModal from '../components/EvaluationConfirmModal';
 
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
@@ -22,8 +24,6 @@ import { AuthContext } from '../contexts/AuthContext';
 import { criticsDataForArray } from '../data/criticsData';
 
 import '../styles/EvaluationBegin.scss';
-import ConfirmModal from '../components/modal/ConfirmModal';
-import EvaluationConfirmModal from '../components/EvaluationConfirmModal';
 
 const EvaluationBegin = () => {
   let TO;
@@ -42,7 +42,7 @@ const EvaluationBegin = () => {
   //================
   // 생성 가능 횟수 체크
   //================
-  const { data: possibleCnt, isFe: possibleCntLoading } = useQuery(
+  const { data: possibleCnt, isFetching: possibleCntLoading } = useQuery(
     ['evaluation_possible_cnt', token, selectMusic?.id, selectCritic?.name],
     async () => {
       const res = await getPossibleCount({
@@ -105,13 +105,13 @@ const EvaluationBegin = () => {
                     "key_points": ""         // 핵심 개선 포인트 요약
                   }
 
-                  7. 응답은 반드시 영문으로, 문자열 답변의 경우 ${
+                  7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
                     selectCritic?.style
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
                   9. 심사위원의 특성에 따른 변별력을 추가하시오
                   10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
-                  10. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
+                  11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,
@@ -229,20 +229,14 @@ const EvaluationBegin = () => {
   return (
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
-        <ContentWrap title={t('Step 1')}>
-          <Step1 t={t} token={token} selectMusic={selectMusic} setSelectMusic={setSelectMusic} />
-        </ContentWrap>
-        <ContentWrap title={t('Step 2')} border={false}>
-          <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
-        </ContentWrap>
-        <ContentWrap title={t('Step 3')}>
-          <Step3
-            t={t}
-            possibleCnt={possibleCnt}
-            selectCritic={selectCritic}
-            selectMusic={selectMusic}
-          />
-        </ContentWrap>
+        <Step1 t={t} token={token} selectMusic={selectMusic} setSelectMusic={setSelectMusic} />
+        <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
+        <Step3
+          t={t}
+          possibleCnt={possibleCnt}
+          selectMusic={selectMusic}
+          selectCritic={selectCritic}
+        />
         <ViewResults
           t={t}
           possibleCnt={possibleCnt}
@@ -269,11 +263,14 @@ const EvaluationBegin = () => {
 export default EvaluationBegin;
 
 const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const song_id = searchParams.get('song_id');
 
   const songs_sort = searchParams.get('songs_sort');
   const grade_fiter = searchParams.get('grade_filter');
   const ai_service_filter = searchParams.get('ai_service_filter');
+  const search = searchParams.get('search');
 
   const { ref, inView } = useInView();
 
@@ -281,7 +278,7 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
   // 무한 스크롤
   //===============
   const { data, hasNextPage, isLoading, fetchNextPage } = useInfiniteQuery(
-    ['song_data_in_infinite', songs_sort, grade_fiter, ai_service_filter],
+    ['song_data_in_infinite', songs_sort, grade_fiter, ai_service_filter, search],
     async ({ pageParam = 1 }) => {
       const res = await getReleaseAndUnReleaseSongData({
         token,
@@ -290,6 +287,7 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
         sort_by: songs_sort,
         rating: grade_fiter,
         ai_service: ai_service_filter,
+        search_keyword: search,
       });
 
       return res.data;
@@ -309,15 +307,26 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
     }
   }, [inView]);
 
+  useEffect(() => {
+    if (!song_id || !listData || listData.length <= 0) {
+      setSelectMusic(null);
+      return;
+    }
+    setSelectMusic(listData?.find(item => item.id === parseInt(song_id)));
+  }, [song_id, listData]);
+
   return (
-    <>
+    <ContentWrap title={t('Step 1')}>
       <div className="step1">
         <p className="step1__title">
           {t('Select your song.')}
           <br />
           {t('Click the song, then tap “Select” below to continue.')}
         </p>
-        <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
+        <ContentWrap.SubWrap gap={8}>
+          <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
+          <Search placeholder="Search by song title" />
+        </ContentWrap.SubWrap>
         <div className="step1__list">
           {isLoading && (
             <div className="step1__list--loading-box">
@@ -330,9 +339,19 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
               <span
                 key={item.id}
                 onClick={() => {
-                  setSelectMusic(prev => {
-                    if (prev?.id === item?.id) return null;
-                    return item;
+                  // setSelectMusic(prev => {
+                  //   if (prev?.id === item?.id) return null;
+                  //   return item;
+                  // });
+                  setSearchParams(prev => {
+                    let id;
+                    if (selectMusic?.id === item.id) {
+                      id = null;
+                    } else {
+                      id = item.id;
+                    }
+                    const { song_id: ids, ...rest } = Object.fromEntries(prev);
+                    return { ...rest, ...(id ? { song_id: id } : null) };
                   });
                 }}
               >
@@ -353,49 +372,59 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
           {t('Select')}
         </button> */}
       </div>
-    </>
+    </ContentWrap>
   );
 };
 
-const Step2 = ({ t, selectCritic, setSelectCritic }) => {
+const Step2 = ({ t, setSelectCritic }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const critic = searchParams.get('critic');
+
+  useEffect(() => {
+    if (!critic) return;
+    setSelectCritic(criticsDataForArray.find(item => item.name === critic));
+  }, [critic]);
+
   return (
-    <>
+    <ContentWrap title={t('Step 2')}>
       <div className="step2">
         <p className="step2__title">{t('Choose your music critic.')}</p>
         <div className="step2__choose">
-          {criticsDataForArray?.map(critic => (
+          {criticsDataForArray?.map(item => (
             <button
-              className={`step2__choose__item ${
-                critic?.name === selectCritic?.name ? 'active' : ''
-              }`}
+              className={`step2__choose__item ${critic === item?.name ? 'active' : ''}`}
               onClick={() =>
-                setSelectCritic(prev => {
-                  if (prev?.name === critic?.name) return null;
-                  return critic;
+                setSearchParams(prev => {
+                  const { critic, ...rest } = Object.fromEntries(prev);
+                  if (item.name === critic) {
+                    return { ...rest };
+                  } else {
+                    return { critic: item.name, ...rest };
+                  }
                 })
               }
-              key={critic?.id}
+              key={item?.id}
             >
-              <img src={critic?.image} alt="Jinwoo Yoo" />
+              <img src={item?.image} alt="Jinwoo Yoo" />
               <dl className="step2__choose__item__title">
                 <dt
                   dangerouslySetInnerHTML={{
-                    __html: t(`"${critic.introductionForReactNode}"`),
+                    __html: t(`"${item.introductionForReactNode}"`),
                   }}
                 ></dt>
-                <dd>{critic?.name}</dd>
+                <dd>{item?.name}</dd>
               </dl>
             </button>
           ))}
         </div>
       </div>
-    </>
+    </ContentWrap>
   );
 };
 
 const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }) => {
   return (
-    <>
+    <ContentWrap title={t('Step 3')}>
       <div className="step3">
         <p className="step3__title">
           {t('Please review your selected options.')}
@@ -423,7 +452,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
           </dl>
         </div>
       </div>
-    </>
+    </ContentWrap>
   );
 };
 

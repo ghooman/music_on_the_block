@@ -172,6 +172,10 @@ const Footer = ({ setIsLoggedIn }) => {
                   </Link>
                 </li> */}
               </ul>
+              <div className="footer__top__left__contact">
+                <span className="footer__top__left__contact-text">Contact :&nbsp;</span>
+                <a href="mailto:contact@musicontheblock.com">contact@musicontheblock.com</a>
+              </div>
               {/* <div className="footer__top__left__language">
                 <p className="footer__top__left__language__title">Language</p>
                 <div

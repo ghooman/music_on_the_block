@@ -104,7 +104,7 @@ const PlayerHeader = () => {
           {currentTrack?.name || 'unKnown'}
         </span>
       </p>
-      <div className="main__header__cover-info">
+      {/* <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">
           <p className="play">
             <img src={playIcon} alt="play-icon" />
@@ -123,7 +123,7 @@ const PlayerHeader = () => {
         <Link className="main__header__cover-info__btn" to={`/song-detail/${currentTrack?.id}`}>
           {t('Details')}
         </Link>
-      </div>
+      </div> */}
       <MyAudioPlayer
         track={currentTrack}
         onTimeUpdate={handleTimeUpdate}

@@ -48,7 +48,7 @@ const EvaluationResults = () => {
       <EvaluationResultsComp
         evaluationData={evaluationData}
         critic={evaluationData?.critic}
-        buttons
+        isResult
       />
       {errorMessage && (
         <ErrorModal setShowErrorModal={setErrorMessage} button message={errorMessage} />

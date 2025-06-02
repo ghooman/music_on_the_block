@@ -1,1 +1,1 @@
-export const disableEvaluation = true;
+export const disableEvaluation = false;

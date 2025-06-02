@@ -141,7 +141,7 @@ const Counts = ({ playCnt, isLike, like }) => {
 const Profile = ({ userProfile, name }) => {
   return (
     <p className="album__content-list__list__item__right__user__info">
-      <img src={userProfile || defaultCoverImg} alt="profile" />
+      {/* <img src={userProfile || defaultCoverImg} alt="profile" /> */}
       {name || 'unKnown'}
     </p>
   );
@@ -172,6 +172,7 @@ const EvaluationDetailsButton = ({ id, critic }) => {
 };
 
 const Critics = ({ critic, evaluationDt }) => {
+  const { t } = useTranslation('module');
   const [timeAgo, setTimeAgo] = useState({ time: 0, suffix: '' });
 
   useEffect(() => {
@@ -203,7 +204,8 @@ const Critics = ({ critic, evaluationDt }) => {
     <div className="album__content-list__list__item__right__critic">
       <img src={criticsDataForObject[critic]?.image} alt="critic" />
       <p>
-        {timeAgo?.time} {timeAgo?.suffix} ago
+        {timeAgo?.time}
+        {t(timeAgo?.suffix + ' ago')}
       </p>
     </div>
   );

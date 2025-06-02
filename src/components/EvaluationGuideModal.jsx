@@ -5,29 +5,6 @@ import './EvaluationGuideModal.scss';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 
-const radarData = [
-  {
-    item: '80 Emotion',
-    value: 80,
-  },
-  {
-    item: '60 Creativity',
-    value: 60,
-  },
-  {
-    item: '76 Structure',
-    value: 76,
-  },
-  {
-    item: '69 Sound',
-    value: 69,
-  },
-  {
-    item: '92 Popularity',
-    value: 92,
-  },
-];
-
 const guideData = [
   {
     title: 'Emotion',
@@ -55,13 +32,35 @@ const guideData = [
 
 const EvaluationGuideModal = ({ setEvaluationGuideModal }) => {
   const { t } = useTranslation('modal');
+  const radarData = [
+    {
+      item: '80 ' + t('Emotion'),
+      value: 80,
+    },
+    {
+      item: '60 ' + t('Creativity'),
+      value: 60,
+    },
+    {
+      item: '76 ' + t('Structure'),
+      value: 76,
+    },
+    {
+      item: '69 ' + t('Sound'),
+      value: 69,
+    },
+    {
+      item: '92 ' + t('Popularity'),
+      value: 92,
+    },
+  ];
 
   const onClose = () => {
     setEvaluationGuideModal(false);
   };
 
   return (
-    <ModalWrap title="Evaluation Graph" onClose={onClose}>
+    <ModalWrap title={t('Evaluation Graph')} onClose={onClose}>
       <div className="evaluation-guide-modal">
         <div className="evaluation-guide-modal__chart-parent">
           <RadarChart data={radarData} />
@@ -89,7 +88,7 @@ const GuideItem = ({ t, index, title, content }) => {
   return (
     <>
       <p className="evaluation-guide-modal__text mb8">
-        {index} {t(title)}
+        {index}. {t(title)}
       </p>
       <div className="evaluation-guide-modal__item--content mb8">
         <span className="evaluation-guide-modal__text">-</span>

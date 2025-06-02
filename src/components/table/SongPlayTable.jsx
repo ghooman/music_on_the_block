@@ -69,6 +69,7 @@ const SongPlayTable = ({
     if (!activeSong) {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.src = null;
         audioRef.current.currentTime = 0;
       }
     } else {

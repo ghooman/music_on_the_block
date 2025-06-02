@@ -191,7 +191,7 @@ const EvaluationBegin = () => {
       await saveEvaluationData({
         token,
         song_id: selectMusic?.id,
-        evalution_data: evaluationResultData,
+        evaluation_data: evaluationResultData,
       });
 
       return evaluationResultData;

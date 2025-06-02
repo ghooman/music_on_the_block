@@ -82,7 +82,6 @@ import Search from '../components/unit/Search';
 import Pagination from '../components/unit/Pagination';
 import NoneContent from '../components/unit/NoneContent';
 import AlbumItem from '../components/unit/AlbumItem';
-import PlayerHeader from '../components/PlayerHeader';
 import SubCategories from '../components/unit/SubCategories';
 import Loading from '../components/IntroLogo2';
 
@@ -94,6 +93,7 @@ import '../styles/SongList.scss';
 
 import { getEvaluationList } from '../api/evaluation/getList';
 import { disableEvaluation } from '../data/service';
+import { useAudio } from '../contexts/AudioContext';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -138,15 +138,8 @@ const SongList = () => {
   const [totalCount, setTotalCount] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 플레이어 관련 상태
-  const [selectedMusic, setSelectedMusic] = useState(null);
-  const [selectedList, setSelectedList] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  const audioRef = useRef(null);
+  // 전역 오디오 상태 사용
+  const { currentTrack, currentTime, playTrack, isTrackActive, audioRef } = useAudio();
 
   // 곡 목록 API 호출
   useEffect(() => {
@@ -204,60 +197,25 @@ const SongList = () => {
     getData();
   }, [page, search, songsSort, service, aiServiceFilter, criticFilter]);
 
-  // 스크롤 감지: 상단 고정 효과
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY >= 88);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // 오디오 시간 업데이트 핸들러
-  const handleTimeUpdate = time => {
-    setCurrentTime(time);
-  };
-
-  // AlbumItem 클릭 시 플레이어에 반영하는 함수 (list와 id 전달)
+  // 전역 오디오 상태를 사용하는 handlePlay 함수
   const handlePlay = ({ list, track, id }) => {
-    setSelectedList(list);
-    setSelectedId(id);
-    setSelectedMusic(track);
-    setIsPlaying(true);
-    setCurrentTime(0);
+    playTrack({
+      track,
+      playlist: list,
+      playlistId: id,
+    });
   };
 
   // 선택된 곡이 없으면 2초 후 첫 번째 트랙을 자동 선택
   useEffect(() => {
     if (!songList) return;
     const timer = setTimeout(() => {
-      if (songList.length > 0 && !selectedMusic) {
+      if (songList.length > 0 && !currentTrack) {
         handlePlay({ list: songList, id: 'songlist', track: songList[0] });
       }
     }, 2000);
     return () => clearTimeout(timer);
-  }, [songList, selectedMusic]);
-
-  // 다음 곡 재생
-  const handleNext = () => {
-    if (!selectedList.length || !selectedMusic) return;
-    const currentIndex = selectedList.findIndex(t => t.id === selectedMusic.id);
-    const nextIndex = (currentIndex + 1) % selectedList.length;
-    setSelectedMusic(selectedList[nextIndex]);
-  };
-
-  // 이전 곡 재생
-  const handlePrev = () => {
-    if (!selectedList.length || !selectedMusic) return;
-    const currentIndex = selectedList.findIndex(t => t.id === selectedMusic.id);
-    const prevIndex = (currentIndex - 1 + selectedList.length) % selectedList.length;
-    setSelectedMusic(selectedList[prevIndex]);
-  };
-
-  // 좋아요 클릭 핸들러 (필요 시 API 연동)
-  const handleLikeClick = track => {
-    console.log('좋아요 클릭', track);
-  };
+  }, [songList, currentTrack]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -266,21 +224,6 @@ const SongList = () => {
   return (
     <>
       <div className="songs-list">
-        {/* PlayerHeader를 추가하여 상단에서 재생 UI 제공 */}
-        <PlayerHeader
-          selectedMusic={selectedMusic}
-          isPlaying={isPlaying}
-          isScrolled={isScrolled}
-          handleTimeUpdate={handleTimeUpdate}
-          handleLikeClick={handleLikeClick}
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-          // 여기서는 빈 함수 또는 적절한 함수들을 전달하세요.
-          getTracks={() => {}}
-          handleGetMusicList={() => {}}
-          setIsPlaying={setIsPlaying}
-          audioRef={audioRef}
-        />
         <ContentWrap title={t('Song List')}>
           <SubCategories
             categories={categories}
@@ -314,8 +257,8 @@ const SongList = () => {
                   <AlbumItem
                     key={track.id}
                     track={track}
-                    // isActive 비교: 선택된 아이템인지 확인 (예시에서는 'songlist' id 사용)
-                    isActive={`${selectedId}+${selectedMusic?.id}` === `songlist+${track.id}`}
+                    // 전역 상태의 isTrackActive 함수 사용
+                    isActive={isTrackActive(track, 'songlist')}
                     currentTime={currentTime}
                     onClick={() => {
                       handlePlay({

@@ -7,9 +7,12 @@ import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import MyAudioPlayer from '../components/MyAudioPlayer';
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
+import likeIcon from '../assets/images/like-icon.svg';
+import likeIconOn from '../assets/images/like-icon-on.svg';
 import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
+import soundIcon from '../assets/images/sound-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import './PlayerHeader.scss';
 import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
@@ -104,6 +107,12 @@ const PlayerHeader = () => {
           {currentTrack?.name || 'unKnown'}
         </span>
       </p>
+      <p className="main__header__like" onClick={() => handleLikeClick(currentTrack)}>
+        <img src={currentTrack?.is_like ? likeIconOn : likeIcon} alt="like-heart-icon" />
+      </p>
+      <button className="main__header__sound-btn ">
+        <img src={soundIcon} alt="like-heart-icon" />
+      </button>
       {/* <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">
           <p className="play">

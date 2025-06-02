@@ -27,10 +27,8 @@ import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/songs/AlbumsDetail';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
-import Intro from './pages/Intro';
 import Evaluation from './pages/Evaluation';
 import EvaluationBegin from './pages/EvaluationBegin';
-import GlobalAudioPlayer from './components/GlobalAudioPlayer';
 import PlayerHeader from './components/PlayerHeader';
 import AlarmModal from './components/AlarmModal';
 
@@ -40,7 +38,6 @@ import { WebSocketProvider } from './contexts/WebSocketContext';
 import { AudioProvider } from './contexts/AudioContext';
 import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
-import { disableEvaluation } from './data/service';
 
 function Layout({ children }) {
   return (
@@ -52,7 +49,6 @@ function Layout({ children }) {
       <Footer />
       <PlayerHeader />
       <AlarmModal />
-      {/* <GlobalAudioPlayer /> */}
     </>
   );
 }

@@ -1,5 +1,5 @@
 // api/musicApi.js
-import axios from "axios";
+import axios from 'axios';
 
 /**
  * 트랙 재생 카운트를 증가시키는 함수입니다.
@@ -10,10 +10,9 @@ import axios from "axios";
 export const incrementPlayCount = async (trackId, serverApi) => {
   try {
     await axios.post(`${serverApi}/api/music/${trackId}/play`, {});
-    console.log("incrementPlayCount POST 요청 성공");
     return true;
   } catch (error) {
-    console.error("incrementPlayCount POST 요청 실패", error);
+    console.error('incrementPlayCount POST 요청 실패', error);
     return false;
   }
 };

@@ -10,9 +10,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  */
 export const createAlbumsList = async (formData, token) => {
   // FormData 내용 로깅
-  console.log('API 호출 전 FormData:');
   for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value instanceof File ? value.name : value}`);
   }
 
   const headers = {};
@@ -29,7 +27,6 @@ export const createAlbumsList = async (formData, token) => {
     const response = await axios.post(url, formData, {
       headers,
     });
-    console.log('API 응답 성공:', response.data);
     // getAlbumsList(token, 1, "", "");
     return response;
   } catch (error) {
@@ -73,17 +70,13 @@ export const updateAlbumsList = async (albumId, formData, token) => {
     Authorization: `Bearer ${token}`,
   };
 
-  // FormData 내용 로깅
-  console.log('API 호출 전 FormData:');
   for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value instanceof File ? value.name : value}`);
   }
 
   try {
     const response = await axios.post(`${serverApi}/api/music/album/bundle/${albumId}`, formData, {
       headers,
     });
-    console.log('API 응답 성공:', response.data);
     return response;
   } catch (error) {
     console.error('API 호출 실패:', error);

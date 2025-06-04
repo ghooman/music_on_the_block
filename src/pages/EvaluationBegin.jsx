@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAudio } from '../contexts/AudioContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import OpenAI from 'openai';
 
@@ -31,6 +32,16 @@ const EvaluationBegin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
+  const {
+    currentTrack,
+    currentTime,
+    playTrack,
+    isTrackActive,
+    audioRef,
+    togglePlayPause,
+    isPlaying,
+  } = useAudio();
+  const audioPlayer = audioRef?.current?.audio?.current;
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
@@ -186,7 +197,7 @@ const EvaluationBegin = () => {
       await saveEvaluationData({
         token,
         song_id: selectMusic?.id,
-        evalution_data: evaluationResultData,
+        evaluation_data: evaluationResultData,
       });
 
       return evaluationResultData;
@@ -230,7 +241,17 @@ const EvaluationBegin = () => {
   return (
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
-        <Step1 t={t} token={token} selectMusic={selectMusic} setSelectMusic={setSelectMusic} />
+        <Step1
+          t={t}
+          token={token}
+          selectMusic={selectMusic}
+          setSelectMusic={setSelectMusic}
+          currentTrack={currentTrack}
+          currentTime={currentTime}
+          togglePlayPause={togglePlayPause}
+          playTrack={playTrack}
+          isPlaying={isPlaying}
+        />
         <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
         <Step3
           t={t}
@@ -263,7 +284,16 @@ const EvaluationBegin = () => {
 
 export default EvaluationBegin;
 
-const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
+const Step1 = ({
+  t,
+  token,
+  selectMusic,
+  setSelectMusic,
+  togglePlayPause,
+  currentTrack,
+  playTrack,
+  isPlaying,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const song_id = searchParams.get('song_id');
@@ -274,7 +304,24 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
   const search = searchParams.get('search');
 
   const { ref, inView } = useInView();
+  // 평가에서 노래 선택시 함수
+  // const handleSelectMusic = item => {
+  //   // span 클릭 시에는 임시 선택만 하고 재생하지 않음
+  //   setTemporarySelect(item);
+  // };
 
+  // SongsBar에서 앨범 커버 클릭 시 재생을 위한 함수
+  const handlePlayMusic = item => {
+    if (item?.id === currentTrack?.id) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: listData,
+        playlistId: 'evaluation-playlist',
+      });
+    }
+  };
   //===============
   // 무한 스크롤
   //===============
@@ -322,7 +369,7 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
         <p className="step1__title">
           {t('Select your song.')}
           <br />
-          {t('Click the song, then tap “Select” below to continue.')}
+          {t('Click the song, then tap "Select" below to continue.')}
         </p>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
@@ -356,7 +403,12 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
                   });
                 }}
               >
-                <SongsBar itemData={item} play={item?.id === selectMusic?.id} />
+                <SongsBar
+                  itemData={item}
+                  isSelected={item?.id === selectMusic?.id}
+                  play={item?.id === currentTrack?.id && isPlaying}
+                  onPlayClick={() => handlePlayMusic(item)}
+                />
               </span>
             ))}
           <span ref={ref} style={{ width: '100%', height: 1 }}></span>
@@ -431,7 +483,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
           {t('Please review your selected options.')}
           <br />
           {t(
-            'If you would like to proceed with these choices, click “View Results” at the bottom of the screen.'
+            'If you would like to proceed with these choices, click "View Results" at the bottom of the screen.'
           )}
         </p>
         <div className="step3__selected-song">

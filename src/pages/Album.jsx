@@ -1,6 +1,7 @@
 import '../styles/Album.scss';
 import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
+import { useAudio } from '../contexts/AudioContext';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +17,7 @@ import axios from 'axios';
 import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 import { getHitMusicList } from '../api/HitMusicList';
 import AlbumItem from '../components/unit/AlbumItem';
-import PlayerHeader from '../components/PlayerHeader';
+// import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
 import NoneContent from '../components/unit/NoneContent';
 
@@ -33,7 +34,6 @@ import 'swiper/css/free-mode';
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
-import MusicPlayer from '../components/AudioPlayer';
 import CreateLoading from '../components/CreateLoading';
 import { getEvaluationList } from '../api/evaluation/getList';
 
@@ -52,24 +52,18 @@ function Album() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { token, walletAddress } = useContext(AuthContext);
+  const { currentTrack, currentTime, playTrack, isTrackActive, audioRef, togglePlayPause } =
+    useAudio();
+
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  // 노래플레이 관련 상태
-  const [isPlaying, setIsPlaying] = useState(false);
-  // const [selectedTrackIndex, setSelectedTrackIndex] = useState(null);
-  const [currentTime, setCurrentTime] = useState(0);
-
+  // 로컬 상태로 관리할 데이터들
   const [totalList, setTotalList] = useState([]);
   const [hitList, setHitList] = useState([]);
   const [randomList, setRandomList] = useState([]);
   const [evaluationListByHighScore, setEvaluationListByHighScore] = useState([]);
   const [evaluationListByLatest, setEvaluationListByLatest] = useState([]);
-
-  const [selectedList, setSelectedList] = useState(null);
-  const [selectedMusic, setSelectedMusic] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
 
   const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
 
@@ -88,10 +82,6 @@ function Album() {
     };
     fetchTransaction();
   }, [token]);
-
-  const handleTimeUpdate = time => {
-    setCurrentTime(time);
-  };
 
   const handleLikeClick = async track => {
     try {
@@ -157,27 +147,13 @@ function Album() {
     }
   };
 
-  // 아이템 클릭하여 음악 재생시 사용되는 함수입니다.
-  // 카테고리 리스트와, id를 설정해야 재생시 나타나는 UI 중복 랜더링을 막을 수 있습니다.
+  // 전역 오디오 상태를 사용하는 handlePlay 함수
   const handlePlay = ({ list, id, track }) => {
-    setSelectedList(list);
-    setSelectedId(id);
-    setSelectedMusic(track);
-  };
-
-  // 다음 곡 재생 버튼 클릭 시
-  const handleNext = () => {
-    if (!selectedList || !selectedMusic || !selectedId) return;
-    const index = selectedList.indexOf(selectedMusic);
-    setSelectedMusic(selectedList[(index + 1) % selectedList.length]);
-  };
-
-  // 이전 곡 재생 버튼 클릭 시
-  const handlePrev = () => {
-    if (!selectedList || !selectedMusic || !selectedId) return;
-    const index = selectedList.indexOf(selectedMusic);
-    const prevIndex = (index - 1 + selectedList.length) % selectedList.length;
-    setSelectedMusic(selectedList[prevIndex]);
+    playTrack({
+      track,
+      playlist: list,
+      playlistId: id,
+    });
   };
 
   // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
@@ -185,19 +161,12 @@ function Album() {
     // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
     if (!totalList) return;
     const timer = setTimeout(() => {
-      if (totalList.length > 0 && !selectedMusic) {
+      if (totalList.length > 0 && !currentTrack) {
         handlePlay({ list: totalList, id: 'total', track: totalList[0] });
       }
     }, 2000);
     return () => clearTimeout(timer);
-  }, [totalList]);
-
-  // 선택 음악 변경 시
-  useEffect(() => {
-    if (!selectedMusic) return;
-    setIsPlaying(true);
-    setCurrentTime(0);
-  }, [selectedMusic]);
+  }, [totalList, currentTrack]);
 
   // 월렛 어드레스 변경 시 (로그인 계정 변경 시)
   useEffect(() => {
@@ -211,92 +180,27 @@ function Album() {
     getEvaluationData();
   }, [critic]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY >= 88);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const audioPlayer = audioRef?.current?.audio?.current;
 
-  const audioRef = useRef(null); // 오디오 제어용 ref
-  const player = audioRef?.current?.audio?.current;
-  // const [activeId, setActiveId] = useState(null);
-  // const handleToggle = id => {
-  //   setActiveId(prev => (prev === id ? null : id));
-  // };
+  // 평가 노래 재생 함수
+  const handlePlayEvaluation = item => {
+    const evaluationPlaylistId = 'evaluation-high-score';
+    const isCurrentlyActive = isTrackActive(item, evaluationPlaylistId);
 
-  const shuffledTotalList = useMemo(() => {
-    return [...totalList].sort(() => Math.random() - 0.5);
-  }, [totalList]); // totalList가 바뀔 때만 새로 셔플
+    if (isCurrentlyActive) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: evaluationListByHighScore,
+        playlistId: evaluationPlaylistId,
+      });
+    }
+  };
 
   return (
     <>
       <div className="main">
-        {/* <MusicPlayer/> */}
-        {/* <div
-              className={`main__header 
-              ${selectedMusic !== null ? 'active' : ''} 
-              ${isScrolled ? 'scrolled' : ''} 
-              ${isPlaying ? 'playing' : 'no-playing'}`}
-          >
-              <div className="main__header__album-cover">
-                  <p
-                      className="main__header__album-cover__img"
-                      style={{
-                          backgroundImage: `url(${
-                              selectedMusic?.cover_image === 'string' ? coverImg10 : selectedMusic?.cover_image
-                          })`,
-                      }}
-                  ></p>
-                  <p className="main__header__title">{selectedMusic?.title || 'Select an Album'}</p>
-              </div>
-              <div className="main__header__cover-info">
-                  <div className="main__header__cover-info__love-play">
-                      <p className="love" onClick={() => handleLikeClick(selectedMusic)}>
-                          <img src={selectedMusic?.is_like ? halfHeartIcon : loveIcon} alt="like-heart-icon" />
-                          {selectedMusic?.like || 0}
-                      </p>
-                      <p className="play">
-                          <img src={playIcon} alt="play-icon" />
-                          {selectedMusic?.play_cnt || 0}
-                      </p>
-                      <p>|</p>
-                      <p className="name">
-                          <img src={selectedMusic?.user_profile || defaultCoverImg} />
-                          {selectedMusic?.name || 'unKnown'}
-                      </p>
-                  </div>
-                  <Link className="main__header__cover-info__btn" to={`/song-detail/${selectedMusic?.id}`}>
-                      Details
-                  </Link>
-              </div>
-              <MyAudioPlayer
-                  track={selectedMusic}
-                  onTimeUpdate={handleTimeUpdate}
-                  // onClickPrevious={handleClickPrevious}
-                  // onClickNext={handleClickNext}
-                  onClickPrevious={handlePrev}
-                  onClickNext={handleNext}
-                  getTracks={getTracks}
-                  handleGetMusicList={handleGetMusicList}
-                  setIsPlaying={setIsPlaying}
-                  audioRef={audioRef}
-              />
-          </div> */}
-        <PlayerHeader
-          selectedMusic={selectedMusic}
-          isPlaying={isPlaying}
-          isScrolled={isScrolled}
-          handleTimeUpdate={handleTimeUpdate}
-          handleLikeClick={handleLikeClick}
-          handlePrev={handlePrev}
-          handleNext={handleNext}
-          getTracks={getTracks}
-          handleGetMusicList={handleGetMusicList}
-          setIsPlaying={setIsPlaying}
-          audioRef={audioRef}
-        />
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${
@@ -338,28 +242,28 @@ function Album() {
               title={t('Latest')}
               data={totalList}
               id="Latest"
-              selectedMusic={selectedMusic}
-              selectedId={selectedId}
+              currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
               link="/song/list?songs=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
               noDataMessage="There are no songs."
+              isTrackActive={isTrackActive}
             />
             <List
               title={t('Total')}
               data={randomList}
               // data={[...totalList].sort(() => Math.random() - 0.5)}
               id="total"
-              selectedMusic={selectedMusic}
-              selectedId={selectedId}
+              currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
               link="/song/list?songs=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
               noDataMessage="There are no songs."
+              isTrackActive={isTrackActive}
             />
 
             <section className="main__nft-market">
@@ -372,23 +276,23 @@ function Album() {
               hitMusicList={hitList}
               currentTime={currentTime}
               handleLikeClick={handleLikeClick}
-              selectedMusic={selectedMusic}
-              selectedId={selectedId}
+              currentTrack={currentTrack}
               handlePlay={handlePlay}
               id="slide"
+              isTrackActive={isTrackActive}
             />
             <section className="album__content-list">
               <List
                 title={t('AI Lyrics & Songwriting')}
                 data={randomList}
                 id="random"
-                selectedMusic={selectedMusic}
-                selectedId={selectedId}
+                currentTrack={currentTrack}
                 handlePlay={handlePlay}
                 currentTime={currentTime}
                 setPreparingModal={setPreparingModal}
                 link="/song/list?songs=Latest"
                 noDataMessage="There are no songs."
+                isTrackActive={isTrackActive}
               />
             </section>
           </article>
@@ -431,7 +335,7 @@ function Album() {
                     </p>
                     <p className='album__content-list__evaluation-stage__item__thought__txt'>
                       <img src={persona02} alt='Jinwoo-Yoo-img'/>
-                      “This track almost made me feel something. Almost. That’s a masterpiece.”
+                      "This track almost made me feel something. Almost. That's a masterpiece."
                     </p>
                   </div>
                   <dl className='album__content-list__evaluation-stage__item__title'>
@@ -447,21 +351,11 @@ function Album() {
                   <EvaluationListItemWrapper>
                     {evaluationListByHighScore.map(item => (
                       <EvaluationListItem
+                        key={item.id}
                         data={item}
-                        selectedMusic={selectedMusic}
-                        player={player}
-                        handler={() =>
-                          setSelectedMusic(prev => {
-                            if (prev?.id === item?.id) {
-                              if (player?.paused) {
-                                player?.play();
-                              } else {
-                                player?.pause();
-                              }
-                            }
-                            return item;
-                          })
-                        }
+                        selectedMusic={currentTrack}
+                        player={audioPlayer}
+                        handler={() => handlePlayEvaluation(item)}
                       />
                     ))}
                   </EvaluationListItemWrapper>
@@ -475,9 +369,8 @@ function Album() {
               title={t('Recently Rated')}
               className="recently-rated"
               data={evaluationListByLatest}
-              id="total"
-              selectedMusic={selectedMusic}
-              selectedId={selectedId}
+              id="evaluation-latest"
+              currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
               link="/song/list?songs=Latest"
@@ -485,6 +378,7 @@ function Album() {
               audioRef={audioRef}
               noDataMessage="No evaluation history yet."
               type="evaluation"
+              isTrackActive={isTrackActive}
             />
           </section>
         )}
@@ -523,8 +417,7 @@ export default Album;
 const List = ({
   data,
   id,
-  selectedMusic,
-  selectedId,
+  currentTrack,
   currentTime,
   handlePlay,
   title,
@@ -534,6 +427,7 @@ const List = ({
   className,
   noDataMessage,
   type,
+  isTrackActive,
 }) => {
   // 스와이퍼 옵션
   const { t } = useTranslation('main');
@@ -588,7 +482,7 @@ const List = ({
               <AlbumItem
                 key={track.id}
                 track={track}
-                isActive={`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`}
+                isActive={isTrackActive(track, id)}
                 currentTime={currentTime}
                 onClick={() => {
                   handlePlay({ list: list, track: track, id: id });
@@ -599,20 +493,6 @@ const List = ({
             </SwiperSlide>
           ))}
         </Swiper>
-        {/* {data?.slice(0, 9).map((track, _, list) => (
-          <React.Fragment key={`${id}+${track.id}`}>
-            <AlbumItem
-              key={track.id}
-              track={track}
-              isActive={`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`}
-              currentTime={currentTime}
-              onClick={() => {
-                handlePlay({ list: list, track: track, id: id });
-              }}
-              audioRef={audioRef}
-            />
-          </React.Fragment>
-        ))} */}
       </article>
     </section>
   );
@@ -620,14 +500,12 @@ const List = ({
 
 const ListSlider = ({
   hitMusicList,
-  selectedMusic,
+  currentTrack,
   currentTime,
   handleLikeClick,
   handlePlay,
-  selectedId,
   id,
-
-  // \n
+  isTrackActive,
 }) => {
   const { t } = useTranslation('main');
 
@@ -685,9 +563,7 @@ const ListSlider = ({
           {hitMusicList.map((track, index) => (
             <SwiperSlide
               key={track.id}
-              className={`swiper-music-list__item ${
-                selectedId + selectedMusic?.id === id + track?.id ? 'active' : ''
-              }`}
+              className={`swiper-music-list__item ${isTrackActive(track, id) ? 'active' : ''}`}
               onClick={() => handlePlay({ track: track, id: id, list: hitMusicList })}
             >
               <div className="swiper-music-list__item__left">
@@ -702,7 +578,7 @@ const ListSlider = ({
                   }}
                 ></div>
                 <span className="time">
-                  {`${selectedId}+${selectedMusic?.id}` === `${id}+${track.id}`
+                  {isTrackActive(track, id)
                     ? `${formatTime(currentTime)}`
                     : formatTime(track.duration)}
                 </span>

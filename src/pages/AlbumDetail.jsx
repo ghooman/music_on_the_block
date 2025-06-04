@@ -6,12 +6,15 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
+import { useAudio } from '../contexts/AudioContext';
 
 import coverImg from '../assets/images/black-img.jpg';
 import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
+import playSongIcon from '../assets/images/icon/album-detail-play-icon.svg';
+import stopSongIcon from '../assets/images/like-icon/like-icon.svg'; // 임시 이미지
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
@@ -80,6 +83,17 @@ function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
+  const {
+    currentTrack,
+    playTrack,
+    currentTime,
+    isPlaying,
+    togglePlayPause,
+    audioRef,
+    setIsPlaying,
+    handleGlobalLike,
+  } = useAudio();
+
   const listenTime = useRef(0);
   const navigate = useNavigate();
   const walletConnectRef = React.useRef(null);
@@ -106,7 +120,6 @@ function AlbumDetail() {
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   const [isDownloadModal, setIsDownloadModal] = useState(false);
   // 플레이어 상태 및 재생 관련 변수
-  const [isPlaying, setIsPlaying] = useState(false);
   const playCountRef = useRef(false);
   const [prevTime, setPrevTime] = useState(0);
 
@@ -246,42 +259,26 @@ function AlbumDetail() {
     }
   };
 
-  // // onListen 이벤트 핸들러 (재생 시간이 90초 이상일 때 플레이 카운트 업데이트)
-  // const handleListen = async (e) => {
-  //     const currentTime = e.target.currentTime;
-  //     // 리와인드 시 플래그 초기화
-  //     if (currentTime < prevTime) {
-  //         playCountRef.current = false;
-  //     }
-  //     setPrevTime(currentTime);
-  //     // 재생 시간이 90초 이상이고 아직 업데이트하지 않은 경우
-  //     if (!playCountRef.current && currentTime >= 90) {
-  //         await updatePlayCount();
-  //         playCountRef.current = true;
-  //     }
-  // };
-
   // 좋아요 핸들러
   const handleLike = async () => {
+    if (!album?.id || !token) return;
+
     try {
-      if (album?.is_like) {
-        await cancelLikeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, --prev.like),
-          is_like: !prev.is_like,
-        }));
-      } else {
-        await likeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, ++prev.like),
-          is_like: !prev.is_like,
-        }));
-      }
-      // 좋아요 후 전체 데이터를 다시 불러오는 대신 필요 시 play_cnt, like 등의 값만 업데이트하거나 fetchAlbumDetail 호출
+      await handleGlobalLike(
+        album.id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // 페이지 상태 업데이트
+          setAlbum(prev => ({
+            ...prev,
+            like: newLikeCount,
+            is_like: newLikeStatus,
+          }));
+        },
+        { is_like: album.is_like, like: album.like } // 현재 페이지의 좋아요 상태 전달
+      );
     } catch (error) {
-      console.error('좋아요 처리 에러:', error);
+      console.error('AlbumDetail 좋아요 처리 에러:', error);
     }
   };
 
@@ -298,7 +295,6 @@ function AlbumDetail() {
 
   useEffect(() => {
     listenTime.current = 0;
-    setIsPlaying(false);
     fetchAlbumDetail();
     getLeaderboardData();
     getFavoriteGenre();
@@ -311,31 +307,19 @@ function AlbumDetail() {
     getEvaluationData();
   }, [critic, id]);
 
-  // 앨범 데이터가 로드되면 자동 재생
+  // 앨범 데이터가 로드되면 전역 플레이어에 설정
   useEffect(() => {
-    if (album?.music_url) {
-      // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
-      const timer = setTimeout(() => {
-        setIsPlaying(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [album]);
-
-  useEffect(() => {
-    let interval;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        ++listenTime.current;
-        if (listenTime.current === 90) updatePlayCount();
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isPlaying]);
+    // if (album?.music_url) {
+    //   // 현재 재생중인 트랙이 다른 트랙이라면, 이 앨범으로 변경
+    //   if (!currentTrack || currentTrack.id !== album.id) {
+    //     playTrack({
+    //       track: album,
+    //       playlist: [album],
+    //       playlistId: 'album-detail',
+    //     });
+    //   }
+    // }
+  }, [album, currentTrack, playTrack]);
 
   // 가사 출력 전 텍스트 포맷 함수
   const formatTime = time => {
@@ -426,6 +410,7 @@ function AlbumDetail() {
 
     return () => clearTimeout(timer);
   }, []);
+
   // 버전이름 변환
   let create_version = '';
   switch (album?.ai_model) {
@@ -508,6 +493,21 @@ function AlbumDetail() {
     }
   };
 
+  // 현재 앨범이 재생 중인지 확인하는 함수
+  const isCurrentAlbumPlaying = () => {
+    return currentTrack?.id === album?.id && isPlaying;
+  };
+
+  // Play/Stop 버튼 클릭 핸들러
+  const handlePlayStopClick = () => {
+    // 항상 처음부터 재생하도록 변경
+    playTrack({
+      track: album,
+      playlist: [album],
+      playlistId: 'album-detail',
+    });
+  };
+
   return (
     <>
       {isLoading && <IntroLogo3 />}
@@ -538,29 +538,6 @@ function AlbumDetail() {
           </div>
           <div className="album-detail__song-detail__bot">
             <div className="album-detail__song-detail__left">
-              <section className="album-detail__audio">
-                <AudioPlayer
-                  src={album?.music_url}
-                  onPlay={() => {
-                    setIsPlaying(true);
-                  }}
-                  onPause={() => {
-                    setIsPlaying(false);
-                  }}
-                  onEnded={() => {
-                    setIsPlaying(false);
-                  }}
-                  // onListen={handleListen}
-                  listenInterval={1000}
-                  autoPlay={true}
-                />
-                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img
-                    src={album?.cover_image?.replace('public', '400to400') || coverImg}
-                    alt="album cover"
-                  />
-                </p>
-              </section>
               <div
                 className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                 onClick={handleClick}
@@ -610,22 +587,16 @@ function AlbumDetail() {
                   </>
                 )}
               </div>
+              {/* 재생 / 정지버튼 */}
+              <button
+                className="album-detail__song-detail__left__img__play-btn"
+                onClick={handlePlayStopClick}
+              >
+                <img src={playSongIcon} alt="play Icon" />
+                Play
+              </button>
               <div className="album-detail__song-detail__left__info">
-                {/* <div className="album-detail__song-detail__left__info__number">
-                      <p className="love" onClick={handleLike}>
-                          <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                          {album?.like || 0}
-                      </p>
-                      <p className="play">
-                          <img src={playIcon} alt="play Icon" />
-                          {album?.play_cnt || 0}
-                      </p>
-                      <p className="comment" onClick={handleScrollToComment}>
-                          <img src={commentIcon} alt="comment Icon" />
-                          {album?.comment_cnt || 0}
-                      </p>
-                    </div> */}
-                {!setIsLoggedIn && (
+                {!isLoggedIn && (
                   <div className="album-detail__song-detail__left__info__number">
                     <p className="play">
                       <img src={playIcon} alt="play Icon" />
@@ -635,10 +606,6 @@ function AlbumDetail() {
                       <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                       {album?.like || 0}
                     </p>
-                    {/* <p className="comment" onClick={handleScrollToComment}>
-                      <img src={commentIcon} alt="comment Icon" />
-                      {album?.comment_cnt || 0}
-                    </p> */}
                     {album?.rating && (
                       <p className={`nfts ${album?.rating}`}>
                         {getSongsGradeIcon(album?.rating) && (
@@ -654,7 +621,8 @@ function AlbumDetail() {
                     )}
                   </div>
                 )}
-                {setIsLoggedIn && (
+
+                {isLoggedIn && (
                   <div className="album-detail__song-detail__left__info__number">
                     <p className="play">
                       <img src={playIcon} alt="play Icon" />
@@ -663,12 +631,8 @@ function AlbumDetail() {
                     <p className="love" onClick={handleLike}>
                       <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
                       {album?.like || 0}
-                      {setIsLoggedIn && <WalletConnect onConnect={handleWalletConnect} />}
+                      {isLoggedIn && <WalletConnect onConnect={handleWalletConnect} />}
                     </p>
-                    {/* <p className="comment" onClick={handleScrollToComment}>
-                      <img src={commentIcon} alt="comment Icon" />
-                      {album?.comment_cnt || 0}
-                    </p> */}
                     {album?.rating && (
                       <p className={`nfts ${album?.rating}`}>
                         {getSongsGradeIcon(album?.rating) && (
@@ -685,24 +649,6 @@ function AlbumDetail() {
                   </div>
                 )}
                 <div className="album-detail__song-detail__left__info__btn-box">
-                  {/* <button
-                    className="album-detail__song-detail__left__info__txid-btn"
-                    onClick={handleTransactionsModal}
-                  >
-                    TXID
-                  </button>
-                  <button
-                    className="album-detail__song-detail__left__info__dow-btn"
-                  >
-                    download
-                    <img src={downloadIcon} alt='downloadIcon'/>
-                  </button>
-                  <button
-                    className="album-detail__song-detail__left__info__share-btn"
-                    onClick={() => setShareModal(true)}
-                  >
-                    <img src={shareIcon} alt="share Icon" />
-                  </button> */}
                   <button
                     className={`album-detail__song-detail__more-btn ${
                       isActiveMore ? 'active' : ''
@@ -755,10 +701,6 @@ function AlbumDetail() {
                 ))}
               </div>
               <div className="album-detail__song-detail__right__info-box">
-                {/* <dl>
-                  <dt>{t('Language')}</dt>
-                  <dd>{album?.language || '-'}</dd>
-                </dl> */}
                 <dl className="artist">
                   <dt>{t('Artist')}</dt>
                   <dd>
@@ -776,10 +718,6 @@ function AlbumDetail() {
                   <dt>{t('Genre')}</dt>
                   <dd>{album?.genre || '-'}</dd>
                 </dl>
-                {/* <dl>
-                        <dt>Stylistic</dt>
-                        <dd>{album?.Stylistic || '-'}</dd>
-                    </dl> */}
                 <dl>
                   <dt>{t('Gender')}</dt>
                   <dd>{album?.gender || '-'}</dd>
@@ -798,10 +736,6 @@ function AlbumDetail() {
                   <dt>{t('Song Length')}</dt>
                   <dd>{formatTime(albumDuration) || '-'}</dd>
                 </dl>
-                {/* <dl>
-                  <dt>{t('Detail')}</dt>
-                  <dd>{album?.detail || '-'}</dd>
-                </dl> */}
                 <p className="album-detail__song-detail__right__info-box__detail">
                   <span>{t('Musical Instrument')}</span>
                   <strong>{album?.musical_instrument || '-'}</strong>
@@ -811,13 +745,6 @@ function AlbumDetail() {
                   <strong>{album?.detail || '-'}</strong>
                 </p>
 
-                {/* 공간차지용 */}
-                {/* {album?.ai_service == 0 && (
-                  <dl style={{ visibility: 'hidden' }}>
-                    <dt>Blank</dt>
-                    <dd>-</dd>
-                  </dl>
-                )} */}
                 <div className="album-detail__control-guide">
                   <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
                   <img

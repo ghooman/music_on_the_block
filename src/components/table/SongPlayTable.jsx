@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import NoneContent from '../../components/unit/NoneContent';
 import { TableBody, TableHeader, Table, TableItem, TableWrapper } from '../table/TableCompositions';
+import { useAudio } from '../../contexts/AudioContext';
 
 import { useTranslation } from 'react-i18next';
 
@@ -60,64 +61,60 @@ const SongPlayTable = ({
   setIsTrigger,
 }) => {
   const { t } = useTranslation('module');
-  const [activeSong, setActiveSong] = useState(null);
   const navigate = useNavigate();
+
+  // AudioContext 사용
+  const { currentTrack, playTrack, togglePlayPause, isTrackActive } = useAudio();
+
   let triggerIndex = useRef(0);
-  const audioRef = useRef(null);
+
+  // 테이블 전용 playlist ID
+  const tablePlaylistId = 'song-table';
 
   useEffect(() => {
-    if (!activeSong) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = null;
-        audioRef.current.currentTime = 0;
-      }
+    if (isTrigger === true && songList.length > 0) {
+      // 첫 번째 곡 자동 재생
+      const firstSong = songList[0];
+      playTrack({
+        track: {
+          ...firstSong,
+          music_url: firstSong?.music_url || firstSong?.nft_music_url,
+        },
+        playlist: songList,
+        playlistId: tablePlaylistId,
+        continuePlay: isContinue,
+      });
+      triggerIndex.current = 0;
+    }
+  }, [isTrigger, songList, playTrack, isContinue]);
+
+  // 곡 클릭 핸들러
+  const handleSongClick = (item, index) => {
+    const isCurrentlyActive = isTrackActive(item, tablePlaylistId);
+
+    if (isCurrentlyActive) {
+      // 현재 재생 중인 곡이면 재생/일시정지 토글
+      togglePlayPause();
     } else {
-      const audio = audioRef.current;
-      if (audio) {
-        // 이전 재생 중지
-        audio.pause();
-        audio.currentTime = 0;
-
-        // 새로운 소스 설정
-        audio.src = activeSong?.music_url || activeSong?.nft_music_url;
-
-        // 로드 완료 후 재생
-        audio.load();
-        audio.oncanplaythrough = () => {
-          audio.play().catch(error => {
-            console.log('Playback failed:', error);
-          });
-        };
+      // 다른 곡이면 새로 재생
+      playTrack({
+        track: {
+          ...item,
+          music_url: item?.music_url || item?.nft_music_url,
+        },
+        playlist: songList,
+        playlistId: tablePlaylistId,
+        continuePlay: isContinue,
+      });
+      if (isTrigger && setIsTrigger) {
+        triggerIndex.current = index;
       }
     }
-  }, [activeSong]);
-
-  useEffect(() => {
-    if (isTrigger === true) {
-      setActiveSong(songList[0]);
-    } else {
-      setActiveSong(null);
-    }
-  }, [isTrigger]);
+  };
 
   return (
     <>
-      <div className="audio-container" style={{ display: 'none' }}>
-        <audio
-          controls
-          ref={audioRef}
-          onEnded={() => {
-            if (isContinue) {
-              setActiveSong(
-                songList[++triggerIndex.current] ? songList[triggerIndex.current] : songList[0]
-              );
-            } else {
-              setActiveSong(null);
-            }
-          }}
-        />
-      </div>
+      {/* 자체 오디오 엘리먼트 제거 - AudioContext에서 관리 */}
       <TableWrapper>
         <Table>
           <TableHeader>
@@ -141,26 +138,14 @@ const SongPlayTable = ({
               songList.length > 0 &&
               songList.map((item, index) => (
                 <React.Fragment key={item.id}>
-                  <TableItem
-                    isHover={true}
-                    handleClick={() => {
-                      if (activeSong?.id === item?.id) {
-                        setActiveSong(null);
-                      } else {
-                        setActiveSong(item);
-                        if (isTrigger && setIsTrigger) {
-                          triggerIndex.current = index;
-                        }
-                      }
-                    }}
-                  >
+                  <TableItem isHover={true} handleClick={() => handleSongClick(item, index)}>
                     <TableItem.Text text={index + 1} />
                     <TableItem.Song
                       image={
                         item.cover_image?.replace('public', '140to140') ||
                         item.nft_image?.replace('public', '140to140')
                       }
-                      active={item?.id === activeSong?.id}
+                      active={isTrackActive(item, tablePlaylistId)}
                       width={40}
                     />
                     <TableItem.AiServiceType service={item?.ai_service} />

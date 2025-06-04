@@ -153,6 +153,7 @@ const SongDetailsButton = ({ id }) => {
     <Link
       className="album__content-list__list__item__right__user__btn song"
       to={`/song-detail/${id}`}
+      onClick={e => e.stopPropagation()}
     >
       {t('Details')}
     </Link>
@@ -165,6 +166,7 @@ const EvaluationDetailsButton = ({ id, critic }) => {
     <Link
       className="album__content-list__list__item__right__user__btn evaluation"
       to={`/song-detail/${id}?service=AI+Singing+Evaluation&critic=${critic}`}
+      onClick={e => e.stopPropagation()}
     >
       {t('Details')}
     </Link>

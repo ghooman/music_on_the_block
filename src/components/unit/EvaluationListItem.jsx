@@ -20,6 +20,8 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
         selectedMusic?.id === data.id && !player?.paused ? 'music-play' : ''
       }`}
       onClick={() => {
+        console.log('selectedMusic', selectedMusic);
+        console.log('data', data);
         if (handler) handler();
       }}
     >

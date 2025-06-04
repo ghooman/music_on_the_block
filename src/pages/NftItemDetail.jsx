@@ -11,6 +11,9 @@ import NftConfirmModal from '../components/NftConfirmModal';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
+import stopIcon from '../assets/images/stop-icon.svg';
+import playSongIcon from '../assets/images/icon/album-detail-play-icon.svg';
+import stopSongIcon from '../assets/images/like-icon/like-icon.svg'; // 임시 이미지
 import grade1Icon from '../assets/images/icon/grade-icon/Grade01-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
@@ -47,6 +50,8 @@ import { useTranslation } from 'react-i18next';
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
 import { musicDownload } from '../utils/musicDownload';
+import { useAudio } from '../contexts/AudioContext';
+
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -91,8 +96,18 @@ const NftItemDetailInfo = ({ id, t }) => {
     useContext(AuthContext);
 
   const [isActive, setIsActive] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const walletConnectRef = React.useRef(null);
+
+  // AudioContext에서 재생 관련 함수들 가져오기
+  const {
+    playTrack,
+    currentTrack,
+    isPlaying: globalIsPlaying,
+    togglePlayPause,
+    audioRef,
+    setIsPlaying,
+    handleGlobalLike,
+  } = useAudio();
 
   const handleClick = () => {
     setIsActive(prev => !prev);
@@ -181,33 +196,40 @@ const NftItemDetailInfo = ({ id, t }) => {
   );
 
   const handleLikes = async () => {
-    if (!nftDetailData?.is_like) {
-      return await likeAlbum(nftDetailData?.song_id, token);
-    } else {
-      return await cancelLikeAlbum(nftDetailData?.song_id, token);
+    if (!nftDetailData?.song_id || !token) return;
+
+    try {
+      return await handleGlobalLike(
+        nftDetailData.song_id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // QueryClient를 통한 상태 업데이트
+          queryClient.setQueryData(['nft_detail_data', id, walletAddress?.address], prev => {
+            if (prev) {
+              return {
+                ...prev,
+                like: newLikeCount,
+                is_like: newLikeStatus,
+              };
+            }
+            return prev;
+          });
+        },
+        { is_like: nftDetailData.is_like, like: nftDetailData.like } // 현재 페이지의 좋아요 상태 전달
+      );
+    } catch (error) {
+      console.error('NftItemDetail 좋아요 처리 에러:', error);
+      throw error;
     }
   };
 
-  const mutate = useMutation(handleLikes, {
-    onSuccess: () => {
-      queryClient.setQueryData(['nft_detail_data', id, walletAddress?.address], prev => {
-        if (prev.is_like === false) {
-          prev.like = ++prev.like;
-        } else {
-          prev.like = --prev.like;
-        }
-        prev.is_like = !prev.is_like;
-        return prev;
-      });
-    },
-    onError: e => {
-      console.log(e);
-    },
-  });
-
-  const likeHandler = e => {
+  const likeHandler = async e => {
     e.preventDefault();
-    mutate?.mutate();
+    try {
+      await handleLikes();
+    } catch (error) {
+      console.error('좋아요 처리 실패:', error);
+    }
   };
 
   console.log(nftDetailData, 'nft detail data');
@@ -262,6 +284,30 @@ const NftItemDetailInfo = ({ id, t }) => {
     }
   };
 
+  // 재생 버튼 클릭 핸들러 추가
+  const handlePlayClick = () => {
+    if (nftDetailData) {
+      // 항상 처음부터 재생하도록 변경
+      const track = {
+        id: nftDetailData.song_id,
+        title: nftDetailData.nft_name,
+        music_url: nftDetailData.nft_music_url || nftDetailData.music_url,
+        cover_image: nftDetailData.nft_image,
+        user_profile: nftDetailData.user_profile,
+        name: nftDetailData.user_name,
+        play_cnt: nftDetailData.play_cnt,
+        like: nftDetailData.like,
+        is_like: nftDetailData.is_like,
+      };
+
+      playTrack({
+        track,
+        playlist: [track], // 단일 트랙 플레이리스트
+        playlistId: `nft-${id}`,
+      });
+    }
+  };
+
   return (
     <>
       {/* 숨겨진 WalletConnect 컴포넌트 */}
@@ -284,26 +330,6 @@ const NftItemDetailInfo = ({ id, t }) => {
         <section className="nft-item-detail__song-detail">
           <div className="nft-item-detail__song-detail__bot">
             <div className="nft-item-detail__song-detail__left">
-              <section className="album-detail__audio">
-                <AudioPlayer
-                  src={nftDetailData?.nft_music_url}
-                  onPlay={() => {
-                    console.log('PLAY!');
-                    setIsPlaying(true);
-                  }}
-                  onPause={() => {
-                    console.log('PAUSE!');
-                    setIsPlaying(false);
-                  }}
-                  onEnded={() => {
-                    console.log('ENDED!');
-                    setIsPlaying(false);
-                  }}
-                />
-                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img src={nftDetailData?.nft_image} alt="album cover" />
-                </p>
-              </section>
               <div
                 className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
                 onClick={handleClick}
@@ -355,6 +381,14 @@ const NftItemDetailInfo = ({ id, t }) => {
                   </>
                 )}
               </div>
+              {/* 재생 / 정지버튼 */}
+              <button
+                className="album-detail__song-detail__left__img__play-btn"
+                onClick={handlePlayClick}
+              >
+                <img src={playSongIcon} alt="play Icon" />
+                Play
+              </button>
               <div className="nft-item-detail__song-detail__left__info">
                 <div className="nft-item-detail__song-detail__left__info__number">
                   <p className="play">

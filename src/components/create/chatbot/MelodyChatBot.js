@@ -603,13 +603,13 @@ const MelodyChatBot = ({
           language: selectedLanguage,
           genre: standardizedGenre,
           style: '',
-          gender: melody_gender,
+          gender: melody_gender.length > 0 ? melody_gender : '',
           musical_instrument: Array.isArray(melody_instrument)
             ? melody_instrument.join(', ')
             : melody_instrument,
           ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
           ai_service_type: '',
-          tempo: parseInt(melody_tempo),
+          tempo: parseFloat(melody_tempo),
           song_length: '',
           lyrics: generatedLyric,
           mood: '',
@@ -763,10 +763,17 @@ const MelodyChatBot = ({
           <h3>{t('Melody Genre')}</h3>
           <input type="text" value={melodyData?.melody_genre} placeholder={t('Enter')} readOnly />
         </div>
-        <div className="music__information__gender">
-          <h3>{t('Melody Gender')}</h3>
-          <input type="text" value={melodyData?.melody_gender} placeholder={t('Enter')} readOnly />
-        </div>
+        {selectedCreationMode === 'song' && (
+          <div className="music__information__gender">
+            <h3>{t('Melody Gender')}</h3>
+            <input
+              type="text"
+              value={melodyData?.melody_gender}
+              placeholder={t('Enter')}
+              readOnly
+            />
+          </div>
+        )}
         <div className="music__information__instrument">
           <h3>{t('Melody Instrument')}</h3>
           <input

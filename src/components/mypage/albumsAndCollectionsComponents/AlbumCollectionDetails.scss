@@ -71,6 +71,7 @@
               background: var(--Color-03, #222);
               padding: 0 12px;
               display: flex;
+              justify-content: center;
               align-items: center;
               gap: 8px;
               color: var(--Text-music-sub, #aaa);
@@ -199,6 +200,7 @@
         padding: 0 12px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         color: var(--Text-music-sub, #aaa);
         font-family: Inter500;

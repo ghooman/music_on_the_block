@@ -23,6 +23,7 @@
     width: calc(33.33% - 16px);
     .album__content-list__list__item {
       // width: 320px;
+      max-width: 320px;
     }
   }
   &__item--title {

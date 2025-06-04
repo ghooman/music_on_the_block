@@ -39,7 +39,7 @@ export const SelectItemWrap = ({
           </div>
         )}
       </div>
-      {selectedLanguage && setSelectedLanguage && (
+      {/* {selectedLanguage && setSelectedLanguage && (
         <div className="tag-select language-select">
           <div className="tag-title__block">
             <h3 className="tag-title">{t('Language')}</h3>
@@ -62,7 +62,7 @@ export const SelectItemWrap = ({
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
       {visible ? children : null}
     </div>
@@ -161,7 +161,7 @@ export const SelectItem = ({
         <input
           value={input}
           className="tag-input"
-          placeholder="Please enter your keyword here"
+          placeholder={t('Please enter your keyword here')}
           maxLength={10}
           onChange={e => {
             setInput(e.target.value);
@@ -234,9 +234,9 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
             : ''
         }`}
       >
-        {tempo >= 60 && tempo <= 80 && 'Slow : Calm and reflective (60-80 BPM)'}
-        {tempo > 80 && tempo <= 120 && 'Medium: Balanced and versatile (81-120 BPM)'}
-        {tempo > 120 && 'Fast: Energetic and upbeat (121-160 BPM)'}
+        {tempo >= 60 && tempo <= 80 && t('Slow : Calm and reflective (60-80 BPM)')}
+        {tempo > 80 && tempo <= 120 && t('Medium : Balanced and versatile (81-120 BPM)')}
+        {tempo > 120 && t('Fast: Energetic and upbeat (121-160 BPM)')}
       </div>
       <div className="tag-select__range" ref={rangeRef}>
         {rangesInstance?.getSteps().map((item, index) => {
@@ -334,6 +334,7 @@ export const SelectItemSongLength = ({ songLength, setSongLength }) => {
 };
 
 export const SelectItemInputOnly = ({ value, setter, title }) => {
+  const { t } = useTranslation('song_create');
   return (
     <div className="tag-select">
       <div className="tag-title__block">
@@ -345,7 +346,7 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         value={value}
         onChange={e => setter(e.target.value)}
         type="text"
-        placeholder="Add a final mood or vibe, if you want."
+        placeholder={t('Add a final mood or vibe, if you want.')}
       />
     </div>
   );

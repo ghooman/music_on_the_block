@@ -444,6 +444,11 @@
 }
 
 @media screen and (max-width: 768px) {
+  .privacy-option,
+  .creation-mode-options {
+    width: 100% !important;
+  }
+
   .create__get-started--version {
     &.active {
       .create__get-started--version__select {

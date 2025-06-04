@@ -286,14 +286,14 @@ function App() {
                     </Layout>
                   }
                 />
-                {/* <Route
+                <Route
                   path="get/detail"
                   element={
                     <Layout>
                       <GetDetail />
                     </Layout>
                   }
-                /> */}
+                />
               </Routes>
             </div>
           </AudioProvider>

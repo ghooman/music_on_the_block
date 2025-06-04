@@ -1,0 +1,46 @@
+.get-detail-leaderboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+
+  .get-detail-leaderboard__user {
+    border-radius: 12px;
+    background-color: #222;
+  }
+  .get-detail-leaderboard__user--profile {
+    border-bottom: 1px solid #2c3a00;
+    padding: 12px 20px 12px 10px;
+  }
+  .get-detail-leaderboard__user--profile-title {
+    text-align: center;
+    color: #00d293;
+    font-size: 14px;
+    font-family: Inter600;
+  }
+
+  .get-detail-leaderboard__user--information {
+    padding: 12px 10px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .get-detail-leaderboard__user--information--item {
+    display: flex;
+    justify-content: space-between;
+    .information--item-title {
+      color: #cf0;
+      font-family: Inter400;
+      font-size: 12px;
+    }
+    .information--item-value {
+      color: #fff;
+      font-family: Inter500;
+      font-size: 14px;
+    }
+  }
+
+  .get-detail-leaderboard__tables {
+    grid-column: span 3;
+  }
+}

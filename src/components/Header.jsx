@@ -22,9 +22,7 @@ import Menu from './Menu';
 import MyPage from '../pages/MyPage';
 import SignInModal from './SignInModal';
 import CreateLoading from './CreateLoading';
-import AlarmModal from './AlarmModal';
 import AlarmNftModal from './AlarmNftModal';
-import MusicPlayer from './AudioPlayer';
 
 const Header = ({ setIsLoggedIn }) => {
   const [isSignInModal, setSignInModal] = useState(false);
@@ -189,11 +187,6 @@ const Header = ({ setIsLoggedIn }) => {
       {/* <Routes>
         <Route path="/" element={<Album />} />
       </Routes> */}
-
-      <AlarmModal />
-      {/* <AlarmNftModal /> */}
-
-      {/* <MusicPlayer /> */}
     </>
   );
 };

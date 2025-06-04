@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAudio } from '../contexts/AudioContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import OpenAI from 'openai';
 
@@ -31,6 +32,16 @@ const EvaluationBegin = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('evaluation');
   const { token } = useContext(AuthContext);
+  const {
+    currentTrack,
+    currentTime,
+    playTrack,
+    isTrackActive,
+    audioRef,
+    togglePlayPause,
+    isPlaying,
+  } = useAudio();
+  const audioPlayer = audioRef?.current?.audio?.current;
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectMusic, setSelectMusic] = useState(null);
@@ -80,9 +91,9 @@ const EvaluationBegin = () => {
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
                 가사 : ${selectMusic?.lyrics || '가사 없음.'}
                 심사위원 성향 :
-                  - 심사 철학 : ${selectCritic?.introduction}
+                  - 심사 철학 : ${selectCritic?.judgingPhilosophy}
                   - 평가 기준 중 다음 항목들을 특히 중시합니다 :
-                            ${selectCritic?.important?.join(',')}
+                            ${selectCritic?.important?.join(', \n')}
 
                   다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
@@ -106,12 +117,13 @@ const EvaluationBegin = () => {
                   }
 
                   7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
-                    selectCritic?.style
+                    selectCritic?.speechStyle
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
                   9. 심사위원의 특성에 따른 변별력을 추가하시오
                   10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
                   11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
+                  12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,
@@ -185,7 +197,7 @@ const EvaluationBegin = () => {
       await saveEvaluationData({
         token,
         song_id: selectMusic?.id,
-        evalution_data: evaluationResultData,
+        evaluation_data: evaluationResultData,
       });
 
       return evaluationResultData;
@@ -229,13 +241,28 @@ const EvaluationBegin = () => {
   return (
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
-        <Step1 t={t} token={token} selectMusic={selectMusic} setSelectMusic={setSelectMusic} />
+        <Step1
+          t={t}
+          token={token}
+          selectMusic={selectMusic}
+          setSelectMusic={setSelectMusic}
+          currentTrack={currentTrack}
+          currentTime={currentTime}
+          togglePlayPause={togglePlayPause}
+          playTrack={playTrack}
+          isPlaying={isPlaying}
+        />
         <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
         <Step3
           t={t}
           possibleCnt={possibleCnt}
           selectMusic={selectMusic}
           selectCritic={selectCritic}
+          currentTrack={currentTrack}
+          currentTime={currentTime}
+          togglePlayPause={togglePlayPause}
+          playTrack={playTrack}
+          isPlaying={isPlaying}
         />
         <ViewResults
           t={t}
@@ -262,7 +289,16 @@ const EvaluationBegin = () => {
 
 export default EvaluationBegin;
 
-const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
+const Step1 = ({
+  t,
+  token,
+  selectMusic,
+  setSelectMusic,
+  togglePlayPause,
+  currentTrack,
+  playTrack,
+  isPlaying,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const song_id = searchParams.get('song_id');
@@ -273,7 +309,24 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
   const search = searchParams.get('search');
 
   const { ref, inView } = useInView();
+  // 평가에서 노래 선택시 함수
+  // const handleSelectMusic = item => {
+  //   // span 클릭 시에는 임시 선택만 하고 재생하지 않음
+  //   setTemporarySelect(item);
+  // };
 
+  // SongsBar에서 앨범 커버 클릭 시 재생을 위한 함수
+  const handlePlayMusic = item => {
+    if (item?.id === currentTrack?.id) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: listData,
+        playlistId: 'evaluation-playlist',
+      });
+    }
+  };
   //===============
   // 무한 스크롤
   //===============
@@ -318,11 +371,7 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
   return (
     <ContentWrap title={t('Step 1')}>
       <div className="step1">
-        <p className="step1__title">
-          {t('Select your song.')}
-          <br />
-          {t('Click the song, then tap “Select” below to continue.')}
-        </p>
+        <p className="step1__title">{t('Select your song.')}</p>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
           <Search placeholder="Search by song title" />
@@ -355,7 +404,12 @@ const Step1 = ({ t, token, selectMusic, setSelectMusic }) => {
                   });
                 }}
               >
-                <SongsBar itemData={item} play={item?.id === selectMusic?.id} />
+                <SongsBar
+                  itemData={item}
+                  isSelected={item?.id === selectMusic?.id}
+                  play={item?.id === currentTrack?.id && isPlaying}
+                  onPlayClick={() => handlePlayMusic(item)}
+                />
               </span>
             ))}
           <span ref={ref} style={{ width: '100%', height: 1 }}></span>
@@ -403,7 +457,7 @@ const Step2 = ({ t, setSelectCritic }) => {
                   }
                 })
               }
-              key={item?.id}
+              key={item?.name}
             >
               <img src={item?.image} alt="Jinwoo Yoo" />
               <dl className="step2__choose__item__title">
@@ -422,7 +476,31 @@ const Step2 = ({ t, setSelectCritic }) => {
   );
 };
 
-const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }) => {
+const Step3 = ({
+  t,
+  possibleCnt,
+  selectMusic,
+  selectCritic,
+  possibleCntLoading,
+
+  currentTrack,
+  currentTime,
+  togglePlayPause,
+  playTrack,
+  isPlaying,
+}) => {
+  const handlePlayMusic = item => {
+    if (item?.id === currentTrack?.id) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: [],
+        playlistId: 'evaluation-playlist',
+      });
+    }
+  };
+
   return (
     <ContentWrap title={t('Step 3')}>
       <div className="step3">
@@ -435,7 +513,14 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
         </p>
         <div className="step3__selected-song">
           <p className="step3__selected-song__title">{t('Selected Song')}</p>
-          {selectMusic && <SongsBar itemData={selectMusic} />}
+          {selectMusic && (
+            <SongsBar
+              itemData={selectMusic}
+              onPlayClick={() => handlePlayMusic(selectMusic)}
+              isSelected={true}
+              play={selectMusic?.id === currentTrack?.id && isPlaying}
+            />
+          )}
           {!selectMusic && (
             <NoneContent height={130} message="Please select your song and music critic." />
           )}

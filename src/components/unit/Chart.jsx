@@ -321,50 +321,54 @@ export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
   );
 };
 
-const radarDummy = [
-  { item: '80 (Emotion)', value: 80 },
-  { item: 'Creativity', value: 90 },
-  { item: 'Structure', value: 70 },
-  { item: 'Sound', value: 80 },
-  { item: 'Popularity', value: 90 },
-];
+// const radarDummy = [
+//   { item: '80 (Emotion)', value: 80 },
+//   { item: 'Creativity', value: 90 },
+//   { item: 'Structure', value: 70 },
+//   { item: 'Sound', value: 80 },
+//   { item: 'Popularity', value: 90 },
+// ];
 
 export const RadarChart = ({
-  data = radarDummy, // 넘겨주는 데이터가 없으면 더미 사용
+  data = null, // 넘겨주는 데이터가 없으면 더미 사용
   height = '100%',
   width = '100%',
-}) => (
-  <div style={{ height, width }}>
-    <ResponsiveRadar
-      /* ───── 핵심 파라미터 ───── */
-      data={data}
-      keys={['value']} // 축 레이블
-      indexBy="item" // 다각형 구분 필드
-      /* ───── 레이아웃 ───── */
-      // maxValue="auto"
-      margin={{ top: 20, right: 10, bottom: 10, left: 10 }}
-      gridShape="linear"
-      gridLevels={8}
-      curve="linearClosed"
-      valueFormat=">-.2f"
-      /* ───── 스타일 ───── */
-      colors={['#cf0']}
-      fillOpacity={0.5}
-      borderWidth={2}
-      borderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
-      dotSize={4}
-      dotColor={{ theme: 'background' }}
-      dotBorderWidth={2}
-      gridLabelOffset={8}
-      /* ───── 모션 & 인터랙션 ───── */
-      motionConfig="wobbly"
-      isInteractive={false}
-      maxValue={100}
-      /* ───── 테마 (축·격자 색상) ───── */
-      theme={{
-        axis: { ticks: { text: { fill: '#fff', fontSize: 14 } } },
-        grid: { line: { stroke: '#0F71B8', strokeWidth: 1 } },
-      }}
-    />
-  </div>
-);
+}) => {
+  if (!data) return;
+
+  return (
+    <div style={{ height, width }}>
+      <ResponsiveRadar
+        /* ───── 핵심 파라미터 ───── */
+        data={data}
+        keys={['value']} // 축 레이블
+        indexBy="item" // 다각형 구분 필드
+        /* ───── 레이아웃 ───── */
+        // maxValue="auto"
+        margin={{ top: 20, right: 10, bottom: 10, left: 10 }}
+        gridShape="linear"
+        gridLevels={8}
+        curve="linearClosed"
+        valueFormat=">-.2f"
+        /* ───── 스타일 ───── */
+        colors={['#cf0']}
+        fillOpacity={0.5}
+        borderWidth={2}
+        borderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
+        dotSize={4}
+        dotColor={{ theme: 'background' }}
+        dotBorderWidth={2}
+        gridLabelOffset={8}
+        /* ───── 모션 & 인터랙션 ───── */
+        motionConfig="wobbly"
+        isInteractive={false}
+        maxValue={100}
+        /* ───── 테마 (축·격자 색상) ───── */
+        theme={{
+          axis: { ticks: { text: { fill: '#fff', fontSize: 14 } } },
+          grid: { line: { stroke: '#0F71B8', strokeWidth: 1 } },
+        }}
+      />
+    </div>
+  );
+};

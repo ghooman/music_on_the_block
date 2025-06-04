@@ -1,7 +1,82 @@
 .main {
-  padding-top: 156px;
-
   // .album__content-list {
+  .main__to-day-header{
+    width: 100%;
+    .main__to-day-header__song-create{
+      width: 100%;
+      color: #FFF;
+      font-family: Pretendard800;
+      font-size: 24px;
+      margin-bottom: 32px;
+      .main__to-day-header__song-create__title{
+        color: #FFF;
+        font-family: Pretendard800;
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      .main__to-day-header__song-create-list{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        .main__to-day-header__song-create-list__item{
+          flex: 1;
+          display: flex;
+          // align-items: center;
+          // justify-content: center;
+          flex-direction: column;
+          position: relative;
+          border-radius: 20px;
+          background: linear-gradient(180deg, #482561 0%, #210536 100%);
+          padding: 30px;
+          min-height: 220px;
+          overflow: hidden;
+          transition: 0.3s;
+          &:hover{
+            img{
+              transform: translate(-8px,-16px);
+            }
+          }
+          .main__to-day-header__song-create-list__item__title{
+            color: #FFF;
+            font-family: Pretendard700;
+            font-size: 24px;
+            // margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+          }
+          img{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            z-index: 0;
+            transition: 0.3s;
+          }
+          &:nth-child(1){
+            img{
+              bottom: -56px;
+            }
+          }
+          &:nth-child(2){
+            background: linear-gradient(180deg, #2C5725 0%, #052400 100%);
+            img{
+              bottom: -49px;
+              right: -10px;
+            }
+          }
+          &:nth-child(3){
+            background: linear-gradient(180deg, #21376B 0%, #00113B 100%);
+            img{
+              bottom: -49px;
+              right: -10px;
+            }
+          }
+        }//main__to-day-header__song-create-list__item--END--
+      }//main__to-day-header__song-create-list--END--
+    }//main__to-day-header__song-create--END--
+  }//main__to-day-header--END--
   .album__content-list__tab {
     display: flex;
     align-items: center;
@@ -917,8 +992,21 @@
   }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1340px) {
   .main {
+    .main__to-day-header{
+      .main__to-day-header__song-create{
+        .main__to-day-header__song-create-list{
+          .main__to-day-header__song-create-list__item{
+            img{
+              width: 144px;
+              height: 144px;
+              bottom: 0 !important;
+            }
+          }
+        }
+      }
+    }
     .main__content-item {
       .album__content-list__evaluation-stage {
         .album__content-list__evaluation-stage__item {
@@ -976,7 +1064,7 @@
 
 @media screen and (max-width: 980px) {
   .main {
-    padding-top: 166px;
+    // padding-top: 166px;
 
     .album__content-list {
       .album__content-list__list {
@@ -1010,8 +1098,34 @@
 @media screen and (max-width: 768px) {
   .main {
     // padding-top: 226px;
-    padding-top: 116px;
-
+    // padding-top: 116px;
+    .main__to-day-header{
+      .main__to-day-header__song-create{
+        .main__to-day-header__song-create-list{
+          overflow: auto;
+          padding-bottom: 8px;
+          .main__to-day-header__song-create-list__item{
+            width: 300px;
+            flex:300px;
+            flex-shrink: 0;
+            min-height: 120px;
+            &:hover{
+              img{
+                transform: translate(0) !important;
+              }
+            }
+            .main__to-day-header__song-create-list__item__title{
+              font-size: 14px;
+            }
+            img{
+              width: 114px;
+              height: 114px;
+              bottom: -16px !important;
+            }
+          }
+        }
+      }
+    }
     .album__content-list__tab {
       padding-bottom: 16px;
     }

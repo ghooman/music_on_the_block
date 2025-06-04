@@ -3,13 +3,14 @@
   height: 26px;
   padding: 4px;
   border-radius: 4px;
-  background: url("../assets/images/alarm.png") center no-repeat #cf0;
+  background: url('../assets/images/alarm.png') center no-repeat #cf0;
   background-size: 20px 20px;
   position: fixed;
   right: -30px;
   bottom: 70px;
   cursor: pointer;
   transition: 0.3s;
+  z-index: 11;
   &.active {
     right: 16px;
   }

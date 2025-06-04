@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
-import { GetMyTopAlbumList } from '../../../api/GetMyTopAlbumList';
 import { getReleaseAndUnReleaseSongData } from '../../../api/getReleaseAndUnReleaseSongData';
 
 import TopSongsTemplates from './TopSongsTemplate';
@@ -24,7 +23,6 @@ import generatedLyricSongwritingIcon from '../../../assets/images/icon/generated
 import generatedSigingEvaluationIcon from '../../../assets/images/icon/generated-singing-evaluation.svg';
 import generatedCoverCreationIcon from '../../../assets/images/icon/generated-cover-creation.svg';
 import { getEvaluationList } from '../../../api/evaluation/getList';
-import SongsBar from '../../unit/SongsBar';
 import { EvaluationListItem, EvaluationListItemWrapper } from '../../unit/EvaluationListItem';
 import NoneContent from '../../unit/NoneContent';
 import { disableEvaluation } from '../../../data/service';

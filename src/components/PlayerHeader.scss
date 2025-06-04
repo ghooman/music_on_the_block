@@ -192,11 +192,15 @@
     //   background-size: cover;
     //   z-index: -2;
     // }
+    
     .main__header__title {
       position: absolute;
       top: 0;
       left: 52px;
-      width: 240px;
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     } //main__header__title--END--
   } //main__header__album-cover--END--
   .main__header__cover-info {
@@ -394,6 +398,32 @@
     // top: 96px;
     &.scrolled {
       // top: 96px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main__header {
+      .main__header__album-cover{
+        .main__header__title{
+          width: 100px;
+        }
+      }
+    .main__header__like,.main__header__sound-btn,.rhap_volume-controls {
+      display: none;
+    }
+    .rhap_main-controls{
+      justify-content: end;
+      position: relative;
+      right: -26px;
+      button{
+        &:nth-child(1){
+          display: none;  
+        }
+      }
+      .rhap_skip-button{
+        // display: none;
+      }
     }
   }
 }

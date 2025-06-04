@@ -1109,6 +1109,11 @@
             flex:300px;
             flex-shrink: 0;
             min-height: 120px;
+            &:hover{
+              img{
+                transform: translate(0) !important;
+              }
+            }
             .main__to-day-header__song-create-list__item__title{
               font-size: 14px;
             }

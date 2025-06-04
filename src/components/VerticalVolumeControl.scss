@@ -1,0 +1,67 @@
+/* components/VerticalVolumeControl.scss */
+
+/* 1) 컨테이너 설정 */
+.vertical-volume-control {
+  /* 실제 원하는 세로 슬라이더 높이 (예: 120px) */
+  height: 220px;
+  /* 슬라이더 두께 정도로 충분한 너비 (30px 권장) */
+  width: 20px;
+}
+
+/* 2) 메인 슬라이더(input) 스타일 */
+/*    회전 전: width=120px × height=6px  */
+.vertical-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  position: absolute;
+  top: 76%;
+  right: 10%;
+  transform: rotate(-90deg) translate(-50%, -50%);
+  transform-origin: center;
+
+  /* 회전 전 길이는 컨테이너 높이(120px)와 일치해야 합니다 */
+  width: 90px; /* 반드시 .vertical-volume-control의 height와 동일 */
+  height: 6px; /* 슬라이더 두께 */
+
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+/* 3) WebKit 계열(track) 스타일 (Chrome, Safari 등) */
+.vertical-slider::-webkit-slider-runnable-track {
+  background: #ddd; /* 원하는 트랙 색상으로 바꿔도 됩니다 */
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* 3.1) WebKit 계열(thumb) 스타일 (Chrome, Safari 등) */
+.vertical-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 12px; /* thumb 크기 */
+  height: 12px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -2px;
+}
+
+/* 4) Firefox 계열(track) 스타일 */
+.vertical-slider::-moz-range-track {
+  background: #ddd;
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* 4.1) Firefox 계열(thumb) 스타일 */
+.vertical-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0;
+}

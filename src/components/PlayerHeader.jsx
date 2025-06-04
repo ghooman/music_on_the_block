@@ -32,6 +32,8 @@ const PlayerHeader = () => {
     setIsPlaying,
     audioRef,
     setCurrentTrack,
+    isMuted,
+    toggleMute,
   } = useAudio();
 
   // 스크롤 이벤트 리스너
@@ -111,9 +113,8 @@ const PlayerHeader = () => {
       <p className="main__header__like" onClick={() => handleLikeClick(currentTrack)}>
         <img src={currentTrack?.is_like ? likeIconOn : likeIcon} alt="like-heart-icon" />
       </p>
-      <button className="main__header__sound-btn ">
-        <img src={soundIcon} alt="like-heart-icon" />
-        {/* <img src={soundIconOff} alt="like-heart-icon-off" /> */}
+      <button className="main__header__sound-btn" onClick={toggleMute}>
+        <img src={isMuted ? soundIconOff : soundIcon} alt="sound-icon" />
       </button>
       {/* <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">

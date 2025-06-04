@@ -19,7 +19,7 @@ const MyAudioPlayer = ({
   audioRef,
 }) => {
   const { token } = useContext(AuthContext);
-  const { playKey } = useAudio();
+  const { playKey, isMuted, volume } = useAudio();
   const serverApi = process.env.REACT_APP_SERVER_API;
   const hasCountedRef = useRef(false);
   const [prevTime, setPrevTime] = useState(0);
@@ -49,7 +49,16 @@ const MyAudioPlayer = ({
 
   useEffect(() => {
     setIsPlaying(false);
-  }, [track, setIsPlaying]);
+
+    // 오디오 요소에 음소거 상태와 볼륨 적용
+    setTimeout(() => {
+      const audioElement = audioRef.current?.audio?.current;
+      if (audioElement) {
+        audioElement.muted = isMuted;
+        audioElement.volume = volume;
+      }
+    }, 100);
+  }, [track, setIsPlaying, isMuted, volume]);
 
   const handleEnded = () => {
     setIsPlaying(false);

@@ -24,6 +24,12 @@ export const AudioProvider = ({ children }) => {
   // 자동 재생 옵션
   const [isContinue, setIsContinue] = useState(true);
 
+  // 음소거 상태 추가
+  const [isMuted, setIsMuted] = useState(false);
+
+  const [volume, setVolume] = useState(1);
+  const [previousVolume, setPreviousVolume] = useState(1); // 음소거 해제 시 복원할 볼륨
+
   // 재생 키 (매번 새로운 재생을 위해)
   const [playKey, setPlayKey] = useState(0);
 
@@ -130,6 +136,52 @@ export const AudioProvider = ({ children }) => {
     [currentTrack, currentPlaylistId]
   );
 
+  // 음소거 토글 함수 추가
+  const toggleMute = useCallback(() => {
+    const audioElement = audioRef.current?.audio?.current;
+    if (audioElement) {
+      if (isMuted) {
+        // 음소거 해제: 이전 볼륨으로 복원
+        const restoreVolume = previousVolume > 0 ? previousVolume : 0.5;
+        audioElement.volume = restoreVolume;
+        audioElement.muted = false;
+        setVolume(restoreVolume);
+        setIsMuted(false);
+      } else {
+        // 음소거 활성화: 현재 볼륨 저장하고 0으로 설정
+        setPreviousVolume(volume);
+        audioElement.volume = 0;
+        audioElement.muted = true;
+        setVolume(0);
+        setIsMuted(true);
+      }
+    }
+  }, [isMuted, volume, previousVolume]);
+
+  // 볼륨 설정 함수 추가
+  const handleVolumeChange = useCallback(
+    newVolume => {
+      const audioElement = audioRef.current?.audio?.current;
+      if (audioElement) {
+        audioElement.volume = newVolume;
+        audioElement.muted = newVolume === 0;
+        setVolume(newVolume);
+
+        // 볼륨이 0이면 음소거 상태로, 0보다 크면 음소거 해제
+        if (newVolume === 0) {
+          setIsMuted(true);
+        } else {
+          if (isMuted) {
+            setIsMuted(false);
+          }
+          // 볼륨이 0보다 크면 이전 볼륨으로 기록
+          setPreviousVolume(newVolume);
+        }
+      }
+    },
+    [isMuted]
+  );
+
   const value = {
     // 상태
     currentTrack,
@@ -142,6 +194,8 @@ export const AudioProvider = ({ children }) => {
     isScrolled,
     audioRef,
     playKey,
+    isMuted,
+    volume,
 
     // 액션들
     playTrack,
@@ -155,6 +209,8 @@ export const AudioProvider = ({ children }) => {
     setIsScrolled,
     setCurrentTrack,
     setIsContinue,
+    toggleMute,
+    handleVolumeChange,
   };
 
   return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;

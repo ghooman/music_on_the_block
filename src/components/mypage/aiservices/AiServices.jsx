@@ -239,7 +239,7 @@ const EvaluationStatus = ({ t, username }) => {
     {
       id: 'Elara Moon',
       value: findCriticsCount('Elara Moon'),
-      color: 'hsl(139, 100.00%, 11.00%)',
+      color: 'hsl(170, 100.00%, 11.00%)',
     },
   ];
 

@@ -82,7 +82,7 @@ const EvaluationBegin = () => {
                 심사위원 성향 :
                   - 심사 철학 : ${selectCritic?.introduction}
                   - 평가 기준 중 다음 항목들을 특히 중시합니다 :
-                            ${selectCritic?.important?.join(',')}
+                            ${selectCritic?.important?.join(', \n')}
 
                   다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 

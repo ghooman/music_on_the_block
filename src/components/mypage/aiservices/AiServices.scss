@@ -1,9 +1,11 @@
 .ai__services {
   margin-top: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 40px;
+  overflow: auto;
+  padding: 0 0 16px 0;
   .ai__service-btn {
     color: var(--Text-music-title, #f1f1f1);
     font-family: Orbitron600;

@@ -305,7 +305,7 @@
   .full-evaluation__point-box {
     width: 100%;
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: space-between;
     gap: 16px;
     border-radius: 8px;
@@ -321,7 +321,7 @@
         color: var(--Text-music-sub, #aaa);
         text-align: center;
         font-family: Inter500;
-        font-size: 12px;
+        font-size: 16px;
       }
       dd {
         color: var(--Text-music-title, #f1f1f1);

@@ -1,5 +1,76 @@
 .main {
   // .album__content-list {
+  .main__to-day-header{
+    width: 100%;
+    .main__to-day-header__song-create{
+      width: 100%;
+      color: #FFF;
+      font-family: Pretendard800;
+      font-size: 24px;
+      margin-bottom: 32px;
+      .main__to-day-header__song-create__title{
+        color: #FFF;
+        font-family: Pretendard800;
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      .main__to-day-header__song-create-list{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        .main__to-day-header__song-create-list__item{
+          flex: 1;
+          display: flex;
+          // align-items: center;
+          // justify-content: center;
+          flex-direction: column;
+          position: relative;
+          border-radius: 20px;
+          background: linear-gradient(180deg, #482561 0%, #210536 100%);
+          padding: 30px;
+          min-height: 220px;
+          overflow: hidden;
+          .main__to-day-header__song-create-list__item__title{
+            color: #FFF;
+            font-family: Prompt700;
+            font-size: 24px;
+            // margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+          }
+          img{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            z-index: 0;
+            transition: 0.3s;
+          }
+          &:nth-child(1){
+            img{
+              bottom: -56px;
+            }
+          }
+          &:nth-child(2){
+            background: linear-gradient(180deg, #2C5725 0%, #052400 100%);
+            img{
+              bottom: -49px;
+              right: -10px;
+            }
+          }
+          &:nth-child(3){
+            background: linear-gradient(180deg, #21376B 0%, #00113B 100%);
+            img{
+              bottom: -49px;
+              right: -10px;
+            }
+          }
+        }//main__to-day-header__song-create-list__item--END--
+      }//main__to-day-header__song-create-list--END--
+    }//main__to-day-header__song-create--END--
+  }//main__to-day-header--END--
   .album__content-list__tab {
     display: flex;
     align-items: center;

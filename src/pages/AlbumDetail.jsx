@@ -896,6 +896,8 @@ function AlbumDetail() {
                 if (item.preparing) {
                   setPreparingModal(true);
                   return;
+                } else if (service === item.service) {
+                  return;
                 }
                 setSearchParams({ service: item.service });
               }}

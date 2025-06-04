@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAudio } from '../contexts/AudioContext';
 import './VerticalVolumeControl.scss';
 
-const VerticalVolumeControl = ({ audioElement }) => {
+const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHovered }) => {
   const { volume, handleVolumeChange } = useAudio();
   const [localVolume, setLocalVolume] = useState(volume);
 
@@ -28,7 +28,11 @@ const VerticalVolumeControl = ({ audioElement }) => {
   };
 
   return (
-    <div className="vertical-volume-control">
+    <div
+      className="vertical-volume-control"
+      onMouseEnter={() => setIsVolumeHovered && setIsVolumeHovered(true)}
+      onMouseLeave={() => setIsVolumeHovered && setIsVolumeHovered(false)}
+    >
       <input
         className="vertical-slider"
         type="range"
@@ -38,6 +42,9 @@ const VerticalVolumeControl = ({ audioElement }) => {
         value={localVolume}
         onChange={handleChange}
         orient="vertical"
+        style={{
+          display: isVolumeHovered ? 'block' : 'none',
+        }}
       />
     </div>
   );

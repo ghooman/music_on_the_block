@@ -1,5 +1,5 @@
 // PlayerHeader.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAudio } from '../contexts/AudioContext';
 import { useContext } from 'react';
@@ -34,7 +34,7 @@ const PlayerHeader = () => {
     toggleMute,
     handleGlobalLike,
   } = useAudio();
-
+  const [isVolumeHovered, setIsVolumeHovered] = useState(false);
   // 스크롤 이벤트 리스너
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +90,12 @@ const PlayerHeader = () => {
       <p className="main__header__like" onClick={() => handleLikeClick(currentTrack)}>
         <img src={currentTrack?.is_like ? likeIconOn : likeIcon} alt="like-heart-icon" />
       </p>
-      <button className="main__header__sound-btn" onClick={toggleMute}>
+      <button
+        className="main__header__sound-btn"
+        onClick={toggleMute}
+        onMouseEnter={() => setIsVolumeHovered(true)}
+        onMouseLeave={() => setIsVolumeHovered(false)}
+      >
         <img src={isMuted ? soundIconOff : soundIcon} alt="sound-icon" />
       </button>
       {/* <div className="main__header__cover-info">
@@ -122,6 +127,8 @@ const PlayerHeader = () => {
         handleGetMusicList={() => {}} // 전역에서 관리하므로 필요 시 별도 구현
         setIsPlaying={setIsPlaying}
         audioRef={audioRef}
+        isVolumeHovered={isVolumeHovered}
+        setIsVolumeHovered={setIsVolumeHovered}
       />
     </div>
   );

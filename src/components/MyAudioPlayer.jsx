@@ -17,6 +17,8 @@ const MyAudioPlayer = ({
   handleGetMusicList,
   setIsPlaying,
   audioRef,
+  isVolumeHovered,
+  setIsVolumeHovered,
 }) => {
   const { token } = useContext(AuthContext);
   const { playKey, isMuted, volume } = useAudio();
@@ -84,7 +86,14 @@ const MyAudioPlayer = ({
       showVolumeControls={false}
       customVolumeControls={
         actualAudioElement
-          ? [<VerticalVolumeControl key="vertical-volume" audioElement={actualAudioElement} />]
+          ? [
+              <VerticalVolumeControl
+                key="vertical-volume"
+                audioElement={actualAudioElement}
+                isVolumeHovered={isVolumeHovered}
+                setIsVolumeHovered={setIsVolumeHovered}
+              />,
+            ]
           : []
       }
       onPlay={handlePlay}

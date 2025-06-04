@@ -11,7 +11,6 @@ const ConfirmModal = ({
   okMessage,
   okHandler,
   loading,
-  setLoading,
 }) => {
   const { t } = useTranslation('modal');
 

@@ -660,11 +660,11 @@ function AlbumDetail() {
                       <li onClick={copyToClipboard}>
                         {!copied ? (
                           <>
-                            Copy Link <img src={copyIcon} />
+                            {t('Copy Link')} <img src={copyIcon} />
                           </>
                         ) : (
                           <>
-                            Copied Link <img src={checkIcon} />
+                            {t('Copied Link')} <img src={checkIcon} />
                           </>
                         )}
                       </li>
@@ -674,7 +674,7 @@ function AlbumDetail() {
                           handleDownloadClick(e);
                         }}
                       >
-                        Download <img src={downloadIcon} />
+                        {t('Download')} <img src={downloadIcon} />
                       </li>
                       <li
                         onClick={e => {
@@ -823,6 +823,8 @@ function AlbumDetail() {
                 if (item.preparing) {
                   setPreparingModal(true);
                   return;
+                } else if (service === item.service) {
+                  return;
                 }
                 setSearchParams({ service: item.service });
               }}
@@ -941,7 +943,12 @@ function AlbumDetail() {
                 </div>
               ))}
             </article>
-            <EvaluationResultsComp evaluationData={evaluationData} critic={critic} />
+            <EvaluationResultsComp
+              evaluationData={evaluationData}
+              critic={critic}
+              songData={album}
+              isOwner={album?.is_owner}
+            />
           </>
         )}
       </div>

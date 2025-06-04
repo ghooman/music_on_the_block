@@ -64,6 +64,10 @@
   font-family: 'Inter700';
   src: url('./assets/fonts/Inter_24pt-Bold.ttf');
 }
+@font-face {
+  font-family: 'Inter800';
+  src: url('./assets/fonts//Inter_24pt-ExtraBold.ttf');
+}
 
 @font-face {
   font-family: Inter400;
@@ -220,8 +224,7 @@ img {
   width: 5px;
 }
 
-
-.header-flex{
+.header-flex {
   display: flex;
   gap: 16px;
 }

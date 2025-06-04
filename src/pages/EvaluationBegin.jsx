@@ -10,6 +10,8 @@ import Loading from '../components/IntroLogo2';
 import ErrorModal from '../components/modal/ErrorModal';
 import SongsBar from '../components/unit/SongsBar';
 import ContentWrap from '../components/unit/ContentWrap';
+import Search from '../components/unit/Search';
+import EvaluationConfirmModal from '../components/EvaluationConfirmModal';
 
 import { getPossibleCount } from '../api/evaluation/getPossibleCount';
 import { getReleaseAndUnReleaseSongData } from '../api/getReleaseAndUnReleaseSongData';
@@ -46,10 +48,12 @@ const EvaluationBegin = () => {
   const [selectCritic, setSelectCritic] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [evaluationConfirmModal, setEvaluationConfirmModal] = useState(false);
+
   //================
   // 생성 가능 횟수 체크
   //================
-  const { data: possibleCnt, isFe: possibleCntLoading } = useQuery(
+  const { data: possibleCnt, isFetching: possibleCntLoading } = useQuery(
     ['evaluation_possible_cnt', token, selectMusic?.id, selectCritic?.name],
     async () => {
       const res = await getPossibleCount({
@@ -87,38 +91,39 @@ const EvaluationBegin = () => {
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
                 가사 : ${selectMusic?.lyrics || '가사 없음.'}
                 심사위원 성향 :
-                  - 심사 철학 : ${selectCritic?.introduction}
+                  - 심사 철학 : ${selectCritic?.judgingPhilosophy}
                   - 평가 기준 중 다음 항목들을 특히 중시합니다 :
-                            ${selectCritic?.important?.join(',')}
+                            ${selectCritic?.important?.join(', \n')}
 
-                다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
+                  다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
                   1. 입력 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함합니다.
                   2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
                   3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
-                  4. 각 항목의 점수는 0점에서 100점까지의 정수로 평가합니다.
+                  4. 각 항목의 점수는 0점에서 100점까지의 실수형태로 평가합니다.
                   5. 응답은 반드시 한글로 작성하시오.
                   6. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
 
                   {
-                    "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수 (0.0~100.0)
-                    "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수 (0.0~100.0)
-                    "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수 (0.0~100.0)
-                    "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수 (0.0~100.0)
-                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수 (0.0~100.0)
-                    "feedback": "",        // 항목별 모든 속성을 반드시 평가 
-                    "to_improve": "",      // 개선이 필요한 점
-                    "why_this_score": "",  // 각 점수를 준 이유에 대한 간략한 설명
-                    "key_points": ""       // 핵심 개선 포인트 요약
+                    "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수(0.0~100.0)
+                    "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수(0.0~100.0)
+                    "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
+                    "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
+                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)
+                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 
+                    "to_improve": "",        // 개선이 필요한 점
+                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
+                    "key_points": ""         // 핵심 개선 포인트 요약
                   }
 
                   7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
-                    selectCritic?.style
+                    selectCritic?.speechStyle
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
                   9. 심사위원의 특성에 따른 변별력을 추가하시오
                   10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
-                  10. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
+                  11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
+                  12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,
@@ -127,6 +132,7 @@ const EvaluationBegin = () => {
           ],
         });
         responses = JSON.parse(response?.choices[0]?.message?.content);
+
         return true;
       } catch (error) {
         console.error(error);
@@ -212,13 +218,14 @@ const EvaluationBegin = () => {
         song_id: selectMusic?.id,
         critic: selectCritic?.name,
       });
-      const { task_id } = res.data;
-      const analData = await getAnalysisData({ task_id });
-      const evaluationResultData = await getEvaluationResult({ analysisResult: analData?.result });
-      const result = await saveEvaluationScore(evaluationResultData);
+      const { task_id } = res.data; // task_id 발급
+      const analData = await getAnalysisData({ task_id }); // 분석 데이터 반환
+      const evaluationResultData = await getEvaluationResult({ analysisResult: analData?.result }); // GPT로 최종 점수 정의
+      const result = await saveEvaluationScore(evaluationResultData); // 저장
       navigate('/evaluation-results', { state: result });
     } catch (e) {
       console.error(e);
+      setEvaluationConfirmModal(false);
       setErrorMessage(e?.response?.data?.detail || e?.message);
     } finally {
       setIsLoading(false);
@@ -234,40 +241,48 @@ const EvaluationBegin = () => {
   return (
     <>
       <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
-        <ContentWrap title={t('Step 1')}>
-          <Step1
-            t={t}
-            token={token}
-            setSelectMusic={setSelectMusic}
-            currentTrack={currentTrack}
-            togglePlayPause={togglePlayPause}
-            playTrack={playTrack}
-            audioPlayer={audioPlayer}
-            isPlaying={isPlaying}
-          />
-        </ContentWrap>
-        <ContentWrap title={t('Step 2')} border={false}>
-          <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
-        </ContentWrap>
-        <ContentWrap title={t('Step 3')}>
-          <Step3
-            t={t}
-            possibleCnt={possibleCnt}
-            selectCritic={selectCritic}
-            selectMusic={selectMusic}
-          />
-        </ContentWrap>
+        <Step1
+          t={t}
+          token={token}
+          selectMusic={selectMusic}
+          setSelectMusic={setSelectMusic}
+          currentTrack={currentTrack}
+          currentTime={currentTime}
+          togglePlayPause={togglePlayPause}
+          playTrack={playTrack}
+          isPlaying={isPlaying}
+        />
+        <Step2 t={t} selectCritic={selectCritic} setSelectCritic={setSelectCritic} />
+        <Step3
+          t={t}
+          possibleCnt={possibleCnt}
+          selectMusic={selectMusic}
+          selectCritic={selectCritic}
+          currentTrack={currentTrack}
+          currentTime={currentTime}
+          togglePlayPause={togglePlayPause}
+          playTrack={playTrack}
+          isPlaying={isPlaying}
+        />
         <ViewResults
           t={t}
           possibleCnt={possibleCnt}
           selectMusic={selectMusic}
           selectCritic={selectCritic}
           possibleCntLoading={possibleCntLoading}
-          handleClick={handleEvaluation}
+          handleClick={() => setEvaluationConfirmModal(true)}
         />
       </ContentWrap>
-      {errorMessage && <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} />}
-      {isLoading && <Loading autoClose={false} />}
+      {errorMessage && (
+        <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />
+      )}
+      {evaluationConfirmModal && (
+        <EvaluationConfirmModal
+          setEvaluationConfirmModal={setEvaluationConfirmModal}
+          isLoading={isLoading}
+          handler={handleEvaluation}
+        />
+      )}
     </>
   );
 };
@@ -277,26 +292,28 @@ export default EvaluationBegin;
 const Step1 = ({
   t,
   token,
+  selectMusic,
   setSelectMusic,
-  currentTrack,
   togglePlayPause,
+  currentTrack,
   playTrack,
-  audioPlayer,
   isPlaying,
 }) => {
-  const [temporarySelect, setTemporarySelect] = useState(null);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const song_id = searchParams.get('song_id');
 
   const songs_sort = searchParams.get('songs_sort');
   const grade_fiter = searchParams.get('grade_filter');
   const ai_service_filter = searchParams.get('ai_service_filter');
+  const search = searchParams.get('search');
 
   const { ref, inView } = useInView();
   // 평가에서 노래 선택시 함수
-  const handleSelectMusic = item => {
-    // span 클릭 시에는 임시 선택만 하고 재생하지 않음
-    setTemporarySelect(item);
-  };
+  // const handleSelectMusic = item => {
+  //   // span 클릭 시에는 임시 선택만 하고 재생하지 않음
+  //   setTemporarySelect(item);
+  // };
 
   // SongsBar에서 앨범 커버 클릭 시 재생을 위한 함수
   const handlePlayMusic = item => {
@@ -314,7 +331,7 @@ const Step1 = ({
   // 무한 스크롤
   //===============
   const { data, hasNextPage, isLoading, fetchNextPage } = useInfiniteQuery(
-    ['song_data_in_infinite', songs_sort, grade_fiter, ai_service_filter],
+    ['song_data_in_infinite', songs_sort, grade_fiter, ai_service_filter, search],
     async ({ pageParam = 1 }) => {
       const res = await getReleaseAndUnReleaseSongData({
         token,
@@ -323,6 +340,7 @@ const Step1 = ({
         sort_by: songs_sort,
         rating: grade_fiter,
         ai_service: ai_service_filter,
+        search_keyword: search,
       });
 
       return res.data;
@@ -342,15 +360,22 @@ const Step1 = ({
     }
   }, [inView]);
 
+  useEffect(() => {
+    if (!song_id || !listData || listData.length <= 0) {
+      setSelectMusic(null);
+      return;
+    }
+    setSelectMusic(listData?.find(item => item.id === parseInt(song_id)));
+  }, [song_id, listData]);
+
   return (
-    <>
+    <ContentWrap title={t('Step 1')}>
       <div className="step1">
-        <p className="step1__title">
-          {t('Select your song.')}
-          <br />
-          {t('Click the song, then tap "Select" below to continue.')}
-        </p>
-        <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
+        <p className="step1__title">{t('Select your song.')}</p>
+        <ContentWrap.SubWrap gap={8}>
+          <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
+          <Search placeholder="Search by song title" />
+        </ContentWrap.SubWrap>
         <div className="step1__list">
           {isLoading && (
             <div className="step1__list--loading-box">
@@ -360,18 +385,36 @@ const Step1 = ({
           {!isLoading && listData?.length === 0 && <NoneContent message="No data" height={220} />}
           {!isLoading &&
             listData.map(item => (
-              <span key={item.id} onClick={() => handleSelectMusic(item)}>
+              <span
+                key={item.id}
+                onClick={() => {
+                  // setSelectMusic(prev => {
+                  //   if (prev?.id === item?.id) return null;
+                  //   return item;
+                  // });
+                  setSearchParams(prev => {
+                    let id;
+                    if (selectMusic?.id === item.id) {
+                      id = null;
+                    } else {
+                      id = item.id;
+                    }
+                    const { song_id: ids, ...rest } = Object.fromEntries(prev);
+                    return { ...rest, ...(id ? { song_id: id } : null) };
+                  });
+                }}
+              >
                 <SongsBar
                   itemData={item}
+                  isSelected={item?.id === selectMusic?.id}
                   play={item?.id === currentTrack?.id && isPlaying}
                   onPlayClick={() => handlePlayMusic(item)}
-                  isSelected={item?.id === temporarySelect?.id}
                 />
               </span>
             ))}
           <span ref={ref} style={{ width: '100%', height: 1 }}></span>
         </div>
-        <button
+        {/* <button
           className="select-btn"
           disabled={!temporarySelect}
           onClick={() => {
@@ -381,62 +424,103 @@ const Step1 = ({
           }}
         >
           {t('Select')}
-        </button>
+        </button> */}
       </div>
-    </>
+    </ContentWrap>
   );
 };
 
-const Step2 = ({ t, selectCritic, setSelectCritic }) => {
+const Step2 = ({ t, setSelectCritic }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const critic = searchParams.get('critic');
+
+  useEffect(() => {
+    if (!critic) return;
+    setSelectCritic(criticsDataForArray.find(item => item.name === critic));
+  }, [critic]);
+
   return (
-    <>
+    <ContentWrap title={t('Step 2')}>
       <div className="step2">
         <p className="step2__title">{t('Choose your music critic.')}</p>
         <div className="step2__choose">
-          {criticsDataForArray?.map(critic => (
+          {criticsDataForArray?.map(item => (
             <button
-              className={`step2__choose__item ${
-                critic?.name === selectCritic?.name ? 'active' : ''
-              }`}
+              className={`step2__choose__item ${critic === item?.name ? 'active' : ''}`}
               onClick={() =>
-                setSelectCritic(prev => {
-                  if (prev?.name === critic?.name) return null;
-                  return critic;
+                setSearchParams(prev => {
+                  const { critic, ...rest } = Object.fromEntries(prev);
+                  if (item.name === critic) {
+                    return { ...rest };
+                  } else {
+                    return { critic: item.name, ...rest };
+                  }
                 })
               }
-              key={critic?.id}
+              key={item?.name}
             >
-              <img src={critic?.image} alt="Jinwoo Yoo" />
+              <img src={item?.image} alt="Jinwoo Yoo" />
               <dl className="step2__choose__item__title">
                 <dt
                   dangerouslySetInnerHTML={{
-                    __html: t(`"${critic.introductionForReactNode}"`),
+                    __html: t(`"${item.introductionForReactNode}"`),
                   }}
                 ></dt>
-                <dd>{critic?.name}</dd>
+                <dd>{item?.name}</dd>
               </dl>
             </button>
           ))}
         </div>
       </div>
-    </>
+    </ContentWrap>
   );
 };
 
-const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }) => {
+const Step3 = ({
+  t,
+  possibleCnt,
+  selectMusic,
+  selectCritic,
+  possibleCntLoading,
+
+  currentTrack,
+  currentTime,
+  togglePlayPause,
+  playTrack,
+  isPlaying,
+}) => {
+  const handlePlayMusic = item => {
+    if (item?.id === currentTrack?.id) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: [],
+        playlistId: 'evaluation-playlist',
+      });
+    }
+  };
+
   return (
-    <>
+    <ContentWrap title={t('Step 3')}>
       <div className="step3">
         <p className="step3__title">
           {t('Please review your selected options.')}
           <br />
           {t(
-            'If you would like to proceed with these choices, click "View Results" at the bottom of the screen.'
+            'If you would like to proceed with these choices, click “View Results” at the bottom of the screen.'
           )}
         </p>
         <div className="step3__selected-song">
           <p className="step3__selected-song__title">{t('Selected Song')}</p>
-          {selectMusic && <SongsBar itemData={selectMusic} />}
+          {selectMusic && (
+            <SongsBar
+              itemData={selectMusic}
+              onPlayClick={() => handlePlayMusic(selectMusic)}
+              isSelected={true}
+              play={selectMusic?.id === currentTrack?.id && isPlaying}
+            />
+          )}
           {!selectMusic && (
             <NoneContent height={130} message="Please select your song and music critic." />
           )}
@@ -453,7 +537,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
           </dl>
         </div>
       </div>
-    </>
+    </ContentWrap>
   );
 };
 

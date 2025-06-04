@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { criticsDataForObject } from '../../data/criticsData';
 
-import defaultCoverImg from '../../assets/images/header/logo-png.png';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 
 import './EvaluationListItem.scss';
@@ -44,7 +43,7 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
       <dl className="unit-component-evaluation-list-item__title">
         <dt>{data.title}</dt>
         <dd>
-          <img src={data?.artist_profile || defaultCoverImg} alt="user-name" />
+          {/* <img src={data?.artist_profile || defaultCoverImg} alt="user-name" /> */}
           {data.artist}
         </dd>
       </dl>
@@ -60,7 +59,7 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
               : ''
           }`}
         >
-          {data?.score}{' '}
+          {data?.score?.toFixed(2)}{' '}
         </p>
         <Link
           to={`/song-detail/${data.song_id}?service=AI+Singing+Evaluation&critic=${data.critic}`}

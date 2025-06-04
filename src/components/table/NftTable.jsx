@@ -89,7 +89,7 @@ const NftTable = ({
                   title={t('Details')}
                   type="details"
                   handleClick={() => {
-                    navigate(`/nft/detail/${item?.id}`);
+                    navigate(`/nft/detail/${item?.nft_id || item?.id}`);
                   }}
                 />
 

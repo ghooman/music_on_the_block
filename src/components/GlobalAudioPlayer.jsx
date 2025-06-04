@@ -1,6 +1,6 @@
 import AudioPlayer from 'react-modern-audio-player';
 import 'react-modern-audio-player/dist/index.css'; // ⑤: 스타일이 없으면 직접 import
-import './MusicPlayer.scss';
+import './GlobalAudioPlayer.scss';
 
 import demoImg from '../assets/images/demo-cover-img.png';
 import track1 from '../assets/music/nisoft_song.mp3';

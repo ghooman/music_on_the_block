@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
@@ -45,8 +44,6 @@ const LyricsAndSongwriting = ({ username }) => {
       return res.data;
     }
   );
-
-  console.log(topSongsData, '탑 송스 데이터');
 
   return (
     <>

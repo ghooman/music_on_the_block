@@ -153,6 +153,7 @@ const SongDetailsButton = ({ id }) => {
     <Link
       className="album__content-list__list__item__right__user__btn song"
       to={`/song-detail/${id}`}
+      onClick={e => e.stopPropagation()}
     >
       {t('Details')}
     </Link>
@@ -165,6 +166,7 @@ const EvaluationDetailsButton = ({ id, critic }) => {
     <Link
       className="album__content-list__list__item__right__user__btn evaluation"
       to={`/song-detail/${id}?service=AI+Singing+Evaluation&critic=${critic}`}
+      onClick={e => e.stopPropagation()}
     >
       {t('Details')}
     </Link>
@@ -176,7 +178,7 @@ const Critics = ({ critic, evaluationDt }) => {
   const [timeAgo, setTimeAgo] = useState({ time: 0, suffix: '' });
 
   useEffect(() => {
-    const ms = new Date() - new Date(evaluationDt);
+    const ms = new Date() - new Date(`${evaluationDt}+09:00`);
     let time;
     let suffix;
 
@@ -202,7 +204,9 @@ const Critics = ({ critic, evaluationDt }) => {
 
   return (
     <div className="album__content-list__list__item__right__critic">
-      <img src={criticsDataForObject[critic]?.image} alt="critic" />
+      {criticsDataForObject[critic]?.image && (
+        <img src={criticsDataForObject[critic]?.image} alt="critic" />
+      )}
       <p>
         {timeAgo?.time}
         {t(timeAgo?.suffix + ' ago')}

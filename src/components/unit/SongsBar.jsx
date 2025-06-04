@@ -13,30 +13,16 @@ import loverIcon from '../../assets/images/icon/heart.svg';
 import typeIcon from '../../assets/images/icon/Lyrics-Song-Writing-icon.svg';
 import { useTranslation } from 'react-i18next';
 
-const SongsBar = ({ songId, itemData, play }) => {
+const SongsBar = ({ songId, itemData, play, onPlayClick, isSelected }) => {
   const { t } = useTranslation('module');
   const { token, walletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
-  const [barActive, setBarActive] = useState(false);
-  const audioRef = useRef(null); // 오디오 태그 접근용 ref
   const [isLoading, setIsLoading] = useState(false);
   const [album, setAlbum] = useState(null);
   const [albumDuration, setAlbumDuration] = useState(0);
 
-  /* active 상태에 따라 재생/정지 */
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    if (barActive) {
-      audioRef.current.play().catch(() => {}); // 자동 재생 실패 대비 try-catch
-    } else {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0; // 필요하면 처음으로
-    }
-  }, [barActive]);
   // 초기 앨범 상세 정보 가져오기 함수 (초기 로딩 및 사용자 명시 업데이트)
-
   const fetchAlbumDetail = async (showLoading = true) => {
     if (showLoading) setIsLoading(true);
 
@@ -66,33 +52,28 @@ const SongsBar = ({ songId, itemData, play }) => {
     }
   }, [id, itemData]);
 
-  useEffect(() => {
-    setBarActive(play);
-  }, [play]);
-
   return (
     <>
-      {barActive && (
-        <div className="songs-bar-audio">
-          <audio ref={audioRef} src={album?.music_url} controls />
-        </div>
-      )}
-      <section
-        className={`songs-bar ${barActive ? 'active' : ''}`}
-        onClick={() => {
-          if (typeof play === 'boolean') return;
-          setBarActive(prev => !prev);
-        }}
-      >
+      <section className={`songs-bar ${play ? 'active' : ''} ${isSelected ? 'selected' : ''}`}>
         <article className="songs-bar__play-box">
-          <p className="songs-bar__play-box__img">
+          <p
+            className="songs-bar__play-box__img"
+            onClick={e => {
+              e.stopPropagation(); // span 클릭 이벤트 전파 방지
+              if (onPlayClick) {
+                onPlayClick();
+              }
+            }}
+          >
             <img src={album?.cover_image || defaultCoverImg} alt="album-cover" />
-            <div className="loading-wave">
-              <div className="loading-bar"></div>
-              <div className="loading-bar"></div>
-              <div className="loading-bar"></div>
-              <div className="loading-bar"></div>
-            </div>
+            {play && (
+              <div className="loading-wave">
+                <div className="loading-bar"></div>
+                <div className="loading-bar"></div>
+                <div className="loading-bar"></div>
+                <div className="loading-bar"></div>
+              </div>
+            )}
           </p>
           <p className="songs-bar__play-box__title">
             {album?.title} - {album?.name}

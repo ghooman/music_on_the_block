@@ -216,8 +216,6 @@ const MelodyMaker = ({
     세부 설명 : ${melodyDetail || '없음'},
   `;
 
-  console.log('sunoPrompt:', sunoPrompt);
-
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
     const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);

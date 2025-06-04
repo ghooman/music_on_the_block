@@ -59,11 +59,7 @@ const EvaluationResultsComp = ({ evaluationData, songData, critic, isResult, isO
               {!evaluationData && <NoneContent height={185} message="No evaluation history yet." />}
             </ContentWrap>
             <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
-              <SongsCritic
-                t={t}
-                critic={critic}
-                id={evaluationData?.id || evaluationData?.song_id}
-              />
+              <SongsCritic t={t} critic={critic} id={songData?.id || songData?.song_id} />
             </ContentWrap>
             {isResult && <ResultBtn t={t} evaluationData={evaluationData} />}
           </>
@@ -193,8 +189,6 @@ const ResultBtn = ({ t, evaluationData }) => {
 };
 
 const FullEvaluation = ({ t, evaluationData }) => {
-  const [isActive, setIsActive] = useState(false);
-
   return (
     <div className="full-evaluation">
       <section className="full-evaluation__feed-back">
@@ -254,7 +248,6 @@ const SongsCritic = ({ t, critic, id }) => {
       const res = await getEvaluationList({ critic, page: 1, search_keyword: '' });
 
       const { data_list } = res.data;
-      console.log(id, data_list, 'D');
       return data_list.filter(item => item.song_id !== id);
     }
   );

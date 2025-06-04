@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+.get{
+    .get__header{
+        width: 100%;
+        height: 230px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #00A876 0%, #006C4C 100%);
+        .get__header__title{
+            width: 100%;
+            max-width: 1334px;
+            margin: 0 auto;
+            padding: 0 16px;
+            dt{
+                color: var(--Dark-Color-10, var(--Color-10, #FFF));
+                font-family: Pretendard700;
+                font-size: 28px;
+                margin-bottom: 14px;
+            }
+            dd{
+                color: var(--Dark-Color-10, var(--Color-10, #FFF));
+                font-family: Pretendard400;
+                font-size: 16px;
+            }
+        }//get__header__title--END--
+    }//get__header--END--
+}//get--END--
+
+
+
+

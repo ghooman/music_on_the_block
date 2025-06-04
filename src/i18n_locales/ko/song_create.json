@@ -125,12 +125,15 @@
  "Harp": "하프",
  "Synthesizer": "신디사이저",
  "Select a Tempo": "템포 선택",
- "Medium: Balanced and versatile": "중간: 균형 잡히고 다용도",
- "Slow: Calm and reflective": "느림: 차분하고 사색적",
+ "Medium : Balanced and versatile (81-120 BPM)": "중간: 균형 잡히고 다용도  (81-120 BPM)",
+ "Slow : Calm and reflective (60-80 BPM)": "느림: 차분하고 사색적 (60-80 BPM)",
  "Detail": "세부 정보",
  "Selected Tags": "선택된 태그",
  "Current Length": "현재 길이",
  "Gender": "성별",
  "Tempo": "템포",
- "Musical": "음악"
+ "Musical": "음악",
+ "Story": "이야기",
+ "Select a Gender": "성별을 선택해주세요",
+ "Popular Gender": "성별"
 }

@@ -13,6 +13,7 @@ import CreateLoading from '../CreateLoading';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import { generateKoreanPdf } from '../../utils/pdfGenerator';
 import { useTranslation } from 'react-i18next';
+
 const tagPreset = {
   Love: ['Love'],
   Moon: ['Moon'],
@@ -96,7 +97,7 @@ Follow these rules and guidelines:
 1. Structure
    - Do not use any explicit section labels (e.g., Verse, Chorus, Bridge) unless specified by rule 5.
    - Break lyrics into separate lines for each sentence.
-   - Organize sentences into paragraphs naturally to reflect the song’s flow.
+   - Organize sentences into paragraphs naturally to reflect the song's flow.
 
 2. Genre and Mood
    - If the user specifies a genre or mood, follow it; otherwise choose one that fits the theme.
@@ -188,10 +189,14 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
         >
           <SubBanner>
             <SubBanner.LeftImages src={subBg2} />
-            <SubBanner.Title text="Select a Tags" />
-            <SubBanner.Message text="Please select tags that can express the mood, emotion, and image of the song." />
+            <SubBanner.Title text={t('Select a Tags')} />
+            <SubBanner.Message
+              text={t(
+                'Please select tags that can express the mood, emotion, and image of the song.'
+              )}
+            />
             <SelectItem
-              subTitle="Popular Tags"
+              subTitle={t('Popular Tags')}
               setter={setLyricData}
               objKey="lyric_tag"
               selected={lyricData?.lyric_tag}
@@ -202,23 +207,23 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
             />
           </SubBanner>
           <SelectItem
-            mainTitle="Select a Genre"
-            subTitle="Popular Genre"
+            mainTitle={t('Select a Genre')}
+            subTitle={t('Popular Genre')}
             setter={setLyricData}
             objKey="lyric_genre"
             selected={lyricData?.lyric_genre}
             preset={genrePreset}
           />
-          <SelectItemInputOnly value={lyricStory} setter={setLyricStory} title="Your Story" />
+          <SelectItemInputOnly value={lyricStory} setter={setLyricStory} title={t('Your Story')} />
         </SelectItemWrap>
 
         <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <SelectedWrap title="Lyrics Lab">
-            <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
-            <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
+          <SelectedWrap title={t('Lyrics Lab')}>
+            <SelectedItem title={t('Tags')} value={lyricData?.lyric_tag} multiple />
+            <SelectedItem title={t('Genre')} value={lyricData?.lyric_genre} />
 
             <div className="lyrics-lab__selected-item">
-              <p className="lyrics-lab__selected-item--title">Your Story</p>
+              <p className="lyrics-lab__selected-item--title">{t('Your Story')}</p>
               <p className="lyrics-lab__selected-item--text">{lyricStory || '-'}</p>
             </div>
           </SelectedWrap>
@@ -231,7 +236,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
             onClick={handleGenerateLyrics}
             disabled={!isAnyFieldFilled || loading}
           >
-            {loading ? 'Loading' : 'Generate'}
+            {loading ? t('Loading') : t('Generate')}
           </button>
           {loading && <CreateLoading textTrue2={true} />}
         </div>
@@ -240,7 +245,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
   else
     return (
       <div ref={generatedLyricsRef} className="create__lyric-lab">
-        <h2>Generated Lyrics</h2>
+        <h2>{t('Generated Lyrics')}</h2>
         {mode === 'read' && <pre className="generated-lyrics__lyrics">{createdLyrics}</pre>}
         {mode === 'edit' && (
           <pre className="generated-lyrics__lyrics">
@@ -272,7 +277,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
                 createdLyrics?.length > 1000 ? 'disabled' : ''
               }`}
             >
-              Lyrics Length : {createdLyrics?.length} / 1000
+              {t('Lyrics Length')} : {createdLyrics?.length} / 1000
             </p>
           )}
           <div className="generated-lyrics__confirm-buttons--button-wrap">
@@ -280,7 +285,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
               className="generated-lyrics__confirm-buttons--button edit"
               onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
             >
-              EDIT
+              {t('EDIT')}
             </button>
             <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
@@ -293,7 +298,7 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              CONFIRM
+              {t('CONFIRM')}
             </button>
           </div>
         </div>

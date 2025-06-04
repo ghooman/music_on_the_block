@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useRanger, Ranger } from '@tanstack/react-ranger';
+import { useTranslation } from 'react-i18next';
 
 import ExpandedButton from './ExpandedButton';
 
@@ -15,7 +16,7 @@ export const SelectItemWrap = ({
   currentStep,
 }) => {
   const [visible, setVisible] = useState(!dropdown);
-
+  const { t } = useTranslation('song_create');
   // 언어 변경 함수
   const handleLanguage = lang => {
     if (currentStep === 'isMelodyPage') {
@@ -28,7 +29,7 @@ export const SelectItemWrap = ({
   return (
     <div className="create__select-components">
       <div className="tag-select-title">
-        <h2 className="tag-select-title__text">Select a Tags</h2>
+        <h2 className="tag-select-title__text">{t('Select a Tags')}</h2>
         {dropdown && (
           <div
             className={`tag-select-title__dropdown-toggle ${visible ? 'visible' : ''}`}
@@ -41,23 +42,23 @@ export const SelectItemWrap = ({
       {selectedLanguage && setSelectedLanguage && (
         <div className="tag-select language-select">
           <div className="tag-title__block">
-            <h3 className="tag-title">Language</h3>
+            <h3 className="tag-title">{t('Language')}</h3>
           </div>
-          <h4 className="tag-sub-title">Language Tags</h4>
+          <h4 className="tag-sub-title">{t('Language Tags')}</h4>
           <div className="tag-preset">
             <button
               className={`tag-button presets ${selectedLanguage === 'KOR' ? 'enable' : ''}`}
               // onClick={() => setSelectedLanguage("KOR")}
               onClick={() => handleLanguage('KOR')}
             >
-              KOR
+              {t('KOR')}
             </button>
             <button
               className={`tag-button presets ${selectedLanguage === 'ENG' ? 'enable' : ''}`}
               // onClick={() => setSelectedLanguage("ENG")}
               onClick={() => handleLanguage('ENG')}
             >
-              ENG
+              {t('ENG')}
             </button>
           </div>
         </div>
@@ -82,7 +83,7 @@ export const SelectItem = ({
 }) => {
   const [input, setInput] = useState('');
   const [selectedPreset, setSelectedPreset] = useState('');
-
+  const { t } = useTranslation('song_create');
   const addItem = () => {
     if (!input.trim()) return;
     setSelectedPreset(null);
@@ -172,7 +173,7 @@ export const SelectItem = ({
         <div className="tag-input-comment-button-wrap">
           {color && (
             <label className="tag-input-comment-button">
-              Select
+              {t('Select')}
               <input
                 type="color"
                 onChange={e => setInput(e.target.value)}
@@ -183,7 +184,7 @@ export const SelectItem = ({
             </label>
           )}
           <button className="tag-input-comment-button" onClick={addItem}>
-            Add
+            {t('Add')}
           </button>
         </div>
       </div>
@@ -205,7 +206,7 @@ export const SelectItem = ({
 
 export const SelectItemTempo = ({ tempo, setTempo }) => {
   const rangeRef = useRef(null);
-
+  const { t } = useTranslation('song_create');
   const rangesInstance = useRanger({
     getRangerElement: () => rangeRef.current,
     values: tempo,
@@ -220,7 +221,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
   return (
     <div className="tag-select">
       <div className="tag-title__block">
-        <h3 className="tag-title">Select a Tempo</h3>
+        <h3 className="tag-title">{t('Select a Tempo')}</h3>
       </div>
       <div
         className={`tag-title__tempos ${
@@ -278,7 +279,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
 
 export const SelectItemSongLength = ({ songLength, setSongLength }) => {
   const songLengthRef = useRef(null);
-
+  const { t } = useTranslation('song_create');
   const songLengthRangesInstance = useRanger({
     getRangerElement: () => songLengthRef.current,
     values: songLength,
@@ -293,7 +294,7 @@ export const SelectItemSongLength = ({ songLength, setSongLength }) => {
   return (
     <div className="tag-select">
       <div className="tag-title__block">
-        <h3 className="tag-title">Select a Song Length</h3>
+        <h3 className="tag-title">{t('Select a Song Length')}</h3>
       </div>
       <div className="tag-select__range" ref={songLengthRef}>
         {songLengthRangesInstance?.getSteps().map((item, index) => {
@@ -323,7 +324,7 @@ export const SelectItemSongLength = ({ songLength, setSongLength }) => {
               }}
             >
               <div className="tag-select__range--thumb-tick">
-                <span>{value}</span> Seconds
+                <span>{value}</span> {t('Seconds')}
               </div>
             </button>
           ))}

@@ -233,35 +233,35 @@
       &.song {
         background: #cf0;
         position: relative;
-        top: -4px;
-        transition: 0.2s;
-        color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
-        font-size: 12px;
-        font-style: normal;
-        line-height: normal;
-        border-radius: 8px;
+        // top: -4px;
+        // transition: 0.2s;
+        // color: var(--Text-dark-title, #1a1a1a);
+        // font-family: Orbitron600;
+        // font-size: 12px;
+        // font-style: normal;
+        // line-height: normal;
+        // border-radius: 8px;
 
-        &::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 4px;
-          width: calc(100% - 2px);
-          transition: 0.2s;
-          border-radius: 8px;
-          height: 23px;
-          border: 1px solid #cf0;
-        }
-        &:hover {
-          top: 0px;
-          &::before {
-            top: 0;
-          }
-        }
+        // &::before {
+        //   content: '';
+        //   position: absolute;
+        //   left: 0;
+        //   top: 4px;
+        //   width: calc(100% - 2px);
+        //   transition: 0.2s;
+        //   border-radius: 8px;
+        //   height: 23px;
+        //   border: 1px solid #cf0;
+        // }
+        // &:hover {
+        //   top: 0px;
+        //   &::before {
+        //     top: 0;
+        //   }
+        // }
       }
 
-      &.evaluation {
+      // &.evaluation {
         background: url('../../assets/images/details-bg.png') center no-repeat !important;
         background-size: 100% 100% !important;
         overflow: hidden;
@@ -286,7 +286,7 @@
         &::before {
           display: none !important;
         }
-      }
+      // }
 
       // width: 24px;
       // height: 24px;

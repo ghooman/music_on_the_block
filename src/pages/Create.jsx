@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
   const [pageNumber, setPageNumber] = useState(-1); // -1: 시작화면, 0: 가사 생성, 1: 멜로디 생성, 2: 앨범 커버 스튜디오, 3: 미리보기 및 최종화면
   const [createMode, setCreateMode] = useState(''); // chatbot, select
   const [createLoading, setCreateLoading] = useState(false);
@@ -31,6 +32,22 @@ const Create = () => {
   const [selectedPrivacy, setSelectedPrivacy] = useState('release');
   const [selectedCreationMode, setSelectedCreationMode] = useState('song');
   const { data: userData, refetch } = useUserDetail();
+
+  // i18n 언어에 따른 selectedLanguage 자동 설정
+  const [selectedLanguage, setSelectedLanguage] = useState(() => {
+    const currentLanguage = i18n.language;
+    return currentLanguage === '한국어' ? 'KOR' : 'ENG';
+  });
+
+  // i18n 언어 변경 감지
+  useEffect(() => {
+    const currentLanguage = i18n.language;
+    if (currentLanguage === '한국어') {
+      setSelectedLanguage('KOR');
+    } else if (currentLanguage === 'English') {
+      setSelectedLanguage('ENG');
+    }
+  }, [i18n.language]);
   // 사용자 생성 상태 확인 함수
   const checkUserCreatingStatus = async () => {
     try {
@@ -106,7 +123,6 @@ const Create = () => {
   const [skipLyric, setSkipLyric] = useState(false);
   const [skipMelody, setSkipMelody] = useState(false);
   const [skip, setSkip] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('KOR');
   const [albumCover, setAlbumCover] = useState(null);
 
   const skipHandler = () => {

@@ -66,6 +66,7 @@
       .rhap_current-time::after {
         content: '|';
         margin-left: 8px;
+        color: #949494;
       }
       .rhap_total-time {
         margin-left: 8px;
@@ -96,7 +97,7 @@
   align-items: center;
   gap: 16px;
   position: fixed;
-  bottom: 16px;
+  bottom: 24px;
   left: 246px;
   // right: 16px;
   width: calc(100% - 262px);

@@ -403,7 +403,7 @@ const Step2 = ({ t, setSelectCritic }) => {
                   }
                 })
               }
-              key={item?.id}
+              key={item?.name}
             >
               <img src={item?.image} alt="Jinwoo Yoo" />
               <dl className="step2__choose__item__title">

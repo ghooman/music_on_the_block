@@ -1,0 +1,132 @@
+.get-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  .get-detail__banner {
+    height: 230px;
+    width: 100%;
+    border-radius: 12px;
+    background-color: #00d293;
+  }
+
+  .get-detail__progress-wallet {
+    display: flex;
+    gap: 18px;
+  }
+
+  .get-detail__tabs {
+    width: 100%;
+    overflow: auto;
+  }
+
+  .get-detail__tabs-box {
+    padding: 6px;
+    display: flex;
+    gap: 12px;
+    border-radius: 12px;
+    border: 1px solid #222;
+    width: fit-content;
+  }
+
+  .get-detail__tabs-box--item {
+    padding: 8px 12px;
+    font-family: Orbitron500;
+    font-size: 14px;
+    letter-spacing: 0.42px;
+    color: #aaa;
+    text-transform: capitalize;
+    border-radius: 12px;
+    transition: 0.2s all;
+
+    &.select,
+    &:hover {
+      color: #1a1a1a;
+      background-color: #00ffb3;
+    }
+  }
+
+  .get-detail__status {
+    display: flex;
+    gap: 14px;
+  }
+
+  .get-detail__status-button {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-family: Inter500;
+    font-size: 12px;
+    letter-spacing: 0.36px;
+    display: flex;
+    align-items: center;
+
+    &.round {
+      color: #aaa;
+      border: 1px solid #00ffb3;
+      background-color: #222;
+    }
+    &.status {
+      color: #f1f1f1;
+      background-color: #00a774;
+      text-transform: uppercase;
+    }
+  }
+
+  .get-detail__info {
+    display: flex;
+    gap: 48px;
+  }
+}
+
+//=========
+
+.get-race-content-box {
+  padding: 20px 12px;
+  border-radius: 12px;
+  background-color: #222;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .get-race-content-box__text {
+    text-align: center;
+    &.white {
+      color: #fff;
+    }
+    &.green {
+      color: #00d293;
+    }
+    &.gray {
+      color: #d9d9d9;
+    }
+    &.yellow {
+      color: #ffd700;
+    }
+
+    &.fs12 {
+      font-size: 12px;
+    }
+    &.fs14 {
+      font-size: 14px;
+    }
+    &.fs18 {
+      font-size: 18px;
+    }
+
+    &.fw400 {
+      font-family: Inter400;
+    }
+    &.fw500 {
+      font-family: Inter500;
+    }
+    &.fw700 {
+      font-family: Inter700;
+    }
+
+    &.mb8 {
+      margin-bottom: 8px;
+    }
+  }
+}

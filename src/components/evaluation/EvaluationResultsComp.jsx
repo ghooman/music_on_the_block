@@ -110,23 +110,23 @@ const Result = ({ t, evaluationData }) => {
               <div className="result__graph__score__number__txt">
                 <dl>
                   <dt>{t('Emotion')} :</dt>
-                  <dd>{evaluationData?.emotion}</dd>
+                  <dd>{evaluationData?.emotion?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Creativity')} :</dt>
-                  <dd>{evaluationData?.creativity}</dd>
+                  <dd>{evaluationData?.creativity?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Structure')} :</dt>
-                  <dd>{evaluationData?.structure}</dd>
+                  <dd>{evaluationData?.structure?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Sound')} :</dt>
-                  <dd>{evaluationData?.sound}</dd>
+                  <dd>{evaluationData?.sound?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Popularity')} :</dt>
-                  <dd>{evaluationData?.popularity}</dd>
+                  <dd>{evaluationData?.popularity?.toFixed(1)}</dd>
                 </dl>
               </div>
             </div>

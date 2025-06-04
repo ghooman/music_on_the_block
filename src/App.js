@@ -38,6 +38,7 @@ import { WebSocketProvider } from './contexts/WebSocketContext';
 import { AudioProvider } from './contexts/AudioContext';
 import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
+import GetDetail from './pages/GetDetail';
 
 function Layout({ children }) {
   return (
@@ -285,6 +286,14 @@ function App() {
                     </Layout>
                   }
                 />
+                {/* <Route
+                  path="get/detail"
+                  element={
+                    <Layout>
+                      <GetDetail />
+                    </Layout>
+                  }
+                /> */}
               </Routes>
             </div>
           </AudioProvider>

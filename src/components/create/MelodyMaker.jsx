@@ -14,6 +14,8 @@ import CreateLoading from '../CreateLoading';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import LyricsModal from '../LyricsModal';
+import { useTranslation } from 'react-i18next';
+
 const tagPreset = {
   Love: ['Love'],
   Moon: ['Moon'],
@@ -122,7 +124,7 @@ const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
       앨범 커버 디자인 : 
       - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
       - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-      - 이미지에는 위의 키워드들을 반영하여, 예를 들어 "${lyric_tag.join(
+      - 이미지에는 위의 키워들을 반영하여, 예를 들어 "${lyric_tag.join(
         ', '
       )}"와 "${lyric_genre.join(', ')}"의 느낌을 표현할 것.
     `;
@@ -400,16 +402,22 @@ const MelodyMaker = ({
     }
   }, [generatedMusicResult]);
 
+  const { t } = useTranslation('song_create');
+
   return (
     <div className="create__melody-maker">
       <RemainCountButton createPossibleCount={createPossibleCount} />
       <SubBanner>
         <SubBanner.RightImages src={subBg1} />
-        <SubBanner.Title text="View Lyrics Lab Results" />
-        <SubBanner.Message text="These lyrics were previously written by AI in Lyrics Lab." />
-        <SubBanner.Message text="Based on these lyrics, AI composition is currently in progress in Melody Maker." />
+        <SubBanner.Title text={t('View Lyrics Lab Results')} />
+        <SubBanner.Message text={t('These lyrics were previously written by AI in Lyrics Lab.')} />
+        <SubBanner.Message
+          text={t(
+            'Based on these lyrics, AI composition is currently in progress in Melody Maker.'
+          )}
+        />
         <SubBanner.Button
-          title="View Lyrics"
+          title={t('View Lyrics')}
           handler={() => {
             setShowLyricsModal(true);
           }}
@@ -419,10 +427,14 @@ const MelodyMaker = ({
       <SelectItemWrap currentStep={'isMelodyPage'}>
         <SubBanner>
           <SubBanner.LeftImages src={subBg2} />
-          <SubBanner.Title text="Select a Tags" />
-          <SubBanner.Message text="Please select tags that can express the mood, emotion, and image of the song." />
+          <SubBanner.Title text={t('Select a Tags')} />
+          <SubBanner.Message
+            text={t(
+              'Please select tags that can express the mood, emotion, and image of the song.'
+            )}
+          />
           <SelectItem
-            subTitle="Popular Tags"
+            subTitle={t('Popular Tags')}
             setter={setMelodyData}
             objKey="melody_tag"
             selected={melodyData?.melody_tag}
@@ -432,10 +444,10 @@ const MelodyMaker = ({
             add
           />
         </SubBanner>
-        <SelectItemInputOnly value={title} setter={setTitle} title="Title" />
+        <SelectItemInputOnly value={title} setter={setTitle} title={t('Title')} />
         <SelectItem
-          mainTitle="Select a Genre"
-          subTitle="Popular Genre"
+          mainTitle={t('Select a Genre')}
+          subTitle={t('Popular Genre')}
           setter={setMelodyData}
           objKey="melody_genre"
           selected={melodyData?.melody_genre}
@@ -443,8 +455,8 @@ const MelodyMaker = ({
         />
         {selectedCreationMode === 'song' && (
           <SelectItem
-            mainTitle="Select a Gender"
-            subTitle="Popular Gender"
+            mainTitle={t('Select a Gender')}
+            subTitle={t('Popular Gender')}
             setter={setMelodyData}
             objKey="melody_gender"
             selected={melodyData?.melody_gender}
@@ -452,8 +464,8 @@ const MelodyMaker = ({
           />
         )}
         <SelectItem
-          mainTitle="Instrument"
-          subTitle="Instrument Tags"
+          mainTitle={t('Instrument')}
+          subTitle={t('Instrument Tags')}
           preset={instrumentPreset}
           setter={setMelodyData}
           objKey="melody_instrument"
@@ -462,15 +474,15 @@ const MelodyMaker = ({
           add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
-        <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title="Detail" />
+        <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title={t('Detail')} />
         <div className="selected-tag-list">
           <div className="selected-tag-list__title">
             <h3>
-              Selected Tags
+              {t('Selected Tags')}
               {selectedVersion !== 'V4_5' && '(max_length : 200)'}
             </h3>
             <span>
-              current length :{' '}
+              {t('Current length')} :{' '}
               <span
                 style={{
                   color: selectedVersion !== 'V4_5' && valuesOnly?.length > 200 ? 'red' : 'inherit',
@@ -486,41 +498,41 @@ const MelodyMaker = ({
         </div>
       </SelectItemWrap>
       <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <SelectedWrap title="Lyrics Lab">
-          <SelectedItem title="Tags" value={lyricData?.lyric_tag} multiple />
-          <SelectedItem title="Genre" value={lyricData?.lyric_genre} />
+        <SelectedWrap title={t('Lyrics Lab')}>
+          <SelectedItem title={t('Tags')} value={lyricData?.lyric_tag} multiple />
+          <SelectedItem title={t('Genre')} value={lyricData?.lyric_genre} />
 
           <div className="lyrics-lab__selected-item">
-            <p className="lyrics-lab__selected-item--title">Story</p>
+            <p className="lyrics-lab__selected-item--title">{t('Story')}</p>
             <p className="lyrics-lab__selected-item--text">{lyricStory || '-'}</p>
           </div>
         </SelectedWrap>
       </div>
       {isMelodyPage && (
-        <SelectedWrap title="Melody Maker">
-          <SelectedItem title="Tags" value={melodyData?.melody_tag} multiple />
-          <SelectedItem title="Genre" value={melodyData?.melody_genre} />
-          <SelectedItem title="Gender" value={melodyData?.melody_gender} />
+        <SelectedWrap title={t('Melody Maker')}>
+          <SelectedItem title={t('Tags')} value={melodyData?.melody_tag} multiple />
+          <SelectedItem title={t('Genre')} value={melodyData?.melody_genre} />
+          <SelectedItem title={t('Gender')} value={melodyData?.melody_gender} />
           <SelectedItem
             title={
               <>
-                Musical
+                {t('Musical')}
                 <br />
-                Instrument
+                {t('Instrument')}
               </>
             }
             value={melodyData?.melody_instrument}
           />
-          <SelectedItem title="Tempo" value={tempo} />
+          <SelectedItem title={t('Tempo')} value={tempo} />
         </SelectedWrap>
       )}
       <div className="button-wrap">
         <div className="button-wrap__left">
           <button className="back" onClick={() => setPageNumber(prev => prev - 1)}>
-            Back
+            {t('Back')}
           </button>
           <button className="skip" onClick={onSkip} style={{ display: 'none' }}>
-            Skip
+            {t('Skip')}
           </button>
         </div>
         <button
@@ -534,7 +546,7 @@ const MelodyMaker = ({
             loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
           }
         >
-          {loading ? 'Loading' : 'Generate'}
+          {loading ? t('Loading') : t('Generate')}
         </button>
       </div>
       {loading && <CreateLoading textTrue />}

@@ -207,39 +207,36 @@ function Album() {
       <div className="main">
         <section className="main__to-day-header">
           <div className="main__to-day-header__song-create">
-            <p className='main__to-day-header__song-create__title'>
+            <p className="main__to-day-header__song-create__title">
               {t('What shall we try today?')}
             </p>
-            <div className='main__to-day-header__song-create-list'>
-              <Link 
-                to="/create"
-                className='main__to-day-header__song-create-list__item'
-              >
-                <p className='main__to-day-header__song-create-list__item__title'>
-                  {t('Create your own song')}<br/>
+            <div className="main__to-day-header__song-create-list">
+              <Link to="/create" className="main__to-day-header__song-create-list__item">
+                <p className="main__to-day-header__song-create-list__item__title">
+                  {t('Create your own song')}
+                  <br />
                   {t('very quickly')}
                 </p>
-                <img src={songCreateIcon1} alt='songCreateIcon1'/>
+                <img src={songCreateIcon1} alt="songCreateIcon1" />
               </Link>
-              <Link 
-                to="/evaluation"
-                className='main__to-day-header__song-create-list__item'
-              >
-                <p className='main__to-day-header__song-create-list__item__title'>
-                  {t('Get your song')}<br/>
+              <Link to="/evaluation" className="main__to-day-header__song-create-list__item">
+                <p className="main__to-day-header__song-create-list__item__title">
+                  {t('Get your song')}
+                  <br />
                   {t('evaluated')}
                 </p>
-                <img src={songCreateIcon2} alt='songCreateIcon2'/>
+                <img src={songCreateIcon2} alt="songCreateIcon2" />
               </Link>
-              <Link 
+              <Link
                 onClick={() => setPreparingModal(true)}
-                className='main__to-day-header__song-create-list__item'
+                className="main__to-day-header__song-create-list__item"
               >
-                <p className='main__to-day-header__song-create-list__item__title'>
-                  {t('Create a song')}<br/>
+                <p className="main__to-day-header__song-create-list__item__title">
+                  {t('Create a song')}
+                  <br />
                   {t('with your own voice')}
                 </p>
-                <img src={songCreateIcon3} alt='songCreateIcon3'/>
+                <img src={songCreateIcon3} alt="songCreateIcon3" />
               </Link>
             </div>
           </div>
@@ -659,6 +656,7 @@ const ListSlider = ({
                   <Link
                     className="swiper-music-list__item__right__user__btn"
                     to={'/song-detail/' + track.id}
+                    onClick={e => e.stopPropagation()}
                   >
                     {t('Details')}
                   </Link>

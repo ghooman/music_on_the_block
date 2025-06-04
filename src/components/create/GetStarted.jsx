@@ -216,7 +216,7 @@ const GetStarted = ({
                 })}
               </span>
             </p>
-            <div className="create__get-started--format-item-select">
+            {/* <div className="create__get-started--format-item-select">
               <p className="create__get-started--format-item-select-title">
                 {t('Language selection')}
               </p>
@@ -241,7 +241,7 @@ const GetStarted = ({
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
           </article>
         ))}
       </section>

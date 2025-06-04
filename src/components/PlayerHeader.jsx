@@ -13,6 +13,7 @@ import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import soundIcon from '../assets/images/sound-icon.svg';
+import soundIconOff from '../assets/images/mingcute_volume-fill.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import './PlayerHeader.scss';
 import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
@@ -112,6 +113,7 @@ const PlayerHeader = () => {
       </p>
       <button className="main__header__sound-btn ">
         <img src={soundIcon} alt="like-heart-icon" />
+        {/* <img src={soundIconOff} alt="like-heart-icon-off" /> */}
       </button>
       {/* <div className="main__header__cover-info">
         <div className="main__header__cover-info__love-play">

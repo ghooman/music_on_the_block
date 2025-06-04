@@ -91,6 +91,7 @@ function AlbumDetail() {
     togglePlayPause,
     audioRef,
     setIsPlaying,
+    handleGlobalLike,
   } = useAudio();
 
   const listenTime = useRef(0);
@@ -260,25 +261,24 @@ function AlbumDetail() {
 
   // 좋아요 핸들러
   const handleLike = async () => {
+    if (!album?.id || !token) return;
+
     try {
-      if (album?.is_like) {
-        await cancelLikeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, --prev.like),
-          is_like: !prev.is_like,
-        }));
-      } else {
-        await likeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, ++prev.like),
-          is_like: !prev.is_like,
-        }));
-      }
-      // 좋아요 후 전체 데이터를 다시 불러오는 대신 필요 시 play_cnt, like 등의 값만 업데이트하거나 fetchAlbumDetail 호출
+      await handleGlobalLike(
+        album.id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // 페이지 상태 업데이트
+          setAlbum(prev => ({
+            ...prev,
+            like: newLikeCount,
+            is_like: newLikeStatus,
+          }));
+        },
+        { is_like: album.is_like, like: album.like } // 현재 페이지의 좋아요 상태 전달
+      );
     } catch (error) {
-      console.error('좋아요 처리 에러:', error);
+      console.error('AlbumDetail 좋아요 처리 에러:', error);
     }
   };
 

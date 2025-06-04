@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useRef, useCallback } from 'react';
+import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 
 const AudioContext = createContext();
 
@@ -38,6 +39,62 @@ export const AudioProvider = ({ children }) => {
 
   // 스크롤 상태 (PlayerHeader 표시용)
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // 전역 좋아요 처리 함수
+  const handleGlobalLike = useCallback(
+    async (trackId, token, onPageUpdate, currentPageLikeData = null) => {
+      if (!token) return;
+
+      try {
+        let newLikeStatus;
+        let newLikeCount;
+
+        // currentTrack이 같은 트랙인 경우 현재 상태 사용, 아니면 페이지에서 전달받은 상태 사용
+        let currentLikeStatus = false;
+        let currentLikeCount = 0;
+
+        // currentTrack에서 좋아요 상태 확인 (같은 트랙인 경우)
+        if (currentTrack && currentTrack.id === trackId) {
+          currentLikeStatus = currentTrack.is_like;
+          currentLikeCount = currentTrack.like;
+        } else if (currentPageLikeData) {
+          // 페이지에서 전달받은 좋아요 상태 사용
+          currentLikeStatus = currentPageLikeData.is_like;
+          currentLikeCount = currentPageLikeData.like;
+        }
+
+        if (currentLikeStatus) {
+          await cancelLikeAlbum(trackId, token);
+          newLikeStatus = false;
+          newLikeCount = Math.max(0, currentLikeCount - 1);
+        } else {
+          await likeAlbum(trackId, token);
+          newLikeStatus = true;
+          newLikeCount = currentLikeCount + 1;
+        }
+
+        // currentTrack 업데이트 (PlayerHeader 반영)
+        if (currentTrack && currentTrack.id === trackId) {
+          setCurrentTrack(prev => ({
+            ...prev,
+            like: newLikeCount,
+            is_like: newLikeStatus,
+          }));
+        }
+
+        // 페이지별 상태 업데이트 콜백 실행
+        if (onPageUpdate) {
+          onPageUpdate(newLikeCount, newLikeStatus);
+        }
+
+        return { like: newLikeCount, is_like: newLikeStatus };
+      } catch (error) {
+        console.error('좋아요 처리 에러:', error);
+        throw error;
+      }
+    },
+    [currentTrack]
+  );
 
   // 음악 재생 함수
   const playTrack = useCallback(
@@ -211,6 +268,7 @@ export const AudioProvider = ({ children }) => {
     setIsContinue,
     toggleMute,
     handleVolumeChange,
+    handleGlobalLike,
   };
 
   return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;

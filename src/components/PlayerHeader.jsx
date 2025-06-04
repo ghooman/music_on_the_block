@@ -1,7 +1,6 @@
 // PlayerHeader.jsx
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { useAudio } from '../contexts/AudioContext';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
@@ -16,7 +15,6 @@ import soundIcon from '../assets/images/sound-icon.svg';
 import soundIconOff from '../assets/images/mingcute_volume-fill.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import './PlayerHeader.scss';
-import { likeAlbum, cancelLikeAlbum } from '../api/AlbumLike';
 
 const PlayerHeader = () => {
   const { t } = useTranslation('module');
@@ -34,6 +32,7 @@ const PlayerHeader = () => {
     setCurrentTrack,
     isMuted,
     toggleMute,
+    handleGlobalLike,
   } = useAudio();
 
   // 스크롤 이벤트 리스너
@@ -50,31 +49,9 @@ const PlayerHeader = () => {
     if (!track || !token) return;
 
     try {
-      if (track?.is_like) {
-        await cancelLikeAlbum(track?.id, token);
-        setCurrentTrack(prev =>
-          prev
-            ? {
-                ...prev,
-                like: Math.max(0, prev.like - 1),
-                is_like: false,
-              }
-            : prev
-        );
-      } else {
-        await likeAlbum(track?.id, token);
-        setCurrentTrack(prev =>
-          prev
-            ? {
-                ...prev,
-                like: prev.like + 1,
-                is_like: true,
-              }
-            : prev
-        );
-      }
-    } catch (e) {
-      console.error('좋아요 처리 에러:', e);
+      await handleGlobalLike(track.id, token);
+    } catch (error) {
+      console.error('PlayerHeader 좋아요 처리 에러:', error);
     }
   };
 

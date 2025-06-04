@@ -106,6 +106,7 @@ const NftItemDetailInfo = ({ id, t }) => {
     togglePlayPause,
     audioRef,
     setIsPlaying,
+    handleGlobalLike,
   } = useAudio();
 
   const handleClick = () => {
@@ -195,33 +196,40 @@ const NftItemDetailInfo = ({ id, t }) => {
   );
 
   const handleLikes = async () => {
-    if (!nftDetailData?.is_like) {
-      return await likeAlbum(nftDetailData?.song_id, token);
-    } else {
-      return await cancelLikeAlbum(nftDetailData?.song_id, token);
+    if (!nftDetailData?.song_id || !token) return;
+
+    try {
+      return await handleGlobalLike(
+        nftDetailData.song_id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // QueryClient를 통한 상태 업데이트
+          queryClient.setQueryData(['nft_detail_data', id, walletAddress?.address], prev => {
+            if (prev) {
+              return {
+                ...prev,
+                like: newLikeCount,
+                is_like: newLikeStatus,
+              };
+            }
+            return prev;
+          });
+        },
+        { is_like: nftDetailData.is_like, like: nftDetailData.like } // 현재 페이지의 좋아요 상태 전달
+      );
+    } catch (error) {
+      console.error('NftItemDetail 좋아요 처리 에러:', error);
+      throw error;
     }
   };
 
-  const mutate = useMutation(handleLikes, {
-    onSuccess: () => {
-      queryClient.setQueryData(['nft_detail_data', id, walletAddress?.address], prev => {
-        if (prev.is_like === false) {
-          prev.like = ++prev.like;
-        } else {
-          prev.like = --prev.like;
-        }
-        prev.is_like = !prev.is_like;
-        return prev;
-      });
-    },
-    onError: e => {
-      console.log(e);
-    },
-  });
-
-  const likeHandler = e => {
+  const likeHandler = async e => {
     e.preventDefault();
-    mutate?.mutate();
+    try {
+      await handleLikes();
+    } catch (error) {
+      console.error('좋아요 처리 실패:', error);
+    }
   };
 
   console.log(nftDetailData, 'nft detail data');

@@ -258,6 +258,11 @@ const EvaluationBegin = () => {
           possibleCnt={possibleCnt}
           selectMusic={selectMusic}
           selectCritic={selectCritic}
+          currentTrack={currentTrack}
+          currentTime={currentTime}
+          togglePlayPause={togglePlayPause}
+          playTrack={playTrack}
+          isPlaying={isPlaying}
         />
         <ViewResults
           t={t}
@@ -471,7 +476,31 @@ const Step2 = ({ t, setSelectCritic }) => {
   );
 };
 
-const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }) => {
+const Step3 = ({
+  t,
+  possibleCnt,
+  selectMusic,
+  selectCritic,
+  possibleCntLoading,
+
+  currentTrack,
+  currentTime,
+  togglePlayPause,
+  playTrack,
+  isPlaying,
+}) => {
+  const handlePlayMusic = item => {
+    if (item?.id === currentTrack?.id) {
+      togglePlayPause();
+    } else {
+      playTrack({
+        track: item,
+        playlist: [],
+        playlistId: 'evaluation-playlist',
+      });
+    }
+  };
+
   return (
     <ContentWrap title={t('Step 3')}>
       <div className="step3">
@@ -484,7 +513,14 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
         </p>
         <div className="step3__selected-song">
           <p className="step3__selected-song__title">{t('Selected Song')}</p>
-          {selectMusic && <SongsBar itemData={selectMusic} />}
+          {selectMusic && (
+            <SongsBar
+              itemData={selectMusic}
+              onPlayClick={() => handlePlayMusic(selectMusic)}
+              isSelected={true}
+              play={selectMusic?.id === currentTrack?.id && isPlaying}
+            />
+          )}
           {!selectMusic && (
             <NoneContent height={130} message="Please select your song and music critic." />
           )}

@@ -1,4 +1,7 @@
 .main__header {
+  .rhap_progress-bar {
+    height: 2px;
+  }
   .rhap_main{
     .rhap_progress-section {
     }
@@ -35,6 +38,7 @@
     .rhap_progress-bar{
       border-radius: 0;
       position: relative !important;
+      background: transparent !important;
     }
   }
   .rhap_stacked{
@@ -363,6 +367,7 @@
   }
   .rhap_progress-filled {
     background: #fff !important;
+    border-radius: 0 !important;
   } //.rhap_progress-filled--END--
 
   .rhap_button-clear {
@@ -409,6 +414,9 @@
 
 @media screen and (max-width: 768px) {
   .main__header {
+    .rhap_progress-bar {
+      height: 1px;
+    }
       .main__header__album-cover{
         .main__header__title{
           width: 100px;

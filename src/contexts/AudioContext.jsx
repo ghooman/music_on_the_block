@@ -24,6 +24,9 @@ export const AudioProvider = ({ children }) => {
   // 자동 재생 옵션
   const [isContinue, setIsContinue] = useState(true);
 
+  // 재생 키 (매번 새로운 재생을 위해)
+  const [playKey, setPlayKey] = useState(0);
+
   // 오디오 관련 ref
   const audioRef = useRef(null);
 
@@ -39,6 +42,16 @@ export const AudioProvider = ({ children }) => {
       setIsContinue(continuePlay);
       setIsPlaying(true);
       setCurrentTime(0);
+      setPlayKey(prev => prev + 1); // 매번 새로운 키 생성
+
+      // 오디오 요소가 있다면 처음부터 재생하도록 설정
+      setTimeout(() => {
+        const audioElement = audioRef.current?.audio?.current;
+        if (audioElement) {
+          audioElement.currentTime = 0;
+          audioElement.play().catch(console.error);
+        }
+      }, 100);
     },
     []
   );
@@ -128,6 +141,7 @@ export const AudioProvider = ({ children }) => {
     isContinue,
     isScrolled,
     audioRef,
+    playKey,
 
     // 액션들
     playTrack,

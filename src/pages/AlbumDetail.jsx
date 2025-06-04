@@ -500,30 +500,12 @@ function AlbumDetail() {
 
   // Play/Stop 버튼 클릭 핸들러
   const handlePlayStopClick = () => {
-    if (isCurrentAlbumPlaying()) {
-      // 현재 재생 중이면 정지
-      const audioElement = audioRef.current?.audio?.current;
-      if (audioElement) {
-        audioElement.pause();
-      }
-      setIsPlaying(false);
-    } else {
-      // 재생 중이 아닐 때
-      const audioElement = audioRef.current?.audio?.current;
-
-      // 같은 트랙이 로드되어 있고 일시정지 상태라면 다시 재생
-      if (currentTrack?.id === album?.id && audioElement && audioElement.paused) {
-        audioElement.play().catch(console.error);
-        setIsPlaying(true);
-      } else {
-        // 다른 트랙이거나 처음 재생하는 경우 새로 재생
-        playTrack({
-          track: album,
-          playlist: [album],
-          playlistId: 'album-detail',
-        });
-      }
-    }
+    // 항상 처음부터 재생하도록 변경
+    playTrack({
+      track: album,
+      playlist: [album],
+      playlistId: 'album-detail',
+    });
   };
 
   return (
@@ -610,11 +592,8 @@ function AlbumDetail() {
                 className="album-detail__song-detail__left__img__play-btn"
                 onClick={handlePlayStopClick}
               >
-                <img
-                  src={isCurrentAlbumPlaying() ? stopSongIcon : playSongIcon}
-                  alt={isCurrentAlbumPlaying() ? 'stop Icon' : 'play Icon'}
-                />
-                {isCurrentAlbumPlaying() ? 'Stop' : 'Play'}
+                <img src={playSongIcon} alt="play Icon" />
+                Play
               </button>
               <div className="album-detail__song-detail__left__info">
                 {!isLoggedIn && (

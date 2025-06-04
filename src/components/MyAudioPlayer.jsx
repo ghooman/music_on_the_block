@@ -5,7 +5,8 @@ import 'react-h5-audio-player/lib/styles.css';
 import { AuthContext } from '../contexts/AuthContext';
 import { incrementPlayCount } from '../api/incrementPlayCount';
 import VerticalVolumeControl from './VerticalVolumeControl';
-import './VerticalVolumeControl.scss'; // 반드시 임포트되어야 함
+import './VerticalVolumeControl.scss';
+import { useAudio } from '../contexts/AudioContext';
 
 const MyAudioPlayer = ({
   track,
@@ -18,6 +19,7 @@ const MyAudioPlayer = ({
   audioRef,
 }) => {
   const { token } = useContext(AuthContext);
+  const { playKey } = useAudio();
   const serverApi = process.env.REACT_APP_SERVER_API;
   const hasCountedRef = useRef(false);
   const [prevTime, setPrevTime] = useState(0);
@@ -63,7 +65,7 @@ const MyAudioPlayer = ({
   return (
     <AudioPlayer
       ref={audioRef}
-      key={track?.id}
+      key={`${track?.id}-${playKey}`}
       src={track?.music_url}
       autoPlay
       loop={false}

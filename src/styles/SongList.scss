@@ -34,7 +34,8 @@
 }
 @media screen and (max-width: 768px) {
   .songs-list {
-    padding: 128px 0 0 0;
+    // padding: 128px 0 0 0;
+    padding: 0;
     .songs-list__items {
       grid-template-columns: repeat(1, 1fr);
     }

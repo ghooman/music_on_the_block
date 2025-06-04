@@ -11,6 +11,10 @@ import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
+import songCreateIcon1 from '../assets/images/album/song-create-icon1.svg';
+import songCreateIcon2 from '../assets/images/album/song-create-icon2.svg';
+import songCreateIcon3 from '../assets/images/album/song-create-icon3.svg';
+
 import PreparingModal from '../components/PreparingModal';
 
 import axios from 'axios';
@@ -201,6 +205,45 @@ function Album() {
   return (
     <>
       <div className="main">
+        <section className="main__to-day-header">
+          <div className="main__to-day-header__song-create">
+            <p className='main__to-day-header__song-create__title'>
+              {t('What shall we try today?')}
+            </p>
+            <div className='main__to-day-header__song-create-list'>
+              <Link 
+                to="/create"
+                className='main__to-day-header__song-create-list__item'
+              >
+                <p className='main__to-day-header__song-create-list__item__title'>
+                  {t('Create your own song')}<br/>
+                  {t('very quickly')}
+                </p>
+                <img src={songCreateIcon1} alt='songCreateIcon1'/>
+              </Link>
+              <Link 
+                to="/evaluation"
+                className='main__to-day-header__song-create-list__item'
+              >
+                <p className='main__to-day-header__song-create-list__item__title'>
+                  {t('Get your song')}<br/>
+                  {t('evaluated')}
+                </p>
+                <img src={songCreateIcon2} alt='songCreateIcon2'/>
+              </Link>
+              <Link 
+                onClick={() => setPreparingModal(true)}
+                className='main__to-day-header__song-create-list__item'
+              >
+                <p className='main__to-day-header__song-create-list__item__title'>
+                  {t('Create a song')}<br/>
+                  {t('with your own voice')}
+                </p>
+                <img src={songCreateIcon3} alt='songCreateIcon3'/>
+              </Link>
+            </div>
+          </div>
+        </section>
         <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${

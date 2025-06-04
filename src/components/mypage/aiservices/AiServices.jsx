@@ -318,13 +318,11 @@ const EvaluationGraph = ({ t, username }) => {
       const data = Object.entries(res.data)?.map(([key, value]) => {
         return { date: key, value: value };
       });
-      console.log(data, '수퍼비');
+
       return data;
     },
     { enabled: !!username }
   );
-
-  console.log(scoreData, dailyUsageData, '데이터들입니다.');
 
   return (
     <GraphTemplate

@@ -80,7 +80,7 @@ const EvaluationBegin = () => {
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
                 가사 : ${selectMusic?.lyrics || '가사 없음.'}
                 심사위원 성향 :
-                  - 심사 철학 : ${selectCritic?.introduction}
+                  - 심사 철학 : ${selectCritic?.judgingPhilosophy}
                   - 평가 기준 중 다음 항목들을 특히 중시합니다 :
                             ${selectCritic?.important?.join(', \n')}
 
@@ -106,12 +106,13 @@ const EvaluationBegin = () => {
                   }
 
                   7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
-                    selectCritic?.style
+                    selectCritic?.speechStyle
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
                   9. 심사위원의 특성에 따른 변별력을 추가하시오
                   10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
                   11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
+                  12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,

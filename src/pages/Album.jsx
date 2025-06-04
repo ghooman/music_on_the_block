@@ -211,27 +211,36 @@ function Album() {
               {t('What shall we try today?')}
             </p>
             <div className='main__to-day-header__song-create-list'>
-              <div className='main__to-day-header__song-create-list__item'>
+              <Link 
+                to="/create"
+                className='main__to-day-header__song-create-list__item'
+              >
                 <p className='main__to-day-header__song-create-list__item__title'>
                   {t('Create your own song')}<br/>
                   {t('very quickly')}
                 </p>
                 <img src={songCreateIcon1} alt='songCreateIcon1'/>
-              </div>
-              <div className='main__to-day-header__song-create-list__item'>
+              </Link>
+              <Link 
+                to="/evaluation"
+                className='main__to-day-header__song-create-list__item'
+              >
                 <p className='main__to-day-header__song-create-list__item__title'>
                   {t('Get your song')}<br/>
                   {t('evaluated')}
                 </p>
                 <img src={songCreateIcon2} alt='songCreateIcon2'/>
-              </div>
-              <div className='main__to-day-header__song-create-list__item'>
+              </Link>
+              <Link 
+                onClick={() => setPreparingModal(true)}
+                className='main__to-day-header__song-create-list__item'
+              >
                 <p className='main__to-day-header__song-create-list__item__title'>
-                  {t('Create a song')}
+                  {t('Create a song')}<br/>
                   {t('with your own voice')}
                 </p>
                 <img src={songCreateIcon3} alt='songCreateIcon3'/>
-              </div>
+              </Link>
             </div>
           </div>
         </section>

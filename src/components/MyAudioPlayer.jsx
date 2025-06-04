@@ -5,7 +5,8 @@ import 'react-h5-audio-player/lib/styles.css';
 import { AuthContext } from '../contexts/AuthContext';
 import { incrementPlayCount } from '../api/incrementPlayCount';
 import VerticalVolumeControl from './VerticalVolumeControl';
-import './VerticalVolumeControl.scss'; // 반드시 임포트되어야 함
+import './VerticalVolumeControl.scss';
+import { useAudio } from '../contexts/AudioContext';
 
 const MyAudioPlayer = ({
   track,
@@ -18,6 +19,7 @@ const MyAudioPlayer = ({
   audioRef,
 }) => {
   const { token } = useContext(AuthContext);
+  const { playKey, isMuted, volume } = useAudio();
   const serverApi = process.env.REACT_APP_SERVER_API;
   const hasCountedRef = useRef(false);
   const [prevTime, setPrevTime] = useState(0);
@@ -47,7 +49,16 @@ const MyAudioPlayer = ({
 
   useEffect(() => {
     setIsPlaying(false);
-  }, [track, setIsPlaying]);
+
+    // 오디오 요소에 음소거 상태와 볼륨 적용
+    setTimeout(() => {
+      const audioElement = audioRef.current?.audio?.current;
+      if (audioElement) {
+        audioElement.muted = isMuted;
+        audioElement.volume = volume;
+      }
+    }, 100);
+  }, [track, setIsPlaying, isMuted, volume]);
 
   const handleEnded = () => {
     setIsPlaying(false);
@@ -63,7 +74,7 @@ const MyAudioPlayer = ({
   return (
     <AudioPlayer
       ref={audioRef}
-      key={track?.id}
+      key={`${track?.id}-${playKey}`}
       src={track?.music_url}
       autoPlay
       loop={false}

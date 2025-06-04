@@ -30,9 +30,15 @@
           padding: 30px;
           min-height: 220px;
           overflow: hidden;
+          transition: 0.3s;
+          &:hover{
+            img{
+              transform: translate(-8px,-16px);
+            }
+          }
           .main__to-day-header__song-create-list__item__title{
             color: #FFF;
-            font-family: Prompt700;
+            font-family: Pretendard700;
             font-size: 24px;
             // margin-bottom: 16px;
             position: relative;
@@ -986,8 +992,21 @@
   }
 }
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1340px) {
   .main {
+    .main__to-day-header{
+      .main__to-day-header__song-create{
+        .main__to-day-header__song-create-list{
+          .main__to-day-header__song-create-list__item{
+            img{
+              width: 144px;
+              height: 144px;
+              bottom: 0 !important;
+            }
+          }
+        }
+      }
+    }
     .main__content-item {
       .album__content-list__evaluation-stage {
         .album__content-list__evaluation-stage__item {
@@ -1045,7 +1064,7 @@
 
 @media screen and (max-width: 980px) {
   .main {
-    padding-top: 166px;
+    // padding-top: 166px;
 
     .album__content-list {
       .album__content-list__list {
@@ -1080,7 +1099,28 @@
   .main {
     // padding-top: 226px;
     padding-top: 116px;
-
+    .main__to-day-header{
+      .main__to-day-header__song-create{
+        .main__to-day-header__song-create-list{
+          overflow: auto;
+          padding-bottom: 8px;
+          .main__to-day-header__song-create-list__item{
+            width: 300px;
+            flex:300px;
+            flex-shrink: 0;
+            min-height: 120px;
+            .main__to-day-header__song-create-list__item__title{
+              font-size: 14px;
+            }
+            img{
+              width: 114px;
+              height: 114px;
+              bottom: -16px !important;
+            }
+          }
+        }
+      }
+    }
     .album__content-list__tab {
       padding-bottom: 16px;
     }

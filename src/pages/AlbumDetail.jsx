@@ -91,6 +91,7 @@ function AlbumDetail() {
     togglePlayPause,
     audioRef,
     setIsPlaying,
+    handleGlobalLike,
   } = useAudio();
 
   const listenTime = useRef(0);
@@ -260,25 +261,24 @@ function AlbumDetail() {
 
   // 좋아요 핸들러
   const handleLike = async () => {
+    if (!album?.id || !token) return;
+
     try {
-      if (album?.is_like) {
-        await cancelLikeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, --prev.like),
-          is_like: !prev.is_like,
-        }));
-      } else {
-        await likeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, ++prev.like),
-          is_like: !prev.is_like,
-        }));
-      }
-      // 좋아요 후 전체 데이터를 다시 불러오는 대신 필요 시 play_cnt, like 등의 값만 업데이트하거나 fetchAlbumDetail 호출
+      await handleGlobalLike(
+        album.id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // 페이지 상태 업데이트
+          setAlbum(prev => ({
+            ...prev,
+            like: newLikeCount,
+            is_like: newLikeStatus,
+          }));
+        },
+        { is_like: album.is_like, like: album.like } // 현재 페이지의 좋아요 상태 전달
+      );
     } catch (error) {
-      console.error('좋아요 처리 에러:', error);
+      console.error('AlbumDetail 좋아요 처리 에러:', error);
     }
   };
 
@@ -500,30 +500,12 @@ function AlbumDetail() {
 
   // Play/Stop 버튼 클릭 핸들러
   const handlePlayStopClick = () => {
-    if (isCurrentAlbumPlaying()) {
-      // 현재 재생 중이면 정지
-      const audioElement = audioRef.current?.audio?.current;
-      if (audioElement) {
-        audioElement.pause();
-      }
-      setIsPlaying(false);
-    } else {
-      // 재생 중이 아닐 때
-      const audioElement = audioRef.current?.audio?.current;
-
-      // 같은 트랙이 로드되어 있고 일시정지 상태라면 다시 재생
-      if (currentTrack?.id === album?.id && audioElement && audioElement.paused) {
-        audioElement.play().catch(console.error);
-        setIsPlaying(true);
-      } else {
-        // 다른 트랙이거나 처음 재생하는 경우 새로 재생
-        playTrack({
-          track: album,
-          playlist: [album],
-          playlistId: 'album-detail',
-        });
-      }
-    }
+    // 항상 처음부터 재생하도록 변경
+    playTrack({
+      track: album,
+      playlist: [album],
+      playlistId: 'album-detail',
+    });
   };
 
   return (
@@ -610,11 +592,8 @@ function AlbumDetail() {
                 className="album-detail__song-detail__left__img__play-btn"
                 onClick={handlePlayStopClick}
               >
-                <img
-                  src={isCurrentAlbumPlaying() ? stopSongIcon : playSongIcon}
-                  alt={isCurrentAlbumPlaying() ? 'stop Icon' : 'play Icon'}
-                />
-                {isCurrentAlbumPlaying() ? 'Stop' : 'Play'}
+                <img src={playSongIcon} alt="play Icon" />
+                Play
               </button>
               <div className="album-detail__song-detail__left__info">
                 {!isLoggedIn && (

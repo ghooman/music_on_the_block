@@ -1,26 +1,30 @@
 // components/VerticalVolumeControl.js
 
 import React, { useState, useEffect } from 'react';
+import { useAudio } from '../contexts/AudioContext';
 import './VerticalVolumeControl.scss';
 
 const VerticalVolumeControl = ({ audioElement }) => {
-  const [volume, setVolume] = useState(1);
+  const { volume, handleVolumeChange } = useAudio();
+  const [localVolume, setLocalVolume] = useState(volume);
 
+  // AudioContext의 볼륨 상태와 동기화
+  useEffect(() => {
+    setLocalVolume(volume);
+  }, [volume]);
+
+  // 오디오 요소의 초기 볼륨 설정
   useEffect(() => {
     if (!audioElement) return;
-    setVolume(audioElement.volume);
-    const onVolChange = () => setVolume(audioElement.volume);
-    audioElement.addEventListener('volumechange', onVolChange);
-    return () => audioElement.removeEventListener('volumechange', onVolChange);
+
+    // 초기 볼륨 동기화만 수행
+    setLocalVolume(audioElement.volume);
   }, [audioElement]);
 
   const handleChange = e => {
     const newVol = parseFloat(e.target.value);
-    setVolume(newVol);
-    if (audioElement) {
-      audioElement.volume = newVol;
-      audioElement.muted = newVol === 0;
-    }
+    setLocalVolume(newVol);
+    handleVolumeChange(newVol);
   };
 
   return (
@@ -31,7 +35,7 @@ const VerticalVolumeControl = ({ audioElement }) => {
         min="0"
         max="1"
         step="0.01"
-        value={volume}
+        value={localVolume}
         onChange={handleChange}
         orient="vertical"
       />

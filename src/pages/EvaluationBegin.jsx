@@ -366,11 +366,7 @@ const Step1 = ({
   return (
     <ContentWrap title={t('Step 1')}>
       <div className="step1">
-        <p className="step1__title">
-          {t('Select your song.')}
-          <br />
-          {t('Click the song, then tap "Select" below to continue.')}
-        </p>
+        <p className="step1__title">{t('Select your song.')}</p>
         <ContentWrap.SubWrap gap={8}>
           <Filter songsSort={true} gradeFilter={true} aiServiceFilter={true} />
           <Search placeholder="Search by song title" />
@@ -483,7 +479,7 @@ const Step3 = ({ t, possibleCnt, selectMusic, selectCritic, possibleCntLoading }
           {t('Please review your selected options.')}
           <br />
           {t(
-            'If you would like to proceed with these choices, click "View Results" at the bottom of the screen.'
+            'If you would like to proceed with these choices, click “View Results” at the bottom of the screen.'
           )}
         </p>
         <div className="step3__selected-song">

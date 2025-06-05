@@ -1547,6 +1547,7 @@
 
 @media screen and (max-width: 1200px) {
   .song-detail {
+    
     .album-detail__title {
       dt {
         font-size: 24px;
@@ -1565,6 +1566,9 @@
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
+            img{
+              object-fit: contain;
+            }
             .album-detail__song-detail__left__img__txt {
               height: 0;
             }
@@ -1644,6 +1648,11 @@
     .album-detail__song-detail{
       .album-detail__song-detail__bot{
         .album-detail__song-detail__left{
+          .album-detail__song-detail__left__img{
+            img{
+              object-fit: cover;
+            }
+          }
           .album-detail__song-detail__left__title{
             font-size: 16px;
           }

@@ -9,8 +9,11 @@ import Leaderboard from '../components/get/Leaderboard';
 
 import '../styles/GetDetail.scss';
 import Timer from '../components/get/Timer';
+import { useUserDetail } from '../hooks/useUserDetail';
+import { sliceWalletAddress } from '../utils/sliceWalletAddress';
 
 const GetDetail = () => {
+  const { data: userData } = useUserDetail();
   const { t } = useTranslation('get');
   const [searchParams] = useSearchParams();
   const [preparingModal, setPreparingModal] = useState(false);
@@ -26,12 +29,21 @@ const GetDetail = () => {
   return (
     <>
       <div className="get-detail">
-        <div className="get-detail__banner"></div>
+        <div className="get-detail__banner">
+          <div className="get-detail__banner--text-box">
+            <p className="title">{t('Get Race')}</p>
+            <p className="desc">
+              {t(
+                'Join the competition by burning your reward tokens – and discover new value in the process.'
+              )}
+            </p>
+          </div>
+        </div>
         <div className="get-detail__progress-wallet">
           {/** */}
           <div className="get-race-content-box">
             <p className={'get-race-content-box__text white fs12 fw400'}>
-              {t('Round #3 Information in progress')}
+              {t('Round')} #3 {t('in progress')}
             </p>
             <p className="get-race-content-box__text green fs14 fw700">
               <Timer fontSize={14} color={'#00d293'} fontFamily={'Inter700'} textWidth={9} />
@@ -41,7 +53,9 @@ const GetDetail = () => {
           {/** */}
           <div className="get-race-content-box">
             <p className={'get-race-content-box__text white fs12 fw400'}>{t('Connected wallet')}</p>
-            <p className="get-race-content-box__text green fs14 fw700">0x1Fb3....8c4a</p>
+            <p className="get-race-content-box__text green fs14 fw700">
+              {sliceWalletAddress(userData?.wallet_address) || '-'}
+            </p>
           </div>
           {/** */}
         </div>
@@ -59,7 +73,7 @@ const GetDetail = () => {
                 to={`?tab=${item.name}`}
                 key={item.name}
               >
-                {item.name}
+                {t(item.name)}
                 {item.cnt && <div className="item-alarm">{item.cnt < 100 ? item.cnt : '99+'}</div>}
               </Link>
             ))}
@@ -73,9 +87,11 @@ const GetDetail = () => {
           {/** */}
           <div className="get-race-content-box">
             <p className="get-race-content-box__text green fs14 fw400">{t('TOTAL REWARD')}(MOB)</p>
-            <p className="get-race-content-box__text gray fs14 fw500">Basic Reward 30,000</p>
+            <p className="get-race-content-box__text gray fs14 fw500">{t('Basic Reward')} 30,000</p>
             <p className="get-race-content-box__text gray fs14 fw500">+</p>
-            <p className="get-race-content-box__text yellow fs14 fw500">Revenue Share 20,000</p>
+            <p className="get-race-content-box__text yellow fs14 fw500">
+              {t('Revenue Share')} 20,000
+            </p>
           </div>
           {/** */}
           {/** */}
@@ -86,7 +102,7 @@ const GetDetail = () => {
           {/** */}
           {/** */}
           <div className="get-race-content-box">
-            <p className="get-race-content-box__text green fs14 fw400">{t('TOTAL REWARD')}</p>
+            <p className="get-race-content-box__text green fs14 fw400">{t('START TIME')}</p>
             <p className="get-race-content-box__text gray fs18 fw500">
               Sat, 04 Nov 2023 14:40:00 UTC+9
             </p>
@@ -97,7 +113,7 @@ const GetDetail = () => {
             <p className="get-race-content-box__text green fs14 fw400">{t('REMAINING TIME')}</p>
             <p className="get-race-content-box__text yellow fs18 fw500">
               {/* 4D 23H 32M */}
-              <Timer fontSize={18} color={'#ffd700'} fontFamily={'Inter700'} textWidth={10} />
+              <Timer fontSize={18} color={'#ffd700'} fontFamily={'Inter700'} textWidth={11} />
             </p>
           </div>
           {/** */}

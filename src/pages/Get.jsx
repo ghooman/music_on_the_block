@@ -87,7 +87,7 @@ function Get() {
             <dl className='get__content__item__mob'>
               <dt>Total Reward(MOB)</dt>
               <dd>
-                <p>Basic Reward 30,000 +</p> <span>Revenue Share 20,000</span>
+                <p>Basic Reward 30,000</p> + <span>Revenue Share 20,000</span>
               </dd>
             </dl>
             <dl className='get__content__item__minutes'>
@@ -129,7 +129,7 @@ function Get() {
             <dl className='get__content__item__mob'>
               <dt>Total Reward(MOB)</dt>
               <dd>
-                <p>Basic Reward 30,000 +</p> <span>Revenue Share 20,000</span>
+                <p>Basic Reward 30,000</p> + <span>Revenue Share 20,000</span>
               </dd>
             </dl>
             <dl className='get__content__item__minutes'>

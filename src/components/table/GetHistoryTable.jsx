@@ -1,9 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TableWrapper, Table, TableHeader, TableBody, TableItem } from './TableCompositions';
+
+import { sliceWalletAddress } from '../../utils/sliceWalletAddress';
+
 import NoneContent from '../unit/NoneContent';
 
-const dummyDataList = new Array(15).fill(null).map(item => ({
+const dummyDataList = new Array(10).fill(null).map(item => ({
   name: 'hh',
   profile: '',
   wallet_address: '0xe3Fd161776e32786CF320D725db612AF404a9273',
@@ -14,11 +17,6 @@ const dummyDataList = new Array(15).fill(null).map(item => ({
 
 const GetHistoryTable = ({ dataList = dummyDataList }) => {
   const { t } = useTranslation('module');
-
-  const slicedWalletAddress = address => {
-    if (!address) return;
-    return address.slice(0, 5) + '...' + address.slice(-3);
-  };
 
   return (
     <TableWrapper>
@@ -38,7 +36,7 @@ const GetHistoryTable = ({ dataList = dummyDataList }) => {
                 <TableItem>
                   <TableItem.Indexs text={index + 1} />
                   <TableItem.UserInfo image={item.profile} name={item.name} />
-                  <TableItem.Text text={slicedWalletAddress(item.wallet_address)} />
+                  <TableItem.Text text={sliceWalletAddress(item.wallet_address)} />
                   <TableItem.Text text={item.burned_mic?.toLocaleString()} />
                   <TableItem.Text text={item.contribution?.toLocaleString() + '%'} />
                   <TableItem.Text text={item.estimated_reward?.toLocaleString()} />

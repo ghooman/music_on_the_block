@@ -5,6 +5,9 @@ import GetHistoryTable from '../table/GetHistoryTable';
 import arrowIcon from '../../assets/images/arrow_down.svg';
 
 import './Leaderboard.scss';
+import { sliceWalletAddress } from '../../utils/sliceWalletAddress';
+import { useTranslation } from 'react-i18next';
+import { useTransition } from 'react';
 
 const Leaderboard = () => {
   return (
@@ -19,39 +22,54 @@ export default Leaderboard;
 
 const UserInfo = () => {
   const { data } = useUserDetail();
+  const { t } = useTranslation('get');
 
   const infoArray = [
     {
-      title: 'Wallet Address',
-      value: data?.wallet_address.slice(0, 5) + '...' + data?.wallet_address.slice(-2),
+      title: t('Wallet Address'),
+      value: sliceWalletAddress(data?.wallet_address) || 0,
     },
     {
-      title: 'Contribution',
-      value: '25.48%',
+      title: t('Contribution'),
+      value: '25.48%' || 0,
     },
     {
-      title: 'Estimated Reward(MOB)',
-      value: 35384?.toLocaleString(),
+      title: t('Estimated Reward(MOB)'),
+      value: 35384?.toLocaleString() || 0,
     },
     {
-      title: 'Burned MIC',
-      value: 12.234?.toLocaleString(),
+      title: t('Burned MIC'),
+      value: 12.234?.toLocaleString() || 0,
     },
   ];
 
   return (
     <div className="get-detail-leaderboard__user">
       <div className="get-detail-leaderboard__user--profile">
-        <h4 className="get-detail-leaderboard__user--profile-title">My Ranking Information</h4>
+        <h4 className="get-detail-leaderboard__user--profile-title">
+          {t('My Ranking Information')}
+        </h4>
+
         <div className="get-detail-leaderboard__user--profile-data">
-          <div className="profile-data-image">
-            <img className="profile-data-image__profile" src={data?.profile} alt="profile" />
-            {/* <img className="profile-data-image__grade" src="" alt="grade" /> */}
-          </div>
-          <div className="profile-data-info">
-            <p className="profile-data-info__text address">0xF2d...45</p>
-            <p className="profile-data-info__text name">name</p>
-          </div>
+          {data && (
+            <>
+              <div className="profile-data-image">
+                <img className="profile-data-image__profile" src={data?.profile} alt="profile" />
+              </div>
+              <div className="profile-data-info">
+                <p className="profile-data-info__text address">
+                  {sliceWalletAddress(data?.wallet_address)}
+                </p>
+                <p className="profile-data-info__text name">{data?.name}</p>
+              </div>
+            </>
+          )}
+          {!data && (
+            <>
+              <div className="skeleton circle-type"></div>
+              <div className="skeleton bar-type"></div>
+            </>
+          )}
         </div>
       </div>
       <div className="get-detail-leaderboard__user--information">
@@ -69,18 +87,20 @@ const UserInfo = () => {
 };
 
 const Tables = () => {
+  const { t } = useTranslation('get');
+
   return (
     <div className="get-detail-leaderboard__tables">
       <div className="get-detail-leaderboard__tables--title">
-        <p className="title">Previous Top Ranking</p>
+        <p className="title">{t('Previous Top Ranking')}</p>
         <p className="notice">
-          Updated every <span className="notice-point">30 minutes</span>
+          {t('Updated every')} <span className="notice-point">30 {t('minutes')}</span>
         </p>
       </div>
       <GetHistoryTable />
       <button className="get-detail-leaderboard__tables--see-more">
         <img src={arrowIcon} alt="arrow" />
-        See More
+        {t('See More')}
       </button>
     </div>
   );

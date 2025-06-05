@@ -129,4 +129,20 @@
       height: 20px;
     }
   }
+
+  .skeleton {
+    border: 1px solid #383838;
+    background-color: #1a1a1a;
+
+    &.circle-type {
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+    }
+    &.bar-type {
+      border-radius: 8px;
+      height: 24px;
+      flex: 1;
+    }
+  }
 }

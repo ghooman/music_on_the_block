@@ -219,7 +219,7 @@ const SongList = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [page]);
+  }, [page, isLoading]);
 
   return (
     <>

@@ -125,7 +125,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
         yScale={{
           type: 'linear',
           min: 0,
-          max: 5,
+          // max: 5,
           stacked: true,
           reverse: false,
         }}

@@ -64,6 +64,9 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
         <Link
           to={`/song-detail/${data.song_id}?service=AI+Singing+Evaluation&critic=${data.critic}`}
           className="details-btn"
+          onClick={e => {
+            e.stopPropagation();
+          }}
         >
           {t('Details')}
         </Link>

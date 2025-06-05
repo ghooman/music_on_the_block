@@ -383,7 +383,7 @@ function Album() {
                   <NoneContent height={300} message="No evaluation history yet." />
                 )}
 
-                {evaluationListByHighScore.length > 5 && (
+                {/* {evaluationListByHighScore.length > 5 && (
                   <button 
                     className='album__content-list__evaluation-stage__view-all-btn'
                     onClick={() => {
@@ -401,7 +401,14 @@ function Album() {
                   >
                     {showAllEvaluations ? t('Show less') : t('View all evaluations')}
                   </button>
-                )}
+                )} */}
+
+                <Link
+                  to='/evaluation-stage'
+                  className='album__content-list__evaluation-stage__view-all-btn'
+                >
+                  {t('View all evaluations')}
+                </Link>
               </div>
             </article>
             {/* <List
@@ -454,6 +461,7 @@ function Album() {
             </section>
           </article>
         )}
+
         {/* {service === 'AI Singing Evaluation' && (
           <section className="main__content-item">
             <article className="main__content-item__persona">
@@ -521,6 +529,8 @@ function Album() {
             />
           </section>
         )} */}
+
+        
 
         <section className="main__stats">
           <dl className="main__stats__title">

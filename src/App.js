@@ -40,6 +40,7 @@ import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
 import GetDetail from './pages/GetDetail';
 import Get from './pages/Get';
+import EvaluationStage from './pages/EvaluationStage';
 
 function Layout({ children }) {
   return (
@@ -308,6 +309,14 @@ function App() {
                   element={
                     <Layout>
                       <Get/>
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="evaluation-stage"
+                  element={
+                    <Layout>
+                      <EvaluationStage/>
                     </Layout>
                   }
                 />

@@ -14,10 +14,11 @@ import {
 import NoneContent from '../components/unit/NoneContent';
 import ContentWrap from '../components/unit/ContentWrap';
 import Loading from '../components/IntroLogo2';
+import AlbumItem from '../components/unit/AlbumItem';
 
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay, FreeMode } from 'swiper/modules';
+import { Navigation, FreeMode } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
@@ -40,6 +41,36 @@ function EvaluationStage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const critic = searchParams.get('critic') || 'All';
+  const {
+    currentTrack,
+    currentTime,
+    playTrack,
+    isTrackActive,
+    audioRef,
+    togglePlayPause,
+    //
+  } = useAudio();
+
+  const handlePlay = ({ list, id, track }) => {
+    playTrack({
+      track,
+      playlist: list,
+      playlistId: id,
+    });
+  };
+
+  const swiperOptions = {
+    loop: false,
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    FreeMode: true,
+    navigation: true,
+    modules: [FreeMode, Navigation],
+  };
 
   const { data: evaluationListForHighestScore, isLoading } = useQuery(
     ['evaluation_list_highest_score', critic],
@@ -54,9 +85,19 @@ function EvaluationStage() {
     }
   );
 
+  const { data: evaluationListForLatest } = useQuery(['evaluation_list_latest'], async () => {
+    const res = await getEvaluationList({
+      page: 1,
+      search_keyword: '',
+      critic: 'All',
+      sort_by: 'Latest',
+    });
+    return res.data.data_list;
+  });
+
   return (
     <div className="evaluation-stage">
-      <ContentWrap title="Evaluation Stage" border={false}>
+      <ContentWrap title="Evaluation Stage" border={false} style={{ padding: 0 }}>
         <div className="evaluation-stage__critics">
           {[{ name: 'All', image: personaAll }, ...criticsDataForArray].map((persona, index) => (
             <div
@@ -84,6 +125,7 @@ function EvaluationStage() {
           border={false}
           title="Evaluation Stage"
           link="/song/list?service=AI+Singing+Evaluation"
+          style={{ padding: 0 }}
         >
           {evaluationListForHighestScore?.length > 0 && (
             <EvaluationListItemWrapper>
@@ -98,7 +140,27 @@ function EvaluationStage() {
             <NoneContent message="No evaluation history yet." height={300} />
           )}
         </ContentWrap>
-        <ContentWrap title="배고픔"></ContentWrap>
+        <ContentWrap title="Recently Rated">
+          <div className="album__content-list__list">
+            <Swiper {...swiperOptions} className="evaluation-stage__slide">
+              {evaluationListForLatest?.slice(0, 9).map((track, _, list) => (
+                <SwiperSlide key={track.id} className="evaluation-stage__slide_item">
+                  <AlbumItem
+                    key={track.id}
+                    track={track}
+                    isActive={isTrackActive(track.id)}
+                    currentTime={currentTime}
+                    onClick={() => {
+                      handlePlay({ list: list, track: track, id: track.id });
+                    }}
+                    audioRef={audioRef}
+                    type={'evaluation'}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </ContentWrap>
       </ContentWrap>
       {isLoading && <Loading />}
     </div>

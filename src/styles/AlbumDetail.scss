@@ -159,23 +159,23 @@
     .album-detail__song-detail__bot {
       // display: flex;
       // gap: 16px;
-      .album-detail__song-detail__bot__title{
+      .album-detail__song-detail__bot__title {
         color: #f1f1f1;
         font-family: Orbitron500;
         font-size: 20px;
         font-style: normal;
         margin-bottom: 16px;
-      }//album-detail__song-detail__bot__title--END--
-      .album-detail__song-detail__bot__content{
+      } //album-detail__song-detail__bot__title--END--
+      .album-detail__song-detail__bot__content {
         display: flex;
         gap: 16px;
         width: 100%;
-      }//album-detail__song-detail__bot__content--END--
+      } //album-detail__song-detail__bot__content--END--
       .album-detail__song-detail__left {
         width: 420px;
         flex-shrink: 0;
         position: relative;
-        .album-detail__song-detail__left__title{
+        .album-detail__song-detail__left__title {
           color: #f1f1f1;
           font-family: Orbitron500;
           font-size: 20px;
@@ -187,7 +187,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           min-height: 52px;
-        }//.album-detail__song-detail__left__title
+        } //.album-detail__song-detail__left__title
         .album-detail__song-detail__left__img__lyrics-btn {
           position: absolute;
           right: 16px;
@@ -1509,7 +1509,6 @@
   } //song-detail-slide--END--
 } //album-detail__slide--END--
 
-
 //song-detail--END--
 
 .rhap_progress-bar {
@@ -1554,18 +1553,17 @@
 
 @media screen and (max-width: 1200px) {
   .song-detail {
-    
     .album-detail__title {
       dt {
         font-size: 24px;
       }
     }
     .album-detail__song-detail {
-    .album-detail__song-detail__bot{
-      .album-detail__song-detail__bot__content{
-        flex-direction: column;
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__bot__content {
+          flex-direction: column;
+        }
       }
-    }
 
       .album-detail__song-detail__bot {
         flex-direction: column;
@@ -1573,7 +1571,7 @@
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
-            img{
+            img {
               object-fit: contain;
             }
             .album-detail__song-detail__left__img__txt {
@@ -1651,16 +1649,16 @@
 }
 
 @media screen and (max-width: 768px) {
-  .song-detail{
-    .album-detail__song-detail{
-      .album-detail__song-detail__bot{
-        .album-detail__song-detail__left{
-          .album-detail__song-detail__left__img{
-            img{
+  .song-detail {
+    .album-detail__song-detail {
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__left {
+          .album-detail__song-detail__left__img {
+            img {
               object-fit: cover;
             }
           }
-          .album-detail__song-detail__left__title{
+          .album-detail__song-detail__left__title {
             font-size: 16px;
           }
         }
@@ -1671,10 +1669,10 @@
 
 @media screen and (max-width: 480px) {
   .song-detail {
-    .album-detail__song-detail{
-      .album-detail__song-detail__bot{
-        .album-detail__song-detail__left{
-          .album-detail__song-detail__left__title{
+    .album-detail__song-detail {
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__left {
+          .album-detail__song-detail__left__title {
             font-size: 14px;
           }
         }

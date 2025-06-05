@@ -34,7 +34,7 @@ const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHover
       onMouseLeave={() => setIsVolumeHovered && setIsVolumeHovered(false)}
     >
       <input
-        className="vertical-slider"
+        className={`vertical-slider ${isVolumeHovered ? 'active' : ''}`}
         type="range"
         min="0"
         max="1"
@@ -42,9 +42,9 @@ const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHover
         value={localVolume}
         onChange={handleChange}
         orient="vertical"
-        style={{
-          display: isVolumeHovered ? 'block' : 'none',
-        }}
+        // style={{
+        //   display: isVolumeHovered ? 'block' : 'none',
+        // }}
       />
     </div>
   );

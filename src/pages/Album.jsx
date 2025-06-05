@@ -53,6 +53,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
   const { t } = useTranslation('main');
+  const evaluationSectionRef = useRef(null);  // Add ref for evaluation section
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { token, walletAddress } = useContext(AuthContext);
@@ -68,6 +69,7 @@ function Album() {
   const [randomList, setRandomList] = useState([]);
   const [evaluationListByHighScore, setEvaluationListByHighScore] = useState([]);
   const [evaluationListByLatest, setEvaluationListByLatest] = useState([]);
+  const [showAllEvaluations, setShowAllEvaluations] = useState(false);
 
   const [transaction, setTransaction] = useState(null); // 트랜잭션 상태 관리
 
@@ -241,7 +243,7 @@ function Album() {
             </div>
           </div>
         </section>
-        <article className="album__content-list__tab">
+        {/* <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${
               service === 'AI Lyrics & Songwriting' ? 'active' : ''
@@ -275,7 +277,7 @@ function Album() {
           >
             {t('AI Cover Creation')}
           </button>
-        </article>
+        </article> */}
         {service === 'AI Lyrics & Songwriting' && (
           <article className="main__content-item">
             <List
@@ -291,7 +293,7 @@ function Album() {
               noDataMessage="There are no songs."
               isTrackActive={isTrackActive}
             />
-            <List
+            {/* <List
               title={t('Total')}
               data={randomList}
               // data={[...totalList].sort(() => Math.random() - 0.5)}
@@ -304,7 +306,122 @@ function Album() {
               audioRef={audioRef}
               noDataMessage="There are no songs."
               isTrackActive={isTrackActive}
-            />
+            /> */}
+
+
+
+
+          <section className="main__content-item">
+            <article className="album__content-list">
+              <p className="album__content-list__title">
+                {t('Evaluation Stage')}
+                <Link
+                  className="album__content-list__see-more-btn"
+                  to="/song/list?service=AI+Singing+Evaluation"
+                >
+                  {t('See More')}
+                </Link>
+              </p>
+              <article 
+                className="main__content-item__persona" 
+                ref={evaluationSectionRef}
+                // style={{ scrollMarginTop: '-100px' }}
+              >
+                {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
+                  <div
+                    key={index}
+                    className={`main__content-item__persona__item ${
+                      critic === persona?.name ? 'active' : ''
+                    }`}
+                    onClick={() =>
+                      setSearchParams(prev => {
+                        setShowAllEvaluations(false);
+                        return { ...Object.fromEntries(prev), critic: persona.name };
+                      })
+                    }
+                  >
+                    <img src={persona.image} alt={persona.name} />
+                    <p>{persona.name}</p>
+                  </div>
+                ))}
+              </article>
+              
+              <div className="album__content-list__evaluation-stage">
+                {/* <button className='album__content-list__evaluation-stage__item'>
+                  <div className='album__content-list__evaluation-stage__item__thought'>
+                    <p className='album__content-list__evaluation-stage__item__thought__play'>
+                      <img src={coverImg10} alt='coverImg'/>
+                    </p>
+                    <p className='album__content-list__evaluation-stage__item__thought__txt'>
+                      <img src={persona02} alt='Jinwoo-Yoo-img'/>
+                      "This track almost made me feel something. Almost. That's a masterpiece."
+                    </p>
+                  </div>
+                  <dl className='album__content-list__evaluation-stage__item__title'>
+                    <dt>he dances through his masks like breathing - Yolkhead</dt>
+                    <dd><img src={defaultCoverImg} alt='user-name'/>Artist name</dd>
+                  </dl>
+                  <div className='album__content-list__evaluation-stage__item__details-number'>
+                    <p className='basic'>100</p>
+                    <button className='details-btn'>Details</button>
+                  </div>
+                </button> */}
+                {evaluationListByHighScore.length > 0 && (
+                  <EvaluationListItemWrapper>
+                    {(showAllEvaluations ? evaluationListByHighScore : evaluationListByHighScore.slice(0, 5)).map(item => (
+                      <EvaluationListItem
+                        key={item.id}
+                        data={item}
+                        selectedMusic={currentTrack}
+                        player={audioPlayer}
+                        handler={() => handlePlayEvaluation(item)}
+                      />
+                    ))}
+                  </EvaluationListItemWrapper>
+                )}
+                {evaluationListByHighScore.length <= 0 && (
+                  <NoneContent height={300} message="No evaluation history yet." />
+                )}
+
+                {evaluationListByHighScore.length > 5 && (
+                  <button 
+                    className='album__content-list__evaluation-stage__view-all-btn'
+                    onClick={() => {
+                      setShowAllEvaluations(!showAllEvaluations);
+                      if (showAllEvaluations) {
+                        // When clicking "Show Less", scroll to the evaluation section with offset
+                        setTimeout(() => {
+                          evaluationSectionRef.current?.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'center'
+                          });
+                        }, 100);
+                      }
+                    }}
+                  >
+                    {showAllEvaluations ? t('Show less') : t('View all evaluations')}
+                  </button>
+                )}
+              </div>
+            </article>
+            {/* <List
+              title={t('Recently Rated')}
+              className="recently-rated"
+              data={evaluationListByLatest}
+              id="evaluation-latest"
+              currentTrack={currentTrack}
+              handlePlay={handlePlay}
+              currentTime={currentTime}
+              link="/song/list?songs=Latest"
+              setPreparingModal={setPreparingModal}
+              audioRef={audioRef}
+              noDataMessage="No evaluation history yet."
+              type="evaluation"
+              isTrackActive={isTrackActive}
+            /> */}
+          </section>
+
+
 
             <section className="main__nft-market">
               <Link to="/nft" className="main__nft-market__link">
@@ -337,7 +454,7 @@ function Album() {
             </section>
           </article>
         )}
-        {service === 'AI Singing Evaluation' && (
+        {/* {service === 'AI Singing Evaluation' && (
           <section className="main__content-item">
             <article className="main__content-item__persona">
               {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
@@ -368,25 +485,7 @@ function Album() {
                 </Link>
               </p>
               <div className="album__content-list__evaluation-stage">
-                {/* <button className='album__content-list__evaluation-stage__item'>
-                  <div className='album__content-list__evaluation-stage__item__thought'>
-                    <p className='album__content-list__evaluation-stage__item__thought__play'>
-                      <img src={coverImg10} alt='coverImg'/>
-                    </p>
-                    <p className='album__content-list__evaluation-stage__item__thought__txt'>
-                      <img src={persona02} alt='Jinwoo-Yoo-img'/>
-                      "This track almost made me feel something. Almost. That's a masterpiece."
-                    </p>
-                  </div>
-                  <dl className='album__content-list__evaluation-stage__item__title'>
-                    <dt>he dances through his masks like breathing - Yolkhead</dt>
-                    <dd><img src={defaultCoverImg} alt='user-name'/>Artist name</dd>
-                  </dl>
-                  <div className='album__content-list__evaluation-stage__item__details-number'>
-                    <p className='basic'>100</p>
-                    <button className='details-btn'>Details</button>
-                  </div>
-                </button> */}
+
                 {evaluationListByHighScore.length > 0 && (
                   <EvaluationListItemWrapper>
                     {evaluationListByHighScore.map(item => (
@@ -421,7 +520,7 @@ function Album() {
               isTrackActive={isTrackActive}
             />
           </section>
-        )}
+        )} */}
 
         <section className="main__stats">
           <dl className="main__stats__title">

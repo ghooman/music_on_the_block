@@ -203,7 +203,7 @@
         }
         .album-detail__song-detail__left__img {
           width: 100%;
-          height: 460px;
+          height: 450px;
           border-radius: 24px;
           background: var(--Color-03, #222);
           padding: 10px;
@@ -230,6 +230,7 @@
             opacity: 0;
             overflow: auto;
             border-radius: 24px;
+            // margin-bottom: 16px;
             pre {
               width: 100%;
               min-height: 100%;
@@ -271,6 +272,7 @@
           font-size: 14px;
           font-style: normal;
           line-height: 100%; /* 14px */
+          margin-top: 12px;
           img {
             display: flex;
             align-items: center;
@@ -1503,6 +1505,17 @@
   } //song-detail-slide--END--
 } //album-detail__slide--END--
 
+.album__content-list__evaluation-stage__view-all-btn{
+  width: 100%;
+  height: 60px;
+  border-radius: 16px;
+  border: 1px solid #cf0;
+  color: #FFF;
+  font-family: Orbitron400;
+  font-size: 16px;
+  margin-top: 16px;
+}//album__content-list__evaluation-stage__view-all-btn--END--
+
 //song-detail--END--
 
 .rhap_progress-bar {
@@ -1547,6 +1560,7 @@
 
 @media screen and (max-width: 1200px) {
   .song-detail {
+    
     .album-detail__title {
       dt {
         font-size: 24px;
@@ -1565,6 +1579,9 @@
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
+            img{
+              object-fit: contain;
+            }
             .album-detail__song-detail__left__img__txt {
               height: 0;
             }
@@ -1644,6 +1661,11 @@
     .album-detail__song-detail{
       .album-detail__song-detail__bot{
         .album-detail__song-detail__left{
+          .album-detail__song-detail__left__img{
+            img{
+              object-fit: cover;
+            }
+          }
           .album-detail__song-detail__left__title{
             font-size: 16px;
           }

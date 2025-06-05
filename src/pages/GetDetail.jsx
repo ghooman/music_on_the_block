@@ -88,7 +88,7 @@ const GetDetail = () => {
           <div className="get-race-content-box">
             <p className="get-race-content-box__text green fs14 fw400">{t('TOTAL REWARD')}(MOB)</p>
             <p className="get-race-content-box__text gray fs14 fw500">{t('Basic Reward')} 30,000</p>
-            <p className="get-race-content-box__text gray fs14 fw500">+</p>
+            <p className="get-race-content-box__text gray fs14 fw500 m-8">+</p>
             <p className="get-race-content-box__text yellow fs14 fw500">
               {t('Revenue Share')} 20,000
             </p>

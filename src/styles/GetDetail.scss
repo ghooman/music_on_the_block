@@ -7,7 +7,31 @@
     height: 230px;
     width: 100%;
     border-radius: 12px;
-    background-color: #00d293;
+    background: linear-gradient(90deg, #00d293 0%, #006c4c 100%);
+    display: flex;
+    align-items: center;
+    background-image: url('../assets/images/get/get-detail-banner.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .get-detail__banner--text-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 10%;
+
+    .title {
+      color: #fff;
+      font-size: 28px;
+      font-family: Pretendard700;
+    }
+    .desc {
+      color: #fff;
+      font-family: Pretendard400;
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 
   .get-detail__progress-wallet {

@@ -26,7 +26,15 @@ const GetDetail = () => {
   return (
     <>
       <div className="get-detail">
-        <div className="get-detail__banner"></div>
+        <div className="get-detail__banner">
+          <div className="get-detail__banner--text-box">
+            <p className="title">Get Race</p>
+            <p className="desc">
+              Join the competition by burning your reward tokens earned from tournaments - and
+              unlock new value along the way
+            </p>
+          </div>
+        </div>
         <div className="get-detail__progress-wallet">
           {/** */}
           <div className="get-race-content-box">

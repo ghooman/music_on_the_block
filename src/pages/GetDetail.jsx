@@ -105,7 +105,7 @@ const GetDetail = () => {
             <p className="get-race-content-box__text green fs14 fw400">{t('REMAINING TIME')}</p>
             <p className="get-race-content-box__text yellow fs18 fw500">
               {/* 4D 23H 32M */}
-              <Timer fontSize={18} color={'#ffd700'} fontFamily={'Inter700'} textWidth={10} />
+              <Timer fontSize={18} color={'#ffd700'} fontFamily={'Inter700'} textWidth={11} />
             </p>
           </div>
           {/** */}

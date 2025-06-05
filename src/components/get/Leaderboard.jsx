@@ -1,10 +1,10 @@
-import { useContext } from 'react';
+import { useUserDetail } from '../../hooks/useUserDetail';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import GetHistoryTable from '../table/GetHistoryTable';
+
+import arrowIcon from '../../assets/images/arrow_down.svg';
 
 import './Leaderboard.scss';
-import { useUserDetail } from '../../hooks/useUserDetail';
-import GetHistoryTable from '../table/GetHistoryTable';
 
 const Leaderboard = () => {
   return (
@@ -78,7 +78,10 @@ const Tables = () => {
         </p>
       </div>
       <GetHistoryTable />
-      <button className="get-detail-leaderboard__tables--see-more">See More</button>
+      <button className="get-detail-leaderboard__tables--see-more">
+        <img src={arrowIcon} alt="arrow" />
+        See More
+      </button>
     </div>
   );
 };

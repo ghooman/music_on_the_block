@@ -27,6 +27,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 import { useQuery } from 'react-query';
+import axios from 'axios';
 
 /**
  *

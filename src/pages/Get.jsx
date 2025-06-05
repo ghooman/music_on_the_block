@@ -16,12 +16,12 @@ import songCreateIcon2 from '../assets/images/album/song-create-icon2.svg';
 import songCreateIcon3 from '../assets/images/album/song-create-icon3.svg';
 
 import PreparingModal from '../components/PreparingModal';
+import Timer from '../components/get/Timer';
 
 
 
 function Get() {
   const { t } = useTranslation('get');
-
 
 
   return (
@@ -37,14 +37,137 @@ function Get() {
           </dl>
         </section>
         <section className="get__content">
-          <article className="get__content__item">
-            <dl className='set__content__item__mob'>
+          <Link to='/get/detail' className="get__content__item">
+            <div className='get__content__item__day-mob'>
+              <p>Day 1</p>
+              <p>MOB</p>
+            </div>
+            <dl className='get__content__item__mob'>
               <dt>Total Reward(MOB)</dt>
               <dd>
-              Basic Reward 30,000 + 
+                <p>100,000</p>
               </dd>
             </dl>
-          </article>
+            <dl className='get__content__item__minutes'>
+              <dt>
+                Updated Every 30 Minutes
+                <span>Total Geted MIC</span>
+              </dt>
+              <dd>
+                100,000
+              </dd>
+            </dl>
+            <dl className='get__content__item__start-time'>
+              <dt>
+                Start Time
+              </dt>
+              <dd>
+                Sat, 04 Nov 2023 14:40:00 UTC+9
+              </dd>
+            </dl>
+            <dl className='get__content__item__remaining-time'>
+              <dt>
+                Remaining Time
+              </dt>
+              <dd>
+              <Timer 
+                fontSize={18} 
+                color={'#00FFB3'} 
+                fontFamily={'Inter700'} 
+                textWidth={10}
+                />
+              </dd>
+            </dl>
+          </Link>
+          <Link to='/get/detail' className="get__content__item">
+            <div className='get__content__item__day-mob'>
+              <p>Day 1</p>
+              <p>MOB</p>
+            </div>
+            <dl className='get__content__item__mob'>
+              <dt>Total Reward(MOB)</dt>
+              <dd>
+                <p>Basic Reward 30,000 +</p> <span>Revenue Share 20,000</span>
+              </dd>
+            </dl>
+            <dl className='get__content__item__minutes'>
+              <dt>
+                Updated Every 30 Minutes
+                <span>Total Geted MIC</span>
+              </dt>
+              <dd>
+                100,000
+              </dd>
+            </dl>
+            <dl className='get__content__item__start-time'>
+              <dt>
+                Start Time
+              </dt>
+              <dd>
+                Sat, 04 Nov 2023 14:40:00 UTC+9
+              </dd>
+            </dl>
+            <dl className='get__content__item__remaining-time'>
+              <dt>
+                Remaining Time
+              </dt>
+              <dd>
+              <Timer 
+                fontSize={18} 
+                color={'#00FFB3'} 
+                fontFamily={'Inter700'} 
+                textWidth={10}
+                />
+              </dd>
+            </dl>
+          </Link>
+          <Link to='/get/detail' className="get__content__item">
+            <div className='get__content__item__day-mob'>
+              <p>Day 1</p>
+              <p>MOB</p>
+            </div>
+            <dl className='get__content__item__mob'>
+              <dt>Total Reward(MOB)</dt>
+              <dd>
+                <p>Basic Reward 30,000 +</p> <span>Revenue Share 20,000</span>
+              </dd>
+            </dl>
+            <dl className='get__content__item__minutes'>
+              <dt>
+                Updated Every 30 Minutes
+                <span>Total Geted MIC</span>
+              </dt>
+              <dd>
+                100,000
+              </dd>
+            </dl>
+            <dl className='get__content__item__start-time'>
+              <dt>
+                Start Time
+              </dt>
+              <dd>
+                Sat, 04 Nov 2023 14:40:00 UTC+9
+              </dd>
+            </dl>
+            <dl className='get__content__item__remaining-time'>
+              <dt>
+                Remaining Time
+              </dt>
+              <dd>
+              <Timer 
+                fontSize={18} 
+                color={'#00FFB3'} 
+                fontFamily={'Inter700'} 
+                textWidth={10}
+                />
+              </dd>
+            </dl>
+          </Link>
+          <Link to='/get/detail' className="get__content__item none-item">
+            <p className='get__content__item__none-title'>
+              Get the Pool in Preparation
+            </p>
+          </Link>
         </section>
       </div>
     </>

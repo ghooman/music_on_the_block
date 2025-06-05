@@ -39,10 +39,24 @@
     border-radius: 12px;
     transition: 0.2s all;
 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
     &.select,
     &:hover {
       color: #1a1a1a;
       background-color: #00ffb3;
+    }
+
+    .item-alarm {
+      padding: 2px 8px;
+      border-radius: 12px;
+      background-color: #00a774;
+      color: #f1f1f1;
+      font-size: 12px;
+      font-family: Inter300;
+      letter-spacing: 0.36px;
     }
   }
 
@@ -65,15 +79,21 @@
       border: 1px solid #00ffb3;
       background-color: #222;
     }
-    &.status {
+    &.progress {
       color: #f1f1f1;
       background-color: #00a774;
+      text-transform: uppercase;
+    }
+    &.ended {
+      color: #565656;
+      background-color: #1a1a1a;
       text-transform: uppercase;
     }
   }
 
   .get-detail__info {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 48px;
   }
 }

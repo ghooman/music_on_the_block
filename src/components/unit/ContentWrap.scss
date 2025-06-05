@@ -1,16 +1,17 @@
 .unit-component-content-wrap {
-    padding: 16px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    &.none-padding{
-        padding:16px 0;
-    }
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  &.none-padding {
+    padding: 16px 0;
+  }
 
   .unit-component-content-wrap__title {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
+    gap: 16px;
     align-items: center;
     position: relative;
     &::before {
@@ -39,7 +40,7 @@
     letter-spacing: 0.42px;
     height: fit-content;
     padding: 0;
-    padding-left: 32px;
+    padding-left: 52px;
     border-bottom: 1px solid #aaa;
   }
 

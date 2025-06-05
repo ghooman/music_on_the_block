@@ -1,40 +1,170 @@
-import '../styles/Get.scss';
+// 라이브러리
 import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useAudio } from '../contexts/AudioContext';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
-import loveIcon from '../assets/images/album/love-icon.svg';
-import halfHeartIcon from '../assets/images/icon/half-heart.svg';
-import playIcon from '../assets/images/album/play-icon.svg';
-import defaultCoverImg from '../assets/images/header/logo-png.png';
-import persona01 from '../assets/images/evaluation/persona-all-bg.png';
-import songCreateIcon1 from '../assets/images/album/song-create-icon1.svg';
-import songCreateIcon2 from '../assets/images/album/song-create-icon2.svg';
-import songCreateIcon3 from '../assets/images/album/song-create-icon3.svg';
+// 컴포넌트
+import {
+  EvaluationListItem,
+  EvaluationListItemWrapper,
+} from '../components/unit/EvaluationListItem';
+import NoneContent from '../components/unit/NoneContent';
+import ContentWrap from '../components/unit/ContentWrap';
+import Loading from '../components/IntroLogo2';
+import AlbumItem from '../components/unit/AlbumItem';
 
+//스와이프
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, FreeMode } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
 
+// 함수 및 데이터
+import { getEvaluationList } from '../api/evaluation/getList';
+import { criticsDataForArray } from '../data/criticsData';
 
+// 이미지 에셋
+import personaAll from '../assets/images/evaluation/persona-all-bg.png';
+
+// CSS
+import '../styles/EvaluationStage.scss';
 
 function EvaluationStage() {
   const { t } = useTranslation('evaluation');
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  const critic = searchParams.get('critic') || 'All';
+  const {
+    currentTrack,
+    currentTime,
+    playTrack,
+    isTrackActive,
+    audioRef,
+    togglePlayPause,
+    //
+  } = useAudio();
+
+  const handlePlay = ({ list, id, track }) => {
+    playTrack({
+      track,
+      playlist: list,
+      playlistId: id,
+    });
+  };
+
+  const swiperOptions = {
+    loop: false,
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    FreeMode: true,
+    navigation: true,
+    modules: [FreeMode, Navigation],
+  };
+
+  const { data: evaluationListForHighestScore, isLoading } = useQuery(
+    ['evaluation_list_highest_score', critic],
+    async () => {
+      const res = await getEvaluationList({
+        page: 1,
+        search_keyword: '',
+        critic,
+        sort_by: 'Highest Score',
+      });
+      return res.data.data_list;
+    }
+  );
+
+  const { data: evaluationListForLatest } = useQuery(['evaluation_list_latest'], async () => {
+    const res = await getEvaluationList({
+      page: 1,
+      search_keyword: '',
+      critic: 'All',
+      sort_by: 'Latest',
+    });
+    return res.data.data_list;
+  });
 
   return (
-    
-    <>
-      <div className='evaluation-stage'>
+    <div className="evaluation-stage">
+      <ContentWrap title="Evaluation Stage" border={false} style={{ padding: 0 }}>
+        <div className="evaluation-stage__critics">
+          {[{ name: 'All', image: personaAll }, ...criticsDataForArray].map((persona, index) => (
+            <div
+              key={index}
+              className={`evaluation-stage__critics-item ${
+                critic === persona?.name ? 'active' : ''
+              }`}
+              onClick={() =>
+                setSearchParams(prev => {
+                  return { ...Object.fromEntries(prev), critic: persona.name };
+                })
+              }
+            >
+              <img
+                className="evaluation-stage__critics-item--image"
+                src={persona.image}
+                alt={persona.name}
+              />
+              <p className="evaluation-stage__critics-item--name">{persona.name}</p>
+            </div>
+          ))}
+        </div>
 
-      </div>
-    </>
-    
+        <ContentWrap
+          border={false}
+          title="Evaluation Stage"
+          link="/song/list?service=AI+Singing+Evaluation"
+          style={{ padding: 0 }}
+        >
+          {evaluationListForHighestScore?.length > 0 && (
+            <EvaluationListItemWrapper>
+              {evaluationListForHighestScore?.map(item => (
+                <React.Fragment key={item.id}>
+                  <EvaluationListItem data={item} />
+                </React.Fragment>
+              ))}
+            </EvaluationListItemWrapper>
+          )}
+          {evaluationListForHighestScore?.length <= 0 && (
+            <NoneContent message="No evaluation history yet." height={300} />
+          )}
+        </ContentWrap>
+        <ContentWrap title="Recently Rated">
+          <div className="album__content-list__list">
+            <Swiper {...swiperOptions} className="evaluation-stage__slide">
+              {evaluationListForLatest?.slice(0, 9).map((track, _, list) => (
+                <SwiperSlide key={track.id} className="evaluation-stage__slide_item">
+                  <AlbumItem
+                    key={track.id}
+                    track={track}
+                    isActive={isTrackActive(track.id)}
+                    currentTime={currentTime}
+                    onClick={() => {
+                      handlePlay({ list: list, track: track, id: track.id });
+                    }}
+                    audioRef={audioRef}
+                    type={'evaluation'}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </ContentWrap>
+      </ContentWrap>
+      {isLoading && <Loading />}
+    </div>
   );
 }
 
 export default EvaluationStage;
-
-
-
-

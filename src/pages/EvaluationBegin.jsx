@@ -101,8 +101,7 @@ const EvaluationBegin = () => {
                   2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
                   3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
                   4. 각 항목의 점수는 0점에서 100점까지의 실수형태로 평가합니다.
-                  5. 응답은 반드시 한글로 작성하시오.
-                  6. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
+                  5. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
 
                   {
                     "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수(0.0~100.0)
@@ -110,13 +109,19 @@ const EvaluationBegin = () => {
                     "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
                     "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
                     "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)
-                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 
-                    "to_improve": "",        // 개선이 필요한 점
-                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
-                    "key_points": ""         // 핵심 개선 포인트 요약
+                    
+                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 , 영어
+                    "to_improve": "",        // 개선이 필요한 점 , 영어
+                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명, 영어
+                    "key_points": ""         // 핵심 개선 포인트 요약, 영어
+
+                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역
+                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역
+                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역
+                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역
                   }
 
-                  7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
+                  7. 응답은 반드시 영어로, 문자열 답변의 경우 ${
                     selectCritic?.speechStyle
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.

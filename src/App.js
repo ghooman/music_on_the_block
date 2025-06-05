@@ -16,7 +16,7 @@ import NftMintList from './pages/NftMintList';
 import NftSellList from './pages/NftSellList';
 import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
 import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
-
+import VoiceTrainer from './pages/VoiceTrainer';
 // 컴포넌트
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -98,6 +98,14 @@ function App() {
                     </Layout>
                   }
                 />
+                {/* <Route
+                  path="/voice-trainer"
+                  element={
+                    <Layout>
+                      <VoiceTrainer />
+                    </Layout>
+                  }
+                /> */}
                 <Route
                   path="/create"
                   element={
@@ -299,12 +307,11 @@ function App() {
                   path="get"
                   element={
                     <Layout>
-                      <Get/>
+                      <Get />
                     </Layout>
                   }
                 />
               </Routes>
-              
             </div>
           </AudioProvider>
         </WebSocketProvider>

@@ -16,7 +16,7 @@ import NftMintList from './pages/NftMintList';
 import NftSellList from './pages/NftSellList';
 import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
 import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
-
+import VoiceTrainer from './pages/VoiceTrainer';
 // 컴포넌트
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -39,6 +39,8 @@ import { AudioProvider } from './contexts/AudioContext';
 import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
 import GetDetail from './pages/GetDetail';
+import Get from './pages/Get';
+import EvaluationStage from './pages/EvaluationStage';
 
 function Layout({ children }) {
   return (
@@ -97,6 +99,14 @@ function App() {
                     </Layout>
                   }
                 />
+                {/* <Route
+                  path="/voice-trainer"
+                  element={
+                    <Layout>
+                      <VoiceTrainer />
+                    </Layout>
+                  }
+                /> */}
                 <Route
                   path="/create"
                   element={
@@ -291,6 +301,22 @@ function App() {
                   element={
                     <Layout>
                       <GetDetail />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="get"
+                  element={
+                    <Layout>
+                      <Get/>
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="evaluation-stage"
+                  element={
+                    <Layout>
+                      <EvaluationStage/>
                     </Layout>
                   }
                 />

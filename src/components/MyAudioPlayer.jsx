@@ -74,6 +74,7 @@ const MyAudioPlayer = ({
       : null;
 
   return (
+
     <AudioPlayer
       ref={audioRef}
       key={`${track?.id}-${playKey}`}
@@ -104,6 +105,7 @@ const MyAudioPlayer = ({
       onClickPrevious={onClickPrevious}
       onClickNext={onClickNext}
     />
+    
   );
 };
 

@@ -52,6 +52,11 @@ function EvaluationStage() {
   } = useAudio();
 
   const handlePlay = ({ list, id, track }) => {
+    if (currentTrack.id === track.id) {
+      togglePlayPause();
+      return;
+    }
+
     playTrack({
       track,
       playlist: list,
@@ -129,9 +134,14 @@ function EvaluationStage() {
         >
           {evaluationListForHighestScore?.length > 0 && (
             <EvaluationListItemWrapper>
-              {evaluationListForHighestScore?.map(item => (
+              {evaluationListForHighestScore?.map((item, _, list) => (
                 <React.Fragment key={item.id}>
-                  <EvaluationListItem data={item} />
+                  <EvaluationListItem
+                    data={item}
+                    selectedMusic={currentTrack}
+                    player={audioRef?.current?.audio?.current}
+                    handler={() => handlePlay({ list, track: item, id: item.id })}
+                  />
                 </React.Fragment>
               ))}
             </EvaluationListItemWrapper>
@@ -148,7 +158,7 @@ function EvaluationStage() {
                   <AlbumItem
                     key={track.id}
                     track={track}
-                    isActive={isTrackActive(track.id)}
+                    isActive={isTrackActive(track, 'evaluation-stage')}
                     currentTime={currentTime}
                     onClick={() => {
                       handlePlay({ list: list, track: track, id: track.id });

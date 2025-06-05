@@ -21,6 +21,7 @@
   transform: rotate(-90deg);
   transform-origin: center;
 
+
   /* 회전 전 길이는 컨테이너 높이(120px)와 일치해야 합니다 */
   width: 90px; /* 반드시 .vertical-volume-control의 height와 동일 */
   height: 8px; /* 슬라이더 두께 */
@@ -44,6 +45,7 @@
     z-index: 10;
     animation: slideDown 0.3s ease-out forwards;
   }
+
 }
 
 @keyframes slideDown {

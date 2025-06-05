@@ -1351,7 +1351,12 @@
           position: absolute;
           bottom: 16px;
           left: 16px;
-          padding: 4px 10px;
+          padding: 0 4px;
+          height: 22px;
+          min-width: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           border-radius: 12px;
           background: var(--Color-03, #222);
           box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.15);

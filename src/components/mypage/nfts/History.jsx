@@ -53,7 +53,6 @@ const History = ({ username }) => {
 
   return (
     <ContentWrap title={t('History')}>
-      {isLoading && <Loading />}
       <ContentWrap.SubWrap gap={8}>
         <Filter
           gradeFilter={true}
@@ -73,6 +72,7 @@ const History = ({ username }) => {
         onCancelSuccess={() => refetch()}
       />
       <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
+      <Loading isLoading={isLoading} />
     </ContentWrap>
   );
 };

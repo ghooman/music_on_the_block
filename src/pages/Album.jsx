@@ -552,7 +552,7 @@ function Album() {
 
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
-      <IntroLogo2 />
+      <IntroLogo2 autoClose={true} />
       {/* <CreateLoading/> */}
     </>
   );

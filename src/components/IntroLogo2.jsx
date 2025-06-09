@@ -13,11 +13,15 @@ import {
 
 import mainLogo from '../assets/images/header/logo-png.png';
 
-const IntroLogo = ({ setIsLoggedIn, autoClose = true }) => {
+const IntroLogo = ({ autoClose, isLoading }) => {
   return (
     <>
-      <div className={`intro-logo2 ${autoClose ? 'auto-close' : ''}`}>
-        <img src={mainLogo} alt="main logo" />
+      <div
+        className={`intro-logo2 ${!isLoading ? 'loading-screen' : ''} ${
+          autoClose ? 'auto-close' : ''
+        }`}
+      >
+        <img className="intro-logo2__image" src={mainLogo} alt="logo" />
       </div>
     </>
   );

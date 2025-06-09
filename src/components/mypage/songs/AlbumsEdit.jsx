@@ -136,10 +136,6 @@ const AlbumsEdit = () => {
     getList();
   }, [search, songsFilter, songsSort, aiServiceFilter]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
       <div className="albums-edit">
@@ -187,6 +183,7 @@ const AlbumsEdit = () => {
       {errorMessage && (
         <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />
       )}
+      <Loading isLoading={isLoading} />
     </>
   );
 };

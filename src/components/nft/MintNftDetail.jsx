@@ -111,7 +111,6 @@ function MintNftDetail() {
 
   return (
     <>
-      {(collectionsLoading || nftLoading) && <Loading />}
       <div className="mint-detail">
         <dl className="album-detail__title">
           <dt>{status === 'mint' ? 'Mint NFT' : 'Buy NFT'}</dt>
@@ -187,6 +186,7 @@ function MintNftDetail() {
           action={() => navigate('/')}
         />
       )}
+      <Loading isLoading={collectionsLoading || nftLoading} />
     </>
   );
 }

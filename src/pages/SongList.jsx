@@ -279,7 +279,7 @@ const SongList = () => {
           <Pagination totalCount={totalCount} viewCount={15} page={page} />
         </ContentWrap>
       </div>
-      {isLoading && <Loading />}
+      <Loading isLoading={isLoading} />
     </>
   );
 };

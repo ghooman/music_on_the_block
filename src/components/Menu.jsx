@@ -326,7 +326,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   const [isActive, setIsActive] = useState(false);
 
-
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -495,9 +494,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
                     </div> */}
-                    <div
-                      className={`menu__box__my-page__info ${isActive ? ' active' : ''}`}
-                    >
+                    <div className={`menu__box__my-page__info ${isActive ? ' active' : ''}`}>
                       <div className="menu__box__my-page__info__top">
                         <p
                           className="menu__box__my-page__info__top__img"
@@ -517,31 +514,29 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </dt>
                           <dd>{userData?.name || 'No Sign up'}</dd>
                           <dd>
-                          <div 
-                            className="menu__box__my-page__level"
-                          >
-                            {/* <p className="level">{t('Level')}</p> */}
-                            <p className="menu__box__my-page__level__img">
-                              {getUserGradeSquareIcon(userData?.user_rating) && (
-                                <img
-                                  src={getUserGradeSquareIcon(userData?.user_rating)}
-                                  alt="level icon"
-                                />
-                              )}
-                            </p>
-                            <p className="grade">{userData?.user_rating}</p>
-                            <button 
-                              className='menu__box__my-page__level__arr-btn'
-                              onClick={() => setIsActive(prev => !prev)}
-                            >
-                              <img src={arrDownIcon} alt='arrDownIcon'/>
-                            </button>
-                          </div>
-                              </dd>
-                            </dl>
-                          </div>
+                            <div className="menu__box__my-page__level">
+                              {/* <p className="level">{t('Level')}</p> */}
+                              <p className="menu__box__my-page__level__img">
+                                {getUserGradeSquareIcon(userData?.user_rating) && (
+                                  <img
+                                    src={getUserGradeSquareIcon(userData?.user_rating)}
+                                    alt="level icon"
+                                  />
+                                )}
+                              </p>
+                              <p className="grade">{userData?.user_rating}</p>
+                              <button
+                                className="menu__box__my-page__level__arr-btn"
+                                onClick={() => setIsActive(prev => !prev)}
+                              >
+                                <img src={arrDownIcon} alt="arrDownIcon" />
+                              </button>
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
 
-                      <div 
+                      <div
                         className={`menu__box__my-page__info__bottom ${isActive ? ' active' : ''}`}
                       >
                         <div className="menu__box__my-page__info__bottom__box">
@@ -630,7 +625,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     </li>
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
-                      // onClick={() => handleSubItemClick('ai-singing')}
+                      onClick={() => handleSubItemClick('ai-singing')}
                     >
                       <Link
                         onClick={e => {

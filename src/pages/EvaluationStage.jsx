@@ -101,8 +101,15 @@ function EvaluationStage() {
   });
 
   return (
+
     <div className="evaluation-stage">
-      <ContentWrap title="Evaluation Stage" border={false} style={{ padding: 0 }}>
+      <ContentWrap
+        title="Evaluation Stage"
+        border={false}
+        style={{ padding: 0 }}
+        link="/song/list?service=AI+Singing+Evaluation"
+        // linkPosition="right"
+      >
         <div className="evaluation-stage__critics">
           {[{ name: 'All', image: personaAll }, ...criticsDataForArray].map((persona, index) => (
             <div
@@ -128,8 +135,8 @@ function EvaluationStage() {
 
         <ContentWrap
           border={false}
-          title="Evaluation Stage"
-          link="/song/list?service=AI+Singing+Evaluation"
+          // title="Evaluation Stage"
+          // link="/song/list?service=AI+Singing+Evaluation"
           style={{ padding: 0 }}
         >
           {evaluationListForHighestScore?.length > 0 && (

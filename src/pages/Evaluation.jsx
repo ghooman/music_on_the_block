@@ -135,7 +135,7 @@ const JoinEvaluation = ({ t }) => {
           <dl className="join-evaluation__item__title">
             <dt>
               <img src={algorithmIcon} />
-              {t('Your Emotions, Your Algorithm..')}
+              {t('Your Emotions, Your Algorithm.')}
             </dt>
             <dd>{t('Your reactions train AI to match your taste—and inspire creation.')}</dd>
           </dl>

@@ -70,7 +70,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
-  const { data: userData, isLoading, error } = useUserDetail();
+  const { data: userData, isLoading, error, isInitialLoading } = useUserDetail();
   // console.log('userData', userData);
   const micBalance = userData?.mic_point?.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
@@ -325,7 +325,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   };
 
   const [isActive, setIsActive] = useState(false);
-
+  console.log('isLoading', isLoading);
+  console.log('userData', userData);
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -496,46 +497,76 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     </div> */}
                     <div className={`menu__box__my-page__info ${isActive ? ' active' : ''}`}>
                       <div className="menu__box__my-page__info__top">
-                        <p
-                          className="menu__box__my-page__info__top__img"
-                          style={{
-                            backgroundImage: `url(${userData?.profile || defaultCoverImg})`,
-                          }}
-                        ></p>
+                        {!userData ? (
+                          <div className="menu__box__my-page__info__top__img skeleton-avatar"></div>
+                        ) : (
+                          <p
+                            className="menu__box__my-page__info__top__img"
+                            style={{
+                              backgroundImage: `url(${userData?.profile || defaultCoverImg})`,
+                            }}
+                          ></p>
+                        )}
                         <dl className="menu__box__my-page__info__top__txt">
-                          <dt>
-                            {truncatedAddress}
-                            {/* <button onClick={copyAddress}>
-                              <img
-                                src={copied ? checkIcon : copyIcon}
-                                alt={copied ? '복사 완료' : '복사 아이콘'}
-                              />
-                            </button> */}
-                          </dt>
-                          <dd>{userData?.name || 'No Sign up'}</dd>
-                          <dd>
-                            <div className="menu__box__my-page__level">
-                              {/* <p className="level">{t('Level')}</p> */}
-                              <p className="menu__box__my-page__level__img">
-                                {getUserGradeSquareIcon(userData?.user_rating) && (
+                          {!userData ? (
+                            // 스켈레톤 UI
+                            <>
+                              <dt>
+                                <div className="skeleton-text skeleton-address"></div>
+                              </dt>
+                              <dd>
+                                <div className="skeleton-text skeleton-name"></div>
+                              </dd>
+                              <dd>
+                                <div className="menu__box__my-page__level">
+                                  <div className="skeleton-grade-icon"></div>
+                                  <div className="skeleton-text skeleton-grade"></div>
+                                  <button
+                                    className="menu__box__my-page__level__arr-btn"
+                                    onClick={() => setIsActive(prev => !prev)}
+                                  >
+                                    <img src={arrDownIcon} alt="arrDownIcon" />
+                                  </button>
+                                </div>
+                              </dd>
+                            </>
+                          ) : (
+                            // 실제 데이터
+                            <>
+                              <dt>
+                                {truncatedAddress}
+                                {/* <button onClick={copyAddress}>
                                   <img
-                                    src={getUserGradeSquareIcon(userData?.user_rating)}
-                                    alt="level icon"
+                                    src={copied ? checkIcon : copyIcon}
+                                    alt={copied ? '복사 완료' : '복사 아이콘'}
                                   />
-                                )}
-                              </p>
-                              <p className="grade">{userData?.user_rating}</p>
-                              <button
-                                className="menu__box__my-page__level__arr-btn"
-                                onClick={() => setIsActive(prev => !prev)}
-                              >
-                                <img src={arrDownIcon} alt="arrDownIcon" />
-                              </button>
-                            </div>
-                          </dd>
+                                </button> */}
+                              </dt>
+                              <dd>{userData?.name || 'No Sign up'}</dd>
+                              <dd>
+                                <div className="menu__box__my-page__level">
+                                  {/* <p className="level">{t('Level')}</p> */}
+                                  <p className="menu__box__my-page__level__img">
+                                    {getUserGradeSquareIcon(userData?.user_rating) && (
+                                      <img
+                                        src={getUserGradeSquareIcon(userData?.user_rating)}
+                                        alt="level icon"
+                                      />
+                                    )}
+                                  </p>
+                                  <p className="grade">{userData?.user_rating}</p>
+                                  <button
+                                    className="menu__box__my-page__level__arr-btn"
+                                    onClick={() => setIsActive(prev => !prev)}
+                                  >
+                                    <img src={arrDownIcon} alt="arrDownIcon" />
+                                  </button>
+                                </div>
+                              </dd>
+                            </>
+                          )}
                         </dl>
                       </div>
-
                       <div
                         className={`menu__box__my-page__info__bottom ${isActive ? ' active' : ''}`}
                       >
@@ -625,7 +656,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     </li>
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
-                      // onClick={() => handleSubItemClick('ai-singing')}
+                      onClick={() => handleSubItemClick('ai-singing')}
                     >
                       <Link
                         onClick={e => {

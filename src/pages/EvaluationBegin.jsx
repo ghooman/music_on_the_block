@@ -98,6 +98,7 @@ const EvaluationBegin = () => {
 
                   다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
+                  0. 프롬프트를 끝까지 정독하여 누락된 내용이 절대 없어야함.
                   1. 입력 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함합니다.
                   2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
                   3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
@@ -129,6 +130,7 @@ const EvaluationBegin = () => {
                   11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
                   12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
                   13. 제시된 JSON 형식을 무조건 따르시오.
+                 
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,
@@ -172,13 +174,14 @@ const EvaluationBegin = () => {
       // JSON 형식 반환 중 에러가 발생하거나
       // GPT 서버 오류로 인한 에러 발생 시
       // 3번까지 재시도
+      console.log(retryCnt, '리트라이 카운트');
       const res = await request();
       if (res === true) retryCnt = 100;
       else retryCnt++;
     }
 
     if (result === null) {
-      throw new Error('점수 산정에 실패하였습니다');
+      throw new Error('Unable to measure the score. Please try again.');
     }
 
     return result;
@@ -458,7 +461,6 @@ const Step2 = ({ t, setSelectCritic }) => {
   const critic = searchParams.get('critic');
 
   useEffect(() => {
-    if (!critic) return;
     setSelectCritic(criticsDataForArray.find(item => item.name === critic));
   }, [critic]);
 

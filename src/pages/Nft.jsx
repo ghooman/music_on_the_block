@@ -78,7 +78,7 @@ const Nft = () => {
           lineGraphData={nftStatistics?.create_nft_progress}
         />
       </ContentWrap>
-      {(statisticsLoading || listLoading) && <Loading />}
+      <Loading isLoading={statisticsLoading || listLoading} />
     </div>
   );
 };

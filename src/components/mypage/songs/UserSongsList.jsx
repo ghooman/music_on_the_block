@@ -148,7 +148,7 @@ const UserSongsList = ({ username }) => {
           </>
         )}
       </ContentWrap>
-      {(evaluationListLoading || songListLoading) && <Loading />}
+      <Loading isLoading={evaluationListLoading || songListLoading} />
     </div>
   );
 };

@@ -41,6 +41,8 @@ import 'swiper/css/free-mode';
 const EvaluationResultsComp = ({ evaluationData, songData, critic, isResult, isOwner }) => {
   const { t } = useTranslation('evaluation');
 
+  console.log(evaluationData, '데이터');
+
   return (
     <>
       <ContentWrap border={false} className="none-padding">
@@ -205,7 +207,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
             {language === 'English'
               ? evaluationData?.feedback
               : language === '한국어'
-              ? evaluationData?.feedback_kr
+              ? evaluationData?.feedback_kr || '-'
               : '-'}
           </div>
           {/* <button
@@ -222,9 +224,9 @@ const FullEvaluation = ({ t, evaluationData }) => {
           <dt>{t('To Improve')}</dt>
           <dd>
             {language === 'English'
-              ? evaluationData?.to_improve
+              ? evaluationData?.to_improve || '-'
               : language === '한국어'
-              ? evaluationData?.to_improve_kr
+              ? evaluationData?.to_improve_kr || '-'
               : '-'}
           </dd>
         </dl>
@@ -232,9 +234,9 @@ const FullEvaluation = ({ t, evaluationData }) => {
           <dt>{t('Why This Score')}</dt>
           <dd>
             {language === 'English'
-              ? evaluationData?.why_this_score
+              ? evaluationData?.why_this_score || '-'
               : language === '한국어'
-              ? evaluationData?.why_this_score_kr
+              ? evaluationData?.why_this_score_kr || '-'
               : '-'}
           </dd>
         </dl>
@@ -242,9 +244,9 @@ const FullEvaluation = ({ t, evaluationData }) => {
           <dt>{t('Key Points')}</dt>
           <dd>
             {language === 'English'
-              ? evaluationData?.key_points
+              ? evaluationData?.key_points || '-'
               : language === '한국어'
-              ? evaluationData?.key_points_kr
+              ? evaluationData?.key_points_kr || '-'
               : '-'}
           </dd>
         </dl>

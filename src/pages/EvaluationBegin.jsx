@@ -137,8 +137,13 @@ const EvaluationBegin = () => {
           ],
         });
         responses = JSON.parse(response?.choices[0]?.message?.content);
+        const k = Object.values(responses).every(item => item);
 
-        return true;
+        if (k === true) {
+          return true;
+        } else {
+          return false;
+        }
       } catch (error) {
         console.error(error);
         return false;
@@ -382,11 +387,6 @@ const Step1 = ({
           <Search placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         <div className="step1__list">
-          {isLoading && (
-            <div className="step1__list--loading-box">
-              <Loading />
-            </div>
-          )}
           {!isLoading && listData?.length === 0 && <NoneContent message="No data" height={220} />}
           {!isLoading &&
             listData.map(item => (
@@ -431,6 +431,7 @@ const Step1 = ({
           {t('Select')}
         </button> */}
       </div>
+      <Loading isLoading={isLoading} />
     </ContentWrap>
   );
 };
@@ -535,7 +536,7 @@ const Step3 = ({
               <p>{selectCritic?.name || '-'}</p>
               {selectCritic && selectMusic && !possibleCntLoading && (
                 <span>
-                  {t('Todays Left')}: <strong>{possibleCnt >= 0 ? possibleCnt : '-'} / 1</strong>
+                  {t('Remaining')}: <strong>{possibleCnt >= 0 ? possibleCnt : '-'} / 1</strong>
                 </span>
               )}
             </dd>

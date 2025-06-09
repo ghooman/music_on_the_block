@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 import { WalletConnect } from '../components/WalletConnect';
-import Loading from '../components/IntroLogo2';
 
 //이미지
 import earnMicIcon from '../assets/images/evaluation/earnMicIcon.svg';

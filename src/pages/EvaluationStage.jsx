@@ -180,7 +180,7 @@ function EvaluationStage() {
           </div>
         </ContentWrap>
       </ContentWrap>
-      {isLoading && <Loading />}
+      <Loading isLoading={isLoading} />
     </div>
   );
 }

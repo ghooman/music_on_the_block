@@ -145,10 +145,6 @@ const CollectionsEdit = () => {
     getNftList();
   }, [search, gradeFilter, salesFilter]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
       <div className="collection-edit">
@@ -183,6 +179,7 @@ const CollectionsEdit = () => {
       {errorMessage && (
         <ErrorModal setShowErrorModal={setErrorMessage} message={errorMessage} button />
       )}
+      <Loading isLoading={isLoading} />
     </>
   );
 };

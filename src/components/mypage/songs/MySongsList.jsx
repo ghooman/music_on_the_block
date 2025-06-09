@@ -227,7 +227,7 @@ const MySongsList = ({ token, username }) => {
           </>
         )}
       </ContentWrap>
-      {(songsListLoading || evaluationListLoading) && <Loading />}
+
       {deleteMusic && (
         <SongDeleteAndReleaseModal
           setter={setDeleteMusic}
@@ -263,6 +263,7 @@ const MySongsList = ({ token, username }) => {
           // }}
         />
       )}
+      <Loading isLoading={songsListLoading || evaluationListLoading} />
     </div>
   );
 };

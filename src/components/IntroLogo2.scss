@@ -11,22 +11,28 @@
   align-items: center;
   transition: 0.3s ease-out;
 
+  &.loading-screen {
+    animation: fadeOut 0.5s ease-in forwards;
+  }
+
   &.auto-close {
     animation: fadeOut 0.5s ease-in forwards;
     animation-delay: 2s;
   }
 
-  img {
+  .intro-logo2__image {
     animation: spin 1.8s linear infinite;
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
+
   @keyframes fadeOut {
     0% {
       opacity: 1;

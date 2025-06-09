@@ -259,8 +259,19 @@
     }
   }
   .nft-item-detail__song-detail__bot {
-    display: flex;
-    gap: 16px;
+    // display: flex;
+    // gap: 16px;
+    .nft-item-detail__song-detail__bot__title{
+      color: #f1f1f1;
+      font-family: Orbitron500;
+      font-size: 20px;
+      font-style: normal;
+      margin-bottom: 16px;
+    }//nft-item-detail__song-detail__bot__title--END--
+    .nft-item-detail__song-detail__cover{
+      display: flex;
+      gap: 16px;
+    }
     .nft-item-detail__song-detail__left {
       width: 420px;
       flex-shrink: 0;
@@ -745,7 +756,7 @@
         gap: 16px;
         margin-top: 16px;
         .nft-item-detail__song-detail__right__value-box__price {
-          min-height: 208px;
+          min-height: 156px;
           flex: 1;
           border-radius: 12px;
           border: 1px solid var(--secondary-base, #00ffb3);
@@ -899,6 +910,16 @@
   } //nft-item-detail__song-detail--END--
 }
 
+@media screen and (max-width: 1200px) {
+  .nft-item-detail__song-detail{
+    .nft-item-detail__song-detail__bot{
+      .nft-item-detail__song-detail__left{
+        width: 40%;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 930px) {
   .nft-item-detail__song-detail {
     .nft-item-detail__song-detail__bot {
@@ -915,8 +936,18 @@
   .nft-item-detail {
     .nft-item-detail__song-detail {
       .nft-item-detail__song-detail__bot {
+        .nft-item-detail__song-detail__cover{
+          flex-direction: column;
+        }
         .nft-item-detail__song-detail__left {
-          width: 40%;
+          // width: 40%;
+          flex: 1;
+          width: 100%;
+          .nft-item-detail__song-detail__left__img {
+            img{
+              object-fit: contain;
+            }
+          }
         }
       }
     }
@@ -951,10 +982,14 @@
     .nft-item-detail__song-detail {
       .nft-item-detail__song-detail__bot {
         flex-direction: column;
+
         .nft-item-detail__song-detail__left {
           width: 100%;
           .nft-item-detail__song-detail__left__img {
             height: 320px;
+            img{
+              object-fit: cover;
+            }
           }
         }
         .nft-item-detail__song-detail__right {

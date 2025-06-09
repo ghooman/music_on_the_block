@@ -162,7 +162,6 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
           />
         )}
         <Pagination totalCount={data?.total_cnt} viewCount={10} page={page} />
-        {fetchCollectionLoading && <Loading />}
       </ContentWrap>
       {/**
        * ===============
@@ -243,6 +242,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
           )}
         </>
       )}
+      <Loading isLoading={fetchCollectionLoading} />
     </>
   );
 };

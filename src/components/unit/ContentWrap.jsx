@@ -2,17 +2,28 @@ import { Link } from 'react-router-dom';
 import './ContentWrap.scss';
 import { useTranslation } from 'react-i18next';
 
-const ContentWrap = ({ children, title, link, border = true, className, style }) => {
+const ContentWrap = ({
+  children,
+  title,
+  link,
+  border = true,
+  className,
+  style,
+  linkPosition = 'right',
+}) => {
   const { t } = useTranslation('module');
 
   return (
     <div
       // className="unit-component-content-wrap"
       className={`unit-component-content-wrap ${className}`}
-      style={{ border: border ? '1px solid #222' : '' }}
+      style={{ border: border ? '1px solid #222' : '', ...style }}
     >
       {title && (
-        <div className="unit-component-content-wrap__title">
+        <div
+          className="unit-component-content-wrap__title"
+          style={{ justifyContent: linkPosition === 'right' ? 'space-between' : '' }}
+        >
           <p className="unit-component-contnet-wrap__title--text">{title}</p>
           {link && (
             <Link className="unit-component-content-wrap__title--link" to={link}>

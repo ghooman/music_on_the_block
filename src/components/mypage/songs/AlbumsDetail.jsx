@@ -77,7 +77,6 @@ const AlbumsDetail = () => {
     }
   };
 
-  if (isFetching) return <Loading />;
   return (
     <>
       {errorMessage && (
@@ -144,6 +143,7 @@ const AlbumsDetail = () => {
         target="Album"
         handleEdit={() => setModalMode('edit')}
       />
+      <Loading isLoading={isFetching} />
     </>
   );
 };

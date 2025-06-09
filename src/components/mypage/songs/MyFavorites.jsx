@@ -76,7 +76,7 @@ const MyFavorites = () => {
         />
         <Pagination totalCount={favoritesSongsList?.total_cnt} viewCount={15} page={page} />
       </ContentWrap>
-      {isLoading && <Loading />}
+      <Loading isLoading={isLoading} />
     </>
   );
 };

@@ -5,7 +5,7 @@
     dt {
       padding-left: 8px;
       color: var(--primary-base, #cf0);
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -23,7 +23,7 @@
 
     dd {
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -43,7 +43,7 @@
     top: 0;
     transition: 0.2s;
     color: #1a1a1a;
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     font-size: 16px;
     font-style: normal;
     line-height: normal;
@@ -95,7 +95,7 @@
     top: 0;
     transition: 0.2s;
     color: #fff;
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     font-size: 16px;
     font-style: normal;
     line-height: normal;
@@ -149,7 +149,7 @@
       background: var(--Dark-Color-01, #0b0b0c);
       dt {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 16px;
         font-style: normal;
         line-height: normal;
@@ -157,14 +157,14 @@
       }
       dd {
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Orbitron600;
+        font-family: Pretendard600;
         font-size: 14px;
         font-style: normal;
         display: flex;
         align-items: center;
         gap: 8px;
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         justify-content: space-between;
@@ -175,12 +175,12 @@
         }
         p {
           color: #f1f1f1;
-          font-family: Orbitron400;
+          font-family: Pretendard400;
           font-size: 16px;
           font-style: normal;
           span {
             color: #aaa;
-            font-family: Orbitron400;
+            font-family: Pretendard400;
             font-size: 16px;
             font-style: normal;
           }
@@ -195,7 +195,7 @@
             object-fit: cover;
           }
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Orbitron400;
+          font-family: Pretendard400;
           font-size: 16px;
         }
         &.quantity {
@@ -204,7 +204,7 @@
           justify-content: space-between;
           p {
             color: var(--Text-music-sub, #aaa);
-            font-family: Orbitron400;
+            font-family: Pretendard400;
             font-size: 14px;
           }
         }
@@ -215,7 +215,7 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       color: #f1f1f1;
 
       img {
@@ -236,7 +236,7 @@
     gap: 16px;
     .sell-nft-input-box__title {
       color: var(--Color-10, #fff);
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 16px;
     } //sell-nft-input-box__title--END--
     .sell-nft-input-box__value {
@@ -252,7 +252,7 @@
           border-radius: 100%;
         }
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Orbitron600;
+        font-family: Pretendard600;
         font-size: 16px;
 
         display: flex;
@@ -266,7 +266,7 @@
         top: -2px;
         transition: 0.2s;
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Orbitron600;
+        font-family: Pretendard600;
         font-size: 16px;
         border-radius: 12px;
         &::before {
@@ -298,7 +298,7 @@
 
     .sell-nft-select-box__title {
       color: var(--Color-10, #fff);
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 16px;
     } //sell-nft-select-box__title--END--
 
@@ -336,7 +336,7 @@
         border: 1px solid #383838;
         background: #0b0b0c;
         color: #f1f1f1;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         cursor: pointer;
         position: relative;
@@ -376,7 +376,7 @@
           align-items: center;
           gap: 8px;
           color: #f1f1f1;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           opacity: 0;
           transition: 0.4s;
@@ -403,7 +403,7 @@
       background: var(--Color-03, #222);
       padding: 0 12px;
       color: #aaa;
-      font-family: Inter500;
+      font-family: Pretendard500;
       font-size: 12px;
       white-space: nowrap;
       transition: 0.3s;
@@ -445,7 +445,7 @@
         background: var(--Dark-Color-01, #0b0b0c);
         dt {
           color: var(--primary-base, #cf0);
-          font-family: Orbitron400;
+          font-family: Pretendard400;
           font-size: 16px;
           font-style: normal;
           line-height: normal;
@@ -453,14 +453,14 @@
         }
         dd {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Orbitron600;
+          font-family: Pretendard600;
           font-size: 14px;
           font-style: normal;
           display: flex;
           align-items: center;
           gap: 8px;
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           img {
@@ -474,7 +474,7 @@
             justify-content: space-between;
             p {
               color: var(--Text-music-sub, #aaa);
-              font-family: Orbitron400;
+              font-family: Pretendard400;
               font-size: 12px;
             }
           }
@@ -495,7 +495,7 @@
     margin-bottom: 16px;
     .album-detail__mint-detail__title {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -529,7 +529,7 @@
           border-radius: 12px;
           padding: 4px 12px;
           color: #fff;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: normal;
@@ -600,7 +600,7 @@
             align-items: center;
             color: #aaa;
             gap: 6px;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -644,7 +644,7 @@
               align-items: center;
               color: #aaa;
               gap: 6px;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -657,7 +657,7 @@
         flex-shrink: 0;
         .album-detail__mint-detail__right__title {
           color: #f1f1f1;
-          font-family: Orbitron500;
+          font-family: Pretendard500;
           font-size: 20px;
           font-style: normal;
           line-height: 100%; /* 20px */
@@ -673,7 +673,7 @@
             align-items: center;
             justify-content: center;
             color: var(--Text-dark-title, #1a1a1a);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -758,7 +758,7 @@
             dd {
               padding: 8px 12px 8px 24px;
               color: var(--Text-music-sub, #aaa);
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               font-weight: 400;
@@ -770,7 +770,7 @@
               span {
                 color: var(--Text-music-sub, #aaa);
                 gap: 4px;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
@@ -790,7 +790,7 @@
               }
               .see-more-btn {
                 color: #aaa;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 14px;
                 font-style: normal;
                 line-height: 100%; /* 14px */
@@ -988,7 +988,7 @@
     padding: 20px;
     dt {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -1009,7 +1009,7 @@
     }
     dd {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
@@ -1036,7 +1036,7 @@
   } //album-detail__rank-table__title--END--
   .album-detail__filter-btn {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family: Pretendard400;
     font-size: 14px;
     font-style: normal;
     line-height: normal;
@@ -1092,7 +1092,7 @@
   //           text-align: center;
   //           color: var(--primary-200, #a9d400);
   //           text-align: center;
-  //           font-family: Orbitron400;
+  //           font-family: Pretendard400;
   //           font-size: 14px;
   //           font-style: normal;
   //           font-weight: 400;
@@ -1113,7 +1113,7 @@
   //           gap: 8px;
   //           color: #aaa;
   //           text-align: center;
-  //           font-family: Inter400;
+  //           font-family: Pretendard400;
   //           font-size: 14px;
   //           font-style: normal;
   //           line-height: normal;
@@ -1128,7 +1128,7 @@
   //       }
   //       color: #aaa;
   //       text-align: center;
-  //       font-family: Inter400;
+  //       font-family: Pretendard400;
   //       font-size: 14px;
   //       font-style: normal;
   //       line-height: normal;
@@ -1150,7 +1150,7 @@
   //           white-space: nowrap;
   //           color: #aaa;
   //           text-align: center;
-  //           font-family: Inter400;
+  //           font-family: Pretendard400;
   //           font-size: 14px;
   //           font-style: normal;
   //           line-height: normal;
@@ -1200,7 +1200,7 @@
   //     cursor: pointer;
   //     transition: 0.3s;
   //     width: 100px;
-  //     font-family: Inter500;
+  //     font-family: Pretendard500;
   //     font-size: 12px;
   //     font-style: normal;
   //     line-height: 100%; /* 12px */
@@ -1239,7 +1239,7 @@
     gap: 16px;
     dt {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -1259,7 +1259,7 @@
     }
     dd {
       color: #fff;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 16px;
       font-style: normal;
       line-height: normal;
@@ -1365,7 +1365,7 @@
           justify-content: center;
           color: #fff;
           text-align: center;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 16px; /* 133.333% */
@@ -1380,7 +1380,7 @@
         flex: 1;
         .album__content-list__list__item__right__title {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           text-align: left;
@@ -1406,7 +1406,7 @@
             align-items: center;
             gap: 4px;
             color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -1430,7 +1430,7 @@
             justify-content: center;
             gap: 8px;
             color: var(--Text-music-title, #f1f1f1);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -1451,7 +1451,7 @@
             top: 0;
             transition: 0.2s;
             color: var(--Text-dark-title, #1a1a1a);
-            font-family: Orbitron600;
+            font-family: Pretendard600;
             font-size: 12px;
             font-style: normal;
             line-height: normal;

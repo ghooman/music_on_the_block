@@ -9,7 +9,7 @@ const ContentWrap = ({
   border = true,
   className,
   style,
-  linkPosition = 'left',
+  linkPosition = 'right',
 }) => {
   const { t } = useTranslation('module');
 

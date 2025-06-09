@@ -138,6 +138,7 @@ function EvaluationStage() {
           // title="Evaluation Stage"
           // link="/song/list?service=AI+Singing+Evaluation"
           style={{ padding: 0 }}
+          linkPosition="left"
         >
           {evaluationListForHighestScore?.length > 0 && (
             <EvaluationListItemWrapper>

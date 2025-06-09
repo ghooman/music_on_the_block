@@ -1,21 +1,4 @@
 
-@font-face {
-  font-family: Pretendard400;
-  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
-}
-@font-face {
-  font-family: Pretendard500;
-  src: url('./assets/fonts/Inter_24pt-Medium.ttf');
-}
-@font-face {
-  font-family: Pretendard600;
-  src: url('./assets/fonts/Inter_24pt-SemiBold.ttf');
-}
-@font-face {
-  font-family: Pretendard700;
-  src: url('./assets/fonts/Inter_24pt-Bold.ttf');
-}
-
 
 @font-face {
   font-family: "Pretendard400";

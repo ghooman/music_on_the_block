@@ -108,7 +108,7 @@ function EvaluationStage() {
         border={false}
         style={{ padding: 0 }}
         link="/song/list?service=AI+Singing+Evaluation"
-        // linkPosition="right"
+        linkPosition="left"
       >
         <div className="evaluation-stage__critics">
           {[{ name: 'All', image: personaAll }, ...criticsDataForArray].map((persona, index) => (
@@ -138,7 +138,7 @@ function EvaluationStage() {
           // title="Evaluation Stage"
           // link="/song/list?service=AI+Singing+Evaluation"
           style={{ padding: 0 }}
-          linkPosition="left"
+          // linkPosition="left"
         >
           {evaluationListForHighestScore?.length > 0 && (
             <EvaluationListItemWrapper>

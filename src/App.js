@@ -98,14 +98,14 @@ function App() {
                     </Layout>
                   }
                 />
-                {/* <Route
+                <Route
                   path="/voice-trainer"
                   element={
                     <Layout>
                       <VoiceTrainer />
                     </Layout>
                   }
-                /> */}
+                />
                 <Route
                   path="/create"
                   element={

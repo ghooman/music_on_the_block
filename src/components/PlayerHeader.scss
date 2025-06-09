@@ -65,7 +65,10 @@
       }
       .rhap_current-time::after {
         content: '|';
-        margin-left: 8px;
+        // margin-left: 8px;
+        position: absolute;
+        // top: 0;
+        left: 48px;
         color: #949494;
       }
       .rhap_total-time {
@@ -297,6 +300,7 @@
         position: absolute;
         left: 82px;
         bottom: 18px;
+        width: 100px;
       }
       .rhap_time.rhap_total-time{
         position: absolute;

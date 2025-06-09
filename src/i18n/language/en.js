@@ -11,6 +11,7 @@ import modal from '../../i18n_locales/en/modal.json';
 import sign_up from '../../i18n_locales/en/sign_up.json';
 import evaluation from '../../i18n_locales/en/evaluation.json';
 import error from '../../i18n_locales/en/error.json';
+import get from '../../i18n_locales/en/get.json';
 
 export const en = {
   main,
@@ -26,4 +27,5 @@ export const en = {
   sign_up,
   evaluation,
   error,
+  get,
 };

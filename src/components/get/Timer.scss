@@ -1,0 +1,13 @@
+.get-detail-timer {
+  display: flex;
+  gap: 4px;
+
+  .get-detail-timer__item {
+    display: flex;
+  }
+
+  .numbers {
+    font-family: Inter500;
+    color: #222;
+  }
+}

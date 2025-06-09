@@ -93,7 +93,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       menuName !== 'nft' &&
       menuName !== 'my-page' &&
       menuName !== 'my-favorites' &&
-      menuName !== 'earn'
+      menuName !== 'earn' &&
+      menuName !== 'get'
     ) {
       setPreparingModal(true);
     }
@@ -604,8 +605,22 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             USDC
                           </span>
                         </div>
+                        <Link
+                          to="/node-viewer"
+                          className="node-viewer-btn"
+                          onClick={() => {
+                            setActiveSingle(null);
+                            setActiveMenus([]);
+                            setActive(false);
+                            setIsActive(false);
+                          }}
+                        >
+                          {t('Node Viewer')}
+                        </Link>
                       </div>
+
                     </div>
+
                   </div>
                   {/* <button
                     className="menu__box__log-out-btn"
@@ -711,6 +726,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     <p className="icon"></p>Shop
                   </Link>
                 </div> */}
+
+                <div
+                  className={`menu__box__gnb-list__item  ${
+                    pathname.startsWith('/get') ? 'active' : ''
+                  }`}
+                >
+                  <Link
+                    to="/get"
+                    className="menu__box__gnb-list__item__btn "
+                    onClick={() => handleSingleActive('get')}
+                  >
+                    <p className="icon"></p>
+                    {t('Get')}
+                  </Link>
+                </div>
 
                 <div
                   className={`menu__box__gnb-list__item shop ${

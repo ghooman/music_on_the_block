@@ -40,6 +40,8 @@ import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
 import GetDetail from './pages/GetDetail';
 import Get from './pages/Get';
+import EvaluationStage from './pages/EvaluationStage';
+import NodeViewer from './pages/NodeViewer';
 
 function Layout({ children }) {
   return (
@@ -295,14 +297,14 @@ function App() {
                     </Layout>
                   }
                 />
-                {/* <Route
+                <Route
                   path="get/detail"
                   element={
                     <Layout>
                       <GetDetail />
                     </Layout>
                   }
-                /> */}
+                />
                 <Route
                   path="get"
                   element={
@@ -311,7 +313,24 @@ function App() {
                     </Layout>
                   }
                 />
+                <Route
+                  path="evaluation-stage"
+                  element={
+                    <Layout>
+                      <EvaluationStage />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="node-viewer"
+                  element={
+                    <Layout>
+                      <NodeViewer/>
+                    </Layout>
+                  }
+                />
               </Routes>
+              
             </div>
           </AudioProvider>
         </WebSocketProvider>

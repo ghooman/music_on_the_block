@@ -27,7 +27,7 @@ import step4Img from '../assets/images/evaluation/step4-img.png';
 const Evaluation = () => {
   const { t } = useTranslation('evaluation');
 
-  const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const { isRegistered, isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const walletConnectRef = React.useRef(null);
 
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const Evaluation = () => {
   }, []);
 
   const handleButtonClick = e => {
-    if (!isRegistered) {
+    if (!isRegistered || !isLoggedIn) {
       e.preventDefault();
 
       // 버튼 클릭 이벤트 발생시키기

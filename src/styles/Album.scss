@@ -523,6 +523,7 @@
     // display: inline-block;
     float: right;
     position: relative;
+    white-space:nowrap;
     &::after {
       content: '';
       position: absolute;

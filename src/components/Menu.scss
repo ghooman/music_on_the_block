@@ -198,7 +198,7 @@
           gap: 8px;
           &.active {
             .menu__box__my-page__info__bottom {
-              height: 136px;
+              height: 162px;
               transition: 0.3s;
               opacity: 1;
               margin-top: 0px;
@@ -253,6 +253,7 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
+
             .menu__box__my-page__info__bottom__box {
               border-radius: 4px;
               border: 1px solid #383838;
@@ -261,6 +262,7 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
+
               p {
                 color: #f1f1f1;
                 font-family: Inter500;
@@ -304,7 +306,18 @@
         }
       } //menu__box__log-out-btn--END--
     } //dd--END--
-
+    .node-viewer-btn {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #cf0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      color: #fff;
+      font-family: Pretendard400;
+      font-size: 14px;
+    }
     .menu__box__gnb-list {
       width: 100%;
       display: flex;

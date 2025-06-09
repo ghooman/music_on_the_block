@@ -11,9 +11,9 @@ import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
-import songCreateIcon1 from '../assets/images/album/song-create-icon1.svg';
-import songCreateIcon2 from '../assets/images/album/song-create-icon2.svg';
-import songCreateIcon3 from '../assets/images/album/song-create-icon3.svg';
+import songCreateIcon1 from '../assets/images/album/song-create-icon1.png';
+import songCreateIcon2 from '../assets/images/album/song-create-icon2.png';
+import songCreateIcon3 from '../assets/images/album/song-create-icon3.png';
 
 import PreparingModal from '../components/PreparingModal';
 

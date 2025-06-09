@@ -6,52 +6,42 @@ import './VoiceTrainer.scss';
 const VoiceTrainer = () => {
   const kitsApiKey = process.env.REACT_APP_KITS_AI_KEY;
 
-  // 사용할 음성 모델 목록
   const [voiceModels, setVoiceModels] = useState([]);
-  // 선택된 음성 모델 ID
   const [selectedModelId, setSelectedModelId] = useState('');
-  // 업로드할 오디오 파일
   const [selectedFile, setSelectedFile] = useState(null);
-  // 변환 강도 (0 ~ 1)
   const [conversionStrength, setConversionStrength] = useState(0.5);
-  // 모델 볼륨 혼합 비율 (0 ~ 1)
   const [modelVolumeMix, setModelVolumeMix] = useState(0.5);
-  // 피치 시프트 (음계 반음 단위, -24 ~ 24)
   const [pitchShift, setPitchShift] = useState(0);
-  // 변환 작업 ID
   const jobIdRef = useRef(null);
-  // 작업 상태 ('idle' | 'uploading' | 'running' | 'completed' | 'error')
   const [jobStatus, setJobStatus] = useState('idle');
-  // 변환된 음성 파일 URL
   const [convertedUrl, setConvertedUrl] = useState('');
-  // 업로드 진행률 (0 ~ 100)
   const [uploadProgress, setUploadProgress] = useState(0);
-  // 에러 메시지
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 컴포넌트 마운트 시 음성 모델 목록을 가져옵니다
   useEffect(() => {
     const fetchVoiceModels = async () => {
       try {
-        const response = await axios.get('https://arpeggi.io/api/kits/v1/voice-models', {
-          headers: {
-            Authorization: `Bearer ${kitsApiKey}`,
-          },
+        const response = await axios.get('https://arpeggi.io/api/kits/v1/voice-models/1807969', {
+          headers: { Authorization: `Bearer ${kitsApiKey}` },
         });
-        setVoiceModels(response.data);
-        if (response.data.length > 0) {
-          setSelectedModelId(response.data[0].id);
+        console.log('fetchVoiceModels response:', response.data);
+        if (Array.isArray(response.data.data)) {
+          setVoiceModels(response.data.data);
+          setSelectedModelId(response.data.data[0].id);
+        } else {
+          console.error('voice-models 응답 구조가 배열이 아닙니다:', response.data);
+          setVoiceModels([response.data]);
+          setSelectedModelId(response.data?.id);
+          console.log('selectedModelId', selectedModelId);
         }
       } catch (err) {
         console.error(err);
         setErrorMessage('음성 모델 목록을 가져오는 중 오류가 발생했습니다.');
       }
     };
-
     fetchVoiceModels();
-  }, []);
+  }, [kitsApiKey]);
 
-  // 파일 선택 핸들러
   const handleFileChange = e => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedFile(e.target.files[0]);
@@ -62,7 +52,6 @@ const VoiceTrainer = () => {
     }
   };
 
-  // 변환 요청 함수
   const createConversionJob = async () => {
     if (!selectedFile) {
       setErrorMessage('먼저 음성 파일을 선택해 주세요.');
@@ -98,8 +87,8 @@ const VoiceTrainer = () => {
           },
         }
       );
+      console.log('createConversionJob response:', response.data);
 
-      // 반환된 작업 ID 저장 후 상태 폴링 시작
       const { id } = response.data;
       jobIdRef.current = id;
       setJobStatus('running');
@@ -111,27 +100,25 @@ const VoiceTrainer = () => {
     }
   };
 
-  // 작업 상태 폴링 함수
   const pollConversionStatus = async jobId => {
     try {
       const statusResponse = await axios.get(
         `https://arpeggi.io/api/kits/v1/voice-conversions/${jobId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${kitsApiKey}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${kitsApiKey}` } }
       );
-      const { status, resultUrl } = statusResponse.data;
+      console.log('pollConversionStatus response:', statusResponse.data);
 
-      if (status === 'completed') {
+      const { status, outputFileUrl, lossyOutputFileUrl } = statusResponse.data;
+
+      console.log(`현재 상태: ${status} (jobId: ${jobId})`);
+
+      if (status === 'success') {
         setJobStatus('completed');
-        setConvertedUrl(resultUrl); // API에서 반환되는 변환된 파일 URL 필드 이름 예시
+        setConvertedUrl(outputFileUrl || lossyOutputFileUrl);
       } else if (status === 'failed') {
         setErrorMessage('음성 변환 작업이 실패했습니다.');
         setJobStatus('error');
       } else {
-        // 작업이 아직 진행 중이면 일정 시간 후 재호출
         setTimeout(() => pollConversionStatus(jobId), 3000);
       }
     } catch (err) {
@@ -145,7 +132,6 @@ const VoiceTrainer = () => {
     <div className="voice-trainer">
       <h2>음성 변환기</h2>
 
-      {/* 음성 모델 선택 */}
       <div className="field">
         <label htmlFor="model-select">음성 모델 선택</label>
         <select
@@ -156,13 +142,12 @@ const VoiceTrainer = () => {
         >
           {voiceModels.map(model => (
             <option key={model.id} value={model.id}>
-              {model.name}
+              {model.title || model.id}
             </option>
           ))}
         </select>
       </div>
 
-      {/* 파라미터 설정 */}
       <div className="field">
         <label htmlFor="strength-input">변환 강도 (0 ~ 1)</label>
         <input
@@ -205,7 +190,6 @@ const VoiceTrainer = () => {
         />
       </div>
 
-      {/* 파일 선택 */}
       <div className="field">
         <label htmlFor="file-input">변환할 음성 파일 선택</label>
         <input
@@ -217,7 +201,6 @@ const VoiceTrainer = () => {
         />
       </div>
 
-      {/* 변환 요청 버튼 */}
       <div className="actions">
         <button
           onClick={createConversionJob}
@@ -232,7 +215,6 @@ const VoiceTrainer = () => {
         </button>
       </div>
 
-      {/* 상태 표시 */}
       <div className="status">
         {jobStatus === 'uploading' && <p>업로드 중: {uploadProgress}%</p>}
         {jobStatus === 'running' && <p>변환 작업 실행 중입니다...</p>}
@@ -240,13 +222,17 @@ const VoiceTrainer = () => {
         {jobStatus === 'error' && <p className="error">{errorMessage}</p>}
       </div>
 
-      {/* 변환된 음성 미리 듣기 */}
       {jobStatus === 'completed' && convertedUrl && (
-        <div className="player">
+        <div className="player-container">
           <h3>변환된 음성 미리 듣기</h3>
-          <audio controls src={convertedUrl}>
-            브라우저가 audio 태그를 지원하지 않습니다.
-          </audio>
+          <div className="player-box">
+            <audio controls src={convertedUrl}>
+              브라우저가 audio 태그를 지원하지 않습니다.
+            </audio>
+            <a href={convertedUrl} download className="download-button">
+              다운로드
+            </a>
+          </div>
         </div>
       )}
 

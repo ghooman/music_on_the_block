@@ -92,6 +92,7 @@
  "EDM": null,
  "CLASSICAL": null
 ,
+ "Error": null,
  "No User": null,
  "Creating Music": null,
  "Exceeded number of generations today": null,
@@ -141,7 +142,8 @@
  "Request failed with status code 502": null,
  "Request failed with status code 503": null,
  "Unexpected token < in JSON at position 0": null,
- "OK": null
+ "OK": null,
+ "Unable to measure the score. Please try again.": null
 ,
  "Level": null,
  "Songs": null,
@@ -401,6 +403,7 @@
  "Notification": null,
  "AI Services": null,
  "NFT MarketPlace": null,
+ "Get": null,
  "Eco System": null,
  "AI Lyrics & Songwriting": null,
  "AI Singing Evaluation": null,

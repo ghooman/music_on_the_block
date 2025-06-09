@@ -701,14 +701,14 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     pathname.startsWith('/get') ? 'active' : ''
                   }`}
                 >
-                  <Link
+                  {/* <Link
                     to="/get"
                     className="menu__box__gnb-list__item__btn "
                     onClick={() => handleSingleActive('get')}
                   >
                     <p className="icon"></p>
                     {t('Get')}
-                  </Link>
+                  </Link> */}
                 </div>
 
                 <div

@@ -243,7 +243,7 @@ function Album() {
             </div>
           </div>
         </section>
-        <article className="album__content-list__tab">
+        {/* <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${
               service === 'AI Lyrics & Songwriting' ? 'active' : ''
@@ -277,7 +277,7 @@ function Album() {
           >
             {t('AI Cover Creation')}
           </button>
-        </article>
+        </article> */}
         {service === 'AI Lyrics & Songwriting' && (
           <article className="main__content-item">
             <List

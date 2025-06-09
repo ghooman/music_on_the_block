@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 
 import ContentWrap from '../../components/unit/ContentWrap';
 import NoneContent from '../../components/unit/NoneContent';
@@ -16,6 +17,7 @@ import issueIcon from '../../assets/images/icon/issue-opened.svg';
 import { criticsDataForObject } from '../../data/criticsData';
 import { getEvaluationList } from '../../api/evaluation/getList';
 import { useNavigate } from 'react-router-dom';
+import i18n from '../../i18n/i18n';
 
 // 스와이퍼
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,8 +28,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
-import { useQuery } from 'react-query';
-import axios from 'axios';
 
 /**
  *
@@ -190,6 +190,8 @@ const ResultBtn = ({ t, evaluationData }) => {
 };
 
 const FullEvaluation = ({ t, evaluationData }) => {
+  const { language } = i18n;
+
   return (
     <div className="full-evaluation">
       <section className="full-evaluation__feed-back">
@@ -200,7 +202,11 @@ const FullEvaluation = ({ t, evaluationData }) => {
         <article className={`full-evaluation__feed-back__txt active`}>
           <p className="ull-evaluation__feed-back__txt__title">{t('Feedback')}</p>
           <div className="ull-evaluation__feed-back__txt__memo">
-            {evaluationData?.feedback || '-'}
+            {language === 'English'
+              ? evaluationData?.feedback
+              : language === '한국어'
+              ? evaluationData?.feedback_kr
+              : '-'}
           </div>
           {/* <button
             className="full-evaluation__feed-back__txt__see-more"
@@ -214,15 +220,33 @@ const FullEvaluation = ({ t, evaluationData }) => {
       <section className="full-evaluation__point-box">
         <dl>
           <dt>{t('To Improve')}</dt>
-          <dd>{evaluationData?.to_improve || '-'}</dd>
+          <dd>
+            {language === 'English'
+              ? evaluationData?.to_improve
+              : language === '한국어'
+              ? evaluationData?.to_improve_kr
+              : '-'}
+          </dd>
         </dl>
         <dl>
           <dt>{t('Why This Score')}</dt>
-          <dd>{evaluationData?.why_this_score || '-'}</dd>
+          <dd>
+            {language === 'English'
+              ? evaluationData?.why_this_score
+              : language === '한국어'
+              ? evaluationData?.why_this_score_kr
+              : '-'}
+          </dd>
         </dl>
         <dl>
           <dt>{t('Key Points')}</dt>
-          <dd>{t(evaluationData?.key_points || '-')}</dd>
+          <dd>
+            {language === 'English'
+              ? evaluationData?.key_points
+              : language === '한국어'
+              ? evaluationData?.key_points_kr
+              : '-'}
+          </dd>
         </dl>
       </section>
     </div>

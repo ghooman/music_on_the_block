@@ -308,7 +308,7 @@ function App() {
                   path="get"
                   element={
                     <Layout>
-                      <Get/>
+                      <Get />
                     </Layout>
                   }
                 />
@@ -316,7 +316,7 @@ function App() {
                   path="evaluation-stage"
                   element={
                     <Layout>
-                      <EvaluationStage/>
+                      <EvaluationStage />
                     </Layout>
                   }
                 />

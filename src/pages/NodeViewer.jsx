@@ -11,6 +11,8 @@ import copyCheckIcon from '../assets/images/copy_check.svg';
 import deleteIcon from '../assets/images/mynaui_trash.svg';
 
 import PreparingModal from '../components/PreparingModal';
+import AddNodeWallet from '../components/AddNodeWallet';
+import DeleteWallet from '../components/DeleteWallet';
 
 
 
@@ -18,7 +20,8 @@ import PreparingModal from '../components/PreparingModal';
 
 function NodeViewer() {
   const { t } = useTranslation('node-viewer');
-
+  const [addNodeWalletModal, setAddNodeWalletModal] = useState(false);
+  const [deleteWalletModal, setDeleteWalletModal] = useState(false);
   const fullText =
     "12345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
@@ -39,7 +42,9 @@ function NodeViewer() {
   return (
     <>
       <div className='node-viewer'>
-        <button className='node-viewer__add-btn'>
+        <button className='node-viewer__add-btn'
+          onClick={() => setAddNodeWalletModal(true)}
+        >
           <img src={plusIcon}/> {t('Add Node Wallet')}
         </button>
         <div className='node-viewer__list'>
@@ -58,7 +63,9 @@ function NodeViewer() {
                   </button>
                 </dd>
               </dl>
-              <button className='node-viewer__list__item__delete-btn'>
+              <button className='node-viewer__list__item__delete-btn'
+                onClick={() => setDeleteWalletModal(true)}
+              >
                 <img src={deleteIcon}/>
               </button>
             </article>
@@ -114,6 +121,8 @@ function NodeViewer() {
           </section>
         </div>
       </div>
+      {addNodeWalletModal && <AddNodeWallet setAddNodeWalletModal={setAddNodeWalletModal}/>}
+      {deleteWalletModal && <DeleteWallet setDeleteWalletModal={setDeleteWalletModal}/>}
     </>
   );
 }

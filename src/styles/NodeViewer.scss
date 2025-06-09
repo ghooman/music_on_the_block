@@ -65,8 +65,8 @@
               align-items: center;
               justify-content: center;
               img{
-                width: 16px;
-                height: 16px;
+                width: 20px;
+                height: 20px;
                 object-fit: contain;
               }
             }//node-viewer__list__item__title__btn--END--
@@ -164,6 +164,69 @@
 
 
 
+
+@media screen and (max-width: 768px) {
+  .node-viewer{
+    .node-viewer__list{
+      .node-viewer__list__item{
+        padding: 16px;
+        .node-viewer__list__item__title-wrap{
+          position: relative;
+          .node-viewer__list__item__delete-btn{
+            position: absolute;
+            right: 0px;
+            top: 0px;
+          }
+          .node-viewer__list__item__title{
+            width: 100%;
+            dd{
+              width: 100%;
+              justify-content: space-between;
+            }
+          }
+        }
+        .node-viewer__list__item__content-wrap01{
+          // flex-direction: column;
+          .node-viewer__list__item__content-wrap01__item{
+            width: 100%;
+            .node-viewer__list__item__content-wrap01__item__title{
+              font-size: 12px;
+            }
+            .node-viewer__list__item__content-wrap01__item__content{
+              flex-direction: row;
+              justify-content: space-between;
+              .node-viewer__list__item__content-wrap01__item__content__number{
+                font-size: 14px;
+              }
+              .node-viewer__list__item__content-wrap01__item__content__quantity{
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        .node-viewer__list__item__content-wrap02{
+          flex-direction: column;
+          .node-viewer__list__item__content-wrap02__item{
+            width: 100%;
+            .node-viewer__list__item__content-wrap02__item__title{
+              font-size: 12px;
+            }
+            .node-viewer__list__item__content-wrap02__item__content{
+              flex-direction: row;
+              justify-content: space-between;
+              .node-viewer__list__item__content-wrap02__item__content__number{
+                font-size: 14px;
+              }
+              .node-viewer__list__item__content-wrap02__item__content__mob{
+                font-size: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 
 

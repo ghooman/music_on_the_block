@@ -574,8 +574,22 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             USDC
                           </span>
                         </div>
+                        <Link
+                          to="/node-viewer"
+                          className="node-viewer-btn"
+                          onClick={() => {
+                            setActiveSingle(null);
+                            setActiveMenus([]);
+                            setActive(false);
+                            setIsActive(false);
+                          }}
+                        >
+                          {t('Node Viewer')}
+                        </Link>
                       </div>
+
                     </div>
+
                   </div>
                   {/* <button
                     className="menu__box__log-out-btn"

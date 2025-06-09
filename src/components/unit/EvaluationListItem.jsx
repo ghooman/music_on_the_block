@@ -6,6 +6,7 @@ import { criticsDataForObject } from '../../data/criticsData';
 import coverImg10 from '../../assets/images/intro/intro-demo-img4.png';
 
 import './EvaluationListItem.scss';
+import i18n from '../../i18n/i18n';
 
 export const EvaluationListItemWrapper = ({ children }) => {
   return <div className="unit-component-evaluation-list-item-wrapper">{children}</div>;
@@ -13,6 +14,7 @@ export const EvaluationListItemWrapper = ({ children }) => {
 
 export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => {
   const { t } = useTranslation('main');
+  const { language } = i18n;
   return (
     <button
       key={data.id}
@@ -37,7 +39,19 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
         </p>
         <p className="unit-component-evaluation-list-item__thought__txt">
           <img src={criticsDataForObject[data.critic]?.image} alt="Jinwoo-Yoo-img" />
-          <span>"{data.feedback}"</span>
+          <span>
+            {data.feedback
+              ? language === 'English'
+                ? data.feedback
+                  ? `"${data.feedback}"`
+                  : '-'
+                : language === '한국어'
+                ? data.feedback_kr
+                  ? `"${data.feedback_kr}"`
+                  : '-'
+                : '-'
+              : '-'}
+          </span>
         </p>
       </div>
       <dl className="unit-component-evaluation-list-item__title">

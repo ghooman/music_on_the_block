@@ -5,6 +5,7 @@ import { useAudio } from '../contexts/AudioContext';
 import './VerticalVolumeControl.scss';
 
 const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHovered }) => {
+  
   const { volume, handleVolumeChange } = useAudio();
   const [localVolume, setLocalVolume] = useState(volume);
 
@@ -28,6 +29,7 @@ const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHover
   };
 
   return (
+
     <div
       className="vertical-volume-control"
       onMouseEnter={() => setIsVolumeHovered && setIsVolumeHovered(true)}
@@ -47,6 +49,7 @@ const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHover
         // }}
       />
     </div>
+
   );
 };
 

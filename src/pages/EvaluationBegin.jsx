@@ -78,6 +78,7 @@ const EvaluationBegin = () => {
 
     let retryCnt = 0;
     let responses = null;
+    let result = null;
 
     // GPT 점수 요청
     const request = async () => {
@@ -108,13 +109,11 @@ const EvaluationBegin = () => {
                     "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수(0.0~100.0)
                     "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
                     "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
-                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)
-                    
-                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 , 영어
-                    "to_improve": "",        // 개선이 필요한 점 , 영어
-                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명, 영어
-                    "key_points": ""         // 핵심 개선 포인트 요약, 영어
-
+                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)        
+                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 
+                    "to_improve": "",        // 개선이 필요한 점 
+                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
+                    "key_points": ""         // 핵심 개선 포인트 요약
                     "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역
                     "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역
                     "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역
@@ -129,6 +128,7 @@ const EvaluationBegin = () => {
                   10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
                   11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
                   12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
+                  13. 제시된 JSON 형식을 무조건 따르시오.
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,
@@ -137,9 +137,26 @@ const EvaluationBegin = () => {
           ],
         });
         responses = JSON.parse(response?.choices[0]?.message?.content);
-        const k = Object.values(responses).every(item => item);
+        // 간혹 필드 자체를 반환하지 않는 경우가 있습니다
+        // 필드 자체를 반환하지 않을 경우에 대비해 코드가 더럽지만 해당 코드를 추가합니다.
+        const checks = [
+          responses?.emotion,
+          responses?.creativity,
+          responses?.structure,
+          responses?.sound,
+          responses?.popularity,
+          responses?.feedback,
+          responses?.to_improve,
+          responses?.why_this_score,
+          responses?.key_points,
+          responses?.feedback_kr,
+          responses?.to_improve_kr,
+          responses?.why_this_score_kr,
+          responses?.key_points_kr,
+        ].every(item => item);
 
-        if (k === true) {
+        if (checks === true) {
+          result = responses;
           return true;
         } else {
           return false;
@@ -160,11 +177,11 @@ const EvaluationBegin = () => {
       else retryCnt++;
     }
 
-    if (responses === null) {
+    if (result === null) {
       throw new Error('점수 산정에 실패하였습니다');
     }
 
-    return responses;
+    return result;
   };
 
   //=================

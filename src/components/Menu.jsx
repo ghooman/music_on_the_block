@@ -325,8 +325,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   };
 
   const [isActive, setIsActive] = useState(false);
-  console.log('isLoading', isLoading);
-  console.log('userData', userData);
+
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}

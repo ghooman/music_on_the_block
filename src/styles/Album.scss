@@ -35,7 +35,36 @@
             img{
               transform: translate(-8px,-16px);
             }
+            .main__to-day-header__song-create-list__item__title__sub::after {
+              animation: arrowShake 0.6s infinite;
+            }
           }
+          &:nth-child(3){
+            &:hover{
+              .main__to-day-header__song-create-list__item__title__sub::after {
+                animation: none;
+              }
+            }
+          }
+          .main__to-day-header__song-create-list__item__title__sub{
+            position: absolute;
+            left: 30px;
+            bottom: 30px;
+            color: rgba(255, 255, 255, 0.60);
+            font-family: Pretendard700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            &::after{
+              content: '';
+              display: block;
+              width: 20px;
+              height: 20px;
+              background: url('../assets/images/main-arr-icon.svg') center no-repeat;
+              transition: 0.3s;
+            }
+          }//main__to-day-header__song-create-list__item__title__sub--END--
           .main__to-day-header__song-create-list__item__title{
             color: #FFF;
             font-family: Pretendard700;
@@ -1233,5 +1262,17 @@
         }
       }
     }
+  }
+}
+
+@keyframes arrowShake {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

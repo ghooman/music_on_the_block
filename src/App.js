@@ -325,12 +325,11 @@ function App() {
                   path="node-viewer"
                   element={
                     <Layout>
-                      <NodeViewer/>
+                      <NodeViewer />
                     </Layout>
                   }
                 />
               </Routes>
-              
             </div>
           </AudioProvider>
         </WebSocketProvider>

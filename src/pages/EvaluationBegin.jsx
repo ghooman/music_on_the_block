@@ -174,7 +174,6 @@ const EvaluationBegin = () => {
       // JSON 형식 반환 중 에러가 발생하거나
       // GPT 서버 오류로 인한 에러 발생 시
       // 3번까지 재시도
-      console.log(retryCnt, '리트라이 카운트');
       const res = await request();
       if (res === true) retryCnt = 100;
       else retryCnt++;

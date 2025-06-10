@@ -157,13 +157,7 @@ const Create = () => {
         {showErrorModal && (
           <ErrorModal
             title="Cannot create duplicates"
-            message={
-              <>
-                Song generation is in progress.
-                <br />
-                You can proceed after it's done.
-              </>
-            }
+            message={['Song generation is in progress.', "You can proceed after it's done."]}
             setShowErrorModal={setShowErrorModal}
             button={true}
           />

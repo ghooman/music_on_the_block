@@ -143,7 +143,10 @@
  "Request failed with status code 503": null,
  "Unexpected token < in JSON at position 0": null,
  "OK": null,
- "Unable to measure the score. Please try again.": null
+ "Unable to measure the score. Please try again.": null,
+ "Song generation is in progress.": null,
+ "You can proceed after it's done.": null,
+ "Cannot create duplicates": null
 ,
  "Level": null,
  "Songs": null,
@@ -396,6 +399,7 @@
  "See More": null,
  "NFT Marketplace": null,
  "Details": null,
+ "null": null,
  "Evaluation Stage": null,
  "Recently Rated": null,
  "Main": null,
@@ -598,7 +602,10 @@
 ,
  "Song List": null,
  "Search by song title": null,
- "No data": null
+ "No data": null,
+ "AI Lyrics & Songwriting": null,
+ "AI Singing Evaluation": null,
+ "AI Cover Creation": null
 ,
  "Filter": null,
  "APPLY": null,

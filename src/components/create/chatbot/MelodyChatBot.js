@@ -198,13 +198,39 @@ const MelodyChatBot = ({
         }
       }
       // 프롬프트나 생성 키워드가 포함된 경우의 태그 추출
-      else if (
-        locale.extraction.promptTagRegex &&
-        locale.extraction.promptTagRegex.test(botMessage)
-      ) {
-        const tagMatch = botMessage.match(locale.extraction.promptTagRegex);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
+      else if (hasPromptKeyword) {
+        let extractedTagString = '';
+
+        // 1. 괄호 형식 체크
+        if (locale.extraction.promptTagRegex && locale.extraction.promptTagRegex.test(botMessage)) {
+          const tagMatch = botMessage.match(locale.extraction.promptTagRegex);
+          if (tagMatch && tagMatch[1]) {
+            extractedTagString = tagMatch[1];
+          }
+        }
+        // 2. 콜론 형식 체크
+        else if (
+          locale.extraction.promptTagRegex2 &&
+          locale.extraction.promptTagRegex2.test(botMessage)
+        ) {
+          const tagMatch = botMessage.match(locale.extraction.promptTagRegex2);
+          if (tagMatch && tagMatch[1]) {
+            extractedTagString = tagMatch[1];
+          }
+        }
+        // 3. 맨 앞 나열 형식 체크
+        else if (
+          locale.extraction.promptTagRegex3 &&
+          locale.extraction.promptTagRegex3.test(botMessage)
+        ) {
+          const tagMatch = botMessage.match(locale.extraction.promptTagRegex3);
+          if (tagMatch && tagMatch[1]) {
+            extractedTagString = tagMatch[1];
+          }
+        }
+
+        if (extractedTagString) {
+          const extractedTags = extractedTagString
             .trim()
             .split(',')
             .map(tag => cleanExtractedText(tag.trim().replace(/^['"]+|['"]+$/g, '')))
@@ -268,31 +294,33 @@ const MelodyChatBot = ({
         }
       }
 
-      // [보이스 추출]
-      if (locale.extraction.voiceRegex.test(botMessage)) {
-        const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
-        if (voiceMatch && voiceMatch[1]) {
-          const cleanVoice = cleanExtractedText(voiceMatch[1].trim());
-          setMelodyData(prevData => ({
-            ...prevData,
-            melody_gender: cleanVoice,
-          }));
+      // [보이스 추출] - Song 모드에서만 실행
+      if (selectedCreationMode === 'song') {
+        if (locale.extraction.voiceRegex && locale.extraction.voiceRegex.test(botMessage)) {
+          const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
+          if (voiceMatch && voiceMatch[1]) {
+            const cleanVoice = cleanExtractedText(voiceMatch[1].trim());
+            setMelodyData(prevData => ({
+              ...prevData,
+              melody_gender: cleanVoice,
+            }));
+          }
         }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 보이스 추출
-      else if (
-        locale.extraction.promptVoiceRegex &&
-        locale.extraction.promptVoiceRegex.test(botMessage)
-      ) {
-        const voiceMatch = botMessage.match(locale.extraction.promptVoiceRegex);
-        // console.log('Voice match (prompt):', voiceMatch);
-        if (voiceMatch && voiceMatch[1]) {
-          const cleanVoice = cleanExtractedText(voiceMatch[1].trim());
-          // console.log('Extracted voice (prompt):', cleanVoice);
-          setMelodyData(prevData => ({
-            ...prevData,
-            melody_gender: cleanVoice,
-          }));
+        // 프롬프트나 생성 키워드가 포함된 경우의 보이스 추출
+        else if (
+          locale.extraction.promptVoiceRegex &&
+          locale.extraction.promptVoiceRegex.test(botMessage)
+        ) {
+          const voiceMatch = botMessage.match(locale.extraction.promptVoiceRegex);
+          // console.log('Voice match (prompt):', voiceMatch);
+          if (voiceMatch && voiceMatch[1]) {
+            const cleanVoice = cleanExtractedText(voiceMatch[1].trim());
+            // console.log('Extracted voice (prompt):', cleanVoice);
+            setMelodyData(prevData => ({
+              ...prevData,
+              melody_gender: cleanVoice,
+            }));
+          }
         }
       }
 

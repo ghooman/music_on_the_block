@@ -30,6 +30,9 @@ const koBgmChat = {
     introductionRegex: /곡\s*소개\s*[:：\-]\s*([\s\S]*?)(?=\s*최종\s*프롬프트|$)/i,
     promptTagRegex:
       /(?:최종\s*프롬프트|\[?\s*최종\s*프롬프트\]?|프롬프트|생성)[\s\S]*?태그\s*\(\s*([^)]+)\s*\)/i,
+    promptTagRegex2:
+      /(?:최종\s*프롬프트|프롬프트|생성)[\s\S]*?태그\s*[:：]\s*([^,\n]+?)(?=\s*,\s*(?:곡의|타이틀|장르))/i,
+    promptTagRegex3: /(?:최종\s*프롬프트|프롬프트|생성)\s*:\s*([^,]+?)(?=\s*,\s*곡의\s*타이틀)/i,
     promptTitleRegex: /(?:최종\s*프롬프트|프롬프트|생성)[\s\S]*?타이틀\s*\(\s*([^)]+)\s*\)/i,
     promptGenreRegex: /(?:최종\s*프롬프트|프롬프트|생성)[\s\S]*?장르\s*\(\s*([^)]+)\s*\)/i,
     promptInstrumentRegex: /(?:최종\s*프롬프트|프롬프트|생성)[\s\S]*?악기\s*\(\s*([^)]+)\s*\)/i,

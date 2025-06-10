@@ -50,5 +50,8 @@
  "Request failed with status code 503": null,
  "Unexpected token < in JSON at position 0": null,
  "OK": null,
- "Unable to measure the score. Please try again.": null
+ "Unable to measure the score. Please try again.": null,
+ "Song generation is in progress.": null,
+ "You can proceed after it's done.": null,
+ "Cannot create duplicates": null
 }

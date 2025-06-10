@@ -8,13 +8,13 @@
 .edit-modal{
   .edit-modal__txt{
     color:#AAA;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 16px;
     font-style: normal;
     text-align: center;
     span{
       color: var(--primary-base, #CF0);
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
       font-style: normal;
     }
@@ -32,7 +32,7 @@
       top: 0;
       transition: 0.2s;
       color: #fff;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
@@ -60,7 +60,7 @@
       &:nth-child(2){
         background: #CF0;
         color: var(--Text-dark-title, #1A1A1A);
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 16px;
         &::before{
           border: 1px solid #CF0;

@@ -24,7 +24,7 @@
   padding: 8px;
   color: #a9d400;
   text-align: center;
-  font-family: Orbitron400;
+  font-family:  Pretendard400;
   font-size: 14px;
   white-space: nowrap;
   &.index {
@@ -88,7 +88,7 @@
     color: #aaa;
     text-align: center;
     text-overflow: ellipsis;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 14px;
     max-width: 340px;
     margin: 0 auto;
@@ -136,7 +136,7 @@
     max-width: 100px;
     margin: 0 auto;
     padding: 8px;
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 12px;
     position: relative;
     top: 0px;
@@ -176,7 +176,7 @@
     // }
     &.sold {
       color: #cf0;
-      font-family: Inter400;
+      font-family: Pretendard400;
       cursor: default;
       &::before {
         opacity: 0;
@@ -188,7 +188,7 @@
     }
     &.purchased {
       color: #5a9bf6;
-      font-family: Inter400;
+      font-family: Pretendard400;
       cursor: default;
       &::before {
         opacity: 0;

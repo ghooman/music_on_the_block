@@ -5,7 +5,7 @@
 
   .songs__title {
     color: var(--primary-base, #cf0);
-    font-family: Orbitron500;
+    font-family:  Pretendard500;
     font-size: 24px;
     font-style: normal;
     line-height: 100%; /* 24px */
@@ -46,7 +46,7 @@
       width: calc(33.33% - 16px);
       .songs__item-title {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -77,7 +77,7 @@
           .songs__item-desc-text {
             align-self: stretch;
             color: var(--Text-music-title, #f1f1f1);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: 100%; /* 14px */
@@ -92,7 +92,7 @@
               gap: 4px;
               span {
                 color: var(--Text-music-sub, #aaa);
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
                 line-height: 100%; /* 12px */
@@ -110,7 +110,7 @@
             }
             span {
               color: var(--Text-music-title, #f1f1f1);
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -137,7 +137,7 @@
         gap: 16px;
         flex: 1 0 0;
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
         line-height: normal;
@@ -162,7 +162,7 @@
         top: 0;
         transition: 0.2s;
         color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 16px;
         font-style: normal;
         line-height: normal;

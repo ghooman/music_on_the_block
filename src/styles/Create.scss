@@ -5,7 +5,7 @@
 
   .title {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family:  Pretendard400;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
@@ -46,7 +46,7 @@
     .progress__text {
       font: inherit;
       color: #565656;
-      font-family: Orbitron700;
+      font-family: Pretendard700;
       font-size: 14px;
       text-align: center;
       &.enable {
@@ -111,7 +111,7 @@
     .wrap-title {
       padding: 16px;
       color: var(--primary-base, #cf0);
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 18px;
       margin-bottom: 12px;
       cursor: pointer;
@@ -151,7 +151,7 @@
     }
     .item-title {
       color: var(--Text-music-title, #f1f1f1);
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 18px;
       letter-spacing: 0.54px;
       margin-bottom: 8px;
@@ -162,12 +162,12 @@
       gap: 8px;
       .values {
         color: var(--Text-music-sub, #aaa);
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
         letter-spacing: 0.42px;
         &.multiple {
           color: #1a1a1a;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           border-radius: 12px 4px 12px 12px;
           background: var(--secondary-100, #00ffb3);
@@ -211,7 +211,7 @@
     button {
       position: relative;
       color: var(--Text-music-title, #f1f1f1);
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 16px;
       letter-spacing: 0.48px;
       border-radius: 12px;
@@ -291,7 +291,7 @@
   }
   .check-list__title {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family:  Pretendard400;
     font-size: 18px;
     line-height: 30px;
   }
@@ -333,7 +333,7 @@
   }
   .check-list__items--title {
     color: #fff;
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -343,7 +343,7 @@
   }
   .check-list__items--desc {
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -361,14 +361,14 @@
 .lyrics-lab__selected-item {
   .lyrics-lab__selected-item--title {
     color: var(--Text-music-title, #f1f1f1);
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     font-size: 18px;
     letter-spacing: 0.54px;
     margin-bottom: 8px;
   }
   .lyrics-lab__selected-item--text {
     color: var(--Text-music-sub, #aaa);
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 14px;
     letter-spacing: 0.42px;
   }

@@ -61,7 +61,7 @@
                 .get__content__item__none-title{
                     color: var(--Dark-Color-06, var(--Color-06, #888));
                     text-align: center;
-                    font-family: Inter500;
+                    font-family: Pretendard500;
                     font-size: 12px;
                     line-height: 100%; /* 12px */
                 }//get__content__item__none-title--END--
@@ -126,14 +126,14 @@
                 dt{
                     color: #FFF;
                     text-align: center;
-                    font-family: Inter400;
+                    font-family: Pretendard400;
                     font-size: 12px;
                     margin-bottom: 4px;
                 }
                 dd{
                     color: var(--Dark-Color-08, var(--Color-08, #D9D9D9));
                     text-align: center;
-                    font-family: Inter500;
+                    font-family: Pretendard500;
                     font-size: 14px;
                     display: flex;
                     align-items: center;
@@ -142,13 +142,13 @@
                     p{
                         color: var(--Dark-Color-08, var(--Color-08, #D9D9D9));
                         text-align: center;
-                        font-family: Inter500;
+                        font-family: Pretendard500;
                         font-size: 14px;
                     }
                     span{
                         color: var(--Daisy, #FFD700);
                         text-align: center;
-                        font-family: Inter500;
+                        font-family: Pretendard500;
                         font-size: 14px;
                     }
                 }
@@ -157,21 +157,21 @@
                 dt{
                     color: var(--secondary-base, #00FFB3);
                     text-align: center;
-                    font-family: Inter400;
+                    font-family: Pretendard400;
                     font-size: 9px;
                     margin-bottom: 4px;
                     span{
                         display: block;
                         color: #FFF;
                         text-align: center;
-                        font-family: Inter400;
+                        font-family: Pretendard400;
                         font-size: 12px;
                     }
                 }
                 dd{
                     color: #FFF;
                     text-align: center;
-                    font-family: Inter500;
+                    font-family: Pretendard500;
                     font-size: 14px;
                 }
             }//get__content__item__minutes--END--
@@ -179,13 +179,13 @@
                 dt{
                     color: #FFF;
                     text-align: center;
-                    font-family: Inter400;
+                    font-family: Pretendard400;
                     font-size: 12px;
                 }
                 dd{
                     color: #FFF;
                     text-align: center;
-                    font-family: Inter500;
+                    font-family: Pretendard500;
                     font-size: 14px;
                 }
             }//get__content__item__start-time--END--
@@ -193,14 +193,14 @@
                 dt{
                     color: #FFF;
                     text-align: center;
-                    font-family: Inter400;
+                    font-family: Pretendard400;
                     font-size: 12px;
                     margin-bottom: 4px;
                 }
                 dd{
                     color: #00FFB3;
                     text-align: center;
-                    font-family: Inter700;
+                    font-family: Pretendard700;
                     font-size: 14px;
                 }
             }//get__content__item__remaining-time--END--

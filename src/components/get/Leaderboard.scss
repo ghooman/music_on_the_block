@@ -16,7 +16,7 @@
     text-align: center;
     color: #00d293;
     font-size: 14px;
-    font-family: Inter600;
+    font-family: Pretendard600;
     margin-bottom: 8px;
   }
 
@@ -51,10 +51,10 @@
       color: #f1f1f1;
 
       &.address {
-        font-family: Inter500;
+        font-family: Pretendard500;
       }
       &.name {
-        font-family: Inter400;
+        font-family: Pretendard400;
       }
     }
   }
@@ -72,7 +72,7 @@
 
     .information--item-title {
       color: #cf0;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 12px;
       &.disable {
         color: #495d00;
@@ -80,7 +80,7 @@
     }
     .information--item-value {
       color: #fff;
-      font-family: Inter500;
+      font-family: Pretendard500;
       font-size: 14px;
     }
   }
@@ -115,7 +115,7 @@
 
   .get-detail-leaderboard__tables--see-more {
     color: #fff;
-    font-family: Orbitron500;
+    font-family:  Pretendard500;
     font-size: 14px;
     border-radius: 4px;
     background-color: #222;

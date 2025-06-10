@@ -20,7 +20,7 @@
     top: 0;
     transition: 0.2s;
     color: #1a1a1a;
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     font-size: 12px;
     font-style: normal;
     line-height: normal;
@@ -59,7 +59,7 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family: Orbitron600;
+  font-family:  Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -95,7 +95,7 @@
     flex-shrink: 0;
     .result__critic__title {
       color: #fff;
-      font-family: Inter600;
+      font-family: Pretendard600;
       font-size: 16px;
       margin-bottom: 16px;
     }
@@ -113,13 +113,13 @@
       dt {
         color: var(--Text-music-title, #f1f1f1);
         text-align: center;
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 16px;
         padding: 0 16px;
       }
       dd {
         color: var(--Text-music-sub, #aaa);
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
       }
     } //result__critic__txt--END--
@@ -127,7 +127,7 @@
   .result__graph {
     .result__graph__title {
       color: #fff;
-      font-family: Inter600;
+      font-family: Pretendard600;
       font-size: 16px;
       margin-bottom: 16px;
       display: flex;
@@ -151,7 +151,7 @@
       width: 400px;
       .result__graph__score__number__title {
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Inter600;
+        font-family: Pretendard600;
         font-size: 22px;
         width: 100%;
         display: flex;
@@ -161,7 +161,7 @@
         gap: 16px;
         span {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter600;
+          font-family: Pretendard600;
           font-size: 22px;
         }
       } //result__graph__score__number__title--END--
@@ -198,12 +198,12 @@
           // }
           dt {
             color: #5f8d74 !important;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 16px;
           }
           dd {
             color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 16px;
           }
         }
@@ -226,7 +226,7 @@
       }
       .full-evaluation__feed-back__human__title {
         color: #aaa;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
         margin-top: 4px;
         text-align: center;
@@ -252,14 +252,14 @@
       }
       .ull-evaluation__feed-back__txt__title {
         color: #aaa;
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 18px;
         width: 100%;
       } //ull-evaluation__feed-back__txt__title--END--
       .ull-evaluation__feed-back__txt__memo {
         width: 100%;
         color: #f1f1f1;
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 14px;
         margin: 8px 0;
 
@@ -273,7 +273,7 @@
       } //ull-evaluation__feed-back__txt__memo--END--
       .full-evaluation__feed-back__txt__see-more {
         color: var(--Text-music-sub, #aaa);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -319,13 +319,13 @@
       dt {
         color: var(--Text-music-sub, #aaa);
         text-align: center;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 16px;
       }
       dd {
         color: var(--Text-music-title, #f1f1f1);
         text-align: center;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px !important;
       }
     }

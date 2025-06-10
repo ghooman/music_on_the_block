@@ -35,7 +35,36 @@
             img{
               transform: translate(-8px,-16px);
             }
+            .main__to-day-header__song-create-list__item__title__sub::after {
+              animation: arrowShake 0.6s infinite;
+            }
           }
+          &:nth-child(3){
+            &:hover{
+              .main__to-day-header__song-create-list__item__title__sub::after {
+                animation: none;
+              }
+            }
+          }
+          .main__to-day-header__song-create-list__item__title__sub{
+            position: absolute;
+            left: 30px;
+            bottom: 30px;
+            color: rgba(255, 255, 255, 0.60);
+            font-family: Pretendard700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            &::after{
+              content: '';
+              display: block;
+              width: 20px;
+              height: 20px;
+              background: url('../assets/images/main-arr-icon.svg') center no-repeat;
+              transition: 0.3s;
+            }
+          }//main__to-day-header__song-create-list__item__title__sub--END--
           .main__to-day-header__song-create-list__item__title{
             color: #FFF;
             font-family: Pretendard700;
@@ -170,7 +199,7 @@
     // justify-content: space-between;
     gap: 16px;
     color: #cf0;
-    font-family: Orbitron400;
+    font-family: Pretendard400;
     font-size: 24px;
     font-style: normal;
     line-height: normal;
@@ -213,7 +242,7 @@
         }
         p {
           color: #f1f1f1;
-          font-family: Inter500;
+          font-family: Pretendard500;
           font-size: 12px;
         }
         &.active {
@@ -351,7 +380,7 @@
             span {
               text-align: left;
               color: #f1f1f1;
-              font-family: Inter500;
+              font-family: Pretendard500;
               font-size: 14px;
               display: -webkit-box;
               -webkit-line-clamp: 2; /* 줄 수 설정 */
@@ -378,7 +407,7 @@
           align-items: start;
           dt {
             color: #f1f1f1;
-            font-family: Inter400;
+            font-family:Pretendard400;
             font-size: 14px;
             text-align: left;
           }
@@ -394,7 +423,7 @@
             }
             color: #aaa;
             text-align: center;
-            font-family: Inter400;
+            font-family:Pretendard400;
             font-size: 12px;
           }
         } //album__content-list__evaluation-stage__item__title--END--
@@ -414,7 +443,7 @@
             align-items: center;
             justify-content: center;
             color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
-            font-family: Inter700;
+            font-family:Pretendard700;
             font-size: 14px;
             &.gold {
               background: url('../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
@@ -437,7 +466,7 @@
             top: 0;
             transition: 0.2s;
             color: #aaa;
-            font-family: Orbitron600;
+            font-family:Pretendard600;
             font-size: 12px;
             font-style: normal;
             line-height: normal;
@@ -513,7 +542,7 @@
     color: #aaa;
     // width: 88px;
     // text-align: right;
-    font-family: Orbitron500;
+    font-family:Pretendard500;
     font-size: 14px;
     font-style: normal;
     line-height: 100%; /* 14px */
@@ -561,7 +590,7 @@
         z-index: 1;
         color: #cf0;
         text-align: center;
-        font-family: Inter700;
+        font-family:Pretendard700;
         font-size: 30px;
         font-style: normal;
         font-weight: 700;
@@ -607,7 +636,7 @@
         color: #cf0;
         text-align: center;
         text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
-        font-family: Orbitron700;
+        font-family:Pretendard700;
         font-size: 24px;
         font-style: normal;
         line-height: 100%; /* 28px */
@@ -619,7 +648,7 @@
         color: var(--Text-music-title, #f1f1f1);
         text-align: center;
         text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
-        font-family: Orbitron700;
+        font-family:Pretendard700;
         font-size: 48px;
         font-style: normal;
         line-height: 100%; /* 60px */
@@ -663,7 +692,7 @@
     padding: 0 16px 50px;
     .album__slide__title {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family:Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -839,7 +868,7 @@
             }
             .swiper-music-list__item__left__grade--nft {
               color: #fff;
-              font-family: Orbitron400;
+              font-family: Pretendard400;
               font-size: 10px;
             }
           } //swiper-music-list__item__left__grade--END--
@@ -858,7 +887,7 @@
             justify-content: center;
             color: #fff;
             text-align: center;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 16px; /* 133.333% */
@@ -875,7 +904,7 @@
           transition: 0.3s;
           .swiper-music-list__item__right__title {
             color: var(--Text-music-title, #f1f1f1);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             text-align: left;
@@ -899,7 +928,7 @@
               align-items: center;
               gap: 4px;
               color: var(--Text-music-sub, #aaa);
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -923,7 +952,7 @@
               justify-content: center;
               gap: 8px;
               color: var(--Text-music-title, #f1f1f1);
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -944,7 +973,7 @@
               // top: 0;
               // transition: 0.2s;
               // color: var(--Text-dark-title, #1a1a1a);
-              // font-family: Orbitron600;
+              // font-family:  Pretendard600;
               // font-size: 12px;
               // font-style: normal;
               // line-height: normal;
@@ -1016,7 +1045,7 @@
   border-radius: 16px;
   border: 1px solid #cf0;
   color: #FFF;
-  font-family: Orbitron400;
+  font-family: Pretendard400;
   font-size: 16px;
   margin-top: 16px;
   display: flex;
@@ -1233,5 +1262,17 @@
         }
       }
     }
+  }
+}
+
+@keyframes arrowShake {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

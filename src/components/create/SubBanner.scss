@@ -23,21 +23,21 @@
     }
     .sub-banner__title {
         color: #00ffb3;
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 28px;
         line-height: 100%; /* 28px */
         z-index: 3;
     }
     .sub-banner__message {
         color: #f1f1f1;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 16px;
         letter-spacing: 0.48px;
         z-index: 3;
     }
     .sub-banner__sub-message {
         color: #00d293;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 16px;
         line-height: 100%; /* 16px */
         letter-spacing: 0.48px;
@@ -46,7 +46,7 @@
     .sub-banner__buttons {
         border-radius: 12px;
         color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         letter-spacing: 0.48px;
         background: var(--secondary-base, #00ffb3);
         padding: 8px 10px;

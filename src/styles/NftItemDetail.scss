@@ -8,7 +8,7 @@
     border-radius: 12px;
     .nft-item-detail-info-wrap__title {
       color: var(--primary-base, #cf0);
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 30px;
       font-style: normal;
       margin-bottom: 36px;
@@ -19,7 +19,7 @@
       width: 100%;
       span {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
@@ -50,7 +50,7 @@
 
     .texts__title {
       color: #fff;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 20px;
     }
     // 여기 그냥 컴포넌트로 뺄까봐요ㅋ
@@ -58,7 +58,7 @@
       display: flex;
       align-items: center;
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
       gap: 10px;
       img {
@@ -74,12 +74,12 @@
     .texts__desc--title {
       white-space: nowrap;
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
     }
     .texts__desc--text {
       color: #aaa;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
     }
   }
@@ -88,7 +88,7 @@
     align-items: center;
     gap: 4px;
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
   }
   .nft-item-detail-info__data--image {
@@ -115,7 +115,7 @@
     }
     .stats__item--title {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 10px;
       letter-spacing: 0.3px;
     }
@@ -125,13 +125,13 @@
     }
     .stats__item--value__text {
       color: #007e56;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 14px;
       letter-spacing: 0.42px;
     }
     .stats__item--value__suffix {
       color: #a3a3a3;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 12px;
       letter-spacing: 0.36px;
     }
@@ -239,7 +239,7 @@
   border: 1px solid #222;
   .nft-item-detail__song-detail__title {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family:  Pretendard400;
     font-size: 24px;
     font-style: normal;
     line-height: normal;
@@ -263,7 +263,7 @@
     // gap: 16px;
     .nft-item-detail__song-detail__bot__title{
       color: #f1f1f1;
-      font-family: Orbitron500;
+      font-family:  Pretendard500;
       font-size: 20px;
       font-style: normal;
       margin-bottom: 16px;
@@ -287,7 +287,7 @@
         border-radius: 16px;
         border: 1px solid #cf0;
         color: #fff;
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 14px;
         font-style: normal;
         line-height: 100%; /* 14px */
@@ -311,7 +311,7 @@
         border-radius: 12px;
         padding: 4px 12px;
         color: #fff;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
@@ -410,7 +410,7 @@
           align-items: center;
           color: #aaa;
           gap: 6px;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 100%; /* 12px */
@@ -422,7 +422,7 @@
           align-items: center;
           color: #aaa;
           gap: 6px;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 100%;
@@ -471,7 +471,7 @@
           }
           .nfts-text {
             color: #fff;
-            font-family: Orbitron400;
+            font-family:  Pretendard400;
             font-size: 8px;
           }
         }
@@ -528,7 +528,7 @@
                 height: 38px;
                 transition: 0.3s;
                 color: #fff;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 14px;
                 transition: 0.3s;
                 text-align: left;
@@ -578,7 +578,7 @@
             align-items: center;
             color: #aaa;
             gap: 6px;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%;
@@ -591,7 +591,7 @@
       flex-shrink: 0;
       .nft-item-detail__song-detail__right__title {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 20px;
         font-style: normal;
         line-height: 100%;
@@ -607,7 +607,7 @@
           align-items: center;
           justify-content: center;
           color: var(--Text-dark-title, #1a1a1a);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           line-height: normal;
@@ -636,12 +636,12 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        margin-top: 20px;
+        // margin-top: 20px;
         dl {
           &.Sold {
             dd {
               color: #a9d400;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
             }
@@ -649,7 +649,7 @@
           &.Listed {
             dd {
               color: #5a9bf6;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
             }
@@ -657,7 +657,7 @@
           &.Unlisted {
             dd {
               color: #df1919;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
             }
@@ -704,7 +704,7 @@
           dd {
             padding: 8px 12px 8px 24px;
             color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             font-weight: 400;
@@ -716,7 +716,7 @@
             span {
               color: var(--Text-music-sub, #aaa);
               gap: 4px;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               font-weight: 400;
@@ -736,7 +736,7 @@
             }
             .see-more-btn {
               color: #aaa;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
               line-height: 100%;
@@ -756,7 +756,7 @@
         gap: 16px;
         margin-top: 16px;
         .nft-item-detail__song-detail__right__value-box__price {
-          min-height: 156px;
+          min-height: 172px;
           flex: 1;
           border-radius: 12px;
           border: 1px solid var(--secondary-base, #00ffb3);
@@ -769,14 +769,14 @@
           dt {
             color: var(--secondary-base, #00ffb3);
             text-align: center;
-            font-family: Orbitron500;
+            font-family:  Pretendard500;
             font-size: 24px;
             font-style: normal;
           }
           dd {
             color: var(--Text-music-title, #f1f1f1);
             text-align: center;
-            font-family: Inter700;
+            font-family: Pretendard700;
             font-size: 36px;
             font-style: normal;
             line-height: normal;
@@ -789,7 +789,7 @@
               // top: 8px;
               // left: -52px;
               color: var(--Dark-Color-07, var(--Color-07, #a3a3a3));
-              font-family: Inter500;
+              font-family: Pretendard500;
               font-size: 18px;
               font-style: normal;
             }
@@ -806,21 +806,21 @@
         margin-top: 16px;
         .nft-item-detail__song-detail__right__time-box__title {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter500;
+          font-family: Pretendard500;
           font-size: 12px;
           font-style: normal;
           margin-bottom: 4px;
         }
         .nft-item-detail__song-detail__right__time-box__utc {
           color: var(--primary-300, #87aa00);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           margin-bottom: 8px;
         }
         .nft-item-detail__song-detail__right__time-box__end {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter500;
+          font-family: Pretendard500;
           font-size: 12px;
           font-style: normal;
           line-height: 100%; /* 12px */
@@ -837,7 +837,7 @@
           span {
             color: var(--primary-base, #cf0);
             text-align: center;
-            font-family: Inter500;
+            font-family: Pretendard500;
             font-size: 32px;
             font-style: normal;
             line-height: 100%; /* 32px */
@@ -854,7 +854,7 @@
           top: 0;
           transition: 0.2s;
           color: var(--Text-dark-title, #1a1a1a);
-          font-family: Orbitron600;
+          font-family:  Pretendard600;
           font-size: 16px;
           font-style: normal;
           line-height: normal;

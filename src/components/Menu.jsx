@@ -566,7 +566,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           )}
                         </dl>
                       </div>
-
                       <div
                         className={`menu__box__my-page__info__bottom ${isActive ? ' active' : ''}`}
                       >

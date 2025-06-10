@@ -73,7 +73,7 @@
       width: 100%;
       height: 40px;
       color: #1a1a1a;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 16px;
       font-style: normal;
       line-height: normal;
@@ -91,7 +91,7 @@
     }
     .menu__box__title {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
@@ -127,7 +127,7 @@
         align-items: center;
         justify-content: center;
         color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 16px;
         font-style: normal;
         line-height: normal;
@@ -180,12 +180,12 @@
           gap: 4px;
           .grade {
             color: #f1f1f1;
-            font-family: Inter500;
+            font-family: Pretendard500;
             font-size: 12px;
           }
           .level {
             color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -230,7 +230,7 @@
               width: 100%;
               dt {
                 color: #fff;
-                font-family: Inter500;
+                font-family: Pretendard500;
                 font-size: 14px;
                 font-style: normal;
                 display: flex;
@@ -239,7 +239,7 @@
               }
               dd {
                 color: #fff;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
               }
@@ -265,7 +265,7 @@
 
               p {
                 color: #f1f1f1;
-                font-family: Inter500;
+                font-family: Pretendard500;
                 font-size: 12px;
                 font-style: normal;
                 line-height: 100%; /* 12px */
@@ -274,7 +274,7 @@
               span {
                 width: 48px;
                 color: #aaa;
-                font-family: Inter500;
+                font-family: Pretendard500;
                 font-size: 12px;
                 font-style: normal;
                 line-height: 100%; /* 12px */
@@ -295,7 +295,7 @@
         align-items: center;
         margin-left: auto;
         color: #aaa;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         margin-top: 4px;
@@ -391,7 +391,7 @@
           border-radius: 4px;
           transition: 0.3s;
           color: #aaa;
-          font-family: Orbitron400;
+          font-family:  Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 100%; /* 12px */
@@ -471,7 +471,7 @@
               height: 36px;
               width: 100%;
               color: #1a1a1a;
-              font-family: Orbitron400;
+              font-family:  Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -492,7 +492,7 @@
       .menu-box__lang-notification--button {
         display: flex;
         color: #f1f1f1;
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         padding: 4px;
         border-radius: 8px;
         font-size: 10px;
@@ -589,7 +589,7 @@
   padding: 12px 24px;
   color: #1a1a1a;
   font: 12px;
-  font-family: Orbitron400;
+  font-family:  Pretendard400;
 
   &:hover {
     background-color: #a9d400;
@@ -634,7 +634,7 @@
       align-items: center;
       gap: 8px;
       color: var(--Text-music-title, #f1f1f1);
-      font-family: Inter500;
+      font-family: Pretendard500;
       font-size: 12px;
       font-style: normal;
       line-height: 100%; /* 12px */
@@ -643,7 +643,7 @@
     .menu-box__lang-notification--select-notification-box__header__title {
       color: var(--Text-music-title, #f1f1f1);
       text-align: center;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -684,7 +684,7 @@
           overflow: hidden;
           color: var(--Text-music-title, #f1f1f1);
           text-overflow: ellipsis;
-          font-family: Inter600;
+          font-family: Pretendard600;
           font-size: 10px;
           font-style: normal;
           line-height: 100%; /* 10px */
@@ -695,7 +695,7 @@
             -webkit-line-clamp: 2;
             color: var(--secondary-base, #00ffb3);
             text-overflow: ellipsis;
-            font-family: Inter600;
+            font-family: Pretendard600;
             font-size: 10px;
             font-style: normal;
             line-height: 100%;
@@ -707,7 +707,7 @@
             -webkit-line-clamp: 2;
             color: var(--tertiary-400, #6458ff);
             text-overflow: ellipsis;
-            font-family: Inter600;
+            font-family: Pretendard600;
             font-size: 10px;
             font-style: normal;
             line-height: 100%;
@@ -717,7 +717,7 @@
       }
       .menu-box__lang-notification--select-notification-box__item__txt-box__header__name {
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 10px;
         font-style: normal;
         line-height: normal;
@@ -726,7 +726,7 @@
       .menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time {
         color: var(--Text-music-sub, #aaa);
         display: flex;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 7px;
         font-style: normal;
         line-height: normal;

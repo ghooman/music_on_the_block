@@ -158,7 +158,8 @@ const MelodyMaker = ({
   selectedPrivacy,
   selectedCreationMode,
 }) => {
-  const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
+  const { melody_tag, melody_genre, melody_gender, melody_instrument, melody_introduction } =
+    melodyData || {};
   const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -359,6 +360,7 @@ const MelodyMaker = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
+          introduction: melody_introduction,
         },
         album_lyrics_info: {
           language: selectedLanguage,

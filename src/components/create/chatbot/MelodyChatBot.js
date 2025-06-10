@@ -448,7 +448,7 @@ const MelodyChatBot = ({
       console.log('최종 출력 프롬프트 보이스:', melodyData?.melody_gender);
       console.log('최종 출력 프롬프트 악기:', melodyData?.melody_instrument);
       console.log('최종 출력 프롬프트 템포:', melodyData?.melody_tempo);
-      console.log('최종 출력 프롬프트 추가 요소/스토리:', melodyData?.melody_detail);
+      console.log('최종 출력 프롬프트 추가 요소:', melodyData?.melody_detail);
       console.log('최종 출력 프롬프트 곡 소개:', melodyData?.melody_introduction);
 
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
@@ -657,6 +657,7 @@ const MelodyChatBot = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
+          introduction: melody_introduction || '',
         },
         album_lyrics_info: {
           language: selectedLanguage,

@@ -139,9 +139,9 @@
           } //album-collection-detail-page__box__header__right__box__list--END--
           .album-collection-detail-page__box__header__right__play-btn {
             margin-top: auto;
-            width: 120px;
-            height: 52px;
-            background: #383838;
+            width: 220px;
+            height: 60px;
+            // background: #383838;
             position: relative;
             top: 0;
             transition: 0.2s;
@@ -155,7 +155,17 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+
+            border-radius: 16px;
+            border: 1px solid var(--primary-base, #CF0);
+            img{
+              width: 26px;
+              height: 26px;
+              object-fit: cover;
+            }
+
             &::after {
+              display: none !important;
               content: '';
               position: absolute;
               left: 0;
@@ -167,7 +177,7 @@
               border: 1px solid #383838;
             }
             &:hover {
-              top: 4px;
+              top: 0px;
               &::after {
                 top: 0;
               }

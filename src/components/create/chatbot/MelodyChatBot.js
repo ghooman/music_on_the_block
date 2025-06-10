@@ -60,6 +60,7 @@ const MelodyChatBot = ({
     melody_tempo = '',
     melody_detail = '',
     melody_title = '',
+    melody_introduction = '',
   } = melodyData || {};
 
   const genrePreset = {
@@ -384,7 +385,7 @@ const MelodyChatBot = ({
         }
       }
 
-      // [추가 요소/스토리 추출]
+      // [추가 요소]
       if (locale.extraction.detailRegex.test(botMessage)) {
         const detailMatch = botMessage.match(locale.extraction.detailRegex);
         // console.log('Detail match (standard):', detailMatch);
@@ -396,7 +397,7 @@ const MelodyChatBot = ({
           }));
         }
       }
-      // 프롬프트나 생성 키워드가 포함된 경우의 추가 요소/스토리 추출
+      // 프롬프트나 생성 키워드가 포함된 경우의 추가 요소
       else if (
         locale.extraction.promptDetailRegex &&
         locale.extraction.promptDetailRegex.test(botMessage)
@@ -412,6 +413,34 @@ const MelodyChatBot = ({
         }
       }
 
+      // [곡 소개 추출]
+      if (locale.extraction.introductionRegex.test(botMessage)) {
+        const introductionMatch = botMessage.match(locale.extraction.introductionRegex);
+        // console.log('Introduction match (standard):', introductionMatch);
+        if (introductionMatch && introductionMatch[1]) {
+          // console.log('Extracted introduction (standard):', introductionMatch[1].trim());
+          setMelodyData(prevData => ({
+            ...prevData,
+            melody_introduction: introductionMatch[1].trim(),
+          }));
+        }
+      }
+      // 프롬프트나 생성 키워드가 포함된 경우의 곡 소개 추출
+      else if (
+        locale.extraction.promptIntroductionRegex &&
+        locale.extraction.promptIntroductionRegex.test(botMessage)
+      ) {
+        const introductionMatch = botMessage.match(locale.extraction.promptIntroductionRegex);
+        // console.log('Introduction match (prompt):', introductionMatch);
+        if (introductionMatch && introductionMatch[1]) {
+          // console.log('Extracted introduction (prompt):', introductionMatch[1].trim());
+          setMelodyData(prevData => ({
+            ...prevData,
+            melody_introduction: introductionMatch[1].trim(),
+          }));
+        }
+      }
+
       // 추출 결과 종합 로그
       console.log('최종 출력 프롬프트 태그:', melodyData?.melody_tag);
       console.log('최종 출력 프롬프트 타이틀:', melodyData?.melody_title);
@@ -420,6 +449,7 @@ const MelodyChatBot = ({
       console.log('최종 출력 프롬프트 악기:', melodyData?.melody_instrument);
       console.log('최종 출력 프롬프트 템포:', melodyData?.melody_tempo);
       console.log('최종 출력 프롬프트 추가 요소/스토리:', melodyData?.melody_detail);
+      console.log('최종 출력 프롬프트 곡 소개:', melodyData?.melody_introduction);
 
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
       console.log('response', response);
@@ -799,9 +829,18 @@ const MelodyChatBot = ({
           <h3>{t('Melody Tempo')}</h3>
           <input type="text" value={melodyData?.melody_tempo} placeholder={t('Enter')} readOnly />
         </div>
-        <div className="music__information__detail">
+        {/* <div className="music__information__detail">
           <h3>{t('Melody Detail')}</h3>
           <input type="text" value={melodyData?.melody_detail} placeholder={t('Enter')} readOnly />
+        </div> */}
+        <div className="music__information__detail">
+          <h3>{t('Melody Introduction')}</h3>
+          <input
+            type="text"
+            value={melodyData?.melody_introduction}
+            placeholder={t('Enter')}
+            readOnly
+          />
         </div>
       </section>
       <div className="music__information__buttons">

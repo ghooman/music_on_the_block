@@ -141,9 +141,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 32px;
+    max-width: 964px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;
 
     .step2__choose__item {
-      width: 300px;
+      // width: 300px;
       padding: 16px;
       border: 1px solid #222;
       border-radius: 12px;
@@ -238,7 +242,12 @@
 @media screen and (max-width: 768px) {
   .step2 {
     .step2__choose {
-      flex-direction: column;
+      grid-template-columns: repeat(1, 1fr);
+      // flex-direction: column;
+      .step2__choose__item {
+        max-width: 300px;
+        margin: 0 auto;
+      }
     }
   }
 }

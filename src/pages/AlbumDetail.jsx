@@ -43,7 +43,7 @@ import LyricsModal from '../components/LyricsModal';
 import { incrementPlayCount } from '../api/incrementPlayCount';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import AlbumItem from '../components/unit/AlbumItem';
-import IntroLogo3 from '../components/IntroLogo3';
+import Loading from '../components/IntroLogo2';
 
 import { WalletConnect } from '../components/WalletConnect';
 // import SongReleaseModal from '../components/SongReleaseModal';
@@ -509,8 +509,6 @@ function AlbumDetail() {
 
   return (
     <>
-      {isLoading && <IntroLogo3 />}
-
       {/* 숨겨진 WalletConnect 컴포넌트 */}
       <div
         ref={walletConnectRef}
@@ -537,7 +535,7 @@ function AlbumDetail() {
           </div>
           <div className="album-detail__song-detail__bot">
             <p className="album-detail__song-detail__bot__title">{album?.title}</p>
-            <div className='album-detail__song-detail__bot__content'>
+            <div className="album-detail__song-detail__bot__content">
               <div className="album-detail__song-detail__left">
                 <div
                   className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
@@ -741,10 +739,14 @@ function AlbumDetail() {
                     <span>{t('Musical Instrument')}</span>
                     <strong>{album?.musical_instrument || '-'}</strong>
                   </p>
-                  <p className="album-detail__song-detail__right__info-box__detail">
-                    <span>{t('Detail')}</span>
-                    <strong>{album?.detail || '-'}</strong>
-                  </p>
+                  {/* <p className="album-detail__song-detail__right__info-box__detail">
+                    <span>{t('Introduction')}</span>
+                    <strong>{album?.introduction || ''}</strong>
+                  </p> */}
+                  <dl>
+                    <dt>{t('Introduction')}</dt>
+                    <dd>{album?.introduction || ''}</dd>
+                  </dl>
 
                   <div className="album-detail__control-guide">
                     <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
@@ -809,9 +811,8 @@ function AlbumDetail() {
                     </button>
                   )}
                 </div>
-              </div>            
+              </div>
             </div>
-
           </div>
         </section>
 
@@ -1002,6 +1003,7 @@ function AlbumDetail() {
           needMint={album?.is_owner && !album?.nft_id}
         />
       )}
+      <Loading isLoading={isLoading} />
     </>
   );
 }

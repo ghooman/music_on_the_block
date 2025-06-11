@@ -5,7 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OpenAI from 'openai';
 import SubBanner from './SubBanner';
-import { SelectItem, SelectItemTempo, SelectItemWrap, SelectItemInputOnly } from './SelectItem';
+import {
+  SelectItem,
+  SelectItemTempo,
+  SelectItemWrap,
+  SelectItemInputOnly,
+  SelectItemIntroInputOnly,
+} from './SelectItem';
 import ExpandedButton from './ExpandedButton';
 import CompleteModal from './../SingUpCompleteModal';
 import subBg1 from '../../assets/images/create/subbanner-bg1.png';
@@ -158,7 +164,8 @@ const MelodyMaker = ({
   selectedPrivacy,
   selectedCreationMode,
 }) => {
-  const { melody_tag, melody_genre, melody_gender, melody_instrument } = melodyData || {};
+  const { melody_tag, melody_genre, melody_gender, melody_instrument, melody_introduction } =
+    melodyData || {};
   const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -186,6 +193,11 @@ const MelodyMaker = ({
       ${melody_instrument ? 'Instrument : ' + melody_instrument.join(', ') : ''}
       Tempo : ${tempo},
       ${melodyDetail ? 'Detail : ' + melodyDetail + ',' : ''}
+      ${
+        melody_introduction && melody_introduction.length > 0
+          ? 'Introduction : ' + melody_introduction + ','
+          : ''
+      }
       `;
   // 함수: promptPreview에서 밸류 부분(콜론(:) 다음의 텍스트만)을 추출하여 하나의 문자열로 만듭니다.
   function extractValues(str) {
@@ -249,7 +261,8 @@ const MelodyMaker = ({
   - Voice/Gender: ${melody_gender?.[0] || ''}
   - Instruments: ${melody_instrument?.join(', ') || ''}
   - Tempo: ${tempo} BPM
-  - Additional Details: ${melodyDetail || ''}`;
+  - Additional Details: ${melodyDetail || ''}
+  - Introduction: ${melody_introduction || ''}`;
 
       // OpenAI 호출
       const response = await client.chat.completions.create({
@@ -359,6 +372,7 @@ const MelodyMaker = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
+          introduction: melody_introduction,
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -474,7 +488,16 @@ const MelodyMaker = ({
           add={true}
         />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
-        <SelectItemInputOnly value={melodyDetail} setter={setMelodyDetail} title={t('Detail')} />
+        <SelectItemInputOnly
+          value={melodyDetail}
+          setter={setMelodyDetail}
+          title={t('Music Detail')}
+        />
+        <SelectItemIntroInputOnly
+          value={melody_introduction}
+          setter={value => setMelodyData(prev => ({ ...prev, melody_introduction: value }))}
+          title={t('Introduction')}
+        />
         <div className="selected-tag-list">
           <div className="selected-tag-list__title">
             <h3>

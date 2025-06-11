@@ -93,7 +93,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       menuName !== 'nft' &&
       menuName !== 'my-page' &&
       menuName !== 'my-favorites' &&
-      menuName !== 'earn'
+      menuName !== 'earn' &&
+      menuName !== 'get'
     ) {
       setPreparingModal(true);
     }
@@ -140,10 +141,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     error: notificationsError,
   } = useQuery({
     queryKey: ['notifications'],
-    queryFn: () => getNotifications(token),
+    queryFn: () => {
+      return getNotifications(token);
+    },
     enabled: !!token, // 토큰이 있을 때만 실행
     refetchInterval: 30000, // 30초마다 자동 새로고침
     refetchIntervalInBackground: false, // 백그라운드에서는 새로고침 안함
+    onSuccess: data => {},
   });
 
   useEffect(() => {
@@ -264,8 +268,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
         // 에러 토스트나 알림을 표시할 수 있습니다
       },
       onSuccess: (data, variables) => {
-        // 성공적으로 삭제되었으므로 아무것도 하지 않음 (이미 optimistic update 적용됨)
+        // 성공적으로 삭제되었으므로 서버에서 최신 데이터를 가져옴
         console.log('알림이 성공적으로 삭제되었습니다');
+        console.log('삭제 응답 데이터:', data);
+        console.log('삭제된 알림 ID:', variables.id);
+        queryClient.invalidateQueries(['notifications']);
       },
       onSettled: (data, error, variables) => {
         // 삭제 중 상태 제거
@@ -324,8 +331,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   };
 
   const [isActive, setIsActive] = useState(false);
-  console.log('isLoading', isLoading);
-  console.log('userData', userData);
+
   return (
     <>
       {/** 반응형 모바일 사이즈 시 menu 클래스의 포지션 영향을 받아 부득이 하게 밖으로 뺐습니다.*/}
@@ -566,7 +572,6 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           )}
                         </dl>
                       </div>
-
                       <div
                         className={`menu__box__my-page__info__bottom ${isActive ? ' active' : ''}`}
                       >
@@ -605,6 +610,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             USDC
                           </span>
                         </div>
+                        <Link
+                          to="/node-viewer"
+                          className="node-viewer-btn"
+                          onClick={() => {
+                            setActiveSingle(null);
+                            setActiveMenus([]);
+                            setActive(false);
+                            setIsActive(false);
+                          }}
+                        >
+                          {t('Node Viewer')}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -712,6 +729,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     <p className="icon"></p>Shop
                   </Link>
                 </div> */}
+
+                <div
+                  className={`menu__box__gnb-list__item  ${
+                    pathname.startsWith('/get') ? 'active' : ''
+                  }`}
+                >
+                  {/* <Link
+                    to="/get"
+                    className="menu__box__gnb-list__item__btn "
+                    onClick={() => handleSingleActive('get')}
+                  >
+                    <p className="icon"></p>
+                    {t('Get')}
+                  </Link> */}
+                </div>
 
                 <div
                   className={`menu__box__gnb-list__item shop ${

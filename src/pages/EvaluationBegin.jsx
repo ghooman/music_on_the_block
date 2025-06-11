@@ -78,6 +78,7 @@ const EvaluationBegin = () => {
 
     let retryCnt = 0;
     let responses = null;
+    let result = null;
 
     // GPT 점수 요청
     const request = async () => {
@@ -97,26 +98,30 @@ const EvaluationBegin = () => {
 
                   다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
 
+                  0. 프롬프트를 끝까지 정독하여 누락된 내용이 절대 없어야함.
                   1. 입력 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함합니다.
                   2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
                   3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
                   4. 각 항목의 점수는 0점에서 100점까지의 실수형태로 평가합니다.
-                  5. 응답은 반드시 한글로 작성하시오.
-                  6. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
+                  5. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
 
                   {
                     "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수(0.0~100.0)
                     "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수(0.0~100.0)
                     "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
                     "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
-                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)
+                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)        
                     "feedback": "",          // 항목별 모든 속성을 반드시 평가 
-                    "to_improve": "",        // 개선이 필요한 점
+                    "to_improve": "",        // 개선이 필요한 점 
                     "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
                     "key_points": ""         // 핵심 개선 포인트 요약
+                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역
+                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역
+                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역
+                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역
                   }
 
-                  7. 응답은 반드시 한글로, 문자열 답변의 경우 ${
+                  7. 응답은 반드시 영어로, 문자열 답변의 경우 ${
                     selectCritic?.speechStyle
                   } 말투로 작성하십시오.
                   8. JSON 이외의 형식으로 응답하지 마십시오.
@@ -124,6 +129,8 @@ const EvaluationBegin = () => {
                   10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
                   11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
                   12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
+                  13. 제시된 JSON 형식을 무조건 따르시오.
+                 
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,
@@ -132,8 +139,30 @@ const EvaluationBegin = () => {
           ],
         });
         responses = JSON.parse(response?.choices[0]?.message?.content);
+        // 간혹 필드 자체를 반환하지 않는 경우가 있습니다
+        // 필드 자체를 반환하지 않을 경우에 대비해 코드가 더럽지만 해당 코드를 추가합니다.
+        const checks = [
+          responses?.emotion,
+          responses?.creativity,
+          responses?.structure,
+          responses?.sound,
+          responses?.popularity,
+          responses?.feedback,
+          responses?.to_improve,
+          responses?.why_this_score,
+          responses?.key_points,
+          responses?.feedback_kr,
+          responses?.to_improve_kr,
+          responses?.why_this_score_kr,
+          responses?.key_points_kr,
+        ].every(item => item);
 
-        return true;
+        if (checks === true) {
+          result = responses;
+          return true;
+        } else {
+          return false;
+        }
       } catch (error) {
         console.error(error);
         return false;
@@ -145,16 +174,17 @@ const EvaluationBegin = () => {
       // JSON 형식 반환 중 에러가 발생하거나
       // GPT 서버 오류로 인한 에러 발생 시
       // 3번까지 재시도
+      console.log(retryCnt, '리트라이 카운트');
       const res = await request();
       if (res === true) retryCnt = 100;
       else retryCnt++;
     }
 
-    if (responses === null) {
-      throw new Error('점수 산정에 실패하였습니다');
+    if (result === null) {
+      throw new Error('Unable to measure the score. Please try again.');
     }
 
-    return responses;
+    return result;
   };
 
   //=================
@@ -377,11 +407,6 @@ const Step1 = ({
           <Search placeholder="Search by song title" />
         </ContentWrap.SubWrap>
         <div className="step1__list">
-          {isLoading && (
-            <div className="step1__list--loading-box">
-              <Loading />
-            </div>
-          )}
           {!isLoading && listData?.length === 0 && <NoneContent message="No data" height={220} />}
           {!isLoading &&
             listData.map(item => (
@@ -426,6 +451,7 @@ const Step1 = ({
           {t('Select')}
         </button> */}
       </div>
+      <Loading isLoading={isLoading} />
     </ContentWrap>
   );
 };
@@ -435,7 +461,6 @@ const Step2 = ({ t, setSelectCritic }) => {
   const critic = searchParams.get('critic');
 
   useEffect(() => {
-    if (!critic) return;
     setSelectCritic(criticsDataForArray.find(item => item.name === critic));
   }, [critic]);
 
@@ -530,7 +555,7 @@ const Step3 = ({
               <p>{selectCritic?.name || '-'}</p>
               {selectCritic && selectMusic && !possibleCntLoading && (
                 <span>
-                  {t('Todays Left')}: <strong>{possibleCnt >= 0 ? possibleCnt : '-'} / 1</strong>
+                  {t('Remaining')}: <strong>{possibleCnt >= 0 ? possibleCnt : '-'} / 1</strong>
                 </span>
               )}
             </dd>

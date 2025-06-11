@@ -16,6 +16,7 @@ import generatedCoverCreationIcon from '../../../assets/images/icon/generated-co
 import FilterDateModal from '../../../components/unit/FilterDateModal';
 import PreparingModal from '../../PreparingModal';
 import SubCategories from '../../unit/SubCategories';
+import Loading from '../../IntroLogo2';
 import { BarChart, LineChart, PieChart } from '../../unit/Chart';
 
 import { formatLocalTime } from '../../../utils/getFormattedTime';
@@ -46,10 +47,13 @@ const AiServices = ({ username }) => {
   );
 
   // 최상단 차트 데이터 GET
-  const { data: aiServiceData } = useQuery(['ai_service_data_overview', username], async () => {
-    const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
-    return res.data;
-  });
+  const { data: aiServiceData, isLoading } = useQuery(
+    ['ai_service_data_overview', username],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
+      return res.data;
+    }
+  );
 
   const aiServiceChartData = [
     {
@@ -128,6 +132,7 @@ const AiServices = ({ username }) => {
 
       {openModal && <FilterDateModal setOpenModal={setOpenModal} />}
       {showPreparingModal && <PreparingModal setPreparingModal={setShowPreparingModal} />}
+      <Loading isLoading={isLoading} />
     </>
   );
 };
@@ -347,8 +352,8 @@ const StatusTemplate = ({ t, categories, select, setSelect, pieChartData, detail
         <div className="ai-status__detail">
           <p className="ai-status__detail-title">{t('AI Service Details')}</p>
           <div className="ai-status__detail-box">
-            {detailData.map(item => (
-              <div className="ai-status__detail-item" key={item.id}>
+            {detailData.map((item, index) => (
+              <div className="ai-status__detail-item" key={index}>
                 <p className="detail-item__title">{t(item.title)}</p>
                 <p className="detail-item__value">{item?.value || '-'}</p>
               </div>

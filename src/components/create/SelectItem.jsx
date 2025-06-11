@@ -346,7 +346,25 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         value={value}
         onChange={e => setter(e.target.value)}
         type="text"
-        placeholder={t('Add a final mood or vibe, if you want.')}
+        placeholder={t('Please enter a specific melody or sound effect.')}
+      />
+    </div>
+  );
+};
+
+export const SelectItemIntroInputOnly = ({ value, setter, title }) => {
+  const { t } = useTranslation('song_create');
+  return (
+    <div className="tag-select">
+      <div className="tag-title__block">
+        <h3 className="tag-title">{title}</h3>
+      </div>
+      <input
+        className="tag-input"
+        value={value}
+        onChange={e => setter(e.target.value)}
+        type="text"
+        placeholder={t('Please provide a description of the song you are creating.')}
       />
     </div>
   );

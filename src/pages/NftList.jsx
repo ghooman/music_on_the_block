@@ -143,7 +143,7 @@ const NFTList = ({
       </ContentWrap.SubWrap>
       <NftItemList data={data?.data_list} />
       <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
-      {isLoading && <Loading />}
+      <Loading isLoading={isLoading} />
     </>
   );
 };
@@ -169,7 +169,7 @@ const CollectionList = ({ page, search, collectionSort }) => {
       </ContentWrap.SubWrap>
       <CollectionItemList data={data?.data_list} />
       <Pagination totalCount={data?.total_cnt} viewCount={9} page={page} />
-      {isLoading && <Loading />}
+      <Loading isLoading={isLoading} />
     </>
   );
 };

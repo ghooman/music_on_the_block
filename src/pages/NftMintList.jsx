@@ -65,8 +65,6 @@ const NftMintList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
-  if (isLoading) return <Loading />;
-
   return (
     <div>
       <ContentWrap title={t('Mint NFT')}>
@@ -102,6 +100,7 @@ const NftMintList = () => {
           // }}
         />
       )}
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

@@ -7,14 +7,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 import { WalletConnect } from '../components/WalletConnect';
-import Loading from '../components/IntroLogo2';
 
 //이미지
-import earnMicIcon from '../assets/images/evaluation/earnMicIcon.svg';
-import algorithmIcon from '../assets/images/evaluation/algorithmIcon.svg';
-import songValueIcon from '../assets/images/evaluation/songValueIcon.svg';
-import newMusicIcon from '../assets/images/evaluation/newMusicIcon.svg';
-import biggerRewardsIcon from '../assets/images/evaluation/biggerRewardsIcon.svg';
+import earnMicIcon from '../assets/images/evaluation/earnMicIcon.png';
+import algorithmIcon from '../assets/images/evaluation/algorithmIcon.png';
+import songValueIcon from '../assets/images/evaluation/songValueIcon.png';
+import newMusicIcon from '../assets/images/evaluation/newMusicIcon.png';
+import biggerRewardsIcon from '../assets/images/evaluation/biggerRewardsIcon.png';
 
 import judgeImg01 from '../assets/images/evaluation/judge-img01.png';
 import judgeImg02 from '../assets/images/evaluation/judge-img02.png';
@@ -28,7 +27,7 @@ import step4Img from '../assets/images/evaluation/step4-img.png';
 const Evaluation = () => {
   const { t } = useTranslation('evaluation');
 
-  const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const { isRegistered, isLoggedIn, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const walletConnectRef = React.useRef(null);
 
   const navigate = useNavigate();
@@ -59,7 +58,7 @@ const Evaluation = () => {
   }, []);
 
   const handleButtonClick = e => {
-    if (!isRegistered) {
+    if (!isRegistered || !isLoggedIn) {
       e.preventDefault();
 
       // 버튼 클릭 이벤트 발생시키기

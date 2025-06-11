@@ -99,6 +99,7 @@ const Create = () => {
     melody_tempo: [],
     melody_detail: [],
     melody_title: [],
+    melody_introduction: [],
   });
   const [melodyDetail, setMelodyDetail] = useState('');
   // 남은 생성횟수 확인

@@ -11,9 +11,9 @@ import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
-import songCreateIcon1 from '../assets/images/album/song-create-icon1.svg';
-import songCreateIcon2 from '../assets/images/album/song-create-icon2.svg';
-import songCreateIcon3 from '../assets/images/album/song-create-icon3.svg';
+import songCreateIcon1 from '../assets/images/album/song-create-icon1.png';
+import songCreateIcon2 from '../assets/images/album/song-create-icon2.png';
+import songCreateIcon3 from '../assets/images/album/song-create-icon3.png';
 
 import PreparingModal from '../components/PreparingModal';
 
@@ -53,7 +53,7 @@ const serverApi = process.env.REACT_APP_SERVER_API;
 
 function Album() {
   const { t } = useTranslation('main');
-  const evaluationSectionRef = useRef(null);  // Add ref for evaluation section
+  const evaluationSectionRef = useRef(null); // Add ref for evaluation section
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { token, walletAddress } = useContext(AuthContext);
@@ -220,6 +220,9 @@ function Album() {
                   {t('very quickly')}
                 </p>
                 <img src={songCreateIcon1} alt="songCreateIcon1" />
+                <p className='main__to-day-header__song-create-list__item__title__sub'>
+                  {t('Try it now')}
+                </p>
               </Link>
               <Link to="/evaluation" className="main__to-day-header__song-create-list__item">
                 <p className="main__to-day-header__song-create-list__item__title">
@@ -228,6 +231,9 @@ function Album() {
                   {t('evaluated')}
                 </p>
                 <img src={songCreateIcon2} alt="songCreateIcon2" />
+                <p className='main__to-day-header__song-create-list__item__title__sub'>
+                  {t('Try it now')}
+                </p>
               </Link>
               <Link
                 onClick={() => setPreparingModal(true)}
@@ -239,6 +245,9 @@ function Album() {
                   {t('with your own voice')}
                 </p>
                 <img src={songCreateIcon3} alt="songCreateIcon3" />
+                <p className='main__to-day-header__song-create-list__item__title__sub'>
+                  {t('Coming soon!')}
+                </p>
               </Link>
             </div>
           </div>
@@ -308,46 +317,45 @@ function Album() {
               isTrackActive={isTrackActive}
             /> */}
 
-
-
-
-          <section className="main__content-item">
-            <article className="album__content-list">
-              <p className="album__content-list__title">
-                {t('Evaluation Stage')}
-                <Link
-                  className="album__content-list__see-more-btn"
-                  to="/song/list?service=AI+Singing+Evaluation"
-                >
-                  {t('See More')}
-                </Link>
-              </p>
-              <article 
-                className="main__content-item__persona" 
-                ref={evaluationSectionRef}
-                // style={{ scrollMarginTop: '-100px' }}
-              >
-                {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
-                  <div
-                    key={index}
-                    className={`main__content-item__persona__item ${
-                      critic === persona?.name ? 'active' : ''
-                    }`}
-                    onClick={() =>
-                      setSearchParams(prev => {
-                        setShowAllEvaluations(false);
-                        return { ...Object.fromEntries(prev), critic: persona.name };
-                      })
-                    }
+            <section className="main__content-item">
+              <article className="album__content-list">
+                <p className="album__content-list__title">
+                  {t('Evaluation Stage')}
+                  <Link
+                    className="album__content-list__see-more-btn"
+                    to="/song/list?service=AI+Singing+Evaluation"
                   >
-                    <img src={persona.image} alt={persona.name} />
-                    <p>{persona.name}</p>
-                  </div>
-                ))}
-              </article>
-              
-              <div className="album__content-list__evaluation-stage">
-                {/* <button className='album__content-list__evaluation-stage__item'>
+                    {t('See More')}
+                  </Link>
+                </p>
+                <article
+                  className="main__content-item__persona"
+                  ref={evaluationSectionRef}
+                  // style={{ scrollMarginTop: '-100px' }}
+                >
+                  {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map(
+                    (persona, index) => (
+                      <div
+                        key={index}
+                        className={`main__content-item__persona__item ${
+                          critic === persona?.name ? 'active' : ''
+                        }`}
+                        onClick={() =>
+                          setSearchParams(prev => {
+                            setShowAllEvaluations(false);
+                            return { ...Object.fromEntries(prev), critic: persona.name };
+                          })
+                        }
+                      >
+                        <img src={persona.image} alt={persona.name} />
+                        <p>{persona.name}</p>
+                      </div>
+                    )
+                  )}
+                </article>
+
+                <div className="album__content-list__evaluation-stage">
+                  {/* <button className='album__content-list__evaluation-stage__item'>
                   <div className='album__content-list__evaluation-stage__item__thought'>
                     <p className='album__content-list__evaluation-stage__item__thought__play'>
                       <img src={coverImg10} alt='coverImg'/>
@@ -366,24 +374,27 @@ function Album() {
                     <button className='details-btn'>Details</button>
                   </div>
                 </button> */}
-                {evaluationListByHighScore.length > 0 && (
-                  <EvaluationListItemWrapper>
-                    {(showAllEvaluations ? evaluationListByHighScore : evaluationListByHighScore.slice(0, 5)).map(item => (
-                      <EvaluationListItem
-                        key={item.id}
-                        data={item}
-                        selectedMusic={currentTrack}
-                        player={audioPlayer}
-                        handler={() => handlePlayEvaluation(item)}
-                      />
-                    ))}
-                  </EvaluationListItemWrapper>
-                )}
-                {evaluationListByHighScore.length <= 0 && (
-                  <NoneContent height={300} message="No evaluation history yet." />
-                )}
+                  {evaluationListByHighScore.length > 0 && (
+                    <EvaluationListItemWrapper>
+                      {(showAllEvaluations
+                        ? evaluationListByHighScore
+                        : evaluationListByHighScore.slice(0, 5)
+                      ).map(item => (
+                        <EvaluationListItem
+                          key={item.id}
+                          data={item}
+                          selectedMusic={currentTrack}
+                          player={audioPlayer}
+                          handler={() => handlePlayEvaluation(item)}
+                        />
+                      ))}
+                    </EvaluationListItemWrapper>
+                  )}
+                  {evaluationListByHighScore.length <= 0 && (
+                    <NoneContent height={300} message="No evaluation history yet." />
+                  )}
 
-                {evaluationListByHighScore.length > 5 && (
+                  {/* {evaluationListByHighScore.length > 5 && (
                   <button 
                     className='album__content-list__evaluation-stage__view-all-btn'
                     onClick={() => {
@@ -401,10 +412,17 @@ function Album() {
                   >
                     {showAllEvaluations ? t('Show less') : t('View all evaluations')}
                   </button>
-                )}
-              </div>
-            </article>
-            {/* <List
+                )} */}
+
+                  <Link
+                    to="/evaluation-stage"
+                    className="album__content-list__evaluation-stage__view-all-btn"
+                  >
+                    {t('View all evaluations')}
+                  </Link>
+                </div>
+              </article>
+              {/* <List
               title={t('Recently Rated')}
               className="recently-rated"
               data={evaluationListByLatest}
@@ -419,9 +437,7 @@ function Album() {
               type="evaluation"
               isTrackActive={isTrackActive}
             /> */}
-          </section>
-
-
+            </section>
 
             <section className="main__nft-market">
               <Link to="/nft" className="main__nft-market__link">
@@ -454,7 +470,8 @@ function Album() {
             </section>
           </article>
         )}
-        {/* {service === 'AI Singing Evaluation' && (
+
+        {service === 'AI Singing Evaluation' && (
           <section className="main__content-item">
             <article className="main__content-item__persona">
               {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
@@ -485,7 +502,6 @@ function Album() {
                 </Link>
               </p>
               <div className="album__content-list__evaluation-stage">
-
                 {evaluationListByHighScore.length > 0 && (
                   <EvaluationListItemWrapper>
                     {evaluationListByHighScore.map(item => (
@@ -520,7 +536,7 @@ function Album() {
               isTrackActive={isTrackActive}
             />
           </section>
-        )} */}
+        )}
 
         <section className="main__stats">
           <dl className="main__stats__title">
@@ -545,7 +561,7 @@ function Album() {
 
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>
-      <IntroLogo2 />
+      <IntroLogo2 autoClose={true} />
       {/* <CreateLoading/> */}
     </>
   );

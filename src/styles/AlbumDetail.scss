@@ -7,20 +7,20 @@
     gap: 16px;
     dt {
       color: #cf0;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 30px;
       font-style: normal;
       line-height: normal;
     }
     dd {
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
       .album-detail__song-detail__right__version {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family: Pretendard500;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
@@ -54,7 +54,7 @@
       }
       p {
         color: #f1f1f1;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 12px;
       }
       &.active {
@@ -136,7 +136,7 @@
       justify-content: space-between;
       .album-detail__song-detail__title {
         color: #cf0;
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 24px;
         font-style: normal;
         line-height: normal;
@@ -159,25 +159,25 @@
     .album-detail__song-detail__bot {
       // display: flex;
       // gap: 16px;
-      .album-detail__song-detail__bot__title{
+      .album-detail__song-detail__bot__title {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family: Pretendard500;
         font-size: 20px;
         font-style: normal;
         margin-bottom: 16px;
-      }//album-detail__song-detail__bot__title--END--
-      .album-detail__song-detail__bot__content{
+      } //album-detail__song-detail__bot__title--END--
+      .album-detail__song-detail__bot__content {
         display: flex;
         gap: 16px;
         width: 100%;
-      }//album-detail__song-detail__bot__content--END--
+      } //album-detail__song-detail__bot__content--END--
       .album-detail__song-detail__left {
         width: 420px;
         flex-shrink: 0;
         position: relative;
-        .album-detail__song-detail__left__title{
+        .album-detail__song-detail__left__title {
           color: #f1f1f1;
-          font-family: Orbitron500;
+          font-family: Pretendard500;
           font-size: 20px;
           font-style: normal;
           margin-bottom: 16px;
@@ -187,7 +187,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           min-height: 52px;
-        }//.album-detail__song-detail__left__title
+        } //.album-detail__song-detail__left__title
         .album-detail__song-detail__left__img__lyrics-btn {
           position: absolute;
           right: 16px;
@@ -196,7 +196,7 @@
           border-radius: 12px;
           padding: 4px 12px;
           color: #fff;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: normal;
@@ -268,7 +268,7 @@
           border-radius: 16px;
           border: 1px solid #cf0;
           color: #fff;
-          font-family: Orbitron500;
+          font-family: Pretendard500;
           font-size: 14px;
           font-style: normal;
           line-height: 100%; /* 14px */
@@ -296,7 +296,7 @@
             align-items: center;
             color: #aaa;
             gap: 6px;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -340,7 +340,7 @@
               align-items: center;
               color: #aaa;
               gap: 6px;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -380,7 +380,7 @@
                 }
                 .nfts-text {
                   color: #fff;
-                  font-family: Orbitron400;
+                  font-family: Pretendard400;
                   font-size: 8px;
                 }
               }
@@ -461,7 +461,7 @@
                   height: 38px;
                   transition: 0.3s;
                   color: #fff;
-                  font-family: Inter400;
+                  font-family: Pretendard400;
                   font-size: 14px;
                   transition: 0.3s;
                   text-align: left;
@@ -489,14 +489,14 @@
           margin-bottom: 24px;
           .album-detail__song-detail__right__title {
             color: #f1f1f1;
-            font-family: Orbitron500;
+            font-family: Pretendard500;
             font-size: 20px;
             font-style: normal;
             line-height: 100%; /* 20px */
           } //album-detail__song-detail__right__title--END--
           .album-detail__song-detail__right__version {
             color: #f1f1f1;
-            font-family: Orbitron500;
+            font-family: Pretendard500;
             font-size: 12px;
             font-style: normal;
             line-height: normal;
@@ -516,7 +516,7 @@
             align-items: center;
             justify-content: center;
             color: var(--Text-dark-title, #1a1a1a);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -588,7 +588,7 @@
             dd {
               padding: 8px 12px 8px 24px;
               color: var(--Text-music-sub, #aaa);
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               font-weight: 400;
@@ -600,7 +600,7 @@
               span {
                 color: var(--Text-music-sub, #aaa);
                 gap: 4px;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
@@ -620,7 +620,7 @@
               }
               .see-more-btn {
                 color: #aaa;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 14px;
                 font-style: normal;
                 line-height: 100%; /* 14px */
@@ -670,7 +670,7 @@
             strong {
               background: #121212;
               color: #aaa;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               font-weight: 400;
@@ -694,7 +694,7 @@
     gap: 4px;
   }
   .album-detail__control-guide--text {
-    font-family: Inter600;
+    font-family: Pretendard600;
     color: #fff;
   }
   .album-detail__control-guide--icon {
@@ -714,7 +714,7 @@
     position: relative;
     transition: 0.2s all;
     top: 0px;
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     height: 40px;
     // padding: 12px;
     color: #1a1a1a;
@@ -990,7 +990,7 @@
     padding: 20px;
     dt {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -1011,7 +1011,7 @@
     }
     dd {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
@@ -1038,7 +1038,7 @@
   } //album-detail__rank-table__title--END--
   .album-detail__filter-btn {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family: Pretendard400;
     font-size: 14px;
     font-style: normal;
     line-height: normal;
@@ -1090,7 +1090,7 @@
             text-align: center;
             color: var(--primary-200, #a9d400);
             text-align: center;
-            font-family: Orbitron400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
@@ -1112,7 +1112,7 @@
             gap: 8px;
             color: #aaa;
             text-align: center;
-            font-family: Inter400;
+            font-family:Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -1127,7 +1127,7 @@
         }
         color: #aaa;
         text-align: center;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
@@ -1152,7 +1152,7 @@
             white-space: nowrap;
             color: #aaa;
             text-align: center;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -1203,7 +1203,7 @@
       top: 0;
       transition: 0.2s;
       color: #1a1a1a;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
@@ -1255,7 +1255,7 @@
     gap: 16px;
     dt {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -1275,7 +1275,7 @@
     }
     dd {
       color: #fff;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 16px;
       font-style: normal;
       line-height: normal;
@@ -1386,7 +1386,7 @@
           justify-content: center;
           color: #fff;
           text-align: center;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 16px; /* 133.333% */
@@ -1401,7 +1401,7 @@
         flex: 1;
         .album__content-list__list__item__right__title {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           text-align: left;
@@ -1427,7 +1427,7 @@
             align-items: center;
             gap: 4px;
             color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -1451,7 +1451,7 @@
             justify-content: center;
             gap: 8px;
             color: var(--Text-music-title, #f1f1f1);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 12px */
@@ -1472,7 +1472,7 @@
             top: 0;
             transition: 0.2s;
             color: var(--Text-dark-title, #1a1a1a);
-            font-family: Orbitron600;
+            font-family: Pretendard600;
             font-size: 12px;
             font-style: normal;
             line-height: normal;
@@ -1508,17 +1508,6 @@
     } //album__content-list__list__item--END--
   } //song-detail-slide--END--
 } //album-detail__slide--END--
-
-.album__content-list__evaluation-stage__view-all-btn{
-  width: 100%;
-  height: 60px;
-  border-radius: 16px;
-  border: 1px solid #cf0;
-  color: #FFF;
-  font-family: Orbitron400;
-  font-size: 16px;
-  margin-top: 16px;
-}//album__content-list__evaluation-stage__view-all-btn--END--
 
 //song-detail--END--
 
@@ -1564,18 +1553,17 @@
 
 @media screen and (max-width: 1200px) {
   .song-detail {
-    
     .album-detail__title {
       dt {
         font-size: 24px;
       }
     }
     .album-detail__song-detail {
-    .album-detail__song-detail__bot{
-      .album-detail__song-detail__bot__content{
-        flex-direction: column;
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__bot__content {
+          flex-direction: column;
+        }
       }
-    }
 
       .album-detail__song-detail__bot {
         flex-direction: column;
@@ -1583,7 +1571,7 @@
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
-            img{
+            img {
               object-fit: contain;
             }
             .album-detail__song-detail__left__img__txt {
@@ -1661,16 +1649,16 @@
 }
 
 @media screen and (max-width: 768px) {
-  .song-detail{
-    .album-detail__song-detail{
-      .album-detail__song-detail__bot{
-        .album-detail__song-detail__left{
-          .album-detail__song-detail__left__img{
-            img{
+  .song-detail {
+    .album-detail__song-detail {
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__left {
+          .album-detail__song-detail__left__img {
+            img {
               object-fit: cover;
             }
           }
-          .album-detail__song-detail__left__title{
+          .album-detail__song-detail__left__title {
             font-size: 16px;
           }
         }
@@ -1681,10 +1669,10 @@
 
 @media screen and (max-width: 480px) {
   .song-detail {
-    .album-detail__song-detail{
-      .album-detail__song-detail__bot{
-        .album-detail__song-detail__left{
-          .album-detail__song-detail__left__title{
+    .album-detail__song-detail {
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__left {
+          .album-detail__song-detail__left__title {
             font-size: 14px;
           }
         }

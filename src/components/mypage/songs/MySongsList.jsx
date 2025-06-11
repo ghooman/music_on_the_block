@@ -150,6 +150,7 @@ const MySongsList = ({ token, username }) => {
         <SubCategories
           categories={topAlbumsCategoryList}
           value={selectAiServiceCategory}
+          translateFn={t}
           handler={value =>
             setSearchParams({
               category: 'Songs',
@@ -227,7 +228,7 @@ const MySongsList = ({ token, username }) => {
           </>
         )}
       </ContentWrap>
-      {(songsListLoading || evaluationListLoading) && <Loading />}
+
       {deleteMusic && (
         <SongDeleteAndReleaseModal
           setter={setDeleteMusic}
@@ -263,6 +264,7 @@ const MySongsList = ({ token, username }) => {
           // }}
         />
       )}
+      <Loading isLoading={songsListLoading || evaluationListLoading} />
     </div>
   );
 };

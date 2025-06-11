@@ -41,7 +41,6 @@ const GetStarted = ({
       keywords: ['Selection', 'Input', 'Control'],
     },
   ];
-  const languages = ['한국어', 'English'];
 
   const handleArticleClick = index => {
     setActiveIndex(index);

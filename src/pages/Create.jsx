@@ -36,7 +36,7 @@ const Create = () => {
   // i18n 언어에 따른 selectedLanguage 자동 설정
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
     const currentLanguage = i18n.language;
-    return currentLanguage === '한국어' ? 'KOR' : 'ENG';
+    return currentLanguage === '한국어' ? 'KOR' : currentLanguage === 'English' ? 'ENG' : 'IDN';
   });
 
   // i18n 언어 변경 감지
@@ -46,6 +46,8 @@ const Create = () => {
       setSelectedLanguage('KOR');
     } else if (currentLanguage === 'English') {
       setSelectedLanguage('ENG');
+    } else if (currentLanguage === 'Indonesia') {
+      setSelectedLanguage('IDN');
     }
   }, [i18n.language]);
   // 사용자 생성 상태 확인 함수

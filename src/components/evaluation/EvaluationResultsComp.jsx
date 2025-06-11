@@ -229,7 +229,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.to_improve || '-'
               : language === '한국어'
               ? evaluationData?.to_improve_kr || '-'
-              : language === 'Bahasa'
+              : language === 'Indonesia'
               ? evaluationData?.to_improve_id || '-'
               : '-'}
           </dd>
@@ -241,7 +241,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.why_this_score || '-'
               : language === '한국어'
               ? evaluationData?.why_this_score_kr || '-'
-              : language === 'Bahasa'
+              : language === 'Indonesia'
               ? evaluationData?.why_this_score_id || '-'
               : '-'}
           </dd>
@@ -253,7 +253,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.key_points || '-'
               : language === '한국어'
               ? evaluationData?.key_points_kr || '-'
-              : language === 'Bahasa'
+              : language === 'Indonesia'
               ? evaluationData?.key_points_id || '-'
               : '-'}
           </dd>

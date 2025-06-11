@@ -11,13 +11,14 @@ import copyCheckIcon from '../assets/images/copy_check.svg';
 import deleteIcon from '../assets/images/mynaui_trash.svg';
 
 import PreparingModal from '../components/PreparingModal';
-import AddNodeWallet from '../components/AddNodeWallet';
+import AddNodeWalletModal from '../components/modal/AddNodeWalletModal';
 import DeleteWallet from '../components/DeleteWallet';
 
 function NodeViewer() {
   const { t } = useTranslation('node_viewer');
   const [addNodeWalletModal, setAddNodeWalletModal] = useState(false);
   const [deleteWalletModal, setDeleteWalletModal] = useState(false);
+
   const fullText =
     '12345678901234567890123456789012345678901234567890123456789012345678901234567890';
 
@@ -25,7 +26,7 @@ function NodeViewer() {
   const shortText =
     fullText.length > 10 ? `${fullText.slice(0, 6)}...${fullText.slice(-4)}` : fullText;
 
-  const [copied, setCopied] = useState(false);
+  const [copiedWallets, setCopiedWallets] = useState({});
 
   const handleCopy = () => {
     navigator.clipboard.writeText(fullText); // 전체 텍스트 복사

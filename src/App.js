@@ -72,6 +72,7 @@ function App() {
 
   // console.log('navigator', navigator);
 
+  // 접속 지역에 따라 자동으로 언어 선택해주는 기능
   useEffect(() => {
     if (language?.startsWith('ko')) {
       i18n.changeLanguage('한국어');

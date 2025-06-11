@@ -220,7 +220,7 @@ function Album() {
                   {t('very quickly')}
                 </p>
                 <img src={songCreateIcon1} alt="songCreateIcon1" />
-                <p className='main__to-day-header__song-create-list__item__title__sub'>
+                <p className="main__to-day-header__song-create-list__item__title__sub">
                   {t('Try it now')}
                 </p>
               </Link>
@@ -231,7 +231,7 @@ function Album() {
                   {t('evaluated')}
                 </p>
                 <img src={songCreateIcon2} alt="songCreateIcon2" />
-                <p className='main__to-day-header__song-create-list__item__title__sub'>
+                <p className="main__to-day-header__song-create-list__item__title__sub">
                   {t('Try it now')}
                 </p>
               </Link>
@@ -245,7 +245,7 @@ function Album() {
                   {t('with your own voice')}
                 </p>
                 <img src={songCreateIcon3} alt="songCreateIcon3" />
-                <p className='main__to-day-header__song-create-list__item__title__sub'>
+                <p className="main__to-day-header__song-create-list__item__title__sub">
                   {t('Coming soon!')}
                 </p>
               </Link>

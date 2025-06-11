@@ -9,7 +9,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.3s ease-out;
 
   &.loading-screen {
     animation: fadeOut 0.5s ease-in forwards;
@@ -37,10 +36,11 @@
     0% {
       opacity: 1;
     }
-    99% {
-      opacity: 0;
-    }
+    // 50% {
+    //   opacity: 0;
+    // }
     100% {
+      opacity: 0;
       display: none;
     } /* display는 JS로 처리하는 게 더 안전함 */
   }

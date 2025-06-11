@@ -1,6 +1,6 @@
 import { useReadContract } from 'thirdweb/react';
-import { mobNftStakingContract } from '../contracts/contract';
-import { useWalletAddress } from './useWalletAddress';
+import { useWalletAddress } from '../useWalletAddress';
+import { mobNftStakingContract } from '../../contract/contracts';
 
 export const useStakedNodeData = () => {
   const walletAddress = useWalletAddress();

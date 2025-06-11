@@ -17,7 +17,7 @@ import DeleteWallet from '../components/DeleteWallet';
 import { getNodeViewer } from '../api/nodeViewerApi';
 
 function NodeViewer() {
-  const { t } = useTranslation('node-viewer');
+  const { t } = useTranslation('node_viewer');
   const { token } = useContext(AuthContext);
   const [addNodeWalletModal, setAddNodeWalletModal] = useState(false);
   const [deleteWalletModal, setDeleteWalletModal] = useState(false);
@@ -31,7 +31,6 @@ function NodeViewer() {
     try {
       const res = await getNodeViewer(token);
       setNodeViewerList(res.data);
-      console.log('fetched data', res.data);
     } catch (error) {
       console.error('NodeViewer 로딩 실패:', error);
     }

@@ -121,5 +121,14 @@
  "Checking for electrifying high notes": "Checking for electrifying high notes",
  "Dancing to the music": "Dancing to the music",
  "Checking if the vocalist swallowed a CD": "Checking if the vocalist swallowed a CD",
- "Going crazy over the music": "Going crazy over the music"
+ "Going crazy over the music": "Going crazy over the music",
+ "Add Node Wallet": "Add Node Wallet",
+ "Wallet Name": "Wallet Name",
+ "Enter Wallet Name": "Enter Wallet Name",
+ "Wallet Address": "Wallet Address",
+ "Enter Wallet Address": "Enter Wallet Address",
+ "The wallet address is incorrect.": "The wallet address is incorrect.",
+ "Add": "Add",
+ "Delete Wallet": "Delete Wallet",
+ "Are you sure you want to delete the registered wallet?": "Are you sure you want to delete the registered wallet?"
 }

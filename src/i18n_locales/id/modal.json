@@ -6,7 +6,7 @@
  "Are you sure you want to delete this song?": "Apakah Anda yakin ingin menghapus lagu ini?",
  "Are you sure you want to release this song?": "Apakah Anda yakin ingin merilis lagu ini?",
  "OK": "OK",
- "Cancel": "Batalkan",
+ "Cancel": "Batal",
  "Delete": "Hapus",
  "Release": "Rilis",
  "Unfollow": "Berhenti Mengikuti",
@@ -121,5 +121,14 @@
  "Checking for electrifying high notes": "Memeriksa nada tinggi yang menggetarkan",
  "Dancing to the music": "Menari mengikuti musik",
  "Checking if the vocalist swallowed a CD": "Memeriksa apakah vokalis menelan CD",
- "Going crazy over the music": "Menjadi tergila-gila karena musik"
+ "Going crazy over the music": "Menjadi tergila-gila karena musik",
+ "Add Node Wallet": "Tambah Dompet Node",
+ "Wallet Name": "Nama Dompet",
+ "Enter Wallet Name": "Masukkan Nama Dompet",
+ "Wallet Address": "Alamat Dompet",
+ "Enter Wallet Address": "Masukkan Alamat Dompet",
+ "The wallet address is incorrect.": "Alamat dompet tidak valid.",
+ "Add": "Tambah",
+ "Delete Wallet": "Hapus Dompet",
+ "Are you sure you want to delete the registered wallet?": "Apakah Anda yakin ingin menghapus dompet yang terdaftar?"
 }

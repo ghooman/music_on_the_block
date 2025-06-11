@@ -102,6 +102,14 @@ const EvaluationBegin = () => {
                 1. 선호하는 장르 : ${selectCritic?.likeGenre.join(', ')}
                 2. 말투 : ${selectCritic?.speechStyle}
                 3. 성향 : ${selectCritic?.judgingPhilosophy}
+                4. 항목별 가중치 (1.0 = 기준 값)
+                  - emotion: ${selectCritic.weights.emotion}
+                  - creativity: ${selectCritic.weights.creativity}
+                  - structure: ${selectCritic.weights.structure}
+                  - sound: ${selectCritic.weights.sound}
+                  - popularity: ${selectCritic.weights.popularity}
+
+                ※ 평가 시 위 항목별 가중치를 반영하여 점수를 산정하십시오.
 
                당신은 음악 평가 전문가이며, 이 데이터를 기반으로 5가지 항목의 점수를 분석하고 평가합니다 :
 
@@ -112,6 +120,7 @@ const EvaluationBegin = () => {
                 4. sound  
                 5. popularity
 
+          
                 각 항목은 다음 특성(features)을 참고하여 평가합니다:
 
                 emotion: spectral_centroid, tonnetz, mfcc, rms  
@@ -150,19 +159,20 @@ const EvaluationBegin = () => {
                   "structure": 0.0,         structure 평가 값 (0.0~100.0)
                   "sound": 0.0,             sound 평가 값 (0.0~100.0)
                   "popularity": 0.0,        popularity 평가 값 (0.0~100.0)
-                  "feedback": "",           emotion, creativity, structure, sound, popularity 값을 종합한 피드백
-                  "to_improve": "",         개선이 필요한 점
-                  "why_this_score": "",     각 점수를 준 이유에 대한 간략한 설명
-                  "key_points": ""          핵심 개선 포인트 요약
+                  "feedback": "",           emotion, creativity, structure, sound, popularity 값을 종합한 피드백 영문으로 반환
+                  "to_improve": "",         개선이 필요한 점 영문으로 반환
+                  "why_this_score": "",     각 점수를 준 이유에 대한 간략한 설명 영문으로 반환
+                  "key_points": ""          핵심 개선 포인트 요약 영문으로 반환
                   "feedback_kr" : "",        "feedback" 속성 값의 한글 번역 심사위원의 말투로
                   "to_improve_kr" : "",        "to_improve" 속성 값의 한글 번역 심사위원의 말투로
                   "why_this_score_kr" : "",    "why_this_score" 속성 값의 한글 번역 심사위원의 말투로
                   "key_points_kr" : "",        "key_points" 속성 값의 한글 번역 심사위원의 말투로
                 }
 
-                 ※ 점수는 소수점 첫째자리까지 반환
-                 ※ 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
-                 ※ 제시된 JSON 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음. 
+                  ※ 가중치가 적용된 최종 점수는 0.0~100.0 사이로 제한하십시오.
+                  ※ 모든 점수는 가중치를 반영하여 조정된 후 소수점 첫째 자리까지 반영하십시오.
+                  ※ 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
+                  ※ 제시된 JSON 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음. 
 
                 `,
               // content: `

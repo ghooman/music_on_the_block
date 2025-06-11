@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Loading from '../Loading';
 
 import { postNodeViewer } from '../../api/nodeViewerApi';
+import { useNodeWalletAddress } from '../../hooks/useNodeWalletAddress';
 
 const AddNodeWalletModal = ({
   setAddNodeWalletModal,
@@ -22,6 +23,8 @@ const AddNodeWalletModal = ({
 
   const [walletName, setWalletName] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
+
+  const { refetch: refetchNodeWallet } = useNodeWalletAddress();
 
   const handleWalletNameChange = e => {
     setWalletName(e.target.value);
@@ -57,10 +60,11 @@ const AddNodeWalletModal = ({
 
       if (response.status === 200 || response.status === 201) {
         // 성공 시 모달 닫기 및 리스트 새로고침
-        setAddNodeWalletModal(false);
+        await refetchNodeWallet();
         if (onSuccess) {
           onSuccess();
         }
+        setAddNodeWalletModal(false);
       }
     } catch (error) {
       console.error('지갑 추가 실패:', error);

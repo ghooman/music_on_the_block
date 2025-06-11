@@ -1,14 +1,15 @@
 import { useReadContract } from 'thirdweb/react';
-import { useWalletAddress } from '../useWalletAddress';
+
+import { useNodeWalletAddress } from '../useNodeWalletAddress';
 import { mobNftStakingContract } from '../../contract/contracts';
 
 export const useStakingReward = () => {
-  const walletAddress = useWalletAddress();
+  const { data: nodeWalletAddress, isLoading } = useNodeWalletAddress();
 
   const { data: stakingRewardData, refetch: refetchStakingRewardData } = useReadContract({
     contract: mobNftStakingContract,
     method: 'function calculateRewards(address user) view returns (uint256)',
-    params: [walletAddress],
+    params: [nodeWalletAddress],
   });
 
   const weiToEth = wei => {

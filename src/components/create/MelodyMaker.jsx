@@ -372,7 +372,7 @@ const MelodyMaker = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
-          introduction: melody_introduction,
+          introduction: melody_introduction || '',
         },
         album_lyrics_info: {
           language: selectedLanguage,

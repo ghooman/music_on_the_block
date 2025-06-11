@@ -15,8 +15,10 @@ import subBg1 from '../../../assets/images/create/subbanner-bg1.png';
 // 언어별 리소스 파일 불러오기
 import koMelody from '../../../locales/koMelody';
 import enMelody from '../../../locales/enMelody';
+import idMelody from '../../../locales/idMelody';
 import enBgmChat from '../../../locales/enBgmChat';
 import koBgmChat from '../../../locales/koBgmChat';
+import idBgmChat from '../../../locales/idBgmChat';
 import { useTranslation } from 'react-i18next';
 const MelodyChatBot = ({
   createLoading,
@@ -48,10 +50,14 @@ const MelodyChatBot = ({
     selectedCreationMode === 'song'
       ? selectedLanguage === 'ENG'
         ? enMelody
-        : koMelody
+        : selectedLanguage === 'IDN'
+        ? koMelody
+        : idMelody
       : selectedLanguage === 'ENG'
       ? enBgmChat
-      : koBgmChat;
+      : selectedLanguage === 'KOR'
+      ? koBgmChat
+      : idBgmChat;
   const {
     melody_tag = [],
     melody_genre = '',

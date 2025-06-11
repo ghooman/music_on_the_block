@@ -1,8 +1,8 @@
 {
- "Song List": null,
- "Search by song title": null,
- "No data": null,
- "AI Lyrics & Songwriting": null,
- "AI Singing Evaluation": null,
- "AI Cover Creation": null
+ "Song List": "Song List",
+ "Search by song title": "Search by song title",
+ "No data": "No data",
+ "AI Lyrics & Songwriting": "AI Lyrics & Songwriting",
+ "AI Singing Evaluation": "AI Singing Evaluation",
+ "AI Cover Creation": "AI Cover Creation"
 }

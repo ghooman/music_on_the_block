@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useUserDetail } from '../../../hooks/useUserDetail';
 import OpenAI from 'openai';
 import jsPDF from 'jspdf';
-import ExpandedButton from '../ExpandedButton';
 import CreateLoading from '../../CreateLoading';
 import { generateKoreanPdf } from '../../../utils/pdfGenerator';
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
@@ -13,6 +12,7 @@ import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 // 언어별 리소스 파일 불러오기
 import koLyric from '../../../locales/koLyric';
 import enLyric from '../../../locales/enLyric';
+import idLyric from '../../../locales/idLyric';
 import { useTranslation } from 'react-i18next';
 const LyricChatBot = ({
   selectedLanguage,
@@ -31,7 +31,14 @@ const LyricChatBot = ({
   const { data: userData } = useUserDetail();
   const generatedLyricsRef = useRef(null);
   // 선택된 언어에 따라 리소스 파일 선택
-  const locale = selectedLanguage === 'KOR' ? koLyric : enLyric;
+  const locale =
+    selectedLanguage === 'KOR'
+      ? koLyric
+      : selectedLanguage === 'ENG'
+      ? enLyric
+      : selectedLanguage === 'IDN'
+      ? idLyric
+      : enLyric;
 
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([

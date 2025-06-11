@@ -118,10 +118,10 @@ const EvaluationBegin = () => {
                     "to_improve": "",        // 개선이 필요한 점 
                     "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
                     "key_points": ""         // 핵심 개선 포인트 요약
-                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역 도널드 트럼프의 말투로
-                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역 도널드 트럼프의 말투로
-                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역 도널드 트럼프의 말투로
-                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역 도널드 트럼프의 말투로
+                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역 
+                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역 
+                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역 
+                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역 
                   }
 
                   7. 응답은 반드시 영어로, 

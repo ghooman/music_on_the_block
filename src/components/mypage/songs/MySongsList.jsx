@@ -150,6 +150,7 @@ const MySongsList = ({ token, username }) => {
         <SubCategories
           categories={topAlbumsCategoryList}
           value={selectAiServiceCategory}
+          translateFn={t}
           handler={value =>
             setSearchParams({
               category: 'Songs',

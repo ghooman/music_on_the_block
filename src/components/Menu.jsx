@@ -141,10 +141,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     error: notificationsError,
   } = useQuery({
     queryKey: ['notifications'],
-    queryFn: () => getNotifications(token),
+    queryFn: () => {
+      return getNotifications(token);
+    },
     enabled: !!token, // 토큰이 있을 때만 실행
     refetchInterval: 30000, // 30초마다 자동 새로고침
     refetchIntervalInBackground: false, // 백그라운드에서는 새로고침 안함
+    onSuccess: data => {},
   });
 
   useEffect(() => {
@@ -265,8 +268,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
         // 에러 토스트나 알림을 표시할 수 있습니다
       },
       onSuccess: (data, variables) => {
-        // 성공적으로 삭제되었으므로 아무것도 하지 않음 (이미 optimistic update 적용됨)
+        // 성공적으로 삭제되었으므로 서버에서 최신 데이터를 가져옴
         console.log('알림이 성공적으로 삭제되었습니다');
+        console.log('삭제 응답 데이터:', data);
+        console.log('삭제된 알림 ID:', variables.id);
+        queryClient.invalidateQueries(['notifications']);
       },
       onSettled: (data, error, variables) => {
         // 삭제 중 상태 제거
@@ -617,9 +623,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           {t('Node Viewer')}
                         </Link>
                       </div>
-
                     </div>
-
                   </div>
                   {/* <button
                     className="menu__box__log-out-btn"

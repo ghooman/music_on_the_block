@@ -739,10 +739,14 @@ function AlbumDetail() {
                     <span>{t('Musical Instrument')}</span>
                     <strong>{album?.musical_instrument || '-'}</strong>
                   </p>
-                  <p className="album-detail__song-detail__right__info-box__detail">
-                    <span>{t('Detail')}</span>
-                    <strong>{album?.detail || '-'}</strong>
-                  </p>
+                  {/* <p className="album-detail__song-detail__right__info-box__detail">
+                    <span>{t('Introduction')}</span>
+                    <strong>{album?.introduction || ''}</strong>
+                  </p> */}
+                  <dl>
+                    <dt>{t('Introduction')}</dt>
+                    <dd>{album?.introduction || ''}</dd>
+                  </dl>
 
                   <div className="album-detail__control-guide">
                     <p className="album-detail__control-guide--text">{t('NFT Status')}</p>

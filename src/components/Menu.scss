@@ -73,7 +73,7 @@
       width: 100%;
       height: 40px;
       color: #1a1a1a;
-      font-family:  Pretendard600;
+      font-family: Pretendard600;
       font-size: 16px;
       font-style: normal;
       line-height: normal;
@@ -91,7 +91,7 @@
     }
     .menu__box__title {
       color: #cf0;
-      font-family:  Pretendard400;
+      font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
@@ -127,7 +127,7 @@
         align-items: center;
         justify-content: center;
         color: var(--Text-dark-title, #1a1a1a);
-        font-family:  Pretendard600;
+        font-family: Pretendard600;
         font-size: 16px;
         font-style: normal;
         line-height: normal;
@@ -391,7 +391,7 @@
           border-radius: 4px;
           transition: 0.3s;
           color: #aaa;
-          font-family:  Pretendard400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 100%; /* 12px */
@@ -471,7 +471,7 @@
               height: 36px;
               width: 100%;
               color: #1a1a1a;
-              font-family:  Pretendard400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               line-height: 100%; /* 12px */
@@ -492,7 +492,7 @@
       .menu-box__lang-notification--button {
         display: flex;
         color: #f1f1f1;
-        font-family:  Pretendard400;
+        font-family: Pretendard400;
         padding: 4px;
         border-radius: 8px;
         font-size: 10px;
@@ -577,7 +577,7 @@
   &.visible {
     padding: 8px 0px;
     opacity: 1;
-    height: 108px;
+    height: calc((40.8px * 3) + 16px);
     padding: 8px 0px;
   }
   &.mobile {
@@ -589,7 +589,7 @@
   padding: 12px 24px;
   color: #1a1a1a;
   font: 12px;
-  font-family:  Pretendard400;
+  font-family: Pretendard400;
 
   &:hover {
     background-color: #a9d400;
@@ -643,7 +643,7 @@
     .menu-box__lang-notification--select-notification-box__header__title {
       color: var(--Text-music-title, #f1f1f1);
       text-align: center;
-      font-family:  Pretendard600;
+      font-family: Pretendard600;
       font-size: 24px;
       font-style: normal;
       line-height: normal;

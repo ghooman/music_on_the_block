@@ -89,6 +89,9 @@ const EvaluationBegin = () => {
             {
               role: 'system',
               content: `
+
+             
+
                 음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
                 가사 : ${selectMusic?.lyrics || '가사 없음.'}
                 심사위원 성향 :
@@ -115,22 +118,23 @@ const EvaluationBegin = () => {
                     "to_improve": "",        // 개선이 필요한 점 
                     "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
                     "key_points": ""         // 핵심 개선 포인트 요약
-                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역
-                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역
-                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역
-                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역
+                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역 도널드 트럼프의 말투로
+                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역 도널드 트럼프의 말투로
+                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역 도널드 트럼프의 말투로
+                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역 도널드 트럼프의 말투로
                   }
 
-                  7. 응답은 반드시 영어로, 문자열 답변의 경우 ${
-                    selectCritic?.speechStyle
-                  } 말투로 작성하십시오.
-                  8. JSON 이외의 형식으로 응답하지 마십시오.
-                  9. 심사위원의 특성에 따른 변별력을 추가하시오
-                  10. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
-                  11. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
-                  12. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
-                  13. 제시된 JSON 형식을 무조건 따르시오.
+                  7. 응답은 반드시 영어로, 
+                  8. 영어 답변과 한글 답변 모두 ${selectCritic?.prompt} 의 설정을 따르시오
+                  9. JSON 이외의 형식으로 응답하지 마십시오.
+                  10. 심사위원의 특성에 따른 변별력을 추가하시오
+                  11. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
+                  12. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
+                  13. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
+                  14. 제시된 JSON 형식을 무조건 따르시오.
                  
+                  ${selectCritic?.prompt}
+
 
                   ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               `,

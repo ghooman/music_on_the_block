@@ -617,9 +617,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           {t('Node Viewer')}
                         </Link>
                       </div>
-
                     </div>
-
                   </div>
                   {/* <button
                     className="menu__box__log-out-btn"

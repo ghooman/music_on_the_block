@@ -121,5 +121,14 @@
  "Checking for electrifying high notes": "전율이 이는 고음을 확인하는 중",
  "Dancing to the music": "음악에 맞춰 춤추는 중",
  "Checking if the vocalist swallowed a CD": "보컬이 CD를 삼켰는지 확인하는 중",
- "Going crazy over the music": "음악에 미쳐가는 중"
+ "Going crazy over the music": "음악에 미쳐가는 중",
+ "Add Node Wallet": "노드 지갑 추가",
+ "Wallet Name": "지갑 이름",
+ "Enter Wallet Name": "지갑 이름 입력",
+ "Wallet Address": "지갑 주소",
+ "Enter Wallet Address": "지갑 주소 입력",
+ "The wallet address is incorrect.": "지갑 주소가 올바르지 않습니다.",
+ "Add": "추가",
+ "Delete Wallet": "지갑 삭제",
+ "Are you sure you want to delete the registered wallet?": "등록된 지갑을 정말 삭제하시겠습니까?"
 }

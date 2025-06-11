@@ -30,7 +30,7 @@ const MelodyChatBot = ({
   setPageNumber,
   melodyData,
   setMelodyData,
-  selectedLanguage, // "KOR" 또는 "ENG"
+  selectedLanguage, // "KOR" 또는 "ENG" 또는 "IDN"
   albumCover,
   setAlbumCover,
   finalPrompt,

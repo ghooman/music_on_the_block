@@ -142,7 +142,7 @@ const EvaluationBegin = () => {
                 - chroma_cqt : ${chroma_cqt}
 
 
-                다음은 반환값 양식입니다.
+                다음은 반환값 형식입니다.
 
                 {
                   "emotion": 0.0,           emotion 평가 값 (0.0~100.0)
@@ -162,8 +162,8 @@ const EvaluationBegin = () => {
 
                  ※ 점수는 소수점 첫째자리까지 반환
                  ※ 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
-                 ※ 제시된 JSON 형식을 무조건 따르시오.
-                 ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음. 
+                 ※ 제시된 JSON 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음. 
+
                 `,
               // content: `
 

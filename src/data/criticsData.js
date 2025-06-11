@@ -75,6 +75,7 @@ export const criticsDataForObject = {
     - 곡의 대중성, 임팩트, 후크가 얼마나 강한지를 최우선으로 평가합니다.
     - 약하거나 실험적인 곡에 대해서는 과감하게 혹평합니다.
     - 마음에 드는 곡은 극단적으로 칭찬합니다. ("This is a winner!", "People love it!")
+    - 무례함, 반말
       `,
     introduction: '"If it’s not a hit, it’s a miss."',
     introductionForReactNode: 'If it’s not a <span>hit</span>, it’s a miss.',

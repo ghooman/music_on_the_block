@@ -1,0 +1,19 @@
+{
+ "Wallet Name": "Nama Dompet",
+ "Owned Nodes": "Node Dimiliki",
+ "Activated Nodes": "Node Diaktifkan",
+ "My Balance": "Saldo Saya",
+ "Earned this session": "Pendapatan Sesi Ini",
+ "Unclaimed": "Belum Diklaim",
+ "Quantity": "Jumlah",
+ "Add Node Wallet": "Tambah Dompet Node",
+ "Enter Wallet Name": "Masukkan Nama Dompet",
+ "Wallet Address": "Alamat Dompet",
+ "Enter Wallet Address": "Masukkan Alamat Dompet",
+ "The wallet address is incorrect.": "Alamat dompet tidak valid.",
+ "Cancel": "Batal",
+ "Add": "Tambah",
+ "Delete Wallet": "Hapus Dompet",
+ "Are you sure you want to delete the registered wallet?": "Apakah Anda yakin ingin menghapus dompet yang terdaftar?",
+ "Delete": "Hapus"
+}

@@ -80,6 +80,14 @@ const EvaluationBegin = () => {
     let responses = null;
     let result = null;
 
+    const { emotion, creativity, structure, sound, popularity } = analysisResult;
+
+    const { spectral_centroid, tonnetz, mfcc, rms } = emotion?.features;
+    const { chroma_stft, spectral_contrast, zero_crossing_rate } = creativity?.features;
+    const { onset_strength, tempo, tempogram, beat_track } = structure?.features;
+    const { spectral_bandwidth, spectral_flatness } = sound?.features;
+    const { chroma_cqt } = popularity?.features;
+
     // GPT 점수 요청
     const request = async () => {
       try {
@@ -89,55 +97,121 @@ const EvaluationBegin = () => {
             {
               role: 'system',
               content: `
+               당신은 다음과 같은 성향의 음악 심사위원입니다 : 
+                
+                1. 선호하는 장르 : ${selectCritic?.likeGenre.join(', ')}
+                2. 말투 : ${selectCritic?.speechStyle}
+                3. 성향 : ${selectCritic?.judgingPhilosophy}
 
-             
+               당신은 음악 평가 전문가이며, 이 데이터를 기반으로 5가지 항목의 점수를 분석하고 평가합니다 :
 
-                음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
-                가사 : ${selectMusic?.lyrics || '가사 없음.'}
-                심사위원 성향 :
-                  - 심사 철학 : ${selectCritic?.judgingPhilosophy}
-                  - 평가 기준 중 다음 항목들을 특히 중시합니다 :
-                            ${selectCritic?.important?.join(', \n')}
+                점수 항목은 다음과 같습니다:  
+                1. emotion  
+                2. creativity  
+                3. structure  
+                4. sound  
+                5. popularity
 
-                  다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
+                각 항목은 다음 특성(features)을 참고하여 평가합니다:
 
-                  0. 프롬프트를 끝까지 정독하여 누락된 내용이 절대 없어야함.
-                  1. 입력 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함합니다.
-                  2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
-                  3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
-                  4. 각 항목의 점수는 0점에서 100점까지의 실수형태로 평가합니다.
-                  5. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
+                emotion: spectral_centroid, tonnetz, mfcc, rms  
+                creativity: chroma_stft, spectral_contrast, zero_crossing_rate  
+                structure: onset_strength, tempo, tempogram, beat_track  
+                sound: mfcc, spectral_bandwidth, rms, spectral_flatness  
+                popularity: tempo, chroma_cqt, spectral_centroid, rms
 
-                  {
-                    "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수(0.0~100.0)
-                    "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수(0.0~100.0)
-                    "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
-                    "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
-                    "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)        
-                    "feedback": "",          // 항목별 모든 속성을 반드시 평가 
-                    "to_improve": "",        // 개선이 필요한 점 
-                    "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
-                    "key_points": ""         // 핵심 개선 포인트 요약
-                    "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역 
-                    "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역 
-                    "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역 
-                    "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역 
-                  }
+              다음은 분석 데이터 입니다.
 
-                  7. 응답은 반드시 영어로, 
-                  8. 영어 답변과 한글 답변 모두 ${selectCritic?.prompt} 의 설정을 따르시오
-                  9. JSON 이외의 형식으로 응답하지 마십시오.
-                  10. 심사위원의 특성에 따른 변별력을 추가하시오
-                  11. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
-                  12. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함, 
-                  13. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
-                  14. 제시된 JSON 형식을 무조건 따르시오.
-                 
-                  ${selectCritic?.prompt}
+                - spectral_centroid : ${spectral_centroid}
+                - tonnetz : ${tonnetz}
+                - mfcc : ${mfcc}
+                - rms : ${rms}
+
+                - chroma_stft : ${chroma_stft}
+                - spectral_contrast : ${spectral_contrast}
+                - zero_crossing_rate : ${zero_crossing_rate}
+
+                - onset_strength : ${onset_strength}
+                - tempo : ${tempo}
+                - tempogram : ${tempogram}
+                - beat_track : ${beat_track}
+
+                - spectral_bandwidth : ${spectral_bandwidth}
+                - spectral_flatness : ${spectral_flatness}
+
+                - chroma_cqt : ${chroma_cqt}
 
 
-                  ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
-              `,
+                다음은 반환값 양식입니다.
+
+                {
+                  "emotion": 0.0,           emotion 평가 값 (0.0~100.0)
+                  "creativity": 0.0,        creativity 평가 값 (0.0~100.0)
+                  "structure": 0.0,         structure 평가 값 (0.0~100.0)
+                  "sound": 0.0,             sound 평가 값 (0.0~100.0)
+                  "popularity": 0.0,        popularity 평가 값 (0.0~100.0)
+                  "feedback": "",           emotion, creativity, structure, sound, popularity 값을 종합한 피드백
+                  "to_improve": "",         개선이 필요한 점
+                  "why_this_score": "",     각 점수를 준 이유에 대한 간략한 설명
+                  "key_points": ""          핵심 개선 포인트 요약
+                  "feedback_kr" : "",        "feedback" 속성 값의 한글 번역 심사위원의 말투로
+                  "to_improve_kr" : "",        "to_improve" 속성 값의 한글 번역 심사위원의 말투로
+                  "why_this_score_kr" : "",    "why_this_score" 속성 값의 한글 번역 심사위원의 말투로
+                  "key_points_kr" : "",        "key_points" 속성 값의 한글 번역 심사위원의 말투로
+                }
+
+                 ※ 점수는 소수점 첫째자리까지 반환
+                 ※ 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
+                 ※ 제시된 JSON 형식을 무조건 따르시오.
+                 ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음. 
+                `,
+              // content: `
+
+              //   음악 분석 데이터 :  ${JSON.stringify(analysisResult)}
+              //   가사 : ${selectMusic?.lyrics || '가사 없음.'}
+              //   심사위원 성향 :
+              //     - 심사 철학 : ${selectCritic?.judgingPhilosophy}
+              //     - 평가 기준 중 다음 항목들을 특히 중시합니다 :
+              //               ${selectCritic?.important?.join(', \n')}
+
+              //     다음 조건에 따라 JSON 형태로 평가 결과를 반환하시오:
+
+              //     0. 프롬프트를 끝까지 정독하여 누락된 내용이 절대 없어야함.
+              //     1. 입력 데이터는 emotion, creativity, structure, sound, popularity 항목을 포함합니다.
+              //     2. 각 항목의 점수는 해당 항목의 features 객체 내 음향 데이터 분석 결과와 가사의 예술성을 종합하여 산출합니다.
+              //     3. 가사가 없는 경우(예: BGM)는 가사 항목을 제외하고 평가합니다.
+              //     4. 각 항목의 점수는 0점에서 100점까지의 실수형태로 평가합니다.
+              //     5. 평가 결과는 다음 JSON 형식을 반드시 준수하여 작성하십시오:
+
+              //     {
+              //       "emotion": 0.0,          // emotion.features 내 데이터 분석 기반 감정 전달력 점수(0.0~100.0)
+              //       "creativity": 0.0,       // creativity.features 내 데이터 분석 기반 창의성 점수(0.0~100.0)
+              //       "structure": 0.0,        // structure.features 내 데이터 분석 기반 구성력 점수(0.0~100.0)
+              //       "sound": 0.0,            // sound.features 내 데이터 분석 기반 사운드 완성도 점수(0.0~100.0)
+              //       "popularity": 0.0,       // popularity.features 내 데이터 분석 기반 대중성 점수(0.0~100.0)
+              //       "feedback": "",          // 항목별 모든 속성을 반드시 평가
+              //       "to_improve": "",        // 개선이 필요한 점
+              //       "why_this_score": "",    // 각 점수를 준 이유에 대한 간략한 설명
+              //       "key_points": ""         // 핵심 개선 포인트 요약
+              //       "feedback_kr" : "",       // "feedback" 속성 값의 한글 번역
+              //       "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역
+              //       "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역
+              //       "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역
+              //     }
+
+              //     7. 응답은 반드시 영어로,
+              //     8. 영어 답변과 한글 답변 모두 ${selectCritic?.prompt} 의 설정을 따르시오
+              //     9. JSON 이외의 형식으로 응답하지 마십시오.
+              //     10. 심사위원의 특성에 따른 변별력을 추가하시오
+              //     11. 분석 결과가 선호하는 장르인 경우 모든 점수부분에 가산점 부여
+              //     12. 음악 분석 데이터의 항목별 features 내의 모든 속성은 반드시 점수 산정에 영향을 미쳐야 함,
+              //     13. 값이 없는 항목은 존재할 수 없음. 모든 항목에 값이 있어야 함.
+              //     14. 제시된 JSON 형식을 무조건 따르시오.
+
+              //     ${selectCritic?.prompt}
+
+              //     ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
+              // `,
             },
             // { role: 'user', content: `${JSON.stringify(analysisResult)}` },
           ],
@@ -173,7 +247,7 @@ const EvaluationBegin = () => {
       }
     };
 
-    while (retryCnt < 3) {
+    while (retryCnt < 5) {
       // 에러 발생 시 재시도
       // JSON 형식 반환 중 에러가 발생하거나
       // GPT 서버 오류로 인한 에러 발생 시

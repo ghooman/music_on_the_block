@@ -9,7 +9,7 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family:  Pretendard600;
+  font-family: Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -57,7 +57,7 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family:  Pretendard600;
+  font-family: Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -141,6 +141,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 32px;
+
     .step2__choose__item {
       width: 300px;
       padding: 16px;
@@ -150,6 +151,7 @@
       transition: 0.3s;
       img {
         width: 100%;
+        border-radius: 12px;
       }
       &.active {
         border: 1px solid #cf0;
@@ -157,13 +159,13 @@
       .step2__choose__item__title {
         dt {
           color: #f1f1f1;
-          font-family:  Pretendard600;
+          font-family: Pretendard600;
           font-size: 16px;
           margin: 8px;
           span {
             color: #cf0;
             text-align: center;
-            font-family:  Pretendard600;
+            font-family: Pretendard600;
             font-size: 16px;
           }
         }

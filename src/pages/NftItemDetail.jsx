@@ -639,12 +639,13 @@ const TrackInformation = ({ id }) => {
             isLong
           />
           <NftOverviewItem title={t('Type')} value="Lyrics + Songwriting" isTwo typeImg />
-          <NftOverviewItem title={t('Language')} value={activityData?.nft_language || '-'} isTwo />
-          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} />
-          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} />
+          {/* <NftOverviewItem title={t('Language')} value={activityData?.nft_language || '-'} isTwo /> */}
+          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} isTwo/>
+          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} isTwo/>
           <NftOverviewItem
             title={t('Musical Instrument')}
             value={activityData?.nft_musical_instrument || '-'}
+            isTwo
           />
           <NftOverviewItem title="Tempo" value={activityData?.nft_tempo || '-'} isTwo />
           <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} isTwo />

@@ -352,8 +352,8 @@ const StatusTemplate = ({ t, categories, select, setSelect, pieChartData, detail
         <div className="ai-status__detail">
           <p className="ai-status__detail-title">{t('AI Service Details')}</p>
           <div className="ai-status__detail-box">
-            {detailData.map(item => (
-              <div className="ai-status__detail-item" key={item.id}>
+            {detailData.map((item, index) => (
+              <div className="ai-status__detail-item" key={index}>
                 <p className="detail-item__title">{t(item.title)}</p>
                 <p className="detail-item__value">{item?.value || '-'}</p>
               </div>

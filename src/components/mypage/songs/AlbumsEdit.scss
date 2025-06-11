@@ -1,12 +1,12 @@
 .albums-edit {
   .albums-edit__title {
     color: #cf0;
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     font-size: 30px;
   }
   .albums-edit__album-name {
     color: #f1f1f1;
-    font-family: Orbitron500;
+    font-family:  Pretendard500;
     font-size: 20px;
   }
 
@@ -20,7 +20,7 @@
     top: 0px;
     transition: 0.2s all;
     color: #1a1a1a;
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
 
     &:hover {
       top: 4px;
@@ -57,7 +57,7 @@
     justify-content: center;
     padding: 0 12px;
     color: var(--Text-music-sub, #aaa);
-    font-family: Orbitron500;
+    font-family:  Pretendard500;
     font-size: 14px;
     font-style: normal;
     transition: 0.3s;
@@ -76,7 +76,7 @@
       background: #cf0;
       border: 1px solid #cf0;
       color: var(--Text-dark-title, #1a1a1a);
-      font-family: Orbitron500;
+      font-family:  Pretendard500;
       font-size: 14px;
       &::after {
         background: #000;

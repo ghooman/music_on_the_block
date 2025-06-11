@@ -47,7 +47,7 @@ function Get() {
             <dl className="get__content__item__remaining-time">
               <dt>{t('Remaining Time')}</dt>
               <dd>
-                <Timer fontSize={18} color={'#00FFB3'} fontFamily={'Inter700'} textWidth={10} />
+                <Timer fontSize={18} color={'#00FFB3'} fontFamily={'Pretendard700'} textWidth={10} />
               </dd>
             </dl>
           </Link>
@@ -76,7 +76,7 @@ function Get() {
             <dl className="get__content__item__remaining-time">
               <dt>{t('Remaining Time')}</dt>
               <dd>
-                <Timer fontSize={18} color={'#00FFB3'} fontFamily={'Inter700'} textWidth={10} />
+                <Timer fontSize={18} color={'#00FFB3'} fontFamily={'Pretendard700'} textWidth={10} />
               </dd>
             </dl>
           </Link>
@@ -105,7 +105,7 @@ function Get() {
             <dl className="get__content__item__remaining-time">
               <dt>{t('Remaining Time')}</dt>
               <dd>
-                <Timer fontSize={18} color={'#00FFB3'} fontFamily={'Inter700'} textWidth={10} />
+                <Timer fontSize={18} color={'#00FFB3'} fontFamily={'Pretendard700'} textWidth={10} />
               </dd>
             </dl>
           </Link>

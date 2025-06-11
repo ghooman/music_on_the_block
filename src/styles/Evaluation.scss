@@ -12,7 +12,7 @@
   top: 0;
   transition: 0.2s;
   color: var(--Text-dark-title, #1a1a1a);
-  font-family: Orbitron600;
+  font-family:  Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -89,7 +89,7 @@
         align-items: center;
         gap: 8px;
         color: #FFF;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 18px;
         img{
           width: 40px;
@@ -99,7 +99,7 @@
       }
       dd{
         color: var(--Text-music-sub, #AAA);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
       }
     }
@@ -121,12 +121,12 @@
       height: 58px;
       color:#F1F1F1;
       text-align: center;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 16px;
       padding: 0 16px;
       span{
         color: #CF0;
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 16px;
       }
       &.one{
@@ -143,7 +143,7 @@
       align-items: center;
       justify-content: center;
       color: var(--Text-music-title, #F1F1F1);
-      font-family: Inter500;
+      font-family: Pretendard500;
       font-size: 14px;
     }//judge__name--END--
     .judge__txt{
@@ -151,7 +151,7 @@
       border: 1px solid var(--Color-03, #222);
       padding: 8px 12px;
       color:#AAA;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
     }//judge__txt--END--
   }//judge__item--END--
@@ -196,13 +196,13 @@
       width: 100%;
       dt{
         color: #FFF;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 16px;
         margin-bottom: 8px;
       }
       dd{
         color: var(--Text-music-sub, #AAA);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 12px;
       }
     }//ai-step__item__txt--END--
@@ -220,7 +220,7 @@
       margin-left: 32px;
       .ai-step__item__step__title{
         color: var(--primary-base, #CF0);
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 24px;
       }
       &::before{

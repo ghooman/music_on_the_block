@@ -60,6 +60,7 @@ const MelodyChatBot = ({
     melody_tempo = '',
     melody_detail = '',
     melody_title = '',
+    melody_introduction = '',
   } = melodyData || {};
 
   const genrePreset = {
@@ -170,17 +171,26 @@ const MelodyChatBot = ({
         console.log('Attempting to extract from prompt format...');
       }
 
+      // 텍스트 정리 함수 (괄호 제거하고 내용 보존)
+      const cleanExtractedText = text => {
+        if (!text) return text;
+        // 괄호 안의 내용을 보존하면서 괄호만 제거
+        return text
+          .replace(/\(([^)]*)\)/g, ' $1') // 완전한 괄호 쌍에서 괄호만 제거하고 내용 보존
+          .replace(/[()]/g, '') // 남은 홀로 있는 괄호들 제거
+          .replace(/\s+/g, ' ') // 여러 공백을 하나로 정리
+          .trim();
+      };
+
       // [태그 추출]
       if (locale.extraction.tagRegex.test(botMessage)) {
         const tagMatch = botMessage.match(locale.extraction.tagRegex);
-        console.log('Tag match (standard):', tagMatch);
         if (tagMatch && tagMatch[1]) {
           const extractedTags = tagMatch[1]
             .trim()
             .split(',')
-            .map(tag => tag.trim().replace(/^['"]+|['"]+$/g, ''))
+            .map(tag => cleanExtractedText(tag.trim().replace(/^['"]+|['"]+$/g, '')))
             .filter(tag => tag !== ''); // 빈 태그 필터링
-          console.log('Extracted tags (standard):', extractedTags);
           setMelodyData(prevData => ({
             ...prevData,
             melody_tag: extractedTags,
@@ -188,19 +198,43 @@ const MelodyChatBot = ({
         }
       }
       // 프롬프트나 생성 키워드가 포함된 경우의 태그 추출
-      else if (
-        locale.extraction.promptTagRegex &&
-        locale.extraction.promptTagRegex.test(botMessage)
-      ) {
-        const tagMatch = botMessage.match(locale.extraction.promptTagRegex);
-        console.log('Tag match (prompt):', tagMatch);
-        if (tagMatch && tagMatch[1]) {
-          const extractedTags = tagMatch[1]
+      else if (hasPromptKeyword) {
+        let extractedTagString = '';
+
+        // 1. 괄호 형식 체크
+        if (locale.extraction.promptTagRegex && locale.extraction.promptTagRegex.test(botMessage)) {
+          const tagMatch = botMessage.match(locale.extraction.promptTagRegex);
+          if (tagMatch && tagMatch[1]) {
+            extractedTagString = tagMatch[1];
+          }
+        }
+        // 2. 콜론 형식 체크
+        else if (
+          locale.extraction.promptTagRegex2 &&
+          locale.extraction.promptTagRegex2.test(botMessage)
+        ) {
+          const tagMatch = botMessage.match(locale.extraction.promptTagRegex2);
+          if (tagMatch && tagMatch[1]) {
+            extractedTagString = tagMatch[1];
+          }
+        }
+        // 3. 맨 앞 나열 형식 체크
+        else if (
+          locale.extraction.promptTagRegex3 &&
+          locale.extraction.promptTagRegex3.test(botMessage)
+        ) {
+          const tagMatch = botMessage.match(locale.extraction.promptTagRegex3);
+          if (tagMatch && tagMatch[1]) {
+            extractedTagString = tagMatch[1];
+          }
+        }
+
+        if (extractedTagString) {
+          const extractedTags = extractedTagString
             .trim()
             .split(',')
-            .map(tag => tag.trim().replace(/^['"]+|['"]+$/g, ''))
+            .map(tag => cleanExtractedText(tag.trim().replace(/^['"]+|['"]+$/g, '')))
             .filter(tag => tag !== ''); // 빈 태그 필터링
-          console.log('Extracted tags (prompt):', extractedTags);
           setMelodyData(prevData => ({
             ...prevData,
             melody_tag: extractedTags,
@@ -211,12 +245,11 @@ const MelodyChatBot = ({
       // [곡의 타이틀 추출]
       if (locale.extraction.titleRegex.test(botMessage)) {
         const titleMatch = botMessage.match(locale.extraction.titleRegex);
-        console.log('Title match (standard):', titleMatch);
         if (titleMatch && titleMatch[1]) {
-          console.log('Extracted title (standard):', titleMatch[1].trim());
+          const cleanTitle = cleanExtractedText(titleMatch[1].trim());
           setMelodyData(prevData => ({
             ...prevData,
-            melody_title: titleMatch[1].trim(),
+            melody_title: cleanTitle,
           }));
         }
       }
@@ -226,12 +259,11 @@ const MelodyChatBot = ({
         locale.extraction.promptTitleRegex.test(botMessage)
       ) {
         const titleMatch = botMessage.match(locale.extraction.promptTitleRegex);
-        console.log('Title match (prompt):', titleMatch);
         if (titleMatch && titleMatch[1]) {
-          console.log('Extracted title (prompt):', titleMatch[1].trim());
+          const cleanTitle = cleanExtractedText(titleMatch[1].trim());
           setMelodyData(prevData => ({
             ...prevData,
-            melody_title: titleMatch[1].trim(),
+            melody_title: cleanTitle,
           }));
         }
       }
@@ -239,12 +271,11 @@ const MelodyChatBot = ({
       // [장르 추출]
       if (locale.extraction.genreRegex.test(botMessage)) {
         const genreMatch = botMessage.match(locale.extraction.genreRegex);
-        console.log('Genre match (standard):', genreMatch);
         if (genreMatch && genreMatch[1]) {
-          console.log('Extracted genre (standard):', genreMatch[1].trim());
+          const cleanGenre = cleanExtractedText(genreMatch[1].trim());
           setMelodyData(prevData => ({
             ...prevData,
-            melody_genre: genreMatch[1].trim(),
+            melody_genre: cleanGenre,
           }));
         }
       }
@@ -254,41 +285,42 @@ const MelodyChatBot = ({
         locale.extraction.promptGenreRegex.test(botMessage)
       ) {
         const genreMatch = botMessage.match(locale.extraction.promptGenreRegex);
-        console.log('Genre match (prompt):', genreMatch);
         if (genreMatch && genreMatch[1]) {
-          console.log('Extracted genre (prompt):', genreMatch[1].trim());
+          const cleanGenre = cleanExtractedText(genreMatch[1].trim());
           setMelodyData(prevData => ({
             ...prevData,
-            melody_genre: genreMatch[1].trim(),
+            melody_genre: cleanGenre,
           }));
         }
       }
 
-      // [보이스 추출]
-      if (locale.extraction.voiceRegex.test(botMessage)) {
-        const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
-        console.log('Voice match (standard):', voiceMatch);
-        if (voiceMatch && voiceMatch[1]) {
-          console.log('Extracted voice (standard):', voiceMatch[1].trim());
-          setMelodyData(prevData => ({
-            ...prevData,
-            melody_gender: voiceMatch[1].trim(),
-          }));
+      // [보이스 추출] - Song 모드에서만 실행
+      if (selectedCreationMode === 'song') {
+        if (locale.extraction.voiceRegex && locale.extraction.voiceRegex.test(botMessage)) {
+          const voiceMatch = botMessage.match(locale.extraction.voiceRegex);
+          if (voiceMatch && voiceMatch[1]) {
+            const cleanVoice = cleanExtractedText(voiceMatch[1].trim());
+            setMelodyData(prevData => ({
+              ...prevData,
+              melody_gender: cleanVoice,
+            }));
+          }
         }
-      }
-      // 프롬프트나 생성 키워드가 포함된 경우의 보이스 추출
-      else if (
-        locale.extraction.promptVoiceRegex &&
-        locale.extraction.promptVoiceRegex.test(botMessage)
-      ) {
-        const voiceMatch = botMessage.match(locale.extraction.promptVoiceRegex);
-        console.log('Voice match (prompt):', voiceMatch);
-        if (voiceMatch && voiceMatch[1]) {
-          console.log('Extracted voice (prompt):', voiceMatch[1].trim());
-          setMelodyData(prevData => ({
-            ...prevData,
-            melody_gender: voiceMatch[1].trim(),
-          }));
+        // 프롬프트나 생성 키워드가 포함된 경우의 보이스 추출
+        else if (
+          locale.extraction.promptVoiceRegex &&
+          locale.extraction.promptVoiceRegex.test(botMessage)
+        ) {
+          const voiceMatch = botMessage.match(locale.extraction.promptVoiceRegex);
+          // console.log('Voice match (prompt):', voiceMatch);
+          if (voiceMatch && voiceMatch[1]) {
+            const cleanVoice = cleanExtractedText(voiceMatch[1].trim());
+            // console.log('Extracted voice (prompt):', cleanVoice);
+            setMelodyData(prevData => ({
+              ...prevData,
+              melody_gender: cleanVoice,
+            }));
+          }
         }
       }
 
@@ -296,8 +328,8 @@ const MelodyChatBot = ({
       // 영어의 경우 'Instruments ('를 사용하도록 업데이트합니다.
       if (locale.extraction.instrumentRegex.test(botMessage)) {
         const instrumentMatch = botMessage.match(locale.extraction.instrumentRegex);
-        console.log('Instrument match (standard):', instrumentMatch);
-        console.log('Full message:', botMessage);
+        // console.log('Instrument match (standard):', instrumentMatch);
+        // console.log('Full message:', botMessage);
 
         if (instrumentMatch && instrumentMatch[1]) {
           const instrumentStr = instrumentMatch[1].trim();
@@ -307,7 +339,7 @@ const MelodyChatBot = ({
             ? bracketsMatch[1].split(/,\s*/).map(item => item.trim())
             : instrumentStr.split(/,\s*/).map(item => item.trim());
 
-          console.log('Extracted instruments (standard):', instrumentArray);
+          // console.log('Extracted instruments (standard):', instrumentArray);
           setMelodyData(prevData => ({
             ...prevData,
             melody_instrument: instrumentArray,
@@ -320,8 +352,8 @@ const MelodyChatBot = ({
         locale.extraction.promptInstrumentRegex.test(botMessage)
       ) {
         const instrumentMatch = botMessage.match(locale.extraction.promptInstrumentRegex);
-        console.log('Instrument match (prompt):', instrumentMatch);
-        console.log('Full message for prompt match:', botMessage);
+        // console.log('Instrument match (prompt):', instrumentMatch);
+        // console.log('Full message for prompt match:', botMessage);
 
         if (instrumentMatch && instrumentMatch[1]) {
           const instrumentStr = instrumentMatch[1].trim();
@@ -331,7 +363,6 @@ const MelodyChatBot = ({
             ? bracketsMatch[1].split(/,\s*/).map(item => item.trim())
             : instrumentStr.split(/,\s*/).map(item => item.trim());
 
-          console.log('Extracted instruments (prompt):', instrumentArray);
           setMelodyData(prevData => ({
             ...prevData,
             melody_instrument: instrumentArray,
@@ -339,14 +370,12 @@ const MelodyChatBot = ({
         }
       } else {
         // 직접 악기 부분을 찾는 시도
-        console.log('Trying direct instrument extraction');
         const directMatch =
           botMessage.match(/악기\s*\(([\s\S]*?)\)/i) ||
           botMessage.match(/Instruments\s*\(([\s\S]*?)\)/i);
 
         if (directMatch && directMatch[1]) {
           const instrumentArray = directMatch[1].split(/,\s*/).map(item => item.trim());
-          console.log('Direct instrument extraction:', instrumentArray);
           setMelodyData(prevData => ({
             ...prevData,
             melody_instrument: instrumentArray,
@@ -357,12 +386,13 @@ const MelodyChatBot = ({
       // [템포 추출]
       if (locale.extraction.tempoRegex.test(botMessage)) {
         const tempoMatch = botMessage.match(locale.extraction.tempoRegex);
-        console.log('Tempo match (standard):', tempoMatch);
+        // console.log('Tempo match (standard):', tempoMatch);
         if (tempoMatch && tempoMatch[1]) {
-          console.log('Extracted tempo (standard):', tempoMatch[1].trim());
+          const cleanTempo = cleanExtractedText(tempoMatch[1].trim());
+          // console.log('Extracted tempo (standard):', cleanTempo);
           setMelodyData(prevData => ({
             ...prevData,
-            melody_tempo: tempoMatch[1].trim(),
+            melody_tempo: cleanTempo,
           }));
         }
       }
@@ -372,37 +402,38 @@ const MelodyChatBot = ({
         locale.extraction.promptTempoRegex.test(botMessage)
       ) {
         const tempoMatch = botMessage.match(locale.extraction.promptTempoRegex);
-        console.log('Tempo match (prompt):', tempoMatch);
+        // console.log('Tempo match (prompt):', tempoMatch);
         if (tempoMatch && tempoMatch[1]) {
-          console.log('Extracted tempo (prompt):', tempoMatch[1].trim());
+          const cleanTempo = cleanExtractedText(tempoMatch[1].trim());
+          // console.log('Extracted tempo (prompt):', cleanTempo);
           setMelodyData(prevData => ({
             ...prevData,
-            melody_tempo: tempoMatch[1].trim(),
+            melody_tempo: cleanTempo,
           }));
         }
       }
 
-      // [추가 요소/스토리 추출]
+      // [추가 요소]
       if (locale.extraction.detailRegex.test(botMessage)) {
         const detailMatch = botMessage.match(locale.extraction.detailRegex);
-        console.log('Detail match (standard):', detailMatch);
+        // console.log('Detail match (standard):', detailMatch);
         if (detailMatch && detailMatch[1]) {
-          console.log('Extracted detail (standard):', detailMatch[1].trim());
+          // console.log('Extracted detail (standard):', detailMatch[1].trim());
           setMelodyData(prevData => ({
             ...prevData,
             melody_detail: detailMatch[1].trim(),
           }));
         }
       }
-      // 프롬프트나 생성 키워드가 포함된 경우의 추가 요소/스토리 추출
+      // 프롬프트나 생성 키워드가 포함된 경우의 추가 요소
       else if (
         locale.extraction.promptDetailRegex &&
         locale.extraction.promptDetailRegex.test(botMessage)
       ) {
         const detailMatch = botMessage.match(locale.extraction.promptDetailRegex);
-        console.log('Detail match (prompt):', detailMatch);
+        // console.log('Detail match (prompt):', detailMatch);
         if (detailMatch && detailMatch[1]) {
-          console.log('Extracted detail (prompt):', detailMatch[1].trim());
+          // console.log('Extracted detail (prompt):', detailMatch[1].trim());
           setMelodyData(prevData => ({
             ...prevData,
             melody_detail: detailMatch[1].trim(),
@@ -410,8 +441,43 @@ const MelodyChatBot = ({
         }
       }
 
+      // [곡 소개 추출]
+      if (locale.extraction.introductionRegex.test(botMessage)) {
+        const introductionMatch = botMessage.match(locale.extraction.introductionRegex);
+        // console.log('Introduction match (standard):', introductionMatch);
+        if (introductionMatch && introductionMatch[1]) {
+          // console.log('Extracted introduction (standard):', introductionMatch[1].trim());
+          setMelodyData(prevData => ({
+            ...prevData,
+            melody_introduction: introductionMatch[1].trim(),
+          }));
+        }
+      }
+      // 프롬프트나 생성 키워드가 포함된 경우의 곡 소개 추출
+      else if (
+        locale.extraction.promptIntroductionRegex &&
+        locale.extraction.promptIntroductionRegex.test(botMessage)
+      ) {
+        const introductionMatch = botMessage.match(locale.extraction.promptIntroductionRegex);
+        // console.log('Introduction match (prompt):', introductionMatch);
+        if (introductionMatch && introductionMatch[1]) {
+          // console.log('Extracted introduction (prompt):', introductionMatch[1].trim());
+          setMelodyData(prevData => ({
+            ...prevData,
+            melody_introduction: introductionMatch[1].trim(),
+          }));
+        }
+      }
+
       // 추출 결과 종합 로그
-      console.log('Extraction complete. Current melody data:', melodyData);
+      console.log('최종 출력 프롬프트 태그:', melodyData?.melody_tag);
+      console.log('최종 출력 프롬프트 타이틀:', melodyData?.melody_title);
+      console.log('최종 출력 프롬프트 장르:', melodyData?.melody_genre);
+      console.log('최종 출력 프롬프트 보이스:', melodyData?.melody_gender);
+      console.log('최종 출력 프롬프트 악기:', melodyData?.melody_instrument);
+      console.log('최종 출력 프롬프트 템포:', melodyData?.melody_tempo);
+      console.log('최종 출력 프롬프트 추가 요소:', melodyData?.melody_detail);
+      console.log('최종 출력 프롬프트 곡 소개:', melodyData?.melody_introduction);
 
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
       console.log('response', response);
@@ -619,6 +685,7 @@ const MelodyChatBot = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
+          introduction: melody_introduction || '',
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -791,9 +858,18 @@ const MelodyChatBot = ({
           <h3>{t('Melody Tempo')}</h3>
           <input type="text" value={melodyData?.melody_tempo} placeholder={t('Enter')} readOnly />
         </div>
-        <div className="music__information__detail">
+        {/* <div className="music__information__detail">
           <h3>{t('Melody Detail')}</h3>
           <input type="text" value={melodyData?.melody_detail} placeholder={t('Enter')} readOnly />
+        </div> */}
+        <div className="music__information__detail">
+          <h3>{t('Melody Introduction')}</h3>
+          <input
+            type="text"
+            value={melodyData?.melody_introduction}
+            placeholder={t('Enter')}
+            readOnly
+          />
         </div>
       </section>
       <div className="music__information__buttons">

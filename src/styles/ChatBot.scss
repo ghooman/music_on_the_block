@@ -33,7 +33,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         color: $text-color;
         text-align: left;
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 18px;
       }
     }
@@ -76,7 +76,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               border-radius: 8px;
               background: #cf0;
               color: #1a1a1a;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               padding: 12px;
               white-space: break-spaces;
@@ -104,7 +104,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               border-radius: 8px;
               background: #1a1a1a;
               color: #f1f1f1;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               padding: 12px;
               white-space: break-spaces;
@@ -142,7 +142,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       textarea {
         resize: none;
         color: #f1f1f1;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         all: unset;
         width: 100%;
@@ -163,7 +163,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       background: #cf0;
       transition: 0.2s;
       color: var(--Text-dark-title, #1a1a1a);
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
@@ -210,7 +210,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     border: 1px solid #222;
     margin-top: 16px;
     transition: 0.3s;
-    height: 58px;
+    height: 54px;
     &.active {
       height: auto;
       .music__information__header {
@@ -231,7 +231,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       position: relative;
       h2 {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -305,7 +305,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         top: 0;
         transition: 0.2s;
         color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
+        font-family: Pretendard600;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
@@ -367,7 +367,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
 .music__information__story {
   h3 {
     color: var(--Text-music-title, #f1f1f1);
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     // font-size: 18px;
     font-style: normal;
     line-height: normal;
@@ -380,7 +380,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   input,
   textarea {
     color: var(--Text-music-title, #f1f1f1);
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 14px;
     font-style: normal;
     line-height: normal;

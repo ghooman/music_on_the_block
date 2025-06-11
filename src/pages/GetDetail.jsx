@@ -46,7 +46,7 @@ const GetDetail = () => {
               {t('Round')} #3 {t('in progress')}
             </p>
             <p className="get-race-content-box__text green fs14 fw700">
-              <Timer fontSize={14} color={'#00d293'} fontFamily={'Inter700'} textWidth={9} />
+              <Timer fontSize={14} color={'#00d293'} fontFamily={'Pretendard700'} textWidth={9} />
             </p>
           </div>
           {/** */}
@@ -113,7 +113,7 @@ const GetDetail = () => {
             <p className="get-race-content-box__text green fs14 fw400">{t('REMAINING TIME')}</p>
             <p className="get-race-content-box__text yellow fs18 fw500">
               {/* 4D 23H 32M */}
-              <Timer fontSize={18} color={'#ffd700'} fontFamily={'Inter700'} textWidth={11} />
+              <Timer fontSize={18} color={'#ffd700'} fontFamily={'Pretendard700'} textWidth={11} />
             </p>
           </div>
           {/** */}

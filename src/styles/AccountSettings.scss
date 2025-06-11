@@ -1,7 +1,7 @@
 .account-setting {
   .account-setting--title {
     color: var(--primary-base, #cf0);
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     font-size: 30px;
     font-style: normal;
     line-height: normal;
@@ -21,7 +21,7 @@
     .account-setting__info-box {
       .info-box__title {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
         line-height: normal;
@@ -36,7 +36,7 @@
       .info-box__picture-box {
         .picture-box__title {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Orbitron500;
+          font-family:  Pretendard500;
           font-size: 18px;
           font-style: normal;
           line-height: normal;
@@ -70,7 +70,7 @@
         }
         .picture-box__desc {
           color: var(--primary-200, #a9d400);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           line-height: normal;
@@ -82,7 +82,7 @@
       width: 100%;
       .background-box__title {
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -127,7 +127,7 @@
       }
       .background-box__desc {
         color: var(--primary-200, #a9d400);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
@@ -141,7 +141,7 @@
         margin-bottom: 16px;
         .user-info__title {
           color: var(--Text-music-title, #f1f1f1);
-          font-family: Orbitron500;
+          font-family:  Pretendard500;
           font-size: 18px;
           font-style: normal;
           line-height: normal;
@@ -153,7 +153,7 @@
           justify-content: space-between;
           .user-info__count {
             color: var(--primary-200, #a9d400);
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: 100%; /* 14px */
@@ -162,7 +162,7 @@
         }
         .user-info__desc {
           color: var(--primary-200, #a9d400);
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           line-height: normal;
@@ -198,7 +198,7 @@
             color: var(--Text-dark-title, #1a1a1a);
             border-radius: 12px;
             background: var(--primary-base, #cf0);
-            font-family: Orbitron600;
+            font-family:  Pretendard600;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -230,7 +230,7 @@
     .details__header {
       .details__title {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
         line-height: normal;
@@ -247,7 +247,7 @@
       margin-bottom: 16px;
       .details__item-title {
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -316,7 +316,7 @@
     display: flex;
     gap: 8px;
     color: #aaa;
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -335,7 +335,7 @@
     height: 54px;
     border-radius: 12px;
     background: var(--primary-base, #cf0);
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     font-size: 18px;
     font-style: normal;
     line-height: normal;
@@ -392,7 +392,7 @@
     .social__header {
       .social__title {
         color: var(--primary-base, #cf0);
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
         line-height: normal;
@@ -403,7 +403,7 @@
       width: 100%;
       .social__item-title {
         color: var(--Text-music-title, #f1f1f1);
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -412,7 +412,7 @@
       }
       .social__desc {
         color: var(--primary-200, #a9d400);
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
@@ -447,7 +447,7 @@
           color: var(--Text-dark-title, #1a1a1a);
           border-radius: 12px;
           background: var(--primary-base, #cf0);
-          font-family: Orbitron600;
+          font-family:  Pretendard600;
           font-size: 14px;
           font-style: normal;
           line-height: normal;

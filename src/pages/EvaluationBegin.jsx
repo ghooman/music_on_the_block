@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAudio } from '../contexts/AudioContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -25,6 +25,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { criticsDataForArray } from '../data/criticsData';
 
 import '../styles/EvaluationBegin.scss';
+import { ResponsiveLine } from '@nivo/line';
 
 const EvaluationBegin = () => {
   let TO;
@@ -159,14 +160,20 @@ const EvaluationBegin = () => {
                   "structure": 0.0,         structure 평가 값 (0.0~100.0)
                   "sound": 0.0,             sound 평가 값 (0.0~100.0)
                   "popularity": 0.0,        popularity 평가 값 (0.0~100.0)
-                  "feedback": "",           emotion, creativity, structure, sound, popularity 값을 종합한 피드백 영문으로 반환
-                  "to_improve": "",         개선이 필요한 점 영문으로 반환
-                  "why_this_score": "",     각 점수를 준 이유에 대한 간략한 설명 영문으로 반환
-                  "key_points": ""          핵심 개선 포인트 요약 영문으로 반환
+                  "feedback": "",           emotion, creativity, structure, sound, popularity 값을 종합한 피드백 영문으로 반환 심사위원의 말투로
+                  "to_improve": "",         개선이 필요한 점 영문으로 반환 심사위원의 말투로
+                  "why_this_score": "",     각 점수를 준 이유에 대한 간략한 설명 영문으로 반환 심사위원의 말투로
+                  "key_points": ""          핵심 개선 포인트 요약 영문으로 반환 심사위원의 말투로
+
                   "feedback_kr" : "",        "feedback" 속성 값의 한글 번역 심사위원의 말투로
                   "to_improve_kr" : "",        "to_improve" 속성 값의 한글 번역 심사위원의 말투로
                   "why_this_score_kr" : "",    "why_this_score" 속성 값의 한글 번역 심사위원의 말투로
                   "key_points_kr" : "",        "key_points" 속성 값의 한글 번역 심사위원의 말투로
+
+                  "feedback_id" : "",        "feedback" 속성 값의 인도네시아어 번역 심사위원의 말투로
+                  "to_improve_id" : "",        "to_improve" 속성 인도네시아어 한글 번역 심사위원의 말투로
+                  "why_this_score_id" : "",    "why_this_score" 속성 값의 인도네시아어 번역 심사위원의 말투로
+                  "key_points_id" : "",        "key_points" 속성 값의 인도네시아어 번역 심사위원의 말투로
                 }
 
                   ※ 가중치가 적용된 최종 점수는 0.0~100.0 사이로 제한하십시오.
@@ -223,7 +230,6 @@ const EvaluationBegin = () => {
               //     ※ 이 형식을 무조건 따르시오. JSON 외 다른 형식은 허용되지 않음.
               // `,
             },
-            // { role: 'user', content: `${JSON.stringify(analysisResult)}` },
           ],
         });
         responses = JSON.parse(response?.choices[0]?.message?.content);
@@ -235,14 +241,21 @@ const EvaluationBegin = () => {
           responses?.structure,
           responses?.sound,
           responses?.popularity,
+          // 피드백 영어
           responses?.feedback,
           responses?.to_improve,
           responses?.why_this_score,
           responses?.key_points,
+          // 피드백 한국어
           responses?.feedback_kr,
           responses?.to_improve_kr,
           responses?.why_this_score_kr,
           responses?.key_points_kr,
+          // 피드백 인도네시아어
+          responses?.feedback_id,
+          responses?.to_improve_id,
+          responses?.why_this_score_id,
+          responses?.key_points_id,
         ].every(item => item);
 
         if (checks === true) {

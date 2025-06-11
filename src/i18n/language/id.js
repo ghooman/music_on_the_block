@@ -12,6 +12,7 @@ import sign_up from '../../i18n_locales/id/sign_up.json';
 import evaluation from '../../i18n_locales/id/evaluation.json';
 import error from '../../i18n_locales/id/error.json';
 import get from '../../i18n_locales/id/get.json';
+import node_viewer from '../../i18n_locales/id/node_viewer.json';
 
 export const id = {
   main,
@@ -28,4 +29,5 @@ export const id = {
   evaluation,
   error,
   get,
+  node_viewer,
 };

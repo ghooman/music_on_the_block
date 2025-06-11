@@ -17,7 +17,7 @@ const API_KEY = process.env.REACT_APP_TRANSLATE_KEY;
     const sheet = doc.sheetsByIndex[i];
     await sheet.loadCells();
     const rows = await sheet.getRows();
-    let langs = ['en', 'ko', 'id'];
+    let langs = ['en', 'ko', 'id']; // ['ko', 'en', 'it']
 
     const jsonData = {};
 

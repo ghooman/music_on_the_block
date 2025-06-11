@@ -76,7 +76,7 @@ function App() {
   useEffect(() => {
     if (language?.startsWith('ko')) {
       i18n.changeLanguage('한국어');
-    } else if (language.startsWith('id')) {
+    } else if (language?.startsWith('id')) {
       i18n.changeLanguage('Bahasa');
     } else {
       i18n.changeLanguage('English');

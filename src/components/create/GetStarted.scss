@@ -14,7 +14,7 @@
   }
   .create__get-started--subtitle {
     color: #aaa;
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
     font-size: 32px;
     letter-spacing: 0.96px;
     margin-bottom: 40px;
@@ -30,7 +30,7 @@
 
   .create__get-started--features-title {
     color: #f1f1f1;
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
     font-size: 18px;
     letter-spacing: 0.54px;
     margin-bottom: 8px;
@@ -48,7 +48,7 @@
   }
   .create__get-started--button {
     color: #1a1a1a;
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
     letter-spacing: 0.48px;
     padding: 8px 10px;
     border-radius: 12px;
@@ -104,7 +104,7 @@
   }
   .tw-connect-wallet {
     color: #1a1a1a;
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
     letter-spacing: 0.48px;
     padding: 8px 10px;
     border-radius: 12px;
@@ -117,7 +117,7 @@
     border-radius: 12px;
     padding: 8px 24px;
     color: #000;
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
   }
 
   $color1: #555;
@@ -383,7 +383,7 @@
 
     h3 {
       color: #f1f1f1;
-      font-family:  Pretendard600;
+      font-family: Pretendard600;
       font-size: 16px;
       margin-bottom: 8px;
     }
@@ -397,7 +397,7 @@
       gap: 12px;
       border-radius: 12px;
       background: var(--Color-02, #1a1a1a);
-      width: 269px;
+      width: 360px;
     }
 
     .privacy-option {
@@ -438,6 +438,20 @@
         color: #aaa;
         font-family: Pretendard400;
         cursor: pointer;
+      }
+    }
+  }
+}
+// 반응형 임시 코드
+@media screen and (max-width: 1300px) {
+  .create__get-started--radio-box {
+    flex-direction: column;
+    .created__get-started--privacy,
+    .created__get-started--creation-mode {
+      width: 100%;
+      .privacy-option,
+      .creation-mode-options {
+        width: 100%;
       }
     }
   }

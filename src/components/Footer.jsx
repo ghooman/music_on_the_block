@@ -111,14 +111,6 @@ const Footer = ({ setIsLoggedIn }) => {
     return `${hash.slice(0, 5)}...${hash.slice(-4)}`;
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('English');
-
-  const handleSelect = lang => {
-    setSelectedLang(lang);
-    setIsOpen(false);
-  };
-
   return (
     <>
       <div className="footer">
@@ -176,23 +168,6 @@ const Footer = ({ setIsLoggedIn }) => {
                 <span className="footer__top__left__contact-text">Contact :&nbsp;</span>
                 <a href="mailto:contact@musicontheblock.com">contact@musicontheblock.com</a>
               </div>
-              {/* <div className="footer__top__left__language">
-                <p className="footer__top__left__language__title">Language</p>
-                <div
-                  className={`footer__top__left__language__select-box ${isOpen ? "active" : ""}`}
-                >
-                  <p
-                    className="footer__top__left__language__select-box__title"
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    {selectedLang}
-                  </p>
-                  <ul className="footer__top__left__language__select-box__list">
-                    <li onClick={() => handleSelect("English")}>English</li>
-                    <li onClick={() => handleSelect("Korea")}>Korea</li>
-                  </ul>
-                </div>
-              </div> */}
             </article>
             <article className="footer__top__right">
               <div className="footer__top__right__menu">

@@ -119,6 +119,10 @@ const EvaluationBegin = () => {
                     "to_improve_kr" : "",       // "to_improve" 속성 값의 한글 번역
                     "why_this_score_kr" : "",   // "why_this_score" 속성 값의 한글 번역
                     "key_points_kr" : "",       // "key_points" 속성 값의 한글 번역
+                    "feedback_id" : "",       // "feedback" 속성 값의 인도네시아어 번역
+                    "to_improve_id" : "",       // "to_improve" 속성 값의 인도네시아어 번역
+                    "why_this_score_id" : "",   // "why_this_score" 속성 값의 인도네시아어 번역
+                    "key_points_id" : "",       // "key_points" 속성 값의 인도네시아어 번역
                   }
 
                   7. 응답은 반드시 영어로, 문자열 답변의 경우 ${

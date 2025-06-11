@@ -75,8 +75,10 @@ function App() {
   useEffect(() => {
     if (language?.startsWith('ko')) {
       i18n.changeLanguage('한국어');
-    } else {
+    } else if (language?.startsWith('en')) {
       i18n.changeLanguage('English');
+    } else if (language?.startsWith('id')) {
+      i18n.changeLanguage('Indonesia');
     }
   }, [language]);
 
@@ -325,12 +327,11 @@ function App() {
                   path="node-viewer"
                   element={
                     <Layout>
-                      <NodeViewer/>
+                      <NodeViewer />
                     </Layout>
                   }
                 />
               </Routes>
-              
             </div>
           </AudioProvider>
         </WebSocketProvider>

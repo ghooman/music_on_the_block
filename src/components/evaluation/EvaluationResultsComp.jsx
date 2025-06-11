@@ -208,6 +208,8 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.feedback
               : language === '한국어'
               ? evaluationData?.feedback_kr || '-'
+              : language === 'Indonesia'
+              ? evaluationData?.feedback_id || '-'
               : '-'}
           </div>
           {/* <button
@@ -227,6 +229,8 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.to_improve || '-'
               : language === '한국어'
               ? evaluationData?.to_improve_kr || '-'
+              : language === 'Indonesia'
+              ? evaluationData?.to_improve_id || '-'
               : '-'}
           </dd>
         </dl>
@@ -237,6 +241,8 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.why_this_score || '-'
               : language === '한국어'
               ? evaluationData?.why_this_score_kr || '-'
+              : language === 'Indonesia'
+              ? evaluationData?.why_this_score_id || '-'
               : '-'}
           </dd>
         </dl>
@@ -247,6 +253,8 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.key_points || '-'
               : language === '한국어'
               ? evaluationData?.key_points_kr || '-'
+              : language === 'Indonesia'
+              ? evaluationData?.key_points_id || '-'
               : '-'}
           </dd>
         </dl>

@@ -86,38 +86,35 @@
   src: url('./assets/fonts/Inter_24pt-Bold.ttf');
 }
 
-
 @font-face {
-  font-family: "Pretendard400";
-  src: url("./assets/fonts/Pretendard-Regular.woff");
+  font-family: 'Pretendard400';
+  src: url('./assets/fonts/Pretendard-Regular.woff');
 }
 
 @font-face {
-  font-family: "Pretendard500";
-  src: url("./assets/fonts/Pretendard-Medium.woff");
+  font-family: 'Pretendard500';
+  src: url('./assets/fonts/Pretendard-Medium.woff');
 }
 
 @font-face {
-  font-family: "Pretendard600";
-  src: url("./assets/fonts/Pretendard-SemiBold.woff");
+  font-family: 'Pretendard600';
+  src: url('./assets/fonts/Pretendard-SemiBold.woff');
 }
 
 @font-face {
-  font-family: "Pretendard700";
-  src: url("./assets/fonts/Pretendard-Bold.woff");
+  font-family: 'Pretendard700';
+  src: url('./assets/fonts/Pretendard-Bold.woff');
 }
 
 @font-face {
-  font-family: "Pretendard800";
-  src: url("./assets/fonts/Pretendard-ExtraBold.woff");
+  font-family: 'Pretendard800';
+  src: url('./assets/fonts/Pretendard-ExtraBold.woff');
 }
 
 @font-face {
-  font-family: "Pretendard900";
-  src: url("./assets/fonts/Pretendard-Black.woff");
+  font-family: 'Pretendard900';
+  src: url('./assets/fonts/Pretendard-Black.woff');
 }
-
-
 
 html,
 body {

@@ -21,7 +21,7 @@ const VoiceTrainer = () => {
   useEffect(() => {
     const fetchVoiceModels = async () => {
       try {
-        const response = await axios.get('https://arpeggi.io/api/kits/v1/voice-models/1814757', {
+        const response = await axios.get('https://arpeggi.io/api/kits/v1/voice-models/1815024', {
           headers: { Authorization: `Bearer ${kitsApiKey}` },
         });
         console.log('fetchVoiceModels response:', response.data);

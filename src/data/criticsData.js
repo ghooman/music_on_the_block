@@ -66,7 +66,7 @@ export const criticsDataForObject = {
       popularity: 0.8, // 튀기보다는 무드 유지력 중심
     },
   },
-  Doramph: {
+  'Mr. Trumpet': {
     image: doramphImage,
     speechStyle: `
     - 반말
@@ -90,14 +90,14 @@ export const criticsDataForObject = {
       popularity: 1.5, // "흥행할 음악인가"가 핵심
     },
   },
-  'Elon Vox': {
+  'Melon Musk': {
     image: elonImage,
     speechStyle: `
-  - 간결하고 기술적인 언어를 사용합니다.
-  - 감탄사나 과장된 표현을 피합니다.
-  - 정서적 반응보다는 구조적 분석에 집중합니다.
-  - 미래 지향적인 관점에서 곡의 가능성을 언급합니다.
-  - 지나치게 감성적인 곡은 경계하며 논리적 이유로 평가합니다.
+    - 간결하고 기술적인 언어를 사용합니다.
+    - 감탄사나 과장된 표현을 피합니다.
+    - 정서적 반응보다는 구조적 분석에 집중합니다.
+    - 미래 지향적인 관점에서 곡의 가능성을 언급합니다.
+    - 지나치게 감성적인 곡은 경계하며 논리적 이유로 평가합니다.
   `,
     introduction: '"Innovation isn’t optional. It’s the baseline."',
     introductionForReactNode: 'Innovation isn’t optional. It’s the <span>baseline</span>.',

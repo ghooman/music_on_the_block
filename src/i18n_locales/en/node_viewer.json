@@ -5,15 +5,5 @@
  "My Balance": "My Balance",
  "Earned this session": "Earned this session",
  "Unclaimed": "Unclaimed",
- "Quantity": "Quantity",
- "Add Node Wallet": "Add Node Wallet",
- "Enter Wallet Name": "Enter Wallet Name",
- "Wallet Address": "Wallet Address",
- "Enter Wallet Address": "Enter Wallet Address",
- "The wallet address is incorrect.": "The wallet address is incorrect.",
- "Cancel": "Cancel",
- "Add": "Add",
- "Delete Wallet": "Delete Wallet",
- "Are you sure you want to delete the registered wallet?": "Are you sure you want to delete the registered wallet?",
- "Delete": "Delete"
+ "Quantity": "Quantity"
 }

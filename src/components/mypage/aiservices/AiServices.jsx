@@ -230,23 +230,11 @@ const EvaluationStatus = ({ t, username }) => {
     }
   };
 
-  const aiStatusChartData = [
-    {
-      id: 'Jinwoo Yoo',
-      value: findCriticsCount('Jinwoo Yoo'),
-      color: 'hsl(101, 100.00%, 26.10%)',
-    },
-    {
-      id: 'Drexx',
-      value: findCriticsCount('Drexx'),
-      color: 'hsl(139, 100.00%, 11.00%)',
-    },
-    {
-      id: 'Elara Moon',
-      value: findCriticsCount('Elara Moon'),
-      color: 'hsl(170, 100.00%, 11.00%)',
-    },
-  ];
+  const chartss = criticsDataForArray.map((critic, index) => ({
+    id: critic?.name,
+    value: findCriticsCount(critic.name),
+    color: `hsl(10${index * 60}, 100.00%, 26.10%)`,
+  }));
 
   return (
     <StatusTemplate
@@ -254,7 +242,7 @@ const EvaluationStatus = ({ t, username }) => {
       categories={categories}
       select={select}
       setSelect={setSelect}
-      pieChartData={aiStatusChartData}
+      pieChartData={chartss}
       detailData={detailsArray}
     />
   );

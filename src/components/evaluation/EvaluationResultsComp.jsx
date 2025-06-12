@@ -208,7 +208,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
               ? evaluationData?.feedback
               : language === '한국어'
               ? evaluationData?.feedback_kr || '-'
-              : language === 'Indonesia'
+              : language === 'Bahasa'
               ? evaluationData?.feedback_id || '-'
               : '-'}
           </div>

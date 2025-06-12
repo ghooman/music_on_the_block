@@ -20,7 +20,7 @@
     top: 0;
     transition: 0.2s;
     color: #1a1a1a;
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
     font-size: 12px;
     font-style: normal;
     line-height: normal;
@@ -59,7 +59,7 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family:  Pretendard600;
+  font-family: Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -113,7 +113,7 @@
       dt {
         color: var(--Text-music-title, #f1f1f1);
         text-align: center;
-        font-family:  Pretendard600;
+        font-family: Pretendard600;
         font-size: 16px;
         padding: 0 16px;
       }
@@ -220,9 +220,11 @@
     .full-evaluation__feed-back__human {
       width: 100px;
       flex-shrink: 0;
+
       img {
         width: 100%;
         object-fit: cover;
+        border-radius: 12px;
       }
       .full-evaluation__feed-back__human__title {
         color: #aaa;
@@ -252,14 +254,14 @@
       }
       .ull-evaluation__feed-back__txt__title {
         color: #aaa;
-        font-family:  Pretendard400;
+        font-family: Pretendard400;
         font-size: 18px;
         width: 100%;
       } //ull-evaluation__feed-back__txt__title--END--
       .ull-evaluation__feed-back__txt__memo {
         width: 100%;
         color: #f1f1f1;
-        font-family:  Pretendard400;
+        font-family: Pretendard400;
         font-size: 14px;
         margin: 8px 0;
 

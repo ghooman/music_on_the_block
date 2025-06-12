@@ -11,10 +11,15 @@ import copyCheckIcon from '../assets/images/copy_check.svg';
 import deleteIcon from '../assets/images/mynaui_trash.svg';
 
 import PreparingModal from '../components/PreparingModal';
-import AddNodeWallet from '../components/AddNodeWallet';
+import AddNodeWalletModal from '../components/modal/AddNodeWalletModal';
 import DeleteWallet from '../components/DeleteWallet';
 
 import { getNodeViewer } from '../api/nodeViewerApi';
+import { useOwnedNftData } from '../hooks/node-hooks/useOwnedNftData';
+import { useStakedNodeData } from '../hooks/node-hooks/useStakedNodeData';
+import { useStakingReward } from '../hooks/node-hooks/useStakingReward';
+import { useNodeWalletTokenBalance } from '../hooks/node-hooks/useNodeWalletTokenBalance';
+import { useNodeWalletAddress } from '../hooks/useNodeWalletAddress';
 
 function NodeViewer() {
   const { t } = useTranslation('node_viewer');
@@ -22,6 +27,7 @@ function NodeViewer() {
   const [addNodeWalletModal, setAddNodeWalletModal] = useState(false);
   const [deleteWalletModal, setDeleteWalletModal] = useState(false);
   const [nodeViewerList, setNodeViewerList] = useState([]);
+  console.log('nodeViewerList', nodeViewerList);
   const [deleteWalletId, setDeleteWalletId] = useState(null);
 
   const [isError, setIsError] = useState(false);
@@ -30,6 +36,7 @@ function NodeViewer() {
   const fetchNodeViewer = async () => {
     try {
       const res = await getNodeViewer(token);
+      console.log('getNodeViewer', res);
       setNodeViewerList(res.data);
     } catch (error) {
       console.error('NodeViewer 로딩 실패:', error);
@@ -60,12 +67,39 @@ function NodeViewer() {
     }, 2000);
   };
 
+  // ===== 수량 =====
+
+  const { ownedNftBalance } = useOwnedNftData();
+  const { stakedNftBalance } = useStakedNodeData();
+  const { stakingReward } = useStakingReward();
+  const { mobBalance } = useNodeWalletTokenBalance();
+  console.log('mobBalance', mobBalance);
+
+  //
+  const { data: nodeWalletAddress, isLoading } = useNodeWalletAddress();
+  console.log('nodeWalletAddress', nodeWalletAddress);
+
+  // 리워드 실시간 증가량
+  const [liveReward, setLiveReward] = useState(0);
+
+  useEffect(() => {
+    // 1초마다 리워드 증가 (15% 차감 적용)
+    const rewardPerSecond = (60 / 86400) * Number(stakedNftBalance || 0) * 0.85;
+    const interval = setInterval(() => {
+      setLiveReward(prev => prev + rewardPerSecond);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [stakedNftBalance]);
+
   return (
     <>
       <div className="node-viewer">
-        <button className="node-viewer__add-btn" onClick={() => setAddNodeWalletModal(true)}>
-          <img src={plusIcon} alt="plus" /> {t('Add Node Wallet')}
-        </button>
+        {nodeViewerList.length === 0 && (
+          <button className="node-viewer__add-btn" onClick={() => setAddNodeWalletModal(true)}>
+            <img src={plusIcon} alt="plus" /> {t('Add Node Wallet')}
+          </button>
+        )}
         <div className="node-viewer__list">
           {nodeViewerList.map(item => (
             <section className="node-viewer__list__item">
@@ -102,7 +136,7 @@ function NodeViewer() {
                   </p>
                   <div className="node-viewer__list__item__content-wrap01__item__content">
                     <div className="node-viewer__list__item__content-wrap01__item__content__number">
-                      0
+                      {ownedNftBalance}
                     </div>
                     <p className="node-viewer__list__item__content-wrap01__item__content__quantity">
                       {t('Quantity')}
@@ -115,7 +149,7 @@ function NodeViewer() {
                   </p>
                   <div className="node-viewer__list__item__content-wrap01__item__content">
                     <div className="node-viewer__list__item__content-wrap01__item__content__number">
-                      0
+                      {stakedNftBalance}
                     </div>
                     <p className="node-viewer__list__item__content-wrap01__item__content__quantity">
                       {t('Quantity')}
@@ -130,7 +164,7 @@ function NodeViewer() {
                   </p>
                   <div className="node-viewer__list__item__content-wrap02__item__content">
                     <div className="node-viewer__list__item__content-wrap02__item__content__number">
-                      0.0000
+                      {mobBalance}
                     </div>
                     <p className="node-viewer__list__item__content-wrap02__item__content__mob">
                       {t('MOB')}
@@ -143,7 +177,7 @@ function NodeViewer() {
                   </p>
                   <div className="node-viewer__list__item__content-wrap02__item__content">
                     <div className="node-viewer__list__item__content-wrap02__item__content__number">
-                      0.0000
+                      {liveReward.toFixed(4)}
                     </div>
                     <p className="node-viewer__list__item__content-wrap02__item__content__mob">
                       {t('MOB')}
@@ -156,7 +190,7 @@ function NodeViewer() {
                   </p>
                   <div className="node-viewer__list__item__content-wrap02__item__content">
                     <div className="node-viewer__list__item__content-wrap02__item__content__number">
-                      0.0000
+                      {stakingReward}
                     </div>
                     <p className="node-viewer__list__item__content-wrap02__item__content__mob">
                       {t('MOB')}
@@ -169,7 +203,7 @@ function NodeViewer() {
         </div>
       </div>
       {addNodeWalletModal && (
-        <AddNodeWallet
+        <AddNodeWalletModal
           setAddNodeWalletModal={setAddNodeWalletModal}
           token={token}
           isError={isError}

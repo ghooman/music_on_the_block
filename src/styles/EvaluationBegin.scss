@@ -150,6 +150,7 @@
       transition: 0.3s;
       img {
         width: 100%;
+        max-height: 226px;
       }
       &.active {
         border: 1px solid #cf0;

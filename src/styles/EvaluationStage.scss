@@ -2,6 +2,7 @@
   .evaluation-stage__critics {
     display: flex;
     gap: 16px;
+    overflow: auto;
   }
   .evaluation-stage__critics-item {
     display: flex;
@@ -30,6 +31,7 @@
     color: #aaa;
     font-family: Pretendard500;
     font-size: 12px;
+    text-align: center;
   }
 
   .evaluation-stage__slide {

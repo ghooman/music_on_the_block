@@ -45,7 +45,7 @@ const VerticalVolumeControl = ({ audioElement, isVolumeHovered, setIsVolumeHover
         onChange={handleChange}
         orient="vertical"
         // style={{
-        //   display: isVolumeHovered ? 'block' : 'none',
+        //   display: isVolumeHovered ? 'none' : 'block',
         // }}
       />
     </div>

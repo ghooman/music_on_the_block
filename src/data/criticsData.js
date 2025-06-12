@@ -17,6 +17,8 @@ export const criticsDataForObject = {
     introductionForReactNode: '<span>Soul</span> first, sound second.',
     judgingPhilosophy:
       '30년차 베테랑 작곡가. 수많은 대중가요 히트곡을 쓴 중견 멘토. 대형 기획사에서 음악 감독을 지냈으며, 후배 양성에도 헌신하는 스타일. "음악은 감정으로 소통하는 예술이다"가 철학. 듣는 이의 마음을 울릴 수 있는 곡에 가장 큰 점수를 줌.',
+    judgingSummation:
+      'A veteran composer with 30 years of experience, known for believing that music is an art of emotional communication.',
     likeGenre: ['K-POP', 'POP', 'Nursery rhyme'],
     weights: {
       emotion: 1.4, // 감정선 가장 중시
@@ -37,6 +39,8 @@ export const criticsDataForObject = {
     introductionForReactNode: 'No <span>flow?</span> No mercy. Off-beat? Game over.',
     judgingPhilosophy:
       '인디 힙합과 스트릿 씬에서 올라온 젊은 천재 프로듀서. 유명한 힙합 레이블에서 활동했으며 락, 메탈 영역까지 확장.음악은 “날 것 그대로의 감정 + 사운드 임팩트”라고 생각함. 쓸데없는 감성팔이는 싫어함.',
+    judgingSummation:
+      'A young prodigy producer who emerged from the indie hip-hop and street scene with raw talent and bold style.',
     likeGenre: ['HIP-HOP', 'Rock', 'Metal'],
     weights: {
       emotion: 1.1, // 억지 감정보다는 진짜 감정 표현
@@ -56,7 +60,9 @@ export const criticsDataForObject = {
     introduction: '"Between the Melody, she finds the truth."',
     introductionForReactNode: 'Between the <span>Melody</span>, she finds the truth.',
     judgingPhilosophy:
-      '"해외 음악대학 출신. 영화음악, OST, 예술곡 중심의 커리어. 음악을 “기술과 감정의 교차점”으로 보는 분석가 타입. 감성보다 구성이 중요하다고 생각함. 표현력 부족한 곡은 냉정하게 깎아내리지만, 진심이 보이면 은근히 감동받는 타입."',
+      '해외 음악대학 출신. 영화음악, OST, 예술곡 중심의 커리어. 음악을 “기술과 감정의 교차점”으로 보는 분석가 타입. 감성보다 구성이 중요하다고 생각함. 표현력 부족한 곡은 냉정하게 깎아내리지만, 진심이 보이면 은근히 감동받는 타입.',
+    judgingSummation:
+      'An overseas-trained musician who sees music as a balanced blend of technique and emotion.',
     likeGenre: ['Ballad', 'Acoustic'],
     weights: {
       emotion: 1.0, // 감정 표현은 정교하게 접근
@@ -80,7 +86,9 @@ export const criticsDataForObject = {
     introduction: '"If it’s not a hit, it’s a miss."',
     introductionForReactNode: 'If it’s not a <span>hit</span>, it’s a miss.',
     judgingPhilosophy:
-      '"비즈니스와 대중성을 중시하는 카리스마형 심사위원. 음악을 감성보다 **시장성과 영향력**으로 판단. 곡이 약하거나 자기만족적이면 가차 없이 깎아내림. 강력한 후렴, 간결한 메시지, 누구나 따라할 수 있는 훅을 중요하게 봄. 한마디로 **“성공할 음악인가?”**만 따짐. 하지만 대중을 움직이는 힘이 느껴지면 과하게 칭찬하는 경향 있음."',
+      '비즈니스와 대중성을 중시하는 카리스마형 심사위원. 음악을 감성보다 **시장성과 영향력**으로 판단. 곡이 약하거나 자기만족적이면 가차 없이 깎아내림. 강력한 후렴, 간결한 메시지, 누구나 따라할 수 있는 훅을 중요하게 봄. 한마디로 **“성공할 음악인가?”**만 따짐. 하지만 대중을 움직이는 힘이 느껴지면 과하게 칭찬하는 경향 있음.',
+    judgingSummation:
+      'A charismatic judge who values popularity and business appeal, viewing music through market impact more than emotion.',
     likeGenre: ['Pop', 'Hip-hop', 'Anthemic Rock'],
     weights: {
       emotion: 1.0, // 확신과 카리스마가 느껴지면 고득점
@@ -102,7 +110,9 @@ export const criticsDataForObject = {
     introduction: '"Innovation isn’t optional. It’s the baseline."',
     introductionForReactNode: 'Innovation isn’t optional. It’s the <span>baseline</span>.',
     judgingPhilosophy:
-      '"기술적 시도와 창의적 구조를 중시하는 비전형적 심사위원. 전통적인 아름다움보다 **새로운 접근 방식과 시스템적 사고**에 매력을 느낌. 정제되지 않았더라도 실험적이고 도전적인 곡은 긍정적으로 평가함. 감정보다는 구조, 메시지보다 가능성을 본다. 아티스트를 창작자라기보다 “음향 엔지니어”처럼 보는 면도 있음."',
+      '기술적 시도와 창의적 구조를 중시하는 비전형적 심사위원. 전통적인 아름다움보다 **새로운 접근 방식과 시스템적 사고**에 매력을 느낌. 정제되지 않았더라도 실험적이고 도전적인 곡은 긍정적으로 평가함. 감정보다는 구조, 메시지보다 가능성을 본다. 아티스트를 창작자라기보다 “음향 엔지니어”처럼 보는 면도 있음.',
+    judgingSummation:
+      'An unconventional evaluator drawn to experimental structure and fresh ideas, rather than traditional beauty.',
     likeGenre: ['Electronic', 'Ambient', 'Experimental'],
     weights: {
       emotion: 0.8, // 감성 과잉은 감점

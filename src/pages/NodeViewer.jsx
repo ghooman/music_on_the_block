@@ -28,7 +28,6 @@ function NodeViewer() {
   const [deleteWalletModal, setDeleteWalletModal] = useState(false);
   const [nodeViewerList, setNodeViewerList] = useState(null);
   const [nodeViewerListLoading, setNodeViewerListLoading] = useState(true);
-  console.log('nodeViewerList', nodeViewerList);
   const [deleteWalletId, setDeleteWalletId] = useState(null);
 
   const [isError, setIsError] = useState(false);

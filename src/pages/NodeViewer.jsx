@@ -100,7 +100,7 @@ function NodeViewer() {
   return (
     <>
       {nodeViewerList === null || nodeViewerListLoading ? (
-        <IntroLogo2 isLoading={isLoading} />
+        <IntroLogo2 isLoading={nodeViewerListLoading} />
       ) : (
         <div className="node-viewer">
           {nodeViewerList?.length === 0 && (

@@ -13,7 +13,7 @@ import deleteIcon from '../assets/images/mynaui_trash.svg';
 import PreparingModal from '../components/PreparingModal';
 import AddNodeWalletModal from '../components/modal/AddNodeWalletModal';
 import DeleteWallet from '../components/DeleteWallet';
-
+import IntroLogo2 from '../components/IntroLogo2';
 import { getNodeViewer } from '../api/nodeViewerApi';
 import { useOwnedNftData } from '../hooks/node-hooks/useOwnedNftData';
 import { useStakedNodeData } from '../hooks/node-hooks/useStakedNodeData';
@@ -26,7 +26,8 @@ function NodeViewer() {
   const { token } = useContext(AuthContext);
   const [addNodeWalletModal, setAddNodeWalletModal] = useState(false);
   const [deleteWalletModal, setDeleteWalletModal] = useState(false);
-  const [nodeViewerList, setNodeViewerList] = useState([]);
+  const [nodeViewerList, setNodeViewerList] = useState(null);
+  const [nodeViewerListLoading, setNodeViewerListLoading] = useState(true);
   console.log('nodeViewerList', nodeViewerList);
   const [deleteWalletId, setDeleteWalletId] = useState(null);
 
@@ -35,11 +36,13 @@ function NodeViewer() {
 
   const fetchNodeViewer = async () => {
     try {
+      setNodeViewerListLoading(true);
       const res = await getNodeViewer(token);
-      console.log('getNodeViewer', res);
       setNodeViewerList(res.data);
+      setNodeViewerListLoading(false);
     } catch (error) {
       console.error('NodeViewer 로딩 실패:', error);
+      setNodeViewerListLoading(false);
     }
   };
 
@@ -92,116 +95,123 @@ function NodeViewer() {
     return () => clearInterval(interval);
   }, [stakedNftBalance]);
 
+  // nodeViewerList 로딩 중이거나 nodeWalletAddress 로딩 중일 때 로딩 표시
+
   return (
     <>
-      <div className="node-viewer">
-        {nodeViewerList.length === 0 && (
-          <button className="node-viewer__add-btn" onClick={() => setAddNodeWalletModal(true)}>
-            <img src={plusIcon} alt="plus" /> {t('Add Node Wallet')}
-          </button>
-        )}
-        <div className="node-viewer__list">
-          {nodeViewerList.map(item => (
-            <section className="node-viewer__list__item">
-              <article className="node-viewer__list__item__title-wrap">
-                <dl className="node-viewer__list__item__title">
-                  <dt>{item.wallet_name}</dt>
-                  <dd>
-                    {item.wallet_address.length > 10
-                      ? `${item.wallet_address.slice(0, 6)}...${item.wallet_address.slice(-4)}`
-                      : item.wallet_address}
-                    <button
-                      type="button"
-                      className="node-viewer__list__item__title__btn"
-                      onClick={() => handleCopy(item.wallet_address, item.id)}
-                    >
-                      <img src={copiedWallets[item.id] ? copyCheckIcon : copyIcon} alt="copy" />
-                    </button>
-                  </dd>
-                </dl>
-                <button
-                  className="node-viewer__list__item__delete-btn"
-                  onClick={() => {
-                    setDeleteWalletModal(true);
-                    setDeleteWalletId(item.id);
-                  }}
-                >
-                  <img src={deleteIcon} alt="delete" />
-                </button>
-              </article>
-              <article className="node-viewer__list__item__content-wrap01">
-                <div className="node-viewer__list__item__content-wrap01__item">
-                  <p className="node-viewer__list__item__content-wrap01__item__title">
-                    {t('Owned Nodes')}
-                  </p>
-                  <div className="node-viewer__list__item__content-wrap01__item__content">
-                    <div className="node-viewer__list__item__content-wrap01__item__content__number">
-                      {ownedNftBalance}
-                    </div>
-                    <p className="node-viewer__list__item__content-wrap01__item__content__quantity">
-                      {t('Quantity')}
+      {nodeViewerList === null || nodeViewerListLoading ? (
+        <IntroLogo2 isLoading={isLoading} />
+      ) : (
+        <div className="node-viewer">
+          {nodeViewerList?.length === 0 && (
+            <button className="node-viewer__add-btn" onClick={() => setAddNodeWalletModal(true)}>
+              <img src={plusIcon} alt="plus" /> {t('Add Node Wallet')}
+            </button>
+          )}
+          <div className="node-viewer__list">
+            {nodeViewerList?.map(item => (
+              <section className="node-viewer__list__item">
+                <article className="node-viewer__list__item__title-wrap">
+                  <dl className="node-viewer__list__item__title">
+                    <dt>{item.wallet_name}</dt>
+                    <dd>
+                      {item.wallet_address.length > 10
+                        ? `${item.wallet_address.slice(0, 6)}...${item.wallet_address.slice(-4)}`
+                        : item.wallet_address}
+                      <button
+                        type="button"
+                        className="node-viewer__list__item__title__btn"
+                        onClick={() => handleCopy(item.wallet_address, item.id)}
+                      >
+                        <img src={copiedWallets[item.id] ? copyCheckIcon : copyIcon} alt="copy" />
+                      </button>
+                    </dd>
+                  </dl>
+                  <button
+                    className="node-viewer__list__item__delete-btn"
+                    onClick={() => {
+                      setDeleteWalletModal(true);
+                      setDeleteWalletId(item.id);
+                    }}
+                  >
+                    <img src={deleteIcon} alt="delete" />
+                  </button>
+                </article>
+                <article className="node-viewer__list__item__content-wrap01">
+                  <div className="node-viewer__list__item__content-wrap01__item">
+                    <p className="node-viewer__list__item__content-wrap01__item__title">
+                      {t('Owned Nodes')}
                     </p>
-                  </div>
-                </div>
-                <div className="node-viewer__list__item__content-wrap01__item">
-                  <p className="node-viewer__list__item__content-wrap01__item__title">
-                    {t('Activated Nodes')}
-                  </p>
-                  <div className="node-viewer__list__item__content-wrap01__item__content">
-                    <div className="node-viewer__list__item__content-wrap01__item__content__number">
-                      {stakedNftBalance}
+                    <div className="node-viewer__list__item__content-wrap01__item__content">
+                      <div className="node-viewer__list__item__content-wrap01__item__content__number">
+                        {ownedNftBalance}
+                      </div>
+                      <p className="node-viewer__list__item__content-wrap01__item__content__quantity">
+                        {t('Quantity')}
+                      </p>
                     </div>
-                    <p className="node-viewer__list__item__content-wrap01__item__content__quantity">
-                      {t('Quantity')}
-                    </p>
                   </div>
-                </div>
-              </article>
-              <article className="node-viewer__list__item__content-wrap02">
-                <div className="node-viewer__list__item__content-wrap02__item">
-                  <p className="node-viewer__list__item__content-wrap02__item__title">
-                    {t('My Balance')}
-                  </p>
-                  <div className="node-viewer__list__item__content-wrap02__item__content">
-                    <div className="node-viewer__list__item__content-wrap02__item__content__number">
-                      {mobBalance}
+                  <div className="node-viewer__list__item__content-wrap01__item">
+                    <p className="node-viewer__list__item__content-wrap01__item__title">
+                      {t('Activated Nodes')}
+                    </p>
+                    <div className="node-viewer__list__item__content-wrap01__item__content">
+                      <div className="node-viewer__list__item__content-wrap01__item__content__number">
+                        {stakedNftBalance}
+                      </div>
+                      <p className="node-viewer__list__item__content-wrap01__item__content__quantity">
+                        {t('Quantity')}
+                      </p>
                     </div>
-                    <p className="node-viewer__list__item__content-wrap02__item__content__mob">
-                      {t('MOB')}
-                    </p>
                   </div>
-                </div>
-                <div className="node-viewer__list__item__content-wrap02__item">
-                  <p className="node-viewer__list__item__content-wrap02__item__title">
-                    {t('Earned this session')}
-                  </p>
-                  <div className="node-viewer__list__item__content-wrap02__item__content">
-                    <div className="node-viewer__list__item__content-wrap02__item__content__number">
-                      {liveReward.toFixed(4)}
+                </article>
+                <article className="node-viewer__list__item__content-wrap02">
+                  <div className="node-viewer__list__item__content-wrap02__item">
+                    <p className="node-viewer__list__item__content-wrap02__item__title">
+                      {t('My Balance')}
+                    </p>
+                    <div className="node-viewer__list__item__content-wrap02__item__content">
+                      <div className="node-viewer__list__item__content-wrap02__item__content__number">
+                        {mobBalance}
+                      </div>
+                      <p className="node-viewer__list__item__content-wrap02__item__content__mob">
+                        {t('MOB')}
+                      </p>
                     </div>
-                    <p className="node-viewer__list__item__content-wrap02__item__content__mob">
-                      {t('MOB')}
-                    </p>
                   </div>
-                </div>
-                <div className="node-viewer__list__item__content-wrap02__item">
-                  <p className="node-viewer__list__item__content-wrap02__item__title">
-                    {t('Unclaimed')}
-                  </p>
-                  <div className="node-viewer__list__item__content-wrap02__item__content">
-                    <div className="node-viewer__list__item__content-wrap02__item__content__number">
-                      {stakingReward}
+                  <div className="node-viewer__list__item__content-wrap02__item">
+                    <p className="node-viewer__list__item__content-wrap02__item__title">
+                      {t('Earned this session')}
+                    </p>
+                    <div className="node-viewer__list__item__content-wrap02__item__content">
+                      <div className="node-viewer__list__item__content-wrap02__item__content__number">
+                        {liveReward.toFixed(4)}
+                      </div>
+                      <p className="node-viewer__list__item__content-wrap02__item__content__mob">
+                        {t('MOB')}
+                      </p>
                     </div>
-                    <p className="node-viewer__list__item__content-wrap02__item__content__mob">
-                      {t('MOB')}
-                    </p>
                   </div>
-                </div>
-              </article>
-            </section>
-          ))}
+                  <div className="node-viewer__list__item__content-wrap02__item">
+                    <p className="node-viewer__list__item__content-wrap02__item__title">
+                      {t('Unclaimed')}
+                    </p>
+                    <div className="node-viewer__list__item__content-wrap02__item__content">
+                      <div className="node-viewer__list__item__content-wrap02__item__content__number">
+                        {stakingReward}
+                      </div>
+                      <p className="node-viewer__list__item__content-wrap02__item__content__mob">
+                        {t('MOB')}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </section>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
       {addNodeWalletModal && (
         <AddNodeWalletModal
           setAddNodeWalletModal={setAddNodeWalletModal}

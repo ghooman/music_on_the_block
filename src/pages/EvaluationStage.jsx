@@ -37,7 +37,7 @@ import personaAll from '../assets/images/evaluation/persona-all-bg.png';
 import '../styles/EvaluationStage.scss';
 
 function EvaluationStage() {
-  const { t } = useTranslation('evaluation');
+  const { t } = useTranslation('main');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const critic = searchParams.get('critic') || 'All';
@@ -101,10 +101,9 @@ function EvaluationStage() {
   });
 
   return (
-
     <div className="evaluation-stage">
       <ContentWrap
-        title="Evaluation Stage"
+        title={t('Evaluation Stage')}
         border={false}
         style={{ padding: 0 }}
         link="/song/list?service=AI+Singing+Evaluation"
@@ -158,7 +157,7 @@ function EvaluationStage() {
             <NoneContent message="No evaluation history yet." height={300} />
           )}
         </ContentWrap>
-        <ContentWrap title="Recently Rated">
+        <ContentWrap title={t('Recently Rated')}>
           <div className="album__content-list__list">
             <Swiper {...swiperOptions} className="evaluation-stage__slide">
               {evaluationListForLatest?.slice(0, 9).map((track, _, list) => (

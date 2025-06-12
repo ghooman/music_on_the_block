@@ -43,11 +43,15 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
             {data.feedback
               ? language === 'English'
                 ? data.feedback
-                  ? `"${data.feedback}"`
+                  ? `"${data?.feedback}"`
                   : '-'
                 : language === '한국어'
                 ? data.feedback_kr
-                  ? `"${data.feedback_kr}"`
+                  ? `"${data?.feedback_kr}"`
+                  : '-'
+                : language === 'Bahasa'
+                ? data.feedback_id
+                  ? `"${data?.feedback_id}"`
                   : '-'
                 : language === 'Indonesia'
                 ? data.feedback_id

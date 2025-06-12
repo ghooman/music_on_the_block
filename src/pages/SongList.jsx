@@ -228,6 +228,7 @@ const SongList = () => {
           <SubCategories
             categories={categories}
             value={service}
+            translateFn={t}
             handler={service => {
               setSearchParams(prev => {
                 return { search: '', page: 1, service };

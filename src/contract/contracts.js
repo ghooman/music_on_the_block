@@ -7,6 +7,7 @@ import {
   USDT_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
   MOB_NFT_CONTRACT_ADDRESS,
+  MOB_NFT_STAKING_CONTRACT_ADDRESS,
 } from './contractAddresses';
 
 const client = createThirdwebClient({
@@ -62,4 +63,10 @@ export const mobNftContract = getContract({
   client,
   chain: defineChain(137),
   address: MOB_NFT_CONTRACT_ADDRESS,
+});
+
+export const mobNftStakingContract = getContract({
+  client,
+  chain: defineChain(137),
+  address: MOB_NFT_STAKING_CONTRACT_ADDRESS,
 });

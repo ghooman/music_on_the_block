@@ -51,8 +51,8 @@ const MelodyChatBot = ({
       ? selectedLanguage === 'ENG'
         ? enMelody
         : selectedLanguage === 'IDN'
-        ? koMelody
-        : idMelody
+        ? idMelody
+        : koMelody
       : selectedLanguage === 'ENG'
       ? enBgmChat
       : selectedLanguage === 'KOR'

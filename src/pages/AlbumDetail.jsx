@@ -62,6 +62,8 @@ import {
 } from '../api/evaluation/getDetail';
 import { disableEvaluation } from '../data/service';
 
+import { criticsDataForArray } from '../data/criticsData';
+
 const serviceCategory = [
   {
     service: 'AI Lyrics & Songwriting',
@@ -930,7 +932,7 @@ function AlbumDetail() {
         {service === 'AI Singing Evaluation' && (
           <>
             <article className="main__content-item__persona">
-              {personas.map((persona, index) => (
+              {criticsDataForArray.map((persona, index) => (
                 <div
                   key={index}
                   className={`main__content-item__persona__item ${
@@ -942,7 +944,7 @@ function AlbumDetail() {
                     });
                   }}
                 >
-                  <img src={persona.img} alt={persona.name} />
+                  <img src={persona.image} alt={persona.name} />
                   <p>{persona.name}</p>
                 </div>
               ))}

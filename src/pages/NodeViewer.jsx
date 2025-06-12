@@ -1,7 +1,6 @@
 import '../styles/NodeViewer.scss';
 import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { useAudio } from '../contexts/AudioContext';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -28,7 +27,6 @@ function NodeViewer() {
   const [deleteWalletModal, setDeleteWalletModal] = useState(false);
   const [nodeViewerList, setNodeViewerList] = useState(null);
   const [nodeViewerListLoading, setNodeViewerListLoading] = useState(true);
-  console.log('nodeViewerList', nodeViewerList);
   const [deleteWalletId, setDeleteWalletId] = useState(null);
 
   const [isError, setIsError] = useState(false);

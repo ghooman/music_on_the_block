@@ -24,6 +24,8 @@ import step2Img from '../assets/images/evaluation/step2-img.png';
 import step3Img from '../assets/images/evaluation/step3-img.png';
 import step4Img from '../assets/images/evaluation/step4-img.png';
 
+import { criticsDataForArray } from '../data/criticsData';
+
 const Evaluation = () => {
   const { t } = useTranslation('evaluation');
 
@@ -178,55 +180,19 @@ const Judge = ({ t }) => {
   return (
     <>
       <div className="judge">
-        <div className="judge__item">
-          <p
-            className="judge__item__title one"
-            dangerouslySetInnerHTML={{ __html: t('"<span>Soul</span> first, sound second."') }}
-          >
-            {/* "<span>Soul</span> first, sound second.” */}
-          </p>
-          <img src={judgeImg01} alt="judgeImg01" />
-          <p className="judge__name">Jinwoo Yoo</p>
-          <p className="judge__txt">
-            {t(
-              'A veteran composer who listens with his soul. For him, music isn’t perfect unless it’s honest.'
-            )}
-          </p>
-        </div>
-        <div className="judge__item">
-          <p
-            className="judge__item__title"
-            dangerouslySetInnerHTML={{
-              __html: t('"No <span>flow?</span> No mercy. Off-beat? Game over."'),
-            }}
-          >
-            {/* "No <span>flow?</span> No mercy. Off-beat? Game over." */}
-          </p>
-          <img src={judgeImg02} alt="judgeImg01" />
-          <p className="judge__name">Drexx</p>
-          <p className="judge__txt">
-            {t(
-              'Precision is his rhythm. A razor-sharp rapper who breaks down your flow like it’s science.'
-            )}
-          </p>
-        </div>
-        <div className="judge__item">
-          <p
-            className="judge__item__title"
-            dangerouslySetInnerHTML={{
-              __html: t('"Between the <span>Melody</span>, she finds the truth."'),
-            }}
-          >
-            {/* "Between the <span>Melody</span>, she finds the truth." */}
-          </p>
-          <img src={judgeImg03} alt="judgeImg01" />
-          <p className="judge__name">Elara Moon</p>
-          <p className="judge__txt">
-            {t(
-              'A ballad singer and designer who catches what others miss. She hears the cracks between the melody.'
-            )}
-          </p>
-        </div>
+        {criticsDataForArray.map(critic => (
+          <div className="judge__item" key={critic?.name}>
+            <p
+              className="judge__item__title one"
+              dangerouslySetInnerHTML={{ __html: t(`"${critic?.introductionForReactNode}"`) }}
+            >
+              {/* "<span>Soul</span> first, sound second.” */}
+            </p>
+            <img className="judge__item__image" src={critic?.image} alt="judgeImg01" />
+            <p className="judge__name">{critic?.name}</p>
+            <p className="judge__txt">{t(critic?.judgingSummation)}</p>
+          </div>
+        ))}
       </div>
     </>
   );

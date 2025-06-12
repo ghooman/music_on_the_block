@@ -233,7 +233,7 @@ const EvaluationStatus = ({ t, username }) => {
   const chartss = criticsDataForArray.map((critic, index) => ({
     id: critic?.name,
     value: findCriticsCount(critic.name),
-    color: `hsl(10${index * 60}, 100.00%, 26.10%)`,
+    color: `hsl(10${index * 50}, 100.00%, 26.10%)`,
   }));
 
   return (

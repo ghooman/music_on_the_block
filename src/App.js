@@ -327,9 +327,11 @@ function App() {
                 <Route
                   path="node-viewer"
                   element={
-                    <Layout>
-                      <NodeViewer />
-                    </Layout>
+                    <ProtectedRoute>
+                      <Layout>
+                        <NodeViewer />
+                      </Layout>
+                    </ProtectedRoute>
                   }
                 />
               </Routes>

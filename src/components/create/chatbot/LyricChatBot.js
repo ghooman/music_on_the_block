@@ -40,6 +40,7 @@ const LyricChatBot = ({
       ? idLyric
       : enLyric;
 
+  console.log('locale', locale);
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
     { role: 'assistant', content: locale.chatbot.initialMessage },

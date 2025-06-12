@@ -1,5 +1,6 @@
 // api/nodeViewerApi.js
 import axios from 'axios';
+import { useState } from 'react';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 /**
@@ -45,6 +46,7 @@ export const deleteNodeViewer = async (token, id) => {
  * @param  token - 인증 토큰
  * @returns {Promise} axios GET 요청 반환
  */
+
 export const getNodeViewer = async token => {
   const res = await axios.get(`${serverApi}/api/user/wallet/address`, {
     headers: {

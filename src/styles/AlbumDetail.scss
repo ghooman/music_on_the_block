@@ -37,6 +37,7 @@
     align-items: center;
     gap: 16px;
     margin: 16px 0 32px 0;
+    overflow: auto;
     .main__content-item__persona__item {
       width: 80px;
       display: flex;
@@ -56,6 +57,7 @@
         color: #f1f1f1;
         font-family: Pretendard500;
         font-size: 12px;
+        text-align: center;
       }
       &.active {
         img {

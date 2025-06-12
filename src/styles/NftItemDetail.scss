@@ -500,6 +500,7 @@
               .nft-item-detail__song-detail__more-btn__list {
                 height: 116px !important;
                 opacity: 1;
+                border: 1px solid #678300;
               }
             }
             .nft-item-detail__song-detail__more-btn__list {
@@ -507,7 +508,6 @@
               right: 0;
               top: 38px;
               border-radius: 12px;
-              border: 1px solid #678300;
               background: #0b0b0c;
               transition: 0.3s;
               display: flex;

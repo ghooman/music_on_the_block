@@ -32,6 +32,13 @@
           min-height: 220px;
           overflow: hidden;
           transition: 0.3s;
+          &:nth-child(1){
+            .main__to-day-header__song-create-list__item__title{
+              font{
+                // margin-top: -140px;
+              }  
+            }//.main__to-day-header__song-create-list__item__title--END--
+          }
           &:hover{
             img{
               transform: translate(-8px,-16px);
@@ -77,6 +84,12 @@
             // margin-bottom: 16px;
             position: relative;
             z-index: 1;
+            span{
+              display: block;
+              color: #FFF;
+              font-family: Pretendard700;
+              font-size: 24px;
+            }
           }
           img{
             position: absolute;
@@ -1219,6 +1232,9 @@
 
             .main__to-day-header__song-create-list__item__title{
               font-size: 14px;
+              span{
+                font-size: 14px;
+              }
             }
             img{
               width: 114px;

@@ -216,8 +216,8 @@ function Album() {
               <Link to="/create" className="main__to-day-header__song-create-list__item">
                 <p className="main__to-day-header__song-create-list__item__title">
                   {t('Create your own song')}
-                  <br />
-                  {t('very quickly')}
+                  {/* <br /> */}
+                  <span>{t('very quickly')}</span>
                 </p>
                 <img src={songCreateIcon1} alt="songCreateIcon1" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">
@@ -241,8 +241,8 @@ function Album() {
               >
                 <p className="main__to-day-header__song-create-list__item__title">
                   {t('Create a song')}
-                  <br />
-                  {t('with your own voice')}
+                  {/* <br /> */}
+                  <span>{t('with your own voice')}</span>
                 </p>
                 <img src={songCreateIcon3} alt="songCreateIcon3" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">

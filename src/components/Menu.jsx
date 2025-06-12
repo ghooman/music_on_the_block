@@ -103,7 +103,12 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   // 하위 메뉴 아이템 클릭 시 활성화 (슬라이드 탭 안의 <li>)
   const handleSubItemClick = subItemName => {
     setActiveSubItem(subItemName);
-    setActiveMenus([]); // 슬라이드 탭들 비활성화
+    // AI Services 메뉴인 경우 activeMenus를 유지
+    if (subItemName === 'ai-lyrics' || subItemName === 'ai-singing' || subItemName === 'ai-cover') {
+      setActiveMenus(['ai-services']);
+    } else {
+      setActiveMenus([]); // 다른 메뉴의 경우 기존 동작 유지
+    }
     setActive(false);
   };
 
@@ -659,7 +664,12 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 >
                   <button
                     className="menu__box__gnb-list__item__btn"
-                    onClick={() => handleSlideToggle('ai-services')}
+                    onClick={() => {
+                      // AI Services 메뉴가 이미 열려있으면 닫지 않음
+                      if (!activeMenus.includes('ai-services')) {
+                        handleSlideToggle('ai-services');
+                      }
+                    }}
                   >
                     <p className="icon"></p>
                     {t('AI Services')}

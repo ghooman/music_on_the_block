@@ -15,6 +15,25 @@ export const EvaluationListItemWrapper = ({ children }) => {
 export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => {
   const { t } = useTranslation('main');
   const { language } = i18n;
+
+  const evaluationByLang = {
+    English: {
+      feedback: data.feedback,
+    },
+    한국어: {
+      feedback: data.feedback_kr,
+    },
+    Indonesia: {
+      feedback: data.feedback_id,
+    },
+    Japanese: {
+      feedback: data?.feedback_ja,
+    },
+    Vietnamese: {
+      feedback: data?.feedback_vi,
+    },
+  };
+
   return (
     <button
       key={data.id}
@@ -39,27 +58,7 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
         </p>
         <p className="unit-component-evaluation-list-item__thought__txt">
           <img src={criticsDataForObject[data.critic]?.image} alt="Jinwoo-Yoo-img" />
-          <span>
-            {data.feedback
-              ? language === 'English'
-                ? data.feedback
-                  ? `"${data?.feedback}"`
-                  : '-'
-                : language === '한국어'
-                ? data.feedback_kr
-                  ? `"${data?.feedback_kr}"`
-                  : '-'
-                : language === 'Bahasa'
-                ? data.feedback_id
-                  ? `"${data?.feedback_id}"`
-                  : '-'
-                : language === 'Indonesia'
-                ? data.feedback_id
-                  ? `"${data.feedback_id}"`
-                  : '-'
-                : '-'
-              : '-'}
-          </span>
+          <span>{evaluationByLang[language]?.feedback || '-'}</span>
         </p>
       </div>
       <dl className="unit-component-evaluation-list-item__title">

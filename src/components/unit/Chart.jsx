@@ -105,6 +105,8 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
 };
 
 export const LineChart = ({ data, height = 300, width = '100%' }) => {
+  const [maxValue, setMaxValue] = useState(0);
+
   const chartData = [
     {
       id: 'data',
@@ -112,6 +114,21 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
       data: data,
     },
   ];
+
+  useEffect(() => {
+    let max = 0;
+
+    data?.forEach(item => {
+      if (item.y > max) max = item.y;
+    });
+    const maxvalue = [10, 100, 1000, 10000, 100000];
+    for (let i = 0; i < maxvalue.length; i++) {
+      if (max < maxvalue[i]) {
+        setMaxValue(maxvalue[i]);
+        break;
+      }
+    }
+  }, [data]);
 
   if (!data) return;
 
@@ -125,7 +142,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
         yScale={{
           type: 'linear',
           min: 0,
-          // max: 5,
+          max: maxValue,
           stacked: true,
           reverse: false,
         }}
@@ -141,6 +158,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
         pointLabelYOffset={-12}
         enableTouchCrosshair={true}
         useMesh={true}
+        maxValue={maxValue}
         // enableArea={true}
         colors={() => '#00ffb3'}
         theme={{
@@ -162,7 +180,11 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
           },
         }}
         axisLeft={{
-          tickValues: [0, 1, 2, 3, 4, 5], // 직접 지정
+          tickSize: 0,
+          tickPadding: 16,
+          tickValues: Array(11)
+            .fill(null)
+            .map((value, index) => (maxValue / 10) * index),
         }}
       />
     </div>

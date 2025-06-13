@@ -1638,6 +1638,7 @@
                 // padding: 11px 16px 11px 24px;
                 padding-left: 24px;
                 padding-right: 8px;
+                
               }
             } //album-detail__song-detail__right__info-box__detail--END--
           }
@@ -1669,9 +1670,21 @@
             font-size: 16px;
           }
         }
+        .album-detail__song-detail__right{
+          .album-detail__song-detail__right__info-box{
+            .album-detail__song-detail__right__info-box__detail{
+              strong{
+                max-height: none;
+                overflow: hidden;
+              }
+            }
+          }
+        }
       }
     }
   }
+
+  
 }
 
 @media screen and (max-width: 480px) {

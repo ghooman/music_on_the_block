@@ -26,10 +26,10 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
     Indonesia: {
       feedback: data.feedback_id,
     },
-    Japanese: {
+    日本語: {
       feedback: data?.feedback_ja,
     },
-    Vietnamese: {
+    'Tiếng Việt': {
       feedback: data?.feedback_vi,
     },
   };

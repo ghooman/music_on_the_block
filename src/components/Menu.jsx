@@ -71,6 +71,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
+  
   const handleWalletClickWrapper = () => {
     if (window.innerWidth <= 1000) {
       setActive(false);

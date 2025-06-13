@@ -124,6 +124,7 @@ export const criticsDataForObject = {
   },
 };
 
+// 배열 map 함수 사용할 때 쓰면 편함
 export const criticsDataForArray = Object.entries(criticsDataForObject).map(([key, value]) => ({
   name: key,
   ...value,

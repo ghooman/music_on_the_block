@@ -194,6 +194,27 @@ const ResultBtn = ({ t, evaluationData }) => {
 const FullEvaluation = ({ t, evaluationData }) => {
   const { language } = i18n;
 
+  const evaluationByLang = {
+    English: {
+      feedback: evaluationData.feedback,
+      to_improve: evaluationData.to_improve,
+      why_this_score: evaluationData.why_this_score,
+      key_points: evaluationData.key_points,
+    },
+    한국어: {
+      feedback: evaluationData.feedback_kr,
+      to_improve: evaluationData.to_improve_kr,
+      why_this_score: evaluationData.why_this_score_kr,
+      key_points: evaluationData.key_points_kr,
+    },
+    Indonesia: {
+      feedback: evaluationData.feedback_id,
+      to_improve: evaluationData.to_improve_id,
+      why_this_score: evaluationData.why_this_score_id,
+      key_points: evaluationData.key_points_id,
+    },
+  };
+
   return (
     <div className="full-evaluation">
       <section className="full-evaluation__feed-back">
@@ -204,13 +225,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
         <article className={`full-evaluation__feed-back__txt active`}>
           <p className="ull-evaluation__feed-back__txt__title">{t('Feedback')}</p>
           <div className="ull-evaluation__feed-back__txt__memo">
-            {language === 'English'
-              ? evaluationData?.feedback
-              : language === '한국어'
-              ? evaluationData?.feedback_kr || '-'
-              : language === 'Bahasa'
-              ? evaluationData?.feedback_id || '-'
-              : '-'}
+            {evaluationByLang[language]?.feedback || '-'}
           </div>
           {/* <button
             className="full-evaluation__feed-back__txt__see-more"
@@ -224,39 +239,15 @@ const FullEvaluation = ({ t, evaluationData }) => {
       <section className="full-evaluation__point-box">
         <dl>
           <dt>{t('To Improve')}</dt>
-          <dd>
-            {language === 'English'
-              ? evaluationData?.to_improve || '-'
-              : language === '한국어'
-              ? evaluationData?.to_improve_kr || '-'
-              : language === 'Indonesia'
-              ? evaluationData?.to_improve_id || '-'
-              : '-'}
-          </dd>
+          <dd>{evaluationByLang[language]?.to_improve || '-'}</dd>
         </dl>
         <dl>
           <dt>{t('Why This Score')}</dt>
-          <dd>
-            {language === 'English'
-              ? evaluationData?.why_this_score || '-'
-              : language === '한국어'
-              ? evaluationData?.why_this_score_kr || '-'
-              : language === 'Indonesia'
-              ? evaluationData?.why_this_score_id || '-'
-              : '-'}
-          </dd>
+          <dd>{evaluationByLang[language]?.why_this_score || '-'}</dd>
         </dl>
         <dl>
           <dt>{t('Key Points')}</dt>
-          <dd>
-            {language === 'English'
-              ? evaluationData?.key_points || '-'
-              : language === '한국어'
-              ? evaluationData?.key_points_kr || '-'
-              : language === 'Indonesia'
-              ? evaluationData?.key_points_id || '-'
-              : '-'}
-          </dd>
+          <dd>{evaluationByLang[language]?.key_points || '-'}</dd>
         </dl>
       </section>
     </div>

@@ -26,6 +26,7 @@ import { criticsDataForArray } from '../data/criticsData';
 
 import '../styles/EvaluationBegin.scss';
 import { ResponsiveLine } from '@nivo/line';
+import { setDefaultLocale } from 'react-datepicker';
 
 const EvaluationBegin = () => {
   let TO;
@@ -82,7 +83,6 @@ const EvaluationBegin = () => {
     let result = null;
 
     const { emotion, creativity, structure, sound, popularity } = analysisResult;
-
     const { spectral_centroid, tonnetz, mfcc, rms } = emotion?.features;
     const { chroma_stft, spectral_contrast, zero_crossing_rate } = creativity?.features;
     const { onset_strength, tempo, tempogram, beat_track } = structure?.features;

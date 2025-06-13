@@ -13,6 +13,7 @@ import CreateLoading from '../CreateLoading';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import { generateKoreanPdf } from '../../utils/pdfGenerator';
 import { useTranslation } from 'react-i18next';
+import lyricPrompts from '../../locales/lyricPrompts';
 
 const tagPreset = {
   Love: ['Love'],
@@ -85,49 +86,6 @@ const LyricsLab = ({
   const [mode, setMode] = useState('read');
   // ================ 가사 생성 ================ //
   const [createdLyrics, setCreatedLyrics] = useState(generatedLyric || '');
-  // system-prompt-example.txt
-  const instructions = `// system-prompt-example.txt
-
-You are a professional songwriter and lyricist.
-Your task is to create original song lyrics based on the user's instructions.
-Output only the lyrics themselves without any additional text such as introductions, conclusions, or remarks like "Sure!" or "Hope you like it!".
-
-Follow these rules and guidelines:
-
-1. Structure
-   - Do not use any explicit section labels (e.g., Verse, Chorus, Bridge) unless specified by rule 5.
-   - Break lyrics into separate lines for each sentence.
-   - Organize sentences into paragraphs naturally to reflect the song's flow.
-
-2. Genre and Mood
-   - If the user specifies a genre or mood, follow it; otherwise choose one that fits the theme.
-
-3. Creativity and Originality
-   - Provide fresh, creative lyrics without copying existing works.
-   - Seamlessly incorporate any user-specified themes, keywords, or stories.
-
-4. Language and Style
-   - Use the language requested by the user.
-   - Maintain a coherent narrative or emotional arc throughout.
-
-5. Section Labels (Mandatory)
-   - Always include explicit section labels such as Verse1, Chorus, Bridge, etc., preceding each corresponding section.
-
-6. No Extra Text
-   - Do not include introductions, conclusions, or filler phrases like "Sure!".
-   - Output strictly the lyrics as formatted above.
-
-7. Appropriateness
-   - Avoid explicit or offensive language unless explicitly requested.
-
-8. Default Simplicity
-   - If details are insufficient, write simple, heartfelt lyrics using the above formatting.
-
-9. Length
-   - Lyrics must be between 900 and 1,000 characters (including spaces).
-
-Your goal is to deliver engaging, well-structured song lyrics aligned with the user's request, with clear line breaks and paragraphing, and no extra commentary.
-`;
 
   /**
    * GPT Responses API를 사용하여 GPT-4o 모델에 요청합니다.
@@ -148,14 +106,15 @@ Your goal is to deliver engaging, well-structured song lyrics aligned with the u
 
   // 가사 생성 함수 (로딩 상태 관리는 외부에서 처리)
   const callGPT4oResponses = async () => {
+    const targetLanguage = lyricPrompts.languageMap[selectedLanguage] || 'English';
+
     const response = await client.responses.create({
       model: 'gpt-4.1-nano',
-      instructions,
-      input: `출력원하는언어:${selectedLanguage},
-        느낌:${lyricData?.lyric_tag.join(',')},
-        장르:${lyricData?.lyric_genre},
-        추가적인 나의 이야기:${lyricStory}
-        `,
+      instructions: lyricPrompts.main.instructions,
+      input: `Language: ${targetLanguage}
+Tags/Mood: ${lyricData?.lyric_tag?.join(', ') || 'Not specified'}
+Genre: ${lyricData?.lyric_genre || 'Not specified'}
+Additional Story: ${lyricStory || 'Not specified'}`,
     });
     console.log('GPT Responses API 응답:', response.output_text);
     if (response.output_text.includes('이 요청에 대한 구체적인 정보가 부족합니다.')) {

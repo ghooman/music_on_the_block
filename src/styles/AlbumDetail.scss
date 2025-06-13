@@ -589,6 +589,8 @@
               }
             }
             dd {
+              // max-height: 40px;
+              // overflow: auto;
               padding: 8px 12px 8px 24px;
               color: var(--Text-music-sub, #aaa);
               font-family: Pretendard400;
@@ -684,6 +686,8 @@
               justify-content: start;
               flex-direction: column;
               padding: 11px 16px 11px 24px;
+              max-height: 54px;
+              overflow: auto;
             }
           } //album-detail__song-detail__right__info-box__detail--END--
         } //album-detail__song-detail__right__info-box--END--

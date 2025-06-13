@@ -80,6 +80,10 @@ function App() {
       i18n.changeLanguage('English');
     } else if (language?.startsWith('id')) {
       i18n.changeLanguage('Indonesia');
+    } else if (language?.startsWith('ja')) {
+      i18n.changeLanguage('日本語');
+    } else if (language?.startsWith('vi')) {
+      i18n.changeLanguage('Tiếng Việt');
     }
   }, [language]);
 

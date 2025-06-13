@@ -213,13 +213,13 @@ const FullEvaluation = ({ t, evaluationData }) => {
       why_this_score: evaluationData.why_this_score_id,
       key_points: evaluationData.key_points_id,
     },
-    Japanese: {
+    日本語: {
       feedback: evaluationData.feedback_ja,
       to_improve: evaluationData.to_improve_ja,
       why_this_score: evaluationData.why_this_score_ja,
       key_points: evaluationData.key_points_ja,
     },
-    Vietnamese: {
+    'Tiếng Việt': {
       feedback: evaluationData.feedback_vi,
       to_improve: evaluationData.to_improve_vi,
       why_this_score: evaluationData.why_this_score_vi,

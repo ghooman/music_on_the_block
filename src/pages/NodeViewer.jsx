@@ -37,9 +37,9 @@ function NodeViewer() {
       setNodeViewerListLoading(true);
       const res = await getNodeViewer(token);
       setNodeViewerList(res.data);
-      setNodeViewerListLoading(false);
     } catch (error) {
       console.error('NodeViewer 로딩 실패:', error);
+    } finally {
       setNodeViewerListLoading(false);
     }
   };

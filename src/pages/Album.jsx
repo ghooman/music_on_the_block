@@ -679,13 +679,6 @@ const ListSlider = ({
     });
   };
 
-  const formatTime = time => {
-    if (!time || isNaN(time)) return '0:00';
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
-
   console.log('리스트사이드바');
   return (
     <section className="album__slide">
@@ -729,11 +722,7 @@ const ListSlider = ({
                     })`,
                   }}
                 ></div>
-                <span className="time">
-                  {isTrackActive(track, id)
-                    ? `${formatTime(currentTime)}`
-                    : formatTime(track.duration)}
-                </span>
+                <span className="time">{track?.ai_service === 1 ? 'Song' : 'BGM'}</span>
                 <div className={`swiper-music-list__item__left__grade ${track.rating}`}>
                   <img
                     className="swiper-music-list__item__left__grade--image"

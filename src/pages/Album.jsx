@@ -116,16 +116,8 @@ function Album() {
   const handleGetMusicList = async () => {
     try {
       const res = await getHitMusicList(walletAddress);
-      // 트랙마다 오디오 정보를 불러와 duration 설정
-      const fetchedTracks = res.data;
-      fetchedTracks.forEach((track, index) => {
-        const audio = new Audio(track.music_url);
-        audio.addEventListener('loadedmetadata', () => {
-          fetchedTracks[index].duration = audio.duration;
-          setHitList([...fetchedTracks]);
-        });
-      });
-      setHitList(fetchedTracks);
+
+      setHitList(res.data);
     } catch (e) {
       console.error(e);
     }
@@ -203,6 +195,8 @@ function Album() {
       });
     }
   };
+
+  console.log('앨범');
 
   return (
     <>
@@ -611,6 +605,8 @@ const List = ({
     //   },
     // },
   };
+
+  console.log('리스트');
   return (
     <section className={`album__content-list ${className}`}>
       <p className="album__content-list__title">
@@ -690,6 +686,7 @@ const ListSlider = ({
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
+  console.log('리스트사이드바');
   return (
     <section className="album__slide">
       <p className="album__slide__title">{t('Hit Music List')}</p>

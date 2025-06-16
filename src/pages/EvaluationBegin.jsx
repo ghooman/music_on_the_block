@@ -221,6 +221,16 @@ const EvaluationBegin = () => {
           responses?.to_improve_id,
           responses?.why_this_score_id,
           responses?.key_points_id,
+          // 피드백 일본어
+          responses?.feedback_ja,
+          responses?.to_improve_ja,
+          responses?.why_this_score_ja,
+          responses?.key_points_ja,
+          // 피드백 베트남어
+          responses?.feedback_vi,
+          responses?.to_improve_vi,
+          responses?.why_this_score_vi,
+          responses?.key_points_vi,
         ].every(item => item);
 
         if (checks === true) {

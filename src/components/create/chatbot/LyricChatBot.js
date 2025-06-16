@@ -9,10 +9,8 @@ import CreateLoading from '../../CreateLoading';
 import { generateKoreanPdf } from '../../../utils/pdfGenerator';
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
-// 언어별 리소스 파일 불러오기
-import koLyric from '../../../locales/koLyric';
-import enLyric from '../../../locales/enLyric';
-import idLyric from '../../../locales/idLyric';
+// 통일된 프롬프트 파일 불러오기
+import lyricPrompts from '../../../locales/lyricPrompts';
 import { useTranslation } from 'react-i18next';
 const LyricChatBot = ({
   selectedLanguage,
@@ -30,19 +28,17 @@ const LyricChatBot = ({
 
   const { data: userData } = useUserDetail();
   const generatedLyricsRef = useRef(null);
-  // 선택된 언어에 따라 리소스 파일 선택
-  const locale =
-    selectedLanguage === 'KOR'
-      ? koLyric
-      : selectedLanguage === 'ENG'
-      ? enLyric
-      : selectedLanguage === 'IDN'
-      ? idLyric
-      : enLyric;
+  // 선택된 언어에 따라 채팅봇 메시지 선택
+  const getLocaleMessage = messageType => {
+    return (
+      lyricPrompts.chatbot[messageType][selectedLanguage] ||
+      lyricPrompts.chatbot[messageType]['ENG']
+    );
+  };
 
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
-    { role: 'assistant', content: locale.chatbot.initialMessage },
+    { role: 'assistant', content: getLocaleMessage('initialMessage') },
   ]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -83,7 +79,7 @@ const LyricChatBot = ({
         messages: [
           {
             role: 'system',
-            content: locale.chatbot.systemMessage,
+            content: getLocaleMessage('systemMessage'),
           },
           ...chatHistory,
           { role: 'user', content: userInput },

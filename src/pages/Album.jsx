@@ -227,8 +227,8 @@ function Album() {
               <Link to="/evaluation" className="main__to-day-header__song-create-list__item">
                 <p className="main__to-day-header__song-create-list__item__title">
                   {t('Get your song')}
-                  <br />
-                  {t('evaluated')}
+                  {/* <br /> */}
+                  <span>{t('evaluated')}</span>
                 </p>
                 <img src={songCreateIcon2} alt="songCreateIcon2" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">

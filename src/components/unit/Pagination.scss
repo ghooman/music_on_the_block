@@ -20,6 +20,15 @@
         height: 32px;
         border-radius: 8px;
         transition: 0.3s all;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &:hover,
         &.enable {
             color: #1a1a1a;

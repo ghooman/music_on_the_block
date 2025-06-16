@@ -664,12 +664,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                 >
                   <button
                     className="menu__box__gnb-list__item__btn"
-                    onClick={() => {
-                      // AI Services 메뉴가 이미 열려있으면 닫지 않음
-                      if (!activeMenus.includes('ai-services')) {
-                        handleSlideToggle('ai-services');
-                      }
-                    }}
+                    onClick={() => handleSlideToggle('ai-services')}
                   >
                     <p className="icon"></p>
                     {t('AI Services')}

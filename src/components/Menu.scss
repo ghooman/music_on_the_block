@@ -81,6 +81,15 @@
       border-radius: 12px;
       background: #00ffb3;
       position: relative;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     } //tw-connect-wallet--END--
     &:nth-child(1) {
       .menu__box__title {
@@ -99,6 +108,15 @@
       line-height: normal;
       letter-spacing: 0.42px;
       position: relative;
+            font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: relative;
@@ -137,6 +155,15 @@
         border-radius: 12px;
         background: var(--secondary-base, #00ffb3);
         position: relative;
+                    font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       } //menu__box__login-btn--END--
       .menu__box__my-page {
         width: 100%;
@@ -167,6 +194,15 @@
               height: 26px !important;
               object-fit: cover;
             }
+                        font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
           } //menu__box__my-page__level__arr-btn--END--
           // flex: 52px;
           width: 100%;
@@ -239,12 +275,30 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                            font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               }
               dd {
                 color: #fff;
                 font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
+                            font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               }
               img {
                 width: 20px;
@@ -273,6 +327,15 @@
                 font-style: normal;
                 line-height: 100%; /* 12px */
                 letter-spacing: 0.36px;
+                            font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               }
               span {
                 width: 48px;
@@ -449,6 +512,20 @@
               }
             }
           } //earn--END--
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+            word-spacing: inherit !important;
+            font-variant: inherit !important;
+            text-transform: inherit !important;
+            text-rendering: inherit !important;
+            -webkit-font-smoothing: inherit !important; 
+          }
         } //menu__box__gnb-list__item__btn--END--
 
         .menu__box__gnb-list__item__list {
@@ -484,6 +561,15 @@
               &:hover {
                 background: #a9d400;
               }
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             } //a--END--
           } //li--END--
         } //menu__box__gnb-list__item__list--END--
@@ -507,6 +593,21 @@
         align-items: center;
         justify-content: center;
         gap: 4px;
+        font{
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important; 
+          font-style: inherit !important;
+          font-family: inherit !important;
+        }
       }
     } //menu-box__lang_notification--END--
   } //menu__box--END--
@@ -596,7 +697,15 @@
   color: #1a1a1a;
   font: 12px;
   font-family: Pretendard400;
-  font-family: Pretendard400;
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
 
   &:hover {
     background-color: #a9d400;
@@ -645,7 +754,15 @@
       font-size: 12px;
       font-style: normal;
       line-height: 100%; /* 12px */
-      letter-spacing: 0.36px;
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
     }
     .menu-box__lang-notification--select-notification-box__header__title {
       color: var(--Text-music-title, #f1f1f1);
@@ -657,6 +774,15 @@
       line-height: normal;
       letter-spacing: 0.72px;
       margin-bottom: 24px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   }
   .menu-box__lang-notification--select-notification-box__item {
@@ -696,7 +822,15 @@
           font-size: 10px;
           font-style: normal;
           line-height: 100%; /* 10px */
-          letter-spacing: 0.3px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           .sky {
             overflow: hidden;
             -webkit-box-orient: vertical;
@@ -707,7 +841,15 @@
             font-size: 10px;
             font-style: normal;
             line-height: 100%;
-            letter-spacing: 0.3px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           .purple {
             overflow: hidden;
@@ -719,7 +861,15 @@
             font-size: 10px;
             font-style: normal;
             line-height: 100%;
-            letter-spacing: 0.3px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
       }
@@ -729,7 +879,15 @@
         font-size: 10px;
         font-style: normal;
         line-height: normal;
-        letter-spacing: 0.3px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
       .menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time {
         color: var(--Text-music-sub, #aaa);
@@ -740,6 +898,15 @@
         line-height: normal;
         text-align: right;
         margin-left: auto;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         img {
           margin-right: 5px;
         }

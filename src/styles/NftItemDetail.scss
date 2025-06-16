@@ -267,6 +267,15 @@
       font-size: 20px;
       font-style: normal;
       margin-bottom: 16px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }//nft-item-detail__song-detail__bot__title--END--
     .nft-item-detail__song-detail__cover{
       display: flex;
@@ -290,7 +299,15 @@
         font-family:  Pretendard500;
         font-size: 14px;
         font-style: normal;
-        line-height: 100%; /* 14px */
+                font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         img {
           display: flex;
           align-items: center;
@@ -315,6 +332,15 @@
         font-size: 12px;
         font-style: normal;
         line-height: normal;
+                font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
       .nft-item-detail__song-detail__left__img {
         width: 100%;
@@ -344,7 +370,15 @@
           transition: 0.3s;
           opacity: 0;
           overflow: auto;
-
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           pre {
             width: 100%;
             min-height: 100%;
@@ -357,6 +391,15 @@
             overflow-x: auto;
             white-space: pre-wrap;
             padding: 32px;
+                    font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
             &::after {
               content: '';
               position: absolute;
@@ -414,6 +457,15 @@
           font-size: 12px;
           font-style: normal;
           line-height: 100%; /* 12px */
+                  font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         }
         .play,
         .love,
@@ -859,6 +911,15 @@
           font-style: normal;
           line-height: normal;
           border-radius: 12px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           &::before {
             content: '';
             position: absolute;

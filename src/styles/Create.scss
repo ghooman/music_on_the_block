@@ -22,6 +22,15 @@
       border-radius: 100%;
     }
     margin-bottom: 32px;
+        font{
+          font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   }
 
   .progress {
@@ -51,6 +60,15 @@
       text-align: center;
       &.enable {
         color: #cf0;
+      }
+      font  {
+          font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
       }
     }
 

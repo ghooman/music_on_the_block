@@ -14,14 +14,41 @@
     font-size: 32px;
     letter-spacing: 0.96px;
     margin-bottom: 40px;
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      word-spacing: inherit !important;
+      font-variant: inherit !important;
+      text-transform: inherit !important;
+      text-rendering: inherit !important;
+      -webkit-font-smoothing: inherit !important;
+    }
   }
   .nft__exchange--desc {
     color: #f1f1f1;
     text-shadow: 0px 4px 0px rgba(0, 0, 0, 0.6);
     font-family:  Pretendard400;
     font-size: 20px;
-    letter-spacing: 0.6px;
     margin-bottom: 24px;
+        font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      word-spacing: inherit !important;
+      font-variant: inherit !important;
+      text-transform: inherit !important;
+      text-rendering: inherit !important;
+      -webkit-font-smoothing: inherit !important;
+    }
   }
   .nft__exchange--btns {
     display: flex;
@@ -40,7 +67,7 @@
     align-items: center;
     justify-content: center;
     float: right;
-    width: 100px;
+    padding: 0 16px;
     height: 34px;
     background: #cf0;
     position: relative;
@@ -52,6 +79,20 @@
     font-style: normal;
     line-height: normal;
     border-radius: 12px;
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      word-spacing: inherit !important;
+      font-variant: inherit !important;
+      text-transform: inherit !important;
+      text-rendering: inherit !important;
+      -webkit-font-smoothing: inherit !important;
+    }
     &::before {
       content: '';
       position: absolute;

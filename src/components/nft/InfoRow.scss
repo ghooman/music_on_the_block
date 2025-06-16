@@ -26,6 +26,15 @@
             text-align: center;
             border-bottom: 12px solid #1a1a1a;
             background-color: #222;
+            font {
+                font-family:  inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+            }
         }
         .nft-component-inforow-item__value {
             text-align: center;
@@ -37,6 +46,15 @@
         color: #cf0;
         font-family: Pretendard600;
         font-size: 14px;
+            font {
+                font-family:  inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+            }
     }
     .item-user {
         display: flex;
@@ -46,7 +64,15 @@
         color: #f1f1f1;
         font-family: Pretendard400;
         font-size: 14px;
-        letter-spacing: 0.42px;
+                    font {
+                font-family:  inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+            }
         img {
             width: 24px;
             height: 24px;

@@ -11,6 +11,15 @@
       font-size: 30px;
       font-style: normal;
       line-height: normal;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     dd {
       color: #f1f1f1;
@@ -18,6 +27,15 @@
       font-size: 24px;
       font-style: normal;
       line-height: normal;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       .album-detail__song-detail__right__version {
         color: #f1f1f1;
         font-family: Pretendard500;
@@ -28,6 +46,15 @@
         border-radius: 12px;
         padding: 8px 12px;
         white-space: nowrap;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   } //album-detail__title--END--
@@ -37,6 +64,7 @@
     align-items: center;
     gap: 16px;
     margin: 16px 0 32px 0;
+    overflow: auto;
     overflow: auto;
     .main__content-item__persona__item {
       width: 80px;
@@ -57,7 +85,7 @@
         color: #f1f1f1;
         font-family: Pretendard500;
         font-size: 12px;
-        text-align: center;
+        white-space: nowrap;
       }
       &.active {
         img {
@@ -87,6 +115,15 @@
       gap: 8px;
       transition: 0.3s;
       white-space: nowrap;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::before {
         content: '';
         display: block;
@@ -146,6 +183,15 @@
         margin-bottom: 16px;
         position: relative;
         display: inline-block;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &::after {
           content: '';
           position: absolute;
@@ -167,6 +213,15 @@
         font-size: 20px;
         font-style: normal;
         margin-bottom: 16px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       } //album-detail__song-detail__bot__title--END--
       .album-detail__song-detail__bot__content {
         display: flex;
@@ -189,6 +244,15 @@
           overflow: hidden;
           text-overflow: ellipsis;
           min-height: 52px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         } //.album-detail__song-detail__left__title
         .album-detail__song-detail__left__img__lyrics-btn {
           position: absolute;
@@ -202,6 +266,15 @@
           font-size: 12px;
           font-style: normal;
           line-height: normal;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .album-detail__song-detail__left__img {
           width: 100%;
@@ -233,6 +306,15 @@
             overflow: auto;
             border-radius: 24px;
             // margin-bottom: 16px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             pre {
               width: 100%;
               min-height: 100%;
@@ -245,6 +327,15 @@
               overflow-x: auto;
               white-space: pre-wrap;
               padding: 32px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &::after {
                 content: '';
                 position: absolute;
@@ -275,6 +366,15 @@
           font-style: normal;
           line-height: 100%; /* 14px */
           margin-top: 12px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           img {
             display: flex;
             align-items: center;
@@ -301,7 +401,15 @@
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           .album-detail__song-detail__left__info__number {
             display: flex;
@@ -350,7 +458,15 @@
               background-color: #222;
               border-radius: 6px;
               height: 32px;
-
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &.play {
                 img {
                   padding: 5px;
@@ -384,6 +500,15 @@
                   color: #fff;
                   font-family: Pretendard400;
                   font-size: 8px;
+                  font{
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    color: inherit !important;
+                    letter-spacing: inherit !important;
+                  }
                 }
               }
             }
@@ -467,6 +592,15 @@
                   font-size: 14px;
                   transition: 0.3s;
                   text-align: left;
+                  font{
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    color: inherit !important;
+                    letter-spacing: inherit !important;
+                  }
                   img {
                     width: 18px;
                     height: 18px;
@@ -494,7 +628,15 @@
             font-family: Pretendard500;
             font-size: 20px;
             font-style: normal;
-            line-height: 100%; /* 20px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //album-detail__song-detail__right__title--END--
           .album-detail__song-detail__right__version {
             color: #f1f1f1;
@@ -506,6 +648,15 @@
             border-radius: 12px;
             padding: 8px 12px;
             white-space: nowrap;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //album-detail__song-detail__right__version--END--
         }
         .album-detail__song-detail__right__type {
@@ -540,6 +691,15 @@
               border-left: 1px solid #00ffb3;
               border-right: 1px solid #00ffb3;
               border-radius: 12px 12px 12px;
+            }
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
             }
           } //album-detail__song-detail__right__type__item--END--
         } //album-detail__song-detail__right__type--END--
@@ -599,6 +759,15 @@
               align-items: center;
               display: flex;
               flex-direction: column;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
               span {
                 color: var(--Text-music-sub, #aaa);
                 gap: 4px;
@@ -606,7 +775,15 @@
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
-                line-height: 100%; /* 14px */
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               }
               .user {
                 display: flex;
@@ -625,9 +802,16 @@
                 font-family: Pretendard400;
                 font-size: 14px;
                 font-style: normal;
-                line-height: 100%; /* 14px */
-                letter-spacing: 0.42px;
                 transition: 0.3s;
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
                 &:hover {
                   color: #cf0;
                 }
@@ -683,6 +867,15 @@
               justify-content: start;
               flex-direction: column;
               padding: 11px 16px 11px 24px;
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
             }
           } //album-detail__song-detail__right__info-box__detail--END--
         } //album-detail__song-detail__right__info-box--END--
@@ -698,6 +891,15 @@
   .album-detail__control-guide--text {
     font-family: Pretendard600;
     color: #fff;
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
   }
   .album-detail__control-guide--icon {
     width: 16px;
@@ -720,7 +922,15 @@
     height: 40px;
     // padding: 12px;
     color: #1a1a1a;
-
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
     &:disabled {
       color: #565656 !important;
       background-color: #000 !important;
@@ -1000,6 +1210,15 @@
       margin-bottom: 16px;
       position: relative;
       display: inline-block;
+      font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -1026,6 +1245,15 @@
       padding: 4px 8px 8px;
       border-radius: 10px 2px 10px 10px;
       border: 1px solid var(--primary-200, #a9d400);
+      font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -1052,7 +1280,16 @@
     height: 30px;
     padding: 4px 8px 8px;
     border-radius: 10px 2px 10px 10px;
-    border: 1px solid var(--primary-200, #a9d400);
+    border: 1px solid #a9d400;
+      font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     &::after {
       content: '';
       position: absolute;
@@ -1098,6 +1335,15 @@
             font-weight: 400;
             line-height: normal;
             white-space: nowrap;
+            font  {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
       }
@@ -1114,10 +1360,17 @@
             gap: 8px;
             color: #aaa;
             text-align: center;
-            font-family:Pretendard400;
+            font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
-            line-height: normal;
+            font  {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             img {
               flex-shrink: 0;
               width: 16px;
@@ -1134,6 +1387,15 @@
         font-style: normal;
         line-height: normal;
         min-height: 60px;
+            font  {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
         &.title {
           text-align: left;
         }
@@ -1274,6 +1536,15 @@
         border-radius: 100%;
         background: #cf0;
       }
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     dd {
       color: #fff;
@@ -1281,6 +1552,15 @@
       font-size: 16px;
       font-style: normal;
       line-height: normal;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   } //album-detail__slide__title--END--
 
@@ -1392,6 +1672,15 @@
           font-size: 12px;
           font-style: normal;
           line-height: 16px; /* 133.333% */
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
       } //album__content-list__list__item__left--END--
 
@@ -1414,6 +1703,15 @@
           text-overflow: ellipsis;
           word-break: break-word;
           min-height: 38px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         } //album__content-list__list__item__right__title--END--
         .album__content-list__list__item__right__love-play {
           display: flex;
@@ -1432,7 +1730,15 @@
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             &:nth-child(2) {
               img {
                 width: 16px;
@@ -1452,12 +1758,19 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: var(--Text-music-title, #f1f1f1);
+            color:#f1f1f1;
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
-            letter-spacing: 0.36px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             img {
               width: 24px;
               height: 24px;

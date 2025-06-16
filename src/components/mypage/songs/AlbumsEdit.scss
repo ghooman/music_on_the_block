@@ -3,11 +3,29 @@
     color: #cf0;
     font-family:  Pretendard600;
     font-size: 30px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
   .albums-edit__album-name {
     color: #f1f1f1;
     font-family:  Pretendard500;
     font-size: 20px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .albums-edit__edit-button {
@@ -21,7 +39,15 @@
     transition: 0.2s all;
     color: #1a1a1a;
     font-family:  Pretendard600;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       top: 4px;
       &::before {
@@ -62,6 +88,15 @@
     font-style: normal;
     transition: 0.3s;
     position: relative;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &::after {
       content: '';
       position: absolute;
@@ -75,9 +110,18 @@
     &.active {
       background: #cf0;
       border: 1px solid #cf0;
-      color: var(--Text-dark-title, #1a1a1a);
+      color:#1a1a1a;
       font-family:  Pretendard500;
       font-size: 14px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         background: #000;
       }

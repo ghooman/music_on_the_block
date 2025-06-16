@@ -11,6 +11,20 @@
     font-size: 40px;
     letter-spacing: 1.2px;
     margin-bottom: 40px;
+    font{
+      color: inherit !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      letter-spacing: inherit !important;
+      word-spacing: inherit !important;
+      font-variant: inherit !important;
+      text-transform: inherit !important;
+      text-rendering: inherit !important;
+      -webkit-font-smoothing: inherit !important;
+    }
   }
   .create__get-started--subtitle {
     color: #aaa;
@@ -18,6 +32,20 @@
     font-size: 32px;
     letter-spacing: 0.96px;
     margin-bottom: 40px;
+    font{
+      color: inherit !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      letter-spacing: inherit !important;
+      word-spacing: inherit !important;
+      font-variant: inherit !important;
+      text-transform: inherit !important;
+      text-rendering: inherit !important;
+      -webkit-font-smoothing: inherit !important;
+    }
   }
 
   .create__get-started--features {
@@ -205,6 +233,15 @@
     font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
+      font  { 
+          font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   } //create__get-started--version__title--END--
   .create__get-started--version__select {
     position: relative;
@@ -235,7 +272,16 @@
         background-size: cover;
         transition: 0.3s;
       }
-    }
+      font     {
+         font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
+    }//create__get-started--version__select__title--END--
     .create__get-started--version__select__list {
       width: 100%;
       background: #0b0b0c;
@@ -304,32 +350,59 @@
         color: #cf0;
       }
       .create__get-started--format-item-txt {
-        color: var(--Text-music-title, #f1f1f1);
+        color: #f1f1f1;
         font-family: Pretendard400;
         font-size: 14px;
         span {
-          color: var(--Text-music-sub, #aaa);
+          color: #aaa;
           font-family: Pretendard400;
           font-size: 14px;
         }
       }
     }
     .create__get-started--format-item-title {
-      color: var(--Text-music-sub, #aaa);
+      color: #aaa;
       font-family: Pretendard700;
       font-size: 16px;
       margin-bottom: 12px;
+            font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .create__get-started--format-item-txt {
-      color: var(--Text-music-un, #565656);
+      color: #565656;
       font-family: Pretendard400;
       font-size: 14px;
+        font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       span {
         margin-top: 8px;
         display: block;
-        color: var(--Text-music-un, #565656);
+        color: #565656;
         font-family: Pretendard400;
         font-size: 14px;
+              font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       }
     }
     .create__get-started--format-item-select {
@@ -364,6 +437,15 @@
     .create__get-started--button {
       width: 100%;
       margin-top: 16px;
+            font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .tw-connect-wallet {
       margin-top: 16px;
@@ -386,6 +468,20 @@
       font-family: Pretendard600;
       font-size: 16px;
       margin-bottom: 8px;
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     }
 
     .privacy-option,
@@ -398,6 +494,20 @@
       border-radius: 12px;
       background: var(--Color-02, #1a1a1a);
       width: 360px;
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important; 
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     }
 
     .privacy-option {

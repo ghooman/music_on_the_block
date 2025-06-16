@@ -28,17 +28,17 @@ const LyricChatBot = ({
 
   const { data: userData } = useUserDetail();
   const generatedLyricsRef = useRef(null);
-  // 선택된 언어에 따라 채팅봇 메시지 선택
-  const getLocaleMessage = messageType => {
+  // 선택된 언어에 따라 초기 메시지 선택
+  const getInitialMessage = () => {
     return (
-      lyricPrompts.chatbot[messageType][selectedLanguage] ||
-      lyricPrompts.chatbot[messageType]['ENG']
+      lyricPrompts.chatbot.initialMessage[selectedLanguage] ||
+      lyricPrompts.chatbot.initialMessage['ENG']
     );
   };
 
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
-    { role: 'assistant', content: getLocaleMessage('initialMessage') },
+    { role: 'assistant', content: getInitialMessage() },
   ]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -59,11 +59,38 @@ const LyricChatBot = ({
     'A song that is good to listen to while studying',
     'A song that is perfect for hanging out with friends',
   ];
+
+  const initialJpnLyricPlaceholder = [
+    '猫を主人公とした明るい雰囲気の歌詞',
+    '別れ後に悲しみを感じている哀れなバラード',
+    '勉強するときに聞くといい歌',
+    '友達と一緒に遊ぶときに聞くといい歌',
+  ];
+
+  const initialIdnLyricPlaceholder = [
+    'Lirik yang menyenangkan dan positif dengan kucing sebagai tokoh utama',
+    'Lirik yang menyedihkan tentang patah hati',
+    'Lirik yang cocok untuk didengarkan saat belajar',
+    'Lirik yang cocok untuk didengarkan saat bersama teman',
+  ];
+
+  const initialVieLyricPlaceholder = [
+    'Lời bài hát vui vẻ và tích cực với mèo là nhân vật chính',
+    'Lời bài hát buồn về tình yêu đã mất',
+    'Lời bài hát phù hợp để nghe khi học',
+    'Lời bài hát phù hợp để nghe khi vui chơi với bạn bè',
+  ];
+
   // 선택된 언어에 따라서 목록중 랜덤으로 하나
-  const initialLyricPlaceholder =
-    selectedLanguage === 'KOR'
-      ? initialKorLyricPlaceholder[Math.floor(Math.random() * initialKorLyricPlaceholder.length)]
-      : initialEngLyricPlaceholder[Math.floor(Math.random() * initialEngLyricPlaceholder.length)];
+  const initialLyricPlaceholderList = {
+    KOR: initialKorLyricPlaceholder[Math.floor(Math.random() * initialKorLyricPlaceholder.length)],
+    ENG: initialEngLyricPlaceholder[Math.floor(Math.random() * initialEngLyricPlaceholder.length)],
+    JPN: initialJpnLyricPlaceholder[Math.floor(Math.random() * initialJpnLyricPlaceholder.length)],
+    IDN: initialIdnLyricPlaceholder[Math.floor(Math.random() * initialIdnLyricPlaceholder.length)],
+    VIE: initialVieLyricPlaceholder[Math.floor(Math.random() * initialVieLyricPlaceholder.length)],
+  };
+
+  const initialLyricPlaceholder = initialLyricPlaceholderList[selectedLanguage];
 
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
@@ -79,7 +106,7 @@ const LyricChatBot = ({
         messages: [
           {
             role: 'system',
-            content: getLocaleMessage('systemMessage'),
+            content: lyricPrompts.chatbot.systemMessage,
           },
           ...chatHistory,
           { role: 'user', content: userInput },
@@ -89,12 +116,17 @@ const LyricChatBot = ({
       botMessage = botMessage.replace(/\*\*/g, '');
 
       // [가사 추출] 예외 경우 제외하고 가사저장
-      if (
-        !botMessage.includes(
-          'Cannot generate lyrics based on the provided input. Please try again.'
-        ) &&
-        !botMessage.includes('가사 생성에 어울리지 않는 내용입니다. 다시 입력해주세요')
-      ) {
+      const errorMessages = [
+        'Cannot generate lyrics based on the provided input. Please try again.',
+        '가사 생성에 어울리지 않는 내용입니다. 다시 입력해주세요',
+        '歌詞生成に適さない内容です。再度入力してください。',
+        'Konten tidak cocok untuk pembuatan lirik. Silakan coba lagi.',
+        'Nội dung không phù hợp để tạo lời bài hát. Vui lòng thử lại.',
+      ];
+
+      const isErrorMessage = errorMessages.some(errorMsg => botMessage.includes(errorMsg));
+
+      if (!isErrorMessage) {
         setGeneratedLyric(botMessage);
       }
 

@@ -62,7 +62,11 @@ const EvaluationResultsComp = ({ evaluationData, songData, critic, isResult, isO
               {!evaluationData && <NoneContent height={185} message="No evaluation history yet." />}
             </ContentWrap>
             <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
-              <SongsCritic t={t} critic={critic} id={songData?.id || songData?.song_id} />
+              <SongsCritic
+                t={t}
+                critic={critic}
+                id={songData?.id || songData?.song_id || evaluationData?.song_id}
+              />
             </ContentWrap>
             {isResult && <ResultBtn t={t} evaluationData={evaluationData} />}
           </>

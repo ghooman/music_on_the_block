@@ -6,6 +6,15 @@
     font-style: normal;
     line-height: normal;
     margin-bottom: 16px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   }
   .nft-overview__content {
     display: grid;
@@ -22,6 +31,15 @@
       min-height: 76px;
       grid-column: span 2;
       padding: 8px 0;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &.isTwo {
         grid-column: span 3;
       }
@@ -33,9 +51,18 @@
         font-size: 16px;
         font-style: normal;
         line-height: 100%;
+              font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       }
       dd {
-        color: var(--Text-music-title, #f1f1f1);
+        color:#f1f1f1;
         text-align: center;
         font-family: Pretendard700;
         font-size: 16px;
@@ -48,14 +75,23 @@
         width: 100%;
         padding: 0 16px;
         .sub_value {
-          color: var(--Text-music-sub, #aaa);
+          color:#aaa;
           text-align: center;
-          font-family: Inter;
           font-size: 12px;
-          font-style: normal;
-          font-weight: 300;
-          line-height: 100%; /* 12px */
-          letter-spacing: 0.36px;
+        }
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important;
         }
       }
       &.long {
@@ -87,3 +123,14 @@
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+

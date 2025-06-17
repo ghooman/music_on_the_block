@@ -95,6 +95,15 @@
         font-size: 8px;
         color: #fff;
         font-family:  Pretendard400;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
     .time {
@@ -114,13 +123,30 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       strong {
         color: #fff;
         text-align: center;
         font-family:Pretendard400;
         font-size: 12px;
         width: 100%;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   } //album__content-list__list__item__left--END--
@@ -148,6 +174,15 @@
       height: 34px;
       width: 134px;
       line-height: 120%;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     } //album__content-list__list__item__right__title--END--
     .album__content-list__list__item__right__love-play {
       display: flex;
@@ -169,7 +204,15 @@
         font-family:Pretendard400;
         font-size: 12px;
         font-style: normal;
-        line-height: 100%; /* 12px */
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &:nth-child(2) {
           img {
             width: 16px;
@@ -196,7 +239,15 @@
       font-size: 12px;
       font-style: normal;
       line-height: 100%; /* 12px */
-      letter-spacing: 0.36px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       img {
         width: 24px;
         height: 24px;
@@ -219,6 +270,15 @@
         color: #565656;
         font-family:Pretendard400;
         font-size: 10px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
 
@@ -227,6 +287,15 @@
       color: #cf0;
       font-family:Pretendard600;
       font-size: 14px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
 
     .album__content-list__list__item__right__user__btn {
@@ -276,6 +345,15 @@
         color: #f1f1f1 !important;
         transition: 0.3s;
         border: 1px solid transparent;
+          font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &:hover {
           top: 0 !important;
           border-radius: 36px;

@@ -17,7 +17,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
   &:disabled {
     &::before {
       width: 100%;
@@ -65,7 +73,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
   &:disabled {
     &::before {
       width: 100%;
@@ -100,6 +116,15 @@
     font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
   } //step1__title--END--
   .step1__list {
     display: flex;
@@ -153,9 +178,14 @@
       border-radius: 12px;
       min-height: 348px;
       transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       img {
         width: 100%;
+        max-height: 228px;
         border-radius: 12px;
+        object-fit: cover;
       }
       &.active {
         border: 1px solid #cf0;
@@ -166,17 +196,44 @@
           font-family: Pretendard600;
           font-size: 16px;
           margin: 8px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           span {
             color: #cf0;
             text-align: center;
             font-family: Pretendard600;
             font-size: 16px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
         dd {
           color: var(--Text-music-sub, #aaa);
           font-family: Pretendard500;
           font-size: 14px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
       } //step2__choose__item__title--END--
     } //step2__choose__item--END--
@@ -189,6 +246,15 @@
     font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   } //step1__title--END--
   .step3__selected-song {
     border: 1px solid #222;
@@ -199,6 +265,15 @@
       font-family: Pretendard500;
       font-size: 14px;
       margin-bottom: 16px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     } //step3__selected-song__title--END--
     .step3__selected-song__critic {
       width: 100%;
@@ -207,6 +282,15 @@
         font-family: Pretendard500;
         font-size: 14px;
         margin-bottom: 16px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       }
       dd {
         display: flex;
@@ -223,15 +307,42 @@
           color: #f1f1f1;
           font-family: Pretendard500;
           font-size: 14px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         span {
           color: var(--Text-music-sub, #aaa);
           font-family: Pretendard400;
           font-size: 14px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           strong {
             color: var(--Text-music-title, #f1f1f1);
             font-family: Pretendard500;
             font-size: 14px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
       }

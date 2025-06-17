@@ -116,16 +116,8 @@ function Album() {
   const handleGetMusicList = async () => {
     try {
       const res = await getHitMusicList(walletAddress);
-      // 트랙마다 오디오 정보를 불러와 duration 설정
-      const fetchedTracks = res.data;
-      fetchedTracks.forEach((track, index) => {
-        const audio = new Audio(track.music_url);
-        audio.addEventListener('loadedmetadata', () => {
-          fetchedTracks[index].duration = audio.duration;
-          setHitList([...fetchedTracks]);
-        });
-      });
-      setHitList(fetchedTracks);
+
+      setHitList(res.data);
     } catch (e) {
       console.error(e);
     }
@@ -204,6 +196,8 @@ function Album() {
     }
   };
 
+  console.log('앨범');
+
   return (
     <>
       <div className="main">
@@ -216,8 +210,8 @@ function Album() {
               <Link to="/create" className="main__to-day-header__song-create-list__item">
                 <p className="main__to-day-header__song-create-list__item__title">
                   {t('Create your own song')}
-                  <br />
-                  {t('very quickly')}
+                  {/* <br /> */}
+                  <span>{t('very quickly')}</span>
                 </p>
                 <img src={songCreateIcon1} alt="songCreateIcon1" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">
@@ -227,8 +221,8 @@ function Album() {
               <Link to="/evaluation" className="main__to-day-header__song-create-list__item">
                 <p className="main__to-day-header__song-create-list__item__title">
                   {t('Get your song')}
-                  <br />
-                  {t('evaluated')}
+                  {/* <br /> */}
+                  <span>{t('evaluated')}</span>
                 </p>
                 <img src={songCreateIcon2} alt="songCreateIcon2" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">
@@ -241,8 +235,8 @@ function Album() {
               >
                 <p className="main__to-day-header__song-create-list__item__title">
                   {t('Create a song')}
-                  <br />
-                  {t('with your own voice')}
+                  {/* <br /> */}
+                  <span>{t('with your own voice')}</span>
                 </p>
                 <img src={songCreateIcon3} alt="songCreateIcon3" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">
@@ -611,6 +605,8 @@ const List = ({
     //   },
     // },
   };
+
+  console.log('리스트');
   return (
     <section className={`album__content-list ${className}`}>
       <p className="album__content-list__title">
@@ -690,6 +686,7 @@ const ListSlider = ({
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
+  console.log('리스트사이드바');
   return (
     <section className="album__slide">
       <p className="album__slide__title">{t('Hit Music List')}</p>

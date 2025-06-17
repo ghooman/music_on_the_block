@@ -1,4 +1,3 @@
-// locales/idMelody.js
 const idMelody = {
   chatbot: {
     initialMessage: 'Sebutkan genre melodi yang ingin Anda buat!\n',

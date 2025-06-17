@@ -30,6 +30,15 @@
       cursor: pointer;
       -webkit-appearence: none;
       -webkit-tap-highlight-color: transparent;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       svg {
         will-change: transform;
         backface-visibility: hidden;
@@ -147,7 +156,15 @@
           animation: stroke 1s linear;
           animation-fill-mode: forwards;
           // stroke:#CF0;
-
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           &:nth-child(1) {
             animation-delay: 0s;
           }

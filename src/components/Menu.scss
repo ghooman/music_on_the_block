@@ -70,10 +70,8 @@
     }
     .tw-connect-wallet {
       width: 100%;
-      width: 100%;
       height: 40px;
       color: #1a1a1a;
-      font-family: Pretendard600;
       font-family: Pretendard600;
       font-size: 16px;
       font-style: normal;
@@ -81,6 +79,15 @@
       border-radius: 12px;
       background: #00ffb3;
       position: relative;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       font{
         font-family: inherit !important;
         font-size: inherit !important;
@@ -102,12 +109,11 @@
     .menu__box__title {
       color: #cf0;
       font-family: Pretendard400;
-      font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
-      letter-spacing: 0.42px;
       position: relative;
+
             font{
         font-family: inherit !important;
         font-size: inherit !important;
@@ -146,8 +152,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--Text-dark-title, #1a1a1a);
-        font-family: Pretendard600;
+        color:#1a1a1a;
         font-family: Pretendard600;
         font-size: 16px;
         font-style: normal;
@@ -221,13 +226,30 @@
             color: #f1f1f1;
             font-family: Pretendard500;
             font-size: 12px;
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           .level {
             color: var(--Text-music-sub, #aaa);
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         } //menu__box__my-page__level--END--
         .menu__box__my-page__info {
@@ -351,7 +373,7 @@
                   width: 14px;
                   height: 14px;
                 }
-                                font{
+                font{
                   font-family: inherit !important;
                   font-size: inherit !important;
                   font-weight: inherit !important;
@@ -376,15 +398,15 @@
         margin-top: 4px;
         margin-bottom: 16px;
         transition: 0.2s;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &:hover {
           color: #00ffb3;
         }
@@ -401,6 +423,15 @@
       color: #fff;
       font-family: Pretendard400;
       font-size: 14px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
     }
     .menu__box__gnb-list {
       width: 100%;
@@ -579,10 +610,8 @@
               width: 100%;
               color: #1a1a1a;
               font-family: Pretendard400;
-              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
-              line-height: 100%; /* 12px */
               transition: 0.3s;
               &:hover {
                 background: #a9d400;
@@ -609,7 +638,6 @@
       .menu-box__lang-notification--button {
         display: flex;
         color: #f1f1f1;
-        font-family: Pretendard400;
         font-family: Pretendard400;
         padding: 4px;
         border-radius: 8px;
@@ -710,7 +738,7 @@
   &.visible {
     padding: 8px 0px;
     opacity: 1;
-    height: calc((40.8px * 3) + 16px);
+    height: calc((40.8px * 5) + 16px);
     padding: 8px 0px;
   }
   &.mobile {
@@ -779,21 +807,19 @@
       font-family: Pretendard500;
       font-size: 12px;
       font-style: normal;
-      line-height: 100%; /* 12px */
-  font{
-    font-family: inherit !important;
-    font-size: inherit !important;
-    font-weight: inherit !important;
-    line-height: inherit !important;
-    font-style: inherit !important;
-    color: inherit !important;
-    letter-spacing: inherit !important;
-  }
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .menu-box__lang-notification--select-notification-box__header__title {
       color: var(--Text-music-title, #f1f1f1);
       text-align: center;
-      font-family: Pretendard600;
       font-family: Pretendard600;
       font-size: 24px;
       font-style: normal;
@@ -847,7 +873,6 @@
           font-family: Pretendard600;
           font-size: 10px;
           font-style: normal;
-          line-height: 100%; /* 10px */
             font{
               font-family: inherit !important;
               font-size: inherit !important;

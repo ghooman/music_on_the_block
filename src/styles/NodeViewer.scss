@@ -14,6 +14,15 @@
     font-size: 18px;
     gap: 4px;
     margin-bottom: 30px;
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   } //node-viewer__add-btn--END--
   .node-viewer__list {
     width: 100%;
@@ -36,17 +45,33 @@
             color: #fff;
             font-family: Pretendard700;
             font-size: 20px;
-            line-height: 120%;
             margin-bottom: 10px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           dd {
             color: #767676;
             font-family: Pretendard400;
             font-size: 16px;
-            line-height: 120%;
             display: flex;
             align-items: center;
             gap: 8px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             .node-viewer__list__item__title__btn {
               width: 24px;
               height: 24px;
@@ -91,6 +116,15 @@
             font-family: Pretendard700;
             font-size: 20px;
             margin-bottom: 12px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //node-viewer__list__item__content-wrap01__item__title--END--
           .node-viewer__list__item__content-wrap01__item__content {
             display: flex;
@@ -100,11 +134,29 @@
               color: #fff;
               font-family: Pretendard700;
               font-size: 16px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             } //node-viewer__list__item__content-wrap01__item__content__number--END--
             .node-viewer__list__item__content-wrap01__item__content__quantity {
               color: #767676;
               font-family: Pretendard400;
               font-size: 14px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             } //node-viewer__list__item__content-wrap01__item__content__quantity--END--
           } //node-viewer__list__item__content-wrap01__item__content--END--
         } //node-viewer__list__item__content-wrap01__item--END--
@@ -125,6 +177,15 @@
             font-family: Pretendard700;
             font-size: 20px;
             margin-bottom: 12px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //node-viewer__list__item__content-wrap01__item__title--END--
           .node-viewer__list__item__content-wrap02__item__content {
             display: flex;
@@ -134,11 +195,29 @@
               color: #fff;
               font-family: Pretendard700;
               font-size: 16px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             } //node-viewer__list__item__content-wrap01__item__content__number--END--
             .node-viewer__list__item__content-wrap02__item__content__mob {
               color: #767676;
               font-family: Pretendard400;
               font-size: 14px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             } //node-viewer__list__item__content-wrap01__item__content__mob--END--
           } //node-viewer__list__item__content-wrap01__item__content--END--
         } //node-viewer__list__item__content-wrap01__item--END--

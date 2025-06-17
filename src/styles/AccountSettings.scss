@@ -28,7 +28,7 @@
     border: 1px solid var(--Color-03, #222);
     .account-setting__info-box {
       .info-box__title {
-        color: var(--primary-base, #cf0);
+        color: #cf0;
         font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
@@ -52,7 +52,7 @@
       }
       .info-box__picture-box {
         .picture-box__title {
-          color: var(--Text-music-title, #f1f1f1);
+          color: #f1f1f1;
           font-family:  Pretendard500;
           font-size: 18px;
           font-style: normal;
@@ -114,7 +114,7 @@
     .account-setting__background-box {
       width: 100%;
       .background-box__title {
-        color: var(--Text-music-title, #f1f1f1);
+        color:#f1f1f1;
         font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
@@ -135,8 +135,8 @@
         width: 100%;
         height: 170px;
         border-radius: 4px;
-        border: 1px solid var(--Color-03, #222);
-        background: var(--Color-02, #1a1a1a);
+        border: 1px solid #222;
+        background: #1a1a1a;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -149,7 +149,7 @@
           align-items: center;
           gap: 8px;
           border-radius: 4px;
-          background: var(--button-grey, #272727);
+          background:#272727;
           margin-left: auto;
           width: fit-content;
           cursor: pointer;
@@ -174,7 +174,7 @@
         }
       }
       .background-box__desc {
-        color: var(--primary-200, #a9d400);
+        color:#a9d400;
         font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
@@ -196,7 +196,7 @@
         width: 100%;
         margin-bottom: 16px;
         .user-info__title {
-          color: var(--Text-music-title, #f1f1f1);
+          color: #f1f1f1;
           font-family:  Pretendard500;
           font-size: 18px;
           font-style: normal;
@@ -216,7 +216,7 @@
           display: flex;
           justify-content: space-between;
           .user-info__count {
-            color: var(--primary-200, #a9d400);
+            color:#a9d400;
             font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
@@ -234,7 +234,7 @@
           }
         }
         .user-info__desc {
-          color: var(--primary-200, #a9d400);
+          color:#a9d400;
           font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
@@ -276,9 +276,9 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            color: var(--Text-dark-title, #1a1a1a);
+            color: #1a1a1a;
             border-radius: 12px;
-            background: var(--primary-base, #cf0);
+            background:#cf0;
             font-family:  Pretendard600;
             font-size: 14px;
             font-style: normal;
@@ -296,10 +296,9 @@
           }
         }
         .user-info__error {
-          color: var(--warning, #df1919);
+          color:#df1919;
           font-size: 12px;
           font-style: normal;
-          line-height: 100%; /* 12px */
                   font {
           font-family:  inherit !important;
           font-size: inherit !important;
@@ -322,10 +321,10 @@
     gap: 16px;
     align-self: stretch;
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     .details__header {
       .details__title {
-        color: var(--primary-base, #cf0);
+        color:#cf0;
         font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
@@ -350,12 +349,11 @@
       width: 100%;
       margin-bottom: 16px;
       .details__item-title {
-        color: var(--Text-music-title, #f1f1f1);
+        color:#f1f1f1;
         font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
-        letter-spacing: 0.54px;
         margin-bottom: 8px;
         font {
           font-family:  inherit !important;
@@ -369,8 +367,8 @@
       }
       .details__input {
         border-radius: 12px;
-        border: 1px solid var(--Color-04, #383838);
-        background: var(--Dark-Color-01, #0b0b0c);
+        border: 1px solid #383838;
+        background: #0b0b0c;
         display: flex;
         padding: 12px;
         flex-direction: column;
@@ -473,7 +471,7 @@
     width: 100%;
     height: 54px;
     border-radius: 12px;
-    background: var(--primary-base, #cf0);
+    background: #cf0;
     font-family:  Pretendard600;
     font-size: 18px;
     font-style: normal;
@@ -535,10 +533,10 @@
     gap: 16px;
     align-self: stretch;
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     .social__header {
       .social__title {
-        color: var(--primary-base, #cf0);
+        color: #cf0;
         font-family:  Pretendard400;
         font-size: 24px;
         font-style: normal;
@@ -557,12 +555,11 @@
     .social__item {
       width: 100%;
       .social__item-title {
-        color: var(--Text-music-title, #f1f1f1);
+        color: #f1f1f1;
         font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
-        letter-spacing: 0.54px;
         margin-bottom: 8px;
         font {
           font-family:  inherit !important;
@@ -575,12 +572,11 @@
         }
       }
       .social__desc {
-        color: var(--primary-200, #a9d400);
+        color: #a9d400;
         font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
-        letter-spacing: 0.42px;
         margin-bottom: 12px;
         font {
           font-family:  inherit !important;
@@ -600,8 +596,8 @@
         height: 54px;
         align-self: stretch;
         border-radius: 12px;
-        border: 1px solid var(--Color-04, #383838);
-        background: var(--Dark-Color-01, #0b0b0c);
+        border: 1px solid #383838;
+        background: #0b0b0c;
         .social__input {
           z-index: 1;
           display: flex;
@@ -617,9 +613,9 @@
           justify-content: center;
           align-items: center;
           gap: 8px;
-          color: var(--Text-dark-title, #1a1a1a);
+          color:#1a1a1a;
           border-radius: 12px;
-          background: var(--primary-base, #cf0);
+          background: #cf0;
           font-family:  Pretendard600;
           font-size: 14px;
           font-style: normal;

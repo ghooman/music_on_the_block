@@ -48,6 +48,10 @@ const Create = () => {
       setSelectedLanguage('ENG');
     } else if (currentLanguage === 'Indonesia') {
       setSelectedLanguage('IDN');
+    } else if (currentLanguage === '日本語') {
+      setSelectedLanguage('JPN');
+    } else if (currentLanguage === 'Tiếng Việt') {
+      setSelectedLanguage('VIE');
     }
   }, [i18n.language]);
   // 사용자 생성 상태 확인 함수

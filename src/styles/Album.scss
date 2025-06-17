@@ -70,6 +70,15 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             &::after {
               content: '';
               display: block;
@@ -213,6 +222,15 @@
       color: #f1f1f1 !important;
       transition: 0.3s;
       border: 1px solid transparent;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &:hover {
         top: 0 !important;
         border-radius: 36px;
@@ -244,6 +262,15 @@
     margin: 16px 0;
     position: relative;
     width: 100%;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     // display: inline-block;
     &::after {
       content: '';
@@ -446,6 +473,15 @@
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
+              font {
+                font-family:  inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
 
             img {
@@ -469,6 +505,15 @@
             font-family: Pretendard400;
             font-size: 14px;
             text-align: left;
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           dd {
             display: flex;
@@ -484,6 +529,15 @@
             text-align: center;
             font-family: Pretendard400;
             font-size: 12px;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
           }
         } //album__content-list__evaluation-stage__item__title--END--
         .album__content-list__evaluation-stage__item__details-number {
@@ -504,6 +558,15 @@
             color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
             font-family: Pretendard700;
             font-size: 14px;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
             // &.gold {
             //   background: url('../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
             // }
@@ -533,6 +596,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             &::before {
               content: '';
               position: absolute;
@@ -663,8 +735,16 @@
         font-size: 30px;
         font-style: normal;
         font-weight: 700;
-        line-height: 0%; /* 0px */
         transition: 0.3s;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &::before {
           content: '';
           position: absolute;

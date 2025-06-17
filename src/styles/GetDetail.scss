@@ -28,6 +28,20 @@
       font-size: 28px;
       font-family: Pretendard700;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.75);
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     }
     .desc {
       color: #fff;
@@ -35,6 +49,20 @@
       font-size: 16px;
       line-height: 24px;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.75);
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     }
   }
 
@@ -70,7 +98,20 @@
     display: flex;
     align-items: center;
     gap: 8px;
-
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     &.select,
     &:hover {
       color: #1a1a1a;
@@ -83,8 +124,20 @@
       background-color: #00a774;
       color: #f1f1f1;
       font-size: 12px;
-      font-family: Inter300;
-      letter-spacing: 0.36px;
+            font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     }
   }
 
@@ -101,7 +154,20 @@
     letter-spacing: 0.36px;
     display: flex;
     align-items: center;
-
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
     &.round {
       color: #aaa;
       border: 1px solid #00ffb3;

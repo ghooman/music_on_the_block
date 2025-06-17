@@ -1,0 +1,17 @@
+{
+ "Account Settings": "アカウント設定",
+ "Profile Information": "プロフィール情報",
+ "Artist Profile": "アーティストプロフィール",
+ "3MB or less": "3MB以下",
+ "Background Image": "背景画像",
+ "Update": "更新",
+ "This image exceeds 3MB. Please try a different image.": "この画像は3MBを超えています。別の画像をお試しください。",
+ "Introduction": "紹介文",
+ "Write your Introduction in 150 characters or less.": "150文字以内で自己紹介を書いてください。",
+ "Characters": "文字数",
+ "Link Your Social Profiles": "SNSプロフィールをリンク",
+ "Link": "リンク",
+ "Add link": "リンクを追加",
+ "Invalid URL format.": "無効なURL形式です。",
+ "Update User Info": "ユーザー情報を更新"
+}

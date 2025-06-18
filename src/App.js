@@ -42,6 +42,7 @@ import GetDetail from './pages/GetDetail';
 import Get from './pages/Get';
 import EvaluationStage from './pages/EvaluationStage';
 import NodeViewer from './pages/NodeViewer';
+import LicenseKey from './pages/LicenseKey';
 
 function Layout({ children }) {
   return (
@@ -336,6 +337,16 @@ function App() {
                     <Layout>
                       <ProtectedRoute>
                         <NodeViewer />
+                      </ProtectedRoute>
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/license-key"
+                  element={
+                    <Layout>
+                      <ProtectedRoute>
+                        <LicenseKey/>
                       </ProtectedRoute>
                     </Layout>
                   }

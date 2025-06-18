@@ -26,6 +26,37 @@
       gap: 8px;
     }
 
+    .profile__info__cover{
+      display: flex;
+      justify-content: space-between;
+      .profile__info__btns{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        a{
+          &.key-pass{
+            border-radius: 8px;
+            background: #262626;
+            border: 1px solid #262626;
+            color: #888;
+            font-family: Pretendard400;
+            font-size: 14px;
+            pointer-events: none;
+          }
+          border-radius: 8px;
+          border: 1px solid #CF0;
+          height: 30px;
+          padding: 0 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FFF;
+          font-family: Pretendard400;
+          font-size: 14px;
+        }//edit-btn--END--
+      }//profile__info__btns--END--
+
+    }//profile__info__cover--END--
     .profile__info--name-level {
       display: flex;
       gap: 12px;
@@ -127,9 +158,9 @@
       }
     }
     .profile__desc {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
+      // display: flex;
+      // justify-content: space-between;
+      // gap: 16px;
       min-height: 21px;
     }
     .profile__link {
@@ -562,6 +593,10 @@
     .mypage__profile {
       width: 100%;
       // height: 580px;
+      .profile__info__cover{
+        flex-direction: column;
+        gap: 12px;
+      }
       .mypage__profile-bg {
         width: calc(100% + 32px);
       }

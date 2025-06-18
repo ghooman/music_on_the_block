@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useTransition, useRef } from 'react';
+import React, { useState, useEffect, useContext, useTransition,useRef,useLayoutEffect  } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { useQuery, useQueryClient } from 'react-query';
@@ -233,20 +233,43 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const { t } = useTranslation('my_page');
 
   const [seeMore, setSeeMore] = useState(false);
-  const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
   const [linksModal, setLinksModal] = useState(false);
 
   const { pathname, search: queryParameter } = useLocation();
 
-  const content = userData?.introduce || '-';
+  const [isOverflow, setIsOverflow] = useState(false); // 실제 잘림 여부
 
-  useEffect(() => {
-    setShowSeeMoreButton(content.length > 100);
-  }, [content]);
+  const descRef = useRef(null);
 
-  const toggleSeeMore = () => {
-    setSeeMore(prev => !prev);
-  };
+  /* === 오버플로 감시 === */
+  useLayoutEffect(() => {
+    if (!descRef.current) return;
+
+    const el = descRef.current;
+
+    const measureOverflow = () => {
+      if (!seeMore) {
+        // 열려있지 않을 때만 비교(닫힘 상태를 기준으로 overflow 판단)
+        setIsOverflow(el.scrollHeight > el.offsetHeight);
+      }
+    };
+
+    // 최초 1회
+    measureOverflow();
+
+    // 요소 자체가 줄어들거나(window 리사이즈) 글 내용이 바뀔 때마다 재계산
+    const observer = new ResizeObserver(measureOverflow);
+    observer.observe(el);
+    window.addEventListener('resize', measureOverflow);
+
+    // 클린업
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measureOverflow);
+    };
+  }, [userData?.introduce, seeMore]);
+
+
 
   return (
     <>
@@ -256,8 +279,10 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           style={{ backgroundImage: `url(${userData && (userData?.background_image || demoBg)})` }}
         ></div>
         <div className="profile__info" id="profile-info">
-          {/**=== */}
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {/* === */}
+          <div 
+            className='profile__info__cover'
+          >
             <div className="profile__info--name-level">
               <img
                 className="profile__info--profile-image"
@@ -278,12 +303,25 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               </div>
             </div>
             {isMyProfile && (
-              <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
-                <img src={gearImg} alt="edit" />
-              </Link>
+              <div className='profile__info__btns'>
+                <Link 
+                  to={`/license-key`}
+                  className='key-btn'
+                  // key-pass
+                >
+                  {t('Link license key')}
+                </Link>
+                <Link 
+                  to={`/account-setting?prev=${pathname + queryParameter}`}
+                  className='edit-btn'
+                >
+                  {/* <img src={gearImg} alt="edit" /> */}
+                  {t('Edit profile')}
+                </Link>
+              </div>
             )}
           </div>
-          {/**=== */}
+          {/* === */}
           <div className="profile__record">
             <div className="profile__record--item">
               <p className="profile__record--item-title">{t('Songs')}</p>
@@ -298,24 +336,32 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
           </div>
-          {/**=== */}
+          {/* === */}
           <div className="profile__desc">
             {/* <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
               {userData?.introduce || '-'}
-            </p> */}
-            {/* {!seeMore && (
+            </p>
+            {!seeMore && (
               <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
                 {t('See More')}
               </button>
             )} */}
-            <p className="profile__desc--content">
-              {seeMore ? content : content.slice(0, 100) + (content.length > 100 ? '...' : '')}
+            <p
+              ref={descRef}
+              className={`profile__desc--content ${seeMore ? 'open' : ''}`}
+            >
+              {userData?.introduce || '-'}
             </p>
-            {showSeeMoreButton && (
-              <button className="profile__desc--button" onClick={toggleSeeMore}>
-                {seeMore ? t('Hide') : t('See More')}
+
+            {isOverflow && (
+              <button
+                className="profile__desc--button"
+                onClick={() => setSeeMore(prev => !prev)}
+              >
+                {seeMore ? t('Close') : t('See More')}
               </button>
             )}
+
           </div>
           {userData?.link_list?.[0] && (
             <div className="profile__link" onClick={() => setLinksModal(true)}>

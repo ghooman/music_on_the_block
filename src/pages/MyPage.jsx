@@ -234,20 +234,78 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
   const [seeMore, setSeeMore] = useState(false);
   const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
+  const [maxChars, setMaxChars] = useState(38); // 동적으로 계산된 최대 글자 수
   const [linksModal, setLinksModal] = useState(false);
+  const contentRef = useRef(null);
 
   const { pathname, search: queryParameter } = useLocation();
 
   const content = userData?.introduce || '-';
 
+  // 한 줄에 들어갈 수 있는 텍스트 길이를 계산하는 함수
+  const calculateMaxChars = () => {
+    if (contentRef.current) {
+      const element = contentRef.current;
+      const containerWidth = element.offsetWidth;
+      const fontSize = parseFloat(window.getComputedStyle(element).fontSize);
+      const fontFamily = window.getComputedStyle(element).fontFamily;
+
+      // 임시 캔버스를 만들어서 실제 텍스트 너비를 측정
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = `${fontSize}px ${fontFamily}`;
+
+      // 한 글자씩 늘려가면서 너비를 측정
+      let testText = '';
+      let currentWidth = 0;
+      const maxWidth = containerWidth - 20; // 여백 고려
+
+      for (let i = 0; i < content.length; i++) {
+        const char = content[i];
+        const charWidth = context.measureText(char).width;
+
+        if (currentWidth + charWidth <= maxWidth) {
+          testText += char;
+          currentWidth += charWidth;
+        } else {
+          break;
+        }
+      }
+
+      return testText.length;
+    }
+    return 38; // 기본값
+  };
+
   useEffect(() => {
-    setShowSeeMoreButton(content.length > 100);
+    // DOM이 업데이트된 후 실제 높이를 확인
+    const checkContentHeight = () => {
+      if (contentRef.current) {
+        const calculatedMaxChars = calculateMaxChars();
+        setMaxChars(calculatedMaxChars);
+
+        console.log('calculatedMaxChars:', calculatedMaxChars);
+        console.log('content length:', content.length);
+
+        // 한 줄을 넘는지 확인
+        const shouldShowButton = content.length > calculatedMaxChars;
+
+        console.log('shouldShowButton:', shouldShowButton);
+        setShowSeeMoreButton(shouldShowButton);
+      }
+    };
+
+    // 약간의 지연을 두어 DOM이 완전히 렌더링된 후 확인
+    const timer = setTimeout(checkContentHeight, 100);
+
+    return () => clearTimeout(timer);
   }, [content]);
 
   const toggleSeeMore = () => {
     setSeeMore(prev => !prev);
   };
 
+  console.log('높이 측정', contentRef.current?.scrollHeight);
   return (
     <>
       <div className="mypage__profile">
@@ -298,18 +356,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
           </div>
-          {/**=== */}
           <div className="profile__desc">
-            {/* <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
-              {userData?.introduce || '-'}
-            </p> */}
-            {/* {!seeMore && (
-              <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
-                {t('See More')}
-              </button>
-            )} */}
-            <p className="profile__desc--content">
-              {seeMore ? content : content.slice(0, 100) + (content.length > 100 ? '...' : '')}
+            <p ref={contentRef} className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
+              {seeMore ? content : showSeeMoreButton ? content.slice(0, maxChars) + '...' : content}
             </p>
             {showSeeMoreButton && (
               <button className="profile__desc--button" onClick={toggleSeeMore}>

@@ -319,9 +319,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
         ></div>
         <div className="profile__info" id="profile-info">
           {/**=== */}
-          <div 
-            className='profile__info__cover'
-          >
+          <div className="profile__info__cover">
             <div className="profile__info--name-level">
               <img
                 className="profile__info--profile-image"
@@ -342,20 +340,18 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               </div>
             </div>
             {isMyProfile && (
-              <div className='profile__info__btns'>
-                <Link 
+              <div className="profile__info__btns">
+                <Link
                   to={`/license-key`}
-                  className='key-link'
+                  className="key-link"
                   //key-pass
                 >
                   {t('Link license key')}
-                  {/* {t('Connected')} */}
                 </Link>
                 <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
                   {t('Edit profile')}
                 </Link>
               </div>
-
             )}
           </div>
           {/**=== */}

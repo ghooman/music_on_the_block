@@ -7,6 +7,8 @@
  "Unfollow": "フォロー解除",
  "external link": "外部リンク",
  "See More": "もっと見る",
+ "Link license key": "ライセンスキーをリンクする",
+ "Edit profile": "プロフィールを編集",
  "Hide": "非表示",
  "AI Services": "AIサービス",
  "NFTs": "NFT",
@@ -53,5 +55,14 @@
  "Bring your favofite NFT music together and curate a collection that's uniquely yours. Now's the time to show the world your taste in music!": "お気に入りのNFT音楽を集めて、自分だけのコレクションをキュレーションしよう。あなたの音楽センスを世界に発信する時です！",
  "Create Collection": "コレクションを作成",
  "Search by collection name": "コレクション名で検索",
- "Search by Artist name": "アーティスト名で検索"
+ "Search by Artist name": "アーティスト名で検索",
+ "Connect License Key": "ライセンスキーを接続する",
+ "What are the benefits of connecting the license key?": "ライセンスキーを接続すると、どんなメリットがありますか？",
+ "By connecting the license key, you can transfer the MIC earned through the MUSIC ON THE BLOCK APP to your current account and use it. Additionally, you will be able to access and use more features within the MUSIC ON THE BLOCK APP.": "ライセンスキーを接続することで、MUSIC ON THE BLOCKアプリで獲得したMICを現在のアカウントに移行して使用することができます。また、アプリ内のより多くの機能にアクセスして利用できるようになります。",
+ "How to check my license key": "ライセンスキーの確認方法",
+ "Open the MUSIC ON THE BLOCK APP, and click on 'My' in the bottom menu to access and check your license key. Additionally, by using the 'Copy' button, you can easily paste it without the need to memorize it.": "MUSIC ON THE BLOCKアプリを開き、下部メニューの「マイ」をタップすると、ライセンスキーを確認できます。「コピー」ボタンを使えば、覚えることなく簡単に貼り付けることができます。",
+ "License Key": "ライセンスキー",
+ "Enter the License Key": "ライセンスキーを入力",
+ "Connect": "接続する",
+ "Explore the MUSIC ON THE BLOCK APP": "MUSIC ON THE BLOCKアプリを探索する"
 }

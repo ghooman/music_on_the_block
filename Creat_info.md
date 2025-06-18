@@ -246,7 +246,7 @@ graph TD
 ### 공통 처리
 
 - GPT 모델: `gpt-4.1-nano`
-- 언어별 locale 적용 (KOR/ENG/IDN)
+- 언어별 locale 적용 (KOR/ENG/IDN...등)
 - 입력 → chatHistory → GPT 요청 → 응답 파싱
 
 ### MelodyChatBot.js 전용

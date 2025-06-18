@@ -245,24 +245,39 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const checkIfOverflows = () => {
     if (contentRef.current) {
       const element = contentRef.current;
-      const lineHeight = parseFloat(window.getComputedStyle(element).lineHeight);
-      const maxHeight = lineHeight; // 한 줄 높이
+      const parentElement = element.parentElement;
+      const containerWidth = parentElement ? parentElement.offsetWidth : element.offsetWidth;
+      const fontSize = parseFloat(window.getComputedStyle(element).fontSize);
+      const fontFamily = window.getComputedStyle(element).fontFamily;
 
-      // 임시로 전체 내용을 보여주고 높이를 측정
-      element.style.maxHeight = 'none';
-      element.style.overflow = 'visible';
-      element.style.whiteSpace = 'normal';
-      element.style.textOverflow = 'clip';
+      console.log('containerWidth:', containerWidth);
+      console.log('fontSize:', fontSize);
+      console.log('fontFamily:', fontFamily);
+      console.log('content:', content);
 
-      const fullHeight = element.scrollHeight;
+      // 컨테이너 너비가 0이면 텍스트 길이로 임시 판단
+      if (containerWidth <= 0) {
+        console.log('컨테이너 너비가 0이므로 텍스트 길이로 판단');
+        return content.length > 50; // 임시 기준
+      }
 
-      // 다시 한 줄 제한으로 되돌리기
-      element.style.maxHeight = `${maxHeight}px`;
-      element.style.overflow = 'hidden';
-      element.style.whiteSpace = 'nowrap';
-      element.style.textOverflow = 'ellipsis';
+      // 임시 캔버스를 만들어서 실제 텍스트 너비를 측정
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = `${fontSize}px ${fontFamily}`;
 
-      return fullHeight > maxHeight;
+      const textWidth = context.measureText(content).width;
+      console.log('textWidth:', textWidth);
+
+      // 여백을 고려하여 한 줄을 넘는지 확인
+      const maxWidth = containerWidth - 20; // 여백 20px 고려
+      const isOverflowing = textWidth > maxWidth;
+
+      console.log('maxWidth:', maxWidth);
+      console.log('isOverflowing:', isOverflowing);
+      console.log('비교:', `${textWidth} > ${maxWidth} = ${isOverflowing}`);
+
+      return isOverflowing;
     }
     return false;
   };
@@ -281,7 +296,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
     };
 
     // 약간의 지연을 두어 DOM이 완전히 렌더링된 후 확인
-    const timer = setTimeout(checkContentHeight, 100);
+    const timer = setTimeout(checkContentHeight, 300);
 
     return () => clearTimeout(timer);
   }, [content]);

@@ -14,7 +14,7 @@ const LinksModal = ({ linkItems, setLinksModal }) => {
 
   return (
     <ModalWrap title={t('Links')} onClose={onClose}>
-      <div className="links-modal">
+      {/* <div className="links-modal">
         {linkItems.map((item, index) => {
           return (
             <Link
@@ -28,7 +28,21 @@ const LinksModal = ({ linkItems, setLinksModal }) => {
             </Link>
           );
         })}
+      </div> */}
+      <div className="links-modal">
+        {linkItems.slice(1).map((item, index) => (
+          <Link
+            className={`links-modal__item ${!urlRegex.test(item) ? 'invalid' : ''}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            key={`${item}-${index}`}
+            to={item}
+          >
+            {item}
+          </Link>
+        ))}
       </div>
+
     </ModalWrap>
   );
 };

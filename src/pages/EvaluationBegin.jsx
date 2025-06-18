@@ -402,7 +402,6 @@ const Step1 = ({
   const grade_fiter = searchParams.get('grade_filter');
   const ai_service_filter = searchParams.get('ai_service_filter');
   const search = searchParams.get('search');
-
   const { ref, inView } = useInView();
   // 평가에서 노래 선택시 함수
   // const handleSelectMusic = item => {

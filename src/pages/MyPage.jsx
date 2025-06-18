@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useTransition } from 'react';
+import React, { useState, useEffect, useContext, useTransition, useRef } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { useQuery, useQueryClient } from 'react-query';
@@ -233,9 +233,20 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const { t } = useTranslation('my_page');
 
   const [seeMore, setSeeMore] = useState(false);
+  const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
   const [linksModal, setLinksModal] = useState(false);
 
   const { pathname, search: queryParameter } = useLocation();
+
+  const content = userData?.introduce || '-';
+
+  useEffect(() => {
+    setShowSeeMoreButton(content.length > 100);
+  }, [content]);
+
+  const toggleSeeMore = () => {
+    setSeeMore(prev => !prev);
+  };
 
   return (
     <>
@@ -289,12 +300,20 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           </div>
           {/**=== */}
           <div className="profile__desc">
-            <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
+            {/* <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
               {userData?.introduce || '-'}
-            </p>
-            {!seeMore && (
+            </p> */}
+            {/* {!seeMore && (
               <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
                 {t('See More')}
+              </button>
+            )} */}
+            <p className="profile__desc--content">
+              {seeMore ? content : content.slice(0, 100) + (content.length > 100 ? '...' : '')}
+            </p>
+            {showSeeMoreButton && (
+              <button className="profile__desc--button" onClick={toggleSeeMore}>
+                {seeMore ? t('Hide') : t('See More')}
               </button>
             )}
           </div>

@@ -64,20 +64,19 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   // WalletConnect에서 전달받은 콜백 함수
   const handleWalletConnect = (loggedIn, walletAddress) => {
-    console.log('로그클릭')
+    // console.log('로그클릭')
     setIsLoggedIn(loggedIn);
     if (loggedIn && walletAddress) {
       setWalletAddress(walletAddress);
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
-  
+
   const handleWalletClickWrapper = () => {
     if (window.innerWidth <= 1000) {
       setActive(false);
     }
   };
-
 
   const { data: userData, isLoading, error, isInitialLoading } = useUserDetail();
   // console.log('userData', userData);

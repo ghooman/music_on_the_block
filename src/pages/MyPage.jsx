@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useTransition,useRef,useLayoutEffect  } from 'react';
+import React, { useState, useEffect, useContext, useTransition, useRef } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { useQuery, useQueryClient } from 'react-query';
@@ -233,44 +233,83 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const { t } = useTranslation('my_page');
 
   const [seeMore, setSeeMore] = useState(false);
+  const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
   const [linksModal, setLinksModal] = useState(false);
+  const contentRef = useRef(null);
 
   const { pathname, search: queryParameter } = useLocation();
 
-  const [isOverflow, setIsOverflow] = useState(false); // 실제 잘림 여부
+  const content = userData?.introduce || '-';
 
-  const descRef = useRef(null);
+  // 한 줄을 넘는지 확인하는 함수
+  const checkIfOverflows = () => {
+    if (contentRef.current) {
+      const element = contentRef.current;
+      const parentElement = element.parentElement;
+      const containerWidth = parentElement ? parentElement.offsetWidth : element.offsetWidth;
+      const fontSize = parseFloat(window.getComputedStyle(element).fontSize);
+      const fontFamily = window.getComputedStyle(element).fontFamily;
 
-  /* === 오버플로 감시 === */
-  useLayoutEffect(() => {
-    if (!descRef.current) return;
+      console.log('containerWidth:', containerWidth);
+      console.log('fontSize:', fontSize);
+      console.log('fontFamily:', fontFamily);
+      console.log('content:', content);
 
-    const el = descRef.current;
+      // 컨테이너 너비가 0이면 텍스트 길이로 임시 판단
+      if (containerWidth <= 0) {
+        console.log('컨테이너 너비가 0이므로 텍스트 길이로 판단');
+        return content.length > 50; // 임시 기준
+      }
 
-    const measureOverflow = () => {
-      if (!seeMore) {
-        // 열려있지 않을 때만 비교(닫힘 상태를 기준으로 overflow 판단)
-        setIsOverflow(el.scrollHeight > el.offsetHeight);
+      // 임시 캔버스를 만들어서 실제 텍스트 너비를 측정
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = `${fontSize}px ${fontFamily}`;
+
+      const textWidth = context.measureText(content).width;
+      console.log('textWidth:', textWidth);
+
+      // 여백을 고려하여 한 줄을 넘는지 확인
+      const maxWidth = containerWidth - 20; // 여백 20px 고려
+      const isOverflowing = textWidth > maxWidth;
+
+      console.log('maxWidth:', maxWidth);
+      console.log('isOverflowing:', isOverflowing);
+      console.log('비교:', `${textWidth} > ${maxWidth} = ${isOverflowing}`);
+
+      return isOverflowing;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    // DOM이 업데이트된 후 실제 높이를 확인
+    const checkContentHeight = () => {
+      if (contentRef.current) {
+        const isOverflowing = checkIfOverflows();
+
+        console.log('isOverflowing:', isOverflowing);
+        console.log('content length:', content.length);
+
+        setShowSeeMoreButton(isOverflowing);
       }
     };
 
-    // 최초 1회
-    measureOverflow();
+    // 약간의 지연을 두어 DOM이 완전히 렌더링된 후 확인
+    const timer = setTimeout(checkContentHeight, 300);
 
-    // 요소 자체가 줄어들거나(window 리사이즈) 글 내용이 바뀔 때마다 재계산
-    const observer = new ResizeObserver(measureOverflow);
-    observer.observe(el);
-    window.addEventListener('resize', measureOverflow);
+    return () => clearTimeout(timer);
+  }, [content]);
 
-    // 클린업
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', measureOverflow);
-    };
-  }, [userData?.introduce, seeMore]);
+  const toggleSeeMore = () => {
+    setSeeMore(prev => {
+      const newState = !prev;
+      console.log('seeMore 상태 변경:', newState);
+      return newState;
+    });
+  };
 
-
-
+  console.log('높이 측정', contentRef.current?.scrollHeight);
   return (
     <>
       <div className="mypage__profile">
@@ -279,7 +318,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           style={{ backgroundImage: `url(${userData && (userData?.background_image || demoBg)})` }}
         ></div>
         <div className="profile__info" id="profile-info">
-          {/* === */}
+          {/**=== */}
           <div 
             className='profile__info__cover'
           >
@@ -306,22 +345,20 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <div className='profile__info__btns'>
                 <Link 
                   to={`/license-key`}
-                  className='key-btn'
-                  // key-pass
+                  className='key-link'
+                  //key-pass
                 >
                   {t('Link license key')}
+                  {/* {t('Connected')} */}
                 </Link>
-                <Link 
-                  to={`/account-setting?prev=${pathname + queryParameter}`}
-                  className='edit-btn'
-                >
-                  {/* <img src={gearImg} alt="edit" /> */}
+                <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
                   {t('Edit profile')}
                 </Link>
               </div>
+
             )}
           </div>
-          {/* === */}
+          {/**=== */}
           <div className="profile__record">
             <div className="profile__record--item">
               <p className="profile__record--item-title">{t('Songs')}</p>
@@ -336,32 +373,16 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
           </div>
-          {/* === */}
           <div className="profile__desc">
-            {/* <p className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
-              {userData?.introduce || '-'}
+            <p ref={contentRef} className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
+              {content}
             </p>
-            {!seeMore && (
-              <button className="profile__desc--button" onClick={() => setSeeMore(true)}>
-                {t('See More')}
-              </button>
-            )} */}
-            <p
-              ref={descRef}
-              className={`profile__desc--content ${seeMore ? 'open' : ''}`}
-            >
-              {userData?.introduce || '-'}
-            </p>
-
-            {isOverflow && (
-              <button
-                className="profile__desc--button"
-                onClick={() => setSeeMore(prev => !prev)}
-              >
-                {seeMore ? t('Close') : t('See More')}
+            {console.log('현재 클래스명:', `profile__desc--content ${seeMore ? 'open' : ''}`)}
+            {showSeeMoreButton && (
+              <button className="profile__desc--button" onClick={toggleSeeMore}>
+                {seeMore ? t('Hide') : t('See More')}
               </button>
             )}
-
           </div>
           {userData?.link_list?.[0] && (
             <div className="profile__link" onClick={() => setLinksModal(true)}>

@@ -193,10 +193,12 @@
         letter-spacing: inherit !important;
       }
       &.open {
-        max-height: none;
-        overflow: visible;
-        white-space: normal; // 여러 줄 허용
-        text-overflow: clip; // 말줄임표 제거
+        max-height: none !important;
+        overflow: visible !important;
+        white-space: normal !important; // 여러 줄 허용
+        text-overflow: clip !important; // 말줄임표 제거
+        word-wrap: break-word !important;
+        word-break: break-word !important;
       }
     }
     .profile__desc--button {

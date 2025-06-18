@@ -234,7 +234,6 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
   const [seeMore, setSeeMore] = useState(false);
   const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
-  const [maxChars, setMaxChars] = useState(38); // 동적으로 계산된 최대 글자 수
   const [linksModal, setLinksModal] = useState(false);
   const contentRef = useRef(null);
 
@@ -242,56 +241,42 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
   const content = userData?.introduce || '-';
 
-  // 한 줄에 들어갈 수 있는 텍스트 길이를 계산하는 함수
-  const calculateMaxChars = () => {
+  // 한 줄을 넘는지 확인하는 함수
+  const checkIfOverflows = () => {
     if (contentRef.current) {
       const element = contentRef.current;
-      const containerWidth = element.offsetWidth;
-      const fontSize = parseFloat(window.getComputedStyle(element).fontSize);
-      const fontFamily = window.getComputedStyle(element).fontFamily;
+      const lineHeight = parseFloat(window.getComputedStyle(element).lineHeight);
+      const maxHeight = lineHeight; // 한 줄 높이
 
-      // 임시 캔버스를 만들어서 실제 텍스트 너비를 측정
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      context.font = `${fontSize}px ${fontFamily}`;
+      // 임시로 전체 내용을 보여주고 높이를 측정
+      element.style.maxHeight = 'none';
+      element.style.overflow = 'visible';
+      element.style.whiteSpace = 'normal';
+      element.style.textOverflow = 'clip';
 
-      // 한 글자씩 늘려가면서 너비를 측정
-      let testText = '';
-      let currentWidth = 0;
-      const maxWidth = containerWidth - 20; // 여백 고려
+      const fullHeight = element.scrollHeight;
 
-      for (let i = 0; i < content.length; i++) {
-        const char = content[i];
-        const charWidth = context.measureText(char).width;
+      // 다시 한 줄 제한으로 되돌리기
+      element.style.maxHeight = `${maxHeight}px`;
+      element.style.overflow = 'hidden';
+      element.style.whiteSpace = 'nowrap';
+      element.style.textOverflow = 'ellipsis';
 
-        if (currentWidth + charWidth <= maxWidth) {
-          testText += char;
-          currentWidth += charWidth;
-        } else {
-          break;
-        }
-      }
-
-      return testText.length;
+      return fullHeight > maxHeight;
     }
-    return 38; // 기본값
+    return false;
   };
 
   useEffect(() => {
     // DOM이 업데이트된 후 실제 높이를 확인
     const checkContentHeight = () => {
       if (contentRef.current) {
-        const calculatedMaxChars = calculateMaxChars();
-        setMaxChars(calculatedMaxChars);
+        const isOverflowing = checkIfOverflows();
 
-        console.log('calculatedMaxChars:', calculatedMaxChars);
+        console.log('isOverflowing:', isOverflowing);
         console.log('content length:', content.length);
 
-        // 한 줄을 넘는지 확인
-        const shouldShowButton = content.length > calculatedMaxChars;
-
-        console.log('shouldShowButton:', shouldShowButton);
-        setShowSeeMoreButton(shouldShowButton);
+        setShowSeeMoreButton(isOverflowing);
       }
     };
 
@@ -302,7 +287,11 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   }, [content]);
 
   const toggleSeeMore = () => {
-    setSeeMore(prev => !prev);
+    setSeeMore(prev => {
+      const newState = !prev;
+      console.log('seeMore 상태 변경:', newState);
+      return newState;
+    });
   };
 
   console.log('높이 측정', contentRef.current?.scrollHeight);
@@ -358,8 +347,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           </div>
           <div className="profile__desc">
             <p ref={contentRef} className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
-              {seeMore ? content : showSeeMoreButton ? content.slice(0, maxChars) + '...' : content}
+              {content}
             </p>
+            {console.log('현재 클래스명:', `profile__desc--content ${seeMore ? 'open' : ''}`)}
             {showSeeMoreButton && (
               <button className="profile__desc--button" onClick={toggleSeeMore}>
                 {seeMore ? t('Hide') : t('See More')}

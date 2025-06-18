@@ -290,8 +290,11 @@ const MelodyChatBot = ({
       // [장르 추출]
       if (locale.extraction.genreRegex.test(botMessage)) {
         const genreMatch = botMessage.match(locale.extraction.genreRegex);
+        console.log('Genre match (standard):', genreMatch);
+        console.log('Bot message for genre:', botMessage);
         if (genreMatch && genreMatch[1]) {
           const cleanGenre = cleanExtractedText(genreMatch[1].trim());
+          console.log('Extracted genre (standard):', cleanGenre);
           setMelodyData(prevData => ({
             ...prevData,
             melody_genre: cleanGenre,

@@ -7,6 +7,8 @@
  "Unfollow": "Bỏ theo dõi",
  "external link": "liên kết ngoài",
  "See More": "Xem thêm",
+ "Link license key": "Liên kết khóa giấy phép",
+ "Edit profile": "Chỉnh sửa hồ sơ",
  "Hide": "Ẩn",
  "AI Services": "Dịch vụ AI",
  "NFTs": "NFT",
@@ -53,5 +55,14 @@
  "Bring your favofite NFT music together and curate a collection that's uniquely yours. Now's the time to show the world your taste in music!": "Tập hợp các bản nhạc NFT yêu thích và tạo một bộ sưu tập mang đậm dấu ấn cá nhân. Đây là lúc để thể hiện gu âm nhạc của bạn!",
  "Create Collection": "Tạo Bộ sưu tập",
  "Search by collection name": "Tìm kiếm theo tên bộ sưu tập",
- "Search by Artist name": "Tìm kiếm theo tên nghệ sĩ"
+ "Search by Artist name": "Tìm kiếm theo tên nghệ sĩ",
+ "Connect License Key": "Kết nối Khóa Giấy Phép",
+ "What are the benefits of connecting the license key?": "Lợi ích của việc liên kết khóa giấy phép là gì?",
+ "By connecting the license key, you can transfer the MIC earned through the MUSIC ON THE BLOCK APP to your current account and use it. Additionally, you will be able to access and use more features within the MUSIC ON THE BLOCK APP.": "Bằng cách liên kết khóa giấy phép, bạn có thể chuyển MIC kiếm được từ ứng dụng MUSIC ON THE BLOCK sang tài khoản hiện tại và sử dụng nó. Ngoài ra, bạn sẽ có thể truy cập và sử dụng nhiều tính năng hơn trong ứng dụng.",
+ "How to check my license key": "Cách kiểm tra khóa giấy phép của tôi",
+ "Open the MUSIC ON THE BLOCK APP, and click on 'My' in the bottom menu to access and check your license key. Additionally, by using the 'Copy' button, you can easily paste it without the need to memorize it.": "Mở ứng dụng MUSIC ON THE BLOCK và nhấn vào 'Cá nhân' ở menu dưới để xem khóa giấy phép của bạn. Ngoài ra, bạn có thể sử dụng nút 'Sao chép' để dán nhanh mà không cần ghi nhớ.",
+ "License Key": "Khóa Giấy Phép",
+ "Enter the License Key": "Nhập Khóa Giấy Phép",
+ "Connect": "Kết nối",
+ "Explore the MUSIC ON THE BLOCK APP": "Khám phá ứng dụng MUSIC ON THE BLOCK"
 }

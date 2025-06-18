@@ -29,7 +29,7 @@ const viMelody = {
     titleRegex:
       /(?:Tiêu đề|Tên bài hát)\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Thể loại|Giọng hát|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu)|$)/i,
     genreRegex:
-      /Thể loại\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Thẻ|Tiêu đề|Giọng hát|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu)|$)/i,
+      /Thể loại\s*[:：\-]\s*([^,\n]+(?:\s*,\s*[^,\n]+)*?)(?=\s+(?:Thẻ|Tiêu đề|Giọng hát|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu)|$)/i,
     voiceRegex:
       /Giọng hát\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Thẻ|Tiêu đề|Thể loại|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu)|$)/i,
     instrumentRegex: /Nhạc cụ\s*[:：\-]\s*([^\n]+?)(?=\s*\n\s*(?:Tempo|Yếu tố thêm|Giới thiệu)|$)/i,

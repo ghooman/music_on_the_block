@@ -30,7 +30,15 @@
     letter-spacing: 0.48px;
     position: relative;
     top: 0;
-
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
     &:hover {
         top: 5px;
         &::after {

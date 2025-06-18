@@ -36,6 +36,7 @@ export const mintNft = async (token, song_id, collection_id) => {
  * @returns {Promise} - API 응답 데이터
  */
 export const mintNft2 = async (token, song_id) => {
+  console.log('mintNft2 전송', token, song_id);
   try {
     const response = await axios.post(
       `${serverApi}/api/nfts/${song_id}/mint`,
@@ -46,6 +47,7 @@ export const mintNft2 = async (token, song_id) => {
         },
       }
     );
+    console.log('mintNft2', response);
     return response.data;
   } catch (error) {
     console.error('민팅 에러', error);

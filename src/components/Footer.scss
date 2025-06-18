@@ -168,6 +168,15 @@
             line-height: normal;
             text-transform: capitalize;
             margin-top: 8px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           dd {
             a {
@@ -175,15 +184,31 @@
               font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
-              font-weight: 300;
               line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
             color: var(--Text-music-sub, #aaa);
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            font-weight: 300;
             line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
           }
         }
       } //footer__top__right__menu--END--
@@ -229,6 +254,15 @@
               font-style: normal;
               font-weight: 600;
               line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
             dd {
               color: var(--Text-music-sub, #aaa);
@@ -236,6 +270,15 @@
               font-size: 12px;
               font-style: normal;
               line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
           }
         } //footer__bottom__left__music-token__txt--END--
@@ -247,6 +290,15 @@
             font-size: 18px;
             font-style: normal;
             line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
           }
           dd {
             color: #ff004c;
@@ -255,6 +307,15 @@
             font-size: 14px;
             font-style: normal;
             line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
           }
         } //footer__bottom__left__music-token__number--END--
       } //footer__bottom__left__music-token--END--
@@ -269,6 +330,15 @@
           font-size: 14px;
           font-style: normal;
           line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
         }
         dd {
           color: var(--Text-music-sub, #aaa);
@@ -276,6 +346,15 @@
           font-size: 14px;
           font-style: normal;
           line-height: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
         }
       } //footer__bottom__left__token-value--END--
     } //footer__bottom__left--END--
@@ -322,6 +401,16 @@
                       font-size: 18px;
                       font-style: normal;
                       line-height: normal;
+                      font{
+                        margin: 0;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        color: inherit !important;
+                        letter-spacing: inherit !important;
+                      }
                     }
                   }
                 }
@@ -354,6 +443,15 @@
                   line-height: normal;
                   display: flex;
                   align-items: center;
+                  font{
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    color: inherit !important;
+                    letter-spacing: inherit !important;
+                  }
                   p,
                   span {
                     color: var(--Text-music-sub, #aaa);
@@ -361,6 +459,15 @@
                     font-size: 14px;
                     font-style: normal;
                     line-height: normal;
+                    font{
+                      font-family: inherit !important;
+                      font-size: inherit !important;
+                      font-weight: inherit !important;
+                      line-height: inherit !important;
+                      font-style: inherit !important;
+                      color: inherit !important;
+                      letter-spacing: inherit !important;
+                    }
                   }
                 }
                 dd {
@@ -369,6 +476,15 @@
                   font-size: 14px;
                   font-style: normal;
                   line-height: normal;
+                  font{
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    color: inherit !important;
+                    letter-spacing: inherit !important;
+                  }
                 }
               }
             }

@@ -70,6 +70,15 @@
         text-overflow: ellipsis;
         white-space: pre-wrap;
         word-wrap: break-word;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     } //alarm__modal__item__txt--END--
     .alarm__modal__item__link {
@@ -84,6 +93,15 @@
       color: #121212;
       font-size: 12px;
       transition: 0.3s;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &:hover {
         box-shadow: 0px 0px 12px 0px #cf0;
       }

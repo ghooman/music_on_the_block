@@ -8,7 +8,7 @@
   padding: 0 0 16px 0;
   .ai__service-btn {
     color: var(--Text-music-title, #f1f1f1);
-    font-family:  Pretendard600;
+    font-family: Pretendard600;
     font-size: 16px;
     font-style: normal;
     line-height: normal;
@@ -24,7 +24,15 @@
     gap: 8px;
     align-items: center;
     justify-content: center;
-
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     &:hover {
       transform: translateY(5px);
       &:after {
@@ -75,13 +83,21 @@
   margin-top: 24px;
   .ai-status__title {
     margin-bottom: 24px;
-    color: var(--primary-base, #cf0);
+    color:#cf0;
     font-family:  Pretendard400;
     font-size: 24px;
     font-style: normal;
     line-height: normal;
-    letter-spacing: 0.72px;
     position: relative;
+    font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     &::after {
       position: absolute;
       content: '';
@@ -108,13 +124,20 @@
       justify-content: center;
       align-items: center;
       color: var(--Text-music-un, #565656);
-      font-family:  Pretendard500;
+      font-family: Pretendard500;
       font-size: 14px;
       font-style: normal;
-      line-height: 100%; /* 14px */
-      letter-spacing: 0.42px;
       padding: 8px 12px;
       white-space: nowrap;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .active {
       padding: 8px 12px;
@@ -142,13 +165,21 @@
   .ai-status__detail {
     width: 50%;
     .ai-status__detail-title {
-      color: var(--primary-base, #cf0);
+      color:#cf0;
       font-family:  Pretendard400;
       font-size: 18px;
       font-style: normal;
       line-height: normal;
-      letter-spacing: 0.54px;
       margin-bottom: 14px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .ai-status__detail-box {
       .ai-status__detail-item {
@@ -172,6 +203,15 @@
           border-left: 1px solid var(--Color-03, #222);
           border-right: 12px solid #1a1a1a;
           background: var(--Color-03, #222);
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .detail-item__value {
           width: 100%;
@@ -186,7 +226,15 @@
           color: var(--Text-music-sub, #aaa);
           font-family: Pretendard400;
           font-size: 14px;
-          line-height: 100%; /* 14px */
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
       }
     }
@@ -196,7 +244,7 @@
   margin-bottom: 20px;
   .period__title {
     color: var(--primary-base, #cf0);
-    font-family:  Pretendard400;
+    font-family: Pretendard400;
     font-size: 24px;
     font-style: normal;
     line-height: normal;
@@ -204,7 +252,15 @@
     margin-bottom: 24px;
     position: relative;
     margin-top: 16px;
-
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     &::after {
       position: absolute;
       content: '';
@@ -230,8 +286,16 @@
       font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
-      line-height: 100%; /* 14px */
       margin-right: 12px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   }
   .period__chart {

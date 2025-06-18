@@ -3,7 +3,15 @@
         color: #aaa;
         font-family:  Pretendard600;
         line-height: 100%;
-        letter-spacing: 0.48px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         span {
             color: #00d293;
             font: inherit;
@@ -19,6 +27,15 @@
         color: #f1f1f1;
         font-size: 12px;
         font-family: Pretendard400;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         img {
             width: 14px;
             height: 14px;
@@ -33,9 +50,17 @@
     }
     .skip-modal__button {
         font-family:  Pretendard600;
-        letter-spacing: 0.48px;
         border-radius: 12px;
         padding: 8px 10px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         &.go-back {
             color: #f1f1f1;
             background-color: #383838;

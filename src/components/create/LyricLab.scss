@@ -47,7 +47,15 @@
     border-radius: 12px;
     position: relative;
     transition: 0.3s all;
-
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       transform: translateY(3px);
       &::after {
@@ -103,7 +111,15 @@
     height: 40px;
     position: relative;
     transition: 0.3s all;
-
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       transform: translateY(3px);
       &::after {

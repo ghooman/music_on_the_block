@@ -32,6 +32,20 @@
     font-family: Pretendard500;
     font-size: 12px;
     text-align: center;
+      font{
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        letter-spacing: inherit !important;
+        word-spacing: inherit !important;
+        font-variant: inherit !important;
+        text-transform: inherit !important;
+        text-rendering: inherit !important;
+        -webkit-font-smoothing: inherit !important;
+      }
   }
 
   .evaluation-stage__slide {

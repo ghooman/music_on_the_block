@@ -65,6 +65,15 @@
       font-size: 12px;
       margin-top: 12px;
       color: #fff;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     } //alarm__nft__modal__item__txt--END--
     .alarm__nft__modal__item__link {
       width: 100%;
@@ -81,6 +90,15 @@
       transition: 0.3s;
       border: none;
       cursor: pointer;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &:hover {
         box-shadow: 0px 0px 12px 0px #ff6b6b;
         background: #ff5252;

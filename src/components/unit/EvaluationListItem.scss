@@ -133,6 +133,15 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
 
       img {
@@ -156,11 +165,29 @@
       font-family: Pretendard400;
       font-size: 14px;
       text-align: left;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
     dd {
       display: flex;
       align-items: center;
       gap: 4px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       img {
         width: 12px;
         height: 12px;
@@ -171,6 +198,15 @@
       text-align: center;
       font-family: Pretendard400;
       font-size: 12px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
   } //unit-component-evaluation-list-item__title--END--
   .unit-component-evaluation-list-item__details-number {
@@ -191,6 +227,15 @@
       color: rgba(255, 255, 255, 0.7);
       font-family: Pretendard400;
       font-size: 16px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &.gold {
         color: #cf0;
         font-size: 24px;
@@ -231,6 +276,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &::before {
         content: '';
         position: absolute;

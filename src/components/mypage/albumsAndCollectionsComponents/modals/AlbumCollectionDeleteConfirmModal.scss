@@ -7,7 +7,15 @@
 .album-collection-module-delete-confirm-modal__message {
   color: #aaa;
   font-family: Pretendard400;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   &.text-center {
     text-align: center;
   }
@@ -31,7 +39,15 @@
     height: 40px;
     font-family:  Pretendard600;
     font-size: 16px;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &::after {
       content: '';
       position: absolute;

@@ -39,11 +39,39 @@
                 font-family: Pretendard700;
                 font-size: 28px;
                 margin-bottom: 14px;
+                font{
+                    color: inherit !important;
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    letter-spacing: inherit !important;
+                    word-spacing: inherit !important;
+                    font-variant: inherit !important;
+                    text-transform: inherit !important;
+                    text-rendering: inherit !important;
+                    -webkit-font-smoothing: inherit !important;
+                }
             }
             dd{
                 color: var(--Dark-Color-10, var(--Color-10, #FFF));
                 font-family: Pretendard400;
                 font-size: 16px;
+                font{
+                    color: inherit !important;
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    letter-spacing: inherit !important;
+                    word-spacing: inherit !important;
+                    font-variant: inherit !important;
+                    text-transform: inherit !important;
+                    text-rendering: inherit !important;
+                    -webkit-font-smoothing: inherit !important;
+                }
             }
         }//get__header__title--END--
     }//get__header--END--
@@ -63,7 +91,20 @@
                     text-align: center;
                     font-family: Pretendard500;
                     font-size: 12px;
-                    line-height: 100%; /* 12px */
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }//get__content__item__none-title--END--
             }//none-item--END--
             flex: 1;
@@ -105,6 +146,7 @@
                 position: relative;
                 z-index: 1;
             }
+            
             .get__content__item__day-mob{
                 display: flex;
                 gap: 8px;
@@ -129,6 +171,20 @@
                     font-family: Pretendard400;
                     font-size: 12px;
                     margin-bottom: 4px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }
                 dd{
                     color: var(--Dark-Color-08, var(--Color-08, #D9D9D9));
@@ -139,17 +195,59 @@
                     align-items: center;
                     justify-content: center;
                     gap: 4px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                     p{
-                        color: var(--Dark-Color-08, var(--Color-08, #D9D9D9));
+                        color:#D9D9D9;
                         text-align: center;
                         font-family: Pretendard500;
                         font-size: 14px;
+                        font{
+                            color: inherit !important;
+                            font-family: inherit !important;
+                            font-size: inherit !important;
+                            font-weight: inherit !important;
+                            line-height: inherit !important;
+                            font-style: inherit !important;
+                            letter-spacing: inherit !important;
+                            word-spacing: inherit !important;
+                            font-variant: inherit !important;
+                            text-transform: inherit !important;
+                            text-rendering: inherit !important;
+                            -webkit-font-smoothing: inherit !important;
+                        }
                     }
                     span{
                         color: var(--Daisy, #FFD700);
                         text-align: center;
                         font-family: Pretendard500;
                         font-size: 14px;
+                        font{
+                            color: inherit !important;
+                            font-family: inherit !important;
+                            font-size: inherit !important;
+                            font-weight: inherit !important;
+                            line-height: inherit !important;
+                            font-style: inherit !important;
+                            letter-spacing: inherit !important;
+                            word-spacing: inherit !important;
+                            font-variant: inherit !important;
+                            text-transform: inherit !important;
+                            text-rendering: inherit !important;
+                            -webkit-font-smoothing: inherit !important;
+                        }
                     }
                 }
             }//get__content__item__mob--END--
@@ -160,12 +258,40 @@
                     font-family: Pretendard400;
                     font-size: 9px;
                     margin-bottom: 4px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                     span{
                         display: block;
                         color: #FFF;
                         text-align: center;
                         font-family: Pretendard400;
                         font-size: 12px;
+                        font{
+                            color: inherit !important;
+                            font-family: inherit !important;
+                            font-size: inherit !important;
+                            font-weight: inherit !important;
+                            line-height: inherit !important;
+                            font-style: inherit !important;
+                            letter-spacing: inherit !important;
+                            word-spacing: inherit !important;
+                            font-variant: inherit !important;
+                            text-transform: inherit !important;
+                            text-rendering: inherit !important;
+                            -webkit-font-smoothing: inherit !important;
+                        }
                     }
                 }
                 dd{
@@ -173,6 +299,20 @@
                     text-align: center;
                     font-family: Pretendard500;
                     font-size: 14px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }
             }//get__content__item__minutes--END--
             .get__content__item__start-time{
@@ -181,12 +321,40 @@
                     text-align: center;
                     font-family: Pretendard400;
                     font-size: 12px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }
                 dd{
                     color: #FFF;
                     text-align: center;
                     font-family: Pretendard500;
                     font-size: 14px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }
             }//get__content__item__start-time--END--
             .get__content__item__remaining-time{
@@ -196,12 +364,40 @@
                     font-family: Pretendard400;
                     font-size: 12px;
                     margin-bottom: 4px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }
                 dd{
                     color: #00FFB3;
                     text-align: center;
                     font-family: Pretendard700;
                     font-size: 14px;
+                    font{
+                        color: inherit !important;
+                        font-family: inherit !important;
+                        font-size: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                        font-style: inherit !important;
+                        letter-spacing: inherit !important;
+                        word-spacing: inherit !important;
+                        font-variant: inherit !important;
+                        text-transform: inherit !important;
+                        text-rendering: inherit !important;
+                        -webkit-font-smoothing: inherit !important;
+                    }
                 }
             }//get__content__item__remaining-time--END--
 

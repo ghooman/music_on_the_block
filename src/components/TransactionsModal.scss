@@ -44,6 +44,15 @@
             font-weight: 400;
             line-height: normal;
             white-space:nowrap;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           }
         }
       }
@@ -75,24 +84,60 @@
           text-align: center;
           font-family: Pretendard400;
           font-size: 14px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         &.Listed {
           color: #4ee1fb;
           text-align: center;
           font-family: Pretendard400;
           font-size: 14px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         &.Cancelled {
           color: #df1919;
           text-align: center;
           font-family: Pretendard400;
           font-size: 14px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         &.Sold {
           color: #ffdc55;
           text-align: center;
           font-family: Pretendard400;
           font-size: 14px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
 
         &.user-info {
@@ -108,6 +153,15 @@
             font-size: 14px;
             font-style: normal;
             line-height: normal;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
             img {
               flex-shrink: 0;
               width: 16px;
@@ -124,6 +178,15 @@
         font-style: normal;
         line-height: normal;
         min-height: 60px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         &.title {
           text-align: left;
         }
@@ -149,6 +212,15 @@
             font-style: normal;
             line-height: normal;
             max-width: 10ch;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           }
         }
         &:last-child {
@@ -200,6 +272,15 @@
       font-style: normal;
       line-height: normal;
       border-radius: 8px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       &::before {
         content: '';
         position: absolute;

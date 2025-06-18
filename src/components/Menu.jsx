@@ -64,12 +64,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   // WalletConnect에서 전달받은 콜백 함수
   const handleWalletConnect = (loggedIn, walletAddress) => {
+    console.log('로그클릭')
     setIsLoggedIn(loggedIn);
     if (loggedIn && walletAddress) {
       setWalletAddress(walletAddress);
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
+  
+  const handleWalletClickWrapper = () => {
+    if (window.innerWidth <= 1000) {
+      setActive(false);
+    }
+  };
+
+
   const { data: userData, isLoading, error, isInitialLoading } = useUserDetail();
   // console.log('userData', userData);
   const micBalance = userData?.mic_point?.toFixed(4) || '0.0000';
@@ -103,7 +112,12 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   // 하위 메뉴 아이템 클릭 시 활성화 (슬라이드 탭 안의 <li>)
   const handleSubItemClick = subItemName => {
     setActiveSubItem(subItemName);
-    setActiveMenus([]); // 슬라이드 탭들 비활성화
+    // AI Services 메뉴인 경우 activeMenus를 유지
+    if (subItemName === 'ai-lyrics' || subItemName === 'ai-singing' || subItemName === 'ai-cover') {
+      setActiveMenus(['ai-services']);
+    } else {
+      setActiveMenus([]); // 다른 메뉴의 경우 기존 동작 유지
+    }
     setActive(false);
   };
 
@@ -484,7 +498,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   </li>
                 ))}
               </ul>
-              <WalletConnect onConnect={handleWalletConnect} />
+              <div onClick={handleWalletClickWrapper}>
+                <WalletConnect onConnect={handleWalletConnect} />
+              </div>
+
               {isLoggedIn && (
                 <>
                   <div className="menu__box__my-page">

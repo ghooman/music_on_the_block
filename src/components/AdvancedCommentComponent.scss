@@ -49,7 +49,15 @@
       margin-left: auto !important;
       background-color: #cf0;
       color: #1a1a1a;
-
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         border-color: #cf0;
       }
@@ -152,6 +160,15 @@
   position: relative;
   display: inline-block;
   width: max-content;
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
   &::after {
     content: '';
     position: absolute;
@@ -170,6 +187,15 @@
   margin-bottom: 40px;
   color: #555;
   font-size: 14px;
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
 }
 
 .rdw-colorpicker-wrapper,

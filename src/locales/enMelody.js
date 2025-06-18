@@ -1,39 +1,45 @@
 // locales/enMelody.js
 const enMelody = {
   chatbot: {
-    initialMessage: 'Please tell me the genre of the song you want to create!',
+    initialMessage: 'Please tell me the genre of the song you want to create!\n',
     systemMessage:
-      'You are an expert in composition and a specialized assistant for melody production. Please help the user step-by-step to create the desired melody.\n\n' +
-      "If the question is not related to music production, simply answer 'Not related to song creation.'\n\n" +
+      'You are an expert in composition and a specialized assistant for melody production. You must guide the user strictly in the following order:\n\n' +
       '1. Ask the user to choose the genre of the song.\n' +
-      '2. Ask the user to select the desired tags (e.g., love, friendship, success).\n' +
-      '3. Prompt the user to decide on the song title.\n' +
-      '4. For voice selection, suggest choosing either a male or female voice (note that currently only one type of voice is supported).\n' +
-      '5. Ask which instruments the user wants to include (e.g., drums, bass, piano).\n' +
-      '6. Guide the user in deciding the tempo (between 60 and 120 BPM).\n' +
-      '7. Thank you! To enhance the music details, would you like to add elements that bring life to the song? For example, specific melodies, sound effects, etc. Please let me know.\n' +
-      '8. Finally, please write an introduction for the song you are creating.\n' +
-      '9. Finally, summarize all the choices with a message similar to:\n' +
-      "   [Sample Output] Final Prompt: 'Tags (user-selected tags), Song Title (user-defined title), Genre (selected genre), Voice (selected voice), Instruments (selected instruments), Tempo (selected tempo), Additional Elements/Story (user-specified details), Song Introduction (user-written song introduction). Would you like to generate the song with these settings?'\n" +
-      "The conversation should proceed step-by-step reflecting the user's selections. Please ensure that the final prompt strictly adheres to the above format.",
+      '2. Ask the user to enter “Tags” separated by commas (if none, treat as “None”).\n' +
+      '3. Ask the user to enter the “Song Title” .\n' +
+      '4. Ask for voice selection: male or female.\n' +
+      '5. Ask which instruments the user wants to include.\n' +
+      '6. Guide the user to decide the tempo (60 to 120 BPM).\n' +
+      '7. Ask for any additional elements or sound effects.\n' +
+      '8. Ask the user to write an introduction for the song.\n\n' +
+      '**9. Only if all of “Tags, Song Title, Genre, Voice, Instruments, Tempo, Additional Elements, Song Introduction” are provided**, send the following **Final Prompt** block exactly once. Otherwise, do not output it.\n\n' +
+      '[Final Prompt]\n' +
+      'Tags: {tags}\n' +
+      'Song Title: {title}\n' +
+      'Genre: {genre}\n' +
+      'Voice: {voice}\n' +
+      'Instruments: {instruments}\n' +
+      'Tempo: {tempo}\n' +
+      'Additional Elements: {additional}\n' +
+      'Song Introduction: {introduction}\n',
   },
   extraction: {
     tagRegex:
-      /Tags\s*(?:[:\-]\s*|\()(.*?)(?:\)|(?:,\s*Song|,\s*Genre|,\s*Voice|,\s*Instruments|,\s*Tempo|,\s*Additional|,\s*Song Introduction|\s*-\s*(?:Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Tags\s*[:\-]\s*([^,\n]+(?:\s*,\s*[^,\n]+)*)(?=(?:\r?\n|$|,\s*(?:Song|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     titleRegex:
-      /Song Title\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Song Title\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     genreRegex:
-      /Genre\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Genre\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     voiceRegex:
-      /Voice\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Voice\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     instrumentRegex:
-      /Instruments\s*(?:[:\-]\s*|\()(.*?)(?:\)|(?:,\s*Tempo|,\s*Additional|,\s*Song Introduction|\s*Tempo|\s*Additional|\s*Song Introduction|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Instruments\s*(?:[:\-]\s*|\()(.+?)(?:\)|(?:,\s*Tempo|,\s*Additional|,\s*Song Introduction|\s*Tempo|\s*Additional|\s*Song Introduction|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Tempo|Additional|Additional Elements|Song Introduction)))/,
     tempoRegex:
-      /Tempo\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements|Song Introduction)))/,
+      /Tempo\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Additional|Additional Elements|Song Introduction)))/,
     detailRegex:
-      /Additional Elements\/Story\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,\s*Song Introduction|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo|Song Introduction)))/,
+      /Additional Elements\/Story\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,\s*Song Introduction|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo|Song Introduction)))/,
     introductionRegex:
-      /Song Introduction\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
+      /Song Introduction\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Voice|Instruments|Tempo|Additional|Additional Elements)))/,
     promptTagRegex: /(?:Final Prompt|Prompt|generate)[\s\S]*?Tags\s*\(\s*([^)]+)\s*\)/i,
     promptTagRegex2:
       /(?:Final Prompt|Prompt|generate)[\s\S]*?Tags\s*[:]\s*([^,\n]+?)(?=\s*,\s*(?:Song|Title|Genre))/i,

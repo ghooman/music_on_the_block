@@ -16,6 +16,8 @@ import subBg1 from '../../../assets/images/create/subbanner-bg1.png';
 import koMelody from '../../../locales/koMelody';
 import enMelody from '../../../locales/enMelody';
 import idMelody from '../../../locales/idMelody';
+import viMelody from '../../../locales/viMelody';
+import jaMelody from '../../../locales/jaMelody';
 import enBgmChat from '../../../locales/enBgmChat';
 import koBgmChat from '../../../locales/koBgmChat';
 import idBgmChat from '../../../locales/idBgmChat';
@@ -46,18 +48,27 @@ const MelodyChatBot = ({
   const navigate = useNavigate();
   const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 선택된 언어에 따라 리소스 파일 선택
+  const localeSongList = {
+    KOR: koMelody,
+    ENG: enMelody,
+    IDN: idMelody,
+    VIE: viMelody,
+    JPN: jaMelody,
+  };
+
+  const localeBgmList = {
+    KOR: koBgmChat,
+    ENG: enBgmChat,
+    IDN: idBgmChat,
+    VIE: viMelody,
+    JPN: jaMelody,
+  };
+
   const locale =
     selectedCreationMode === 'song'
-      ? selectedLanguage === 'ENG'
-        ? enMelody
-        : selectedLanguage === 'IDN'
-        ? idMelody
-        : koMelody
-      : selectedLanguage === 'ENG'
-      ? enBgmChat
-      : selectedLanguage === 'KOR'
-      ? koBgmChat
-      : idBgmChat;
+      ? localeSongList[selectedLanguage]
+      : localeBgmList[selectedLanguage];
+
   const {
     melody_tag = [],
     melody_genre = '',
@@ -135,7 +146,7 @@ const MelodyChatBot = ({
   // ======= 유저 대화용 챗봇 =======
   // 초기 chatHistory에 봇의 초기 메시지를 추가합니다.
   const [chatHistory, setChatHistory] = useState([
-    { role: 'assistant', content: locale.chatbot.initialMessage },
+    { role: 'assistant', content: locale?.chatbot?.initialMessage },
   ]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -152,10 +163,12 @@ const MelodyChatBot = ({
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
+        temperature: 0,
+        stop: ['---\n'],
         messages: [
           {
             role: 'system',
-            content: locale.chatbot.systemMessage,
+            content: locale?.chatbot?.systemMessage,
           },
           ...chatHistory,
           { role: 'user', content: userInput },

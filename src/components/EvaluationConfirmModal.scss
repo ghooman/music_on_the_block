@@ -4,8 +4,16 @@
     color: #aaa;
     font-family: Pretendard400;
     line-height: 22px;
-    letter-spacing: 0.48px;
     margin-bottom: 30px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
   }
 
   .evaluation-confirm-modal__button-wrap {
@@ -21,6 +29,15 @@
     font-family:  Pretendard600;
     height: 40px;
     transition: 0.2s all;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
     &.loading {
       color: #cf0;
       background-color: #252525;

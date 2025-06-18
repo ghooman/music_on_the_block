@@ -51,11 +51,41 @@
       color: #f1f1f1;
       font-family: Pretendard400;
       font-size: 16px;
+        font{
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important; 
+          font-style: inherit !important;
+          font-family: inherit !important;
+        }
     }
     dd {
       color: #cf0;
       font-family: Pretendard400;
       font-size: 16px;
+        font{
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important; 
+          font-style: inherit !important;
+          font-family: inherit !important;
+        }
     }
   }
 
@@ -112,6 +142,21 @@
       align-items: center;
       align-self: stretch;
       color: #aaa;
+        font{
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important; 
+          font-style: inherit !important;
+          font-family: inherit !important;
+        }
       span {
         font-family: Pretendard400;
         font-size: 16px;
@@ -181,6 +226,21 @@
       letter-spacing: 0.48px;
       position: relative;
       top: 0;
+        font{
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important; 
+          font-style: inherit !important;
+          font-family: inherit !important;
+        }
 
       &:hover {
         top: 5px;
@@ -222,7 +282,21 @@
   letter-spacing: 0.48px;
   position: relative;
   top: 0;
-
+        font{
+          font-size: inherit !important;
+          font-family: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+          word-spacing: inherit !important;
+          font-variant: inherit !important;
+          text-transform: inherit !important;
+          text-rendering: inherit !important;
+          -webkit-font-smoothing: inherit !important; 
+          font-style: inherit !important;
+          font-family: inherit !important;
+        }
   &:hover {
     top: 5px;
     &::after {

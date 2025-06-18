@@ -30,6 +30,15 @@
   &.index {
     width: 40px;
   }
+  font {
+    font-family:  inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
 }
 
 .table__body {
@@ -92,7 +101,15 @@
     font-size: 14px;
     max-width: 340px;
     margin: 0 auto;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     // display: -webkit-box;
     // -webkit-box-orient: vertical;
     // -webkit-line-clamp: 2;
@@ -142,6 +159,15 @@
     top: 0px;
     transition: 0.2s all;
     z-index: 1;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       top: 4px;
       &::before {

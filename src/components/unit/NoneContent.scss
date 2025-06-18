@@ -14,6 +14,20 @@
         font-family: Pretendard600;
         font-size: 16px;
         line-height: normal;
+            font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+            word-spacing: inherit !important;
+            font-variant: inherit !important;
+            text-transform: inherit !important;
+            text-rendering: inherit !important;
+            -webkit-font-smoothing: inherit !important;
+        }
     }
 }
 

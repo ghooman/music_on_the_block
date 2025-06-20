@@ -310,6 +310,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   };
 
   console.log('높이 측정', contentRef.current?.scrollHeight);
+
+  const linkCount = (userData?.link_list?.length || 0) - 1;  // 첫 링크 제외
+
   return (
     <>
       <div className="mypage__profile">
@@ -381,14 +384,28 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             )}
           </div>
           {userData?.link_list?.[0] && (
-            <div className="profile__link" onClick={() => setLinksModal(true)}>
+            <div className="profile__link">
               <img className="profile__link--icon" src={linkIcon} alt="link" />
-              <p className="profile__link--item">{userData?.link_list?.[0].link}</p>
-              {userData?.link_list.length > 0 && (
-                <p className="profile__link--count">
-                  {userData?.link_list?.length} {t('external link')}
+              <Link className="profile__link--item"
+                to={userData?.link_list?.[0].link}
+                target='_b'
+              >{userData?.link_list?.[0].link}</Link>
+
+              {linkCount > 0 && (         // 0이면 아예 표시하지 않음
+                <p
+                  className="profile__link--count"
+                  onClick={() => setLinksModal(true)}
+                >
+                  {linkCount} {t('external link')}
                 </p>
               )}
+              {/* {userData?.link_list.length > 0 && (
+                <p className="profile__link--count"
+                  onClick={() => setLinksModal(true)}
+                >
+                  {userData?.link_list?.length-1} {t('external link')}
+                </p>
+              )} */}
             </div>
           )}
           {children}

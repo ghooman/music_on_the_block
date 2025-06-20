@@ -687,7 +687,7 @@ const MelodyChatBot = ({
       const formData = {
         album: {
           title: melody_title,
-          detail: melody_detail,
+          detail: Array.isArray(melody_detail) ? melody_detail.join(', ') : melody_detail || '',
           language: selectedLanguage,
           genre: standardizedGenre,
           style: '',

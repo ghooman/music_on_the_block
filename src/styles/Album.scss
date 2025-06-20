@@ -1553,6 +1553,7 @@
         // flex-direction: column;
         // align-items: start;
         gap: 16px;
+        justify-content: space-between;
       }
       .album__content-list__list {
         grid-template-columns: repeat(1, 1fr);

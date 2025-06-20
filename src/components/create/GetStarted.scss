@@ -229,7 +229,7 @@
     }
   }
   .create__get-started--version__title {
-    color: var(--Text-music-title, #f1f1f1);
+    color:#f1f1f1;
     font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
@@ -251,7 +251,7 @@
       border: 1px solid #383838;
       background: #0b0b0c;
       height: 54px;
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
       font-family: Pretendard400;
       font-size: 14px;
       display: flex;
@@ -319,7 +319,7 @@
   flex-direction: column;
   margin-bottom: 16px;
   label {
-    color: var(--Text-music-sub, #aaa);
+    color:#aaa;
     font-family: Pretendard400;
     font-size: 14px;
     margin-bottom: 8px;
@@ -328,7 +328,7 @@
     border-radius: 8px;
     background: #222;
     padding: 8px;
-    color: var(--Text-music-un, #565656);
+    color:#565656;
   }
 }
 .create__get-started--format {
@@ -365,7 +365,7 @@
       font-family: Pretendard700;
       font-size: 16px;
       margin-bottom: 12px;
-            font  {
+      font  {
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -394,14 +394,14 @@
         color: #565656;
         font-family: Pretendard400;
         font-size: 14px;
-              font  {
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
+        font  {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
       }
       }
     }
@@ -409,12 +409,12 @@
       border-radius: 8px;
       background: #222;
       padding: 8px;
-      color: var(--Text-music-un, #565656);
+      color:#565656;
       font-family: Pretendard400;
       font-size: 14px;
       margin-top: 16px;
       .create__get-started--format-item-select-title {
-        color: var(--Text-music-sub, #aaa);
+        color:#aaa;
         font-family: Pretendard400;
         font-size: 14px;
       }
@@ -437,7 +437,7 @@
     .create__get-started--button {
       width: 100%;
       margin-top: 16px;
-            font{
+      font{
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -492,7 +492,7 @@
       align-items: center;
       gap: 12px;
       border-radius: 12px;
-      background: var(--Color-02, #1a1a1a);
+      background:#1a1a1a;
       width: 360px;
       font{
         color: inherit !important;

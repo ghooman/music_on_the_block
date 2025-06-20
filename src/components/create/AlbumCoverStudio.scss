@@ -112,7 +112,7 @@
             font-family: Pretendard400;
             font-size: 14px;
             border-radius: 12px 4px 12px 12px;
-            background: var(--secondary-100, #00ffb3);
+            background:#00ffb3;
             padding: 4px 12px;
         }
         .creating-select__confirm {
@@ -120,10 +120,9 @@
             bottom: 24px;
             right: 24px;
             padding: 4px 10px;
-            color: var(--Text-dark-title, #1a1a1a);
+            color:#1a1a1a;
             font-family:  Pretendard600;
             font-size: 14px;
-            letter-spacing: 0.42px;
             border-radius: 12px;
             background-color: #cf0;
         }

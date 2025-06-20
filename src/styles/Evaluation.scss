@@ -8,7 +8,7 @@
   position: relative;
   top: 0;
   transition: 0.2s;
-  color: var(--Text-dark-title, #1a1a1a);
+  color:#1a1a1a;
   font-family: Pretendard600;
   font-size: 12px;
   font-style: normal;
@@ -17,15 +17,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-      font {
-        font-family:  inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   &::before {
     content: '';
     position: absolute;
@@ -100,7 +100,7 @@
       border-radius: 12px;
       // border-radius: 12px / 12px;
       corner-shape: squircle;
-      border: 1px solid var(--primary-base, #cf0);
+      border: 1px solid #cf0;
       background: rgba(11, 11, 12, 0.1);
       backdrop-filter: blur(5px);
       padding: 16px;
@@ -128,7 +128,7 @@
         }
       }
       dd {
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         font-family: Pretendard400;
         font-size: 14px;
         font{
@@ -172,7 +172,7 @@
       font-family: Pretendard600;
       font-size: 16px;
       padding: 0 16px;
-            font{
+      font{
         color: inherit !important;
         font-family: inherit !important;
         font-size: inherit !important;
@@ -213,13 +213,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--Text-music-title, #f1f1f1);
+      color: #f1f1f1;
       font-family: Pretendard500;
       font-size: 14px;
     } //judge__name--END--
     .judge__txt {
       border-radius: 0px 0px 12px 12px;
-      border: 1px solid var(--Color-03, #222);
+      border: 1px solid #222;
       padding: 8px 12px;
       color: #aaa;
       font-family: Pretendard400;
@@ -301,7 +301,7 @@
         }
       }
       dd {
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         font-family: Pretendard400;
         font-size: 12px;
         font{
@@ -333,7 +333,7 @@
       overflow: hidden;
       margin-left: 32px;
       .ai-step__item__step__title {
-        color: var(--primary-base, #cf0);
+        color: #cf0;
         font-family: Pretendard600;
         font-size: 24px;
         font   {

@@ -243,7 +243,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
   // 한 줄을 넘는지 확인하는 함수
   const checkIfOverflows = () => {
-    
+
     if (contentRef.current) {
       const element = contentRef.current;
       const parentElement = element.parentElement;
@@ -315,6 +315,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const linkCount = (userData?.link_list?.length || 0) - 1;  // 첫 링크 제외
 
   return (
+
     <>
       <div className="mypage__profile">
         <div
@@ -358,7 +359,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               </div>
             )}
           </div>
-          {/**=== */}
+          {/* === */}
           <div className="profile__record">
             <div className="profile__record--item">
               <p className="profile__record--item-title">{t('Songs')}</p>

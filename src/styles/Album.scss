@@ -70,14 +70,14 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font {
-              font-family:  inherit !important;
-              font-size: inherit !important;
-              font-weight: inherit !important;
-              line-height: inherit !important;
-              font-style: inherit !important;
-              color: inherit !important;
-              letter-spacing: inherit !important;
+            font{
+              font-family:inherit !important;
+              font-size:inherit !important;
+              font-weight:inherit !important;
+              line-height:inherit !important;
+              font-style:inherit !important;
+              color:inherit !important;
+              letter-spacing:inherit !important;
             }
             &::after {
               content: '';
@@ -463,7 +463,7 @@
             align-items: center;
             gap: 8px;
             width: 530px;
-            span {
+            span{
               text-align: left;
               color: #f1f1f1;
               font-family: Pretendard500;
@@ -473,7 +473,7 @@
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
-              font {
+              font{
                 font-family:  inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -484,7 +484,7 @@
               }
             }
 
-            img {
+            img{
               flex-shrink: 0;
               width: 30px;
               height: 30px;
@@ -500,26 +500,26 @@
           gap: 2px;
           width: 400px;
           align-items: start;
-          dt {
+          dt{
             color: #f1f1f1;
             font-family: Pretendard400;
             font-size: 14px;
             text-align: left;
-            font {
-              font-family:  inherit !important;
-              font-size: inherit !important;
-              font-weight: inherit !important;
-              line-height: inherit !important;
-              font-style: inherit !important;
-              color: inherit !important;
-              letter-spacing: inherit !important;
+            font{
+              font-family:inherit !important;
+              font-size:inherit !important;
+              font-weight:inherit !important;
+              line-height:inherit !important;
+              font-style:inherit !important;
+              color:inherit !important;
+              letter-spacing:inherit !important;
             }
           }
           dd {
             display: flex;
             align-items: center;
             gap: 4px;
-            img {
+            img{
               width: 12px;
               height: 12px;
               border-radius: 100%;
@@ -529,14 +529,14 @@
             text-align: center;
             font-family: Pretendard400;
             font-size: 12px;
-            font {
-              font-family:  inherit !important;
-              font-size: inherit !important;
-              font-weight: inherit !important;
-              line-height: inherit !important;
-              font-style: inherit !important;
-              color: inherit !important;
-              letter-spacing: inherit !important;
+            font{
+              font-family:inherit !important;
+              font-size:inherit !important;
+              font-weight:inherit !important;
+              line-height:inherit !important;
+              font-style:inherit !important;
+              color:inherit !important;
+              letter-spacing:inherit !important;
             }
           }
         } //album__content-list__evaluation-stage__item__title--END--
@@ -556,16 +556,16 @@
             align-items: center;
             justify-content: center;
             color: #1a1a1a;
-            font-family: Pretendard700;
+            font-family:Pretendard700;
             font-size: 14px;
             font {
-              font-family:  inherit !important;
-              font-size: inherit !important;
-              font-weight: inherit !important;
-              line-height: inherit !important;
-              font-style: inherit !important;
-              color: inherit !important;
-              letter-spacing: inherit !important;
+              font-family:inherit !important;
+              font-size:inherit !important;
+              font-weight:inherit !important;
+              line-height:inherit !important;
+              font-style:inherit !important;
+              color:inherit !important;
+              letter-spacing:inherit !important;
             }
             // &.gold {
             //   background: url('../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
@@ -583,26 +583,26 @@
           .details-btn {
             width: 100px;
             height: 24px;
-            background: #222;
-            position: relative;
-            top: 0;
-            transition: 0.2s;
-            color: #aaa;
-            font-family: Pretendard600;
-            font-size: 12px;
-            font-style: normal;
-            line-height: normal;
+            background:#222;
+            position:relative;
+            top:0;
+            transition:0.2s;
+            color:#aaa;
+            font-family:Pretendard600;
+            font-size:12px;
+            font-style:normal;
+            line-height:normal;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font {
-              font-family:  inherit !important;
-              font-size: inherit !important;
-              font-weight: inherit !important;
-              line-height: inherit !important;
-              font-style: inherit !important;
-              color: inherit !important;
+              font-family:inherit !important;
+              font-size:inherit !important;
+              font-weight:inherit !important;
+              line-height:inherit !important;
+              font-style:inherit !important;
+              color:inherit !important;
               letter-spacing: inherit !important;
             }
             &::before {

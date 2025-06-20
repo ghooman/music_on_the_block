@@ -30,7 +30,7 @@
   } //music-play--END--
   &:hover {
     .unit-component-evaluation-list-item__thought {
-      .unit-component-evaluation-list-item__thought__play {
+      .unit-component-evaluation-list-item__thought__play{
         border: 1px solid #cf0;
         &::after {
           opacity: 1;
@@ -43,7 +43,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    .unit-component-evaluation-list-item__thought__play {
+    .unit-component-evaluation-list-item__thought__play{
       width: 30px;
       height: 30px;
       transition: 0.3s;

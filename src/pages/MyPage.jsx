@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext, useTransition, useRef } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
@@ -26,6 +27,8 @@ import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 
 import '../styles/MyPage.scss';
 import { useTranslation } from 'react-i18next';
+
+
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -231,18 +234,16 @@ const UserProfile = () => {
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const { t } = useTranslation('my_page');
-
   const [seeMore, setSeeMore] = useState(false);
   const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
   const [linksModal, setLinksModal] = useState(false);
   const contentRef = useRef(null);
-
   const { pathname, search: queryParameter } = useLocation();
-
   const content = userData?.introduce || '-';
 
   // 한 줄을 넘는지 확인하는 함수
   const checkIfOverflows = () => {
+    
     if (contentRef.current) {
       const element = contentRef.current;
       const parentElement = element.parentElement;
@@ -321,7 +322,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           style={{ backgroundImage: `url(${userData && (userData?.background_image || demoBg)})` }}
         ></div>
         <div className="profile__info" id="profile-info">
-          {/**=== */}
+          {/* === */}
           <div className="profile__info__cover">
             <div className="profile__info--name-level">
               <img
@@ -385,13 +386,16 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           </div>
           {userData?.link_list?.[0] && (
             <div className="profile__link">
-              <img className="profile__link--icon" src={linkIcon} alt="link" />
+              <img 
+                className="profile__link--icon" 
+                src={linkIcon} alt="link" 
+              />
               <Link className="profile__link--item"
                 to={userData?.link_list?.[0].link}
                 target='_b'
               >{userData?.link_list?.[0].link}</Link>
 
-              {linkCount > 0 && (         // 0이면 아예 표시하지 않음
+              {linkCount > 0 && (
                 <p
                   className="profile__link--count"
                   onClick={() => setLinksModal(true)}
@@ -419,6 +423,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
       )}
     </>
   );
+
+
+
 
   return (
     <div className="mypage__profile">
@@ -526,3 +533,10 @@ const Tabs = ({ tabs, handleTab, select }) => {
     </nav>
   );
 };
+
+
+
+
+
+
+

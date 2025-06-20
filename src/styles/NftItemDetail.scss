@@ -7,7 +7,7 @@
     // border: 1px solid #cf0;
     border-radius: 12px;
     .nft-item-detail-info-wrap__title {
-      color: var(--primary-base, #cf0);
+      color: #cf0;
       font-family:  Pretendard600;
       font-size: 30px;
       font-style: normal;
@@ -441,7 +441,7 @@
         width: 100%;
         height: 420px;
         border-radius: 24px;
-        background: var(--Color-03, #222);
+        background:#222;
         padding: 10px;
         position: relative;
         cursor: pointer;
@@ -797,7 +797,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--Text-dark-title, #1a1a1a);
+          color:#1a1a1a;
           font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
@@ -906,13 +906,13 @@
               display: block;
               width: 12px;
               height: 100%;
-              border-right: 1px solid var(--Color-03, #222);
-              background: var(--Color-02, #1a1a1a);
+              border-right: 1px solid #222;
+              background:#1a1a1a;
             }
           }
           dd {
             padding: 8px 12px 8px 24px;
-            color: var(--Text-music-sub, #aaa);
+            color: #aaa;
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
@@ -932,7 +932,7 @@
               letter-spacing: inherit !important;
             }
             span {
-              color: var(--Text-music-sub, #aaa);
+              color: #aaa;
               gap: 4px;
               font-family: Pretendard400;
               font-size: 12px;
@@ -1016,7 +1016,7 @@
             }
           }
           dd {
-            color: var(--Text-music-title, #f1f1f1);
+            color:#f1f1f1;
             text-align: center;
             font-family: Pretendard700;
             font-size: 36px;
@@ -1080,7 +1080,7 @@
           }
         }
         .nft-item-detail__song-detail__right__time-box__utc {
-          color: var(--primary-300, #87aa00);
+          color:#87aa00;
           font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
@@ -1120,7 +1120,7 @@
           margin: 0 auto;
           p,
           span {
-            color: var(--primary-base, #cf0);
+            color:#cf0;
             text-align: center;
             font-family: Pretendard500;
             font-size: 32px;
@@ -1146,11 +1146,9 @@
           position: relative;
           top: 0;
           transition: 0.2s;
-          color: var(--Text-dark-title, #1a1a1a);
+          color:#1a1a1a;
           font-family:  Pretendard600;
           font-size: 16px;
-          font-style: normal;
-          line-height: normal;
           border-radius: 12px;
           font{
             font-family: inherit !important;

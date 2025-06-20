@@ -4,12 +4,10 @@
   gap: 24px;
 
   .songs__title {
-    color: var(--primary-base, #cf0);
-    font-family:  Pretendard500;
+    color: #cf0;
+    font-family: Pretendard500;
     font-size: 24px;
     font-style: normal;
-    line-height: 100%; /* 24px */
-    letter-spacing: 0.72px;
     margin-bottom: 24px;
     position: relative;
     &::after {
@@ -30,7 +28,7 @@
     gap: 24px;
     align-self: stretch;
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
   }
   .songs__body {
     display: flex;
@@ -45,25 +43,21 @@
       // flex: 1;
       width: calc(33.33% - 16px);
       .songs__item-title {
-        color: var(--primary-base, #cf0);
+        color: #cf0;
         font-family:  Pretendard400;
         font-size: 18px;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: 0.54px;
         margin-bottom: 16px;
       }
       .songs__item-intro {
         display: flex;
         gap: 8px;
-
         .songs__item__img-box {
           width: 160px;
           height: 160px;
           flex-shrink: 0;
           padding: 10px;
           border-radius: 16px;
-          background: var(--Color-03, #222);
+          background:#222;
           img {
             width: 100%;
             border-radius: 12px;
@@ -76,12 +70,10 @@
           gap: 8px;
           .songs__item-desc-text {
             align-self: stretch;
-            color: var(--Text-music-title, #f1f1f1);
+            color: #f1f1f1;
             font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
-            line-height: 100%; /* 14px */
-            letter-spacing: 0.42px;
           }
           .songs__item__icon-box {
             display: flex;
@@ -91,12 +83,9 @@
               display: flex;
               gap: 4px;
               span {
-                color: var(--Text-music-sub, #aaa);
+                color: #aaa;
                 font-family: Pretendard400;
                 font-size: 12px;
-                font-style: normal;
-                line-height: 100%; /* 12px */
-                letter-spacing: 0.36px;
               }
             }
           }
@@ -109,12 +98,10 @@
               margin-right: 8px;
             }
             span {
-              color: var(--Text-music-title, #f1f1f1);
+              color:#f1f1f1;
               font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
-              line-height: 100%; /* 12px */
-              letter-spacing: 0.36px;
             }
             .songs__item__more-btn {
               margin-left: auto;
@@ -126,7 +113,7 @@
   }
   .songs__my-songs {
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     padding: 20px 16px 16px 16px;
     margin-top: 50px;
     .my-songs__header {
@@ -136,12 +123,9 @@
       .my-songs__title {
         gap: 16px;
         flex: 1 0 0;
-        color: var(--primary-base, #cf0);
+        color: #cf0;
         font-family:  Pretendard400;
         font-size: 24px;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: 0.72px;
         position: relative;
         &::after {
           position: absolute;
@@ -161,7 +145,7 @@
         position: relative;
         top: 0;
         transition: 0.2s;
-        color: var(--Text-dark-title, #1a1a1a);
+        color:#1a1a1a;
         font-family:  Pretendard600;
         font-size: 16px;
         font-style: normal;
@@ -195,8 +179,8 @@
         align-items: center;
         align-self: stretch;
         border-radius: 4px;
-        border: 1px solid var(--stroke-stroke, #232323);
-        background: var(--section-bg, #141414);
+        border: 1px solid #232323;
+        background: #141414;
       }
     }
   }

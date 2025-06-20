@@ -568,19 +568,16 @@
       align-items: center;
       gap: 8px;
       border-radius: 12px 4px 12px 12px;
-      background: var(--Color-03, #222);
-      color: var(--Text-music-sub, #aaa);
+      background: #222;
+      color: #aaa;
       font-family: Pretendard500;
       font-size: 14px;
-      font-style: normal;
-      line-height: 100%; /* 14px */
-      letter-spacing: 0.42px;
       white-space: nowrap;
       transition: 0.3s all;
       &:hover,
       &.active {
-        color: var(--Text-dark-title, #1a1a1a);
-        background: var(--primary-base, #cf0);
+        color: #1a1a1a;
+        background: #cf0;
       }
       font {
         font-family: inherit !important;

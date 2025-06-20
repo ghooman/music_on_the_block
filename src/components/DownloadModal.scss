@@ -2,7 +2,6 @@
 
 .down-load-modal{
     .down-load-modal__txt{
-
         width: 100%;
         text-align: center;
         font-size: 14px;
@@ -24,13 +23,9 @@
     color: #1a1a1a;
     font-family:  Pretendard600;
     font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0.48px;
     position: relative;
     top: 0;
-          font {
+        font {
             font-family:  inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
@@ -38,7 +33,7 @@
             font-style: inherit !important;
             color: inherit !important;
             letter-spacing: inherit !important;
-          }
+        }
     &:hover {
         top: 5px;
         &::after {

@@ -200,7 +200,7 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         font-family:Pretendard400;
         font-size: 12px;
         font-style: normal;
@@ -234,11 +234,9 @@
       align-items: center;
       justify-content: flex-start;
       gap: 8px;
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
       font-family:Pretendard400;
       font-size: 12px;
-      font-style: normal;
-      line-height: 100%; /* 12px */
       font{
         font-family: inherit !important;
         font-size: inherit !important;

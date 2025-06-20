@@ -22,6 +22,7 @@
       }
     }  
   }
+
   .intro__inner{
     width: 100%;
     min-height: 100vh;
@@ -35,6 +36,7 @@
     flex-direction: column;
     // gap: 80px;
   }//intro__inner--END--
+  
   .intro__number{
     width: 100%;
     display: flex;
@@ -60,21 +62,15 @@
         text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.40);
         font-family: Pretendard700;
         font-size: 28px;
-        font-style: normal;
-        line-height: 100%; /* 28px */
-        letter-spacing: 0.84px;
         position: relative;
         z-index: 1;
       }
       dd{
-        color: var(--Text-music-title, #F1F1F1);
+        color: #F1F1F1;
         text-align: center;
         text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.40);
         font-family: Pretendard700;
         font-size: 60px;
-        font-style: normal;
-        line-height: 100%; /* 60px */
-        letter-spacing: 1.8px;
         position: relative;
         z-index: 1;
       }
@@ -168,7 +164,7 @@
           box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
           padding: 20px;
           border-radius: 33px;
-          background: var(--Color-03, #222);
+          background:#222;
           height: 300px;
           img{
             border-radius: 20px;
@@ -185,15 +181,11 @@
             color: #EDEDED;
             font-family: Pretendard600;
             font-size: 30px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 100%; /* 30px */
-            letter-spacing: 0.9px; 
-            display: -webkit-box;          /* Flexbox와 비슷한 레이아웃 컨테이너 */
-            -webkit-box-orient: vertical; /* 세로 방향으로 박스 정렬 */
-            overflow: hidden;             /* 초과된 내용을 숨김 */
-            text-overflow: ellipsis;      /* 말줄임표 추가 */
-            -webkit-line-clamp: 2;    
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp:2;
           }
           dd{
             display: flex;
@@ -201,13 +193,11 @@
             color: #EDEDED;
             font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
             span{
               color: #808080;
               font-family: Pretendard400;
               font-size: 14px;
-              font-style: normal;
-              line-height: 16px; /* 114.286% */
+              line-height: 16px;
             }
           }
         }//intro__slide-pc__left__title--END--
@@ -234,7 +224,7 @@
       &.hidden {
         display: none;
       }
-      /* 페이드 아웃 (왼쪽으로 사라지기) */
+      
       &.fade-out {
         animation: fadeOut 0.5s forwards;
       }
@@ -249,8 +239,7 @@
           transform: translateX(50px);
         }
       }
-
-      /* 페이드 인 (오른쪽에서 나타나기) */
+      
       &.fade-in {
         animation: fadeIn 0.5s forwards;
       }
@@ -267,6 +256,8 @@
       }
       }//intro__slide-pc__left__item--END--
     }//intro__slide-pc__left--END--
+
+    
     .intro__slide-pc__right{
       width: 100%;
       width: 100%;
@@ -293,13 +284,10 @@
             pointer-events: none;
             filter: blur(6px);
             padding: 0 16px;
-            color: var(--Color-09, #F5F5F5);
+            color:#F5F5F5;
             text-align: center;
             font-family: Pretendard700;
             font-size: 40px;
-            font-style: normal;
-            line-height: 100%; /* 40px */
-            letter-spacing: 1.2px;
             transition: 0.3s;
             position: relative;
             // &::before{
@@ -342,9 +330,6 @@
       text-align: center;
       font-family: Pretendard700;
       font-size: 30px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 0%; /* 0px */
       transition: 0.3s;
       &::before{
         content: '';
@@ -463,9 +448,6 @@
       text-align: center;
       font-family: Pretendard700;
       font-size: 30px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 0%; /* 0px */
       transition: 0.3s;
       &::before{
         content: '';
@@ -596,10 +578,6 @@
             color: #EDEDED;
             font-family: Pretendard600;
             font-size: 30px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 100%;
-            letter-spacing: 0.9px;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             overflow: hidden; 
@@ -613,14 +591,11 @@
             color: #EDEDED;
             font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
             margin-bottom: 8px;
             span{
               color: #808080;
               font-family: Pretendard400;
               font-size: 14px;
-              font-style: normal;
-              line-height: 16px; /* 114.286% */
             }
           }
           .play-btn{

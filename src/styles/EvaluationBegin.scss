@@ -67,21 +67,19 @@
   color: #1a1a1a;
   font-family: Pretendard600;
   font-size: 12px;
-  font-style: normal;
-  line-height: normal;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-          font{
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
   &:disabled {
     &::before {
       width: 100%;
@@ -116,15 +114,15 @@
     font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
-          font{
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   } //step1__title--END--
   .step1__list {
     display: flex;
@@ -133,11 +131,10 @@
     margin-top: 16px;
     padding: 16px 16px 0 16px;
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     margin-bottom: 16px;
     height: 220px;
     overflow: auto;
-
     &::-webkit-scrollbar-button {
       display: none;
     }
@@ -223,7 +220,7 @@
           }
         }
         dd {
-          color: var(--Text-music-sub, #aaa);
+          color:#aaa;
           font-family: Pretendard500;
           font-size: 14px;
           font{
@@ -299,7 +296,7 @@
         justify-content: space-between;
         p {
           border-radius: 4px;
-          background: var(--Color-02, #1a1a1a);
+          background: #1a1a1a;
           padding: 0 12px;
           height: 38px;
           display: flex;
@@ -319,7 +316,7 @@
           }
         }
         span {
-          color: var(--Text-music-sub, #aaa);
+          color: #aaa;
           font-family: Pretendard400;
           font-size: 14px;
           font{
@@ -332,7 +329,7 @@
             letter-spacing: inherit !important;
           }
           strong {
-            color: var(--Text-music-title, #f1f1f1);
+            color: #f1f1f1;
             font-family: Pretendard500;
             font-size: 14px;
             font{

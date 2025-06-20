@@ -262,15 +262,15 @@
     margin: 16px 0;
     position: relative;
     width: 100%;
-        font {
-          font-family:  inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     // display: inline-block;
     &::after {
       content: '';
@@ -529,15 +529,15 @@
             text-align: center;
             font-family: Pretendard400;
             font-size: 12px;
-        font {
-          font-family:  inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         } //album__content-list__evaluation-stage__item__title--END--
         .album__content-list__evaluation-stage__item__details-number {
@@ -555,18 +555,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
+            color: #1a1a1a;
             font-family: Pretendard700;
             font-size: 14px;
-        font {
-          font-family:  inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             // &.gold {
             //   background: url('../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
             // }
@@ -803,14 +803,11 @@
         }
       }
       dd {
-        color: var(--Text-music-title, #f1f1f1);
+        color:#f1f1f1;
         text-align: center;
         text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
         font-family: Pretendard700;
         font-size: 48px;
-        font-style: normal;
-        line-height: 100%; /* 60px */
-        letter-spacing: 1.8px;
         position: relative;
         z-index: 1;
         font{
@@ -1074,8 +1071,6 @@
             text-align: center;
             font-family: Pretendard400;
             font-size: 12px;
-            font-style: normal;
-            line-height: 16px; /* 133.333% */
             font{
               font-family: inherit !important;
               font-size: inherit !important;
@@ -1106,7 +1101,7 @@
           display: none;
           transition: 0.3s;
           .swiper-music-list__item__right__title {
-            color: var(--Text-music-title, #f1f1f1);
+            color: #f1f1f1;
             font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
@@ -1148,19 +1143,19 @@
               display: flex;
               align-items: center;
               gap: 4px;
-              color: var(--Text-music-sub, #aaa);
+              color:#aaa;
               font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
-                    font{
-                      font-family: inherit !important;
-                      font-size: inherit !important;
-                      font-weight: inherit !important;
-                      line-height: inherit !important;
-                      font-style: inherit !important;
-                      color: inherit !important;
-                      letter-spacing: inherit !important;
-                    }
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               &:nth-child(2) {
                 img {
                   width: 14px;
@@ -1180,21 +1175,18 @@
               align-items: center;
               justify-content: center;
               gap: 8px;
-              color: var(--Text-music-title, #f1f1f1);
+              color:#f1f1f1;
               font-family: Pretendard400;
               font-size: 12px;
-              font-style: normal;
-              line-height: 100%; /* 12px */
-              letter-spacing: 0.36px;
-                    font{
-                      font-family: inherit !important;
-                      font-size: inherit !important;
-                      font-weight: inherit !important;
-                      line-height: inherit !important;
-                      font-style: inherit !important;
-                      color: inherit !important;
-                      letter-spacing: inherit !important;
-                    }
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               img {
                 width: 24px;
                 height: 24px;
@@ -1250,15 +1242,15 @@
               color: #f1f1f1 !important;
               transition: 0.3s;
               border: 1px solid transparent;
-                    font{
-      font-family: inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &:hover {
                 top: 0 !important;
                 border-radius: 36px;
@@ -1296,7 +1288,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-      font{
+    font{
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;

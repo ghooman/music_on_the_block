@@ -210,9 +210,10 @@ function Album() {
             <div className="main__to-day-header__song-create-list">
               <Link to="/create" className="main__to-day-header__song-create-list__item">
                 <p className="main__to-day-header__song-create-list__item__title">
-                  {t('Create your own song')}
                   {/* <br /> */}
                   <span>{t('very quickly')}</span>
+                  {t('Create your own song')}
+
                 </p>
                 <img src={songCreateIcon1} alt="songCreateIcon1" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">

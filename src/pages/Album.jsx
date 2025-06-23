@@ -48,6 +48,7 @@ import {
   EvaluationListItem,
   EvaluationListItemWrapper,
 } from '../components/unit/EvaluationListItem';
+import GptErrorModal from '../components/GptErrorModal';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 

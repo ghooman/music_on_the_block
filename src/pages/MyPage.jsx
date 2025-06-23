@@ -233,6 +233,7 @@ const UserProfile = () => {
 //==================================================
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
+  
   const { t } = useTranslation('my_page');
   const [seeMore, setSeeMore] = useState(false);
   const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
@@ -284,6 +285,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   };
 
   useEffect(() => {
+
     // DOM이 업데이트된 후 실제 높이를 확인
     const checkContentHeight = () => {
       if (contentRef.current) {

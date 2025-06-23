@@ -36,7 +36,7 @@
         tr {
           th {
             text-align: center;
-            color: var(--primary-200, #a9d400);
+            color: #a9d400;
             text-align: center;
             font-family:  Pretendard400;
             font-size: 14px;
@@ -272,15 +272,15 @@
       font-style: normal;
       line-height: normal;
       border-radius: 8px;
-          font {
-            font-family:  inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::before {
         content: '';
         position: absolute;

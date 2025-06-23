@@ -74,20 +74,9 @@
       color: #1a1a1a;
       font-family: Pretendard600;
       font-size: 16px;
-      font-style: normal;
-      line-height: normal;
       border-radius: 12px;
       background: #00ffb3;
       position: relative;
-          font {
-            font-family:  inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
       font{
         font-family: inherit !important;
         font-size: inherit !important;
@@ -110,11 +99,8 @@
       color: #cf0;
       font-family: Pretendard400;
       font-size: 14px;
-      font-style: normal;
-      line-height: normal;
       position: relative;
-
-            font{
+      font{
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -155,20 +141,18 @@
         color:#1a1a1a;
         font-family: Pretendard600;
         font-size: 16px;
-        font-style: normal;
-        line-height: normal;
         border-radius: 12px;
-        background: var(--secondary-base, #00ffb3);
+        background:#00ffb3;
         position: relative;
-                    font{
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       } //menu__box__login-btn--END--
       .menu__box__my-page {
         width: 100%;
@@ -199,15 +183,15 @@
               height: 26px !important;
               object-fit: cover;
             }
-                        font{
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //menu__box__my-page__level__arr-btn--END--
           // flex: 52px;
           width: 100%;
@@ -237,7 +221,7 @@
             }
           }
           .level {
-            color: var(--Text-music-sub, #aaa);
+            color:#aaa;
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
@@ -297,7 +281,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                            font{
+                font{
                   font-family: inherit !important;
                   font-size: inherit !important;
                   font-weight: inherit !important;
@@ -312,7 +296,7 @@
                 font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
-                            font{
+                font{
                   font-family: inherit !important;
                   font-size: inherit !important;
                   font-weight: inherit !important;
@@ -341,14 +325,10 @@
               display: flex;
               align-items: center;
               justify-content: space-between;
-
               p {
                 color: #f1f1f1;
                 font-family: Pretendard500;
                 font-size: 12px;
-                font-style: normal;
-                line-height: 100%; /* 12px */
-                letter-spacing: 0.36px;
                 font{
                   font-family: inherit !important;
                   font-size: inherit !important;
@@ -364,8 +344,6 @@
                 color: #aaa;
                 font-family: Pretendard500;
                 font-size: 12px;
-                font-style: normal;
-                line-height: 100%; /* 12px */
                 display: flex;
                 align-items: center;
                 gap: 4px;
@@ -394,7 +372,6 @@
         color: #aaa;
         font-family: Pretendard400;
         font-size: 14px;
-        font-style: normal;
         margin-top: 4px;
         margin-bottom: 16px;
         transition: 0.2s;
@@ -508,19 +485,17 @@
           color: #aaa;
           font-family: Pretendard400;
           font-size: 12px;
-          font-style: normal;
-          line-height: 100%; /* 12px */
           padding: 0 16px;
           position: relative;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           &:hover {
             background: #678300;
             color: #121a00;
@@ -611,7 +586,6 @@
               color: #1a1a1a;
               font-family: Pretendard400;
               font-size: 12px;
-              font-style: normal;
               transition: 0.3s;
               &:hover {
                 background: #a9d400;
@@ -750,7 +724,7 @@
   padding: 12px 24px;
   color: #1a1a1a;
   font: 12px;
-  font-family: Pretendard400;
+  font-family:Pretendard400;
   font{
     font-family: inherit !important;
     font-size: inherit !important;
@@ -779,8 +753,8 @@
   align-items: center;
   gap: 8px;
   border-radius: 16px;
-  border: 1px solid var(--Color-03, #222);
-  background: var(--Color-02, #1a1a1a);
+  border: 1px solid #222;
+  background: #1a1a1a;
   overflow: auto;
   &.visible {
     opacity: 1;
@@ -798,12 +772,12 @@
     .menu-box__lang-notification--select-notification-box__header__btn {
       margin-left: auto;
       border-radius: 100px;
-      background: var(--Color-03, #222);
+      background: #222;
       display: flex;
       padding: 8px 16px;
       align-items: center;
       gap: 8px;
-      color: var(--Text-music-title, #f1f1f1);
+      color: #f1f1f1;
       font-family: Pretendard500;
       font-size: 12px;
       font-style: normal;
@@ -818,13 +792,10 @@
       }
     }
     .menu-box__lang-notification--select-notification-box__header__title {
-      color: var(--Text-music-title, #f1f1f1);
+      color: #f1f1f1;
       text-align: center;
       font-family: Pretendard600;
       font-size: 24px;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: 0.72px;
       margin-bottom: 24px;
       font{
         font-family: inherit !important;
@@ -845,7 +816,7 @@
     gap: 8px;
     border-radius: 4px;
     padding: 8px;
-    background: var(--Dark-Color-01, #0b0b0c);
+    background: #0b0b0c;
     height: 68px;
     .menu-box__lang-notification--select-notification-box__item__img-box {
       width: 24px;
@@ -868,7 +839,7 @@
         min-width: 200px;
         .menu-box__lang-notification--select-notification-box__item__txt-box__header__title {
           overflow: hidden;
-          color: var(--Text-music-title, #f1f1f1);
+          color: #f1f1f1;
           text-overflow: ellipsis;
           font-family: Pretendard600;
           font-size: 10px;
@@ -886,7 +857,7 @@
             overflow: hidden;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
-            color: var(--secondary-base, #00ffb3);
+            color: #00ffb3;
             text-overflow: ellipsis;
             font-family: Pretendard600;
             font-size: 10px;
@@ -906,7 +877,7 @@
             overflow: hidden;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
-            color: var(--tertiary-400, #6458ff);
+            color: #6458ff;
             text-overflow: ellipsis;
             font-family: Pretendard600;
             font-size: 10px;
@@ -925,7 +896,7 @@
         }
       }
       .menu-box__lang-notification--select-notification-box__item__txt-box__header__name {
-        color: var(--Text-music-title, #f1f1f1);
+        color: #f1f1f1;
         font-family: Pretendard400;
         font-size: 10px;
         font-style: normal;
@@ -941,7 +912,7 @@
         }
       }
       .menu-box__lang-notification--select-notification-box__item__txt-box__date-box__time {
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         display: flex;
         font-family: Pretendard400;
         font-size: 7px;

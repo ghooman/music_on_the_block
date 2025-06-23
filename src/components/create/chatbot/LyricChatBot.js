@@ -106,7 +106,9 @@ const LyricChatBot = ({
         messages: [
           {
             role: 'system',
-            content: lyricPrompts.chatbot.systemMessage,
+            content:
+              lyricPrompts.chatbot.systemMessages[selectedLanguage] ||
+              lyricPrompts.chatbot.systemMessages.ENG,
           },
           ...chatHistory,
           { role: 'user', content: userInput },

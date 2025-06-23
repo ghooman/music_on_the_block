@@ -3,7 +3,7 @@
   color: #fff;
 
   &__title {
-    color: var(--Text-music-title, #f1f1f1);
+    color: #f1f1f1;
     font-family:  Pretendard400;
     font-size: 14px;
     font-style: normal;
@@ -91,8 +91,8 @@
   }
 
   &__name {
-    color: var(--Text-music-title, #f1f1f1);
-    font-family:  Pretendard400;
+    color: #f1f1f1;
+    font-family: Pretendard400;
     font-size: 14px;
     font-style: normal;
     line-height: normal;
@@ -142,25 +142,21 @@
       gap: 10px;
       align-self: stretch;
       border-radius: 12px;
-      border: 1px solid var(--Color-04, #383838);
-      background: var(--Dark-Color-01, #0b0b0c);
-      color: var(--Text-music-un, #565656);
-      font-family: 'Noto Sans KR';
+      border: 1px solid #383838;
+      background: #0b0b0c;
+      color: #565656;
       font-size: 10px;
-      font-style: normal;
-      font-weight: 350;
-      line-height: normal;
       color: #f1f1f1;
       transition: 0.2s all;
-    font {
-      font-family:  inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &:focus {
         outline: none;
         border-color: #cf0;
@@ -175,7 +171,7 @@
         right: 15px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--Text-music-un, #565656);
+        color: #565656;
         font-family: Pretendard400;
         font-size: 12px;
         font-style: normal;

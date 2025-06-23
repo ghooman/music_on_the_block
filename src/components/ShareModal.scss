@@ -3,8 +3,8 @@
     position: relative;
     width: 100%;
     border-radius: 4px;
-    border: 1px solid var(--Color-03, #222);
-    background: var(--Dark-Color-01, #0b0b0c);
+    border: 1px solid #222;
+    background: #0b0b0c;
 
     display: flex;
     align-items: center;
@@ -17,15 +17,15 @@
       font-size: 12px;
       font-style: normal;
       line-height: normal;
-          font {
-            font-family:  inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .share-modal__link__btn {
       width: 44px;

@@ -1,6 +1,6 @@
 .album-collection-detail-page {
   .album-collection-detail-page__title {
-    color: var(--primary-base, #cf0);
+    color: #cf0;
     font-family:  Pretendard500;
     font-size: 30px;
     font-style: normal;
@@ -66,8 +66,8 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            color: var(--Text-music-title, #f1f1f1);
-            font-family:  Pretendard500;
+            color:#f1f1f1;
+            font-family: Pretendard500;
             font-size: 28px;
             font-style: normal;
             font {
@@ -86,13 +86,13 @@
             .album-collection-detail-page__box__header__right__box__title__edit-btn {
               height: 34px;
               border-radius: 12px;
-              background: var(--Color-03, #222);
+              background:#222;
               padding: 0 12px;
               display: flex;
               justify-content: center;
               align-items: center;
               gap: 8px;
-              color: var(--Text-music-sub, #aaa);
+              color:#aaa;
               font-family: Pretendard500;
               font-size: 12px;
               font-style: normal;
@@ -129,7 +129,7 @@
                 justify-content: center;
                 min-height: 40px;
                 position: relative;
-                color: var(--Text-music-title, #f1f1f1);
+                color:#f1f1f1;
                 font-family: Pretendard500;
                 font-size: 14px;
                 font-style: normal;
@@ -159,7 +159,7 @@
                 align-items: center;
                 padding: 0 12px 0 24px;
                 gap: 8px;
-                color: var(--Text-music-title, #f1f1f1);
+                color:#f1f1f1;
                 font-family: Pretendard400;
                 font-size: 14px;
                 font-style: normal;
@@ -277,13 +277,13 @@
       .album-collection-detail-page__box__body__edit__edit-btn {
         height: 34px;
         border-radius: 12px;
-        background: var(--Color-03, #222);
+        background:#222;
         padding: 0 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         font-family: Pretendard500;
         font-size: 12px;
         font-style: normal;

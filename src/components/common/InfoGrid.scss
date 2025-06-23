@@ -1,6 +1,6 @@
 .info-grid {
     .info-grid__title {
-        color: var(--Text-title, #F1F1F1);
+        color: #F1F1F1;
         font-family: Pretendard600;
         font-size: 14px;
         margin-bottom: 16px;
@@ -21,14 +21,14 @@
             }
 
             dt {
-                color: var(--Text-sub, #AAA);
+                color: #AAA;
                 font-family: Pretendard400;
                 font-size: 12px;
                 margin-bottom: 8px;
             }
 
             dd {
-                color: var(--Text-title, #F1F1F1);
+                color:#F1F1F1;
                 font-family: Pretendard600;
                 font-size: 14px;
             }

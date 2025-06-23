@@ -130,5 +130,6 @@
  "The wallet address is incorrect.": "Alamat dompet tidak valid.",
  "Add": "Tambah",
  "Delete Wallet": "Hapus Dompet",
- "Are you sure you want to delete the registered wallet?": "Apakah Anda yakin ingin menghapus dompet yang terdaftar?"
+ "Are you sure you want to delete the registered wallet?": "Apakah Anda yakin ingin menghapus dompet yang terdaftar?",
+ "Please regenerate it again in a little while.": "Silakan buat ulang beberapa saat lagi."
 }

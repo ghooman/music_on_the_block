@@ -346,7 +346,8 @@
  "The wallet address is incorrect.": "The wallet address is incorrect.",
  "Add": "Add",
  "Delete Wallet": "Delete Wallet",
- "Are you sure you want to delete the registered wallet?": "Are you sure you want to delete the registered wallet?"
+ "Are you sure you want to delete the registered wallet?": "Are you sure you want to delete the registered wallet?",
+ "Please regenerate it again in a little while.": "Please regenerate it again in a little while."
 ,
  "NFT MarketPlace": "NFT MarketPlace",
  "Your music, now as an NFT": "Your music, now as an NFT",
@@ -410,7 +411,7 @@
  "evaluated": "evaluated",
  "Create a song": "Create a song",
  "with your own voice": "with your own voice",
- "Sign In": "Sign In",
+ "Log In": "Log In",
  "Number of Artists": "Number of Artists",
  "Number of Songs": "Number of Songs",
  "Transactions": "Transactions",

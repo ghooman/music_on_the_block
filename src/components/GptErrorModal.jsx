@@ -9,7 +9,7 @@ const GptErrorModal = ({ setShowErrorModal, errorMessage }) => {
 
   return (
     <ModalWrap title={t('ERROR')} onClose={() => setShowErrorModal(false)} className="error-modal">
-      <p className="error-modal__txt">{t('Please regenerate it again in a little while.')}</p>
+      <p className="error-modal__txt">{errorMessage}</p>
       <button className="error-modal-btn" onClick={() => setShowErrorModal(false)}>
         {t('OK')}
       </button>

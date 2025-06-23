@@ -47,6 +47,7 @@ const MelodyChatBot = ({
   const { token } = useContext(AuthContext);
   const { data: userData } = useUserDetail();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 선택된 언어에 따라 리소스 파일 선택
@@ -689,8 +690,7 @@ const MelodyChatBot = ({
       const formData = {
         album: {
           title: melody_title,
-          // detail: Array.isArray(melody_detail) ? melody_detail.join(', ') : melody_detail || '',
-          detail: [],
+          detail: Array.isArray(melody_detail) ? melody_detail.join(', ') : melody_detail || '',
           language: selectedLanguage,
           genre: standardizedGenre,
           style: '',
@@ -738,6 +738,8 @@ const MelodyChatBot = ({
       navigate(`/`);
     } catch (err) {
       console.error('handleSubmit error', err);
+      setErrorMessage('Please regenerate it again in a little while.');
+      setShowErrorModal(true);
     } finally {
       // setLoading(false) in handleGenerateSong should handle this
     }
@@ -757,10 +759,12 @@ const MelodyChatBot = ({
         await musicGenerate(cover, generatedPrompt);
       } else {
         console.error('앨범 커버 생성에 실패하였습니다.');
+        setErrorMessage('Please regenerate it again in a little while.');
         setShowErrorModal(true);
       }
     } catch (error) {
       console.error('Error during song generation process:', error);
+      setErrorMessage('Please regenerate it again in a little while.');
       setShowErrorModal(true);
     } finally {
       setCreateLoading(false);
@@ -911,7 +915,9 @@ const MelodyChatBot = ({
       {showLyricsModal && (
         <LyricsModal setShowLyricsModal={setShowLyricsModal} generatedLyric={generatedLyric} />
       )}
-      {showErrorModal && <GptErrorModal setShowErrorModal={setShowErrorModal} />}
+      {showErrorModal && (
+        <GptErrorModal setShowErrorModal={setShowErrorModal} errorMessage={errorMessage} />
+      )}
     </div>
   );
 };

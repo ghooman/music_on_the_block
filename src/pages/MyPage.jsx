@@ -341,13 +341,13 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             </div>
             {isMyProfile && (
               <div className="profile__info__btns">
-                <Link
+                {/* <Link
                   to={`/license-key`}
                   className="key-link"
                   //key-pass
                 >
                   {t('Link license key')}
-                </Link>
+                </Link> */}
                 <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
                   {t('Edit profile')}
                 </Link>
@@ -383,15 +383,12 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           {userData?.link_list?.[0] && (
             <div className="profile__link">
               <img className="profile__link--icon" src={linkIcon} alt="link" />
-              <Link className="profile__link--item"
-                to={userData?.link_list?.[0].link}
-                target='_b'
-              >{userData?.link_list?.[0].link}</Link>
+              <Link className="profile__link--item" to={userData?.link_list?.[0].link} target="_b">
+                {userData?.link_list?.[0].link}
+              </Link>
               {userData?.link_list.length > 0 && (
-                <p className="profile__link--count"
-                  onClick={() => setLinksModal(true)}
-                >
-                  {userData?.link_list?.length-1} {t('external link')}
+                <p className="profile__link--count" onClick={() => setLinksModal(true)}>
+                  {userData?.link_list?.length - 1} {t('external link')}
                 </p>
               )}
             </div>

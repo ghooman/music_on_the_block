@@ -1,4 +1,4 @@
-// 프리페어링
+
 @mixin checkbox() {
   /* 기본 체크박스 숨기기 */
   appearance: none;
@@ -95,15 +95,9 @@
   }
 
   .confirm-modal__gas-fee {
-    // color: var(--Dark-Color-06, var(--Color-06, #888));
     color: #ffdc55;
     text-align: center;
-    font-family: Inter;
     font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.36px;
   }
   // 체크박스 관련 스타일
   .confirm-modal__checkbox-wrap {
@@ -134,7 +128,7 @@
       font-family: Pretendard400;
       color: #f1f1f1;
       border-radius: 4px;
-      background: var(--Color-03, #222);
+      background:#222;
       display: flex;
       height: 27px;
       padding: 16px 8px;
@@ -220,10 +214,6 @@
       color: #1a1a1a;
       font-family:  Pretendard600;
       font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      letter-spacing: 0.48px;
       position: relative;
       top: 0;
         font{
@@ -276,10 +266,6 @@
   color: #1a1a1a;
   font-family:  Pretendard600;
   font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.48px;
   position: relative;
   top: 0;
         font{
@@ -318,5 +304,5 @@
   // &:hover {
   //     box-shadow: 0px 0px 10px 0px #cf0;
   // }
-} //preparing-btn--END--
-// 프리페어링
+}
+

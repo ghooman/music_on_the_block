@@ -1,6 +1,6 @@
 .account-setting {
   .account-setting--title {
-    color: var(--primary-base, #cf0);
+    color:#cf0;
     font-family:  Pretendard600;
     font-size: 30px;
     font-style: normal;
@@ -25,15 +25,12 @@
     gap: 16px;
     align-self: stretch;
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     .account-setting__info-box {
       .info-box__title {
         color: #cf0;
-        font-family:  Pretendard400;
+        font-family: Pretendard400;
         font-size: 24px;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: 0.72px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -53,7 +50,7 @@
       .info-box__picture-box {
         .picture-box__title {
           color: #f1f1f1;
-          font-family:  Pretendard500;
+          font-family: Pretendard500;
           font-size: 18px;
           font-style: normal;
           line-height: normal;
@@ -160,7 +157,6 @@
             color: #fff;
             font-size: 14px;
             font-style: normal;
-            line-height: 100%; /* 14px */
             font {
               font-family:  inherit !important;
               font-size: inherit !important;
@@ -197,7 +193,7 @@
         margin-bottom: 16px;
         .user-info__title {
           color: #f1f1f1;
-          font-family:  Pretendard500;
+          font-family: Pretendard500;
           font-size: 18px;
           font-style: normal;
           line-height: normal;
@@ -541,7 +537,7 @@
         font-size: 24px;
         font-style: normal;
         line-height: normal;
-                font {
+        font {
           font-family:  inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -556,7 +552,7 @@
       width: 100%;
       .social__item-title {
         color: #f1f1f1;
-        font-family:  Pretendard500;
+        font-family:Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -573,7 +569,7 @@
       }
       .social__desc {
         color: #a9d400;
-        font-family: Pretendard400;
+        font-family:Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
@@ -633,10 +629,10 @@
         }
       }
       .social__error {
-        color: var(--warning, #df1919);
+        color:#df1919;
         font-size: 16px;
         font-style: normal;
-                font {
+        font {
           font-family:  inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;

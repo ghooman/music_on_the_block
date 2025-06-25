@@ -30,7 +30,7 @@
 .albums-table {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid var(--Color-03, #222);
+  border: 1px solid #222;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -56,7 +56,7 @@
     min-width: 860px;
   }
   thead {
-    border-bottom: 1px solid var(--stroke-stroke, #232323);
+    border-bottom: 1px solid #232323;
     border-radius: 12px 12px 0px 0px;
     background: linear-gradient(0deg, rgba(199, 240, 100, 0.2) 0%, rgba(114, 138, 58, 0) 20%);
     tr {
@@ -67,7 +67,7 @@
       align-self: stretch;
 
       th {
-        color: var(--primary-200, #a9d400);
+        color:#a9d400;
         text-align: center;
         font-family:  Pretendard400;
         font-size: 14px;
@@ -104,7 +104,7 @@
       transition: 0.3s;
       cursor: pointer;
       &:hover {
-        background: var(--Color-04, #383838);
+        background: #383838;
         td {
           .albums-table__song-btn {
             border: 1px solid #a9d400;
@@ -129,7 +129,7 @@
       }
       td {
         padding: 0 8px;
-        color: var(--Text-music-sub, #aaa);
+        color:#aaa;
         text-align: center;
         font-family: Pretendard400;
         font-size: 14px;
@@ -174,7 +174,7 @@
           align-items: center;
           justify-content: center;
           gap: 4px;
-          color: var(--Text-music-sub, #aaa);
+          color: #aaa;
           text-align: center;
           font-family: Pretendard400;
           font-size: 12px;
@@ -272,12 +272,9 @@
           justify-content: center;
           align-items: center;
           .albums-table__detail-btn {
-            color: var(--Text-music-sub, #aaa);
+            color:#aaa;
             font-family: Pretendard500;
             font-size: 12px;
-            font-style: normal;
-            line-height: 100%; /* 12px */
-            letter-spacing: 0.36px;
             display: flex;
             width: 100px;
             padding: 8px 12px;
@@ -285,7 +282,7 @@
             align-items: center;
             gap: 8px;
             border-radius: 12px;
-            background: var(--Color-03, #222);
+            background:#222;
 
             &.delete {
               color: #f1f1f1;

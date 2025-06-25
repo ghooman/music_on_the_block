@@ -12,7 +12,7 @@
   align-items: flex-start;
   gap: 8px;
   border-radius: 16px;
-  background: var(--Color-03, #222);
+  background: #222;
   overflow: hidden;
 
   cursor: pointer;
@@ -25,9 +25,6 @@
       color:#f1f1f1;
       font-family: Pretendard400;
       font-size: 14px;
-      font-style: normal;
-      line-height: 100%; /* 14px */
-      letter-spacing: 0.42px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -43,27 +40,26 @@
     }
 
     p {
-      color: var(--Text-music-sub, #aaa);
+      color:#aaa;
       font-family: Pretendard400;
       font-size: 10px;
       font-style: normal;
       line-height: 100%; /* 10px */
-          font {
-      font-family:  inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     span {
-      color: var(--Text-music-sub, #aaa);
+      color:#aaa;
       font-family: Pretendard400;
       font-size: 10px;
       font-style: normal;
-      line-height: 100%; /* 10px */
           font {
       font-family:  inherit !important;
       font-size: inherit !important;

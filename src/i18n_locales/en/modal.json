@@ -130,5 +130,6 @@
  "The wallet address is incorrect.": "The wallet address is incorrect.",
  "Add": "Add",
  "Delete Wallet": "Delete Wallet",
- "Are you sure you want to delete the registered wallet?": "Are you sure you want to delete the registered wallet?"
+ "Are you sure you want to delete the registered wallet?": "Are you sure you want to delete the registered wallet?",
+ "Please regenerate it again in a little while.": "Please regenerate it again in a little while."
 }

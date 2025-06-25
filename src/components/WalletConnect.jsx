@@ -44,7 +44,7 @@ export const WalletConnect = ({ onConnect, className, text }) => {
   return (
     <ConnectButton
       connectButton={{
-        label: text || t('Sign In'),
+        label: text || t('Log In'),
         className: className,
       }}
       client={client}

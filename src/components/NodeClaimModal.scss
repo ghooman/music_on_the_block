@@ -60,15 +60,15 @@
       font-style: normal;
       line-height: normal;
       font-family: Poppins500;
-          font {
-            font-family:  inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }//node-claim-modal__title--END--
     .node-claim-modal__xmpt-input{
       position: relative;
@@ -139,7 +139,7 @@
           padding: 0 16px;
           background: #141414;
           border-radius: 2px;
-          background: var(--Color-03, #222);
+          background: #222;
           font-size: 14px;
           border: 0;
         }

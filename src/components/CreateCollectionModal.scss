@@ -36,19 +36,19 @@
     }
   }
   .create-collection-modal__small-txt {
-    color: var(--Text-music-sub, #aaa);
+    color:#aaa;
     font-family: Pretendard400;
     font-size: 8px;
     margin-bottom: 8px;
-            font{
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   } //create-collection-modal__small-txt--END--
   .create-collection-modal__img-load {
     position: relative;
@@ -77,7 +77,7 @@
     flex-direction: column;
     gap: 8px;
     dt {
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
       font-family:  Pretendard400;
       font-size: 14px;
       margin: 16px 0 0px;
@@ -117,12 +117,8 @@
       font-size: 14px;
       border-radius: 12px;
       color: #1a1a1a;
-      font-family:  Pretendard600;
+      font-family: Pretendard600;
       font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      letter-spacing: 0.48px;
       position: relative;
       top: 0;
         font{
@@ -180,12 +176,8 @@
   font-size: 14px;
   border-radius: 12px;
   color: #1a1a1a;
-  font-family:  Pretendard600;
+  font-family: Pretendard600;
   font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.48px;
   position: relative;
   top: 0;
         font{

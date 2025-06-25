@@ -94,7 +94,7 @@ textarea {
   align-items: center;
   padding: 0 16px;
   border-radius: 12px;
-  border: 1px solid var(--Color-05, #383838);
+  border: 1px solid #383838;
   color: #fff;
   font-family: ' Pretendard600';
   font-size: 12px;

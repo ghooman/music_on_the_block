@@ -130,5 +130,6 @@
  "The wallet address is incorrect.": "Địa chỉ ví không hợp lệ.",
  "Add": "Thêm",
  "Delete Wallet": "Xóa ví",
- "Are you sure you want to delete the registered wallet?": "Bạn có chắc chắn muốn xóa ví đã đăng ký không?"
+ "Are you sure you want to delete the registered wallet?": "Bạn có chắc chắn muốn xóa ví đã đăng ký không?",
+ "Please regenerate it again in a little while.": "Vui lòng tạo lại sau một lúc nữa."
 }

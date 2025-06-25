@@ -6,7 +6,7 @@
     margin-bottom: 24px;
 
     &__title {
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
       font-family:  Pretendard400;
       font-size: 18px;
       font-style: normal;
@@ -16,7 +16,7 @@
     }
 
     &__artist {
-      color: var(--Text-music-sub, #aaa);
+      color: #aaa;
       font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
@@ -25,8 +25,8 @@
     }
 
     &__songs {
-      color: var(--Text-music-sub, #aaa);
-      font-family: Inter300;
+      color: #aaa;
+      font-family: Pretendard400;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
@@ -37,7 +37,7 @@
     margin-bottom: 24px;
 
     &__text {
-      color: var(--Text-music-sub, #aaa);
+      color:#aaa;
       font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
@@ -46,7 +46,7 @@
     }
 
     &__question {
-      color: var(--Text-music-title, #f1f1f1);
+      color: #f1f1f1;
       font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
@@ -68,7 +68,7 @@
     margin-bottom: 24px;
 
     &__text {
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
       font-family: Pretendard400;
       font-size: 16px;
       font-style: normal;
@@ -99,11 +99,8 @@
       justify-content: center;
       align-items: center;
       gap: 8px;
-      font-family:  Pretendard600;
+      font-family: Pretendard600;
       font-size: 16px;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: 0.48px;
       position: relative;
       top: 0px;
       transition: 0.2s all;
@@ -132,7 +129,7 @@
     &__edit,
     &__edit-songs {
       background-color: #383838;
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
 
       &::after {
         border-color: #383838 !important;
@@ -167,7 +164,7 @@
     &__cancel {
       width: 30%;
       background-color: #383838;
-      color: var(--Text-music-title, #f1f1f1);
+      color:#f1f1f1;
 
       &::after {
         border-color: #383838 !important;

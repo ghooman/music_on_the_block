@@ -137,7 +137,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
     }
   };
 
-  // 가사 생성 전 단계 UI
+  // 가사 생성 전 단계 UI createdLyrics 없을때
   if (!createdLyrics)
     return (
       <div className="create__lyric-lab">
@@ -203,6 +203,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
     );
   else
     return (
+      // 가사 생성후 수정 모드 createdLyrics 있을때
       <div ref={generatedLyricsRef} className="create__lyric-lab">
         <h2>{t('Generated Lyrics')}</h2>
         {mode === 'read' && <pre className="generated-lyrics__lyrics">{createdLyrics}</pre>}

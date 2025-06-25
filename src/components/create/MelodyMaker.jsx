@@ -81,7 +81,8 @@ const client = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-// localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분)
+// localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분) 알람모달에서 사용
+// 서버(소켓) 에서 노래 생성 정보를 유저 전체한테 보내주는데 자신이 만든 노래인지 확인후 해당유저만 알람을 보여주게 하기위해
 const albumIdStorageKey = 'generatedAlbumId';
 const storeAlbumId = (id, title) => {
   const expires = Date.now() + 15 * 60 * 1000; // 15분 후
@@ -90,6 +91,7 @@ const storeAlbumId = (id, title) => {
 
 // ──────────────────────────
 // 프리뷰 문자열의 각 라인에서 콜론(:) 뒤의 값에만 스타일을 적용하는 컴포넌트
+// 수노 외 프롬프트 제한길이 (200자) 때문에 길이체크를 유저에게 보여주기 위해 존재하는 기능
 const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
   // 줄바꿈을 기준으로 각 라인을 분리하고 빈 줄은 제거
   const lines = previewText.split('\n').filter(line => line.trim() !== '');
@@ -174,7 +176,7 @@ const MelodyMaker = ({
   const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 타이틀은 무조건 필수이며, 추가 필드 중 하나 이상이 채워져야 하는 조건
   const isTitleFilled = title && title.trim() !== '';
-
+  // 유효성 곡생성 되는 활성화 조건들 (필요시 추가 나 삭제)
   const isAdditionalFieldFilled =
     (melody_tag && melody_tag.length > 0) ||
     (melody_genre && melody_genre.length > 0 && melody_genre[0].trim() !== '') ||
@@ -232,7 +234,9 @@ const MelodyMaker = ({
 
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
+    // 커버 생성 관련 프롬프트 요청 변수
     const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
+    // gpt(dall-e-3) 달리모델에게 이미지 생성 부탁
     const response = await client.images.generate({
       model: 'dall-e-3',
       prompt: refinedPrompt,
@@ -244,11 +248,12 @@ const MelodyMaker = ({
     return response.data[0].url;
   };
 
-  // 최종 프롬프트 생성 함수
+  // 최종 프롬프트 생성 함수 gpt 에 요청해서 노래 생성 할때 보내는 prompt 에 적절한 답을 요청하고 그걸 받아서 서버에 보냅니다.
   const generateFinalPrompt = async () => {
     try {
       // V4_5인지 여부에 따라 시스템 메시지를 분기
       const isV4_5 = selectedVersion === 'V4_5';
+      // V4_5 (수노) 일경우 프롬프트 를 자연스럽게만 수정 시키게하고 아닐 경우 형식을 고정 시켜서 글자길이를 최대 200자 이내로 강제로 만들어서 프롬프트를 수정시킵니다
       const systemPrompt = isV4_5
         ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
         : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
@@ -300,7 +305,7 @@ const MelodyMaker = ({
       return basicPrompt;
     }
   };
-  // 노래 생성 요청 함수
+  // 노래 생성 요청 함수 ////
   const musicGenerate = async () => {
     try {
       setLoading(true);
@@ -360,7 +365,7 @@ const MelodyMaker = ({
           style: '',
           gender: melody_gender?.[0] || '',
           musical_instrument: melody_instrument?.join(', ') || '',
-          ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
+          ai_service: selectedCreationMode === 'bgm' ? 0 : 1, // bgm 이면 0 , song이면 1
           ai_service_type: '',
           tempo: parseFloat(tempo),
           song_length: '',
@@ -409,7 +414,7 @@ const MelodyMaker = ({
       setLoading(false);
     }
   };
-
+  ///////////
   useEffect(() => {
     if (generatedMusicResult) {
       window.scrollTo({ top: 0, behavior: 'smooth' });

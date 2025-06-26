@@ -1,4 +1,3 @@
-
 @font-face {
   font-family: 'Pretendard400';
   src: url('./assets/fonts/Pretendard-Regular.woff');
@@ -28,8 +27,6 @@
   font-family: 'Pretendard900';
   src: url('./assets/fonts/Pretendard-Black.woff');
 }
-
-
 
 html,
 body {
@@ -76,7 +73,7 @@ button {
   &.disabled {
     background-color: #000 !important;
     color: #565656 !important;
-    border: 1px solid #2c3a00 !important;
+    /* border: 1px solid #2c3a00 !important; */
     pointer-events: none !important;
     &::after {
       width: 100%;
@@ -151,8 +148,7 @@ img {
   /* padding: 186px 16px 100px; */
 }
 
-
-font{
+font {
   /* all: inherit !important; */
   /* font-family: inherit !important;
   font-size: inherit !important;
@@ -168,16 +164,9 @@ font{
   -webkit-font-smoothing: inherit !important; */
 }
 
-
-
 @media screen and (max-width: 1000px) {
   .inner {
     padding: 114px 16px 100px;
     width: 100%;
   }
 }
-
-
-
-
-

@@ -9,7 +9,7 @@ export const RemainCountButton = ({ createPossibleCount }) => {
   return (
     <div className="create__get-started--left-count-box">
       <div className="create__get-started--left-count">
-        {t("Today's Left")}: {createPossibleCount} / 5
+        금일 생성 가능한 횟수가 <span className="sky-blue">{createPossibleCount}회 </span>남았어요
       </div>
     </div>
   );

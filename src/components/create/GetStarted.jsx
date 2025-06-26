@@ -5,6 +5,9 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import { useTranslation } from 'react-i18next';
+import lockIcon from '../../assets/images/create/icons/lock-icon.svg';
+import typeIcon from '../../assets/images/create/icons/type-icon.svg';
+import versionIcon from '../../assets/images/create/icons/version-icon.svg';
 import axios from 'axios';
 
 const GetStarted = ({
@@ -78,122 +81,122 @@ const GetStarted = ({
   return (
     <div className="create__get-started">
       <h1 className="create__get-started--title">{t('Create Your Own Song With AI')}</h1>
-      <h2 className="create__get-started--subtitle">
-        {t('Turn your ideas into beautiful lyrics and melodies with the power of AI')}
-      </h2>
-      {/* <div className="create__get-started--features">
-        <h3 className="create__get-started--features-title">{t('Code Features')}</h3>
-        <div className="create__get-started--features-items">
-          {['Lyrics Generation', 'Melody Composition', 'Style Adaptation'].map((item, index) => (
-            <div className="create__get-started--features-item" key={index}>
-              {t(item)}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="create__get-started--features sequence">
-        <div>
-          <h3 className="create__get-started--features-title">{t('Cost')}</h3>
-          <p className="create__get-started--features-item">-- MOB</p>
-        </div>
-        <div>
-          <h3 className="create__get-started--features-title">{t('Used')}</h3>
-          <p className="create__get-started--features-item">--</p>
-        </div>
-        <div>
-          <h3 className="create__get-started--features-title">{t('Precision')}</h3>
-          <p className="create__get-started--features-item ">--%</p>
-        </div>
-      </div> */}
       <RemainCountButton createPossibleCount={createPossibleCount} />
-
       <div className="create__get-started--radio-box">
         <div className="created__get-started--privacy">
-          <h3>&lt;{t('Privacy')}&gt;</h3>
-          <div className="creation-mode-options">
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="release"
-                name="privacy"
-                value="release"
-                checked={selectedPrivacy === 'release'}
-                onChange={e => setSelectedPrivacy(e.target.value)}
-              />
-              <label htmlFor="release">{t('Release')}</label>
+          <h3>{t('음악 생성 기본설정')}</h3>
+          <div className="create__get-started--radio-box-item">
+            {/* 옵션 선택 (릴리즈 선택 박스 ) */}
+            <div className="creation-mode-options">
+              <div className="create__get-started--radio-box-item-icon">
+                <img src={lockIcon} alt="lock" />
+                <p className="create__get-started--radio-box-item-icon-title">
+                  {t('음악 공개 여부')}
+                </p>
+              </div>
+              <div className="create__get-started--radio-box-item-content">
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="release"
+                    name="privacy"
+                    value="release"
+                    checked={selectedPrivacy === 'release'}
+                    onChange={e => setSelectedPrivacy(e.target.value)}
+                  />
+                  <label htmlFor="release">{t('Release')}</label>
+                </div>
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="unrelease"
+                    name="privacy"
+                    value="unrelease"
+                    checked={selectedPrivacy === 'unrelease'}
+                    onChange={e => setSelectedPrivacy(e.target.value)}
+                  />
+                  <label htmlFor="unrelease">{t('Unrelease')}</label>
+                </div>
+              </div>
             </div>
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="unrelease"
-                name="privacy"
-                value="unrelease"
-                checked={selectedPrivacy === 'unrelease'}
-                onChange={e => setSelectedPrivacy(e.target.value)}
-              />
-              <label htmlFor="unrelease">{t('Unrelease')}</label>
+            {/* 옵션 선택 (음악 타입 설정 모드) */}
+            <div className="creation-mode-options">
+              <div className="create__get-started--radio-box-item-icon">
+                <img src={typeIcon} alt="type" />
+                <p className="create__get-started--radio-box-item-icon-title">{t('음악 타입')}</p>
+              </div>
+              <div className="create__get-started--radio-box-item-content">
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="song"
+                    name="creationMode"
+                    value="song"
+                    checked={selectedCreationMode === 'song'}
+                    onChange={e => setSelectedCreationMode(e.target.value)}
+                  />
+                  <label htmlFor="song">{t('Song')}</label>
+                </div>
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="bgm"
+                    name="creationMode"
+                    value="bgm"
+                    checked={selectedCreationMode === 'bgm'}
+                    onChange={e => setSelectedCreationMode(e.target.value)}
+                  />
+                  <label htmlFor="bgm">BGM</label>
+                </div>
+              </div>
+            </div>
+            {/* 옵션 선택 (Ai 버전 선택 박스) */}
+            <div className="creation-mode-options version-selection">
+              <div className="create__get-started--radio-box-item-icon">
+                <img src={versionIcon} alt="version" />
+                <p className="create__get-started--radio-box-item-icon-title">
+                  {t('AI 버전 선택')}
+                </p>
+              </div>{' '}
+              <div className={`create__get-started--version${open ? ' active' : ''}`}>
+                <div className="create__get-started--version__select">
+                  <p
+                    className="create__get-started--version__select__title"
+                    onClick={() => setOpen(!open)}
+                  >
+                    {title}
+                  </p>
+                  <ul className="create__get-started--version__select__list">
+                    <li
+                      className={!versionList.suno ? 'disabled' : ''}
+                      onClick={() => versionList.suno && handleSelect('L&S Plus(V2.2)')}
+                    >
+                      <p>L&S Plus(V2.2)</p>
+                      <span>
+                        {t('Advanced AI Model for High-Quality and Extended Song Generation')}
+                      </span>
+                    </li>
+                    <li
+                      className={!versionList.mureka ? 'disabled' : ''}
+                      onClick={() => versionList.mureka && handleSelect('L&S Pro(V2.0)')}
+                    >
+                      <p>L&S Pro(V2.0)</p>
+                      <span>
+                        {t('Standard AI Model Offering Enhanced Audio Quality and Stability')}
+                      </span>
+                    </li>
+                    <li
+                      className={!versionList.topmediai ? 'disabled' : ''}
+                      onClick={() => versionList.topmediai && handleSelect('L&S One(V1.0)')}
+                    >
+                      <p>L&S One(V1.0)</p>
+                      <span>{t('Basic AI Model for Simple Lyrics and Music Composition')}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="created__get-started--creation-mode">
-          <h3>&lt;{t('Creation Mode')}&gt;</h3>
-          <div className="creation-mode-options">
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="song"
-                name="creationMode"
-                value="song"
-                checked={selectedCreationMode === 'song'}
-                onChange={e => setSelectedCreationMode(e.target.value)}
-              />
-              <label htmlFor="song">{t('Song')}</label>
-            </div>
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="bgm"
-                name="creationMode"
-                value="bgm"
-                checked={selectedCreationMode === 'bgm'}
-                onChange={e => setSelectedCreationMode(e.target.value)}
-              />
-              <label htmlFor="bgm">BGM</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={`create__get-started--version${open ? ' active' : ''}`}>
-        <p className="create__get-started--version__title">&lt;{t('Ai Version')}&gt;</p>
-        <div className="create__get-started--version__select">
-          <p className="create__get-started--version__select__title" onClick={() => setOpen(!open)}>
-            {title}
-          </p>
-          <ul className="create__get-started--version__select__list">
-            <li
-              className={!versionList.suno ? 'disabled' : ''}
-              onClick={() => versionList.suno && handleSelect('L&S Plus(V2.2)')}
-            >
-              <p>L&S Plus(V2.2)</p>
-              <span>{t('Advanced AI Model for High-Quality and Extended Song Generation')}</span>
-            </li>
-            <li
-              className={!versionList.mureka ? 'disabled' : ''}
-              onClick={() => versionList.mureka && handleSelect('L&S Pro(V2.0)')}
-            >
-              <p>L&S Pro(V2.0)</p>
-              <span>{t('Standard AI Model Offering Enhanced Audio Quality and Stability')}</span>
-            </li>
-            <li
-              className={!versionList.topmediai ? 'disabled' : ''}
-              onClick={() => versionList.topmediai && handleSelect('L&S One(V1.0)')}
-            >
-              <p>L&S One(V1.0)</p>
-              <span>{t('Basic AI Model for Simple Lyrics and Music Composition')}</span>
-            </li>
-          </ul>
         </div>
       </div>
 

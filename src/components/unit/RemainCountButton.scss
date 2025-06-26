@@ -1,22 +1,20 @@
 .create__get-started--left-count-box {
-  display: flex;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  border-radius: 12px;
-  border: 1px solid #00ffb3;
-  background: rgba(0, 255, 179, 0.1);
-  backdrop-filter: blur(2px);
-}
-.create__get-started--left-count {
-  color: #fff;
-  font-family:  Pretendard500;
-  font-size: 16px;
-  font-style: normal;
-  line-height: normal;
-  font{
+  .create__get-started--left-count {
+    color: var(--Grey-600, #767676);
+    font-family: Pretendard400;
+    font-size: 20px;
+    font-style: normal;
+    line-height: 30px; /* 150% */
+    .sky-blue {
+      color: var(--Primary, #48b3ff);
+      font-family: Pretendard700;
+      font-size: 20px;
+      font-style: normal;
+      line-height: 30px;
+    }
+  }
+  // 구글 자동번역때문에 사용됨
+  font {
     color: inherit !important;
     font-family: inherit !important;
     font-size: inherit !important;

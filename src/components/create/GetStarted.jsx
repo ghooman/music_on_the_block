@@ -218,32 +218,6 @@ const GetStarted = ({
                 })}
               </span>
             </p>
-            {/* <div className="create__get-started--format-item-select">
-              <p className="create__get-started--format-item-select-title">
-                {t('Language selection')}
-              </p>
-              <div className="create__get-started--format-item-select-items">
-                <div className="container">
-                  {languages.map((lang, langIdx) => (
-                    <div className="radio" key={langIdx}>
-                      <input
-                        id={`radio-${idx}-${langIdx}`}
-                        name={`radio-${idx}`}
-                        type="radio"
-                        disabled={activeIndex !== idx}
-                        defaultChecked={langIdx === 0}
-                        onChange={() => {
-                          setSelectedLanguage(lang === '한국어' ? 'KOR' : 'ENG');
-                        }}
-                      />
-                      <label htmlFor={`radio-${idx}-${langIdx}`} className="radio-label">
-                        {t(lang)}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div> */}
           </article>
         ))}
       </section>

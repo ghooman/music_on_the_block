@@ -38,9 +38,9 @@ https://hackmd.io/1KgfU9ZkRC2XfpMXFTSplg
 | 파일명                                       | 설명                                            |
 | -------------------------------------------- | ----------------------------------------------- |
 | `pages/Create.jsx`                           | 전체 곡 생성 플로우 관리 컴포넌트               |
-| `components/create/GetStarted.jsx`           | 시작 화면 컴포넌트 (언어/모드/버전 선택)        |
-| `components/create/LyricLab.jsx`             | 가사 생성 라벨링 컴포넌트                       |
-| `components/create/MelodyMaker.jsx`          | 멜로디 생성 라벨링 컴포넌트                     |
+| `components/create/GetStarted.jsx`           | 화면 선택 컴포넌트 (언어/모드/버전 선택)        |
+| `components/create/LyricLab.jsx`             | 제너럴 가사 생성 라벨링 컴포넌트                |
+| `components/create/MelodyMaker.jsx`          | 제너럴 멜로디 생성 라벨링 컴포넌트              |
 | `components/create/chatbot/LyricChatBot.js`  | GPT 기반 가사 생성 챗봇 컴포넌트                |
 | `components/create/chatbot/MelodyChatBot.js` | GPT 기반 멜로디 생성 및 최종 생성 요청 컴포넌트 |
 

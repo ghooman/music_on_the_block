@@ -13,7 +13,7 @@
         font-family: Pretendard800;
         font-size: 24px;
         margin-bottom: 16px;
-        font  {
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -46,7 +46,6 @@
               transform: translate(-8px, -16px);
             }
             .main__to-day-header__song-create-list__item__title__sub::after {
-              animation: arrowShake 0.6s infinite;
             }
           }
           &:nth-child(3) {
@@ -70,14 +69,14 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font{
-              font-family:inherit !important;
-              font-size:inherit !important;
-              font-weight:inherit !important;
-              line-height:inherit !important;
-              font-style:inherit !important;
-              color:inherit !important;
-              letter-spacing:inherit !important;
+            font {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
             }
             &::after {
               content: '';
@@ -95,7 +94,7 @@
             // margin-bottom: 16px;
             position: relative;
             z-index: 1;
-            font{
+            font {
               font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
@@ -104,12 +103,12 @@
               color: inherit !important;
               letter-spacing: inherit !important;
             }
-            span{
+            span {
               display: block;
-              color: #FFF;
+              color: #fff;
               font-family: Pretendard700;
               font-size: 24px;
-              font{
+              font {
                 font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -120,7 +119,7 @@
               }
             }
           }
-          img{
+          img {
             position: absolute;
             right: 0;
             bottom: 0;
@@ -222,15 +221,15 @@
       color: #f1f1f1 !important;
       transition: 0.3s;
       border: 1px solid transparent;
-        font {
-          font-family:  inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &:hover {
         top: 0 !important;
         border-radius: 36px;
@@ -262,15 +261,15 @@
     margin: 16px 0;
     position: relative;
     width: 100%;
-      font {
-        font-family:  inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     // display: inline-block;
     &::after {
       content: '';
@@ -282,7 +281,7 @@
       background: #cf0;
       border-radius: 100%;
     }
-    font{
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
@@ -321,7 +320,7 @@
           font-family: Pretendard500;
           font-size: 12px;
           white-space: nowrap;
-          font  {
+          font {
             font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
@@ -463,7 +462,7 @@
             align-items: center;
             gap: 8px;
             width: 530px;
-            span{
+            span {
               text-align: left;
               color: #f1f1f1;
               font-family: Pretendard500;
@@ -473,8 +472,8 @@
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
-              font{
-                font-family:  inherit !important;
+              font {
+                font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
                 line-height: inherit !important;
@@ -484,7 +483,7 @@
               }
             }
 
-            img{
+            img {
               flex-shrink: 0;
               width: 30px;
               height: 30px;
@@ -500,26 +499,26 @@
           gap: 2px;
           width: 400px;
           align-items: start;
-          dt{
+          dt {
             color: #f1f1f1;
             font-family: Pretendard400;
             font-size: 14px;
             text-align: left;
-            font{
-              font-family:inherit !important;
-              font-size:inherit !important;
-              font-weight:inherit !important;
-              line-height:inherit !important;
-              font-style:inherit !important;
-              color:inherit !important;
-              letter-spacing:inherit !important;
+            font {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
             }
           }
           dd {
             display: flex;
             align-items: center;
             gap: 4px;
-            img{
+            img {
               width: 12px;
               height: 12px;
               border-radius: 100%;
@@ -529,14 +528,14 @@
             text-align: center;
             font-family: Pretendard400;
             font-size: 12px;
-            font{
-              font-family:inherit !important;
-              font-size:inherit !important;
-              font-weight:inherit !important;
-              line-height:inherit !important;
-              font-style:inherit !important;
-              color:inherit !important;
-              letter-spacing:inherit !important;
+            font {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
             }
           }
         } //album__content-list__evaluation-stage__item__title--END--
@@ -556,16 +555,16 @@
             align-items: center;
             justify-content: center;
             color: #1a1a1a;
-            font-family:Pretendard700;
+            font-family: Pretendard700;
             font-size: 14px;
             font {
-              font-family:inherit !important;
-              font-size:inherit !important;
-              font-weight:inherit !important;
-              line-height:inherit !important;
-              font-style:inherit !important;
-              color:inherit !important;
-              letter-spacing:inherit !important;
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
             }
             // &.gold {
             //   background: url('../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
@@ -583,26 +582,26 @@
           .details-btn {
             width: 100px;
             height: 24px;
-            background:#222;
-            position:relative;
-            top:0;
-            transition:0.2s;
-            color:#aaa;
-            font-family:Pretendard600;
-            font-size:12px;
-            font-style:normal;
-            line-height:normal;
+            background: #222;
+            position: relative;
+            top: 0;
+            transition: 0.2s;
+            color: #aaa;
+            font-family: Pretendard600;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font {
-              font-family:inherit !important;
-              font-size:inherit !important;
-              font-weight:inherit !important;
-              line-height:inherit !important;
-              font-style:inherit !important;
-              color:inherit !important;
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
               letter-spacing: inherit !important;
             }
             &::before {
@@ -693,8 +692,8 @@
       width: 140%;
       height: 1px;
       background: #aaa;
-    }             
-    font{
+    }
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
@@ -737,7 +736,7 @@
         font-weight: 700;
         transition: 0.3s;
         font {
-          font-family:  inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
           line-height: inherit !important;
@@ -792,7 +791,7 @@
         letter-spacing: 0.84px;
         position: relative;
         z-index: 1;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -803,14 +802,14 @@
         }
       }
       dd {
-        color:#f1f1f1;
+        color: #f1f1f1;
         text-align: center;
         text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
         font-family: Pretendard700;
         font-size: 48px;
         position: relative;
         z-index: 1;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -862,15 +861,15 @@
       line-height: normal;
       position: relative;
       display: inline-block;
-        font{
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -1043,7 +1042,7 @@
               color: #fff;
               font-family: Pretendard400;
               font-size: 10px;
-              font{
+              font {
                 font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -1071,7 +1070,7 @@
             text-align: center;
             font-family: Pretendard400;
             font-size: 12px;
-            font{
+            font {
               font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
@@ -1080,7 +1079,7 @@
               color: inherit !important;
               letter-spacing: inherit !important;
             }
-            font{
+            font {
               font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
@@ -1110,7 +1109,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            font{
+            font {
               font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
@@ -1119,7 +1118,7 @@
               color: inherit !important;
               letter-spacing: inherit !important;
             }
-            font{
+            font {
               font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
@@ -1143,19 +1142,19 @@
               display: flex;
               align-items: center;
               gap: 4px;
-              color:#aaa;
+              color: #aaa;
               font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
+              font {
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &:nth-child(2) {
                 img {
                   width: 14px;
@@ -1175,18 +1174,18 @@
               align-items: center;
               justify-content: center;
               gap: 8px;
-              color:#f1f1f1;
+              color: #f1f1f1;
               font-family: Pretendard400;
               font-size: 12px;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
+              font {
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               img {
                 width: 24px;
                 height: 24px;
@@ -1242,7 +1241,7 @@
               color: #f1f1f1 !important;
               transition: 0.3s;
               border: 1px solid transparent;
-              font{
+              font {
                 font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -1288,17 +1287,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-    font{
-      font-family: inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
-  span{
-    font{
+  font {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
+  span {
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
@@ -1460,7 +1459,7 @@
               &::after {
                 background-size: 16px 16px;
               }
-              font{
+              font {
                 font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -1476,9 +1475,9 @@
               }
             }
 
-            .main__to-day-header__song-create-list__item__title{
+            .main__to-day-header__song-create-list__item__title {
               font-size: 14px;
-              font{
+              font {
                 font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -1487,9 +1486,9 @@
                 color: inherit !important;
                 letter-spacing: inherit !important;
               }
-              span{
+              span {
                 font-size: 14px;
-                font{
+                font {
                   font-family: inherit !important;
                   font-size: inherit !important;
                   font-weight: inherit !important;

@@ -54,42 +54,44 @@
     letter-spacing: 0.42px;
   }
   .create__get-started--button {
-    color: #1a1a1a;
-    font-family: Pretendard600;
+    color: #fff;
+    font-family: Pretendard700;
     letter-spacing: 0.48px;
     padding: 8px 10px;
     border-radius: 12px;
-    background-color: #cf0;
+    background: var(--Primary_Dark, #3a9de3);
     float: right;
     position: relative;
-    transition: 0.2s all;
+    height: 48px;
+    // transition: 0.2s all;
 
-    &:hover {
-      transform: translateY(5px);
-      &::after {
-        transform: translateY(0px);
-      }
-    }
+    // &:hover {
+    //   transform: translateY(5px);
+    //   &::after {
+    //     transform: translateY(0px);
+    //   }
+    // }
 
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      top: 0;
-      left: 0;
-      transform: translateY(5px);
-      border-radius: 12px;
-      border: 1px solid;
-      border-color: #cf0;
-      transition: 0.2s all;
-    }
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   width: 100%;
+    //   height: 100%;
+    //   box-sizing: border-box;
+    //   top: 0;
+    //   left: 0;
+    //   transform: translateY(5px);
+    //   border-radius: 12px;
+    //   border: 1px solid;
+    //   border-color: #cf0;
+    //   transition: 0.2s all;
+    // }
 
     &:disabled {
-      color: #565656 !important;
-      background-color: #000 !important;
-      border: 1px solid #2c3a00 !important;
+      color: #fff !important;
+      border-radius: 12px;
+      opacity: 0.3;
+      background: var(--Primary_Dark, #3a9de3) !important;
       cursor: not-allowed;
       &:hover {
         transform: translateY(0px);
@@ -314,38 +316,52 @@
 }
 .create__get-started--format {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 16px;
-
+  margin-bottom: 40px;
+  .create__get-started--format-title {
+    color: #fff;
+    font-family: Pretendard700;
+    font-size: 20px;
+    line-height: 30px; /* 150% */
+  }
+  .create__get-started--format-container {
+    display: flex;
+    justify-content: space-between;
+  }
   .create__get-started--format-item {
-    flex: 1;
-    border-radius: 12px;
-    background: #1a1a1a;
-    padding: 16px;
-    border: 1px solid transparent;
-    transition: 0.3s;
+    width: 565px;
+    height: 156px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 40px;
+    border-radius: 20px;
+    border: 1px solid var(--White-10, rgba(255, 255, 255, 0.1));
+    background: linear-gradient(270deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
     cursor: pointer;
     &.active {
-      border: 1px solid #cf0;
+      border: 1px solid #fff;
       .create__get-started--format-item-title {
-        color: #cf0;
+        color: #fff;
       }
       .create__get-started--format-item-txt {
         color: #f1f1f1;
         font-family: Pretendard400;
         font-size: 14px;
         span {
-          color: #aaa;
+          // color: #aaa;
           font-family: Pretendard400;
           font-size: 14px;
         }
       }
     }
     .create__get-started--format-item-title {
-      color: #aaa;
+      color: #fff;
       font-family: Pretendard700;
-      font-size: 16px;
-      margin-bottom: 12px;
+      font-size: 18px;
+      font-style: normal;
+      margin-bottom: 24px;
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -357,9 +373,11 @@
       }
     }
     .create__get-started--format-item-txt {
-      color: #565656;
+      color: var(--Grey-600, #767676);
       font-family: Pretendard400;
       font-size: 14px;
+      font-style: normal;
+      line-height: 22px; /* 157.143% */
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -441,7 +459,7 @@
   }
 }
 .create__get-started--radio-box {
-  margin: 20px 0;
+  margin: 20px 0 40px 0;
   display: flex;
   gap: 40px;
   .created__get-started--privacy,

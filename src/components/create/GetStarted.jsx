@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import lockIcon from '../../assets/images/create/icons/lock-icon.svg';
 import typeIcon from '../../assets/images/create/icons/type-icon.svg';
 import versionIcon from '../../assets/images/create/icons/version-icon.svg';
+import chatbotImg from '../../assets/images/create/create-chat.png';
+import generalImg from '../../assets/images/create/create-general.png';
 import axios from 'axios';
 
 const GetStarted = ({
@@ -35,13 +37,19 @@ const GetStarted = ({
   const formats = [
     {
       title: 'Chatbot Format',
-      description: 'Chat with AI to create your own song.',
-      keywords: ['AI Chatbot', 'Conversation', 'Flow'],
+      description: [
+        'AI와 대화하며 편하게 음악을 생성할 수 있어요',
+        '무궁무진한 자유로움을 원한다면, 챗봇 형식!',
+      ],
+      img: chatbotImg,
     },
     {
       title: 'General Format',
-      description: 'Select and input to create your own song.',
-      keywords: ['Selection', 'Input', 'Control'],
+      description: [
+        '다양한 옵션 중 원하는 것을 골라보세요',
+        '제작이 어려워 선택지가 필요하다면, 일반 형식!',
+      ],
+      img: generalImg,
     },
   ];
 
@@ -201,25 +209,28 @@ const GetStarted = ({
       </div>
 
       <section className="create__get-started--format">
-        {formats.map((format, idx) => (
-          <article
-            key={idx}
-            className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
-            onClick={() => handleArticleClick(idx)}
-          >
-            <h3 className="create__get-started--format-item-title">&lt;{t(format.title)}&gt;</h3>
-            <p className="create__get-started--format-item-txt">
-              {t(format.description)}
-              <span>
-                * {t('Keywords')}:{' '}
-                {format.keywords.map((keyword, index, { length }) => {
-                  let suffix = index === length - 1 ? '' : ' · ';
-                  return t(keyword) + suffix;
-                })}
-              </span>
-            </p>
-          </article>
-        ))}
+        <h3 className="create__get-started--format-title">{t('음악 생성 형식')}</h3>
+        <div className="create__get-started--format-container">
+          {formats.map((format, idx) => (
+            <article
+              key={idx}
+              className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
+              onClick={() => handleArticleClick(idx)}
+            >
+              <div className="create__get-started--format-item-info">
+                <h3 className="create__get-started--format-item-title">{t(format.title)}</h3>
+                <p className="create__get-started--format-item-txt">
+                  {format.description.map((desc, idx) => (
+                    <span key={idx}>{t(desc)}</span>
+                  ))}
+                </p>
+              </div>
+              <div className="create__get-started--format-item-img">
+                <img src={format.img} alt="format" />
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <div className="create__btn">

@@ -1,5 +1,4 @@
 // components/create/chatbot/LyricChatBot.js
-import './LyricChatBot.scss';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { useUserDetail } from '../../../hooks/useUserDetail';

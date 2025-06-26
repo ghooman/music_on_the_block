@@ -176,9 +176,9 @@ const Create = () => {
   const isMelodyPage = pageNumber === 1;
   return (
     <div className="music_create">
-      <Title />
-      <Progress pageNumber={pageNumber} />
-      <DescriptionBanner pageNumber={pageNumber} />
+      {/* <Title /> */}
+      {/* <Progress pageNumber={pageNumber} /> */}
+      {/* <DescriptionBanner pageNumber={pageNumber} /> */}
       {createMode === 'chatbot' && (
         <>
           {pageNumber === 0 && (

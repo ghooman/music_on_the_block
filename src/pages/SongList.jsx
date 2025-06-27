@@ -74,7 +74,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGlobalMusic } from '../contexts/GlobalMusicContext';
 import axios from 'axios';
 
 import ContentWrap from '../components/unit/ContentWrap';
@@ -120,18 +119,6 @@ const SongList = () => {
   const { t } = useTranslation('song_list');
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // 전역 음악 컨텍스트 사용
-  const {
-    selectedMusic,
-    selectedId,
-    isPlaying,
-    currentTime,
-    audioRef,
-    playMusic,
-    handleTimeUpdate,
-    setIsPlaying,
-  } = useGlobalMusic();
 
   const service = searchParams.get('service') || categories[0]?.name;
   const page = searchParams.get('page');
@@ -207,7 +194,6 @@ const SongList = () => {
         setIsLoading(false);
       }
     };
-
     getData();
   }, [page, search, songsSort, service, aiServiceFilter, criticFilter]);
 
@@ -276,7 +262,7 @@ const SongList = () => {
                     isActive={isTrackActive(track, 'songlist')}
                     currentTime={currentTime}
                     onClick={() => {
-                      playMusic({
+                      handlePlay({
                         list: songList,
                         track: track,
                         id: 'songlist',

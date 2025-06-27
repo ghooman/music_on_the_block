@@ -159,9 +159,6 @@ function Album() {
   useEffect(() => {
     // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
     if (!totalList) return;
-    console.log('🎵 Album.jsx - totalList 체크:', totalList.length);
-    console.log('🎵 Album.jsx - selectedMusic:', selectedMusic);
-
     const timer = setTimeout(() => {
       if (totalList.length > 0 && !currentTrack) {
         handlePlay({ list: totalList, id: 'total', track: totalList[0] });
@@ -640,8 +637,6 @@ const List = ({
                 isActive={isTrackActive(track, id)}
                 currentTime={currentTime}
                 onClick={() => {
-                  console.log('🎵 Album.jsx AlbumItem 클릭:', { list: list, track: track, id: id });
-                  console.log('🎵 track.music_url:', track.music_url);
                   handlePlay({ list: list, track: track, id: id });
                 }}
                 audioRef={audioRef}

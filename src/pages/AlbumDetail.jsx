@@ -906,17 +906,7 @@ function AlbumDetail() {
                 <Swiper {...swiperOptions} className="song-detail-slide">
                   {favoriteGenreList.map(track => (
                     <SwiperSlide key={track.id}>
-                      <AlbumItem
-                        track={track}
-                        isActive={selectedMusic?.id === track.id}
-                        onClick={() =>
-                          playMusic({
-                            list: favoriteGenreList,
-                            id: 'favoriteGenre',
-                            track: track,
-                          })
-                        }
-                      />
+                      <AlbumItem track={track} />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -932,17 +922,7 @@ function AlbumDetail() {
                 <Swiper {...swiperOptions} className="song-detail-slide">
                   {similarVibesList.map(track => (
                     <SwiperSlide key={track.id}>
-                      <AlbumItem
-                        track={track}
-                        isActive={selectedMusic?.id === track.id}
-                        onClick={() =>
-                          playMusic({
-                            list: similarVibesList,
-                            id: 'similarVibes',
-                            track: track,
-                          })
-                        }
-                      />
+                      <AlbumItem track={track} />
                     </SwiperSlide>
                   ))}
                 </Swiper>

@@ -8,6 +8,7 @@ import CreateLoading from '../../CreateLoading';
 import { generateKoreanPdf } from '../../../utils/pdfGenerator';
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
+import lyricIcon from '../../../assets/images/create/icons/music-note-icon.png';
 // 통일된 프롬프트 파일 불러오기
 import lyricPrompts from '../../../locales/lyricPrompts';
 import { useTranslation } from 'react-i18next';
@@ -188,7 +189,12 @@ const LyricChatBot = ({
         {createLoading && <CreateLoading />}
         <section className="chatbot">
           <div className="chatbot__header">
-            <h2>{t('Chat bot')}</h2>
+            <img src={lyricIcon} alt="lyric" />
+            <p className="chatbot__header--title">{t('저는 가사 생성 AI예요!')}</p>
+            <p className="chatbot__header--description">
+              음악의 가사를 먼저 생성해볼까요? <br />
+              특별한 이야기를 기반으로 당신만의 가사를 만들어보세요
+            </p>
           </div>
           <div className="chatbot__messages" ref={scrollContainerRef}>
             {chatHistory.map((msg, index) => (
@@ -196,9 +202,7 @@ const LyricChatBot = ({
                 <div className="message__content">
                   <img
                     src={
-                      msg.role === 'assistant'
-                        ? mobProfilerImg
-                        : userData?.profile || defaultCoverImg
+                      msg.role === 'assistant' ? lyricIcon : userData?.profile || defaultCoverImg
                     }
                     alt="profile"
                   />

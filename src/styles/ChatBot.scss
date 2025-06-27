@@ -12,29 +12,38 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   .chatbot {
     height: 700px;
     width: 100%;
-    // max-width: 600px;
-    // background-color: $foreground;
-    // border-radius: 12px;
-    // box-shadow: 0 4px 12px $shadow-color;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    // min-height: 800px;
     padding: 16px;
     border-radius: 12px;
     border: 1px solid #222;
     &__header {
-      padding: 20px;
-      // background-color: $background-dark;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      h2 {
-        margin: 0;
-        font-weight: 600;
-        color: $text-color;
-        text-align: left;
-        color: #cf0;
+      img {
+        width: 72px;
+        height: 72px;
+        margin-bottom: 8px;
+      }
+      &--title {
+        color: var(--White, #fff);
+        text-align: center;
+        font-family: Pretendard700;
+        font-size: 20px;
+        font-style: normal;
+        line-height: 30px; /* 150% */
+      }
+      &--description {
+        color: var(--Grey-600, #767676);
+        text-align: center;
         font-family: Pretendard400;
-        font-size: 18px;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 22px;
         font {
           font-family: inherit !important;
           font-size: inherit !important;

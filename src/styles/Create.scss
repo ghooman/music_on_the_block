@@ -1,11 +1,14 @@
 .music_create {
+  display: flex;
+  width: 100%;
+  gap: 30px;
   * {
     box-sizing: border-box;
   }
 
   .title {
     color: #cf0;
-    font-family:  Pretendard400;
+    font-family: Pretendard400;
     font-size: 24px;
     position: relative;
     &::after {
@@ -19,15 +22,15 @@
       border-radius: 100%;
     }
     margin-bottom: 32px;
-      font{
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .progress {
@@ -58,7 +61,7 @@
       &.enable {
         color: #cf0;
       }
-      font  {
+      font {
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -126,7 +129,7 @@
     .wrap-title {
       padding: 16px;
       color: #cf0;
-      font-family:  Pretendard400;
+      font-family: Pretendard400;
       font-size: 18px;
       margin-bottom: 12px;
       cursor: pointer;
@@ -145,7 +148,7 @@
         background-size: contain;
       }
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -174,12 +177,12 @@
       grid-column: span 4;
     }
     .item-title {
-      color:#f1f1f1;
-      font-family:  Pretendard600;
+      color: #f1f1f1;
+      font-family: Pretendard600;
       font-size: 18px;
       margin-bottom: 8px;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -193,11 +196,11 @@
       flex-wrap: wrap;
       gap: 8px;
       .values {
-        color:#aaa;
+        color: #aaa;
         font-family: Pretendard500;
         font-size: 14px;
         font {
-          font-family:  inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
           line-height: inherit !important;
@@ -215,7 +218,7 @@
           position: relative;
           cursor: default;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -259,7 +262,7 @@
     button {
       position: relative;
       color: #f1f1f1;
-      font-family:  Pretendard600;
+      font-family: Pretendard600;
       font-size: 16px;
       border-radius: 12px;
       min-width: 140px;
@@ -268,7 +271,7 @@
       z-index: 2;
       transition: 0.2s all;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -348,15 +351,15 @@
     color: #cf0;
     font-family: Pretendard400;
     font-size: 18px;
-      font {
-        font-family:  inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
   .check-list__items {
     width: 100%;
@@ -399,7 +402,7 @@
     font-family: Pretendard500;
     font-size: 16px;
     font {
-      font-family:  inherit !important;
+      font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
       line-height: inherit !important;
@@ -413,7 +416,7 @@
     font-family: Pretendard400;
     font-size: 14px;
     font {
-      font-family:  inherit !important;
+      font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
       line-height: inherit !important;
@@ -432,33 +435,33 @@
 }
 .lyrics-lab__selected-item {
   .lyrics-lab__selected-item--title {
-    color:#f1f1f1;
-    font-family:  Pretendard600;
+    color: #f1f1f1;
+    font-family: Pretendard600;
     font-size: 18px;
     margin-bottom: 8px;
-      font {
-        font-family:  inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
   .lyrics-lab__selected-item--text {
     color: #aaa;
     font-family: Pretendard500;
     font-size: 14px;
-      font {
-        font-family:  inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 }
 @media screen and (max-width: 768px) {

@@ -18,6 +18,7 @@ import { getCreatePossibleCount } from '../api/getCreatePossibleCount';
 import { useUserDetail } from '../hooks/useUserDetail';
 import ErrorModal from '../components/modal/ErrorModal';
 import { useTranslation } from 'react-i18next';
+import CreateSideBar from '../components/create/CreateSideBar';
 
 const Create = () => {
   const { token, walletAddress, isRegistered } = useContext(AuthContext);
@@ -131,7 +132,7 @@ const Create = () => {
   const [skipMelody, setSkipMelody] = useState(false);
   const [skip, setSkip] = useState('');
   const [albumCover, setAlbumCover] = useState(null);
-
+  console.log('pageNumber', pageNumber);
   const skipHandler = () => {
     if (skip === 'lyrics') {
       setSkipLyric(true);
@@ -176,9 +177,6 @@ const Create = () => {
   const isMelodyPage = pageNumber === 1;
   return (
     <div className="music_create">
-      <Title />
-      <Progress pageNumber={pageNumber} />
-      <DescriptionBanner pageNumber={pageNumber} />
       {createMode === 'chatbot' && (
         <>
           {pageNumber === 0 && (
@@ -284,6 +282,7 @@ const Create = () => {
           )}
         </>
       )}
+      <CreateSideBar pageNumber={pageNumber} generatedLyric={generatedLyric} />
     </div>
   );
 };

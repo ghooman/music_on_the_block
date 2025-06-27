@@ -141,7 +141,6 @@ Additional Story: ${lyricStory || 'Not specified'}`,
   if (!createdLyrics)
     return (
       <div className="create__lyric-lab">
-        <RemainCountButton createPossibleCount={createPossibleCount} />
         <SelectItemWrap
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}

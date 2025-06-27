@@ -32,6 +32,8 @@ const Create = () => {
   const [selectedVersion, setSelectedVersion] = useState('V4_5');
   const [selectedPrivacy, setSelectedPrivacy] = useState('release');
   const [selectedCreationMode, setSelectedCreationMode] = useState('song');
+  const [isConfirmLyricStatus, setIsConfirmLyricStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
+  const [showLyricsModal, setShowLyricsModal] = useState(false); // 멜로디 작곡페이지에서 가사모달을 뛰어주는 상태입니다.
   const { data: userData, refetch } = useUserDetail();
 
   // i18n 언어에 따른 selectedLanguage 자동 설정
@@ -183,6 +185,8 @@ const Create = () => {
             <LyricChatBot
               createLoading={createLoading}
               setCreateLoading={setCreateLoading}
+              isConfirmLyricStatus={isConfirmLyricStatus}
+              setIsConfirmLyricStatus={setIsConfirmLyricStatus}
               lyricData={lyricData}
               setLyricData={setLyricData}
               lyricStory={lyricStory}
@@ -246,6 +250,7 @@ const Create = () => {
               albumCover={albumCover}
               setAlbumCover={setAlbumCover}
               selectedVersion={selectedVersion}
+              setIsConfirmLyricStatus={setIsConfirmLyricStatus}
             ></LyricLab>
           )}
           {pageNumber === 1 && (
@@ -282,7 +287,13 @@ const Create = () => {
           )}
         </>
       )}
-      <CreateSideBar pageNumber={pageNumber} generatedLyric={generatedLyric} />
+      <CreateSideBar
+        pageNumber={pageNumber}
+        isConfirmLyricStatus={isConfirmLyricStatus}
+        showLyricsModal={showLyricsModal}
+        setShowLyricsModal={setShowLyricsModal}
+        generatedLyric={generatedLyric}
+      />
     </div>
   );
 };

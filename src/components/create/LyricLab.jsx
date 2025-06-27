@@ -79,6 +79,7 @@ const LyricsLab = ({
   melodyData,
   tempo,
   setAlbumCover,
+  setIsConfirmLyricStatus,
 }) => {
   const { t } = useTranslation('song_create');
 
@@ -121,6 +122,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
       throw new Error('필수 정보가 부족합니다. 모든 항목을 채워주세요.');
     } else {
       setCreatedLyrics(response.output_text);
+      setIsConfirmLyricStatus(true);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

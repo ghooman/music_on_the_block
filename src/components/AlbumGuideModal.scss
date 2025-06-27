@@ -1,7 +1,7 @@
 .album-guide-modal {
   .album-guide-modal__text {
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
   }
   .album-guide-modal__button {
     width: 100%;
@@ -11,10 +11,18 @@
     position: relative;
     top: 0px;
     height: 40px;
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     color: #1a1a1a;
     margin-top: 24px;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       top: 4px;
       &::after {
@@ -42,10 +50,19 @@
 
   ul li {
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     position: relative;
     padding-left: 1em;
     text-indent: 0; /* 첫 줄만 왼쪽으로 당김 */
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   ul li::before {

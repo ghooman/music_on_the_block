@@ -80,10 +80,6 @@ const CollectionDetail = () => {
     }
   };
 
-  if (detailLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
       {errorMessage && (
@@ -149,6 +145,7 @@ const CollectionDetail = () => {
         handleEdit={() => setModalMode('edit')}
         target="Collection"
       />
+      <Loading isLoading={detailLoading} />
     </>
   );
 };

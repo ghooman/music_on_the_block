@@ -7,8 +7,8 @@
     // border: 1px solid #cf0;
     border-radius: 12px;
     .nft-item-detail-info-wrap__title {
-      color: var(--primary-base, #cf0);
-      font-family: Orbitron600;
+      color: #cf0;
+      font-family:  Pretendard600;
       font-size: 30px;
       font-style: normal;
       margin-bottom: 36px;
@@ -17,9 +17,18 @@
       justify-content: space-between;
       gap: 16px;
       width: 100%;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       span {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
@@ -27,6 +36,15 @@
         border-radius: 12px;
         padding: 8px 12px;
         white-space: nowrap;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   } //nft-item-detail-info-wrap--END--
@@ -50,17 +68,35 @@
 
     .texts__title {
       color: #fff;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 20px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
     // 여기 그냥 컴포넌트로 뺄까봐요ㅋ
     .texts__user {
       display: flex;
       align-items: center;
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
       gap: 10px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       img {
         width: 24px;
         height: 24px;
@@ -74,13 +110,31 @@
     .texts__desc--title {
       white-space: nowrap;
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
     .texts__desc--text {
       color: #aaa;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
   }
   .nft-item-detail-info__like {
@@ -88,8 +142,17 @@
     align-items: center;
     gap: 4px;
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
   }
   .nft-item-detail-info__data--image {
     object-fit: cover;
@@ -115,9 +178,17 @@
     }
     .stats__item--title {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 10px;
-      letter-spacing: 0.3px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
     .stats__item--value {
       display: flex;
@@ -125,15 +196,31 @@
     }
     .stats__item--value__text {
       color: #007e56;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 14px;
-      letter-spacing: 0.42px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
     .stats__item--value__suffix {
       color: #a3a3a3;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 12px;
-      letter-spacing: 0.36px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
   }
 
@@ -239,14 +326,22 @@
   border: 1px solid #222;
   .nft-item-detail__song-detail__title {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family:  Pretendard400;
     font-size: 24px;
     font-style: normal;
     line-height: normal;
-    letter-spacing: 0.72px;
     margin-bottom: 16px;
     position: relative;
     display: inline-block;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     &::after {
       content: '';
       position: absolute;
@@ -259,12 +354,67 @@
     }
   }
   .nft-item-detail__song-detail__bot {
-    display: flex;
-    gap: 16px;
+    // display: flex;
+    // gap: 16px;
+    .nft-item-detail__song-detail__bot__title{
+      color: #f1f1f1;
+      font-family:  Pretendard500;
+      font-size: 20px;
+      font-style: normal;
+      margin-bottom: 16px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
+    }//nft-item-detail__song-detail__bot__title--END--
+    .nft-item-detail__song-detail__cover{
+      display: flex;
+      gap: 16px;
+    }
     .nft-item-detail__song-detail__left {
       width: 420px;
       flex-shrink: 0;
       position: relative;
+      .album-detail__song-detail__left__img__play-btn {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        border-radius: 16px;
+        border: 1px solid #cf0;
+        color: #fff;
+        font-family:  Pretendard500;
+        font-size: 14px;
+        font-style: normal;
+                font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
+        img {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 26px;
+          height: 26px;
+          object-fit: cover;
+          margin-right: 12px;
+          background: #fff;
+          border-radius: 100%;
+        }
+      }
       .nft-item-detail__song-detail__left__img__lyric-btn {
         position: absolute;
         right: 16px;
@@ -273,16 +423,25 @@
         border-radius: 12px;
         padding: 4px 12px;
         color: #fff;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
+                font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
       .nft-item-detail__song-detail__left__img {
         width: 100%;
         height: 420px;
         border-radius: 24px;
-        background: var(--Color-03, #222);
+        background:#222;
         padding: 10px;
         position: relative;
         cursor: pointer;
@@ -306,7 +465,15 @@
           transition: 0.3s;
           opacity: 0;
           overflow: auto;
-
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           pre {
             width: 100%;
             min-height: 100%;
@@ -319,6 +486,15 @@
             overflow-x: auto;
             white-space: pre-wrap;
             padding: 32px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             &::after {
               content: '';
               position: absolute;
@@ -355,6 +531,15 @@
             opacity: 0;
             background: transparent !important;
             display: block;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           .tw-connected-wallet {
             display: none;
@@ -372,10 +557,19 @@
           align-items: center;
           color: #aaa;
           gap: 6px;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 100%; /* 12px */
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .play,
         .love,
@@ -384,7 +578,7 @@
           align-items: center;
           color: #aaa;
           gap: 6px;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: 100%;
@@ -392,6 +586,15 @@
           padding: 6px 4px;
           background-color: #222;
           border-radius: 6px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .play {
           img {
@@ -433,7 +636,7 @@
           }
           .nfts-text {
             color: #fff;
-            font-family: Orbitron400;
+            font-family:  Pretendard400;
             font-size: 8px;
           }
         }
@@ -462,6 +665,7 @@
               .nft-item-detail__song-detail__more-btn__list {
                 height: 116px !important;
                 opacity: 1;
+                border: 1px solid #678300;
               }
             }
             .nft-item-detail__song-detail__more-btn__list {
@@ -469,7 +673,6 @@
               right: 0;
               top: 38px;
               border-radius: 12px;
-              border: 1px solid #678300;
               background: #0b0b0c;
               transition: 0.3s;
               display: flex;
@@ -490,10 +693,19 @@
                 height: 38px;
                 transition: 0.3s;
                 color: #fff;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 14px;
                 transition: 0.3s;
                 text-align: left;
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
                 img {
                   width: 18px;
                   height: 18px;
@@ -516,7 +728,7 @@
             gap: 8px;
             align-self: stretch;
             border-radius: 6px;
-            background: var(--Color-03, #222);
+            background:#222;
           }
           .nft-item-detail__song-detail__left__info__dow-btn {
             font-size: 0;
@@ -540,10 +752,18 @@
             align-items: center;
             color: #aaa;
             gap: 6px;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
-            font-style: normal;
-            line-height: 100%;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+
           }
         }
       }
@@ -553,11 +773,20 @@
       flex-shrink: 0;
       .nft-item-detail__song-detail__right__title {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 20px;
         font-style: normal;
         line-height: 100%;
         margin-bottom: 16px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
       .nft-item-detail__song-detail__right__type {
         display: flex;
@@ -568,8 +797,8 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--Text-dark-title, #1a1a1a);
-          font-family: Inter400;
+          color:#1a1a1a;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           line-height: normal;
@@ -579,6 +808,15 @@
           height: 24px;
           padding: 0 12px;
           position: relative;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           &::before {
             content: '';
             display: block;
@@ -598,12 +836,12 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        margin-top: 20px;
+        // margin-top: 20px;
         dl {
           &.Sold {
             dd {
               color: #a9d400;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
             }
@@ -611,7 +849,7 @@
           &.Listed {
             dd {
               color: #5a9bf6;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
             }
@@ -619,7 +857,7 @@
           &.Unlisted {
             dd {
               color: #df1919;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
             }
@@ -651,6 +889,15 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             &::after {
               content: '';
               position: absolute;
@@ -659,14 +906,14 @@
               display: block;
               width: 12px;
               height: 100%;
-              border-right: 1px solid var(--Color-03, #222);
-              background: var(--Color-02, #1a1a1a);
+              border-right: 1px solid #222;
+              background:#1a1a1a;
             }
           }
           dd {
             padding: 8px 12px 8px 24px;
-            color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            color: #aaa;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             font-weight: 400;
@@ -675,14 +922,30 @@
             align-items: center;
             display: flex;
             flex-direction: column;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             span {
-              color: var(--Text-music-sub, #aaa);
+              color: #aaa;
               gap: 4px;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
-              font-weight: 400;
-              line-height: 100%;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
             .user {
               display: flex;
@@ -698,12 +961,20 @@
             }
             .see-more-btn {
               color: #aaa;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
               line-height: 100%;
-              letter-spacing: 0.42px;
               transition: 0.3s;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &:hover {
                 color: #cf0;
               }
@@ -718,10 +989,10 @@
         gap: 16px;
         margin-top: 16px;
         .nft-item-detail__song-detail__right__value-box__price {
-          min-height: 208px;
+          min-height: 172px;
           flex: 1;
           border-radius: 12px;
-          border: 1px solid var(--secondary-base, #00ffb3);
+          border: 1px solid #00ffb3;
           height: 74px;
           display: flex;
           align-items: center;
@@ -729,16 +1000,25 @@
           justify-content: center;
           gap: 16px;
           dt {
-            color: var(--secondary-base, #00ffb3);
+            color: #00ffb3;
             text-align: center;
-            font-family: Orbitron500;
+            font-family:  Pretendard500;
             font-size: 24px;
             font-style: normal;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           dd {
-            color: var(--Text-music-title, #f1f1f1);
+            color:#f1f1f1;
             text-align: center;
-            font-family: Inter700;
+            font-family: Pretendard700;
             font-size: 36px;
             font-style: normal;
             line-height: normal;
@@ -746,14 +1026,31 @@
             align-items: center;
             gap: 8px;
             position: relative;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             span {
               // position: absolute;
               // top: 8px;
               // left: -52px;
-              color: var(--Dark-Color-07, var(--Color-07, #a3a3a3));
-              font-family: Inter500;
+              color:#a3a3a3;
+              font-family: Pretendard500;
               font-size: 18px;
-              font-style: normal;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
           }
           &.sell-nft {
@@ -763,30 +1060,56 @@
       }
       .nft-item-detail__song-detail__right__time-box {
         border-radius: 16px;
-        border: 1px solid var(--primary-base, #cf0);
+        border: 1px solid #cf0;
         padding: 16px;
         margin-top: 16px;
         .nft-item-detail__song-detail__right__time-box__title {
-          color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter500;
+          color: #f1f1f1;
+          font-family: Pretendard500;
           font-size: 12px;
           font-style: normal;
           margin-bottom: 4px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .nft-item-detail__song-detail__right__time-box__utc {
-          color: var(--primary-300, #87aa00);
-          font-family: Inter400;
+          color:#87aa00;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           margin-bottom: 8px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .nft-item-detail__song-detail__right__time-box__end {
-          color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter500;
+          color: #f1f1f1;
+          font-family: Pretendard500;
           font-size: 12px;
           font-style: normal;
-          line-height: 100%; /* 12px */
           margin-bottom: 8px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .nft-item-detail__song-detail__right__time-box__time {
           display: flex;
@@ -797,12 +1120,20 @@
           margin: 0 auto;
           p,
           span {
-            color: var(--primary-base, #cf0);
+            color:#cf0;
             text-align: center;
-            font-family: Inter500;
+            font-family: Pretendard500;
             font-size: 32px;
             font-style: normal;
-            line-height: 100%; /* 32px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
       } //nft-item-detail__song-detail__right__time-box--END--
@@ -815,12 +1146,19 @@
           position: relative;
           top: 0;
           transition: 0.2s;
-          color: var(--Text-dark-title, #1a1a1a);
-          font-family: Orbitron600;
+          color:#1a1a1a;
+          font-family:  Pretendard600;
           font-size: 16px;
-          font-style: normal;
-          line-height: normal;
           border-radius: 12px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           &::before {
             content: '';
             position: absolute;
@@ -872,6 +1210,16 @@
   } //nft-item-detail__song-detail--END--
 }
 
+@media screen and (max-width: 1200px) {
+  .nft-item-detail__song-detail{
+    .nft-item-detail__song-detail__bot{
+      .nft-item-detail__song-detail__left{
+        width: 40%;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 930px) {
   .nft-item-detail__song-detail {
     .nft-item-detail__song-detail__bot {
@@ -888,8 +1236,18 @@
   .nft-item-detail {
     .nft-item-detail__song-detail {
       .nft-item-detail__song-detail__bot {
+        .nft-item-detail__song-detail__cover{
+          flex-direction: column;
+        }
         .nft-item-detail__song-detail__left {
-          width: 40%;
+          // width: 40%;
+          flex: 1;
+          width: 100%;
+          .nft-item-detail__song-detail__left__img {
+            img{
+              object-fit: contain;
+            }
+          }
         }
       }
     }
@@ -924,10 +1282,14 @@
     .nft-item-detail__song-detail {
       .nft-item-detail__song-detail__bot {
         flex-direction: column;
+
         .nft-item-detail__song-detail__left {
           width: 100%;
           .nft-item-detail__song-detail__left__img {
             height: 320px;
+            img{
+              object-fit: cover;
+            }
           }
         }
         .nft-item-detail__song-detail__right {

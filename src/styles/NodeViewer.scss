@@ -1,0 +1,290 @@
+.node-viewer {
+  min-height: 350px;
+  .node-viewer__add-btn {
+    width: 100%;
+    border-radius: 16px;
+    background: #181818;
+    width: 100%;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: Pretendard700;
+    font-size: 18px;
+    gap: 4px;
+    margin-bottom: 30px;
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
+  } //node-viewer__add-btn--END--
+  .node-viewer__list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    .node-viewer__list__item {
+      border-radius: 16px;
+      background: #181818;
+      padding: 40px;
+      .node-viewer__list__item__title-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .node-viewer__list__item__title {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          dt {
+            color: #fff;
+            font-family: Pretendard700;
+            font-size: 20px;
+            margin-bottom: 10px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+          }
+          dd {
+            color: #767676;
+            font-family: Pretendard400;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+            .node-viewer__list__item__title__btn {
+              width: 24px;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              img {
+                width: 20px;
+                height: 20px;
+                object-fit: contain;
+              }
+            } //node-viewer__list__item__title__btn--END--
+          } //dd--END--
+        } //node-viewer__list__item__title--END--
+        .node-viewer__list__item__delete-btn {
+          margin-bottom: auto;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+          }
+        } //node-viewer__list__item__delete-btn--END--
+      } //node-viewer__list__item__title-wrap--END--
+      .node-viewer__list__item__content-wrap01 {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 24px;
+        .node-viewer__list__item__content-wrap01__item {
+          flex: 1;
+          border-radius: 12px;
+          border: 1px solid #4b4b4b;
+          padding: 16px;
+          .node-viewer__list__item__content-wrap01__item__title {
+            color: #fff;
+            font-family: Pretendard700;
+            font-size: 20px;
+            margin-bottom: 12px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+          } //node-viewer__list__item__content-wrap01__item__title--END--
+          .node-viewer__list__item__content-wrap01__item__content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            .node-viewer__list__item__content-wrap01__item__content__number {
+              color: #fff;
+              font-family: Pretendard700;
+              font-size: 16px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
+            } //node-viewer__list__item__content-wrap01__item__content__number--END--
+            .node-viewer__list__item__content-wrap01__item__content__quantity {
+              color: #767676;
+              font-family: Pretendard400;
+              font-size: 14px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
+            } //node-viewer__list__item__content-wrap01__item__content__quantity--END--
+          } //node-viewer__list__item__content-wrap01__item__content--END--
+        } //node-viewer__list__item__content-wrap01__item--END--
+      } //node-viewer__list__item__content-wrap01--END--
+      .node-viewer__list__item__content-wrap02 {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 24px;
+        .node-viewer__list__item__content-wrap02__item {
+          flex: 1;
+          border-radius: 12px;
+          background: #303030;
+          padding: 16px;
+          .node-viewer__list__item__content-wrap02__item__title {
+            color: #fff;
+            font-family: Pretendard700;
+            font-size: 20px;
+            margin-bottom: 12px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+          } //node-viewer__list__item__content-wrap01__item__title--END--
+          .node-viewer__list__item__content-wrap02__item__content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            .node-viewer__list__item__content-wrap02__item__content__number {
+              color: #fff;
+              font-family: Pretendard700;
+              font-size: 16px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
+            } //node-viewer__list__item__content-wrap01__item__content__number--END--
+            .node-viewer__list__item__content-wrap02__item__content__mob {
+              color: #767676;
+              font-family: Pretendard400;
+              font-size: 14px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
+            } //node-viewer__list__item__content-wrap01__item__content__mob--END--
+          } //node-viewer__list__item__content-wrap01__item__content--END--
+        } //node-viewer__list__item__content-wrap01__item--END--
+      } //node-viewer__list__item__content-wrap01--END--
+    } //node-viewer__list__item--END--
+  } //node-viewer__list--END--
+} //node-viewer--END--
+
+@media screen and (max-width: 768px) {
+  .node-viewer {
+    .node-viewer__list {
+      .node-viewer__list__item {
+        padding: 16px;
+        .node-viewer__list__item__title-wrap {
+          position: relative;
+          .node-viewer__list__item__delete-btn {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+          }
+          .node-viewer__list__item__title {
+            width: 100%;
+            dd {
+              width: 100%;
+              justify-content: space-between;
+            }
+          }
+        }
+        .node-viewer__list__item__content-wrap01 {
+          // flex-direction: column;
+          .node-viewer__list__item__content-wrap01__item {
+            width: 100%;
+            .node-viewer__list__item__content-wrap01__item__title {
+              font-size: 12px;
+            }
+            .node-viewer__list__item__content-wrap01__item__content {
+              flex-direction: row;
+              justify-content: space-between;
+              .node-viewer__list__item__content-wrap01__item__content__number {
+                font-size: 14px;
+              }
+              .node-viewer__list__item__content-wrap01__item__content__quantity {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        .node-viewer__list__item__content-wrap02 {
+          flex-direction: column;
+          .node-viewer__list__item__content-wrap02__item {
+            width: 100%;
+            .node-viewer__list__item__content-wrap02__item__title {
+              font-size: 12px;
+            }
+            .node-viewer__list__item__content-wrap02__item__content {
+              flex-direction: row;
+              justify-content: space-between;
+              .node-viewer__list__item__content-wrap02__item__content__number {
+                font-size: 14px;
+              }
+              .node-viewer__list__item__content-wrap02__item__content__mob {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

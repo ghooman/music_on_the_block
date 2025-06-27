@@ -1,85 +1,31 @@
 @font-face {
-  font-family: 'Orbitron400';
-  src: url('./assets/fonts/Orbitron-Regular.ttf');
-}
-@font-face {
-  font-family: 'Orbitron500';
-  src: url('./assets/fonts/Orbitron-Medium.ttf');
-}
-@font-face {
-  font-family: 'Orbitron600';
-  src: url('./assets/fonts/Orbitron-SemiBold.ttf');
-}
-@font-face {
-  font-family: 'Orbitron700';
-  src: url('./assets/fonts/Orbitron-Bold.ttf');
-}
-@font-face {
-  font-family: 'Orbitron800';
-  src: url('./assets/fonts/Orbitron-ExtraBold.ttf');
-}
-@font-face {
-  font-family: 'Orbitron900';
-  src: url('./assets/fonts/Orbitron-Black.ttf');
+  font-family: 'Pretendard400';
+  src: url('./assets/fonts/Pretendard-Regular.woff');
 }
 
 @font-face {
-  font-family: Orbitron400;
-  src: url('./assets/fonts/Orbitron-Regular.ttf');
-}
-@font-face {
-  font-family: Orbitron500;
-  src: url('./assets/fonts/Orbitron-Medium.ttf');
-}
-@font-face {
-  font-family: Orbitron600;
-  src: url('./assets/fonts/Orbitron-SemiBold.ttf');
-}
-@font-face {
-  font-family: Orbitron700;
-  src: url('./assets/fonts/Orbitron-Bold.ttf');
-}
-@font-face {
-  font-family: Orbitron800;
-  src: url('./assets/fonts/Orbitron-ExtraBold.ttf');
-}
-@font-face {
-  font-family: Orbitron900;
-  src: url('./assets/fonts/Orbitron-Black.ttf');
+  font-family: 'Pretendard500';
+  src: url('./assets/fonts/Pretendard-Medium.woff');
 }
 
 @font-face {
-  font-family: 'Inter400';
-  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
-}
-@font-face {
-  font-family: 'Inter500';
-  src: url('./assets/fonts/Inter_24pt-Medium.ttf');
-}
-@font-face {
-  font-family: 'Inter600';
-  src: url('./assets/fonts/Inter_24pt-SemiBold.ttf');
-}
-@font-face {
-  font-family: 'Inter700';
-  src: url('./assets/fonts/Inter_24pt-Bold.ttf');
+  font-family: 'Pretendard600';
+  src: url('./assets/fonts/Pretendard-SemiBold.woff');
 }
 
 @font-face {
-  font-family: Inter400;
-  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
+  font-family: 'Pretendard700';
+  src: url('./assets/fonts/Pretendard-Bold.woff');
 }
+
 @font-face {
-  font-family: Inter500;
-  src: url('./assets/fonts/Inter_24pt-Medium.ttf');
+  font-family: 'Pretendard800';
+  src: url('./assets/fonts/Pretendard-ExtraBold.woff');
 }
+
 @font-face {
-  font-family: Inter600;
-  src: url('./assets/fonts/Inter_24pt-SemiBold.ttf');
-}
-@font-face {
-  font-family: Inter700;
-  src: url('./assets/fonts/Inter_24pt-Bold.ttf');
+  font-family: 'Pretendard900';
+  src: url('./assets/fonts/Pretendard-Black.woff');
 }
 
 html,
@@ -100,7 +46,8 @@ body {
   color: #fff;
   box-sizing: border-box;
   font-size: 14px;
-  font-family: 'Orbitron500';
+  font-family: 'Pretendard400';
+  line-height: 120%;
 }
 *:focus {
   outline: 0;
@@ -126,7 +73,7 @@ button {
   &.disabled {
     background-color: #000 !important;
     color: #565656 !important;
-    border: 1px solid #2c3a00 !important;
+    /* border: 1px solid #2c3a00 !important; */
     pointer-events: none !important;
     &::after {
       width: 100%;
@@ -144,9 +91,9 @@ textarea {
   align-items: center;
   padding: 0 16px;
   border-radius: 12px;
-  border: 1px solid var(--Color-05, #383838);
+  border: 1px solid #383838;
   color: #fff;
-  font-family: 'Orbitron600';
+  font-family: ' Pretendard600';
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -187,8 +134,7 @@ img {
   width: 5px;
 }
 
-
-.header-flex{
+.header-flex {
   display: flex;
   gap: 16px;
 }
@@ -200,6 +146,22 @@ img {
   margin-left: auto;
   padding: 32px 16px 100px;
   /* padding: 186px 16px 100px; */
+}
+
+font {
+  /* all: inherit !important; */
+  /* font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  font-style: inherit !important;
+  color: inherit !important;
+  letter-spacing: inherit !important;
+  word-spacing: inherit !important;
+  font-variant: inherit !important;
+  text-transform: inherit !important;
+  text-rendering: inherit !important;
+  -webkit-font-smoothing: inherit !important; */
 }
 
 @media screen and (max-width: 1000px) {

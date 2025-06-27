@@ -11,13 +11,31 @@
         .chart__pie--text-value {
             transition: 0.3s;
             font-size: 24px;
-            font-family: Orbitron600;
+            font-family:  Pretendard600;
+            font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+            }
         }
         .chart__pie--text-per {
             color: #cf0;
             text-align: center;
-            font-family: Orbitron600;
+            font-family:  Pretendard600;
             font-size: 12px;
+            font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+            }
         }
     }
 

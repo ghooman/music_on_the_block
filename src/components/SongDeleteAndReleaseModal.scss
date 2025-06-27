@@ -12,17 +12,44 @@
   }
   .song-delete-and-release-modal__message--complete {
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .song-delete-and-release-modal__title {
     color: #f1f1f1;
-    font-family: Inter400;
+    font-family: Pretendard400;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
   .song-delete-and-release-modal__message {
     color: #ffdc55;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .song-delete-and-release-modal__button-wrap {
@@ -33,11 +60,20 @@
     .song-delete-and-release-modal__button {
       position: relative;
       width: 100%;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 16px;
       transition: 0.2s all;
       border-radius: 12px;
       height: 40px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
 
       &:hover {
         transform: translateY(5px);

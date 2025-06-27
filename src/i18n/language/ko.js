@@ -11,6 +11,8 @@ import modal from '../../i18n_locales/ko/modal.json';
 import sign_up from '../../i18n_locales/ko/sign_up.json';
 import evaluation from '../../i18n_locales/ko/evaluation.json';
 import error from '../../i18n_locales/ko/error.json';
+import get from '../../i18n_locales/ko/get.json';
+import node_viewer from '../../i18n_locales/ko/node_viewer.json';
 
 export const ko = {
   main,
@@ -26,4 +28,6 @@ export const ko = {
   sign_up,
   evaluation,
   error,
+  get,
+  node_viewer,
 };

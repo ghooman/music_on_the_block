@@ -27,19 +27,35 @@
 
     .texts__title {
       color: #fff;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 20px;
-      letter-spacing: 0.6px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     // 여기 그냥 컴포넌트로 뺄까봐요ㅋ
     .texts__user {
       display: flex;
       align-items: center;
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
-      letter-spacing: 0.42px;
       gap: 10px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       img {
         width: 24px;
         height: 24px;
@@ -59,15 +75,31 @@
     .texts__desc--title {
       white-space: nowrap;
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
-      letter-spacing: 0.48px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .texts__desc--text {
       color: #aaa;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 16px;
-      letter-spacing: 0.48px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   }
   .collection-detail-info__like {
@@ -75,9 +107,17 @@
     align-items: center;
     gap: 4px;
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
-    letter-spacing: 0.36px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   }
   .collection-detail-info__data--image {
     object-fit: cover;
@@ -105,9 +145,17 @@
     }
     .stats__item--title {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 10px;
-      letter-spacing: 0.3px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .stats__item--value {
       display: flex;
@@ -115,15 +163,31 @@
     }
     .stats__item--value__text {
       color: #007e56;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 14px;
-      letter-spacing: 0.42px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .stats__item--value__suffix {
       color: #a3a3a3;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 12px;
-      letter-spacing: 0.36px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   }
 }

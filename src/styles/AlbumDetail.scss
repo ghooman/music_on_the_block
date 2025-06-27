@@ -7,20 +7,38 @@
     gap: 16px;
     dt {
       color: #cf0;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 30px;
       font-style: normal;
       line-height: normal;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     dd {
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
-      .album-detail__song-detail__right__version{
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
+      .album-detail__song-detail__right__version {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family: Pretendard500;
         font-size: 12px;
         font-style: normal;
         line-height: normal;
@@ -28,16 +46,27 @@
         border-radius: 12px;
         padding: 8px 12px;
         white-space: nowrap;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   } //album-detail__title--END--
 
-  .main__content-item__persona{
+  .main__content-item__persona {
     display: flex;
     align-items: center;
     gap: 16px;
     margin: 16px 0 32px 0;
-    .main__content-item__persona__item{
+    overflow: auto;
+    overflow: auto;
+    .main__content-item__persona__item {
       width: 80px;
       display: flex;
       align-items: center;
@@ -45,27 +74,37 @@
       flex-direction: column;
       gap: 8px;
       cursor: pointer;
-      img{
+      img {
         width: 60px;
         height: 60px;
         border-radius: 100%;
         border: 2px solid transparent;
         transition: 0.3s;
       }
-      p{
-        color: #F1F1F1;
-        font-family: Inter500;
+      p {
+        color: #f1f1f1;
+        font-family: Pretendard500;
         font-size: 12px;
-      }
-      &.active{
-        img{
-          border: 2px solid #cf0;
-          box-shadow: 0px 0px 3px 0px #CF0;
+        white-space: nowrap;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
         }
       }
-    }//main__content-item__persona__item--END--
-  }//main__content-item__persona--END--
-  
+      &.active {
+        img {
+          border: 2px solid #cf0;
+          box-shadow: 0px 0px 3px 0px #cf0;
+        }
+      }
+    } //main__content-item__persona__item--END--
+  } //main__content-item__persona--END--
+
   .album__content-list__tab {
     display: flex;
     align-items: center;
@@ -85,6 +124,15 @@
       gap: 8px;
       transition: 0.3s;
       white-space: nowrap;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::before {
         content: '';
         display: block;
@@ -126,7 +174,6 @@
     } //album__content-list__tab__item--END--
   } //album__content-list__tab--END--
 
-
   .album-detail__song-detail {
     padding: 16px;
     border-radius: 12px;
@@ -137,7 +184,7 @@
       justify-content: space-between;
       .album-detail__song-detail__title {
         color: #cf0;
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 24px;
         font-style: normal;
         line-height: normal;
@@ -145,6 +192,15 @@
         margin-bottom: 16px;
         position: relative;
         display: inline-block;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &::after {
           content: '';
           position: absolute;
@@ -158,12 +214,55 @@
       } //album-detail__song-detail__title--END--
     }
     .album-detail__song-detail__bot {
-      display: flex;
-      gap: 16px;
+      // display: flex;
+      // gap: 16px;
+      .album-detail__song-detail__bot__title {
+        color: #f1f1f1;
+        font-family: Pretendard500;
+        font-size: 20px;
+        font-style: normal;
+        margin-bottom: 16px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
+      } //album-detail__song-detail__bot__title--END--
+      .album-detail__song-detail__bot__content {
+        display: flex;
+        gap: 16px;
+        width: 100%;
+      } //album-detail__song-detail__bot__content--END--
       .album-detail__song-detail__left {
         width: 420px;
         flex-shrink: 0;
         position: relative;
+        .album-detail__song-detail__left__title {
+          color: #f1f1f1;
+          font-family: Pretendard500;
+          font-size: 20px;
+          font-style: normal;
+          margin-bottom: 16px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          min-height: 52px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
+        } //.album-detail__song-detail__left__title
         .album-detail__song-detail__left__img__lyrics-btn {
           position: absolute;
           right: 16px;
@@ -172,16 +271,25 @@
           border-radius: 12px;
           padding: 4px 12px;
           color: #fff;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
           font-style: normal;
           line-height: normal;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         .album-detail__song-detail__left__img {
           width: 100%;
-          height: 420px;
+          height: 450px;
           border-radius: 24px;
-          background: var(--Color-03, #222);
+          background:#222;
           padding: 10px;
           position: relative;
           cursor: pointer;
@@ -206,6 +314,16 @@
             opacity: 0;
             overflow: auto;
             border-radius: 24px;
+            // margin-bottom: 16px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             pre {
               width: 100%;
               min-height: 100%;
@@ -218,6 +336,15 @@
               overflow-x: auto;
               white-space: pre-wrap;
               padding: 32px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &::after {
                 content: '';
                 position: absolute;
@@ -232,6 +359,43 @@
             }
           } //album-detail__song-detail__left__img__txt--END--
         } //album-detail__song-detail__left__img--END--
+        .album-detail__song-detail__left__img__play-btn {
+          display: flex;
+          width: 100%;
+          height: 48px;
+          padding: 12px 20px;
+          justify-content: center;
+          align-items: center;
+          align-self: stretch;
+          border-radius: 16px;
+          border: 1px solid #cf0;
+          color: #fff;
+          font-family: Pretendard500;
+          font-size: 14px;
+          font-style: normal;
+          line-height: 100%; /* 14px */
+          margin-top: 12px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
+          img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            object-fit: cover;
+            margin-right: 12px;
+            background: #fff;
+            border-radius: 100%;
+          }
+        }
         .album-detail__song-detail__left__info {
           display: flex;
           align-items: center;
@@ -243,10 +407,18 @@
             align-items: center;
             color: #aaa;
             gap: 6px;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
           .album-detail__song-detail__left__info__number {
             display: flex;
@@ -287,15 +459,21 @@
               align-items: center;
               color: #aaa;
               gap: 6px;
-              font-family: Inter400;
+              font-family: Pretendard400;
               font-size: 12px;
-              font-style: normal;
-              line-height: 100%; /* 12px */
               padding: 4px 6px;
               background-color: #222;
               border-radius: 6px;
               height: 32px;
-
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
               &.play {
                 img {
                   padding: 5px;
@@ -327,8 +505,17 @@
                 }
                 .nfts-text {
                   color: #fff;
-                  font-family: Orbitron400;
+                  font-family: Pretendard400;
                   font-size: 8px;
+                  font{
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    color: inherit !important;
+                    letter-spacing: inherit !important;
+                  }
                 }
               }
             }
@@ -347,9 +534,9 @@
               gap: 8px;
               align-self: stretch;
               border-radius: 6px;
-              background: var(--Color-03, #222);
+              background:#222;
             }
-            .album-detail__song-detail__left__info__dow-btn{
+            .album-detail__song-detail__left__info__dow-btn {
               font-size: 0;
               width: 32px;
               height: 32px;
@@ -359,7 +546,7 @@
               border-radius: 6px;
               background-color: #222;
             }
-            .album-detail__song-detail__more-btn{
+            .album-detail__song-detail__more-btn {
               // padding: 4px 6px;
               border-radius: 6px;
               background-color: #222;
@@ -372,22 +559,22 @@
               transition: 0.3s;
               border: 1px solid transparent;
               position: relative;
-              &:hover{
+              &:hover {
                 border: 1px solid #a9d400;
               }
-              &.active{
-                .album-detail__song-detail__more-btn__list{
+              &.active {
+                .album-detail__song-detail__more-btn__list {
                   height: 116px !important;
                   opacity: 1;
                 }
               }
-              .album-detail__song-detail__more-btn__list{
+              .album-detail__song-detail__more-btn__list {
                 position: absolute;
                 right: 0;
                 top: 38px;
                 border-radius: 12px;
                 border: 1px solid #678300;
-                background: #0B0B0C;
+                background: #0b0b0c;
                 transition: 0.3s;
                 display: flex;
                 flex-direction: column;
@@ -397,7 +584,7 @@
                 height: 0;
                 opacity: 0;
                 z-index: 10;
-                li{
+                li {
                   width: 100%;
                   display: flex;
                   justify-content: space-between;
@@ -407,22 +594,31 @@
                   padding: 0px 12px;
                   height: 38px;
                   transition: 0.3s;
-                  color: #FFF;
-                  font-family: Inter400;
+                  color: #fff;
+                  font-family: Pretendard400;
                   font-size: 14px;
                   transition: 0.3s;
                   text-align: left;
-                  img{
+                  font{
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                    font-style: inherit !important;
+                    color: inherit !important;
+                    letter-spacing: inherit !important;
+                  }
+                  img {
                     width: 18px;
                     height: 18px;
                     object-fit: cover;
                   }
-                  &:hover{
+                  &:hover {
                     background: #222;
                   }
                 }
-              }//album-detail__song-detail__more-btn__list--END--
-            }//album-detail__song-detail__more-btn--END--
+              } //album-detail__song-detail__more-btn__list--END--
+            } //album-detail__song-detail__more-btn--END--
           }
         } //album-detail__song-detail__left__info--END--
       } //album-detail__song-detail__left--END--
@@ -436,14 +632,22 @@
           margin-bottom: 24px;
           .album-detail__song-detail__right__title {
             color: #f1f1f1;
-            font-family: Orbitron500;
+            font-family: Pretendard500;
             font-size: 20px;
             font-style: normal;
-            line-height: 100%; /* 20px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //album-detail__song-detail__right__title--END--
           .album-detail__song-detail__right__version {
             color: #f1f1f1;
-            font-family: Orbitron500;
+            font-family: Pretendard500;
             font-size: 12px;
             font-style: normal;
             line-height: normal;
@@ -451,6 +655,15 @@
             border-radius: 12px;
             padding: 8px 12px;
             white-space: nowrap;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           } //album-detail__song-detail__right__version--END--
         }
         .album-detail__song-detail__right__type {
@@ -462,8 +675,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--Text-dark-title, #1a1a1a);
-            font-family: Inter400;
+            color:#1a1a1a;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -485,6 +698,15 @@
               border-left: 1px solid #00ffb3;
               border-right: 1px solid #00ffb3;
               border-radius: 12px 12px 12px;
+            }
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
             }
           } //album-detail__song-detail__right__type__item--END--
         } //album-detail__song-detail__right__type--END--
@@ -528,30 +750,46 @@
                 display: block;
                 width: 12px;
                 height: 100%;
-                border-right: 1px solid var(--Color-03, #222);
-                background: var(--Color-02, #1a1a1a);
+                border-right: 1px solid #222;
+                background: #1a1a1a;
               }
             }
             dd {
+              // max-height: 40px;
+              // overflow: auto;
               padding: 8px 12px 8px 24px;
-              color: var(--Text-music-sub, #aaa);
-              font-family: Inter400;
+              color:#aaa;
+              font-family: Pretendard400;
               font-size: 12px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: 100%; /* 14px */
               display: flex;
               align-items: center;
               display: flex;
               flex-direction: column;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
               span {
-                color: var(--Text-music-sub, #aaa);
+                color:#aaa;
                 gap: 4px;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
                 font-weight: 400;
-                line-height: 100%; /* 14px */
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
               }
               .user {
                 display: flex;
@@ -567,19 +805,26 @@
               }
               .see-more-btn {
                 color: #aaa;
-                font-family: Inter400;
+                font-family: Pretendard400;
                 font-size: 14px;
                 font-style: normal;
-                line-height: 100%; /* 14px */
-                letter-spacing: 0.42px;
                 transition: 0.3s;
+                font{
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
                 &:hover {
                   color: #cf0;
                 }
               }
             }
           }
-          .album-detail__song-detail__right__info-box__detail{
+          .album-detail__song-detail__right__info-box__detail {
             width: 100%;
             display: flex;
             align-items: center;
@@ -595,14 +840,14 @@
               content: '';
               position: absolute;
               top: 0;
-              left:174px;
+              left: 174px;
               display: block;
               width: 12px;
               height: 100%;
-              border-right: 1px solid var(--Color-03, #222);
-              background: var(--Color-02, #1a1a1a);
+              border-right: 1px solid #222;
+              background: #1a1a1a;
             }
-            span{
+            span {
               text-align: center;
               // min-height: 34px;
               // height: 100%;
@@ -613,12 +858,11 @@
               align-items: center;
               justify-content: center;
               position: relative;
-
             }
-            strong{
+            strong {
               background: #121212;
-              color:#aaa;
-              font-family: Inter400;
+              color: #aaa;
+              font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
               font-weight: 400;
@@ -629,9 +873,20 @@
               justify-content: start;
               flex-direction: column;
               padding: 11px 16px 11px 24px;
-
+              max-height: 54px;
+              overflow: auto;
+              min-height: 32px;
+              font{
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
-          }//album-detail__song-detail__right__info-box__detail--END--
+          } //album-detail__song-detail__right__info-box__detail--END--
         } //album-detail__song-detail__right__info-box--END--
       } //album-detail__song-detail__right--END--
     } //album-detail__song-detail__bot--END--
@@ -643,8 +898,17 @@
     gap: 4px;
   }
   .album-detail__control-guide--text {
-    font-family: Inter600;
+    font-family: Pretendard600;
     color: #fff;
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
   .album-detail__control-guide--icon {
     width: 16px;
@@ -663,11 +927,19 @@
     position: relative;
     transition: 0.2s all;
     top: 0px;
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     height: 40px;
     // padding: 12px;
     color: #1a1a1a;
-
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     &:disabled {
       color: #565656 !important;
       background-color: #000 !important;
@@ -760,7 +1032,7 @@
 
   .album-detail__audio {
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     padding: 16px;
     margin-bottom: 16px;
     position: relative;
@@ -928,7 +1200,7 @@
     font-size: 14px;
   } //no-comDiv--END--
   border-radius: 12px;
-  border: 1px solid var(--Color-03, #222);
+  border: 1px solid #222;
   padding: 16px;
   margin-top: 16px;
   .album-detail__rank-table__title {
@@ -939,14 +1211,20 @@
     padding: 20px;
     dt {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: 0.72px;
       margin-bottom: 16px;
       position: relative;
       display: inline-block;
+      font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -960,7 +1238,7 @@
     }
     dd {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
@@ -972,7 +1250,16 @@
       height: 30px;
       padding: 4px 8px 8px;
       border-radius: 10px 2px 10px 10px;
-      border: 1px solid var(--primary-200, #a9d400);
+      border: 1px solid #a9d400;
+      font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -987,7 +1274,7 @@
   } //album-detail__rank-table__title--END--
   .album-detail__filter-btn {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family: Pretendard400;
     font-size: 14px;
     font-style: normal;
     line-height: normal;
@@ -999,7 +1286,16 @@
     height: 30px;
     padding: 4px 8px 8px;
     border-radius: 10px 2px 10px 10px;
-    border: 1px solid var(--primary-200, #a9d400);
+    border: 1px solid #a9d400;
+      font  {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     &::after {
       content: '';
       position: absolute;
@@ -1037,14 +1333,20 @@
         tr {
           th {
             text-align: center;
-            color: var(--primary-200, #a9d400);
+            color: #a9d400;
             text-align: center;
-            font-family: Orbitron400;
+            font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            white-space:nowrap;
+            white-space: nowrap;
+            font  {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
       }
@@ -1061,10 +1363,17 @@
             gap: 8px;
             color: #aaa;
             text-align: center;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
-            line-height: normal;
+            font  {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             img {
               flex-shrink: 0;
               width: 16px;
@@ -1076,11 +1385,20 @@
         }
         color: #aaa;
         text-align: center;
-        font-family: Inter400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
         min-height: 60px;
+            font  {
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
         &.title {
           text-align: left;
         }
@@ -1101,7 +1419,7 @@
             white-space: nowrap;
             color: #aaa;
             text-align: center;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
             font-style: normal;
             line-height: normal;
@@ -1152,7 +1470,7 @@
       top: 0;
       transition: 0.2s;
       color: #1a1a1a;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
@@ -1204,7 +1522,7 @@
     gap: 16px;
     dt {
       color: #cf0;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -1221,13 +1539,31 @@
         border-radius: 100%;
         background: #cf0;
       }
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     dd {
       color: #fff;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 16px;
       font-style: normal;
       line-height: normal;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   } //album-detail__slide__title--END--
 
@@ -1236,7 +1572,7 @@
     .album__content-list__list__item {
       width: 302px !important;
       margin: 0 auto;
-      .swiper-slide{
+      .swiper-slide {
       }
     }
     .swiper-button-prev {
@@ -1322,19 +1658,30 @@
           position: absolute;
           bottom: 16px;
           left: 16px;
-          padding: 4px 10px;
-          border-radius: 12px;
-          background: var(--Color-03, #222);
+          padding: 0 4px;
+          height: 22px;
+          min-width: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #222;
           box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.15);
           display: flex;
           align-items: center;
           justify-content: center;
           color: #fff;
           text-align: center;
-          font-family: Inter400;
+          font-family: Pretendard400;
           font-size: 12px;
-          font-style: normal;
-          line-height: 16px; /* 133.333% */
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
       } //album__content-list__list__item__left--END--
 
@@ -1345,8 +1692,8 @@
         // padding: 8px 0;
         flex: 1;
         .album__content-list__list__item__right__title {
-          color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter400;
+          color: #f1f1f1;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           text-align: left;
@@ -1356,7 +1703,16 @@
           overflow: hidden;
           text-overflow: ellipsis;
           word-break: break-word;
-          min-height: 34px;
+          min-height: 38px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         } //album__content-list__list__item__right__title--END--
         .album__content-list__list__item__right__love-play {
           display: flex;
@@ -1371,11 +1727,19 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            color: #aaa;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             &:nth-child(2) {
               img {
                 width: 16px;
@@ -1395,12 +1759,19 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            color: var(--Text-music-title, #f1f1f1);
-            font-family: Inter400;
+            color:#f1f1f1;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
-            line-height: 100%; /* 12px */
-            letter-spacing: 0.36px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             img {
               width: 24px;
               height: 24px;
@@ -1416,8 +1787,8 @@
             position: relative;
             top: 0;
             transition: 0.2s;
-            color: var(--Text-dark-title, #1a1a1a);
-            font-family: Orbitron600;
+            color: #1a1a1a;
+            font-family: Pretendard600;
             font-size: 12px;
             font-style: normal;
             line-height: normal;
@@ -1505,11 +1876,20 @@
     }
     .album-detail__song-detail {
       .album-detail__song-detail__bot {
+        .album-detail__song-detail__bot__content {
+          flex-direction: column;
+        }
+      }
+
+      .album-detail__song-detail__bot {
         flex-direction: column;
         .album-detail__song-detail__left {
           width: 100%;
           .album-detail__song-detail__left__img {
             height: 320px;
+            img {
+              object-fit: contain;
+            }
             .album-detail__song-detail__left__img__txt {
               height: 0;
             }
@@ -1553,23 +1933,23 @@
                 }
               }
             }
-            .album-detail__song-detail__right__info-box__detail{
-              
+            .album-detail__song-detail__right__info-box__detail {
               &::after {
                 left: 124px;
               }
-              span{
+              span {
                 font-size: 10px;
                 min-width: 124px;
                 min-height: 34px;
               }
-              strong{
+              strong {
                 font-size: 10px;
                 // padding: 11px 16px 11px 24px;
                 padding-left: 24px;
                 padding-right: 8px;
+                
               }
-            }//album-detail__song-detail__right__info-box__detail--END--
+            } //album-detail__song-detail__right__info-box__detail--END--
           }
         }
       }
@@ -1585,8 +1965,48 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .song-detail {
+    .album-detail__song-detail {
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__left {
+          .album-detail__song-detail__left__img {
+            img {
+              object-fit: cover;
+            }
+          }
+          .album-detail__song-detail__left__title {
+            font-size: 16px;
+          }
+        }
+        .album-detail__song-detail__right{
+          .album-detail__song-detail__right__info-box{
+            .album-detail__song-detail__right__info-box__detail{
+              strong{
+                max-height: none;
+                overflow: hidden;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  
+}
+
 @media screen and (max-width: 480px) {
   .song-detail {
+    .album-detail__song-detail {
+      .album-detail__song-detail__bot {
+        .album-detail__song-detail__left {
+          .album-detail__song-detail__left__title {
+            font-size: 14px;
+          }
+        }
+      }
+    }
     .album-detail__slide {
       .album-detail__slide__title {
         dt {
@@ -1594,7 +2014,7 @@
         }
       }
     }
-    .album-detail__song-detail__left__info{
+    .album-detail__song-detail__left__info {
       // flex-direction: column;
       // gap: 10px;
       // width: 100%;

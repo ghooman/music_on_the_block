@@ -10,27 +10,52 @@
         p {
             color: #cf0;
             font-size: 18px;
-            font-family: orbitron600;
+            font-family:  Pretendard600;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
     }
 
     .create-complete__text {
         text-align: center;
         color: #aaa;
-        font-family: orbitron600;
-        letter-spacing: 0.48px;
+        font-family:  Pretendard600;
         margin-bottom: 24px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
     }
     .create-complete__button {
         height: 48px;
         width: 100%;
         background-color: #cf0;
         color: #1a1a1a;
-        font-family: orbitron600;
+        font-family: Pretendard600;
         border-radius: 12px;
         position: relative;
         transition: 0.3s all;
-
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         &:hover {
             transform: translateY(3px);
             &::after {
@@ -59,7 +84,16 @@
         width: 100%;
         background-color: #cf0;
         color: #1a1a1a;
-        font-family: orbitron600;
+        font-family: Pretendard600;
         border-radius: 12px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
     }
 }

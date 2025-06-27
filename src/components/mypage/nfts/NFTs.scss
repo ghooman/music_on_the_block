@@ -11,11 +11,25 @@
     border-radius: 10px 2px 10px 10px;
     border: 1px solid #888;
     color: #888;
-    font-family: Orbitron500;
+    font-family:  Pretendard500;
     font-size: 14px;
     padding: 8px;
     position: relative;
-
+    font{
+      font-size: inherit !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      word-spacing: inherit !important;
+      font-variant: inherit !important;
+      text-transform: inherit !important;
+      text-rendering: inherit !important;
+      -webkit-font-smoothing: inherit !important; 
+      font-style: inherit !important;
+      font-family: inherit !important;
+    }
     &::after {
       content: '';
       width: 4px;

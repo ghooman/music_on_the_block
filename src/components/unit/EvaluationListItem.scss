@@ -30,7 +30,7 @@
   } //music-play--END--
   &:hover {
     .unit-component-evaluation-list-item__thought {
-      .unit-component-evaluation-list-item__thought__play {
+      .unit-component-evaluation-list-item__thought__play{
         border: 1px solid #cf0;
         &::after {
           opacity: 1;
@@ -43,7 +43,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    .unit-component-evaluation-list-item__thought__play {
+    .unit-component-evaluation-list-item__thought__play{
       width: 30px;
       height: 30px;
       transition: 0.3s;
@@ -52,6 +52,7 @@
       border-radius: 2px;
       transition: 0.3s;
       position: relative;
+      flex-shrink: 0;
       img {
         width: 100%;
         height: 100%;
@@ -126,13 +127,22 @@
       span {
         text-align: left;
         color: #f1f1f1;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
         display: -webkit-box;
         -webkit-line-clamp: 2; /* 줄 수 설정 */
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
 
       img {
@@ -153,14 +163,32 @@
     align-items: start;
     dt {
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
       text-align: left;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
     dd {
       display: flex;
       align-items: center;
       gap: 4px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       img {
         width: 12px;
         height: 12px;
@@ -169,8 +197,17 @@
       }
       color: #aaa;
       text-align: center;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 12px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
     }
   } //unit-component-evaluation-list-item__title--END--
   .unit-component-evaluation-list-item__details-number {
@@ -180,7 +217,7 @@
     gap: 16px;
     width: 400px;
     .grade {
-      background: url('../../assets/images/evaluation/evaluation-basic-bg.png') center no-repeat;
+      // background: url('../../assets/images/evaluation/evaluation-basic-bg.png') center no-repeat;
       background-size: 100% 100% !important;
       border-radius: 50px;
       width: 80px;
@@ -188,29 +225,51 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--Dark-Color-02, var(--Color-02, #1a1a1a));
-      font-family: Inter700;
-      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: Pretendard400;
+      font-size: 16px;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &.gold {
-        background: url('../../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
+        color: #cf0;
+        font-size: 24px;
+        text-shadow: 0px 2px 20px rgba(204, 255, 0, 0.8);
+        letter-spacing: 0.48px;
+        font-family: Inter800;
+        // background: url('../../assets/images/evaluation/evaluation-Gold-bg.png') center no-repeat;
       }
       &.silver {
-        background: url('../../assets/images/evaluation/evaluation-Silver-bg.png') center no-repeat;
+        color: #fff;
+        font-size: 20px;
+        font-family: Inter800;
+        letter-spacing: 0.4px;
+        text-shadow: 0px 2px 20px rgba(255, 255, 255, 0.8);
+        // background: url('../../assets/images/evaluation/evaluation-Silver-bg.png') center no-repeat;
       }
       &.bronze {
-        background: url('../../assets/images/evaluation/evaluation-Bronze-bg.png') center no-repeat;
+        font-size: 16px;
+        color: #fff;
+        font-family: Pretendard700;
+        // background: url('../../assets/images/evaluation/evaluation-Bronze-bg.png') center no-repeat;
       }
     } //grade--END--
 
     .details-btn {
       width: 100px;
-      height: 24px;
-      background: #222;
+      height: 30px;
+      background: #303030;
       position: relative;
       top: 0;
       transition: 0.2s;
       color: #aaa;
-      font-family: Orbitron600;
+      font-family:  Pretendard600;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
@@ -218,6 +277,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
+              font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &::before {
         content: '';
         position: absolute;
@@ -226,8 +294,8 @@
         width: calc(100% - 2px);
         transition: 0.2s;
         border-radius: 8px;
-        height: 23px;
-        border: 1px solid #222;
+        height: 29px;
+        border: 1px solid #303030;
       }
       &:hover {
         top: 4px;
@@ -238,3 +306,57 @@
     } //details-btn--END--
   } //unit-component-evaluation-list-item__details-number--END--
 } //unit-component-evaluation-list-item--END--
+
+@media screen and (max-width: 1500px) {
+  .unit-component-evaluation-list-item {
+    .unit-component-evaluation-list-item__details-number {
+      justify-content: end;
+      width: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .unit-component-evaluation-list-item {
+    .unit-component-evaluation-list-item__title {
+      dt {
+        text-align: left;
+        width: 200px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* 줄 수 설정 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .unit-component-evaluation-list-item__thought {
+      .unit-component-evaluation-list-item__thought__txt {
+        width: 300px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .unit-component-evaluation-list-item {
+    flex-direction: column;
+    align-items: start;
+    .unit-component-evaluation-list-item__title {
+      width: auto;
+      dt {
+        text-align: left;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* 줄 수 설정 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .unit-component-evaluation-list-item__thought {
+      .unit-component-evaluation-list-item__thought__txt {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -43,11 +43,19 @@
     max-width: 210px;
     height: 40px;
     color: #000;
-    font-family: Orbitron700;
+    font-family: Pretendard700;
     border-radius: 12px;
     position: relative;
     transition: 0.3s all;
-
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       transform: translateY(3px);
       &::after {
@@ -98,12 +106,20 @@
 
   .generated-lyrics__download-buttons--button {
     border-radius: 12px;
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     letter-spacing: 0.48px;
     height: 40px;
     position: relative;
     transition: 0.3s all;
-
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       transform: translateY(3px);
       &::after {

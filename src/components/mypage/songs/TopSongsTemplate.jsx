@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 
@@ -46,8 +45,6 @@ const LyricsAndSongwriting = ({ username }) => {
     }
   );
 
-  console.log(topSongsData, '탑 송스 데이터');
-
   return (
     <>
       {topSongsData ? (
@@ -66,7 +63,7 @@ const LyricsAndSongwriting = ({ username }) => {
           </div>
         </div>
       ) : (
-        <NoneContent height={160} message="There are no songs created yet." />
+        <NoneContent height={200} message="There are no songs created yet." />
       )}
     </>
   );
@@ -100,16 +97,16 @@ const SingingEvaluation = ({ username }) => {
   return (
     <div className="top-songs-template">
       {topScoreData?.length > 0 && (
-        <Swiper {...swiperOptions}>
+        <Swiper {...swiperOptions} className="top-songs-template-swiper-wrap">
           {topScoreData?.map(item => (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={item.id} className="top-songs-template-swiper-item">
               <AlbumItem track={item} type="evaluation" />
             </SwiperSlide>
           ))}
         </Swiper>
       )}
       {(!topScoreData || topScoreData?.length <= 0) && (
-        <NoneContent height={160} message="There are no songs evaluated yet." />
+        <NoneContent height={200} message="There are no songs evaluated yet." />
       )}
     </div>
   );

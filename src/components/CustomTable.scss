@@ -30,14 +30,19 @@
           th{
             padding: 16px 12px;
             text-align: center;
-            color: var(--primary-200, #A9D400);
-            font-family: Orbitron400;
+            color:#A9D400;
+            font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            white-space: nowrap;
             white-space:nowrap;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
             &:first-child {
             //   padding-left: 24px;
             }
@@ -55,15 +60,21 @@
         tr {
           td{
             padding: 10px 12px;
-            color: var(--Text-music-sub, #AAA);
+            color:#AAA;
             text-align: center;
-            font-family: Inter400;
+            font-family: Pretendard400;
             font-size: 14px;
-            font-style: normal;
-            line-height: normal;
             border-bottom: 1px solid #333;
             white-space: nowrap;
-
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
             &:first-child {
             //   padding-left: 24px;
             }
@@ -130,11 +141,19 @@
       cursor: pointer;
       transition: 0.3s;
       min-width: 100px;
-      font-family: Inter500;
+      font-family: Pretendard500;
       font-size: 12px;
       font-style: normal;
       line-height: 100%;
-      letter-spacing: 0.36px;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       &:hover{
         background: #00ff99;
         color: #000;

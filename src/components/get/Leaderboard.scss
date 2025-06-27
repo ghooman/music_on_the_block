@@ -1,0 +1,148 @@
+.get-detail-leaderboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+
+  .get-detail-leaderboard__user {
+    border-radius: 12px;
+    background-color: #222;
+    height: fit-content;
+  }
+  .get-detail-leaderboard__user--profile {
+    border-bottom: 1px solid #2c3a00;
+    padding: 12px 20px 12px 10px;
+  }
+  .get-detail-leaderboard__user--profile-title {
+    text-align: center;
+    color: #00d293;
+    font-size: 14px;
+    font-family: Pretendard600;
+    margin-bottom: 8px;
+  }
+
+  .get-detail-leaderboard__user--profile-data {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .profile-data-image {
+      position: relative;
+    }
+
+    .profile-data-image__profile {
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+      object-fit: cover;
+    }
+
+    .profile-data-image__grade {
+      position: absolute;
+    }
+
+    .profile-data-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .profile-data-info__text {
+      letter-spacing: 0.42px;
+      font-size: 14px;
+      color: #f1f1f1;
+
+      &.address {
+        font-family: Pretendard500;
+      }
+      &.name {
+        font-family: Pretendard400;
+      }
+    }
+  }
+
+  .get-detail-leaderboard__user--information {
+    padding: 12px 10px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .get-detail-leaderboard__user--information--item {
+    display: flex;
+    justify-content: space-between;
+
+    .information--item-title {
+      color: #cf0;
+      font-family: Pretendard400;
+      font-size: 12px;
+      &.disable {
+        color: #495d00;
+      }
+    }
+    .information--item-value {
+      color: #fff;
+      font-family: Pretendard500;
+      font-size: 14px;
+    }
+  }
+
+  .get-detail-leaderboard__tables {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .get-detail-leaderboard__tables--title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      color: #d9d9d9;
+      font-family: Pretendard700;
+      font-size: 20px;
+    }
+    .notice {
+      font-family: Pretendard400;
+      font-size: 10px;
+      color: #a3a3a3;
+    }
+    .notice-point {
+      font: inherit;
+      color: #8e5eed;
+    }
+  }
+
+  .get-detail-leaderboard__tables--see-more {
+    color: #fff;
+    font-family:  Pretendard500;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #222;
+    padding: 15px;
+    display: flex;
+    gap: 4px;
+    width: fit-content;
+    margin: 0 auto;
+    align-items: center;
+    img {
+      height: 20px;
+    }
+  }
+
+  .skeleton {
+    border: 1px solid #383838;
+    background-color: #1a1a1a;
+
+    &.circle-type {
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+    }
+    &.bar-type {
+      border-radius: 8px;
+      height: 24px;
+      flex: 1;
+    }
+  }
+}

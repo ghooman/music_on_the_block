@@ -17,13 +17,14 @@ const API_KEY = process.env.REACT_APP_TRANSLATE_KEY;
     const sheet = doc.sheetsByIndex[i];
     await sheet.loadCells();
     const rows = await sheet.getRows();
-    let langs = ['ko', 'en']; // ['ko', 'en', 'it']
+    let langs = ['en', 'ko', 'ja', 'id', 'vi']; // ['ko', 'en', 'it']
 
     const jsonData = {};
 
     langs.forEach((language, index) => {
       for (let j = 1; j <= rows.length; j++) {
-        jsonData[sheet.getCell(j, 1).value] = sheet.getCell(j, index + 2).value;
+        jsonData[sheet.getCell(j, 1).value] = sheet.getCell(j, index + 1).value;
+        jsonData[sheet.getCell(j, 1).value] = sheet.getCell(j, index + 1).value;
       }
 
       const jsonString = JSON.stringify(jsonData, null, 1);

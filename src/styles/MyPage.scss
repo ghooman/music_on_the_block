@@ -26,6 +26,37 @@
       gap: 8px;
     }
 
+    .profile__info__cover{
+      display: flex;
+      justify-content: space-between;
+      .profile__info__btns{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        a{
+          &.key-pass{
+            border-radius: 8px;
+            background: #262626;
+            border: 1px solid #262626;
+            color: #888;
+            font-family: Pretendard400;
+            font-size: 14px;
+            pointer-events: none;
+          }
+          border-radius: 8px;
+          border: 1px solid #CF0;
+          height: 30px;
+          padding: 0 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FFF;
+          font-family: Pretendard400;
+          font-size: 14px;
+        }//edit-btn--END--
+      }//profile__info__btns--END--
+
+    }//profile__info__cover--END--
     .profile__info--name-level {
       display: flex;
       gap: 12px;
@@ -39,8 +70,17 @@
       border-radius: 100%;
     }
     .profile__info--name-text {
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 24px;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .profile__info--level {
       display: flex;
@@ -50,7 +90,16 @@
     .profile__info--level-text {
       color: #cf0;
       font-size: 12px;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .profile__info--level-icon {
       width: 20px;
@@ -59,7 +108,16 @@
     .profile__info--level-rating {
       color: #aaa;
       font-size: 14px;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .profile__record {
       display: flex;
@@ -72,20 +130,39 @@
       align-items: center;
     }
     .profile__record--item-title {
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 12px;
       color: #f1f1f1;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .profile__record--item-value {
-      font: Orbitron400;
+      font: Pretendard400;
       font-size: 14px;
       color: #aaa;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .profile__desc {
       display: flex;
       justify-content: space-between;
       gap: 16px;
       min-height: 21px;
+      align-items: center;
     }
     .profile__link {
       display: flex;
@@ -100,35 +177,76 @@
     }
     .profile__link--item {
       color: #5a9bf6;
-      font-family: Orbitron400;
+      font-family: Pretendard400;
       font-size: 14px;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .profile__link--count {
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
 
     .profile__desc--content {
       color: #aaa;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
-      height: 16px;
+      word-wrap: break-word;
+      line-height: 1.4;
+      max-height: 1.4em; // 한 줄 높이로 제한
       overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      white-space: nowrap; // 한 줄로 제한
+      text-overflow: ellipsis; // 말줄임표 표시
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &.open {
-        height: fit-content;
-        white-space: wrap;
+        max-height: none !important;
+        overflow: visible !important;
+        white-space: normal !important; // 여러 줄 허용
+        text-overflow: clip !important; // 말줄임표 제거
+        word-wrap: break-word !important;
+        word-break: break-word !important;
       }
     }
     .profile__desc--button {
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 14px;
       color: #f1f1f1;
       white-space: nowrap;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
-
     .tw-connect-wallet,
     .mypage__follow-btn {
       display: flex;
@@ -137,7 +255,7 @@
       width: 100%;
       border-radius: 12px;
       color: #1a1a1a;
-      font-family: Orbitron600;
+      font-family: Pretendard600;
       font-size: 16px;
       height: 40px;
       text-align: center;
@@ -146,7 +264,15 @@
       transition: 0.2s all;
       background-color: #cf0;
       top: 0;
-
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -251,7 +377,7 @@
   //       .mypage__profile-info-box {
   //         .mypage__username {
   //           color: #fff;
-  //           font-family: Orbitron400;
+  //           font-family:  Pretendard400;
   //           font-size: 40px;
   //           font-style: normal;
   //           line-height: 100%; /* 40px */
@@ -267,7 +393,7 @@
   //             }
   //             span {
   //               color: var(--Text-music-title, #f1f1f1);
-  //               font-family: Orbitron400;
+  //               font-family:  Pretendard400;
   //               font-size: 16px;
   //               font-style: normal;
   //               line-height: normal;
@@ -287,7 +413,7 @@
   //     }
   //     .mypage__bio {
   //       color: var(--Text-music-sub, #aaa);
-  //       font-family: Inter400;
+  //       font-family: Pretendard400;
   //       font-size: 16px;
   //       font-style: normal;
   //       line-height: normal;
@@ -346,7 +472,7 @@
 
   //         .exp-box__coin--text {
   //           color: var(--primary-base, #cf0);
-  //           font-family: Orbitron400;
+  //           font-family:  Pretendard400;
   //           font-size: 16px;
   //           font-style: normal;
   //           line-height: normal;
@@ -366,7 +492,7 @@
   //         .exp-box__value {
   //           color: var(--secondary-400, #007e56);
   //           text-align: right;
-  //           font-family: Orbitron400;
+  //           font-family:  Pretendard400;
   //           font-size: 18px;
   //           font-style: normal;
   //           line-height: normal;
@@ -383,7 +509,7 @@
   //       width: 100%;
   //       border-radius: 12px;
   //       color: #1a1a1a;
-  //       font-family: Orbitron600;
+  //       font-family:  Pretendard600;
   //       font-size: 16px;
   //       letter-spacing: 0.48px;
   //       height: 50px;
@@ -442,19 +568,25 @@
       align-items: center;
       gap: 8px;
       border-radius: 12px 4px 12px 12px;
-      background: var(--Color-03, #222);
-      color: var(--Text-music-sub, #aaa);
-      font-family: Orbitron500;
+      background: #222;
+      color: #aaa;
+      font-family: Pretendard500;
       font-size: 14px;
-      font-style: normal;
-      line-height: 100%; /* 14px */
-      letter-spacing: 0.42px;
       white-space: nowrap;
       transition: 0.3s all;
       &:hover,
       &.active {
-        color: var(--Text-dark-title, #1a1a1a);
-        background: var(--primary-base, #cf0);
+        color: #1a1a1a;
+        background: #cf0;
+      }
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
       }
     }
   }
@@ -464,6 +596,16 @@
     .mypage__profile {
       width: 100%;
       // height: 580px;
+      .profile__info__btns{
+        margin-bottom: 8px;
+        a{
+          flex: 1;
+        }
+      }
+      .profile__info__cover{
+        flex-direction: column;
+        gap: 12px;
+      }
       .mypage__profile-bg {
         width: calc(100% + 32px);
       }

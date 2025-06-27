@@ -12,6 +12,7 @@ const NoneContent = ({
   message2,
   style,
   loading = false,
+  children,
 }) => {
   if (loading) {
     image = loadingImg;
@@ -25,6 +26,7 @@ const NoneContent = ({
       {image && <img className="unit-component-none-content__image" src={image} alt="icon" />}
       <p className="unit-component-none-content--text">{t(message)}</p>
       {message2 && <p className="unit-component-none-content--text">{message2}</p>}
+      {children}
     </div>
   );
 };

@@ -88,7 +88,7 @@ const NftItems = ({ username, isMyProfile }) => {
           playsOption={nftFilter === 'Unlisted'}
         />
         <Pagination totalCount={data?.total_cnt} viewCount={12} page={page} />
-        {isLoading && <Loading />}
+        <Loading isLoading={isLoading} />
       </ContentWrap>
     </>
   );

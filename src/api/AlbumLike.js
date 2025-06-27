@@ -1,5 +1,5 @@
 // api/AlbumLike.js
-import axios from "axios";
+import axios from 'axios';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -20,10 +20,9 @@ export const likeAlbum = async (albumId, token) => {
         },
       }
     );
-    console.log("likeAlbum response", response.data);
     return response.data;
   } catch (error) {
-    throw new Error("앨범 좋아요 요청 실패");
+    throw new Error('앨범 좋아요 요청 실패');
   }
 };
 
@@ -44,9 +43,8 @@ export const cancelLikeAlbum = async (albumId, token) => {
         },
       }
     );
-    console.log("cancelLikeAlbum response", response.data);
     return response.data;
   } catch (error) {
-    throw new Error("앨범 좋아요 취소 요청 실패");
+    throw new Error('앨범 좋아요 취소 요청 실패');
   }
 };

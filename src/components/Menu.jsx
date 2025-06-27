@@ -21,6 +21,7 @@ import notificationSong from '../assets/images/menu/notifications/song.png';
 import notificationNFT from '../assets/images/menu/notifications/nft.png';
 import notificationCalendar from '../assets/images/menu/notifications/calendar.svg';
 import notificationNone from '../assets/images/icon/notifications_off.svg';
+import arrDownIcon from '../assets/images/arrow_down.svg';
 
 import { AuthContext } from '../contexts/AuthContext';
 import { WebSocketContext } from '../contexts/WebSocketContext';
@@ -40,6 +41,7 @@ import {
 import NoneContent from '../components/unit/NoneContent';
 import ConfirmModal from './modal/ConfirmModal';
 import SuccessModal from './modal/SuccessModal';
+import { disableEvaluation } from '../data/service';
 const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, setLogin }) => {
   const { t, i18n } = useTranslation('main');
 
@@ -62,13 +64,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
   // WalletConnect에서 전달받은 콜백 함수
   const handleWalletConnect = (loggedIn, walletAddress) => {
+    // console.log('로그클릭')
     setIsLoggedIn(loggedIn);
     if (loggedIn && walletAddress) {
       setWalletAddress(walletAddress);
       // 이후 AuthContext의 useEffect나 React Query로 토큰 발급 API를 호출할 수 있음
     }
   };
-  const { data: userData, isLoading, error } = useUserDetail();
+
+  const handleWalletClickWrapper = () => {
+    if (window.innerWidth <= 1000) {
+      setActive(false);
+    }
+  };
+
+  const { data: userData, isLoading, error, isInitialLoading } = useUserDetail();
   // console.log('userData', userData);
   const micBalance = userData?.mic_point?.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
@@ -91,7 +101,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
       menuName !== 'nft' &&
       menuName !== 'my-page' &&
       menuName !== 'my-favorites' &&
-      menuName !== 'earn'
+      menuName !== 'earn' &&
+      menuName !== 'get'
     ) {
       setPreparingModal(true);
     }
@@ -100,7 +111,12 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   // 하위 메뉴 아이템 클릭 시 활성화 (슬라이드 탭 안의 <li>)
   const handleSubItemClick = subItemName => {
     setActiveSubItem(subItemName);
-    setActiveMenus([]); // 슬라이드 탭들 비활성화
+    // AI Services 메뉴인 경우 activeMenus를 유지
+    if (subItemName === 'ai-lyrics' || subItemName === 'ai-singing' || subItemName === 'ai-cover') {
+      setActiveMenus(['ai-services']);
+    } else {
+      setActiveMenus([]); // 다른 메뉴의 경우 기존 동작 유지
+    }
     setActive(false);
   };
 
@@ -138,10 +154,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     error: notificationsError,
   } = useQuery({
     queryKey: ['notifications'],
-    queryFn: () => getNotifications(token),
+    queryFn: () => {
+      return getNotifications(token);
+    },
     enabled: !!token, // 토큰이 있을 때만 실행
     refetchInterval: 30000, // 30초마다 자동 새로고침
     refetchIntervalInBackground: false, // 백그라운드에서는 새로고침 안함
+    onSuccess: data => {},
   });
 
   useEffect(() => {
@@ -262,8 +281,11 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
         // 에러 토스트나 알림을 표시할 수 있습니다
       },
       onSuccess: (data, variables) => {
-        // 성공적으로 삭제되었으므로 아무것도 하지 않음 (이미 optimistic update 적용됨)
+        // 성공적으로 삭제되었으므로 서버에서 최신 데이터를 가져옴
         console.log('알림이 성공적으로 삭제되었습니다');
+        console.log('삭제 응답 데이터:', data);
+        console.log('삭제된 알림 ID:', variables.id);
+        queryClient.invalidateQueries(['notifications']);
       },
       onSettled: (data, error, variables) => {
         // 삭제 중 상태 제거
@@ -320,6 +342,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
 
     postNotificationCheck(token);
   };
+
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <>
@@ -473,7 +497,10 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                   </li>
                 ))}
               </ul>
-              <WalletConnect onConnect={handleWalletConnect} />
+              <div onClick={handleWalletClickWrapper}>
+                <WalletConnect onConnect={handleWalletConnect} />
+              </div>
+
               {isLoggedIn && (
                 <>
                   <div className="menu__box__my-page">
@@ -489,40 +516,81 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                       </p>
                       <p className="grade">{userData?.user_rating}</p>
                     </div> */}
-                    <div className="menu__box__my-page__info">
+                    <div className={`menu__box__my-page__info ${isActive ? ' active' : ''}`}>
                       <div className="menu__box__my-page__info__top">
-                        <p
-                          className="menu__box__my-page__info__top__img"
-                          style={{
-                            backgroundImage: `url(${userData?.profile || defaultCoverImg})`,
-                          }}
-                        ></p>
+                        {!userData ? (
+                          <div className="menu__box__my-page__info__top__img skeleton-avatar"></div>
+                        ) : (
+                          <p
+                            className="menu__box__my-page__info__top__img"
+                            style={{
+                              backgroundImage: `url(${userData?.profile || defaultCoverImg})`,
+                            }}
+                          ></p>
+                        )}
                         <dl className="menu__box__my-page__info__top__txt">
-                          <dt>
-                            {truncatedAddress}
-                            <button onClick={copyAddress}>
-                              <img
-                                src={copied ? checkIcon : copyIcon}
-                                alt={copied ? '복사 완료' : '복사 아이콘'}
-                              />
-                            </button>
-                          </dt>
-                          <dd>{userData?.name || 'No Sign up'}</dd>
+                          {!userData ? (
+                            // 스켈레톤 UI
+                            <>
+                              <dt>
+                                <div className="skeleton-text skeleton-address"></div>
+                              </dt>
+                              <dd>
+                                <div className="skeleton-text skeleton-name"></div>
+                              </dd>
+                              <dd>
+                                <div className="menu__box__my-page__level">
+                                  <div className="skeleton-grade-icon"></div>
+                                  <div className="skeleton-text skeleton-grade"></div>
+                                  <button
+                                    className="menu__box__my-page__level__arr-btn"
+                                    onClick={() => setIsActive(prev => !prev)}
+                                  >
+                                    <img src={arrDownIcon} alt="arrDownIcon" />
+                                  </button>
+                                </div>
+                              </dd>
+                            </>
+                          ) : (
+                            // 실제 데이터
+                            <>
+                              <dt>
+                                {truncatedAddress}
+                                {/* <button onClick={copyAddress}>
+                                  <img
+                                    src={copied ? checkIcon : copyIcon}
+                                    alt={copied ? '복사 완료' : '복사 아이콘'}
+                                  />
+                                </button> */}
+                              </dt>
+                              <dd>{userData?.name || 'No Sign up'}</dd>
+                              <dd>
+                                <div className="menu__box__my-page__level">
+                                  {/* <p className="level">{t('Level')}</p> */}
+                                  <p className="menu__box__my-page__level__img">
+                                    {getUserGradeSquareIcon(userData?.user_rating) && (
+                                      <img
+                                        src={getUserGradeSquareIcon(userData?.user_rating)}
+                                        alt="level icon"
+                                      />
+                                    )}
+                                  </p>
+                                  <p className="grade">{userData?.user_rating}</p>
+                                  <button
+                                    className="menu__box__my-page__level__arr-btn"
+                                    onClick={() => setIsActive(prev => !prev)}
+                                  >
+                                    <img src={arrDownIcon} alt="arrDownIcon" />
+                                  </button>
+                                </div>
+                              </dd>
+                            </>
+                          )}
                         </dl>
                       </div>
-                      <div className="menu__box__my-page__level">
-                        <p className="level">{t('Level')}</p>
-                        <p className="menu__box__my-page__level__img">
-                          {getUserGradeSquareIcon(userData?.user_rating) && (
-                            <img
-                              src={getUserGradeSquareIcon(userData?.user_rating)}
-                              alt="level icon"
-                            />
-                          )}
-                        </p>
-                        <p className="grade">{userData?.user_rating}</p>
-                      </div>
-                      <div className="menu__box__my-page__info__bottom">
+                      <div
+                        className={`menu__box__my-page__info__bottom ${isActive ? ' active' : ''}`}
+                      >
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>{mobBalance}</p>
                           <span>
@@ -558,6 +626,18 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             USDC
                           </span>
                         </div>
+                        <Link
+                          to="/node-viewer"
+                          className="node-viewer-btn"
+                          onClick={() => {
+                            setActiveSingle(null);
+                            setActiveMenus([]);
+                            setActive(false);
+                            setIsActive(false);
+                          }}
+                        >
+                          {t('Node Viewer')}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -609,10 +689,19 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     </li>
                     <li
                       className={activeSubItem === 'ai-singing' ? 'active' : ''}
-                      // onClick={() => handleSubItemClick('ai-singing')}
-                      // onClick={() => setPreparingModal(true)}
+                      onClick={() => handleSubItemClick('ai-singing')}
                     >
-                      <Link to="/evaluation">{t('AI Singing Evaluation')}</Link>
+                      <Link
+                        onClick={e => {
+                          if (disableEvaluation) {
+                            e?.preventDefault();
+                            setPreparingModal(true);
+                          }
+                        }}
+                        to="/evaluation"
+                      >
+                        {t('AI Singing Evaluation')}
+                      </Link>
                       {/* <Link >{t('AI Singing Evaluation')}</Link> */}
                     </li>
                     <li
@@ -656,6 +745,21 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                     <p className="icon"></p>Shop
                   </Link>
                 </div> */}
+
+                <div
+                  className={`menu__box__gnb-list__item  ${
+                    pathname.startsWith('/get') ? 'active' : ''
+                  }`}
+                >
+                  {/* <Link
+                    to="/get"
+                    className="menu__box__gnb-list__item__btn "
+                    onClick={() => handleSingleActive('get')}
+                  >
+                    <p className="icon"></p>
+                    {t('Get')}
+                  </Link> */}
+                </div>
 
                 <div
                   className={`menu__box__gnb-list__item shop ${

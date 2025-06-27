@@ -73,7 +73,7 @@
         }
         .nft-slider__item__title{
             color: #FFF;
-            font-family: Inter600;
+            font-family: Pretendard600;
             font-size: 18px;
             font-style: normal;
             line-height: normal;
@@ -82,15 +82,19 @@
             height: 100%;
             top: 0;
             left: 0;
-            color: #FFF;
-            font-family: Inter600;
-            font-size: 18px;
-            font-style: normal;
-            line-height: normal;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(0, 0, 0, 0.5);
+            font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+            }
         }
     }
 } 

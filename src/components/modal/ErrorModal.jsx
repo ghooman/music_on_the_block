@@ -14,10 +14,26 @@ const ErrorModal = ({ title, setShowErrorModal, message, button, action }) => {
   };
 
   return (
-    <ModalWrap onClose={onClose} title={title || 'Error'}>
+    <ModalWrap onClose={onClose} title={t(title) || t('Error')}>
       <div className="error-modal">
         <div className="error-modal__logo-box"></div>
-        <p className="error-modal__text">{t(message) || 'No Text'}</p>
+        <p className="error-modal__text">
+          {typeof message === 'object' &&
+            message.map((text, index, { length }) => {
+              if (index !== length - 1) {
+                return (
+                  <>
+                    {t(text)}
+                    <br />
+                  </>
+                );
+              } else {
+                return t(text);
+              }
+            })}
+          {typeof message === 'string' && t(message)}
+          {!message && 'No Text'}
+        </p>
         {button && (
           <button className="error-modal__button" onClick={onClose}>
             {t('OK')}

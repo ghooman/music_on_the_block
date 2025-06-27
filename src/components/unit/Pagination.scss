@@ -14,16 +14,25 @@
     .unit-component-pagination-content__page {
         color: #f1f1f1;
         text-align: center;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
         width: 32px;
         height: 32px;
         border-radius: 8px;
         transition: 0.3s all;
+        font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+        }
         &:hover,
         &.enable {
             color: #1a1a1a;
-            background: var(--primary-100, #cf0);
+            background:#cf0;
         }
 
         &.prev,

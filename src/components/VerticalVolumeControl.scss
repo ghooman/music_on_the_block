@@ -1,0 +1,119 @@
+/* components/VerticalVolumeControl.scss */
+
+/* 1) 컨테이너 설정 */
+.vertical-volume-control {
+  /* 실제 원하는 세로 슬라이더 높이 (예: 120px) */
+  height: 220px;
+  /* 슬라이더 두께 정도로 충분한 너비 (30px 권장) */
+  width: 20px;
+}
+
+/* 2) 메인 슬라이더(input) 스타일 */
+/*    회전 전: width=120px × height=6px  */
+.vertical-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  position: absolute;
+  z-index: -10;
+  top: 10px;
+  right: 0%;
+  transform: rotate(-90deg);
+  transform-origin: center;
+
+
+  /* 회전 전 길이는 컨테이너 높이(120px)와 일치해야 합니다 */
+  width: 90px; /* 반드시 .vertical-volume-control의 height와 동일 */
+  height: 14px; /* 슬라이더 두께 */
+
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+  opacity: 0;
+
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  position: absolute;
+  // bottom: 100%;
+  // left: 50%;
+  z-index: 1;
+
+
+  // opacity: 1;
+  // visibility: visible;
+  // z-index: 10;
+  // animation: slideDown 0.3s ease-out forwards;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+    animation: slideDown 0.3s ease-out forwards;
+  }
+
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translate(0px) rotate(-90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0) rotate(-90deg);
+    top: 0;
+  }
+}
+
+/* 3) WebKit 계열(track) 스타일 (Chrome, Safari 등) */
+.vertical-slider::-webkit-slider-runnable-track {
+  background: rgba(255, 255, 255, 0.9); /* 트랙 배경색을 반투명하게 변경 */
+  height: 4px; /* 트랙 높이를 더 얇게 */
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+/* 3.1) WebKit 계열(thumb) 스타일 (Chrome, Safari 등) */
+.vertical-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -4.2px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  
+  // &:hover {
+  //   transform: scale(1.1);
+  //   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  // }
+}
+
+/* 4) Firefox 계열(track) 스타일 */
+.vertical-slider::-moz-range-track {
+  background: rgba(255, 255, 255, 0.1);
+  height: 4px;
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+/* 4.1) Firefox 계열(thumb) 스타일 */
+.vertical-slider::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  }
+}

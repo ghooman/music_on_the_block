@@ -1,13 +1,31 @@
 .albums-edit {
   .albums-edit__title {
     color: #cf0;
-    font-family: Orbitron600;
+    font-family:  Pretendard600;
     font-size: 30px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
   .albums-edit__album-name {
     color: #f1f1f1;
-    font-family: Orbitron500;
+    font-family:  Pretendard500;
     font-size: 20px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .albums-edit__edit-button {
@@ -20,8 +38,16 @@
     top: 0px;
     transition: 0.2s all;
     color: #1a1a1a;
-    font-family: Orbitron600;
-
+    font-family:  Pretendard600;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       top: 4px;
       &::before {
@@ -49,19 +75,28 @@
 
   .albums-edit__category-btn {
     border-radius: 10px 2px 10px 10px;
-    border: 1px solid var(--Color-06, #888);
-    background: var(--Color-03, #222);
+    border: 1px solid #888;
+    background: #222;
     height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 12px;
-    color: var(--Text-music-sub, #aaa);
-    font-family: Orbitron500;
+    color: #aaa;
+    font-family:  Pretendard500;
     font-size: 14px;
     font-style: normal;
     transition: 0.3s;
     position: relative;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &::after {
       content: '';
       position: absolute;
@@ -75,9 +110,18 @@
     &.active {
       background: #cf0;
       border: 1px solid #cf0;
-      color: var(--Text-dark-title, #1a1a1a);
-      font-family: Orbitron500;
+      color:#1a1a1a;
+      font-family:  Pretendard500;
       font-size: 14px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       &::after {
         background: #000;
       }

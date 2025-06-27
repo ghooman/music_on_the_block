@@ -161,7 +161,7 @@ const Connections = () => {
           handleClick={handleUnfollowing}
         />
       )}
-      {(isFetching || isLoading) && <Loading />}
+      <Loading isLoading={isFetching} />
     </div>
   );
 };

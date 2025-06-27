@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 
 import './AiServices.scss';
 
@@ -14,17 +16,23 @@ import generatedCoverCreationIcon from '../../../assets/images/icon/generated-co
 import FilterDateModal from '../../../components/unit/FilterDateModal';
 import PreparingModal from '../../PreparingModal';
 import SubCategories from '../../unit/SubCategories';
+import Loading from '../../IntroLogo2';
 import { BarChart, LineChart, PieChart } from '../../unit/Chart';
+
 import { formatLocalTime } from '../../../utils/getFormattedTime';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
+
+import { disableEvaluation } from '../../../data/service';
 import { criticsDataForArray } from '../../../data/criticsData';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const AiServiceTypeList = [
   { name: 'AI Lyrics & Songwriting', image: generatedLyricSongwritingIcon, preparing: false },
-  { name: 'AI Singing Evaluation', image: generatedSigingEvaluationIcon, preparing: false },
+  {
+    name: 'AI Singing Evaluation',
+    image: generatedSigingEvaluationIcon,
+    preparing: disableEvaluation,
+  },
   { name: 'AI Cover Creation', image: generatedCoverCreationIcon, preparing: true },
 ];
 
@@ -39,10 +47,13 @@ const AiServices = ({ username }) => {
   );
 
   // 최상단 차트 데이터 GET
-  const { data: aiServiceData } = useQuery(['ai_service_data_overview', username], async () => {
-    const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
-    return res.data;
-  });
+  const { data: aiServiceData, isLoading } = useQuery(
+    ['ai_service_data_overview', username],
+    async () => {
+      const res = await axios.get(`${serverApi}/api/user/statistics?name=${username}`);
+      return res.data;
+    }
+  );
 
   const aiServiceChartData = [
     {
@@ -121,6 +132,7 @@ const AiServices = ({ username }) => {
 
       {openModal && <FilterDateModal setOpenModal={setOpenModal} />}
       {showPreparingModal && <PreparingModal setPreparingModal={setShowPreparingModal} />}
+      <Loading isLoading={isLoading} />
     </>
   );
 };
@@ -218,23 +230,11 @@ const EvaluationStatus = ({ t, username }) => {
     }
   };
 
-  const aiStatusChartData = [
-    {
-      id: 'Jinwoo Yoo',
-      value: findCriticsCount('Jinwoo Yoo'),
-      color: 'hsl(101, 100.00%, 26.10%)',
-    },
-    {
-      id: 'Drexx',
-      value: findCriticsCount('Drexx'),
-      color: 'hsl(139, 100.00%, 11.00%)',
-    },
-    {
-      id: 'Elara Moon',
-      value: findCriticsCount('Elara Moon'),
-      color: 'hsl(139, 100.00%, 11.00%)',
-    },
-  ];
+  const chartss = criticsDataForArray.map((critic, index) => ({
+    id: critic?.name,
+    value: findCriticsCount(critic.name),
+    color: `hsl(10${index * 50}, 100.00%, 26.10%)`,
+  }));
 
   return (
     <StatusTemplate
@@ -242,7 +242,7 @@ const EvaluationStatus = ({ t, username }) => {
       categories={categories}
       select={select}
       setSelect={setSelect}
-      pieChartData={aiStatusChartData}
+      pieChartData={chartss}
       detailData={detailsArray}
     />
   );
@@ -311,13 +311,11 @@ const EvaluationGraph = ({ t, username }) => {
       const data = Object.entries(res.data)?.map(([key, value]) => {
         return { date: key, value: value };
       });
-      console.log(data, '수퍼비');
+
       return data;
     },
     { enabled: !!username }
   );
-
-  console.log(scoreData, dailyUsageData, '데이터들입니다.');
 
   return (
     <GraphTemplate
@@ -342,8 +340,8 @@ const StatusTemplate = ({ t, categories, select, setSelect, pieChartData, detail
         <div className="ai-status__detail">
           <p className="ai-status__detail-title">{t('AI Service Details')}</p>
           <div className="ai-status__detail-box">
-            {detailData.map(item => (
-              <div className="ai-status__detail-item" key={item.id}>
+            {detailData.map((item, index) => (
+              <div className="ai-status__detail-item" key={index}>
                 <p className="detail-item__title">{t(item.title)}</p>
                 <p className="detail-item__value">{item?.value || '-'}</p>
               </div>

@@ -20,7 +20,7 @@
     top: 0;
     transition: 0.2s;
     color: #1a1a1a;
-    font-family: Orbitron600;
+    font-family: Pretendard600;
     font-size: 12px;
     font-style: normal;
     line-height: normal;
@@ -59,7 +59,7 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family: Orbitron600;
+  font-family: Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -95,7 +95,7 @@
     flex-shrink: 0;
     .result__critic__title {
       color: #fff;
-      font-family: Inter600;
+      font-family: Pretendard600;
       font-size: 16px;
       margin-bottom: 16px;
     }
@@ -111,15 +111,15 @@
       flex-direction: column;
       gap: 8px;
       dt {
-        color: var(--Text-music-title, #f1f1f1);
+        color:#f1f1f1;
         text-align: center;
-        font-family: Orbitron600;
+        font-family: Pretendard600;
         font-size: 16px;
         padding: 0 16px;
       }
       dd {
-        color: var(--Text-music-sub, #aaa);
-        font-family: Inter500;
+        color:#aaa;
+        font-family: Pretendard500;
         font-size: 14px;
       }
     } //result__critic__txt--END--
@@ -127,7 +127,7 @@
   .result__graph {
     .result__graph__title {
       color: #fff;
-      font-family: Inter600;
+      font-family: Pretendard600;
       font-size: 16px;
       margin-bottom: 16px;
       display: flex;
@@ -150,8 +150,8 @@
     .result__graph__score__number {
       width: 400px;
       .result__graph__score__number__title {
-        color: var(--Text-music-title, #f1f1f1);
-        font-family: Inter600;
+        color: #f1f1f1;
+        font-family: Pretendard600;
         font-size: 22px;
         width: 100%;
         display: flex;
@@ -160,8 +160,8 @@
         margin-bottom: 16px;
         gap: 16px;
         span {
-          color: var(--Text-music-title, #f1f1f1);
-          font-family: Inter600;
+          color:#f1f1f1;
+          font-family: Pretendard600;
           font-size: 22px;
         }
       } //result__graph__score__number__title--END--
@@ -175,34 +175,35 @@
           align-items: center;
           justify-content: space-between;
           gap: 16px;
-          &:nth-child(2) {
-            dt {
-              color: #7bbe9e;
-            }
-          }
-          &:nth-child(3) {
-            dt {
-              color: #5f8d74;
-            }
-          }
-          &:nth-child(4) {
-            dt {
-              color: #3f5c4b;
-            }
-          }
-          &:nth-child(5) {
-            dt {
-              color: #2c4437;
-            }
-          }
+
+          // &:nth-child(2) {
+          //   dt {
+          //     color: #7bbe9e;
+          //   }
+          // }
+          // &:nth-child(3) {
+          //   dt {
+          //     color: #5f8d74;
+          //   }
+          // }
+          // &:nth-child(4) {
+          //   dt {
+          //     color: #3f5c4b;
+          //   }
+          // }
+          // &:nth-child(5) {
+          //   dt {
+          //     color: #2c4437;
+          //   }
+          // }
           dt {
-            color: #a4bfa3;
-            font-family: Inter400;
+            color: #5f8d74 !important;
+            font-family: Pretendard400;
             font-size: 16px;
           }
           dd {
-            color: var(--Text-music-sub, #aaa);
-            font-family: Inter400;
+            color:#aaa;
+            font-family: Pretendard400;
             font-size: 16px;
           }
         }
@@ -219,13 +220,15 @@
     .full-evaluation__feed-back__human {
       width: 100px;
       flex-shrink: 0;
+
       img {
         width: 100%;
         object-fit: cover;
+        border-radius: 12px;
       }
       .full-evaluation__feed-back__human__title {
         color: #aaa;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
         margin-top: 4px;
         text-align: center;
@@ -239,6 +242,7 @@
           text-overflow: inherit;
           white-space: pre-line;
           height: auto;
+          font-size: 16px;
         }
         .full-evaluation__feed-back__txt__see-more {
           span {
@@ -250,14 +254,14 @@
       }
       .ull-evaluation__feed-back__txt__title {
         color: #aaa;
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 18px;
         width: 100%;
       } //ull-evaluation__feed-back__txt__title--END--
       .ull-evaluation__feed-back__txt__memo {
         width: 100%;
         color: #f1f1f1;
-        font-family: Orbitron400;
+        font-family: Pretendard400;
         font-size: 14px;
         margin: 8px 0;
 
@@ -270,8 +274,8 @@
         transition: 0.3s;
       } //ull-evaluation__feed-back__txt__memo--END--
       .full-evaluation__feed-back__txt__see-more {
-        color: var(--Text-music-sub, #aaa);
-        font-family: Inter400;
+        color: #aaa;
+        font-family: Pretendard400;
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -281,7 +285,7 @@
           width: 24px;
           height: 24px;
           border-radius: 2px;
-          border: 1px solid var(--primary-200, #a9d400);
+          border: 1px solid #a9d400;
           position: relative;
           &::after {
             content: '';
@@ -302,11 +306,11 @@
   .full-evaluation__point-box {
     width: 100%;
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: space-between;
     gap: 16px;
     border-radius: 8px;
-    background: var(--Color-02, #1a1a1a);
+    background: #1a1a1a;
     padding: 16px;
     margin-top: 16px;
     dl {
@@ -315,16 +319,16 @@
       gap: 16px;
       flex: 1;
       dt {
-        color: var(--Text-music-sub, #aaa);
+        color: #aaa;
         text-align: center;
-        font-family: Inter500;
-        font-size: 12px;
+        font-family: Pretendard500;
+        font-size: 16px;
       }
       dd {
-        color: var(--Text-music-title, #f1f1f1);
+        color: #f1f1f1;
         text-align: center;
-        font-family: Inter500;
-        font-size: 12px;
+        font-family: Pretendard500;
+        font-size: 14px !important;
       }
     }
   } //full-evaluation__point-box--END--
@@ -345,7 +349,7 @@
         width: 100%;
         padding: 8px;
         border-radius: 18px;
-        background: var(--Color-03, #222);
+        background: #222;
         img {
           width: 100%;
           border-radius: 8px;
@@ -365,6 +369,44 @@
       }
     }
   } //critic-list__item--END--
+
+  .critic-list__swiper-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 48px;
+  }
+  .critic-list__swiper-slide {
+    width: 302px !important;
+  }
+
+  .swiper-button-prev {
+    position: absolute;
+    right: 40px !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 30px;
+    height: 30px;
+    background: url('../../assets/images/album/prev-btn.svg') center no-repeat;
+    background-size: cover;
+    &::after {
+      display: none;
+    }
+  }
+  .swiper-button-next {
+    position: absolute;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 30px;
+    height: 30px;
+    background: url('../../assets/images/album/next-btn.svg') center no-repeat;
+    background-size: cover;
+    &::after {
+      display: none;
+    }
+  }
 } //critic-list--END--
 
 @media screen and (max-width: 1300px) {

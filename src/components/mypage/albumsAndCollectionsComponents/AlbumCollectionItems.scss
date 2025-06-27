@@ -12,7 +12,7 @@
   align-items: flex-start;
   gap: 8px;
   border-radius: 16px;
-  background: var(--Color-03, #222);
+  background: #222;
   overflow: hidden;
 
   cursor: pointer;
@@ -22,32 +22,53 @@
     gap: 8px;
     width: 100%;
     h1 {
-      color: var(--Text-music-title, #f1f1f1);
-      font-family: Inter400;
+      color:#f1f1f1;
+      font-family: Pretendard400;
       font-size: 14px;
-      font-style: normal;
-      line-height: 100%; /* 14px */
-      letter-spacing: 0.42px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
 
     p {
-      color: var(--Text-music-sub, #aaa);
-      font-family: Inter400;
+      color:#aaa;
+      font-family: Pretendard400;
       font-size: 10px;
       font-style: normal;
       line-height: 100%; /* 10px */
-      letter-spacing: 0.3px;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     span {
-      color: var(--Text-music-sub, #aaa);
-      font-family: Inter400;
+      color:#aaa;
+      font-family: Pretendard400;
       font-size: 10px;
       font-style: normal;
-      line-height: 100%; /* 10px */
-      letter-spacing: 0.3px;
+          font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     }
     &--edit {
       width: 100%;

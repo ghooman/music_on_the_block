@@ -6,12 +6,15 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import axios from 'axios';
 import AudioPlayer from 'react-h5-audio-player';
 import MyAudioPlayer from '../components/MyAudioPlayer';
+import { useAudio } from '../contexts/AudioContext';
 
 import coverImg from '../assets/images/black-img.jpg';
 import demoImg from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
+import playSongIcon from '../assets/images/icon/album-detail-play-icon.svg';
+import stopSongIcon from '../assets/images/like-icon/like-icon.svg'; // 임시 이미지
 import commentIcon from '../assets/images/album/chat-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
@@ -40,7 +43,7 @@ import LyricsModal from '../components/LyricsModal';
 import { incrementPlayCount } from '../api/incrementPlayCount';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
 import AlbumItem from '../components/unit/AlbumItem';
-import IntroLogo3 from '../components/IntroLogo3';
+import Loading from '../components/IntroLogo2';
 
 import { WalletConnect } from '../components/WalletConnect';
 // import SongReleaseModal from '../components/SongReleaseModal';
@@ -57,7 +60,9 @@ import {
   getEvaluationDetail,
   getEvaluationDetailFromCriticSongId,
 } from '../api/evaluation/getDetail';
-import { useGlobalMusic } from '../contexts/GlobalMusicContext';
+import { disableEvaluation } from '../data/service';
+
+import { criticsDataForArray } from '../data/criticsData';
 
 const serviceCategory = [
   {
@@ -66,7 +71,7 @@ const serviceCategory = [
   },
   {
     service: 'AI Singing Evaluation',
-    preparing: false,
+    preparing: disableEvaluation,
   },
   {
     service: 'AI Cover Creation',
@@ -80,7 +85,17 @@ function AlbumDetail() {
   const serverApi = process.env.REACT_APP_SERVER_API;
   const { id } = useParams();
   const { token, walletAddress, isLoggedIn } = useContext(AuthContext);
-  const { playMusic, selectedMusic, isPlaying: globalIsPlaying } = useGlobalMusic();
+  const {
+    currentTrack,
+    playTrack,
+    currentTime,
+    isPlaying,
+    togglePlayPause,
+    audioRef,
+    setIsPlaying,
+    handleGlobalLike,
+  } = useAudio();
+
   const listenTime = useRef(0);
   const navigate = useNavigate();
   const walletConnectRef = React.useRef(null);
@@ -106,7 +121,9 @@ function AlbumDetail() {
   const [albumGuideModal, setAlbumGuideModal] = useState(false);
   const [isTransactionsModal, setIsTransactionsModal] = useState(false);
   const [isDownloadModal, setIsDownloadModal] = useState(false);
-  // 플레이어 상태는 이제 GlobalMusicContext에서 관리됩니다
+  // 플레이어 상태 및 재생 관련 변수
+  const playCountRef = useRef(false);
+  const [prevTime, setPrevTime] = useState(0);
 
   // NFT 액션 정의
   const [nftAction, setNftAction] = useState('');
@@ -202,7 +219,6 @@ function AlbumDetail() {
       const res = await axios.get(
         `${serverApi}/api/music/recommended/list?wallet_address=${walletAddress?.address}`
       );
-      console.log('곡 확인용', res.data);
       setFavoriteGenreList(res.data);
     } catch (error) {
       console.error('getFavoriteGenre error:', error);
@@ -244,42 +260,26 @@ function AlbumDetail() {
     }
   };
 
-  // // onListen 이벤트 핸들러 (재생 시간이 90초 이상일 때 플레이 카운트 업데이트)
-  // const handleListen = async (e) => {
-  //     const currentTime = e.target.currentTime;
-  //     // 리와인드 시 플래그 초기화
-  //     if (currentTime < prevTime) {
-  //         playCountRef.current = false;
-  //     }
-  //     setPrevTime(currentTime);
-  //     // 재생 시간이 90초 이상이고 아직 업데이트하지 않은 경우
-  //     if (!playCountRef.current && currentTime >= 90) {
-  //         await updatePlayCount();
-  //         playCountRef.current = true;
-  //     }
-  // };
-
   // 좋아요 핸들러
   const handleLike = async () => {
+    if (!album?.id || !token) return;
+
     try {
-      if (album?.is_like) {
-        await cancelLikeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, --prev.like),
-          is_like: !prev.is_like,
-        }));
-      } else {
-        await likeAlbum(id, token);
-        setAlbum(prev => ({
-          ...prev,
-          like: Math.max(0, ++prev.like),
-          is_like: !prev.is_like,
-        }));
-      }
-      // 좋아요 후 전체 데이터를 다시 불러오는 대신 필요 시 play_cnt, like 등의 값만 업데이트하거나 fetchAlbumDetail 호출
+      await handleGlobalLike(
+        album.id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // 페이지 상태 업데이트
+          setAlbum(prev => ({
+            ...prev,
+            like: newLikeCount,
+            is_like: newLikeStatus,
+          }));
+        },
+        { is_like: album.is_like, like: album.like } // 현재 페이지의 좋아요 상태 전달
+      );
     } catch (error) {
-      console.error('좋아요 처리 에러:', error);
+      console.error('AlbumDetail 좋아요 처리 에러:', error);
     }
   };
 
@@ -308,31 +308,19 @@ function AlbumDetail() {
     getEvaluationData();
   }, [critic, id]);
 
-  // 앨범 데이터가 로드되면 자동 재생
+  // 앨범 데이터가 로드되면 전역 플레이어에 설정
   useEffect(() => {
     // if (album?.music_url) {
-    //   // 약간의 지연 후 재생 시작 (UI가 완전히 로드된 후)
-    //   const timer = setTimeout(() => {
-    //     setIsPlaying(true);
-    //   }, 1000);
-    //   return () => clearTimeout(timer);
+    //   // 현재 재생중인 트랙이 다른 트랙이라면, 이 앨범으로 변경
+    //   if (!currentTrack || currentTrack.id !== album.id) {
+    //     playTrack({
+    //       track: album,
+    //       playlist: [album],
+    //       playlistId: 'album-detail',
+    //     });
+    //   }
     // }
-  }, [album]);
-
-  useEffect(() => {
-    let interval;
-    if (globalIsPlaying) {
-      interval = setInterval(() => {
-        ++listenTime.current;
-        if (listenTime.current === 90) updatePlayCount();
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [globalIsPlaying]);
+  }, [album, currentTrack, playTrack]);
 
   // 가사 출력 전 텍스트 포맷 함수
   const formatTime = time => {
@@ -423,6 +411,7 @@ function AlbumDetail() {
 
     return () => clearTimeout(timer);
   }, []);
+
   // 버전이름 변환
   let create_version = '';
   switch (album?.ai_model) {
@@ -505,10 +494,23 @@ function AlbumDetail() {
     }
   };
 
+  // 현재 앨범이 재생 중인지 확인하는 함수
+  const isCurrentAlbumPlaying = () => {
+    return currentTrack?.id === album?.id && isPlaying;
+  };
+
+  // Play/Stop 버튼 클릭 핸들러
+  const handlePlayStopClick = () => {
+    // 항상 처음부터 재생하도록 변경
+    playTrack({
+      track: album,
+      playlist: [album],
+      playlistId: 'album-detail',
+    });
+  };
+
   return (
     <>
-      {isLoading && <IntroLogo3 />}
-
       {/* 숨겨진 WalletConnect 컴포넌트 */}
       <div
         ref={walletConnectRef}
@@ -534,366 +536,284 @@ function AlbumDetail() {
             {/* <p className="album-detail__song-detail__right__version">{create_version}</p> */}
           </div>
           <div className="album-detail__song-detail__bot">
-            <div className="album-detail__song-detail__left">
-              {/* 임시 재생버튼 */}
-              <button
-                className="album-detail__song-detail__left__play-btn"
-                onClick={() => {
-                  if (album) {
-                    console.log('🎵 AlbumDetail 재생 버튼 클릭:', album);
-                    console.log('🎵 album.music_url:', album.music_url);
-                    playMusic({
-                      list: [album],
-                      id: 'albumDetail',
-                      track: album,
-                    });
-                  }
-                }}
-              >
-                <img src={playIcon} alt="play Icon" />
-              </button>
-              {/* <section className="album-detail__audio">
-                <AudioPlayer
-                  src={album?.music_url}
-                  onPlay={() => {
-                    setIsPlaying(true);
-                  }}
-                  onPause={() => {
-                    setIsPlaying(false);
-                  }}
-                  onEnded={() => {
-                    setIsPlaying(false);
-                  }}
-                  // onListen={handleListen}
-                  listenInterval={1000}
-                  autoPlay={true}
-                />
-                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img
-                    src={album?.cover_image?.replace('public', '400to400') || coverImg}
-                    alt="album cover"
-                  />
-                </p>
-              </section> */}
-              <div
-                className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
-                onClick={handleClick}
-              >
-                {album ? (
-                  <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
-                ) : (
-                  <div style={{ backgroundColor: 'black' }} />
-                )}
-                {album?.ai_service !== 0 && (
-                  <>
-                    <div className="album-detail__song-detail__left__img__txt">
-                      <pre>
-                        {album?.lyrics
-                          // 1. "###"와 그 이후 공백을 제거
-                          ?.replace(/#\s*/g, '')
-                          ?.replace(/###\s*/g, '')
-                          // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
-                          ?.replace(/(\*\*.*?\*\*)/g, '')
-                          // 3. 대괄호([]) 안 텍스트 제거
-                          ?.replace(/\[([^\]]+)\]/g, '')
-                          // 4. 소괄호 안 텍스트 처리:
-                          //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
-                          //    - 그 외의 경우에는 내용 자체를 제거
-                          ?.replace(/\(([^)]+)\)/g, (match, p1) => {
-                            if (
-                              /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
-                                p1.trim()
-                              )
-                            ) {
-                              return p1.trim();
-                            }
-                            return '';
-                          })
-                          // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
-                          ?.replace(
-                            /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
-                            '\n$1'
-                          )
-                          ?.trim()}
-                      </pre>
-                    </div>
+            <p className="album-detail__song-detail__bot__title">{album?.title}</p>
+            <div className="album-detail__song-detail__bot__content">
+              <div className="album-detail__song-detail__left">
+                <div
+                  className={`album-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
+                  onClick={handleClick}
+                >
+                  {album ? (
+                    <img src={album?.cover_image || demoImg} alt="앨범 이미지" />
+                  ) : (
+                    <div style={{ backgroundColor: 'black' }} />
+                  )}
+                  {album?.ai_service !== 0 && (
+                    <>
+                      <div className="album-detail__song-detail__left__img__txt">
+                        <pre>
+                          {album?.lyrics
+                            // 1. "###"와 그 이후 공백을 제거
+                            ?.replace(/#\s*/g, '')
+                            ?.replace(/###\s*/g, '')
+                            // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                            ?.replace(/(\*\*.*?\*\*)/g, '')
+                            // 3. 대괄호([]) 안 텍스트 제거
+                            ?.replace(/\[([^\]]+)\]/g, '')
+                            // 4. 소괄호 안 텍스트 처리:
+                            //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                            //    - 그 외의 경우에는 내용 자체를 제거
+                            ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                              if (
+                                /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
+                                  p1.trim()
+                                )
+                              ) {
+                                return p1.trim();
+                              }
+                              return '';
+                            })
+                            // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                            ?.replace(
+                              /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
+                              '\n$1'
+                            )
+                            ?.trim()}
+                        </pre>
+                      </div>
 
-                    <button className="album-detail__song-detail__left__img__lyrics-btn">
-                      {t('Lyrics')}
-                    </button>
-                  </>
-                )}
-              </div>
-              <div className="album-detail__song-detail__left__info">
-                {/* <div className="album-detail__song-detail__left__info__number">
-                      <p className="love" onClick={handleLike}>
-                          <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                          {album?.like || 0}
-                      </p>
+                      <button className="album-detail__song-detail__left__img__lyrics-btn">
+                        {t('Lyrics')}
+                      </button>
+                    </>
+                  )}
+                </div>
+                {/* 재생 / 정지버튼 */}
+                <button
+                  className="album-detail__song-detail__left__img__play-btn"
+                  onClick={handlePlayStopClick}
+                >
+                  <img src={playSongIcon} alt="play Icon" />
+                  Play
+                </button>
+                <div className="album-detail__song-detail__left__info">
+                  {!isLoggedIn && (
+                    <div className="album-detail__song-detail__left__info__number">
                       <p className="play">
-                          <img src={playIcon} alt="play Icon" />
-                          {album?.play_cnt || 0}
+                        <img src={playIcon} alt="play Icon" />
+                        {album?.play_cnt || 0}
                       </p>
-                      <p className="comment" onClick={handleScrollToComment}>
-                          <img src={commentIcon} alt="comment Icon" />
-                          {album?.comment_cnt || 0}
+                      <p className="love" onClick={handleLike}>
+                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                        {album?.like || 0}
                       </p>
-                    </div> */}
-                {!setIsLoggedIn && (
-                  <div className="album-detail__song-detail__left__info__number">
-                    <p className="play">
-                      <img src={playIcon} alt="play Icon" />
-                      {album?.play_cnt || 0}
-                    </p>
-                    <p className="love" onClick={handleLike}>
-                      <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                      {album?.like || 0}
-                    </p>
-                    {/* <p className="comment" onClick={handleScrollToComment}>
-                      <img src={commentIcon} alt="comment Icon" />
-                      {album?.comment_cnt || 0}
-                    </p> */}
-                    {album?.rating && (
-                      <p className={`nfts ${album?.rating}`}>
-                        {getSongsGradeIcon(album?.rating) && (
-                          <img src={getSongsGradeIcon(album?.rating)} alt={`${album?.rating}`} />
-                        )}
-                        {album?.is_nft && (
-                          <>
-                            <div className="nfts-section"></div>
-                            <span className="nfts-text">NFT</span>
-                          </>
-                        )}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {setIsLoggedIn && (
-                  <div className="album-detail__song-detail__left__info__number">
-                    <p className="play">
-                      <img src={playIcon} alt="play Icon" />
-                      {album?.play_cnt || 0}
-                    </p>
-                    <p className="love" onClick={handleLike}>
-                      <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                      {album?.like || 0}
-                      {setIsLoggedIn && <WalletConnect onConnect={handleWalletConnect} />}
-                    </p>
-                    {/* <p className="comment" onClick={handleScrollToComment}>
-                      <img src={commentIcon} alt="comment Icon" />
-                      {album?.comment_cnt || 0}
-                    </p> */}
-                    {album?.rating && (
-                      <p className={`nfts ${album?.rating}`}>
-                        {getSongsGradeIcon(album?.rating) && (
-                          <img src={getSongsGradeIcon(album?.rating)} alt={`${album?.rating}`} />
-                        )}
-                        {album?.is_nft && (
-                          <>
-                            <div className="nfts-section"></div>
-                            <span className="nfts-text">NFT</span>
-                          </>
-                        )}
-                      </p>
-                    )}
-                  </div>
-                )}
-                <div className="album-detail__song-detail__left__info__btn-box">
-                  {/* <button
-                    className="album-detail__song-detail__left__info__txid-btn"
-                    onClick={handleTransactionsModal}
-                  >
-                    TXID
-                  </button>
-                  <button
-                    className="album-detail__song-detail__left__info__dow-btn"
-                  >
-                    download
-                    <img src={downloadIcon} alt='downloadIcon'/>
-                  </button>
-                  <button
-                    className="album-detail__song-detail__left__info__share-btn"
-                    onClick={() => setShareModal(true)}
-                  >
-                    <img src={shareIcon} alt="share Icon" />
-                  </button> */}
-                  <button
-                    className={`album-detail__song-detail__more-btn ${
-                      isActiveMore ? 'active' : ''
-                    }`}
-                    onClick={handleToggle}
-                  >
-                    <img src={moreIcon} alt="moreIcon" />
-                    <ul className="album-detail__song-detail__more-btn__list">
-                      <li onClick={copyToClipboard}>
-                        {!copied ? (
-                          <>
-                            Copy Link <img src={copyIcon} />
-                          </>
-                        ) : (
-                          <>
-                            Copied Link <img src={checkIcon} />
-                          </>
-                        )}
-                      </li>
-                      <li
-                        onClick={e => {
-                          handleCloseMenu(e);
-                          handleDownloadClick(e);
-                        }}
-                      >
-                        Download <img src={downloadIcon} />
-                      </li>
-                      <li
-                        onClick={e => {
-                          handleCloseMenu(e);
-                          handleTransactionsModal();
-                        }}
-                      >
-                        TXIDs
-                      </li>
-                    </ul>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="album-detail__song-detail__right">
-              <div className="album-detail__song-detail__right__box">
-                <p className="album-detail__song-detail__right__title">{album?.title}</p>
-              </div>
-              <div className="album-detail__song-detail__right__type">
-                {tagArray.map((type, index) => (
-                  <div key={index} className="album-detail__song-detail__right__type__item">
-                    {type}
-                  </div>
-                ))}
-              </div>
-              <div className="album-detail__song-detail__right__info-box">
-                {/* <dl>
-                  <dt>{t('Language')}</dt>
-                  <dd>{album?.language || '-'}</dd>
-                </dl> */}
-                <dl className="artist">
-                  <dt>{t('Artist')}</dt>
-                  <dd>
-                    <Link className="user" to={`/profile?username=${album?.name}`}>
-                      <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
-                      {album?.name || '-'}
-                    </Link>
-                  </dd>
-                </dl>
-                <dl>
-                  <dt>{t('Type')}</dt>
-                  <dd>{album?.ai_service === 0 ? `BGM` : `Song`}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Genre')}</dt>
-                  <dd>{album?.genre || '-'}</dd>
-                </dl>
-                {/* <dl>
-                        <dt>Stylistic</dt>
-                        <dd>{album?.Stylistic || '-'}</dd>
-                    </dl> */}
-                <dl>
-                  <dt>{t('Gender')}</dt>
-                  <dd>{album?.gender || '-'}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Tempo')}</dt>
-                  <dd>{album?.tempo || '-'}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Creation Date')}</dt>
-                  <dd>
-                    <span>{formatLocalTime(album?.create_dt)}</span>
-                  </dd>
-                </dl>
-                <dl>
-                  <dt>{t('Song Length')}</dt>
-                  <dd>{formatTime(albumDuration) || '-'}</dd>
-                </dl>
-                {/* <dl>
-                  <dt>{t('Detail')}</dt>
-                  <dd>{album?.detail || '-'}</dd>
-                </dl> */}
-                <p className="album-detail__song-detail__right__info-box__detail">
-                  <span>{t('Musical Instrument')}</span>
-                  <strong>{album?.musical_instrument || '-'}</strong>
-                </p>
-                <p className="album-detail__song-detail__right__info-box__detail">
-                  <span>{t('Detail')}</span>
-                  <strong>{album?.detail || '-'}</strong>
-                </p>
-
-                {/* 공간차지용 */}
-                {/* {album?.ai_service == 0 && (
-                  <dl style={{ visibility: 'hidden' }}>
-                    <dt>Blank</dt>
-                    <dd>-</dd>
-                  </dl>
-                )} */}
-                <div className="album-detail__control-guide">
-                  <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
-                  <img
-                    className="album-detail__control-guide--icon"
-                    src={issueIcon}
-                    alt="guide"
-                    onClick={() => setAlbumGuideModal(true)}
-                  />
-                </div>
-                {album?.is_owner && (
-                  <>
-                    <div className="album-detail__control-button-wraps">
-                      <button
-                        className="album-detail__control-button release-button"
-                        onClick={e => handleButtonClick(e, 'release')}
-                        disabled={album?.is_release}
-                      >
-                        {t('Release')}
-                      </button>
-                      <button
-                        className="album-detail__control-button mint-button"
-                        onClick={e => handleButtonClick(e, 'mint')}
-                        disabled={album?.is_nft || !album?.is_release}
-                      >
-                        {t('Mint')}
-                      </button>
-                      <button
-                        className="album-detail__control-button sell-button"
-                        onClick={e => handleButtonClick(e, 'sell')}
-                        disabled={
-                          !album?.is_nft ||
-                          !album?.is_release ||
-                          album?.now_sales_status === 'Listed'
-                        }
-                      >
-                        {t('Sell')}
-                      </button>
-                      <button
-                        className="album-detail__control-button cancel-button"
-                        onClick={e => handleButtonClick(e, 'cancel')}
-                        disabled={
-                          !album?.is_nft ||
-                          !album?.is_release ||
-                          album?.now_sales_status !== 'Listed'
-                        }
-                      >
-                        {t('Cancel')}
-                      </button>
+                      {album?.rating && (
+                        <p className={`nfts ${album?.rating}`}>
+                          {getSongsGradeIcon(album?.rating) && (
+                            <img src={getSongsGradeIcon(album?.rating)} alt={`${album?.rating}`} />
+                          )}
+                          {album?.is_nft && (
+                            <>
+                              <div className="nfts-section"></div>
+                              <span className="nfts-text">NFT</span>
+                            </>
+                          )}
+                        </p>
+                      )}
                     </div>
-                  </>
-                )}
-                {!album?.is_owner && (
-                  <button
-                    className="album-detail__control-button buy-button"
-                    disabled={
-                      !album?.is_nft || !album?.is_release || album?.now_sales_status !== 'Listed'
-                    }
-                    onClick={e => handleButtonClick(e, 'buy')}
-                  >
-                    {t('Buy NFT')}
-                  </button>
-                )}
+                  )}
+
+                  {isLoggedIn && (
+                    <div className="album-detail__song-detail__left__info__number">
+                      <p className="play">
+                        <img src={playIcon} alt="play Icon" />
+                        {album?.play_cnt || 0}
+                      </p>
+                      <p className="love" onClick={handleLike}>
+                        <img src={album?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                        {album?.like || 0}
+                        {isLoggedIn && <WalletConnect onConnect={handleWalletConnect} />}
+                      </p>
+                      {album?.rating && (
+                        <p className={`nfts ${album?.rating}`}>
+                          {getSongsGradeIcon(album?.rating) && (
+                            <img src={getSongsGradeIcon(album?.rating)} alt={`${album?.rating}`} />
+                          )}
+                          {album?.is_nft && (
+                            <>
+                              <div className="nfts-section"></div>
+                              <span className="nfts-text">NFT</span>
+                            </>
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  <div className="album-detail__song-detail__left__info__btn-box">
+                    <button
+                      className={`album-detail__song-detail__more-btn ${
+                        isActiveMore ? 'active' : ''
+                      }`}
+                      onClick={handleToggle}
+                    >
+                      <img src={moreIcon} alt="moreIcon" />
+                      <ul className="album-detail__song-detail__more-btn__list">
+                        <li onClick={copyToClipboard}>
+                          {!copied ? (
+                            <>
+                              {t('Copy Link')} <img src={copyIcon} />
+                            </>
+                          ) : (
+                            <>
+                              {t('Copied Link')} <img src={checkIcon} />
+                            </>
+                          )}
+                        </li>
+                        <li
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleDownloadClick(e);
+                          }}
+                        >
+                          {t('Download')} <img src={downloadIcon} />
+                        </li>
+                        <li
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleTransactionsModal();
+                          }}
+                        >
+                          TXIDs
+                        </li>
+                      </ul>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="album-detail__song-detail__right">
+                {/* <div className="album-detail__song-detail__right__box">
+                  <p className="album-detail__song-detail__right__title">{album?.title}</p>
+                </div> */}
+                <div className="album-detail__song-detail__right__type">
+                  {tagArray.map((type, index) => (
+                    <div key={index} className="album-detail__song-detail__right__type__item">
+                      {type}
+                    </div>
+                  ))}
+                </div>
+                <div className="album-detail__song-detail__right__info-box">
+                  <dl className="artist">
+                    <dt>{t('Artist')}</dt>
+                    <dd>
+                      <Link className="user" to={`/profile?username=${album?.name}`}>
+                        <img src={album?.user_profile || defaultCoverImg} alt="user profile" />
+                        {album?.name || '-'}
+                      </Link>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Type')}</dt>
+                    <dd>{album?.ai_service === 0 ? `BGM` : `Song`}</dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Genre')}</dt>
+                    <dd>{album?.genre || '-'}</dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Gender')}</dt>
+                    <dd>{album?.gender || '-'}</dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Tempo')}</dt>
+                    <dd>{album?.tempo || '-'}</dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Creation Date')}</dt>
+                    <dd>
+                      <span>{formatLocalTime(album?.create_dt)}</span>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Song Length')}</dt>
+                    <dd>{formatTime(albumDuration) || '-'}</dd>
+                  </dl>
+                  <p className="album-detail__song-detail__right__info-box__detail">
+                    <span>{t('Musical Instrument')}</span>
+                    <strong>{album?.musical_instrument || '-'}</strong>
+                  </p>
+                  <p className="album-detail__song-detail__right__info-box__detail">
+                    <span>{t('Introduction')}</span>
+                    <strong>{album?.introduction || ''}</strong>
+                  </p>
+                  {/* 
+                  <dl>
+                    <dt>{t('Introduction')}</dt>
+                    <dd>{album?.introduction || ''}</dd>
+                  </dl> */}
+
+                  <div className="album-detail__control-guide">
+                    <p className="album-detail__control-guide--text">{t('NFT Status')}</p>
+                    <img
+                      className="album-detail__control-guide--icon"
+                      src={issueIcon}
+                      alt="guide"
+                      onClick={() => setAlbumGuideModal(true)}
+                    />
+                  </div>
+                  {album?.is_owner && (
+                    <>
+                      <div className="album-detail__control-button-wraps">
+                        <button
+                          className="album-detail__control-button release-button"
+                          onClick={e => handleButtonClick(e, 'release')}
+                          disabled={album?.is_release}
+                        >
+                          {t('Release')}
+                        </button>
+                        <button
+                          className="album-detail__control-button mint-button"
+                          onClick={e => handleButtonClick(e, 'mint')}
+                          disabled={album?.is_nft || !album?.is_release}
+                        >
+                          {t('Mint')}
+                        </button>
+                        <button
+                          className="album-detail__control-button sell-button"
+                          onClick={e => handleButtonClick(e, 'sell')}
+                          disabled={
+                            !album?.is_nft ||
+                            !album?.is_release ||
+                            album?.now_sales_status === 'Listed'
+                          }
+                        >
+                          {t('Sell')}
+                        </button>
+                        <button
+                          className="album-detail__control-button cancel-button"
+                          onClick={e => handleButtonClick(e, 'cancel')}
+                          disabled={
+                            !album?.is_nft ||
+                            !album?.is_release ||
+                            album?.now_sales_status !== 'Listed'
+                          }
+                        >
+                          {t('Cancel')}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                  {!album?.is_owner && (
+                    <button
+                      className="album-detail__control-button buy-button"
+                      disabled={
+                        !album?.is_nft || !album?.is_release || album?.now_sales_status !== 'Listed'
+                      }
+                      onClick={e => handleButtonClick(e, 'buy')}
+                    >
+                      {t('Buy NFT')}
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -909,6 +829,8 @@ function AlbumDetail() {
               onClick={() => {
                 if (item.preparing) {
                   setPreparingModal(true);
+                  return;
+                } else if (service === item.service) {
                   return;
                 }
                 setSearchParams({ service: item.service });
@@ -1031,7 +953,7 @@ function AlbumDetail() {
         {service === 'AI Singing Evaluation' && (
           <>
             <article className="main__content-item__persona">
-              {personas.map((persona, index) => (
+              {criticsDataForArray.map((persona, index) => (
                 <div
                   key={index}
                   className={`main__content-item__persona__item ${
@@ -1043,12 +965,17 @@ function AlbumDetail() {
                     });
                   }}
                 >
-                  <img src={persona.img} alt={persona.name} />
+                  <img src={persona.image} alt={persona.name} />
                   <p>{persona.name}</p>
                 </div>
               ))}
             </article>
-            <EvaluationResultsComp evaluationData={evaluationData} critic={critic} />
+            <EvaluationResultsComp
+              evaluationData={evaluationData}
+              critic={critic}
+              songData={album}
+              isOwner={album?.is_owner}
+            />
           </>
         )}
       </div>
@@ -1099,6 +1026,7 @@ function AlbumDetail() {
           needMint={album?.is_owner && !album?.nft_id}
         />
       )}
+      <Loading isLoading={isLoading} />
     </>
   );
 }

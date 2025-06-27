@@ -2,15 +2,15 @@
   .filter-date-box,
   .filter-count-box {
     p {
-      color: var(--Text-music-title, #f1f1f1);
-      font-family: Orbitron400;
+      color:#f1f1f1;
+      font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
       letter-spacing: 0.42px;
       padding-bottom: 12px;
       margin-bottom: 12px;
-      border-bottom: 1px solid var(--Color-04, #383838);
+      border-bottom: 1px solid #383838;
     }
 
     div {
@@ -24,7 +24,7 @@
         align-items: center;
         gap: 4px;
         border-radius: 10px 2px 10px 10px;
-        border: 1px solid var(--Color-04, #383838);
+        border: 1px solid #383838;
 
         // 기본 라디오 버튼 숨김
         input {
@@ -56,7 +56,7 @@
           align-items: center;
           gap: 4px;
           border-radius: 10px 2px 10px 10px;
-          border: 1px solid var(--primary-base, #cf0);
+          border: 1px solid #cf0;
           .radio-checkmark {
             background: #cf0;
             color: #a6ff00; // 체크 마크 색상
@@ -86,14 +86,11 @@
       border-radius: 12px;
       align-items: center;
       justify-content: center;
-      background: var(--primary-base, #cf0);
+      background: #cf0;
       display: flex;
-      color: var(--Text-dark-title, #1a1a1a);
-      font-family: Orbitron600;
+      color: #1a1a1a;
+      font-family: Pretendard600;
       font-size: 16px;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: 0.48px;
       .filter-footer__apply-btn__count {
         display: flex;
         text-align: center;
@@ -103,7 +100,7 @@
         justify-content: center;
         gap: 8px;
         border-radius: 10px 6px 10px 10px;
-        background: var(--black, #000);
+        background:#000;
       }
     }
     .filter-footer__reset-btn {
@@ -116,8 +113,8 @@
       width: 75px;
       height: 45px;
       border-radius: 12px;
-      border: 1px solid var(--Color-04, #383838);
-      background: var(--Color-03, #222);
+      border: 1px solid #383838;
+      background:#222;
     }
   }
 }

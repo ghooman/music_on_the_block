@@ -9,7 +9,7 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family: Orbitron600;
+  font-family: Pretendard600;
   font-size: 12px;
   font-style: normal;
   line-height: normal;
@@ -17,7 +17,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
   &:disabled {
     &::before {
       width: 100%;
@@ -57,15 +65,21 @@
   top: 0;
   transition: 0.2s;
   color: #1a1a1a;
-  font-family: Orbitron600;
+  font-family: Pretendard600;
   font-size: 12px;
-  font-style: normal;
-  line-height: normal;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  font{
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
+  }
   &:disabled {
     &::before {
       width: 100%;
@@ -97,9 +111,18 @@
 .step1 {
   .step1__title {
     color: #fff;
-    font-family: Orbitron700;
+    font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
+    font{
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   } //step1__title--END--
   .step1__list {
     display: flex;
@@ -108,11 +131,10 @@
     margin-top: 16px;
     padding: 16px 16px 0 16px;
     border-radius: 12px;
-    border: 1px solid var(--Color-03, #222);
+    border: 1px solid #222;
     margin-bottom: 16px;
     height: 220px;
     overflow: auto;
-
     &::-webkit-scrollbar-button {
       display: none;
     }
@@ -131,7 +153,7 @@
 .step2 {
   .step2__title {
     color: #fff;
-    font-family: Orbitron700;
+    font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
   } //step2__title--END--
@@ -141,15 +163,26 @@
     align-items: center;
     justify-content: center;
     margin-top: 32px;
+    max-width: 964px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;
+
     .step2__choose__item {
-      width: 300px;
+      // width: 300px;
       padding: 16px;
       border: 1px solid #222;
       border-radius: 12px;
       min-height: 348px;
       transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       img {
         width: 100%;
+        max-height: 228px;
+        border-radius: 12px;
+        object-fit: cover;
       }
       &.active {
         border: 1px solid #cf0;
@@ -157,20 +190,48 @@
       .step2__choose__item__title {
         dt {
           color: #f1f1f1;
-          font-family: Orbitron600;
+          font-family: Pretendard600;
           font-size: 16px;
           margin: 8px;
+          min-height: 38px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           span {
             color: #cf0;
             text-align: center;
-            font-family: Orbitron600;
+            font-family: Pretendard600;
             font-size: 16px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
         dd {
-          color: var(--Text-music-sub, #aaa);
-          font-family: Inter500;
+          color:#aaa;
+          font-family: Pretendard500;
           font-size: 14px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
       } //step2__choose__item__title--END--
     } //step2__choose__item--END--
@@ -180,9 +241,18 @@
 .step3 {
   .step3__title {
     color: #fff;
-    font-family: Orbitron700;
+    font-family: Pretendard700;
     font-size: 16px;
     margin-bottom: 16px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
   } //step1__title--END--
   .step3__selected-song {
     border: 1px solid #222;
@@ -190,17 +260,35 @@
     padding: 16px;
     .step3__selected-song__title {
       color: #f1f1f1;
-      font-family: Inter500;
+      font-family: Pretendard500;
       font-size: 14px;
       margin-bottom: 16px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     } //step3__selected-song__title--END--
     .step3__selected-song__critic {
       width: 100%;
       dt {
         color: #f1f1f1;
-        font-family: Inter500;
+        font-family: Pretendard500;
         font-size: 14px;
         margin-bottom: 16px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       }
       dd {
         display: flex;
@@ -208,24 +296,51 @@
         justify-content: space-between;
         p {
           border-radius: 4px;
-          background: var(--Color-02, #1a1a1a);
+          background: #1a1a1a;
           padding: 0 12px;
           height: 38px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: #f1f1f1;
-          font-family: Inter500;
+          font-family: Pretendard500;
           font-size: 14px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         span {
-          color: var(--Text-music-sub, #aaa);
-          font-family: Inter400;
+          color: #aaa;
+          font-family: Pretendard400;
           font-size: 14px;
+          font{
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
           strong {
-            color: var(--Text-music-title, #f1f1f1);
-            font-family: Inter500;
+            color: #f1f1f1;
+            font-family: Pretendard500;
             font-size: 14px;
+            font{
+              font-family: inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
           }
         }
       }
@@ -236,7 +351,12 @@
 @media screen and (max-width: 768px) {
   .step2 {
     .step2__choose {
-      flex-direction: column;
+      grid-template-columns: repeat(1, 1fr);
+      // flex-direction: column;
+      .step2__choose__item {
+        max-width: 300px;
+        margin: 0 auto;
+      }
     }
   }
 }

@@ -3,13 +3,14 @@
   height: 26px;
   padding: 4px;
   border-radius: 4px;
-  background: url("../assets/images/alarm.png") center no-repeat #cf0;
+  background: url('../assets/images/alarm.png') center no-repeat #cf0;
   background-size: 20px 20px;
   position: fixed;
   right: -30px;
-  bottom: 70px;
+  bottom: 124px;
   cursor: pointer;
   transition: 0.3s;
+  z-index: 11;
   &.active {
     right: 16px;
   }
@@ -17,7 +18,7 @@
 
 .alarm__modal {
   position: fixed;
-  bottom: 0;
+  bottom: 104px;
   right: 0px;
   width: 320px;
   height: auto;
@@ -69,6 +70,15 @@
         text-overflow: ellipsis;
         white-space: pre-wrap;
         word-wrap: break-word;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     } //alarm__modal__item__txt--END--
     .alarm__modal__item__link {
@@ -83,6 +93,15 @@
       color: #121212;
       font-size: 12px;
       transition: 0.3s;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       &:hover {
         box-shadow: 0px 0px 12px 0px #cf0;
       }
@@ -162,7 +181,7 @@
     right: 0;
     height: auto;
     top: auto;
-    bottom: 0;
+    bottom: 104px;
     &.active {
       right: -100%;
     }

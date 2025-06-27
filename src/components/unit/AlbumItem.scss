@@ -80,7 +80,7 @@
       overflow: hidden;
       background-color: #222;
       border-radius: 4px;
-      padding: 2px 6px 2px 2px;
+      padding: 2px;
       border: 1px solid #383838;
       img {
         height: 90%;
@@ -94,14 +94,28 @@
       .album__content-list__list__item__songs_grade--nfts {
         font-size: 8px;
         color: #fff;
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
     .time {
       position: absolute;
       bottom: 16px;
       left: 16px;
-      padding: 2px 8px;
+      padding: 0 4px;
+      height: 22px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 12px;
       background-color: rgba(0, 0, 0, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.5);
@@ -109,13 +123,30 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       strong {
         color: #fff;
         text-align: center;
-        font-family: Inter400;
+        font-family:Pretendard400;
         font-size: 12px;
-        width: 26px;
+        width: 100%;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   } //album__content-list__list__item__left--END--
@@ -130,7 +161,7 @@
     width: 134px;
     .album__content-list__list__item__right__title {
       color: #f1f1f1;
-      font-family: Inter400;
+      font-family:Pretendard400;
       font-size: 14px;
       font-style: normal;
       text-align: left;
@@ -142,6 +173,16 @@
       word-break: break-word;
       height: 34px;
       width: 134px;
+      line-height: 120%;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     } //album__content-list__list__item__right__title--END--
     .album__content-list__list__item__right__love-play {
       display: flex;
@@ -159,11 +200,19 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        color: var(--Text-music-sub, #aaa);
-        font-family: Inter400;
+        color: #aaa;
+        font-family:Pretendard400;
         font-size: 12px;
         font-style: normal;
-        line-height: 100%; /* 12px */
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &:nth-child(2) {
           img {
             width: 16px;
@@ -185,12 +234,18 @@
       align-items: center;
       justify-content: flex-start;
       gap: 8px;
-      color: var(--Text-music-title, #f1f1f1);
-      font-family: Inter400;
+      color:#f1f1f1;
+      font-family:Pretendard400;
       font-size: 12px;
-      font-style: normal;
-      line-height: 100%; /* 12px */
-      letter-spacing: 0.36px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       img {
         width: 24px;
         height: 24px;
@@ -211,16 +266,34 @@
       }
       p {
         color: #565656;
-        font-family: Inter400;
+        font-family:Pretendard400;
         font-size: 10px;
+        font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
 
     .album__content-list__list__item__right__evaluation-score {
       text-align: left;
-      color: #ffd700;
-      font-family: Inter600;
+      color: #cf0;
+      font-family:Pretendard600;
       font-size: 14px;
+      font{
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
 
     .album__content-list__list__item__right__user__btn {
@@ -231,37 +304,37 @@
       justify-content: center;
 
       &.song {
-        background: #cf0;
+        // background: #cf0;
         position: relative;
-        top: -4px;
-        transition: 0.2s;
-        color: var(--Text-dark-title, #1a1a1a);
-        font-family: Orbitron600;
-        font-size: 12px;
-        font-style: normal;
-        line-height: normal;
-        border-radius: 8px;
+        // top: -4px;
+        // transition: 0.2s;
+        // color: var(--Text-dark-title, #1a1a1a);
+        // font-family:  Pretendard600;
+        // font-size: 12px;
+        // font-style: normal;
+        // line-height: normal;
+        // border-radius: 8px;
 
-        &::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 4px;
-          width: calc(100% - 2px);
-          transition: 0.2s;
-          border-radius: 8px;
-          height: 23px;
-          border: 1px solid #cf0;
-        }
-        &:hover {
-          top: 0px;
-          &::before {
-            top: 0;
-          }
-        }
+        // &::before {
+        //   content: '';
+        //   position: absolute;
+        //   left: 0;
+        //   top: 4px;
+        //   width: calc(100% - 2px);
+        //   transition: 0.2s;
+        //   border-radius: 8px;
+        //   height: 23px;
+        //   border: 1px solid #cf0;
+        // }
+        // &:hover {
+        //   top: 0px;
+        //   &::before {
+        //     top: 0;
+        //   }
+        // }
       }
 
-      &.evaluation {
+      // &.evaluation {
         background: url('../../assets/images/details-bg.png') center no-repeat !important;
         background-size: 100% 100% !important;
         overflow: hidden;
@@ -270,6 +343,15 @@
         color: #f1f1f1 !important;
         transition: 0.3s;
         border: 1px solid transparent;
+          font{
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &:hover {
           top: 0 !important;
           border-radius: 36px;
@@ -286,7 +368,7 @@
         &::before {
           display: none !important;
         }
-      }
+      // }
 
       // width: 24px;
       // height: 24px;
@@ -305,26 +387,4 @@
       }
     }
   }
-}
-
-.album__content-list__list__item__right__critic {
-  display: flex;
-  justify-content: space-between;
-  img {
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
-  }
-  p {
-    color: #565656;
-    font-family: Inter400;
-    font-size: 10px;
-  }
-}
-
-.album__content-list__list__item__right__evaluation-score {
-  text-align: left;
-  color: #ffd700;
-  font-family: Inter600;
-  font-size: 14px;
 }

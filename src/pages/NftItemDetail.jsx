@@ -11,6 +11,9 @@ import NftConfirmModal from '../components/NftConfirmModal';
 import loveIcon from '../assets/images/like-icon/like-icon.svg';
 import halfHeartIcon from '../assets/images/like-icon/like-icon-on.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
+import stopIcon from '../assets/images/stop-icon.svg';
+import playSongIcon from '../assets/images/icon/album-detail-play-icon.svg';
+import stopSongIcon from '../assets/images/like-icon/like-icon.svg'; // 임시 이미지
 import grade1Icon from '../assets/images/icon/grade-icon/Grade01-icon.svg';
 import shareIcon from '../assets/images/album/share-icon.svg';
 import moreIcon from '../assets/images/icon/more_horiz-icon.svg';
@@ -47,6 +50,8 @@ import { useTranslation } from 'react-i18next';
 import TransactionsModal from '../components/TransactionsModal';
 import DownloadModal from '../components/DownloadModal';
 import { musicDownload } from '../utils/musicDownload';
+import { useAudio } from '../contexts/AudioContext';
+
 const NftItemDetail = () => {
   const { t } = useTranslation('nft_marketplace');
 
@@ -91,8 +96,18 @@ const NftItemDetailInfo = ({ id, t }) => {
     useContext(AuthContext);
 
   const [isActive, setIsActive] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const walletConnectRef = React.useRef(null);
+
+  // AudioContext에서 재생 관련 함수들 가져오기
+  const {
+    playTrack,
+    currentTrack,
+    isPlaying: globalIsPlaying,
+    togglePlayPause,
+    audioRef,
+    setIsPlaying,
+    handleGlobalLike,
+  } = useAudio();
 
   const handleClick = () => {
     setIsActive(prev => !prev);
@@ -181,33 +196,40 @@ const NftItemDetailInfo = ({ id, t }) => {
   );
 
   const handleLikes = async () => {
-    if (!nftDetailData?.is_like) {
-      return await likeAlbum(nftDetailData?.song_id, token);
-    } else {
-      return await cancelLikeAlbum(nftDetailData?.song_id, token);
+    if (!nftDetailData?.song_id || !token) return;
+
+    try {
+      return await handleGlobalLike(
+        nftDetailData.song_id,
+        token,
+        (newLikeCount, newLikeStatus) => {
+          // QueryClient를 통한 상태 업데이트
+          queryClient.setQueryData(['nft_detail_data', id, walletAddress?.address], prev => {
+            if (prev) {
+              return {
+                ...prev,
+                like: newLikeCount,
+                is_like: newLikeStatus,
+              };
+            }
+            return prev;
+          });
+        },
+        { is_like: nftDetailData.is_like, like: nftDetailData.like } // 현재 페이지의 좋아요 상태 전달
+      );
+    } catch (error) {
+      console.error('NftItemDetail 좋아요 처리 에러:', error);
+      throw error;
     }
   };
 
-  const mutate = useMutation(handleLikes, {
-    onSuccess: () => {
-      queryClient.setQueryData(['nft_detail_data', id, walletAddress?.address], prev => {
-        if (prev.is_like === false) {
-          prev.like = ++prev.like;
-        } else {
-          prev.like = --prev.like;
-        }
-        prev.is_like = !prev.is_like;
-        return prev;
-      });
-    },
-    onError: e => {
-      console.log(e);
-    },
-  });
-
-  const likeHandler = e => {
+  const likeHandler = async e => {
     e.preventDefault();
-    mutate?.mutate();
+    try {
+      await handleLikes();
+    } catch (error) {
+      console.error('좋아요 처리 실패:', error);
+    }
   };
 
   console.log(nftDetailData, 'nft detail data');
@@ -262,6 +284,30 @@ const NftItemDetailInfo = ({ id, t }) => {
     }
   };
 
+  // 재생 버튼 클릭 핸들러 추가
+  const handlePlayClick = () => {
+    if (nftDetailData) {
+      // 항상 처음부터 재생하도록 변경
+      const track = {
+        id: nftDetailData.song_id,
+        title: nftDetailData.nft_name,
+        music_url: nftDetailData.nft_music_url || nftDetailData.music_url,
+        cover_image: nftDetailData.nft_image,
+        user_profile: nftDetailData.user_profile,
+        name: nftDetailData.user_name,
+        play_cnt: nftDetailData.play_cnt,
+        like: nftDetailData.like,
+        is_like: nftDetailData.is_like,
+      };
+
+      playTrack({
+        track,
+        playlist: [track], // 단일 트랙 플레이리스트
+        playlistId: `nft-${id}`,
+      });
+    }
+  };
+
   return (
     <>
       {/* 숨겨진 WalletConnect 컴포넌트 */}
@@ -283,250 +329,244 @@ const NftItemDetailInfo = ({ id, t }) => {
         </p>
         <section className="nft-item-detail__song-detail">
           <div className="nft-item-detail__song-detail__bot">
-            <div className="nft-item-detail__song-detail__left">
-              <section className="album-detail__audio">
-                <AudioPlayer
-                  src={nftDetailData?.nft_music_url}
-                  onPlay={() => {
-                    console.log('PLAY!');
-                    setIsPlaying(true);
-                  }}
-                  onPause={() => {
-                    console.log('PAUSE!');
-                    setIsPlaying(false);
-                  }}
-                  onEnded={() => {
-                    console.log('ENDED!');
-                    setIsPlaying(false);
-                  }}
-                />
-                <p className={`album-detail__audio__cover ${isPlaying ? 'playing' : 'paused'}`}>
-                  <img src={nftDetailData?.nft_image} alt="album cover" />
-                </p>
-              </section>
-              <div
-                className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
-                onClick={handleClick}
-              >
-                {nftDetailData ? (
-                  <img
-                    src={nftDetailData?.nft_image?.replace('public', '400to400') || defaultCoverImg}
-                    alt="앨범 이미지"
-                  />
-                ) : (
-                  <img src={defaultCoverImg} alt="기본 이미지" />
-                )}
-                {nftDetailData?.ai_service !== 0 && (
-                  <>
-                    <div className="nft-item-detail__song-detail__left__img__txt">
-                      <pre>
-                        {nftDetailData?.nft_lyrics
-                          // 1. "###"와 그 이후 공백을 제거
-                          ?.replace(/#\s*/g, '')
-                          ?.replace(/###\s*/g, '')
-                          // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
-                          ?.replace(/(\*\*.*?\*\*)/g, '')
-                          // 3. 대괄호([]) 안 텍스트 제거
-                          ?.replace(/\[([^\]]+)\]/g, '')
-                          // 4. 소괄호 안 텍스트 처리:
-                          //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
-                          //    - 그 외의 경우에는 내용 자체를 제거
-                          ?.replace(/\(([^)]+)\)/g, (match, p1) => {
-                            if (
-                              /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
-                                p1.trim()
-                              )
-                            ) {
-                              return p1.trim();
-                            }
-                            return '';
-                          })
-                          // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
-                          ?.replace(
-                            /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
-                            '\n$1'
-                          )
-                          ?.trim()}
-                      </pre>
-                    </div>
-                    <button className="nft-item-detail__song-detail__left__img__lyric-btn">
-                      {t('Lyrics')}
-                    </button>
-                  </>
-                )}
-              </div>
-              <div className="nft-item-detail__song-detail__left__info">
-                <div className="nft-item-detail__song-detail__left__info__number">
-                  <p className="play">
-                    <img src={playIcon} alt="play" />
-                    {nftDetailData?.play_cnt || 0}
-                  </p>
-                  <p className="love" onClick={likeHandler}>
-                    <img src={nftDetailData?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
-                    {nftDetailData?.like || 0}
-                  </p>
-                  <p className={`nfts ${nftDetailData?.rating}`}>
-                    {getSongsGradeIcon(nftDetailData?.rating) && (
-                      <img src={getSongsGradeIcon(nftDetailData?.rating)} alt="icon" />
-                    )}
-                    <div className="nfts-section"></div>
-                    <p className="nfts-text">NFT</p>
-                  </p>
-                </div>
-                <div className="nft-item-detail__song-detail__left__info__btn-box">
-                  {/* <button
-                    className="nft-item-detail__song-detail__left__info__txid-btn"
-                    onClick={handleTransactionsModal}
-                  >
-                    TXID
-                  </button>
-                  <button
-                    className="nft-item-detail__song-detail__left__info__dow-btn"
-                  >
-                    download
-                    <img src={downloadIcon} alt='downloadIcon'/>
-                  </button>
-                  <button className="share" onClick={() => setIsShareModal(true)}>
-                    <img src={shareIcon} alt="share" />
-                  </button> */}
-                  <button
-                    className={`nft-item-detail__song-detail__more-btn ${
-                      isActiveMore ? 'active' : ''
-                    }`}
-                    onClick={handleToggle}
-                  >
-                    <img src={moreIcon} alt="moreIcon" />
-                    <ul className="nft-item-detail__song-detail__more-btn__list">
-                      <li onClick={copyToClipboard}>
-                        {!copied ? (
-                          <>
-                            Copy Link <img src={copyIcon} />
-                          </>
-                        ) : (
-                          <>
-                            Copied Link <img src={checkIcon} />
-                          </>
-                        )}
-                      </li>
-                      <li
-                        onClick={e => {
-                          handleCloseMenu(e);
-                          handleDownloadClick(e);
-                        }}
-                      >
-                        Download <img src={downloadIcon} />
-                      </li>
-                      <li
-                        onClick={e => {
-                          handleCloseMenu(e);
-                          handleTransactionsModal();
-                        }}
-                      >
-                        TXIDs
-                      </li>
-                    </ul>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="nft-item-detail__song-detail__right">
-              <p className="nft-item-detail__song-detail__right__title">
-                {nftDetailData?.nft_name}
-              </p>
-              <div className="nft-item-detail__song-detail__right__info-box">
-                <dl className="artist">
-                  <dt>{t('Artist')}</dt>
-                  <dd>
-                    <p className="user">
-                      <img src={nftDetailData?.user_profile || defaultUserImg} alt="profile" />
-                      {nftDetailData?.user_name || '-'}
-                    </p>
-                    {/* <Link className="see-more-btn" to="/my-page">
-                                            See More
-                                        </Link> */}
-                  </dd>
-                </dl>
-                <dl>
-                  <dt>{t('Type')}</dt>
-                  <dd>
-                    {nftDetailData?.ai_service === 0
-                      ? 'BGM'
-                      : nftDetailData?.ai_service === 1
-                      ? 'Song'
-                      : '-'}
-                  </dd>
-                </dl>
-                <dl>
-                  <dt>{t('Item ID')}</dt>
-                  <dd># {nftDetailData?.id}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Collection')}</dt>
-                  <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
-                </dl>
-
-                <dl
-                  className={nftDetailData?.now_sales_status}
-                  // className="Listed"
-                  // className="Sold"
+            <p className='nft-item-detail__song-detail__bot__title'>
+            {nftDetailData?.nft_name}
+            </p>
+            <div className='nft-item-detail__song-detail__cover'>
+              <div className="nft-item-detail__song-detail__left">
+                <div
+                  className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
+                  onClick={handleClick}
                 >
-                  <dt>{t('Sell Status')}</dt>
-                  <dd>{nftDetailData?.now_sales_status}</dd>
-                </dl>
-                <dl>
-                  <dt>{t('Mint NFT date')}</dt>
-                  <dd>{formatLocalTime(nftDetailData?.create_dt)}</dd>
-                </dl>
-              </div>
-              <div className="nft-item-detail__song-detail__right__value-box">
-                <dl className="nft-item-detail__song-detail__right__value-box__price">
-                  <dt>{t('Price')}</dt>
-                  <dd>
-                    {nftDetailData?.price
-                      ? `${nftDetailData?.price} ${nftDetailData?.sales_token}`
-                      : '-'}
-                    {/* {nftDetailData?.price && <span>$ {nftDetailData.price * 0.03}</span>} */}
-                  </dd>
-                </dl>
-              </div>
-
-              {nftDetailData && (
-                <div className="nft-item-detail__song-detail__right__btn-box">
-                  {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
-                    <button
-                      className="nft-item-detail__song-detail__right__btn-box__btn unlisted-nft"
-                      onClick={e => null}
-                    >
-                      {t('Unlisted')}
-                    </button>
+                  {nftDetailData ? (
+                    <img
+                      src={nftDetailData?.nft_image?.replace('public', '400to400') || defaultCoverImg}
+                      alt="앨범 이미지"
+                    />
+                  ) : (
+                    <img src={defaultCoverImg} alt="기본 이미지" />
                   )}
-                  {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
-                    <button
-                      className="nft-item-detail__song-detail__right__btn-box__btn"
-                      onClick={e => handleButtonClick(e, 'buy')}
-                    >
-                      {t('Buy NFT')}
-                    </button>
-                  )}
-                  {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
-                    <button
-                      className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
-                      onClick={e => handleButtonClick(e, 'sell')}
-                    >
-                      {t('Sell NFT')}
-                    </button>
-                  )}
-                  {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
-                    <button
-                      className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft"
-                      onClick={e => handleButtonClick(e, 'cancel')}
-                    >
-                      {t('Cancel NFT')}
-                    </button>
+                  {nftDetailData?.ai_service !== 0 && (
+                    <>
+                      <div className="nft-item-detail__song-detail__left__img__txt">
+                        <pre>
+                          {nftDetailData?.nft_lyrics
+                            // 1. "###"와 그 이후 공백을 제거
+                            ?.replace(/#\s*/g, '')
+                            ?.replace(/###\s*/g, '')
+                            // 2. "**"로 감싼 텍스트 제거 (필요 시 개행 처리 등 별도 조정 가능)
+                            ?.replace(/(\*\*.*?\*\*)/g, '')
+                            // 3. 대괄호([]) 안 텍스트 제거
+                            ?.replace(/\[([^\]]+)\]/g, '')
+                            // 4. 소괄호 안 텍스트 처리:
+                            //    - (Verse 1), (Pre-Chorus) 등 키워드가 있으면 괄호를 제거하고 텍스트만 남김
+                            //    - 그 외의 경우에는 내용 자체를 제거
+                            ?.replace(/\(([^)]+)\)/g, (match, p1) => {
+                              if (
+                                /^(?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?$/i.test(
+                                  p1.trim()
+                                )
+                              ) {
+                                return p1.trim();
+                              }
+                              return '';
+                            })
+                            // 5. "Verse", "Pre-Chorus", "Chorus", "Bridge" 등 앞에 줄바꿈과 띄어쓰기를 추가
+                            ?.replace(
+                              /((?:\d+\s*)?(?:Verse|Pre-Chorus|Chorus|Bridge|Hook|Outro|Intro)(?:\s*\d+)?)/gi,
+                              '\n$1'
+                            )
+                            ?.trim()}
+                        </pre>
+                      </div>
+                      <button className="nft-item-detail__song-detail__left__img__lyric-btn">
+                        {t('Lyrics')}
+                      </button>
+                    </>
                   )}
                 </div>
-              )}
+                {/* 재생 / 정지버튼 */}
+                <button
+                  className="album-detail__song-detail__left__img__play-btn"
+                  onClick={handlePlayClick}
+                >
+                  <img src={playSongIcon} alt="play Icon" />
+                  Play
+                </button>
+                <div className="nft-item-detail__song-detail__left__info">
+                  <div className="nft-item-detail__song-detail__left__info__number">
+                    <p className="play">
+                      <img src={playIcon} alt="play" />
+                      {nftDetailData?.play_cnt || 0}
+                    </p>
+                    <p className="love" onClick={likeHandler}>
+                      <img src={nftDetailData?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                      {nftDetailData?.like || 0}
+                    </p>
+                    <p className={`nfts ${nftDetailData?.rating}`}>
+                      {getSongsGradeIcon(nftDetailData?.rating) && (
+                        <img src={getSongsGradeIcon(nftDetailData?.rating)} alt="icon" />
+                      )}
+                      <div className="nfts-section"></div>
+                      <p className="nfts-text">NFT</p>
+                    </p>
+                  </div>
+                  <div className="nft-item-detail__song-detail__left__info__btn-box">
+                    {/* <button
+                      className="nft-item-detail__song-detail__left__info__txid-btn"
+                      onClick={handleTransactionsModal}
+                    >
+                      TXID
+                    </button>
+                    <button
+                      className="nft-item-detail__song-detail__left__info__dow-btn"
+                    >
+                      download
+                      <img src={downloadIcon} alt='downloadIcon'/>
+                    </button>
+                    <button className="share" onClick={() => setIsShareModal(true)}>
+                      <img src={shareIcon} alt="share" />
+                    </button> */}
+                    <button
+                      className={`nft-item-detail__song-detail__more-btn ${
+                        isActiveMore ? 'active' : ''
+                      }`}
+                      onClick={handleToggle}
+                    >
+                      <img src={moreIcon} alt="moreIcon" />
+                      <ul className="nft-item-detail__song-detail__more-btn__list">
+                        <li onClick={copyToClipboard}>
+                          {!copied ? (
+                            <>
+                              Copy Link <img src={copyIcon} />
+                            </>
+                          ) : (
+                            <>
+                              Copied Link <img src={checkIcon} />
+                            </>
+                          )}
+                        </li>
+                        <li
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleDownloadClick(e);
+                          }}
+                        >
+                          Download <img src={downloadIcon} />
+                        </li>
+                        <li
+                          onClick={e => {
+                            handleCloseMenu(e);
+                            handleTransactionsModal();
+                          }}
+                        >
+                          TXIDs
+                        </li>
+                      </ul>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="nft-item-detail__song-detail__right">
+                {/* <p className="nft-item-detail__song-detail__right__title">
+                  {nftDetailData?.nft_name}
+                </p> */}
+                <div className="nft-item-detail__song-detail__right__info-box">
+                  <dl className="artist">
+                    <dt>{t('Artist')}</dt>
+                    <dd>
+                      <p className="user">
+                        <img src={nftDetailData?.user_profile || defaultUserImg} alt="profile" />
+                        {nftDetailData?.user_name || '-'}
+                      </p>
+                      {/* <Link className="see-more-btn" to="/my-page">
+                                              See More
+                                          </Link> */}
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Type')}</dt>
+                    <dd>
+                      {nftDetailData?.ai_service === 0
+                        ? 'BGM'
+                        : nftDetailData?.ai_service === 1
+                        ? 'Song'
+                        : '-'}
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Item ID')}</dt>
+                    <dd># {nftDetailData?.id}</dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Collection')}</dt>
+                    <dd>{nftDetailData?.connect_collection_name || '-'}</dd>
+                  </dl>
+
+                  <dl
+                    className={nftDetailData?.now_sales_status}
+                    // className="Listed"
+                    // className="Sold"
+                  >
+                    <dt>{t('Sell Status')}</dt>
+                    <dd>{nftDetailData?.now_sales_status}</dd>
+                  </dl>
+                  <dl>
+                    <dt>{t('Mint NFT date')}</dt>
+                    <dd>{formatLocalTime(nftDetailData?.create_dt)}</dd>
+                  </dl>
+                </div>
+                <div className="nft-item-detail__song-detail__right__value-box">
+                  <dl className="nft-item-detail__song-detail__right__value-box__price">
+                    <dt>{t('Price')}</dt>
+                    <dd>
+                      {nftDetailData?.price
+                        ? `${nftDetailData?.price} ${nftDetailData?.sales_token}`
+                        : '-'}
+                      {/* {nftDetailData?.price && <span>$ {nftDetailData.price * 0.03}</span>} */}
+                    </dd>
+                  </dl>
+                </div>
+
+                {nftDetailData && (
+                  <div className="nft-item-detail__song-detail__right__btn-box">
+                    {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
+                      <button
+                        className="nft-item-detail__song-detail__right__btn-box__btn unlisted-nft"
+                        onClick={e => null}
+                      >
+                        {t('Unlisted')}
+                      </button>
+                    )}
+                    {!nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
+                      <button
+                        className="nft-item-detail__song-detail__right__btn-box__btn"
+                        onClick={e => handleButtonClick(e, 'buy')}
+                      >
+                        {t('Buy NFT')}
+                      </button>
+                    )}
+                    {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Unlisted' && (
+                      <button
+                        className="nft-item-detail__song-detail__right__btn-box__btn sell-nft"
+                        onClick={e => handleButtonClick(e, 'sell')}
+                      >
+                        {t('Sell NFT')}
+                      </button>
+                    )}
+                    {nftDetailData?.is_owner && nftDetailData?.now_sales_status === 'Listed' && (
+                      <button
+                        className="nft-item-detail__song-detail__right__btn-box__btn cancel-nft"
+                        onClick={e => handleButtonClick(e, 'cancel')}
+                      >
+                        {t('Cancel NFT')}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
+
           </div>
         </section>
       </div>
@@ -599,12 +639,13 @@ const TrackInformation = ({ id }) => {
             isLong
           />
           <NftOverviewItem title={t('Type')} value="Lyrics + Songwriting" isTwo typeImg />
-          <NftOverviewItem title={t('Language')} value={activityData?.nft_language || '-'} isTwo />
-          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} />
-          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} />
+          {/* <NftOverviewItem title={t('Language')} value={activityData?.nft_language || '-'} isTwo /> */}
+          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} isTwo/>
+          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} isTwo/>
           <NftOverviewItem
             title={t('Musical Instrument')}
             value={activityData?.nft_musical_instrument || '-'}
+            isTwo
           />
           <NftOverviewItem title="Tempo" value={activityData?.nft_tempo || '-'} isTwo />
           <NftOverviewItem title="Song Length" value={activityData?.song_length || '-'} isTwo />

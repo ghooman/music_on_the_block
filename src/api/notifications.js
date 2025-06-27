@@ -31,7 +31,6 @@ export const postNotificationCheck = async token => {
       },
     }
   );
-  console.log('postNotificationCheck', response);
   return response.data;
 };
 
@@ -42,8 +41,6 @@ export const postNotificationCheck = async token => {
  * @query {string} // query notification_type (song,nft)
  */
 export const checkNotification = async (token, id, notification_type) => {
-  console.log('token', token);
-
   const response = await axios.post(
     `${serverApi}/api/music/user/notification/${id}/check?notification_type=${notification_type}`,
     null,

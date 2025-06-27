@@ -24,11 +24,20 @@
   padding: 8px;
   color: #a9d400;
   text-align: center;
-  font-family: Orbitron400;
+  font-family:  Pretendard400;
   font-size: 14px;
   white-space: nowrap;
   &.index {
     width: 40px;
+  }
+  font {
+    font-family:  inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    font-style: inherit !important;
+    color: inherit !important;
+    letter-spacing: inherit !important;
   }
 }
 
@@ -88,11 +97,19 @@
     color: #aaa;
     text-align: center;
     text-overflow: ellipsis;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 14px;
     max-width: 340px;
     margin: 0 auto;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     // display: -webkit-box;
     // -webkit-box-orient: vertical;
     // -webkit-line-clamp: 2;
@@ -136,12 +153,21 @@
     max-width: 100px;
     margin: 0 auto;
     padding: 8px;
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 12px;
     position: relative;
     top: 0px;
     transition: 0.2s all;
     z-index: 1;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
     &:hover {
       top: 4px;
       &::before {
@@ -151,10 +177,10 @@
     &.details {
       color: #aaa;
       &::before {
-        border-color: #222;
+        border-color: #303030;
       }
       &::after {
-        background-color: #222;
+        background-color: #303030;
       }
     }
     // 0507 기준 임시 주석 (확인후 안쓰면 삭제)
@@ -176,7 +202,7 @@
     // }
     &.sold {
       color: #cf0;
-      font-family: Inter400;
+      font-family: Pretendard400;
       cursor: default;
       &::before {
         opacity: 0;
@@ -188,7 +214,7 @@
     }
     &.purchased {
       color: #5a9bf6;
-      font-family: Inter400;
+      font-family: Pretendard400;
       cursor: default;
       &::before {
         opacity: 0;

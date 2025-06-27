@@ -3,8 +3,8 @@
     position: relative;
     width: 100%;
     border-radius: 4px;
-    border: 1px solid var(--Color-03, #222);
-    background: var(--Dark-Color-01, #0b0b0c);
+    border: 1px solid #222;
+    background: #0b0b0c;
 
     display: flex;
     align-items: center;
@@ -13,10 +13,19 @@
     justify-content: space-between;
     .share-modal__link__txt {
       color: #fff;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
+      font {
+        font-family:  inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
     .share-modal__link__btn {
       width: 44px;
@@ -27,12 +36,21 @@
       justify-content: center;
       padding: 0 12px;
       color: #fff;
-      font-family: Inter400;
+      font-family: Pretendard400;
       font-size: 12px;
       font-style: normal;
       line-height: normal;
       height: 28px;
       transition: 0.3s;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
       &:hover{
         box-shadow: 0px 0px 12px 0px #cf0;
       }

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
 
 import ContentWrap from '../../components/unit/ContentWrap';
 import NoneContent from '../../components/unit/NoneContent';
 import { RadarChart } from '../../components/unit/Chart';
 import EvaluationGuideModal from '../../components/EvaluationGuideModal';
+import AlbumItem from '../unit/AlbumItem';
 
 import './EvaluationResultsComp.scss';
 
@@ -13,30 +15,58 @@ import issueIcon from '../../assets/images/icon/issue-opened.svg';
 
 // 데이터 및 함수
 import { criticsDataForObject } from '../../data/criticsData';
-import { getCriticEvaluationList } from '../../api/evaluation/getList';
+import { getEvaluationList } from '../../api/evaluation/getList';
 import { useNavigate } from 'react-router-dom';
+import i18n from '../../i18n/i18n';
 
-const EvaluationResultsComp = ({ evaluationData, critic, buttons }) => {
+// 스와이퍼
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, FreeMode } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
+
+/**
+ *
+ * @param {object} evaluationData : 평가 데이터
+ * @param {object} songData : 곡 데이터 - Begin Now 버튼(평가하러가기) 클릭시 경로 이동을 위한 정보
+ * @param {string} critic : 심사위원 이름
+ * @param {boolean} isResult : 결과창을 보는 옵션 (버튼이 추가 됨)
+ * @param {boolean} isOwner : 조회한 곡이 나의 곡인지 확인하는 파라미터 (Begin Now 버튼 랜더링 여부를 결정)
+ * @returns
+ */
+const EvaluationResultsComp = ({ evaluationData, songData, critic, isResult, isOwner }) => {
   const { t } = useTranslation('evaluation');
 
-  console.log(evaluationData, '평가 데이터 입니다.');
+  console.log(evaluationData, '데이터');
 
   return (
     <>
-      <ContentWrap title={t('AI Song Evaluation')} border={false} className="none-padding">
+      <ContentWrap border={false} className="none-padding">
         <ContentWrap title={t('Result')} border={false}>
           {evaluationData && <Result t={t} evaluationData={evaluationData} />}
-          {!evaluationData && <NoneContent height={300} message="No evaluation history yet." />}
-          {buttons && <Btns t={t} evaluationData={evaluationData} />}
+          {!evaluationData && (
+            <NoneContent height={300} message="No evaluation history yet.">
+              {isOwner && <BeginBtn t={t} songData={songData} critic={critic} />}
+            </NoneContent>
+          )}
+          {isResult && <ResultBtn t={t} evaluationData={evaluationData} />}
         </ContentWrap>
-        <ContentWrap title={t('Full Evaluation')}>
-          {evaluationData && <FullEvaluation t={t} evaluationData={evaluationData} />}
-          {!evaluationData && <NoneContent height={185} message="No evaluation history yet." />}
-        </ContentWrap>
-        <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
-          <SongsCritic t={t} critic={critic} id={evaluationData?.id} />
-        </ContentWrap>
-        {buttons && <Btns t={t} evaluationData={evaluationData} />}
+        {evaluationData && (
+          <>
+            <ContentWrap title={t('Full Evaluation')}>
+              {evaluationData && <FullEvaluation t={t} evaluationData={evaluationData} />}
+              {!evaluationData && <NoneContent height={185} message="No evaluation history yet." />}
+            </ContentWrap>
+            <ContentWrap title={t('Other Songs Evaluationed By This Critic')}>
+              <SongsCritic t={t} critic={critic} id={songData?.id || songData?.song_id} />
+            </ContentWrap>
+            {isResult && <ResultBtn t={t} evaluationData={evaluationData} />}
+          </>
+        )}
       </ContentWrap>
     </>
   );
@@ -83,23 +113,23 @@ const Result = ({ t, evaluationData }) => {
               <div className="result__graph__score__number__txt">
                 <dl>
                   <dt>{t('Emotion')} :</dt>
-                  <dd>{evaluationData?.emotion}</dd>
+                  <dd>{evaluationData?.emotion?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Creativity')} :</dt>
-                  <dd>{evaluationData?.creativity}</dd>
+                  <dd>{evaluationData?.creativity?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Structure')} :</dt>
-                  <dd>{evaluationData?.structure}</dd>
+                  <dd>{evaluationData?.structure?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Sound')} :</dt>
-                  <dd>{evaluationData?.sound}</dd>
+                  <dd>{evaluationData?.sound?.toFixed(1)}</dd>
                 </dl>
                 <dl>
                   <dt>{t('Popularity')} :</dt>
-                  <dd>{evaluationData?.popularity}</dd>
+                  <dd>{evaluationData?.popularity?.toFixed(1)}</dd>
                 </dl>
               </div>
             </div>
@@ -113,7 +143,25 @@ const Result = ({ t, evaluationData }) => {
   );
 };
 
-const Btns = ({ t, evaluationData }) => {
+const BeginBtn = ({ t, songData, critic }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="btns">
+      <button
+        onClick={() =>
+          navigate(
+            `/evaluation-begin?search=${songData?.title}&song_id=${songData?.id}&critic=${critic}`
+          )
+        }
+      >
+        {t('Begin Now')}
+      </button>
+    </div>
+  );
+};
+
+const ResultBtn = ({ t, evaluationData }) => {
   const navigate = useNavigate();
 
   return (
@@ -144,7 +192,40 @@ const Btns = ({ t, evaluationData }) => {
 };
 
 const FullEvaluation = ({ t, evaluationData }) => {
-  const [isActive, setIsActive] = useState(false);
+  const { language } = i18n;
+
+  const evaluationByLang = {
+    English: {
+      feedback: evaluationData.feedback,
+      to_improve: evaluationData.to_improve,
+      why_this_score: evaluationData.why_this_score,
+      key_points: evaluationData.key_points,
+    },
+    한국어: {
+      feedback: evaluationData.feedback_kr,
+      to_improve: evaluationData.to_improve_kr,
+      why_this_score: evaluationData.why_this_score_kr,
+      key_points: evaluationData.key_points_kr,
+    },
+    Indonesia: {
+      feedback: evaluationData.feedback_id,
+      to_improve: evaluationData.to_improve_id,
+      why_this_score: evaluationData.why_this_score_id,
+      key_points: evaluationData.key_points_id,
+    },
+    日本語: {
+      feedback: evaluationData.feedback_ja,
+      to_improve: evaluationData.to_improve_ja,
+      why_this_score: evaluationData.why_this_score_ja,
+      key_points: evaluationData.key_points_ja,
+    },
+    'Tiếng Việt': {
+      feedback: evaluationData.feedback_vi,
+      to_improve: evaluationData.to_improve_vi,
+      why_this_score: evaluationData.why_this_score_vi,
+      key_points: evaluationData.key_points_vi,
+    },
+  };
 
   return (
     <div className="full-evaluation">
@@ -153,32 +234,32 @@ const FullEvaluation = ({ t, evaluationData }) => {
           <img src={criticsDataForObject[evaluationData?.critic]?.image} alt="judgeImg01" />
           <p className="full-evaluation__feed-back__human__title">{evaluationData?.critic}</p>
         </article>
-        <article className={`full-evaluation__feed-back__txt ${isActive ? 'active' : ''}`}>
+        <article className={`full-evaluation__feed-back__txt active`}>
           <p className="ull-evaluation__feed-back__txt__title">{t('Feedback')}</p>
           <div className="ull-evaluation__feed-back__txt__memo">
-            {evaluationData?.feedback || '-'}
+            {evaluationByLang[language]?.feedback || '-'}
           </div>
-          <button
+          {/* <button
             className="full-evaluation__feed-back__txt__see-more"
             onClick={() => setIsActive(prev => !prev)}
           >
             {t('See More')}
             <span></span>
-          </button>
+          </button> */}
         </article>
       </section>
       <section className="full-evaluation__point-box">
         <dl>
           <dt>{t('To Improve')}</dt>
-          <dd>{evaluationData?.to_improve || '-'}</dd>
+          <dd>{evaluationByLang[language]?.to_improve || '-'}</dd>
         </dl>
         <dl>
           <dt>{t('Why This Score')}</dt>
-          <dd>{evaluationData?.why_this_score || '-'}</dd>
+          <dd>{evaluationByLang[language]?.why_this_score || '-'}</dd>
         </dl>
         <dl>
           <dt>{t('Key Points')}</dt>
-          <dd>{t(evaluationData?.key_points || '-')}</dd>
+          <dd>{evaluationByLang[language]?.key_points || '-'}</dd>
         </dl>
       </section>
     </div>
@@ -186,64 +267,43 @@ const FullEvaluation = ({ t, evaluationData }) => {
 };
 
 const SongsCritic = ({ t, critic, id }) => {
-  const [criticEvaluationList, setCriticEvaluationList] = useState([]);
+  const swiperOptions = {
+    loop: false,
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    grabCursor: true,
+    pagination: {
+      clickable: true,
+    },
+    FreeMode: true,
+    navigation: true,
+    modules: [FreeMode, Navigation],
+  };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await getCriticEvaluationList({ critic });
-        setCriticEvaluationList(res.data);
-      } catch (e) {
-        setCriticEvaluationList([]);
-        // console.error(e);
-      }
-    };
-    getData();
-  }, [critic]);
+  const { data: criticEvaluationList = [] } = useQuery(
+    ['critic_evaluation_list', critic, id],
+    async () => {
+      const res = await getEvaluationList({ critic, page: 1, search_keyword: '' });
+
+      const { data_list } = res.data;
+      return data_list.filter(item => item.song_id !== id);
+    }
+  );
 
   return (
     <>
       <section className="critic-list">
-        {criticEvaluationList.map(item => (
-          <div className="critic-list__item" key={item.id}>
-            <div className="critic-list__item__left">
-              <p className="critic-list__item__left__img">
-                <img src={item.cover_image} alt="images" />
-              </p>
-              <p className="critic-list__item__left__title">
-                {item.title} / {item.artist}
-              </p>
-            </div>
-            <div className="critic-list__item__right">
-              <RadarChart
-                data={[
-                  {
-                    item: item?.emotion,
-                    value: item?.emotion,
-                  },
-                  {
-                    item: item?.creativity,
-                    value: item?.creativity,
-                  },
-                  {
-                    item: item?.structure,
-                    value: item?.structure,
-                  },
-                  {
-                    item: item?.sound,
-                    value: item?.sound,
-                  },
-                  {
-                    item: item?.popularity,
-                    value: item?.popularity,
-                  },
-                ]}
-              />
-            </div>
-          </div>
-        ))}
+        {criticEvaluationList?.length > 0 && (
+          <Swiper {...swiperOptions} className="critic-list__swiper-wrapper">
+            {criticEvaluationList.map(item => (
+              <SwiperSlide key={item.id} className="critic-list__swiper-slide">
+                <AlbumItem track={item} type="evaluation" />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
         {criticEvaluationList?.length <= 0 && (
-          <NoneContent height={185} message="No evaluation history yet." />
+          <NoneContent height={200} message="No evaluation history yet." />
         )}
       </section>
     </>

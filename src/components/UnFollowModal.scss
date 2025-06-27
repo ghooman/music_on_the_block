@@ -7,9 +7,18 @@
         width: 100%;
         color: #aaa;
         text-align: center;
-        font-family: Orbitron400;
+        font-family:  Pretendard400;
         font-size: 16px;
         font-style: normal;
+        font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+        }
     }
 
     .unfollow-modal__button-wrap {
@@ -25,13 +34,20 @@
         width: 100%;
         text-align: center;
         padding: 12px;
-        font-family: Orbitron600;
+        font-family:  Pretendard600;
         font-size: 16px;
-        letter-spacing: 0.48px;
         position: relative;
         border: none;
         transition: 0.2s all;
-
+        font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+        }
         &::after {
             content: '';
             position: absolute;

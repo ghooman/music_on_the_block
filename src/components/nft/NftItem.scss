@@ -13,10 +13,18 @@
   width: 100%;
   height: 300px;
   color: #f1f1f1;
-  font-family: Inter400;
+  font-family: Pretendard400;
   font-size: 16px;
   position: relative;
-
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   &::after {
     content: '';
     width: 30px;
@@ -112,8 +120,17 @@
     justify-content: center;
     border-radius: 12px;
     color: #f1f1f1;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__images--running-time {
@@ -128,8 +145,17 @@
     justify-content: center;
     border-radius: 12px;
     color: #f1f1f1;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__title {
@@ -137,27 +163,54 @@
     // min-height: 30px;
     overflow: hidden;
     color: #f1f1f1;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 12px;
     letter-spacing: 0.42px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__sub-title {
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 10px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-collection-item__title {
     // min-height: 34px;
     color: #f1f1f1;
     text-align: center;
-    font-family: Inter700;
+    font-family: Pretendard700;
     font-size: 14px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__user-data {
@@ -174,15 +227,32 @@
   .nft-item__user-data--name {
     color: #aaa;
     font-size: 12px;
-    font-family: Inter400;
+    font-family: Pretendard400;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__username {
     color: #aaa;
-    font-family: Inter700;
+    font-family: Pretendard700;
     font-size: 10px;
-    letter-spacing: 0.3px;
     text-align: center;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__prices {
@@ -208,18 +278,35 @@
     text-align: center;
     color: #aaa;
     text-align: center;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 10px;
     margin-bottom: 4px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 
   .nft-item__prices--price-value {
     text-align: center;
     color: #f1f1f1;
     text-align: center;
-    font-family: Inter600;
+    font-family: Pretendard600;
     font-size: 14px;
-    letter-spacing: 0.48px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   }
 }
 
@@ -299,7 +386,7 @@
       }
       .nft-slider__item__title {
         color: #fff;
-        font-family: Inter600;
+        font-family: Pretendard600;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -309,7 +396,7 @@
         top: 0;
         left: 0;
         color: #fff;
-        font-family: Inter600;
+        font-family: Pretendard600;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -317,6 +404,15 @@
         align-items: center;
         justify-content: center;
         background: rgba(0, 0, 0, 0.5);
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   }
@@ -333,7 +429,7 @@
 //         gap: 8px;
 //         .nft-item__graph--img__title{
 //             color: #F1F1F1;
-//             font-family: Inter600;
+//             font-family: Pretendard600;
 //             font-size: 12px;
 //         }
 //     }
@@ -357,6 +453,7 @@
   .nft-item-collection-wrap {
     grid-template-columns: repeat(2, 1fr);
   }
+
 
   .nft-content-wrap {
     .nft-content-wrap__title {

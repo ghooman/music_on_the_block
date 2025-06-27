@@ -37,6 +37,7 @@ import { FreeMode, Navigation, Thumbs, Pagination, Autoplay } from 'swiper/modul
 import PreparingModal from './PreparingModal';
 
 import { useTranslation } from 'react-i18next';
+import { disableEvaluation } from '../data/service';
 
 const Footer = ({ setIsLoggedIn }) => {
   const { t } = useTranslation('main');
@@ -110,14 +111,6 @@ const Footer = ({ setIsLoggedIn }) => {
     return `${hash.slice(0, 5)}...${hash.slice(-4)}`;
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('English');
-
-  const handleSelect = lang => {
-    setSelectedLang(lang);
-    setIsOpen(false);
-  };
-
   return (
     <>
       <div className="footer">
@@ -165,30 +158,16 @@ const Footer = ({ setIsLoggedIn }) => {
                   </Link>
                 </li>
 
-
                 {/* <li>
                   <Link>
                     <img src={sns06}/>
                   </Link>
                 </li> */}
               </ul>
-              {/* <div className="footer__top__left__language">
-                <p className="footer__top__left__language__title">Language</p>
-                <div
-                  className={`footer__top__left__language__select-box ${isOpen ? "active" : ""}`}
-                >
-                  <p
-                    className="footer__top__left__language__select-box__title"
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    {selectedLang}
-                  </p>
-                  <ul className="footer__top__left__language__select-box__list">
-                    <li onClick={() => handleSelect("English")}>English</li>
-                    <li onClick={() => handleSelect("Korea")}>Korea</li>
-                  </ul>
-                </div>
-              </div> */}
+              <div className="footer__top__left__contact">
+                <span className="footer__top__left__contact-text">Contact :&nbsp;</span>
+                <a href="mailto:contact@musicontheblock.com">contact@musicontheblock.com</a>
+              </div>
             </article>
             <article className="footer__top__right">
               <div className="footer__top__right__menu">
@@ -204,7 +183,15 @@ const Footer = ({ setIsLoggedIn }) => {
                     <Link to="/create">{t('AI Lyrics & Songwriting')}</Link>
                   </dd>
                   <dd>
-                    <Link onClick={() => setPreparingModal(true)}>
+                    <Link
+                      onClick={e => {
+                        if (disableEvaluation) {
+                          e?.preventDefault();
+                          setPreparingModal(true);
+                        }
+                      }}
+                      to="/evaluation"
+                    >
                       {t('AI Singing Evaluation')}
                     </Link>
                   </dd>

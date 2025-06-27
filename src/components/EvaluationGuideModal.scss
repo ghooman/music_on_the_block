@@ -1,7 +1,16 @@
 @mixin fonts() {
   color: #aaa;
   font-size: 14px;
-  font-family: Inter400;
+  font-family: Pretendard400;
+          font {
+            font-family:  inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
 }
 
 .evaluation-guide-modal {

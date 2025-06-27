@@ -105,6 +105,8 @@ export const PieChart = ({ height, width, data, selectedItem, legends }) => {
 };
 
 export const LineChart = ({ data, height = 300, width = '100%' }) => {
+  const [maxValue, setMaxValue] = useState(0);
+
   const chartData = [
     {
       id: 'data',
@@ -112,6 +114,21 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
       data: data,
     },
   ];
+
+  useEffect(() => {
+    let max = 0;
+
+    data?.forEach(item => {
+      if (item.y > max) max = item.y;
+    });
+    const maxvalue = [10, 100, 1000, 10000, 100000];
+    for (let i = 0; i < maxvalue.length; i++) {
+      if (max < maxvalue[i]) {
+        setMaxValue(maxvalue[i]);
+        break;
+      }
+    }
+  }, [data]);
 
   if (!data) return;
 
@@ -125,7 +142,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
         yScale={{
           type: 'linear',
           min: 0,
-          max: 5,
+          max: maxValue,
           stacked: true,
           reverse: false,
         }}
@@ -141,6 +158,7 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
         pointLabelYOffset={-12}
         enableTouchCrosshair={true}
         useMesh={true}
+        maxValue={maxValue}
         // enableArea={true}
         colors={() => '#00ffb3'}
         theme={{
@@ -162,7 +180,11 @@ export const LineChart = ({ data, height = 300, width = '100%' }) => {
           },
         }}
         axisLeft={{
-          tickValues: [0, 1, 2, 3, 4, 5], // 직접 지정
+          tickSize: 0,
+          tickPadding: 16,
+          tickValues: Array(11)
+            .fill(null)
+            .map((value, index) => (maxValue / 10) * index),
         }}
       />
     </div>
@@ -321,50 +343,54 @@ export const SimpleLineChart = ({ data, height = 300, color = '#a78bfa' }) => {
   );
 };
 
-const radarDummy = [
-  { item: '80 (Emotion)', value: 80 },
-  { item: 'Creativity', value: 90 },
-  { item: 'Structure', value: 70 },
-  { item: 'Sound', value: 80 },
-  { item: 'Popularity', value: 90 },
-];
+// const radarDummy = [
+//   { item: '80 (Emotion)', value: 80 },
+//   { item: 'Creativity', value: 90 },
+//   { item: 'Structure', value: 70 },
+//   { item: 'Sound', value: 80 },
+//   { item: 'Popularity', value: 90 },
+// ];
 
 export const RadarChart = ({
-  data = radarDummy, // 넘겨주는 데이터가 없으면 더미 사용
+  data = null, // 넘겨주는 데이터가 없으면 더미 사용
   height = '100%',
   width = '100%',
-}) => (
-  <div style={{ height, width }}>
-    <ResponsiveRadar
-      /* ───── 핵심 파라미터 ───── */
-      data={data}
-      keys={['value']} // 축 레이블
-      indexBy="item" // 다각형 구분 필드
-      /* ───── 레이아웃 ───── */
-      // maxValue="auto"
-      margin={{ top: 20, right: 10, bottom: 10, left: 10 }}
-      gridShape="linear"
-      gridLevels={8}
-      curve="linearClosed"
-      valueFormat=">-.2f"
-      /* ───── 스타일 ───── */
-      colors={['#cf0']}
-      fillOpacity={0.5}
-      borderWidth={2}
-      borderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
-      dotSize={4}
-      dotColor={{ theme: 'background' }}
-      dotBorderWidth={2}
-      gridLabelOffset={8}
-      /* ───── 모션 & 인터랙션 ───── */
-      motionConfig="wobbly"
-      isInteractive={false}
-      maxValue={100}
-      /* ───── 테마 (축·격자 색상) ───── */
-      theme={{
-        axis: { ticks: { text: { fill: '#fff', fontSize: 14 } } },
-        grid: { line: { stroke: '#0F71B8', strokeWidth: 1 } },
-      }}
-    />
-  </div>
-);
+}) => {
+  if (!data) return;
+
+  return (
+    <div style={{ height, width }}>
+      <ResponsiveRadar
+        /* ───── 핵심 파라미터 ───── */
+        data={data}
+        keys={['value']} // 축 레이블
+        indexBy="item" // 다각형 구분 필드
+        /* ───── 레이아웃 ───── */
+        // maxValue="auto"
+        margin={{ top: 20, right: 10, bottom: 10, left: 10 }}
+        gridShape="linear"
+        gridLevels={8}
+        curve="linearClosed"
+        valueFormat=">-.2f"
+        /* ───── 스타일 ───── */
+        colors={['#cf0']}
+        fillOpacity={0.5}
+        borderWidth={2}
+        borderColor={{ from: 'color', modifiers: [['darker', 0.5]] }}
+        dotSize={4}
+        dotColor={{ theme: 'background' }}
+        dotBorderWidth={2}
+        gridLabelOffset={8}
+        /* ───── 모션 & 인터랙션 ───── */
+        motionConfig="wobbly"
+        isInteractive={false}
+        maxValue={100}
+        /* ───── 테마 (축·격자 색상) ───── */
+        theme={{
+          axis: { ticks: { text: { fill: '#fff', fontSize: 14 } } },
+          grid: { line: { stroke: '#0F71B8', strokeWidth: 1 } },
+        }}
+      />
+    </div>
+  );
+};

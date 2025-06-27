@@ -16,7 +16,7 @@ import NftMintList from './pages/NftMintList';
 import NftSellList from './pages/NftSellList';
 import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
 import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
-
+import VoiceTrainer from './pages/VoiceTrainer';
 // 컴포넌트
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -27,17 +27,22 @@ import SongList from './pages/SongList';
 import AlbumsDetail from './components/mypage/songs/AlbumsDetail';
 import MintNftDetail from './components/nft/MintNftDetail';
 import SellNftDetail from './components/nft/SellNftDetail';
-import Intro from './pages/Intro';
 import Evaluation from './pages/Evaluation';
 import EvaluationBegin from './pages/EvaluationBegin';
-import GlobalAudioPlayer from './components/GlobalAudioPlayer';
+import PlayerHeader from './components/PlayerHeader';
+import AlarmModal from './components/AlarmModal';
 
 // 전역 상태
 import { AuthProvider } from './contexts/AuthContext';
 import { WebSocketProvider } from './contexts/WebSocketContext';
-import { GlobalMusicProvider } from './contexts/GlobalMusicContext';
+import { AudioProvider } from './contexts/AudioContext';
 import EvaluationResults from './pages/EvaluationResults';
 import i18n from './i18n/i18n';
+import GetDetail from './pages/GetDetail';
+import Get from './pages/Get';
+import EvaluationStage from './pages/EvaluationStage';
+import NodeViewer from './pages/NodeViewer';
+import LicenseKey from './pages/LicenseKey';
 
 function Layout({ children }) {
   return (
@@ -47,7 +52,8 @@ function Layout({ children }) {
         <div className="inner">{children}</div>
       </div>
       <Footer />
-      <GlobalAudioPlayer />
+      <PlayerHeader />
+      <AlarmModal />
     </>
   );
 }
@@ -67,22 +73,31 @@ function App() {
 
   // console.log('navigator', navigator);
 
+  // 접속 지역에 따라 자동으로 언어 선택해주는 기능
   useEffect(() => {
     if (language?.startsWith('ko')) {
       i18n.changeLanguage('한국어');
-    } else {
+    } else if (language?.startsWith('en')) {
       i18n.changeLanguage('English');
+    } else if (language?.startsWith('id')) {
+      i18n.changeLanguage('Indonesia');
+    } else if (language?.startsWith('ja')) {
+      i18n.changeLanguage('日本語');
+    } else if (language?.startsWith('vi')) {
+      i18n.changeLanguage('Tiếng Việt');
     }
   }, [language]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  // console.log("렌더링")
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <GlobalMusicProvider>
-          <WebSocketProvider>
+        <WebSocketProvider>
+          <AudioProvider>
             <div className="App">
               <title>MUSIC ON THE BLOCK</title>
               <Routes>
@@ -92,6 +107,14 @@ function App() {
                   element={
                     <Layout>
                       <Album />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/voice-trainer"
+                  element={
+                    <Layout>
+                      <VoiceTrainer />
                     </Layout>
                   }
                 />
@@ -284,10 +307,54 @@ function App() {
                     </Layout>
                   }
                 />
+                <Route
+                  path="get/detail"
+                  element={
+                    <Layout>
+                      <GetDetail />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="get"
+                  element={
+                    <Layout>
+                      <Get />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="evaluation-stage"
+                  element={
+                    <Layout>
+                      <EvaluationStage />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="node-viewer"
+                  element={
+                    <Layout>
+                      <ProtectedRoute>
+                        <NodeViewer />
+                      </ProtectedRoute>
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/license-key"
+                  element={
+                    <Layout>
+                      <ProtectedRoute>
+                        <LicenseKey />
+                      </ProtectedRoute>
+                    </Layout>
+                  }
+                />
               </Routes>
             </div>
-          </WebSocketProvider>
-        </GlobalMusicProvider>
+          </AudioProvider>
+        </WebSocketProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

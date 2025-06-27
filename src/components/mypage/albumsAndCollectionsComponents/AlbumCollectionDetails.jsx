@@ -149,10 +149,10 @@ const AlbumCollectionDetails = ({
                 )}
               </div>
 
-              {dataList.length > 0 && target === 'Collection' && (
+              {dataList?.length > 0 && target === 'Collection' && (
                 <NftTable nftList={dataList} dateOption={false} priceOption={false} />
               )}
-              {dataList.length > 0 && target === 'Album' && (
+              {dataList?.length > 0 && target === 'Album' && (
                 <SongPlayTable
                   songList={dataList}
                   activeSong={activeSong}
@@ -163,7 +163,7 @@ const AlbumCollectionDetails = ({
                 />
               )}
 
-              {dataList.length <= 0 && (
+              {dataList?.length <= 0 && (
                 <NoneContent
                   image={NoDataImage}
                   title={`No ${elementsname} in this ${bundlename?.toLowerCase()}`}

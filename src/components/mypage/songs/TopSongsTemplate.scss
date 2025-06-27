@@ -6,6 +6,16 @@
   justify-content: center;
   text-transform: capitalize;
 
+  .top-songs-template-swiper-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 48px;
+  }
+
+  .top-songs-template-swiper-item {
+    width: 302px !important;
+  }
+
   &__item {
     display: flex;
     flex-direction: column;
@@ -13,22 +23,48 @@
     width: calc(33.33% - 16px);
     .album__content-list__list__item {
       // width: 320px;
+      max-width: 320px;
     }
   }
   &__item--title {
-    color: var(--primary-base, #cf0);
-    font-family: Orbitron400;
+    color:#cf0;
+    font-family: Pretendard400;
     font-size: 18px;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.54px;
     margin-bottom: 16px;
+  }
+
+  .swiper-button-prev {
+    position: absolute;
+    right: 40px !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 30px;
+    height: 30px;
+    background: url('../../../assets/images/album/prev-btn.svg') center no-repeat;
+    background-size: cover;
+    &::after {
+      display: none;
+    }
+  }
+  .swiper-button-next {
+    position: absolute;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 30px;
+    height: 30px;
+    background: url('../../../assets/images/album/next-btn.svg') center no-repeat;
+    background-size: cover;
+    &::after {
+      display: none;
+    }
   }
 }
 
-
 @media screen and (max-width: 1300px) {
-  .top-songs-template{
+  .top-songs-template {
     width: 100%;
     overflow: auto;
     flex-wrap: nowrap;

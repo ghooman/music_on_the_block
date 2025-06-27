@@ -246,8 +246,7 @@ const Albums = ({ username, isMyProfile }) => {
           )}
         </>
       )}
-
-      {albumsListLoading && <Loading />}
+      <Loading isLoading={albumsListLoading} />
     </div>
   );
 };

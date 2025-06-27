@@ -55,8 +55,6 @@ const NftSellList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
-  if (isLoading) return <Loading />;
-
   return (
     <div>
       <ContentWrap title={t('Sell NFT')}>
@@ -75,6 +73,7 @@ const NftSellList = () => {
         />
         <Pagination totalCount={songList?.total_cnt} viewCount={15} page={page} />
       </ContentWrap>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

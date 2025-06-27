@@ -1,11 +1,20 @@
 .album-collection-detail-page {
   .album-collection-detail-page__title {
-    color: var(--primary-base, #cf0);
-    font-family: Orbitron500;
+    color: #cf0;
+    font-family:  Pretendard500;
     font-size: 30px;
     font-style: normal;
     line-height: normal;
     margin-bottom: 32px;
+    font {
+      font-family:  inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
   } //album-collection-detail-page__title--END--
   .album-collection-detail-page__box {
     border-radius: 12px;
@@ -20,7 +29,7 @@
           width: 180px;
           height: 180px;
           border-radius: 24px;
-          background: var(--Color-03, #222);
+          background:#222;
           padding: 8px;
           .album-collection-detail-page__box__header__left__img-box__img {
             border-radius: 20px;
@@ -57,10 +66,19 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            color: var(--Text-music-title, #f1f1f1);
-            font-family: Orbitron500;
+            color:#f1f1f1;
+            font-family: Pretendard500;
             font-size: 28px;
             font-style: normal;
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
             span {
               font: inherit;
             }
@@ -68,17 +86,27 @@
             .album-collection-detail-page__box__header__right__box__title__edit-btn {
               height: 34px;
               border-radius: 12px;
-              background: var(--Color-03, #222);
+              background:#222;
               padding: 0 12px;
               display: flex;
+              justify-content: center;
               align-items: center;
               gap: 8px;
-              color: var(--Text-music-sub, #aaa);
-              font-family: Inter500;
+              color:#aaa;
+              font-family: Pretendard500;
               font-size: 12px;
               font-style: normal;
               min-width: 112px;
               cursor: pointer;
+              font {
+                font-family:  inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             } //album-collection-detail-page__box__header__right__box__title__edit-btn--END--
           } //album-collection-detail-page__box__header__right__box__title--END--
           .album-collection-detail-page__box__header__right__box__list {
@@ -101,10 +129,19 @@
                 justify-content: center;
                 min-height: 40px;
                 position: relative;
-                color: var(--Text-music-title, #f1f1f1);
-                font-family: Inter500;
+                color:#f1f1f1;
+                font-family: Pretendard500;
                 font-size: 14px;
                 font-style: normal;
+                font {
+                  font-family:  inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
                 &::after {
                   content: '';
                   display: block;
@@ -122,10 +159,19 @@
                 align-items: center;
                 padding: 0 12px 0 24px;
                 gap: 8px;
-                color: var(--Text-music-title, #f1f1f1);
-                font-family: Inter400;
+                color:#f1f1f1;
+                font-family: Pretendard400;
                 font-size: 14px;
                 font-style: normal;
+                font {
+                  font-family:  inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
                 .user-img {
                   width: 24px;
                   height: 24px;
@@ -138,14 +184,14 @@
           } //album-collection-detail-page__box__header__right__box__list--END--
           .album-collection-detail-page__box__header__right__play-btn {
             margin-top: auto;
-            width: 120px;
-            height: 52px;
-            background: #383838;
+            width: 220px;
+            height: 60px;
+            // background: #383838;
             position: relative;
             top: 0;
             transition: 0.2s;
             color: #f1f1f1;
-            font-family: Orbitron600;
+            font-family:  Pretendard600;
             font-size: 12px;
             font-style: normal;
             line-height: normal;
@@ -154,7 +200,34 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            border-radius: 16px;
+            border: 1px solid #CF0;
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+            font {
+              font-family:  inherit !important;
+              font-size: inherit !important;
+              font-weight: inherit !important;
+              line-height: inherit !important;
+              font-style: inherit !important;
+              color: inherit !important;
+              letter-spacing: inherit !important;
+            }
+            img{
+              width: 26px;
+              height: 26px;
+              object-fit: cover;
+            }
+
             &::after {
+              display: none !important;
               content: '';
               position: absolute;
               left: 0;
@@ -166,7 +239,7 @@
               border: 1px solid #383838;
             }
             &:hover {
-              top: 4px;
+              top: 0px;
               &::after {
                 top: 0;
               }
@@ -190,21 +263,40 @@
       .album-collection-detail-page__box__body__edit__song-count {
         font-size: 12px;
         color: #aaa;
-        font-family: Inter400;
+        font-family: Pretendard400;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
       .album-collection-detail-page__box__body__edit__edit-btn {
         height: 34px;
         border-radius: 12px;
-        background: var(--Color-03, #222);
+        background:#222;
         padding: 0 12px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
-        color: var(--Text-music-sub, #aaa);
-        font-family: Inter500;
+        color: #aaa;
+        font-family: Pretendard500;
         font-size: 12px;
         font-style: normal;
         min-width: 112px;
+        font {
+          font-family:  inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
     }
   } //album-collection-detail-page__box--END--

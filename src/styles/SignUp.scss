@@ -2,8 +2,8 @@
   .sing-up__title {
     display: flex;
     // align-items: center;
-    color: var(--primary-base, #cf0);
-    font-family: Orbitron400;
+    color: #cf0;
+    font-family:  Pretendard400;
     font-size: 40px;
     font-style: normal;
     line-height: normal;
@@ -30,7 +30,7 @@
       display: flex;
       // align-items: center;
       color: #cf0;
-      font-family: Orbitron400;
+      font-family:  Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
@@ -50,7 +50,7 @@
       // gap: 16px;
       .sing-up__setting__box__title {
         color: #f1f1f1;
-        font-family: Orbitron500;
+        font-family:  Pretendard500;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
@@ -81,12 +81,9 @@
         }
 
         .sing-up__setting__box__profile__txt {
-          color: var(--primary-200, #a9d400);
-          font-family: Inter400;
+          color:#a9d400;
+          font-family: Pretendard400;
           font-size: 14px;
-          font-style: normal;
-          line-height: normal;
-          letter-spacing: 0.42px;
         } //sing-up__setting__box__profile__txt--END--
       } //sing-up__setting__box__profile--END--
     } //sing-up__setting__box--END--
@@ -101,8 +98,8 @@
         color: #00ffb3;
       }
       .input-box__title {
-        color: var(--primary-200, #a9d400);
-        font-family: Inter400;
+        color:#a9d400;
+        font-family: Pretendard400;
         font-size: 14px;
         font-style: normal;
         line-height: normal;
@@ -110,28 +107,25 @@
           display: flex;
           justify-content: space-between;
           strong {
-            color: var(--primary-200, #a9d400);
-            font-family: Inter400;
+            color: #a9d400;
+            font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             line-height: 100%; /* 14px */
           }
         }
         span {
-          color: var(--warning, #df1919);
-          font-family: Inter400;
+          color:#df1919;
+          font-family: Pretendard400;
           font-size: 14px;
           font-style: normal;
           line-height: normal;
         }
       } //input-box__title--END--
       .err-txt {
-        color: var(--warning, #df1919);
-        font-family: Inter400;
+        color:#df1919;
+        font-family:Pretendard400;
         font-size: 12px;
-        font-style: normal;
-        line-height: 100%; /* 12px */
-        letter-spacing: 0.36px;
       } //err-txt--END--
       .input-box__cover {
         position: relative;
@@ -152,11 +146,9 @@
           height: 24px;
           min-width: 100px;
           padding: 0 16px;
-          color: var(--Text-dark-title, #1a1a1a);
-          font-family: Orbitron600;
+          color:#1a1a1a;
+          font-family: Pretendard600;
           font-size: 14px;
-          font-style: normal;
-          line-height: normal;
           transition: 0.1s;
           &::before {
             content: "";
@@ -207,8 +199,8 @@
       height: 40px;
       min-width: 140px;
       padding: 0 16px;
-      color: var(--Text-dark-title, #1a1a1a);
-      font-family: Orbitron600;
+      color:#1a1a1a;
+      font-family: Pretendard600;
       font-size: 14px;
       font-style: normal;
       line-height: normal;
@@ -258,7 +250,7 @@
   }
   .check-list__title {
     color: #cf0;
-    font-family: Orbitron400;
+    font-family:  Pretendard400;
     font-size: 18px;
     line-height: 30px;
   }
@@ -309,22 +301,14 @@
   }
   .check-list__items--title {
     color: #fff;
-    font-family: Inter500;
+    font-family: Pretendard500;
     font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 26px; /* 162.5% */
-    letter-spacing: -0.32px;
     line-height: 100%;
   }
   .check-list__items--desc {
     color: #aaa;
-    font-family: Inter400;
+    font-family: Pretendard400;
     font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px; /* 142.857% */
-    letter-spacing: -0.28px;
   }
 
   .mb16 {
@@ -336,24 +320,20 @@
 
   .sing-up__setting__banner {
     border-radius: 12px;
-    background: var(--Color-03, #222);
+    background:#222;
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     dt {
-      color: var(--secondary-base, #00ffb3);
-      font-family: Orbitron400;
+      color:#00ffb3;
+      font-family: Pretendard400;
       font-size: 28px;
-      font-style: normal;
-      line-height: 100%; /* 28px */
     }
     dd {
-      color: var(--Text-music-title, #f1f1f1);
-      font-family: Inter400;
+      color:#f1f1f1;
+      font-family: Pretendard400;
       font-size: 16px;
-      font-style: normal;
-      line-height: normal;
     }
   } //sing-up__setting__banner--END--
 
@@ -396,8 +376,8 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 1;
-        color: var(--primary-base, #cf0);
-        font-family: Orbitron700;
+        color:#cf0;
+        font-family: Pretendard700;
         font-size: 20px;
         font-style: normal;
         line-height: normal;

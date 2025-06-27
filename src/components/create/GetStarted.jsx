@@ -231,13 +231,6 @@ const GetStarted = ({
                     <br />
                   </React.Fragment>
                 ))}
-                {/* <span>
-                * {t('Keywords')}:{' '}
-                {format.keywords.map((keyword, index, { length }) => {
-                  let suffix = index === length - 1 ? '' : ' · ';
-                  return t(keyword) + suffix;
-                })}
-              </span> */}
               </p>
             </article>
           ))}

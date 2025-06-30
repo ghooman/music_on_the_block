@@ -12,8 +12,8 @@ import checkIcon from '../assets/images/check-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import polIcon from '../assets/images/icon/polygon-icon.svg';
-import usdtIcon from '../assets/images/icon/usdt-icon.svg';
-import usdcIcon from '../assets/images/icon/usdc-icon.svg';
+// import usdtIcon from '../assets/images/icon/usdt-icon.svg';
+// import usdcIcon from '../assets/images/icon/usdc-icon.svg';
 import langIcon from '../assets/images/icon/lang-icon.svg';
 import notificationIcon from '../assets/images/icon/notification-icon.svg';
 import notificationOnIcon from '../assets/images/icon/notifications_on.svg';
@@ -231,7 +231,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   }, [option, token, queryClient]);
 
-  const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
+  // 0630 하늘 fix: USDT, USDC 관련 balance 내용 삭제
+  const { mobBalance, polBalance } = useTokenBalance();
   const flattenedDataList = notifications?.flatMap(item => item.data_list);
 
   // 개별 알림 삭제 mutation
@@ -612,7 +613,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             POL
                           </span>
                         </div>
-                        <div className="menu__box__my-page__info__bottom__box">
+                        {/* 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리 */}
+                        {/* <div className="menu__box__my-page__info__bottom__box">
                           <p>{usdtBalance}</p>
                           <span>
                             <img src={usdtIcon} alt="usdt icon" />
@@ -625,11 +627,15 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             <img src={usdcIcon} alt="usdc icon" />
                             USDC
                           </span>
-                        </div>
+                        </div> */}
                         <Link
-                          to="/node-viewer"
-                          className="node-viewer-btn"
-                          onClick={() => {
+                          to={isActive ? '/node-viewer' : '#'}
+                          className={`node-viewer-btn ${isActive ? '' : 'disabled'}`}
+                          onClick={e => {
+                            if (!isActive) {
+                              e.preventDefault();
+                              return;
+                            }
                             setActiveSingle(null);
                             setActiveMenus([]);
                             setActive(false);

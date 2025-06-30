@@ -1,111 +1,132 @@
 .create__sub-banner {
-    padding: 24px;
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+  border-radius: 20px;
+  border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  //   .create__sub-banner-bg {
+  //     position: absolute;
+  //     top: 0;
+  //     z-index: 2;
+
+  //     &.left {
+  //       left: 24px;
+  //     }
+
+  //     &.right {
+  //       right: 24px;
+  //     }
+  //   }
+  .sub-banner__title-group {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    border-radius: 12px;
-    background-color: #222;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    .create__sub-banner-bg {
-        position: absolute;
-        top: 0;
-        z-index: 2;
-
-        &.left {
-            left: 24px;
-        }
-
-        &.right {
-            right: 24px;
-        }
-    }
+    width: 100%;
+    height: 24px;
+    align-items: center;
+    gap: 2px;
     .sub-banner__title {
-        color: #00ffb3;
-        font-family:  Pretendard400;
-        font-size: 28px;
-        z-index: 3;
-        font{
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-        }
+      color: var(--White, #fff);
+      text-align: center;
+      font-family: Pretendard700;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 24px;
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
-    .sub-banner__message {
-        color: #f1f1f1;
-        font-family: Pretendard400;
-        font-size: 16px;
-        z-index: 3;
-        font{
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-        }
+    .sub-banner__required-icon {
+      color: var(--Primary, #48b3ff);
+      text-align: center;
+      font-family: Pretendard700;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 24px;
     }
-    .sub-banner__sub-message {
-        color: #00d293;
-        font-family: Pretendard500;
-        font-size: 16px;
-        line-height: 100%; /* 16px */
-                font{
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-        }
-        z-index: 3;
+  }
+  .sub-banner__message {
+    color: var(--Grey-600, #767676);
+    font-family: Pretendard400;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 22px; /* 157.143% */
+    z-index: 3;
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
     }
-    .sub-banner__buttons {
-        border-radius: 12px;
-        color:#1a1a1a;
-        font-family:  Pretendard600;
-        letter-spacing: 0.48px;
-        background:#00ffb3;
-        padding: 8px 10px;
-        width: fit-content;
-        z-index: 3;
-        position: relative;
-        transition: 0.2s all;
-        font{
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-        }
-        &:hover {
-            transform: translateY(5px);
-            &::after {
-                transform: translateY(0px);
-            }
-        }
+  }
+  .sub-banner__sub-message {
+    color: #00d293;
+    font-family: Pretendard500;
+    font-size: 16px;
+    line-height: 100%; /* 16px */
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
+    z-index: 3;
+  }
+  .sub-banner__buttons {
+    border-radius: 12px;
+    color: #1a1a1a;
+    font-family: Pretendard600;
+    letter-spacing: 0.48px;
+    background: #00ffb3;
+    padding: 8px 10px;
+    width: fit-content;
+    z-index: 3;
+    position: relative;
+    transition: 0.2s all;
+    font {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      font-style: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+    }
+    &:hover {
+      transform: translateY(5px);
+      &::after {
+        transform: translateY(0px);
+      }
+    }
 
-        &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-            top: 0;
-            left: 0;
-            transform: translateY(5px);
-            transition: 0.2s all;
-            border-radius: 12px;
-            border: 1px solid #00ffb3;
-        }
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
+      transform: translateY(5px);
+      transition: 0.2s all;
+      border-radius: 12px;
+      border: 1px solid #00ffb3;
     }
+  }
 }

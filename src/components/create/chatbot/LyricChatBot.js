@@ -6,7 +6,7 @@ import { useUserDetail } from '../../../hooks/useUserDetail';
 import OpenAI from 'openai';
 import jsPDF from 'jspdf';
 import CreateLoading from '../../CreateLoading';
-import { generateKoreanPdf } from '../../../utils/pdfGenerator';
+import { generateKoreanPdf } from '../../../utils/pdfGenerator'; // 한글 pdf저장시 텍스트 안깨지도록 존재하는 함수
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 // 통일된 프롬프트 파일 불러오기
@@ -116,6 +116,7 @@ const LyricChatBot = ({
           { role: 'user', content: userInput },
         ],
       });
+      console.log('response', response);
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 

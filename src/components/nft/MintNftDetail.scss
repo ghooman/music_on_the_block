@@ -4,13 +4,13 @@
     position: relative;
     dt {
       padding-left: 8px;
-      color:#cf0;
+      color: #cf0;
       font-family: Pretendard400;
       font-size: 24px;
       font-style: normal;
       line-height: normal;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -36,7 +36,7 @@
       font-style: normal;
       line-height: normal;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -66,7 +66,7 @@
     border-radius: 12px;
     text-transform: capitalize;
     font {
-      font-family:  inherit !important;
+      font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
       line-height: inherit !important;
@@ -94,7 +94,7 @@
   }
   .disabled {
     border: 1px solid #003321;
-    background:#000;
+    background: #000;
     &::before {
       border: 1px solid #003321;
       top: 0px;
@@ -127,7 +127,7 @@
     border-radius: 12px;
     margin: 16px 0 0 0;
     font {
-      font-family:  inherit !important;
+      font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
       line-height: inherit !important;
@@ -189,7 +189,7 @@
         line-height: normal;
         margin-bottom: 16px;
         font {
-          font-family:  inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
           line-height: inherit !important;
@@ -211,7 +211,7 @@
         font-style: normal;
         justify-content: space-between;
         font {
-          font-family:  inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
           line-height: inherit !important;
@@ -230,7 +230,7 @@
           font-size: 16px;
           font-style: normal;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -244,7 +244,7 @@
             font-size: 16px;
             font-style: normal;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;
@@ -267,7 +267,7 @@
           font-family: Pretendard400;
           font-size: 16px;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -285,7 +285,7 @@
             font-family: Pretendard400;
             font-size: 14px;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;
@@ -305,7 +305,7 @@
       font-family: Pretendard600;
       color: #f1f1f1;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -334,7 +334,7 @@
       font-family: Pretendard400;
       font-size: 16px;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -374,7 +374,7 @@
         font-size: 16px;
         border-radius: 12px;
         font {
-          font-family:  inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
           line-height: inherit !important;
@@ -414,7 +414,7 @@
       font-family: Pretendard400;
       font-size: 16px;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -463,7 +463,7 @@
         cursor: pointer;
         position: relative;
         font {
-          font-family:  inherit !important;
+          font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
           line-height: inherit !important;
@@ -476,7 +476,7 @@
           display: block;
           width: 14px;
           height: 14px;
-          background: url('../../assets/images/arrow_down.svg') center no-repeat;
+          // background: url('../../assets/images/arrow_down.svg') center no-repeat;
           position: absolute;
           top: 50%;
           right: 16px;
@@ -512,7 +512,7 @@
           opacity: 0;
           transition: 0.4s;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -549,7 +549,7 @@
       transition: 0.3s;
       border: 1px solid transparent;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -599,15 +599,15 @@
           font-style: normal;
           line-height: normal;
           margin-bottom: 10px;
-        font {
-          font-family:  inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+          font {
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
         }
         dd {
           color: #f1f1f1;
@@ -621,7 +621,7 @@
           font-size: 14px;
           font-style: normal;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -643,7 +643,7 @@
               font-family: Pretendard400;
               font-size: 12px;
               font {
-                font-family:  inherit !important;
+                font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
                 line-height: inherit !important;
@@ -678,7 +678,7 @@
       position: relative;
       display: inline-block;
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -717,7 +717,7 @@
           font-style: normal;
           line-height: normal;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -730,7 +730,7 @@
           width: 100%;
           height: 420px;
           border-radius: 24px;
-          background:#222;
+          background: #222;
           padding: 10px;
           position: relative;
           cursor: pointer;
@@ -796,7 +796,7 @@
             font-size: 12px;
             font-style: normal;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;
@@ -848,7 +848,7 @@
               font-size: 12px;
               font-style: normal;
               font {
-                font-family:  inherit !important;
+                font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
                 line-height: inherit !important;
@@ -870,7 +870,7 @@
           font-style: normal;
           margin-bottom: 24px;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -900,7 +900,7 @@
             padding: 0 12px;
             position: relative;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;
@@ -977,12 +977,12 @@
                 width: 12px;
                 height: 100%;
                 border-right: 1px solid #222;
-                background:#1a1a1a;
+                background: #1a1a1a;
               }
             }
             dd {
               padding: 8px 12px 8px 24px;
-              color:#aaa;
+              color: #aaa;
               font-family: Pretendard400;
               font-size: 12px;
               font-style: normal;
@@ -992,7 +992,7 @@
               display: flex;
               flex-direction: column;
               font {
-                font-family:  inherit !important;
+                font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
                 line-height: inherit !important;
@@ -1001,13 +1001,13 @@
                 letter-spacing: inherit !important;
               }
               span {
-                color:#aaa;
+                color: #aaa;
                 gap: 4px;
                 font-family: Pretendard400;
                 font-size: 12px;
                 font-style: normal;
                 font {
-                  font-family:  inherit !important;
+                  font-family: inherit !important;
                   font-size: inherit !important;
                   font-weight: inherit !important;
                   line-height: inherit !important;
@@ -1035,7 +1035,7 @@
                 font-style: normal;
                 transition: 0.3s;
                 font {
-                  font-family:  inherit !important;
+                  font-family: inherit !important;
                   font-size: inherit !important;
                   font-weight: inherit !important;
                   line-height: inherit !important;
@@ -1503,7 +1503,7 @@
         background: #cf0;
       }
       font {
-        font-family:  inherit !important;
+        font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
         line-height: inherit !important;
@@ -1518,15 +1518,15 @@
       font-size: 16px;
       font-style: normal;
       line-height: normal;
-    font {
-      font-family:  inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   } //album-detail__slide__title--END--
 
@@ -1633,7 +1633,7 @@
           font-size: 12px;
           font-style: normal;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -1664,7 +1664,7 @@
           word-break: break-word;
           min-height: 38px;
           font {
-            font-family:  inherit !important;
+            font-family: inherit !important;
             font-size: inherit !important;
             font-weight: inherit !important;
             line-height: inherit !important;
@@ -1686,12 +1686,12 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            color:#aaa;
+            color: #aaa;
             font-family: Pretendard400;
             font-size: 12px;
             font-style: normal;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;
@@ -1723,7 +1723,7 @@
             font-size: 12px;
             font-style: normal;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;
@@ -1746,7 +1746,7 @@
             position: relative;
             top: 0;
             transition: 0.2s;
-            color:#1a1a1a;
+            color: #1a1a1a;
             font-family: Pretendard600;
             font-size: 12px;
             font-style: normal;
@@ -1756,7 +1756,7 @@
             align-items: center;
             justify-content: center;
             font {
-              font-family:  inherit !important;
+              font-family: inherit !important;
               font-size: inherit !important;
               font-weight: inherit !important;
               line-height: inherit !important;

@@ -22,6 +22,8 @@ import jaMelody from '../../../locales/jaMelody';
 import enBgmChat from '../../../locales/enBgmChat';
 import koBgmChat from '../../../locales/koBgmChat';
 import idBgmChat from '../../../locales/idBgmChat';
+import jaBgmChat from '../../../locales/jaBgmChat';
+import viBgmChat from '../../../locales/viBgmChat';
 import { useTranslation } from 'react-i18next';
 const MelodyChatBot = ({
   createLoading,
@@ -63,8 +65,8 @@ const MelodyChatBot = ({
     KOR: koBgmChat,
     ENG: enBgmChat,
     IDN: idBgmChat,
-    VIE: viMelody,
-    JPN: jaMelody,
+    VIE: viBgmChat,
+    JPN: jaBgmChat,
   };
 
   const locale =
@@ -82,7 +84,7 @@ const MelodyChatBot = ({
     melody_title = '',
     melody_introduction = '',
   } = melodyData || {};
-
+  // 예전 기획에서 장르별 검색 지원 있을때 장르별 조회를 위해서 추가했던 기능
   const genrePreset = {
     'K-POP': ['K-POP'],
     POP: ['POP'],

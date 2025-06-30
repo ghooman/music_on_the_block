@@ -133,6 +133,7 @@ https://hackmd.io/1KgfU9ZkRC2XfpMXFTSplg
 
 5. **languageMap**
 
+   - 0630 기준 당장은 사용하지 않습니다
    - **역할**: 시스템 전반에서 사용되는 언어 코드 → GPT가 이해하는 언어명 매핑
    - **사용 예시**: 언어를 지정할 때 GPT 요청용 "language" 파라미터로 사용
 

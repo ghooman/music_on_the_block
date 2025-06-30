@@ -1,6 +1,7 @@
 import { useReadContract } from 'thirdweb/react';
 import { useWalletAddress } from './useWalletAddress';
-import { mobContract, polContract, usdtContract, usdcContract } from '../contract/contracts';
+// 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
+import { mobContract, polContract } from '../contract/contracts';
 
 export const useTokenBalance = () => {
   const walletAddress = useWalletAddress();
@@ -19,19 +20,19 @@ export const useTokenBalance = () => {
     params: [walletAddress],
   });
 
-  // USDT
-  const { data: usdtData, refetch: refetchUsdt } = useReadContract({
-    contract: usdtContract,
-    method: 'function balanceOf(address account) view returns (uint256)',
-    params: [walletAddress],
-  });
+  // // USDT
+  // const { data: usdtData, refetch: refetchUsdt } = useReadContract({
+  //   contract: usdtContract,
+  //   method: 'function balanceOf(address account) view returns (uint256)',
+  //   params: [walletAddress],
+  // });
 
-  // USDC
-  const { data: usdcData, refetch: refetchUsdc } = useReadContract({
-    contract: usdcContract,
-    method: 'function balanceOf(address account) view returns (uint256)',
-    params: [walletAddress],
-  });
+  // // USDC
+  // const { data: usdcData, refetch: refetchUsdc } = useReadContract({
+  //   contract: usdcContract,
+  //   method: 'function balanceOf(address account) view returns (uint256)',
+  //   params: [walletAddress],
+  // });
 
   const toDecimal = (wei, decimals = 18) =>
     wei ? (Number(wei) / 10 ** decimals).toFixed(4) : '0.0000';
@@ -39,13 +40,13 @@ export const useTokenBalance = () => {
   return {
     mobBalance: toDecimal(mobData, 18),
     polBalance: toDecimal(polData, 18),
-    usdtBalance: toDecimal(usdtData, 6),
-    usdcBalance: toDecimal(usdcData, 6),
+    // usdtBalance: toDecimal(usdtData, 6),
+    // usdcBalance: toDecimal(usdcData, 6),
     refetchAll: () => {
       refetchMob();
       refetchPol();
-      refetchUsdt();
-      refetchUsdc();
+      // refetchUsdt();
+      // refetchUsdc();
     },
   };
 };

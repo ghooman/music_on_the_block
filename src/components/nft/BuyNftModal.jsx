@@ -10,8 +10,9 @@ import ErrorModal from '../modal/ErrorModal';
 import {
   MOB_CONTRACT_ADDRESS,
   POL_CONTRACT_ADDRESS,
-  USDT_CONTRACT_ADDRESS,
-  USDC_CONTRACT_ADDRESS,
+  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
+  // USDT_CONTRACT_ADDRESS,
+  // USDC_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
   MARKET_PLACE_CONTRACT_ADDRESS,
 } from '../../contract/contractAddresses';
@@ -32,10 +33,9 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     fetchPolygonStatus();
   }, []);
   const polygonDisabled = polygonStatus?.status?.includes('장애');
-  const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
-    useTokenAllowanceCheck();
-  const { mobTokenApprove, polTokenApprove, usdcTokenApprove, usdtTokenApprove } =
-    useTokenApprove();
+  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
+  const { mobAllowanceData, polAllowanceData } = useTokenAllowanceCheck();
+  const { mobTokenApprove, polTokenApprove } = useTokenApprove();
   const buyFromListing = useBuyFromListing();
   const { token } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
@@ -54,10 +54,10 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
         return MOB_CONTRACT_ADDRESS;
       case 'POL':
         return POL_CONTRACT_ADDRESS;
-      case 'USDT':
-        return USDT_CONTRACT_ADDRESS;
-      case 'USDC':
-        return USDC_CONTRACT_ADDRESS;
+      // case 'USDT':
+      //   return USDT_CONTRACT_ADDRESS;
+      // case 'USDC':
+      //   return USDC_CONTRACT_ADDRESS;
       default:
         return null;
     }
@@ -80,12 +80,12 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
           case 'POL':
             currentAllowance = polAllowanceData || 0;
             break;
-          case 'USDT':
-            currentAllowance = usdtAllowanceData || 0;
-            break;
-          case 'USDC':
-            currentAllowance = usdcAllowanceData || 0;
-            break;
+          // case 'USDT':
+          //   currentAllowance = usdtAllowanceData || 0;
+          //   break;
+          // case 'USDC':
+          //   currentAllowance = usdcAllowanceData || 0;
+          //   break;
           default:
             currentAllowance = 0;
         }
@@ -105,7 +105,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     };
 
     checkAllowance();
-  }, [nftData, mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData]);
+  }, [nftData, mobAllowanceData, polAllowanceData]);
 
   // 토큰 종류에 따라 적절한 approve 함수 호출
   const approveToken = async () => {
@@ -117,12 +117,12 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
         case 'POL':
           await polTokenApprove();
           break;
-        case 'USDT':
-          await usdtTokenApprove();
-          break;
-        case 'USDC':
-          await usdcTokenApprove();
-          break;
+        // case 'USDT':
+        //   await usdtTokenApprove();
+        //   break;
+        // case 'USDC':
+        //   await usdcTokenApprove();
+        //   break;
         default:
           throw new Error('지원하지 않는 토큰입니다.');
       }

@@ -4,8 +4,9 @@ import {
   MOB_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
   POL_CONTRACT_ADDRESS,
-  USDT_CONTRACT_ADDRESS,
-  USDC_CONTRACT_ADDRESS,
+  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
+  // USDT_CONTRACT_ADDRESS,
+  // USDC_CONTRACT_ADDRESS,
   MOB_NFT_CONTRACT_ADDRESS,
   MOB_NFT_STAKING_CONTRACT_ADDRESS,
 } from './contractAddresses';
@@ -30,19 +31,19 @@ export const polContract = getContract({
   address: POL_CONTRACT_ADDRESS,
 });
 
-// USDT token
-export const usdtContract = getContract({
-  client,
-  chain,
-  address: USDT_CONTRACT_ADDRESS,
-});
+// // USDT token
+// export const usdtContract = getContract({
+//   client,
+//   chain,
+//   address: USDT_CONTRACT_ADDRESS,
+// });
 
-// USDC token
-export const usdcContract = getContract({
-  client,
-  chain,
-  address: USDC_CONTRACT_ADDRESS,
-});
+// // USDC token
+// export const usdcContract = getContract({
+//   client,
+//   chain,
+//   address: USDC_CONTRACT_ADDRESS,
+// });
 
 // music NFT
 export const musicNftContract = getContract({

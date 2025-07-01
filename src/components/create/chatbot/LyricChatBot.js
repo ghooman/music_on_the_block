@@ -6,7 +6,7 @@ import { useUserDetail } from '../../../hooks/useUserDetail';
 import OpenAI from 'openai';
 import jsPDF from 'jspdf';
 import CreateLoading from '../../CreateLoading';
-import { generateKoreanPdf } from '../../../utils/pdfGenerator';
+import { generateKoreanPdf } from '../../../utils/pdfGenerator'; // 한글 pdf저장시 텍스트 안깨지도록 존재하는 함수
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 // 통일된 프롬프트 파일 불러오기
@@ -23,6 +23,8 @@ const LyricChatBot = ({
   setGeneratedLyric,
   setPageNumber,
   selectedVersion,
+  isConfirmLyricStatus,
+  setIsConfirmLyricStatus,
 }) => {
   const { t } = useTranslation('song_create');
 
@@ -42,7 +44,7 @@ const LyricChatBot = ({
   ]);
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isStatus, setIsStatus] = useState(false); // 가사 완료후 제네러이트 송 상태
+
   const [mode, setMode] = useState('read');
 
   // 초기 가사 placeholder
@@ -114,6 +116,7 @@ const LyricChatBot = ({
           { role: 'user', content: userInput },
         ],
       });
+      console.log('response', response);
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 
@@ -179,11 +182,11 @@ const LyricChatBot = ({
   }, [chatHistory, loading]);
 
   const handleIsStatus = () => {
-    setIsStatus(true);
+    setIsConfirmLyricStatus(true);
     window.scrollTo(0, 0);
   };
 
-  if (!isStatus)
+  if (!isConfirmLyricStatus)
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}

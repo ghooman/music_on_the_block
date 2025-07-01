@@ -91,7 +91,7 @@ const lyricPrompts = {
     },
   },
 
-  // 메인 가사 생성용 통일된 프롬프트 (새로운 방식)
+  // 메인 가사 생성용 통일된 프롬프트 (새로운 방식) 0630 기준 사용되지는 않습니다 (프롬프트 공통된 내용으로 사용하는 버전으로 사용시도할시)
   main: {
     instructions: `You are a professional songwriter and lyricist.
 Your task is to create original song lyrics based on the user's instructions.

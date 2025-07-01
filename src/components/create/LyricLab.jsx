@@ -20,14 +20,15 @@ const tagPreset = {
   Moon: ['Moon'],
   Happy: ['Happy'],
   Sad: ['Sad'],
+  Cafe: ['Cafe'],
   Travel: ['Travel'],
   Winter: ['Winter'],
-  Cafe: ['Cafe'],
   School: ['School'],
   Space: ['Space'],
   Nature: ['Nature'],
   Cat: ['Cat'],
   Strawberry: ['Strawberry'],
+  Food: ['Food'],
 };
 
 const genrePreset = {
@@ -79,6 +80,7 @@ const LyricsLab = ({
   melodyData,
   tempo,
   setAlbumCover,
+  setIsConfirmLyricStatus,
 }) => {
   const { t } = useTranslation('song_create');
 
@@ -121,6 +123,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
       throw new Error('필수 정보가 부족합니다. 모든 항목을 채워주세요.');
     } else {
       setCreatedLyrics(response.output_text);
+      setIsConfirmLyricStatus(true);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -146,15 +149,11 @@ Additional Story: ${lyricStory || 'Not specified'}`,
           setSelectedLanguage={setSelectedLanguage}
         >
           <SubBanner>
-            <SubBanner.LeftImages src={subBg2} />
-            <SubBanner.Title text={t('Select a Tags')} />
-            <SubBanner.Message
-              text={t(
-                'Please select tags that can express the mood, emotion, and image of the song.'
-              )}
-            />
+            {/* <SubBanner.LeftImages src={subBg2} /> */}
+            <SubBanner.Title text={t('생성할 가사의 주요 키워드는 무엇인가요?')} />
+            <SubBanner.Message text={t('최대 5개의 태그를 선택할 수 있어요')} />
             <SelectItem
-              subTitle={t('Popular Tags')}
+              // subTitle={t('Popular Tags')}
               setter={setLyricData}
               objKey="lyric_tag"
               selected={lyricData?.lyric_tag}

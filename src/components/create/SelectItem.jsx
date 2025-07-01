@@ -8,6 +8,9 @@ import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
 
+import lyricsCreate from '../../assets/images/icons/lyrics-create-icon.svg';
+import cancelWhiteIcon from '../../assets/images/icons/cancel-white-icon.svg';
+
 export const SelectItemWrap = ({
   children,
   dropdown,
@@ -29,15 +32,22 @@ export const SelectItemWrap = ({
   return (
     <div className="create__select-components">
       <div className="tag-select-title">
-        <h2 className="tag-select-title__text">{t('Select a Tags')}</h2>
-        {dropdown && (
+        <img src={lyricsCreate} alt="lyrics-create" />
+        <div className="tag-select-title--group">
+          <h2>저는 가사 생성 AI예요!</h2>
+          <p>
+            음악의 가사를 먼저 생성해볼까요? {'\n'} 특별한 이야기를 기반으로 당신만의 가사를
+            만들어보세요
+          </p>
+        </div>
+        {/* {dropdown && (
           <div
             className={`tag-select-title__dropdown-toggle ${visible ? 'visible' : ''}`}
             onClick={() => setVisible(prev => !prev)}
           >
             <div className={`tag-select-title__dropdown-thumb ${visible ? 'visible' : ''}`}></div>
           </div>
-        )}
+        )} */}
       </div>
       {/* {selectedLanguage && setSelectedLanguage && (
         <div className="tag-select language-select">
@@ -85,19 +95,17 @@ export const SelectItem = ({
   const [selectedPreset, setSelectedPreset] = useState('');
   const { t } = useTranslation('song_create');
   const addItem = () => {
-    if (!input.trim()) return;
-    setSelectedPreset(null);
+    const trimmed = input.trim(); // ⭐ 추가됨
+    if (!trimmed) return;
 
     setter(prev => {
-      let copy = { ...prev };
+      const copy = { ...prev };
+      if (copy[objKey].length >= 5) return prev; // ✅ 5개 이상이면 입력도 막기
       if (multiple) {
-        let set = Array.from(new Set([...copy[objKey], input]));
-        if (set.length > 5) {
-          set.shift();
-        }
+        const set = Array.from(new Set([...copy[objKey], trimmed])); // ⭐ 중복 제거
         copy[objKey] = set;
       } else {
-        copy[objKey] = [input];
+        copy[objKey] = [trimmed];
       }
       return copy;
     });
@@ -114,46 +122,72 @@ export const SelectItem = ({
   };
 
   const handlePreset = (key, value) => {
-    if (add && multiple) {
-      setter(prev => {
-        let copy = { ...prev };
-        let set = Array.from(new Set([...copy[objKey], key]));
-        if (set.length > 5) {
-          set.shift();
+    setter(prev => {
+      const copy = { ...prev };
+      const alreadySelected = copy[objKey].includes(key);
+
+      if (multiple) {
+        if (alreadySelected) {
+          // 선택 해제
+          copy[objKey] = copy[objKey].filter(item => item !== key);
+        } else {
+          if (copy[objKey].length >= 5) return prev; // ✅ 5개 이상이면 추가 막기
+          copy[objKey] = [...copy[objKey], key];
         }
-        copy[objKey] = set;
-        return copy;
-      });
-    } else {
-      setter(prev => {
-        let copy = { ...prev };
-        copy[objKey] = value;
-        setSelectedPreset(key);
-        return copy;
-      });
-    }
+      } else {
+        copy[objKey] = alreadySelected ? [] : [key];
+      }
+
+      return copy;
+    });
   };
 
   return (
     <div className={`tag-select ${className}`}>
-      <div className="tag-title__block">
+      {/* <div className="tag-title__block">
         <h3 className="tag-title">{mainTitle}</h3>
-        {/* <p className="tag-title__notice">
+        <p className="tag-title__notice">
           {multiple
             ? "You can enter up to 5 keywords"
             : " You can select only one option"}
-        </p> */}
-      </div>
-      <h4 className="tag-sub-title">{subTitle}</h4>
+        </p>
+      </div> */}
+      {/* <h4 className="tag-sub-title">{subTitle}</h4> */}
       <div className="tag-preset">
+        {/* ⭐ 프리셋 버튼 안에서 X 아이콘이 선택된 경우만 표시 */}
         {preset &&
-          Object.entries(preset).map(([key, value], index) => (
+          Object.entries(preset).map(([key, value], index) => {
+            const isSelected = selected.includes(key); // ⭐ 추가
+            return (
+              <button
+                className={`tag-button presets ${isSelected ? 'enable' : ''} ${
+                  !isSelected && selected.length >= 5 ? 'disabled-button' : ''
+                }`}
+                key={`preset-${index}`}
+                onClick={() => {
+                  if (isSelected || selected.length < 5) {
+                    handlePreset(key, value);
+                  }
+                }}
+              >
+                {key}
+                {isSelected && <img src={cancelWhiteIcon} alt="cancel" className="cancel-icon" />}
+              </button>
+            );
+          })}
+
+        {/* ⭐ 직접 입력한 키워드는 preset에 없는 것만 걸러서 함께 렌더링 */}
+        {selected
+          .filter(item => !preset || !preset[item]) // ⭐ 프리셋 외 항목만 필터링
+          .map((item, index) => (
             <button
-              className={`tag-button presets ${selectedPreset === key ? 'enable' : ''}`}
-              key={`preset-${index}`}
-              onClick={() => handlePreset(key, value)}
+              className="tag-button selected"
+              key={`input-${index}`}
+              onClick={() => deleteItem(item)}
             >
-              {key}
+              {item}
+              <img src={cancelWhiteIcon} alt="cancel" className="cancel-icon" />{' '}
+              {/* ⭐ X 아이콘 표시 */}
             </button>
           ))}
       </div>
@@ -161,16 +195,18 @@ export const SelectItem = ({
         <input
           value={input}
           className="tag-input"
-          placeholder={t('Please enter your keyword here')}
+          placeholder="원하는 키워드를 직접 입력할 수 있어요"
           maxLength={10}
-          onChange={e => {
-            setInput(e.target.value);
-          }}
+          onChange={e => setInput(e.target.value)}
           onKeyPress={e => {
-            if (e.key === 'Enter') addItem();
+            if (e.key === 'Enter' && selected.length < 5) {
+              addItem();
+            }
           }}
-        ></input>
-        <div className="tag-input-comment-button-wrap">
+          disabled={selected.length >= 5} // ✅ 입력창 자체 비활성화
+        />
+
+        {/* <div className="tag-input-comment-button-wrap">
           {color && (
             <label className="tag-input-comment-button">
               {t('Select')}
@@ -186,9 +222,9 @@ export const SelectItem = ({
           <button className="tag-input-comment-button" onClick={addItem}>
             {t('Add')}
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="tag-selected">
+      {/* <div className="tag-selected">
         {selected.map((item, index) => (
           <button
             className="tag-button selected"
@@ -199,7 +235,7 @@ export const SelectItem = ({
             {item}
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -85,6 +85,7 @@
   }
 
   .tag-select {
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 12px;
@@ -135,19 +136,10 @@
       position: relative;
     }
     .tag-input {
-      // width: 100%;
-      // height: 54px;
-      // padding: 12px;
-      // border-radius: 12px;
-      // border: 1px solid #383838;
-      // background-color: #0b0b0c;
-      // transition: 0.3s all;
-      // resize: none;
-      display: flex;
-      height: 54px;
+      min-width: 100%;
+      min-height: 80px;
+      height: fit-content;
       padding: 12px 20px;
-      justify-content: space-between;
-      align-items: center;
       align-self: stretch;
       border-radius: 12px;
       border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));

@@ -163,15 +163,25 @@ Additional Story: ${lyricStory || 'Not specified'}`,
               add
             />
           </SubBanner>
-          <SelectItem
-            mainTitle={t('Select a Genre')}
-            subTitle={t('Popular Genre')}
-            setter={setLyricData}
-            objKey="lyric_genre"
-            selected={lyricData?.lyric_genre}
-            preset={genrePreset}
-          />
-          <SelectItemInputOnly value={lyricStory} setter={setLyricStory} title={t('Your Story')} />
+          <SubBanner>
+            <SubBanner.Title text={t('어떤 장르/스타일의 가사를 생성할까요?')} />
+            <SubBanner.Message text={t('한 가지만 고를 수 있어요')} />
+            <SelectItem
+              mainTitle={t('Select a Genre')}
+              subTitle={t('Popular Genre')}
+              setter={setLyricData}
+              objKey="lyric_genre"
+              selected={lyricData?.lyric_genre}
+              preset={genrePreset}
+            />
+          </SubBanner>
+          <SubBanner>
+            <SelectItemInputOnly
+              value={lyricStory}
+              setter={setLyricStory}
+              title={t('가사 생성을 위한 당신만의 스토리가 있나요?')}
+            />
+          </SubBanner>
         </SelectItemWrap>
 
         <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

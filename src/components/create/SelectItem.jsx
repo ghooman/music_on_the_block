@@ -382,7 +382,7 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         value={value}
         onChange={e => setter(e.target.value)}
         type="text"
-        placeholder={t('Please enter a specific melody or sound effect.')}
+        placeholder={t('자유롭게 아이디어를 남겨보세요!')}
       />
     </div>
   );

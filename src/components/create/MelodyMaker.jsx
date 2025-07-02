@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OpenAI from 'openai';
 import SubBanner from './SubBanner';
+
+import melodyMaker from '../../assets/images/icons/melody-maker-icon.svg';
+
 import {
   SelectItem,
   SelectItemTempo,
@@ -442,15 +445,21 @@ const MelodyMaker = ({
         ></SubBanner.Button>
       </SubBanner> */}
 
-      <SelectItemWrap currentStep={'isMelodyPage'}>
+      {/* <SelectItemWrap currentStep={'isMelodyPage'}> */}
+      <SelectItemWrap
+        currentStep={'isMelodyPage'}
+        selectedLanguage={selectedLanguage}
+        setSelectedLanguage={setSelectedLanguage}
+        icon={melodyMaker}
+        title={t('저는 멜로디 생성 AI예요!')}
+        description={t(
+          '이번엔 노래의 멜로디와 악기를 구성해볼까요?\n가사에 어울리는 장르를 선택하고, 템포와 악기를 선택해 노래의 사운드를 완성해보세요!'
+        )}
+      >
         <SubBanner>
-          <SubBanner.LeftImages src={subBg2} />
-          <SubBanner.Title text={t('Select a Tags')} />
-          <SubBanner.Message
-            text={t(
-              'Please select tags that can express the mood, emotion, and image of the song.'
-            )}
-          />
+          {/* <SubBanner.LeftImages src={subBg2} /> */}
+          <SubBanner.Title text={t('어떤 분위기, 감정, 이미지로 멜로디를 생성할까요?')} />
+          <SubBanner.Message text={t('최대 5개의 태그를 선택할 수 있어요')} />
           <SelectItem
             subTitle={t('Popular Tags')}
             setter={setMelodyData}
@@ -460,17 +469,41 @@ const MelodyMaker = ({
             className="sub-banner__tags"
             multiple
             add
+            placeholder={t('원하는 키워드를 직접 입력할 수 있어요')}
+          />
+        </SubBanner>
+        <SubBanner>
+          {/* <SubBanner.LeftImages src={subBg2} /> */}
+          <SubBanner.Title text={t('어떤 장르의 멜로디를 생성할까요?')} />
+          <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
+          <SelectItem
+            // subTitle={t('Popular Tags')}
+            // setter={setMelodyData}
+            objKey="melody_genre"
+            selected={melodyData?.melody_genre}
+            preset={genrePreset}
+            className="sub-banner__genre"
+            placeholder={t('원하는 장르를 직접 입력할 수 있어요')}
+          />
+        </SubBanner>
+        <SubBanner>
+          {/* <SubBanner.LeftImages src={subBg2} /> */}
+          <SubBanner.Title text={t('어떤 악기를 사용할까요?')} />
+          <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
+          <SelectItem
+            mainTitle={t('Instrument')}
+            subTitle={t('Instrument Tags')}
+            setter={setMelodyData}
+            objKey="melody_instrument"
+            selected={melody_instrument || []}
+            preset={instrumentPreset}
+            className="sub-banner__genre"
+            multiple
+            add
+            placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
           />
         </SubBanner>
         <SelectItemInputOnly value={title} setter={setTitle} title={t('Title')} />
-        <SelectItem
-          mainTitle={t('Select a Genre')}
-          subTitle={t('Popular Genre')}
-          setter={setMelodyData}
-          objKey="melody_genre"
-          selected={melodyData?.melody_genre}
-          preset={genrePreset}
-        />
         {selectedCreationMode === 'song' && (
           <SelectItem
             mainTitle={t('Select a Gender')}
@@ -481,16 +514,6 @@ const MelodyMaker = ({
             preset={genderPreset}
           />
         )}
-        <SelectItem
-          mainTitle={t('Instrument')}
-          subTitle={t('Instrument Tags')}
-          preset={instrumentPreset}
-          setter={setMelodyData}
-          objKey="melody_instrument"
-          selected={melody_instrument || []}
-          multiple={true}
-          add={true}
-        />
         <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         <SelectItemInputOnly
           value={melodyDetail}

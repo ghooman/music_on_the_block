@@ -185,7 +185,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
           <SubBanner>
             {/* <SubBanner.LeftImages src={subBg2} /> */}
             <SubBanner.Title text={t('어떤 장르/스타일의 가사를 생성할까요?')} />
-            <SubBanner.Message text={t('한 가지만 고를 수 있어요')} />
+            <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
             <SelectItem
               // subTitle={t('Popular Tags')}
               setter={setLyricData}

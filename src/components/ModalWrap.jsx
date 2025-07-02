@@ -1,10 +1,17 @@
 import { useEffect } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import modalCloseImg from '../assets/images/close.svg';
 
 import './ModalWrap.scss';
 
-const ModalWrap = ({ className = '', children, onClose, title = 'MODAL', closeIcon = true }) => {
+const ModalWrap = ({
+  className = '',
+  children,
+  onClose,
+  title = 'MODAL',
+  closeIcon = true,
+  btn = 'Edit Lyrics',
+}) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -33,6 +40,7 @@ const ModalWrap = ({ className = '', children, onClose, title = 'MODAL', closeIc
           )}
         </div>
         <div className="modal-content">{children}</div>
+        <div className="modal-btn">{btn}</div>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   SelectItemWrap,
   SelectItemInputOnly,
   SelectItemIntroInputOnly,
+  TitleInputOnly,
 } from './SelectItem';
 import ExpandedButton from './ExpandedButton';
 import CompleteModal from './../SingUpCompleteModal';
@@ -380,7 +381,7 @@ const MelodyMaker = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
-          introduction: melody_introduction?.[0] || '',
+          introduction: melody_introduction || '',
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -425,6 +426,8 @@ const MelodyMaker = ({
   }, [generatedMusicResult]);
 
   const { t } = useTranslation('song_create');
+
+  console.log(typeof melody_introduction, melody_introduction);
 
   return (
     <div className="create__melody-maker">
@@ -472,13 +475,13 @@ const MelodyMaker = ({
             placeholder={t('원하는 키워드를 직접 입력할 수 있어요')}
           />
         </SubBanner>
+
         <SubBanner>
-          {/* <SubBanner.LeftImages src={subBg2} /> */}
           <SubBanner.Title text={t('어떤 장르의 멜로디를 생성할까요?')} />
           <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
           <SelectItem
             // subTitle={t('Popular Tags')}
-            // setter={setMelodyData}
+            setter={setMelodyData}
             objKey="melody_genre"
             selected={melodyData?.melody_genre}
             preset={genrePreset}
@@ -486,8 +489,8 @@ const MelodyMaker = ({
             placeholder={t('원하는 장르를 직접 입력할 수 있어요')}
           />
         </SubBanner>
+
         <SubBanner>
-          {/* <SubBanner.LeftImages src={subBg2} /> */}
           <SubBanner.Title text={t('어떤 악기를 사용할까요?')} />
           <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
           <SelectItem
@@ -498,34 +501,61 @@ const MelodyMaker = ({
             selected={melody_instrument || []}
             preset={instrumentPreset}
             className="sub-banner__genre"
-            multiple
-            add
             placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
           />
         </SubBanner>
-        <SelectItemInputOnly value={title} setter={setTitle} title={t('Title')} />
+
         {selectedCreationMode === 'song' && (
-          <SelectItem
-            mainTitle={t('Select a Gender')}
-            subTitle={t('Popular Gender')}
-            setter={setMelodyData}
-            objKey="melody_gender"
-            selected={melodyData?.melody_gender}
-            preset={genderPreset}
-          />
+          <SubBanner>
+            <SubBanner.Title text={t('어떤 성별의 목소리를 사용할까요?')} />
+            <SelectItem
+              mainTitle={t('Select a Gender')}
+              subTitle={t('Popular Gender')}
+              setter={setMelodyData}
+              objKey="melody_gender"
+              selected={melodyData?.melody_gender}
+              preset={genderPreset}
+              className="sub-banner__gender"
+              placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
+              hideInput={true}
+              blockStyle={true}
+            />
+          </SubBanner>
         )}
-        <SelectItemTempo tempo={tempo} setTempo={setTempo} />
-        <SelectItemInputOnly
-          value={melodyDetail}
-          setter={setMelodyDetail}
-          title={t('Music Detail')}
-        />
-        <SelectItemIntroInputOnly
-          value={melody_introduction}
-          setter={value => setMelodyData(prev => ({ ...prev, melody_introduction: value }))}
-          title={t('Introduction')}
-        />
-        <div className="selected-tag-list">
+
+        <SubBanner>
+          <SubBanner.Title text={t('노래의 템포는 몇 BPM으로 생성할까요?')} />
+          <SelectItemTempo tempo={tempo} setTempo={setTempo} />
+        </SubBanner>
+
+        <SubBanner>
+          <SelectItemInputOnly
+            value={melodyDetail}
+            setter={setMelodyDetail}
+            title={t('디테일한 멜로디 요소가 있나요?')}
+            placeholder={t('바람소리, 보컬의 높낮이 등 원하는 요소를 작성해주세요')}
+          />
+        </SubBanner>
+
+        <SubBanner>
+          <SubBanner.Title text={t('노래 제목을 입력해주세요')} />
+          <TitleInputOnly
+            value={title}
+            setter={setTitle}
+            placeholder={t('이 노래의 제목을 작성해주세요')}
+          />
+        </SubBanner>
+
+        <SubBanner>
+          <SelectItemInputOnly
+            value={melody_introduction}
+            setter={value => setMelodyData(prev => ({ ...prev, melody_introduction: value }))}
+            title={t('노래 설명을 작성해주세요')}
+            placeholder={t('이 노래에 대한 소개글을 작성해주세요')}
+          />
+        </SubBanner>
+
+        {/* <div className="selected-tag-list">
           <div className="selected-tag-list__title">
             <h3>
               {t('Selected Tags')}
@@ -545,9 +575,49 @@ const MelodyMaker = ({
           <div className="selected-tag-list__tags">
             <StyledPromptPreview previewText={promptPreview} valueColor="#cf0" />
           </div>
+        </div> */}
+        {/* <div className="button-wrap">
+          <div className="button-wrap__left">
+            <button className="back" onClick={() => setPageNumber(prev => prev - 1)}>
+              {t('Back')}
+            </button>
+            <button className="skip" onClick={onSkip} style={{ display: 'none' }}>
+              {t('Skip')}
+            </button>
+          </div>
+          <button
+            className={
+              loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+                ? 'next'
+                : 'next enable'
+            }
+            onClick={() => musicGenerate()}
+            disabled={
+              loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+            }
+          >
+            {loading ? t('Loading') : t('Generate')}
+          </button>
+        </div> */}
+        <div className="create__btn">
+          <button
+            className={`create__get-started--button ${
+              loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+                ? 'disabled'
+                : ''
+            }`}
+            onClick={() => musicGenerate()}
+            disabled={
+              loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+            }
+          >
+            {loading ? t('Loading') : t('Generate')}
+          </button>
+
+          {loading && <CreateLoading textTrue />}
         </div>
       </SelectItemWrap>
-      <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <SelectedWrap title={t('Lyrics Lab')}>
           <SelectedItem title={t('Tags')} value={lyricData?.lyric_tag} multiple />
           <SelectedItem title={t('Genre')} value={lyricData?.lyric_genre} />
@@ -575,30 +645,8 @@ const MelodyMaker = ({
           />
           <SelectedItem title={t('Tempo')} value={tempo} />
         </SelectedWrap>
-      )}
-      <div className="button-wrap">
-        <div className="button-wrap__left">
-          <button className="back" onClick={() => setPageNumber(prev => prev - 1)}>
-            {t('Back')}
-          </button>
-          <button className="skip" onClick={onSkip} style={{ display: 'none' }}>
-            {t('Skip')}
-          </button>
-        </div>
-        <button
-          className={
-            loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
-              ? 'next'
-              : 'next enable'
-          }
-          onClick={() => musicGenerate()}
-          disabled={
-            loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
-          }
-        >
-          {loading ? t('Loading') : t('Generate')}
-        </button>
-      </div>
+      )} */}
+
       {loading && <CreateLoading textTrue />}
       {showLyricsModal && (
         <LyricsModal setShowLyricsModal={setShowLyricsModal} generatedLyric={generatedLyric} />

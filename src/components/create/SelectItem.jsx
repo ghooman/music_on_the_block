@@ -11,6 +11,7 @@ import './SelectItem.scss';
 import lyricsCreate from '../../assets/images/icons/lyrics-create-icon.svg';
 import lyricsEdit from '../../assets/images/icons/lyrics-edit-icon.svg';
 import cancelWhiteIcon from '../../assets/images/icons/cancel-white-icon.svg';
+import bpmThumbIcon from '../../assets/images/icons/BPM-thumb-icon.svg';
 
 export const SelectItemWrap = ({
   children,
@@ -92,6 +93,8 @@ export const SelectItem = ({
   placeholder,
   color,
   className,
+  hideInput,
+  blockStyle,
 }) => {
   const [input, setInput] = useState('');
   const [selectedPreset, setSelectedPreset] = useState('');
@@ -155,16 +158,18 @@ export const SelectItem = ({
         </p>
       </div> */}
       {/* <h4 className="tag-sub-title">{subTitle}</h4> */}
-      <div className="tag-preset">
+      <div className={`tag-preset ${blockStyle ? 'preset-horizontal' : ''}`}>
         {/* ⭐ 프리셋 버튼 안에서 X 아이콘이 선택된 경우만 표시 */}
         {preset &&
           Object.entries(preset).map(([key, value], index) => {
             const isSelected = selected.includes(key); // ⭐ 추가
             return (
               <button
-                className={`tag-button presets ${isSelected ? 'enable' : ''} ${
-                  !isSelected && selected.length >= 5 ? 'disabled-button' : ''
-                }`}
+                className={`tag-button presets 
+                        ${isSelected ? 'enable' : ''} 
+                        ${!isSelected && selected.length >= 5 ? 'disabled-button' : ''}
+                        ${blockStyle ? 'block-style' : ''}
+                      `}
                 key={`preset-${index}`}
                 onClick={() => {
                   if (isSelected || selected.length < 5) {
@@ -172,8 +177,11 @@ export const SelectItem = ({
                   }
                 }}
               >
-                {key}
-                {isSelected && <img src={cancelWhiteIcon} alt="cancel" className="cancel-icon" />}
+                {t(key)}
+                {/* ❌ blockStyle일 땐 cancel-icon(X) 숨김 */}
+                {!blockStyle && isSelected && (
+                  <img src={cancelWhiteIcon} alt="cancel" className="cancel-icon" />
+                )}
               </button>
             );
           })}
@@ -193,51 +201,24 @@ export const SelectItem = ({
             </button>
           ))}
       </div>
-      <div className="tag-input-box">
-        <input
-          value={input}
-          className="tag-input"
-          placeholder={placeholder || '직접 입력할 수 있어요'}
-          maxLength={10}
-          onChange={e => setInput(e.target.value)}
-          onKeyPress={e => {
-            if (e.key === 'Enter' && selected.length < 5) {
-              addItem();
-            }
-          }}
-          disabled={selected.length >= 5} // ✅ 입력창 자체 비활성화
-        />
-
-        {/* <div className="tag-input-comment-button-wrap">
-          {color && (
-            <label className="tag-input-comment-button">
-              {t('Select')}
-              <input
-                type="color"
-                onChange={e => setInput(e.target.value)}
-                onBlur={() => {
-                  addItem();
-                }}
-              />
-            </label>
-          )}
-          <button className="tag-input-comment-button" onClick={addItem}>
-            {t('Add')}
-          </button>
-        </div> */}
-      </div>
-      {/* <div className="tag-selected">
-        {selected.map((item, index) => (
-          <button
-            className="tag-button selected"
-            key={`selected-${index}`}
-            onClick={() => deleteItem(item)}
-          >
-            <img src={cancelIcon} alt="close" />
-            {item}
-          </button>
-        ))}
-      </div> */}
+      {/* ✅ hideInput이 false일 때만 input 박스 렌더 */}
+      {!hideInput && (
+        <div className="tag-input-box">
+          <input
+            value={input}
+            className="tag-input"
+            placeholder={placeholder || '직접 입력할 수 있어요'}
+            maxLength={10}
+            onChange={e => setInput(e.target.value)}
+            onKeyPress={e => {
+              if (e.key === 'Enter' && selected.length < 5) {
+                addItem();
+              }
+            }}
+            disabled={selected.length >= 5} // ✅ 입력창 자체 비활성화
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -259,7 +240,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
   return (
     <div className="tag-select">
       <div className="tag-title__block">
-        <h3 className="tag-title">{t('Select a Tempo')}</h3>
+        {/* <h3 className="tag-title">{t('Select a Tempo')}</h3> */}
       </div>
       <div
         className={`tag-title__tempos ${
@@ -272,8 +253,8 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
             : ''
         }`}
       >
-        {tempo >= 60 && tempo <= 80 && t('Slow : Calm and reflective (60-80 BPM)')}
-        {tempo > 80 && tempo <= 120 && t('Medium : Balanced and versatile (81-120 BPM)')}
+        {tempo >= 60 && tempo <= 80 && t('느림 60-80 BPM은 차분하고 사색적인 곡으로 적당해요.')}
+        {tempo > 80 && tempo <= 120 && t('중간 81-120 BPM은 보통의 다용도 곡으로 적당해요.')}
         {tempo > 120 && t('Fast: Energetic and upbeat (121-160 BPM)')}
       </div>
       <div className="tag-select__range" ref={rangeRef}>
@@ -291,7 +272,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
         {rangesInstance
           .handles()
           ?.map(({ value, onKeyDownHandler, onMouseDownHandler, onTouchStart }, i) => (
-            <button
+            <div
               className="tag-select__range--thumb"
               key={i}
               onKeyDown={onKeyDownHandler}
@@ -305,10 +286,11 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
                 left: `${rangesInstance.getPercentageForValue(value)}%`,
               }}
             >
+              <img src={bpmThumbIcon} alt="bpm-thumb" draggable={false} />
               <div className="tag-select__range--thumb-tick">
-                <span>{value}</span> BPM
+                <span className="thumb-value">{value}</span> <span className="thumb-bpm">BPM</span>
               </div>
-            </button>
+            </div>
           ))}
       </div>
     </div>
@@ -371,7 +353,7 @@ export const SelectItemSongLength = ({ songLength, setSongLength }) => {
   );
 };
 
-export const SelectItemInputOnly = ({ value, setter, title }) => {
+export const SelectItemInputOnly = ({ value, setter, title, placeholder }) => {
   const { t } = useTranslation('song_create');
   return (
     <div className="tag-select">
@@ -384,7 +366,26 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         value={value}
         onChange={e => setter(e.target.value)}
         // type="text"
-        placeholder={t('자유롭게 아이디어를 남겨보세요!')}
+        placeholder={placeholder}
+        // maxLength={100}
+      />
+    </div>
+  );
+};
+
+export const TitleInputOnly = ({ value, setter, title, placeholder }) => {
+  const { t } = useTranslation('song_create');
+  return (
+    <div className="tag-select">
+      <div className="tag-title__block">
+        <h3 className="tag-title">{title}</h3>
+      </div>
+      <input
+        className="tag-input"
+        value={value}
+        onChange={e => setter(e.target.value)}
+        type="text"
+        placeholder={placeholder}
         // maxLength={100}
       />
     </div>

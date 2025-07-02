@@ -198,58 +198,13 @@ Additional Story: ${lyricStory || 'Not specified'}`,
           </SubBanner>
 
           <SubBanner>
-            {/* <SubBanner.LeftImages src={subBg2} /> */}
-            {/* <SubBanner.Title text={t('가사 생성을 위한 당신만의 스토리가 있나요?')} /> */}
-            {/* <SubBanner.Message text={t('자유롭게 아이디어를 남겨보세요!')} /> */}
-            {/* <SelectItem
-              // subTitle={t('Popular Tags')}
-              setter={setLyricData}
-              objKey="lyric_tag"
-              selected={lyricData?.lyric_tag}
-              preset={tagPreset}
-              className="sub-banner__tags"
-              multiple
-              add
-            /> */}
             <SelectItemInputOnly
               value={lyricStory}
               setter={setLyricStory}
               title={t('가사 생성을 위한 당신만의 스토리가 있나요?')}
+              placeholder={t('자유롭게 아이디어를 남겨보세요!')}
             />
           </SubBanner>
-
-          {/* <div className="create__btn">
-            {isRegistered ? (
-              <button
-                className={`create__get-started--button ${
-                  createPossibleCount === 0 || activeIndex === null ? 'disabled' : ''
-                }`}
-                onClick={() => {
-                  if (activeIndex === null) return; // 포맷 선택 전이면 동작 막음
-                  const mode = activeIndex === 0 ? 'chatbot' : 'select';
-                  setCreateMode(mode);
-                  handler();
-                }}
-                disabled={createPossibleCount === 0 || activeIndex === null}
-              >
-                {t('Create')}
-              </button>
-            ) : (
-              <WalletConnect onConnect={handleWalletConnect} />
-            )}
-          </div> */}
-
-          {/* <div className="button-wrap">
-            <div className="button-wrap__left">필요 시 Skip 버튼</div>
-            <button
-              className={!isAnyFieldFilled || loading ? 'next' : 'next enable'}
-              onClick={handleGenerateLyrics}
-              disabled={!isAnyFieldFilled || loading}
-            >
-              {loading ? t('Loading') : t('Generate')}
-            </button>
-            {loading && <CreateLoading textTrue2={true} />}
-          </div> */}
 
           <div className="create__btn">
             {/* <div className="button-wrap__left">필요 시 Skip 버튼</div> */}
@@ -267,18 +222,6 @@ Additional Story: ${lyricStory || 'Not specified'}`,
             {loading && <CreateLoading textTrue2={true} />}
           </div>
         </SelectItemWrap>
-
-        {/* <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <SelectedWrap title={t('Lyrics Lab')}>
-            <SelectedItem title={t('Tags')} value={lyricData?.lyric_tag} multiple />
-            <SelectedItem title={t('Genre')} value={lyricData?.lyric_genre} />
-
-            <div className="lyrics-lab__selected-item">
-              <p className="lyrics-lab__selected-item--title">{t('Your Story')}</p>
-              <p className="lyrics-lab__selected-item--text">{lyricStory || '-'}</p>
-            </div>
-          </SelectedWrap>
-        </div> */}
       </div>
     );
   else

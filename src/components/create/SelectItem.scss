@@ -151,7 +151,7 @@
       border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
       background: var(--Black-10, rgba(0, 0, 0, 0.1));
       backdrop-filter: blur(20px);
-      color: var(--Grey-600, #767676);
+      color: var(--Grey-600, #fff);
       font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
@@ -187,7 +187,7 @@
       word-break: break-word;
       white-space: pre-wrap;
 
-      color: var(--Grey-600, #767676);
+      color: var(--Grey-600, #fff);
       font-family: Pretendard400;
       font-size: 14px;
       font-style: normal;
@@ -346,22 +346,45 @@
         font-weight: 400;
         line-height: 22px;
       }
+      &.block-style {
+        width: 100%;
+        justify-content: center;
+        font-size: 15px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+
+        &.enable {
+          background-color: #3a9de3;
+          color: #fff;
+          font-family: Pretendard700;
+        }
+      }
+    }
+    .tag-preset {
+      &.preset-horizontal {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+
+        // 버튼도 꽉차게 하고 싶으면 아래 추가
+        .tag-button {
+          flex: 1;
+        }
+      }
     }
   }
 
   .tag-title__tempos {
-    padding: 4px;
-    border-radius: 100px;
     font-family: Pretendard400;
-    font-size: 12px;
-    border: 1px solid;
-    width: fit-content;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 22px;
 
     &.slow {
-      color: #5a9bf6;
+      color: #7dda2c;
     }
     &.medium {
-      color: #ffd700;
+      color: #22a3ff;
     }
     &.fast {
       color: #ff6f61;
@@ -370,17 +393,19 @@
 
   .tag-select__range {
     position: relative;
-    height: 16px;
-    background-color: #383838;
-    border-radius: 25px;
-    margin-top: 40px;
+    overflow: visible;
+    z-index: 1;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    margin: 48px 0px 10px 0px;
 
     .tag-select__range--applicable {
       position: absolute;
-      height: 16px;
+      height: 12px;
       left: 0;
-      background-color: #cf0;
-      border-radius: 25px;
+      background-color: #3a9de3;
+      border-radius: 30px;
       transition: 0.6s;
     }
 
@@ -388,41 +413,47 @@
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-      background-color: #cf0;
-      box-shadow: -4px 0px 4px 0px rgba(44, 58, 0, 0.6);
+      width: 48px;
+      height: 32px;
+      z-index: 10;
       .tag-select__range--thumb-tick {
         position: absolute;
-        top: -45px;
+        top: -40px;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #222;
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: 1px solid #cf0;
-        text-align: center;
-        font-family: Pretendard700;
-        font-size: 12px;
-        white-space: nowrap;
-        line-height: 16px; /* 133.333% */
-        span {
-          color: #cf0;
-          font: inherit;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        z-index: 20;
+        .thumb-value {
+          color: var(--White, #fff);
+          text-align: center;
+          font-family: Pretendard800;
+          font-size: 24px;
+          font-style: normal;
+          line-height: 34px;
         }
-        &::before {
-          z-index: -1;
-          content: '';
-          position: absolute;
-          border-bottom: 10px solid transparent;
-          border-top: 10px solid transparent;
-          border-left: 10px solid #cf0;
-          border-right: 10px solid transparent;
-          bottom: -20px;
-          left: 50%;
-          transform: translateX(-50%) rotate(90deg);
+        .thumb-bpm {
+          color: var(--Grey-400, #a8a8a8);
+          text-align: center;
+          font-family: Pretendard400;
+          font-size: 16px;
+          font-style: normal;
+          line-height: 24px; /* 150% */
         }
+        // &::before {
+        //   z-index: -1;
+        //   content: '';
+        //   position: absolute;
+        //   border-bottom: 10px solid transparent;
+        //   border-top: 10px solid transparent;
+        //   border-left: 10px solid #cf0;
+        //   border-right: 10px solid transparent;
+        //   bottom: -20px;
+        //   left: 50%;
+        //   transform: translateX(-50%) rotate(90deg);
+        // }
       }
     }
   }

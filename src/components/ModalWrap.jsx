@@ -22,6 +22,7 @@ const ModalWrap = ({ className = '', children, onClose, title = 'MODAL', closeIc
     <div className={`modal-wrap ${className}`} onClick={e => modalClose(e)}>
       <div className="modal-content-box">
         <div className="modal-header">
+          <h2 className="modal-title">{title}</h2>
           {closeIcon && (
             <img
               className="modal-close"
@@ -30,7 +31,6 @@ const ModalWrap = ({ className = '', children, onClose, title = 'MODAL', closeIc
               alt="close"
             />
           )}
-          <h2 className="modal-title">{title}</h2>
         </div>
         <div className="modal-content">{children}</div>
       </div>

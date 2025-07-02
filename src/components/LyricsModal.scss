@@ -1,8 +1,20 @@
 .modal-wrap {
   &.lyrics {
     .modal-content-box {
-      max-width: 500px;
-      max-height: 680px;
+      // max-width: 500px;
+      // max-height: 680px;
+      // display: flex;
+      // width: 500px;
+      // height: 680px;
+      // padding: 30px;
+      // flex-direction: column;
+      // align-items: flex-start;
+      // gap: 30px;
+      // flex-shrink: 0;
+      // border-radius: 24px;
+      // border: 1px solid var(--White-05, rgba(255, 255, 255, 0.05));
+      // background: var(--Grey-900, #181818);
+      // overflow-y: hidden;
       .modal-content {
         // font-size: 14px;
         // padding: 24px;
@@ -14,18 +26,6 @@
         // display: -webkit-box;
         // max-height: 600px;
 
-        display: flex;
-        width: 500px;
-        height: 680px;
-        padding: 30px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 30px;
-        flex-shrink: 0;
-        border-radius: 24px;
-        border: 1px solid var(--White-05, rgba(255, 255, 255, 0.05));
-        background: var(--Grey-900, #181818);
-        overflow-y: hidden;
         font {
           font-family: inherit !important;
           font-size: inherit !important;

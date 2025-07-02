@@ -317,7 +317,7 @@ const Progress = ({ pageNumber }) => {
   ];
 
   return (
-    <div className="progress mb40">
+    <div className="progress">
       {pages.map((item, index, { length }) => (
         <React.Fragment key={item}>
           <div className="progress__item">

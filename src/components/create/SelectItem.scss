@@ -7,6 +7,8 @@
   // border-radius: 12px;
   // margin-bottom: 40px;
   display: flex;
+  max-width: 1230px;
+  width: 100%;
   height: 100%;
   padding: 40px 30px 30px 30px;
   flex-direction: column;
@@ -85,9 +87,9 @@
   }
 
   .tag-select {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 12px;
     gap: 10px;
 
     .tag-title__block {
@@ -106,9 +108,12 @@
       width: fit-content;
     }
     .tag-title {
-      font-family: Pretendard400;
-      font-size: 18px;
-      color: #f1f1f1;
+      color: var(--White, #fff);
+      text-align: center;
+      font-family: Pretendard700;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 24px;
     }
     .tag-sub-title {
       color: #a9d400;
@@ -130,19 +135,12 @@
       gap: 8px;
       align-self: stretch;
       flex-wrap: wrap;
+      margin-top: 12px;
     }
     .tag-input-box {
       position: relative;
     }
     .tag-input {
-      // width: 100%;
-      // height: 54px;
-      // padding: 12px;
-      // border-radius: 12px;
-      // border: 1px solid #383838;
-      // background-color: #0b0b0c;
-      // transition: 0.3s all;
-      // resize: none;
       display: flex;
       height: 54px;
       padding: 12px 20px;
@@ -153,6 +151,47 @@
       border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
       background: var(--Black-10, rgba(0, 0, 0, 0.1));
       backdrop-filter: blur(20px);
+      color: var(--Grey-600, #767676);
+      font-family: Pretendard400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 22px;
+      &:focus {
+        transition: all 0.3s;
+        border-color: #3a9de3;
+      }
+      &[disabled],
+      &[readOnly] {
+        transition: all 0.3;
+        cursor: not-allowed;
+        opacity: 0.3;
+      }
+    }
+    .tag-textarea {
+      display: flex;
+      height: 80px;
+      max-height: 120px;
+      padding: 12px 20px;
+      justify-content: space-between;
+      align-items: flex-start;
+      align-self: stretch;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(20px);
+
+      resize: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      word-break: break-word;
+      white-space: pre-wrap;
+
+      color: var(--Grey-600, #767676);
+      font-family: Pretendard400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 22px;
       &:focus {
         transition: all 0.3s;
         border-color: #3a9de3;

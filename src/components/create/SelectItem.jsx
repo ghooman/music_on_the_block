@@ -9,6 +9,7 @@ import cancelIcon from '../../assets/images/icon/cancel.svg';
 import './SelectItem.scss';
 
 import lyricsCreate from '../../assets/images/icons/lyrics-create-icon.svg';
+import lyricsEdit from '../../assets/images/icons/lyrics-edit-icon.svg';
 import cancelWhiteIcon from '../../assets/images/icons/cancel-white-icon.svg';
 
 export const SelectItemWrap = ({
@@ -17,6 +18,9 @@ export const SelectItemWrap = ({
   selectedLanguage,
   setSelectedLanguage,
   currentStep,
+  icon = lyricsCreate,
+  title = '저는 가사 생성 AI예요!',
+  description = '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요',
 }) => {
   const [visible, setVisible] = useState(!dropdown);
   const { t } = useTranslation('song_create');
@@ -32,13 +36,10 @@ export const SelectItemWrap = ({
   return (
     <div className="create__select-components">
       <div className="tag-select-title">
-        <img src={lyricsCreate} alt="lyrics-create" />
+        <img src={icon} alt="create-icon" />
         <div className="tag-select-title--group">
-          <h2>저는 가사 생성 AI예요!</h2>
-          <p>
-            음악의 가사를 먼저 생성해볼까요? {'\n'} 특별한 이야기를 기반으로 당신만의 가사를
-            만들어보세요
-          </p>
+          <h2>{title}</h2>
+          <p>{description}</p>
         </div>
         {/* {dropdown && (
           <div
@@ -88,6 +89,7 @@ export const SelectItem = ({
   selected,
   multiple,
   add,
+  placeholder,
   color,
   className,
 }) => {
@@ -195,7 +197,7 @@ export const SelectItem = ({
         <input
           value={input}
           className="tag-input"
-          placeholder="원하는 키워드를 직접 입력할 수 있어요"
+          placeholder={placeholder || '직접 입력할 수 있어요'}
           maxLength={10}
           onChange={e => setInput(e.target.value)}
           onKeyPress={e => {
@@ -377,12 +379,13 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         <h3 className="tag-title">{title}</h3>
         {/* <p className="tag-title__notice">You can enter up to 100 words</p> */}
       </div>
-      <input
-        className="tag-input"
+      <textarea
+        className="tag-textarea"
         value={value}
         onChange={e => setter(e.target.value)}
-        type="text"
-        placeholder={t('Please enter a specific melody or sound effect.')}
+        // type="text"
+        placeholder={t('자유롭게 아이디어를 남겨보세요!')}
+        // maxLength={100}
       />
     </div>
   );

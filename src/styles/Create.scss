@@ -1,6 +1,7 @@
 .music_create {
   display: flex;
   width: 100%;
+  max-width: 1590px;
   // gap: 30px;
   * {
     box-sizing: border-box;
@@ -429,9 +430,9 @@
   .mb16 {
     margin-bottom: 16px;
   }
-  .mb40 {
-    margin-bottom: 40px;
-  }
+  // .mb40 {
+  //   margin-bottom: 40px;
+  // }
 }
 .lyrics-lab__selected-item {
   .lyrics-lab__selected-item--title {

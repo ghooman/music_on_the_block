@@ -14,6 +14,7 @@ export const getNotifications = async token => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log('getNotifications', response);
   return response.data;
 };
 

@@ -177,7 +177,7 @@ function MintNftSellDetail2() {
             </div> */}
             <div className="sell-nft-select-box">
               <p className="sell-nft-select-box__title">Token</p>
-              <div className="sell-nft-select-box__value-box disabled">
+              <div className="sell-nft-select-box__value-box">
                 <p className="sell-nft-select-box__value-box__title">
                   <img src={mobIcon} alt="MOB" />
                   MOB

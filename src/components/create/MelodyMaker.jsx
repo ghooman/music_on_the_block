@@ -425,8 +425,7 @@ const MelodyMaker = ({
 
   return (
     <div className="create__melody-maker">
-      <RemainCountButton createPossibleCount={createPossibleCount} />
-      <SubBanner>
+      {/* <SubBanner>
         <SubBanner.RightImages src={subBg1} />
         <SubBanner.Title text={t('View Lyrics Lab Results')} />
         <SubBanner.Message text={t('These lyrics were previously written by AI in Lyrics Lab.')} />
@@ -441,7 +440,7 @@ const MelodyMaker = ({
             setShowLyricsModal(true);
           }}
         ></SubBanner.Button>
-      </SubBanner>
+      </SubBanner> */}
 
       <SelectItemWrap currentStep={'isMelodyPage'}>
         <SubBanner>

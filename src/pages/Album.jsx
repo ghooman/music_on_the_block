@@ -213,7 +213,6 @@ function Album() {
                   {/* <br /> */}
                   <span>{t('very quickly')}</span>
                   {t('Create your own song')}
-
                 </p>
                 <img src={songCreateIcon1} alt="songCreateIcon1" />
                 <p className="main__to-day-header__song-create-list__item__title__sub">

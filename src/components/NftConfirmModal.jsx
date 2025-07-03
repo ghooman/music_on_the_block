@@ -68,7 +68,7 @@ const NftConfirmModal = ({
   // 토큰 잔액 확인
   const { data: userData } = useUserDetail();
   const micBalance = userData?.mic_point || '0.00';
-  const serverApi = process.env.REACT_APP_SERVER_API;
+  const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

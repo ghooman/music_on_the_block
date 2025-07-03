@@ -247,21 +247,21 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dl>
                 </div>
                 <dl className="footer__bottom__left__music-token__number">
-                  <dt>$0.03</dt>
-                  <dd>+1.55%</dd>
+                  <dt>$-</dt>
+                  {/* <dd>+1.55%</dd> */}
                 </dl>
               </div>
               <dl className="footer__bottom__left__token-value">
                 <dt>{t('Transactions')}</dt>
-                <dd>64,494,473</dd>
+                <dd>-</dd>
               </dl>
               <dl className="footer__bottom__left__token-value">
                 <dt>{t('Circulating supply')}</dt>
-                <dd>41,757,721</dd>
+                <dd>3,000,000,000</dd>
               </dl>
               <dl className="footer__bottom__left__token-value">
                 <dt>{t('Market cap')}</dt>
-                <dd>17,713,115</dd>
+                <dd>-</dd>
               </dl>
             </article>
             <article className="footer__bottom__right">

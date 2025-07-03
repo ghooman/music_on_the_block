@@ -130,5 +130,6 @@
  "The wallet address is incorrect.": "ウォレットアドレスが正しくありません。",
  "Add": "追加",
  "Delete Wallet": "ウォレットを削除",
- "Are you sure you want to delete the registered wallet?": "登録済みウォレットを削除してもよろしいですか？"
+ "Are you sure you want to delete the registered wallet?": "登録済みウォレットを削除してもよろしいですか？",
+ "Please regenerate it again in a little while.": "しばらくしてからもう一度生成してください。"
 }

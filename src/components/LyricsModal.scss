@@ -1,45 +1,115 @@
-.modal-wrap {
-  &.lyrics {
-    .modal-content-box {
-      // max-width: 500px;
-      // max-height: 680px;
-      // display: flex;
-      // width: 500px;
-      // height: 680px;
-      // padding: 30px;
-      // flex-direction: column;
-      // align-items: flex-start;
-      // gap: 30px;
-      // flex-shrink: 0;
-      // border-radius: 24px;
-      // border: 1px solid var(--White-05, rgba(255, 255, 255, 0.05));
-      // background: var(--Grey-900, #181818);
-      // overflow-y: hidden;
-      .modal-content {
-        // font-size: 14px;
-        // padding: 24px;
-        // border: 1px solid #222;
-        // background: #121212;
-        // white-space: normal;
-        // overflow-wrap: break-word;
-        // word-break: break-word;
-        // display: -webkit-box;
-        // max-height: 600px;
+.lyrics-modal {
+  &__overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(11, 11, 12, 0.71); // #0b0b0cb5
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-        font {
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
-        .lyrics__content {
-          background: transparent;
-          width: 100%;
-        }
+  &__box {
+    width: 560px;
+    max-height: 80vh;
+    padding: 30px;
+    border-radius: 24px;
+    background: #181818;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    color: #fff;
+    font-family: Pretendard700;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  &__close {
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    color: #fff;
+    font-family: Pretendard400;
+    font-size: 14px;
+    line-height: 22px;
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      padding-right: 4px; // 스크롤 영역 확보
+      background: transparent;
+      border: none;
+      resize: none;
+      color: inherit;
+      font: inherit;
+      line-height: inherit;
+      outline: none;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      box-sizing: border-box; // NEW – 패딩 포함 크기 보정
+      min-height: 488px; // NEW – 필요 시 고정 높이
+
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
       }
     }
   }
-} //.modal-wrap--END--
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  &__button {
+    flex: 1; // 가로 100%
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-family: Pretendard400;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    cursor: not-allowed; // 기본 : 비활성
+    pointer-events: none;
+
+    /* 👇 비활성(disabled) 상태 명시적으로 지정 */
+    &:disabled {
+      // NEW
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      color: #fff !important;
+    }
+
+    &.active {
+      background: #cf0;
+      border-color: #cf0;
+      color: #000;
+      cursor: pointer;
+      pointer-events: auto;
+      font-family: Pretendard700;
+    }
+  }
+}

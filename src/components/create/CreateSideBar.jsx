@@ -1,7 +1,7 @@
 import './CreateSideBar.scss';
 // 아이콘 모음
 import checkWhite from '../../assets/images/icons/check-white-icon.svg';
-import checkBlue from '../../assets/images/icons/check-blue-icon.svg';
+import checkGreen from '../../assets/images/icons/check-green-icon.svg';
 import lyricsCreate from '../../assets/images/icons/lyrics-create-icon.svg';
 import lyricsEdit from '../../assets/images/icons/lyrics-edit-icon.svg';
 import MelodyMaker from '../../assets/images/icons/melody-maker-icon.svg';
@@ -13,6 +13,7 @@ const CreateSideBar = ({
   showLyricsModal,
   setShowLyricsModal,
   generatedLyric,
+  setGeneratedLyric,
 }) => {
   console.log('사이드바에서 받음', pageNumber);
   console.log('isConfirmLyricStatus', isConfirmLyricStatus);
@@ -40,7 +41,7 @@ const CreateSideBar = ({
               pageNumber === 0 && !isConfirmLyricStatus ? '' : 'opacity'
             }`}
           >
-            <img src={isConfirmLyricStatus ? checkBlue : checkWhite} />
+            <img src={isConfirmLyricStatus ? checkGreen : checkWhite} />
             <p>가사 생성</p>
           </div>
           <img
@@ -61,7 +62,7 @@ const CreateSideBar = ({
               pageNumber === 0 && isConfirmLyricStatus ? '' : 'opacity'
             }`}
           >
-            <img src={pageNumber === 1 ? checkBlue : checkWhite} />
+            <img src={pageNumber === 1 ? checkGreen : checkWhite} />
             <p>가사 수정</p>
           </div>
           <img
@@ -104,8 +105,13 @@ const CreateSideBar = ({
         </div>
       </div>
       <div className="create__sidebar--line"></div>
+      {/* 사이드바 UI … */}
       {showLyricsModal && (
-        <LyricsModal setShowLyricsModal={setShowLyricsModal} generatedLyric={generatedLyric} />
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+          onSave={newLyric => setGeneratedLyric(newLyric)} // ← 추가
+        />
       )}
     </div>
   );

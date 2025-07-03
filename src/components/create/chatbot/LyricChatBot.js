@@ -7,13 +7,19 @@ import OpenAI from 'openai';
 import jsPDF from 'jspdf';
 import CreateLoading from '../../CreateLoading';
 import { generateKoreanPdf } from '../../../utils/pdfGenerator'; // 한글 pdf저장시 텍스트 안깨지도록 존재하는 함수
+import { SelectItem, SelectItemWrap, SelectItemInputOnly } from '../SelectItem';
+
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
+import lyricsCreate from '../../../assets/images/icons/lyrics-create-icon.svg';
+import lyricsEdit from '../../../assets/images/icons/lyrics-edit-icon.svg';
+
 // 통일된 프롬프트 파일 불러오기
 import lyricPrompts from '../../../locales/lyricPrompts';
 import { useTranslation } from 'react-i18next';
 const LyricChatBot = ({
   selectedLanguage,
+  setSelectedLanguage,
   createLoading,
   lyricData,
   setLyricData,
@@ -122,11 +128,11 @@ const LyricChatBot = ({
 
       // [가사 추출] 예외 경우 제외하고 가사저장
       const errorMessages = [
-        'Cannot generate lyrics based on the provided input. Please try again.',
-        '가사 생성에 어울리지 않는 내용입니다. 다시 입력해주세요',
-        '歌詞生成に適さない内容です。再度入力してください。',
-        'Konten tidak cocok untuk pembuatan lirik. Silakan coba lagi.',
-        'Nội dung không phù hợp để tạo lời bài hát. Vui lòng thử lại.',
+        'The content is too short to generate lyrics..\nPlease provide a bit more detail!',
+        '내용이 너무 짧아서 가사를 생성할 수 없어요..\n조금 더 정확하게 알려주세요!',
+        '内容が短すぎて歌詞を作れません..\nもう少し具体的に教えてください！',
+        'Isi ceritanya terlalu singkat untuk membuat lirik..\nTolong jelaskan dengan lebih detail!',
+        'Nội dung quá ngắn để tạo lời bài hát..\nHãy cung cấp thông tin chi tiết hơn nhé!',
       ];
 
       const isErrorMessage = errorMessages.some(errorMsg => botMessage.includes(errorMsg));
@@ -191,28 +197,50 @@ const LyricChatBot = ({
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
         <section className="chatbot">
-          <div className="chatbot__header">
-            <h2>{t('Chat bot')}</h2>
-          </div>
-          <div className="chatbot__messages" ref={scrollContainerRef}>
-            {chatHistory.map((msg, index) => (
-              <div key={index} className={`message ${msg.role}`}>
-                <div className="message__content">
-                  <img
-                    src={
-                      msg.role === 'assistant'
-                        ? mobProfilerImg
-                        : userData?.profile || defaultCoverImg
-                    }
-                    alt="profile"
-                  />
-                  <pre className="message__content--text">{msg.content}</pre>
+          <SelectItemWrap
+            mode="chatbot"
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+            icon={isConfirmLyricStatus ? lyricsEdit : lyricsCreate}
+            title={
+              isConfirmLyricStatus
+                ? t('가사를 클릭해 수정할 수 있어요')
+                : t('저는 가사 생성 AI예요!')
+            }
+            description={
+              isConfirmLyricStatus
+                ? t(
+                    '생성된 가사를 그대로 쓰거나, 가사를 입맛대로 수정할 수 있어요\n수정된 가사에 맞춰 멜로디를 생성할 수 있어요'
+                  )
+                : t(
+                    '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요'
+                  )
+            }
+          >
+            {/* <div className="chatbot__header">
+              <h2>{t('Chat bot')}</h2>
+            </div> */}
+            <div className="chatbot__messages" ref={scrollContainerRef}>
+              {chatHistory.map((msg, index) => (
+                <div key={index} className={`message ${msg.role}`}>
+                  <div className="message__content">
+                    <div className="message__profile">
+                      <img
+                        src={
+                          msg.role === 'assistant'
+                            ? lyricsCreate
+                            : userData?.profile || defaultCoverImg
+                        }
+                        alt="profile"
+                      />
+                    </div>
+                    <pre className="message__content--text">{msg.content}</pre>
+                  </div>
                 </div>
-              </div>
-            ))}
-            {loading && <div className="message bot">Loading...</div>}
-          </div>
-          {/* <div className="chatbot__input">
+              ))}
+              {loading && <div className="message bot">Loading...</div>}
+            </div>
+            {/* <div className="chatbot__input">
             <input
               type="text"
               value={userInput}
@@ -222,19 +250,20 @@ const LyricChatBot = ({
               placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
             />
           </div> */}
-          <div className="chatbot__textarea">
-            <textarea
-              type="text"
-              value={userInput}
-              onChange={handleUserInput}
-              onKeyPress={handleKeyPress}
-              // placeholder={initialLyricPlaceholder}
-              placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
-            />
-          </div>
-          <button className="chatbot__button" onClick={handleSendMessage}>
-            {t('Send')}
-          </button>
+            <div className="chatbot__textarea">
+              <textarea
+                type="text"
+                value={userInput}
+                onChange={handleUserInput}
+                onKeyPress={handleKeyPress}
+                // placeholder={initialLyricPlaceholder}
+                placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
+              />
+            </div>
+            <button className="chatbot__button" onClick={handleSendMessage}>
+              {t('Send')}
+            </button>
+          </SelectItemWrap>
         </section>
         <div className="music__information__buttons">
           <button

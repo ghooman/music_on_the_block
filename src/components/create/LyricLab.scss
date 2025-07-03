@@ -19,11 +19,16 @@
     font-size: 14px;
     font-style: normal;
     line-height: 22px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
     // overflow: auto;
     // overflow: ;
     &textarea {
       // min-height: 600px;
       // max-height: 600px;
+    }
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
     }
   }
 
@@ -147,7 +152,8 @@
       letter-spacing: inherit !important;
     }
     &:hover {
-      border-color: #3a9de3;
+      // border-color: #3a9de3;
+      border-color: #cf0;
       transition: all 0.3s;
       // &::after {
       //   transform: translateY(0px);
@@ -217,8 +223,10 @@
     gap: 10px;
     align-self: stretch;
     border-radius: 12px;
-    background: var(--Primary_Dark, #3a9de3);
-    color: var(--White, #fff);
+    // background: var(--Primary_Dark, #3a9de3);
+    background-color: #cf0;
+    // color: var(--White, #fff);
+    color: #000;
     text-align: center;
     font-family: Pretendard700;
     font-size: 16px;
@@ -256,7 +264,8 @@
       gap: 10px;
       align-self: stretch;
       border-radius: 12px;
-      background: #24333e !important;
+      // background: #24333e !important;
+      background-color: #000 !important;
       color: var(--Grey-600, #767676) !important;
       text-align: center;
       font-family: Pretendard700;

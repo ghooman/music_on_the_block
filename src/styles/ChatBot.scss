@@ -9,20 +9,38 @@ $text-color: #ffffff;
 $shadow-color: rgba(0, 0, 0, 0.3);
 
 .chatbot__background {
+  display: flex;
+  max-width: 1230px;
+  width: 100%;
+  height: 100%;
+  padding: 40px 30px;
+  flex-direction: column;
+  gap: 30px;
+  align-items: flex-start;
+  flex: 1 0;
   .chatbot {
-    height: 700px;
-    width: 100%;
-    // max-width: 600px;
-    // background-color: $foreground;
+    // height: 700px;
+    // width: 100%;
+    // // max-width: 600px;
+    // // background-color: $foreground;
+    // // border-radius: 12px;
+    // // box-shadow: 0 4px 12px $shadow-color;
+    // display: flex;
+    // flex-direction: column;
+    // overflow: hidden;
+    // // min-height: 800px;
+    // padding: 16px;
     // border-radius: 12px;
-    // box-shadow: 0 4px 12px $shadow-color;
+    // border: 1px solid #222;
     display: flex;
+    padding: 24px 30px;
     flex-direction: column;
-    overflow: hidden;
-    // min-height: 800px;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #222;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 20px;
+    border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
     &__header {
       padding: 20px;
       // background-color: $background-dark;
@@ -35,7 +53,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         color: #cf0;
         font-family: Pretendard400;
         font-size: 18px;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -48,7 +66,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     }
 
     &__messages {
-      background: url('../assets/images/chat-bot/chat-mob-bg.png') no-repeat left bottom;
+      width: 100%;
+      // background: url('../assets/images/chat-bot/chat-mob-bg.png') no-repeat left bottom;
       flex: 1;
       padding: 20px;
       // background-color: $foreground;
@@ -57,7 +76,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       gap: 10px;
       overflow-y: auto;
       max-height: 500px;
-      font{
+      font {
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -73,7 +92,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         font-size: 14px;
         word-wrap: break-word;
         transition: background-color 0.3s ease;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -106,15 +125,15 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               font-size: 14px;
               padding: 12px;
               white-space: break-spaces;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
+              font {
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
           }
         }
@@ -127,31 +146,54 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           padding: 0px;
           .message__content {
             display: flex;
-            width: 90%;
-            align-items: center;
-            gap: 8px;
-            img {
-              width: 40px;
-              height: 40px;
-              border-radius: 100%;
+            align-items: flex-start;
+            gap: 12px;
+            align-self: stretch;
+            .message__profile {
+              display: flex;
+              width: 48px;
+              height: 48px;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              border-radius: 60px;
+              border: 1px solid var(--White-10, rgba(255, 255, 255, 0.1));
+              background: var(--White-05, rgba(255, 255, 255, 0.05));
+              img {
+                width: 30px;
+                height: 30px;
+                flex-shrink: 0;
+                aspect-ratio: 1/1;
+              }
             }
             .message__content--text {
-              border-radius: 8px;
-              background: #1a1a1a;
-              color: #f1f1f1;
+              // border-radius: 8px;
+              // background: #1a1a1a;
+              // color: #f1f1f1;
+              // font-family: Pretendard400;
+              // font-size: 14px;
+              // padding: 12px;
+              white-space: break-spaces;
+              display: flex;
+              padding: 12px 20px;
+              align-items: flex-start;
+              gap: 10px;
+              border-radius: 0px 16px 16px 16px;
+              background: #22445c;
+              color: #fff;
               font-family: Pretendard400;
               font-size: 14px;
-              padding: 12px;
-              white-space: break-spaces;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
+              font-style: normal;
+              line-height: 22px;
+              font {
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
             }
           }
         }
@@ -166,7 +208,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       border-radius: 12px;
       border: 1px solid #cf0;
       background: #0b0b0c;
-      font{
+      font {
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -200,15 +242,15 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         all: unset;
         width: 100%;
         padding: 8px 0 0;
-                          font{
-                font-family: inherit !important;
-                font-size: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-                font-style: inherit !important;
-                color: inherit !important;
-                letter-spacing: inherit !important;
-              }
+        font {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &::-webkit-scrollbar-button {
           display: none;
         }
@@ -219,7 +261,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     }
 
     &__button {
-      font{
+      font {
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -300,20 +342,20 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       margin-bottom: 16px;
       position: relative;
       h2 {
-        color:#cf0;
+        color: #cf0;
         font-family: Pretendard400;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
-                          font{
-                font-family: inherit !important;
-                font-size: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-                font-style: inherit !important;
-                color: inherit !important;
-                letter-spacing: inherit !important;
-              }
+        font {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
 
       &::before {
@@ -343,7 +385,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
       .music__information__lyric--text {
         border-radius: 12px;
-        background:#1a1a1a;
+        background: #1a1a1a;
         padding: 12px 8px;
         textarea {
           height: 300px;
@@ -352,7 +394,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
       textarea {
         border-radius: 12px;
-        background:#1a1a1a;
+        background: #1a1a1a;
         height: 300px;
       }
       input,
@@ -376,15 +418,15 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       flex-direction: column;
       align-items: center;
       margin-top: 12px;
-        font{
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       button {
         width: 100%;
         height: 40px;
@@ -401,7 +443,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         display: flex;
         align-items: center;
         justify-content: center;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -463,11 +505,11 @@ $shadow-color: rgba(0, 0, 0, 0.3);
 .music__information__tags,
 .music__information__story {
   h3 {
-    color:#f1f1f1;
+    color: #f1f1f1;
     font-family: Pretendard600;
     // font-size: 18px;
     margin-bottom: 8px;
-    font{
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
@@ -483,7 +525,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   }
   input,
   textarea {
-    color:#f1f1f1;
+    color: #f1f1f1;
     font-family: Pretendard500;
     font-size: 14px;
     font-style: normal;
@@ -492,7 +534,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     background: transparent;
     padding: 0;
     margin-bottom: 32px;
-    font{
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;

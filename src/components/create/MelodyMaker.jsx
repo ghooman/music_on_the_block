@@ -152,6 +152,7 @@ const MelodyMaker = ({
   tempo,
   setTempo,
   generatedLyric,
+  setGeneratedLyric,
   generatedMusicResult,
   setGeneratedMusicResult,
   setPageNumber,
@@ -492,7 +493,7 @@ const MelodyMaker = ({
 
         <SubBanner>
           <SubBanner.Title text={t('어떤 악기를 사용할까요?')} />
-          <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
+          <SubBanner.Message text={t('최대 5개까지 선택할 수 있어요')} />
           <SelectItem
             mainTitle={t('Instrument')}
             subTitle={t('Instrument Tags')}
@@ -501,6 +502,8 @@ const MelodyMaker = ({
             selected={melody_instrument || []}
             preset={instrumentPreset}
             className="sub-banner__genre"
+            multiple
+            add
             placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
           />
         </SubBanner>
@@ -649,7 +652,11 @@ const MelodyMaker = ({
 
       {loading && <CreateLoading textTrue />}
       {showLyricsModal && (
-        <LyricsModal setShowLyricsModal={setShowLyricsModal} generatedLyric={generatedLyric} />
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+          onSave={newLyric => setGeneratedLyric(newLyric)} // ← 추가
+        />
       )}
     </div>
   );

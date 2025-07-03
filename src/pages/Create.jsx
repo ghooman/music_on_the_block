@@ -264,6 +264,7 @@ const Create = () => {
               tempo={tempo}
               setTempo={setTempo}
               generatedLyric={generatedLyric}
+              setGeneratedLyric={setGeneratedLyric}
               generatedMusicResult={generatedMusicResult}
               setGeneratedMusicResult={setGeneratedMusicResult}
               onSkip={() => setSkip('melody')}
@@ -293,6 +294,7 @@ const Create = () => {
         showLyricsModal={showLyricsModal}
         setShowLyricsModal={setShowLyricsModal}
         generatedLyric={generatedLyric}
+        setGeneratedLyric={setGeneratedLyric}
       />
     </div>
   );

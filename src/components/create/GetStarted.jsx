@@ -26,7 +26,7 @@ const GetStarted = ({
   setSelectedCreationMode,
 }) => {
   const { t } = useTranslation('song_create');
-  const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const { isLoggedIn, isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const handleWalletConnect = (loggedIn, walletAddress) => {
     setIsLoggedIn(loggedIn);
@@ -83,6 +83,7 @@ const GetStarted = ({
       setSelectedVersion('topmediai');
     }
   };
+  const remainCount = isLoggedIn ? createPossibleCount : 0;
 
   // radio 버튼 상태
   return (
@@ -91,7 +92,7 @@ const GetStarted = ({
         <h1 className="create__get-started--title">
           {t('Shall we create your own music with AI?')}
         </h1>
-        <RemainCountButton createPossibleCount={createPossibleCount} />
+        <RemainCountButton createPossibleCount={remainCount} />
       </div>
 
       <div className="create__get-started--radio-box">
@@ -238,22 +239,24 @@ const GetStarted = ({
       </section>
 
       <div className="create__btn">
-        {isRegistered ? (
+        {isLoggedIn ? (
+          /* ① 로그인한 경우 – ‘Create’ 버튼 */
           <button
             className={`create__get-started--button ${
-              createPossibleCount === 0 || activeIndex === null ? 'disabled' : ''
+              remainCount === 0 || activeIndex === null ? 'disabled' : ''
             }`}
             onClick={() => {
-              if (activeIndex === null) return; // 포맷 선택 전이면 동작 막음
+              if (activeIndex === null || remainCount === 0) return;
               const mode = activeIndex === 0 ? 'chatbot' : 'select';
               setCreateMode(mode);
               handler();
             }}
-            disabled={createPossibleCount === 0 || activeIndex === null}
+            disabled={remainCount === 0 || activeIndex === null}
           >
             {t('Create')}
           </button>
         ) : (
+          /* ② 로그인하지 않은 경우 – 로그인/지갑 연결 컴포넌트 */
           <WalletConnect onConnect={handleWalletConnect} />
         )}
       </div>

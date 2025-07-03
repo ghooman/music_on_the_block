@@ -152,6 +152,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
     return (
       <div className="create__lyric-lab">
         <SelectItemWrap
+          mode="default"
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           icon={createdLyrics ? lyricsEdit : lyricsCreate}

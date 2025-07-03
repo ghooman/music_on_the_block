@@ -10,7 +10,7 @@ import './SelectItem.scss';
 
 import lyricsCreate from '../../assets/images/icons/lyrics-create-icon.svg';
 import lyricsEdit from '../../assets/images/icons/lyrics-edit-icon.svg';
-import cancelWhiteIcon from '../../assets/images/icons/cancel-white-icon.svg';
+import closeIcon from '../../assets/images/icons/close-icon.svg';
 import bpmThumbIcon from '../../assets/images/icons/BPM-thumb-icon.svg';
 
 export const SelectItemWrap = ({
@@ -22,6 +22,7 @@ export const SelectItemWrap = ({
   icon = lyricsCreate,
   title = '저는 가사 생성 AI예요!',
   description = '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요',
+  mode = 'default',
 }) => {
   const [visible, setVisible] = useState(!dropdown);
   const { t } = useTranslation('song_create');
@@ -35,14 +36,15 @@ export const SelectItemWrap = ({
   };
 
   return (
-    <div className="create__select-components">
-      <div className="tag-select-title">
-        <img src={icon} alt="create-icon" />
-        <div className="tag-select-title--group">
-          <h2>{title}</h2>
-          <p>{description}</p>
-        </div>
-        {/* {dropdown && (
+    <div className={`create ${mode === 'chatbot' ? 'chatbot-mode' : ''}`}>
+      <div className={`create__select-components`}>
+        <div className="tag-select-title">
+          <img src={icon} alt="create-icon" />
+          <div className="tag-select-title--group">
+            <h2>{title}</h2>
+            <p>{description}</p>
+          </div>
+          {/* {dropdown && (
           <div
             className={`tag-select-title__dropdown-toggle ${visible ? 'visible' : ''}`}
             onClick={() => setVisible(prev => !prev)}
@@ -50,8 +52,8 @@ export const SelectItemWrap = ({
             <div className={`tag-select-title__dropdown-thumb ${visible ? 'visible' : ''}`}></div>
           </div>
         )} */}
-      </div>
-      {/* {selectedLanguage && setSelectedLanguage && (
+        </div>
+        {/* {selectedLanguage && setSelectedLanguage && (
         <div className="tag-select language-select">
           <div className="tag-title__block">
             <h3 className="tag-title">{t('Language')}</h3>
@@ -76,7 +78,8 @@ export const SelectItemWrap = ({
         </div>
       )} */}
 
-      {visible ? children : null}
+        {visible ? children : null}
+      </div>
     </div>
   );
 };
@@ -180,7 +183,7 @@ export const SelectItem = ({
                 {t(key)}
                 {/* ❌ blockStyle일 땐 cancel-icon(X) 숨김 */}
                 {!blockStyle && isSelected && (
-                  <img src={cancelWhiteIcon} alt="cancel" className="cancel-icon" />
+                  <img src={closeIcon} alt="cancel" className="cancel-icon" />
                 )}
               </button>
             );
@@ -196,8 +199,7 @@ export const SelectItem = ({
               onClick={() => deleteItem(item)}
             >
               {item}
-              <img src={cancelWhiteIcon} alt="cancel" className="cancel-icon" />{' '}
-              {/* ⭐ X 아이콘 표시 */}
+              <img src={closeIcon} alt="cancel" className="cancel-icon" /> {/* ⭐ X 아이콘 표시 */}
             </button>
           ))}
       </div>

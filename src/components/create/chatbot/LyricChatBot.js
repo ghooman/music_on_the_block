@@ -1,4 +1,3 @@
-// components/create/chatbot/LyricChatBot.js
 import './LyricChatBot.scss';
 import React, { useState, useRef, useEffect } from 'react';
 
@@ -13,6 +12,7 @@ import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 import lyricsCreate from '../../../assets/images/icons/lyrics-create-icon.svg';
 import lyricsEdit from '../../../assets/images/icons/lyrics-edit-icon.svg';
+import chatSend from '../../../assets/images/icons/chat_send-icon.svg';
 
 // 통일된 프롬프트 파일 불러오기
 import lyricPrompts from '../../../locales/lyricPrompts';
@@ -224,22 +224,19 @@ const LyricChatBot = ({
               {chatHistory.map((msg, index) => (
                 <div key={index} className={`message ${msg.role}`}>
                   <div className="message__content">
-                    <div className="message__profile">
-                      <img
-                        src={
-                          msg.role === 'assistant'
-                            ? lyricsCreate
-                            : userData?.profile || defaultCoverImg
-                        }
-                        alt="profile"
-                      />
-                    </div>
+                    {/* user가 아닌 경우에만 이미지 보여줌 */}
+                    {msg.role !== 'user' && (
+                      <div className="message__profile">
+                        <img src={lyricsCreate} alt="profile" />
+                      </div>
+                    )}
                     <pre className="message__content--text">{msg.content}</pre>
                   </div>
                 </div>
               ))}
               {loading && <div className="message bot">Loading...</div>}
             </div>
+
             {/* <div className="chatbot__input">
             <input
               type="text"
@@ -259,13 +256,19 @@ const LyricChatBot = ({
                 // placeholder={initialLyricPlaceholder}
                 placeholder={chatHistory.length > 1 ? '' : initialLyricPlaceholder}
               />
+              {/* <button className="chatbot__button" onClick={handleSendMessage}>
+                {t('Send')}
+              </button> */}
+              <img
+                src={chatSend}
+                alt="chat-send-icon"
+                onClick={handleSendMessage}
+                className={userInput.trim() ? 'send-icon active' : 'send-icon disabled'}
+              />
             </div>
-            <button className="chatbot__button" onClick={handleSendMessage}>
-              {t('Send')}
-            </button>
           </SelectItemWrap>
         </section>
-        <div className="music__information__buttons">
+        {/* <div className="music__information__buttons">
           <button
             className={`music__information__button ${isGenerateButtonDisabled ? 'disabled' : ''}`}
             disabled={isGenerateButtonDisabled}
@@ -275,6 +278,17 @@ const LyricChatBot = ({
           >
             {t('Confirm')}
           </button>
+        </div> */}
+        {/* LyricChatBot.js – 기존 music__information__buttons 블록 교체 */}
+        <div className="create__btn">
+          <button
+            className={`create__get-started--button ${isGenerateButtonDisabled ? 'disabled' : ''}`}
+            disabled={isGenerateButtonDisabled}
+            onClick={handleIsStatus}
+          >
+            {t('Confirm')}
+          </button>
+          {createLoading && <CreateLoading />}
         </div>
       </div>
     );

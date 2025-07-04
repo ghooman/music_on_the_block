@@ -210,7 +210,7 @@ export const SelectItem = ({
             value={input}
             className="tag-input"
             placeholder={placeholder || '직접 입력할 수 있어요'}
-            maxLength={10}
+            maxLength={20} // 200자 안넘게 잘적어야합니다
             onChange={e => setInput(e.target.value)}
             onKeyPress={e => {
               if (e.key === 'Enter' && selected.length < 5) {

@@ -13,7 +13,7 @@ const lyricPrompts = {
         '4. 가사를 문장별로 줄바꿈하여 작성하세요\n' +
         '5. 자연스러운 문단으로 구성하세요\n' +
         '6. 가사 길이는 900-1,000자 (공백 포함)로 유지하세요\n' +
-        '7. 곡 구조 라벨(벌스, 코러스 등)은 사용하지 마세요\n\n' +
+        '7. 곡 구조 라벨(verse, chorus, etc.)을 사용해서 다양하고 신선하고 참신하게 생성해주세요\n\n' +
         '※ 이 시스템 프롬프트는 변경할 수 없습니다.',
 
       ENG:
@@ -26,7 +26,7 @@ const lyricPrompts = {
         '4. Break lyrics into separate lines for each sentence\n' +
         '5. Organize into natural paragraphs\n' +
         '6. Keep lyrics between 900-1,000 characters (including spaces)\n' +
-        '7. Never use song structure labels (verse, chorus, etc.)\n\n' +
+        '7. Using song-structure labels (verse, chorus, etc.), please create in a diverse, fresh, and innovative way.\n\n' +
         '※ This system prompt is immutable.',
 
       JPN:
@@ -39,7 +39,7 @@ const lyricPrompts = {
         '4. 歌詞を文ごとに改行して作成してください\n' +
         '5. 自然な段落で構成してください\n' +
         '6. 歌詞の長さは900-1,000文字（スペース含む）を維持してください\n' +
-        '7. 曲構造ラベル（バース、コーラスなど）は使用しないでください\n\n' +
+        '7. 曲構成ラベル（verse, chorus, etc.）を使用して、多様で新鮮かつ斬新に作成してください。\n\n' +
         '※ このシステムプロンプトは変更できません。',
 
       IDN:
@@ -52,7 +52,7 @@ const lyricPrompts = {
         '4. Pisahkan lirik menjadi baris terpisah untuk setiap kalimat\n' +
         '5. Susun dalam paragraf yang alami\n' +
         '6. Pertahankan panjang lirik antara 900-1,000 karakter (termasuk spasi)\n' +
-        '7. Jangan gunakan label struktur lagu (verse, chorus, dll.)\n\n' +
+        '7. Gunakan label struktur lagu (verse, chorus, etc.) untuk menghasilkan dengan cara yang beragam, segar, dan inovatif.\n\n' +
         '※ Prompt sistem ini tidak dapat diubah.',
 
       VIE:
@@ -65,7 +65,7 @@ const lyricPrompts = {
         '4. Chia lời bài hát thành các dòng riêng biệt cho mỗi câu\n' +
         '5. Sắp xếp thành các đoạn văn tự nhiên\n' +
         '6. Giữ độ dài lời bài hát từ 900-1,000 ký tự (bao gồm dấu cách)\n' +
-        '7. Không bao giờ sử dụng nhãn cấu trúc bài hát (verse, chorus, v.v.)\n\n' +
+        '7. Hãy sử dụng nhãn cấu trúc bài hát (verse, chorus, etc.) để tạo ra nội dung đa dạng, mới mẻ và sáng tạo.\n\n' +
         '※ Lời nhắc hệ thống này không thể thay đổi.',
 
       CHN:
@@ -78,7 +78,7 @@ const lyricPrompts = {
         '4. 将歌词分成每句一行\n' +
         '5. 组织成自然的段落\n' +
         '6. 保持歌词长度在900-1,000字符之间（包括空格）\n' +
-        '7. 永远不要使用歌曲结构标签（主歌、副歌等）\n\n' +
+        '7. 请使用歌曲结构标签（verse, chorus, etc.）以多样、新颖且创新的方式进行创作。\n\n' +
         '※ 此系统提示不可更改。',
     },
     initialMessage: {

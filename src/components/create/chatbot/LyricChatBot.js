@@ -51,7 +51,7 @@ const LyricChatBot = ({
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [mode, setMode] = useState('read');
+  const [mode, setMode] = useState('edit');
 
   // 초기 가사 placeholder
   const initialKorLyricPlaceholder = [
@@ -295,57 +295,154 @@ const LyricChatBot = ({
   else
     return (
       <div ref={generatedLyricsRef} className="create__lyric-lab">
-        <h2>{t('Generated Lyrics')}</h2>
-        {mode === 'read' && <pre className="generated-lyrics__lyrics">{generatedLyric}</pre>}
-        {mode === 'edit' && (
-          <pre className="generated-lyrics__lyrics">
-            <textarea
-              className="generated-lyrics__lyrics"
-              value={generatedLyric}
-              // onChange={(e) => setCreatedLyrics(e.target.value)}
-              onChange={e => {
-                // 입력된 텍스트가 비어있을 경우 최소 한 줄의 공백을 유지하도록 설정
-                const newText = e.target.value.trim() === '' ? '\n' : e.target.value;
-                setGeneratedLyric(newText);
-              }}
-              onKeyDown={e => {
-                // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
-                if (e.key === 'Enter') {
-                  const currentScroll = e.target.scrollTop;
-                  setTimeout(() => {
-                    e.target.scrollTop = currentScroll; // 화면 스크롤 픽스
-                  }, 0);
-                }
-              }}
-            />
-          </pre>
-        )}
+        <section className="chatbot">
+          <SelectItemWrap
+            mode="chatbot"
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+            icon={isConfirmLyricStatus ? lyricsEdit : lyricsCreate}
+            title={
+              isConfirmLyricStatus
+                ? t('가사를 클릭해 수정할 수 있어요')
+                : t('저는 가사 생성 AI예요!')
+            }
+            description={
+              isConfirmLyricStatus
+                ? t(
+                    '생성된 가사를 그대로 쓰거나, 가사를 입맛대로 수정할 수 있어요\n수정된 가사에 맞춰 멜로디를 생성할 수 있어요'
+                  )
+                : t(
+                    '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요'
+                  )
+            }
+          >
+            <div className="generated-lyrics__download-buttons">
+              <button
+                className="generated-lyrics__download-buttons--button txt"
+                onClick={() => {
+                  const element = document.createElement('a');
+                  const file = new Blob([generatedLyric], { type: 'text/plain' });
+                  element.href = URL.createObjectURL(file);
+                  element.download = 'lyrics.txt';
+                  document.body.appendChild(element);
+                  element.click();
+                  document.body.removeChild(element);
+                }}
+              >
+                {t('Download as text')} (.txt)
+              </button>
+              <button
+                className="generated-lyrics__download-buttons--button pdf"
+                onClick={() => {
+                  // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
+                  if (selectedLanguage === 'KOR') {
+                    // 한글일 경우 커스텀 pdf 생성 함수 호출
+                    generateKoreanPdf(generatedLyric);
+                  } else {
+                    // 영어 등 다른 언어의 경우 기존 로직 사용
+                    const doc = new jsPDF();
+                    const lines = doc.splitTextToSize(generatedLyric, 180);
+                    doc.text(lines, 10, 10);
+                    doc.save('lyrics.pdf');
+                  }
+                }}
+              >
+                {t('Download as pdf')} (.pdf)
+              </button>
+            </div>
+            {/* <h2>{t('Generated Lyrics')}</h2>
+        {mode === 'read' && <pre className="generated-lyrics__lyrics">{generatedLyric}</pre>} */}
+            {mode === 'edit' && (
+              <pre className="generated-lyrics__lyrics">
+                <textarea
+                  className="generated-lyrics__lyrics"
+                  value={generatedLyric}
+                  // onChange={(e) => setCreatedLyrics(e.target.value)}
+                  onChange={e => {
+                    // 입력된 텍스트가 비어있을 경우 최소 한 줄의 공백을 유지하도록 설정
+                    const newText = e.target.value.trim() === '' ? '\n' : e.target.value;
+                    setGeneratedLyric(newText);
+                  }}
+                  onKeyDown={e => {
+                    // 엔터키를 눌렀을 때 화면이 내려가는 것을 방지
+                    if (e.key === 'Enter') {
+                      const currentScroll = e.target.scrollTop;
+                      setTimeout(() => {
+                        e.target.scrollTop = currentScroll; // 화면 스크롤 픽스
+                      }, 0);
+                    }
+                  }}
+                />
+              </pre>
+            )}
 
+            {/* <div className="generated-lyrics__confirm-buttons">
+            {selectedVersion !== 'V4_5' && (
+              <p
+                className={`generated-lyrics__confirm-buttons--text ${
+                  selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
+                }`}
+              >
+                {t('Lyrics Length')} : {generatedLyric?.length} / 1000
+              </p>
+            )}
+
+            <div className="generated-lyrics__confirm-buttons--button-wrap">
+              <button
+                className="generated-lyrics__confirm-buttons--button edit"
+                onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
+              >
+                {t('EDIT')}
+              </button>
+              <button
+                className={`generated-lyrics__confirm-buttons--button confirm ${
+                  selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
+                }`}
+                disabled={selectedVersion !== 'V4_5' && generatedLyric?.length > 1000}
+                onClick={() => {
+                  setGeneratedLyric(generatedLyric);
+                  setPageNumber(prev => prev + 1);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              >
+                {t('CONFIRM')}
+              </button>
+            </div>
+          </div> */}
+          </SelectItemWrap>
+        </section>
         <div className="generated-lyrics__confirm-buttons">
           {selectedVersion !== 'V4_5' && (
             <p
               className={`generated-lyrics__confirm-buttons--text ${
-                selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
+                isConfirmLyricStatus?.length > 1000 ? 'disabled' : ''
               }`}
             >
-              {t('Lyrics Length')} : {generatedLyric?.length} / 1000
+              {t('Lyrics Length')} : {isConfirmLyricStatus?.length} / 1000
             </p>
           )}
 
-          <div className="generated-lyrics__confirm-buttons--button-wrap">
-            <button
-              className="generated-lyrics__confirm-buttons--button edit"
-              onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-            >
-              {t('EDIT')}
-            </button>
-            <button
+          {/* <button
               className={`generated-lyrics__confirm-buttons--button confirm ${
-                selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
+                selectedVersion !== 'V4_5' && createdLyrics?.length > 1000 ? 'disabled' : ''
               }`}
-              disabled={selectedVersion !== 'V4_5' && generatedLyric?.length > 1000}
+              disabled={selectedVersion !== 'V4_5' && createdLyrics?.length > 1000}
               onClick={() => {
-                setGeneratedLyric(generatedLyric);
+                setGeneratedLyric(createdLyrics);
+                setPageNumber(prev => prev + 1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              {t('CONFIRM')}
+            </button> */}
+          <div className="create__btn">
+            <button
+              className={`create__get-started--button ${
+                selectedVersion !== 'V4_5' && isConfirmLyricStatus?.length > 1000 ? 'disabled' : ''
+              }`}
+              disabled={selectedVersion !== 'V4_5' && isConfirmLyricStatus?.length > 1000}
+              onClick={() => {
+                // setGeneratedLyric(isConfirmLyricStatus);
                 setPageNumber(prev => prev + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -353,40 +450,15 @@ const LyricChatBot = ({
               {t('CONFIRM')}
             </button>
           </div>
-        </div>
-        <div className="generated-lyrics__download-buttons">
-          <button
-            className="generated-lyrics__download-buttons--button txt"
-            onClick={() => {
-              const element = document.createElement('a');
-              const file = new Blob([generatedLyric], { type: 'text/plain' });
-              element.href = URL.createObjectURL(file);
-              element.download = 'lyrics.txt';
-              document.body.appendChild(element);
-              element.click();
-              document.body.removeChild(element);
-            }}
-          >
-            {t('Download as text')} (.txt)
-          </button>
-          <button
-            className="generated-lyrics__download-buttons--button pdf"
-            onClick={() => {
-              // 가사 언어에 따라 pdf 생성 방식을 분기합니다.
-              if (selectedLanguage === 'KOR') {
-                // 한글일 경우 커스텀 pdf 생성 함수 호출
-                generateKoreanPdf(generatedLyric);
-              } else {
-                // 영어 등 다른 언어의 경우 기존 로직 사용
-                const doc = new jsPDF();
-                const lines = doc.splitTextToSize(generatedLyric, 180);
-                doc.text(lines, 10, 10);
-                doc.save('lyrics.pdf');
-              }
-            }}
-          >
-            {t('Download as pdf')} (.pdf)
-          </button>
+
+          {/* <div className="generated-lyrics__confirm-buttons--button-wrap">
+              <button
+                className="generated-lyrics__confirm-buttons--button edit"
+                onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
+              >
+                {t('EDIT')}
+              </button>
+            </div> */}
         </div>
       </div>
     );

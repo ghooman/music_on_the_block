@@ -130,15 +130,27 @@ const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
       [노래 스토리]
       ${lyricStory}
       
-      [디자인 요청]
-      - 노래 제목이 있을 경우 (${lyricData?.title}) 그 제목을 포함할 것.
-      - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
-      앨범 커버 디자인 : 
-      - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-      - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-      - 이미지에는 위의 키워들을 반영하여, 예를 들어 "${lyric_tag.join(
-        ', '
-      )}"와 "${lyric_genre.join(', ')}"의 느낌을 표현할 것.
+[Design Instructions]
+
+Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
+"${lyricStory}"
+
+Use the emotional tone, genre, and tags as creative references:
+Genre: ${lyric_genre.join(', ')}
+Tags: ${lyric_tag.join(', ')}
+
+The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally intense close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (like in a flirting or heartwarming context), reflect that mood visually — avoid overly somber or dramatic atmospheres.
+
+Focus on:
+– Natural lighting and soft shadows
+– Textural detail and atmospheric depth
+– Visual storytelling with a touch of poetic elegance
+– A mood that feels cinematic yet personal — more like a quiet moment from a film than a dramatic poster
+
+The overall style should remain refined and artistic, suitable for an album cover or visual storytelling piece — but not overly grand or intense.
+
+Avoid including any text or typography in the image.
+
     `;
 };
 

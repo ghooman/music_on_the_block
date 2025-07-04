@@ -98,7 +98,7 @@ const CreateSideBar = ({
                 pageNumber === 1 ? '' : 'opacity'
               }`}
             >
-              <p>{pageNumber === 1 ? '가사보기' : '가사'}</p>
+              <p>{pageNumber === 1 ? '가사보기/수정' : '가사'}</p>
               <img src={rightArrow} alt="right-arrow opacity" />
             </div>
           </button>

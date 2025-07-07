@@ -100,11 +100,44 @@ const LyricChatBot = ({
 
   const initialLyricPlaceholder = initialLyricPlaceholderList[selectedLanguage];
 
+  // 에러 메시지가 출력됐는지
+  const [hasError, setHasError] = useState(false);
+
+  const [hasStructure, setHasStructure] = useState(false);
+
   // OpenAI 클라이언트 초기화
   const client = new OpenAI({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
     dangerouslyAllowBrowser: true,
   });
+  /** 언어별 가사 구조 키워드 */
+  const structureKeywords = {
+    KOR: ['verse', '코러스', '후렴', '브릿지', '간주', 'interlude'],
+    ENG: ['verse', 'chorus', 'hook', 'bridge', 'refrain', 'intro', 'outro'],
+    JPN: ['ヴァース', 'コーラス', 'サビ', 'ブリッジ'],
+    IDN: ['verse', 'chorus', 'bridge', 'reff'],
+    VIE: ['verse', 'điệp khúc', 'chorus', 'bridge'],
+  };
+
+  /** 가사에 키워드가 하나라도 포함돼 있는지 검사 */
+  const hasLyricStructure = (lyric, langKey) =>
+    (structureKeywords[langKey] || []).some(word => new RegExp(`\\b${word}\\b`, 'i').test(lyric));
+  /** 에러 메시지인지 판정하는 헬퍼 (컴포넌트 밖) */
+  const isLyricError = (msg: string) => {
+    const normalize = (s: string) => s.replace(/\s+/g, '').toLowerCase();
+
+    // 언어별 핵심 키워드만 넣어두면 문장 길이가 바뀌어도 잡아냄
+    const snippets = [
+      '가사를생성할수없어요', // KOR
+      'too short to generate lyrics', // ENG
+      '歌詞を作れません', // JPN
+      'membuatlirik', // IDN
+      'tạolờibàihát', // VIE
+    ];
+
+    const n = normalize(msg);
+    return snippets.some(snippet => n.includes(snippet));
+  };
 
   async function getChatResponse() {
     setLoading(true);
@@ -125,21 +158,30 @@ const LyricChatBot = ({
       console.log('response', response);
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
+      setHasStructure(hasLyricStructure(botMessage, selectedLanguage));
 
       // [가사 추출] 예외 경우 제외하고 가사저장
-      const errorMessages = [
-        'The content is too short to generate lyrics..\nPlease provide a bit more detail!',
-        '내용이 너무 짧아서 가사를 생성할 수 없어요..\n조금 더 정확하게 알려주세요!',
-        '内容が短すぎて歌詞を作れません..\nもう少し具体的に教えてください！',
-        'Isi ceritanya terlalu singkat untuk membuat lirik..\nTolong jelaskan dengan lebih detail!',
-        'Nội dung quá ngắn để tạo lời bài hát..\nHãy cung cấp thông tin chi tiết hơn nhé!',
-      ];
+      // const errorMessages = [
+      //   'The content is too short to generate lyrics..\nPlease provide a bit more detail!',
+      //   '내용이 너무 짧아서 가사를 생성할 수 없어요..\n조금 더 정확하게 알려주세요!',
+      //   '内容が短すぎて歌詞を作れません..\nもう少し具体的に教えてください！',
+      //   'Isi ceritanya terlalu singkat untuk membuat lirik..\nTolong jelaskan dengan lebih detail!',
+      //   'Nội dung quá ngắn để tạo lời bài hát..\nHãy cung cấp thông tin chi tiết hơn nhé!',
+      // ];
 
-      const isErrorMessage = errorMessages.some(errorMsg => botMessage.includes(errorMsg));
+      // const isErrorMessage = errorMessages.some(errorMsg => botMessage.includes(errorMsg));
 
-      if (!isErrorMessage) {
-        setGeneratedLyric(botMessage);
-      }
+      // if (!isErrorMessage) {
+      //   setGeneratedLyric(botMessage);
+      // }
+      const isErrorMessage = isLyricError(botMessage);
+
+      setHasError(isErrorMessage); // 1) 에러 여부 저장
+      setGeneratedLyric(
+        isErrorMessage
+          ? '' // 2) 에러면 가사를 비워서 “잔여 가사” 문제 차단
+          : botMessage
+      );
 
       setChatHistory(prevHistory => [...prevHistory, { role: 'assistant', content: botMessage }]);
       console.log('response', response);
@@ -176,7 +218,11 @@ const LyricChatBot = ({
   };
 
   // 생성 버튼 허용 조건: 최종 가사가 비어있지 않고 로딩 중이 아닐 때
-  const isGenerateButtonDisabled = generatedLyric?.trim() === '' || createLoading;
+  const isGenerateButtonDisabled =
+    loading || // 모델 응답 대기 중
+    createLoading || // 페이지 전체 로딩 중
+    !generatedLyric.trim() || // 가사 비어 있음
+    !hasStructure; // Verse, Chorus 등이 없음
 
   const scrollContainerRef = useRef(null);
 
@@ -234,7 +280,17 @@ const LyricChatBot = ({
                   </div>
                 </div>
               ))}
-              {loading && <div className="message bot">Loading...</div>}
+              {/* {loading && <div className="message bot">t('Loading...')</div>} */}
+              {loading && (
+                <div className="message assistant">
+                  <div className="message__content">
+                    <div className="message__profile">
+                      <img src={lyricsCreate} alt="profile" />
+                    </div>
+                    <pre className="message__content--text">{t('Loading...')}</pre>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* <div className="chatbot__input">
@@ -282,6 +338,7 @@ const LyricChatBot = ({
         {/* LyricChatBot.js – 기존 music__information__buttons 블록 교체 */}
         <div className="create__btn">
           <button
+            type="button"
             className={`create__get-started--button ${isGenerateButtonDisabled ? 'disabled' : ''}`}
             disabled={isGenerateButtonDisabled}
             onClick={handleIsStatus}

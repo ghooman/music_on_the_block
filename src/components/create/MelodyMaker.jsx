@@ -117,15 +117,15 @@ const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
 // ──────────────────────────
 
 // 앨범 커버 프롬프트 생성 함수
-const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
-  const { lyric_tag = [], lyric_genre = [] } = lyricData;
+const generateAlbumCoverPrompt = (melodyTitle, lyricTag, melodyGenre, lyricStory) => {
+  // const { lyric_tag = [], lyric_genre = [] } = lyricData;
   return `
       [가사 데이터]
-      태그: ${lyric_tag.join(', ')}
-      장르: ${lyric_genre.join(', ')}
+      태그: ${lyricTag.join(', ')}
+      장르: ${melodyGenre.join(', ')}
       
       [노래 제목]
-      ${lyricData?.title}
+      ${melodyTitle}
 
       [노래 스토리]
       ${lyricStory}
@@ -135,19 +135,20 @@ const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
 Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
 "${lyricStory}"
 
-Use the emotional tone, genre, and tags as creative references:
-Genre: ${lyric_genre.join(', ')}
-Tags: ${lyric_tag.join(', ')}
+Use the emotional tone, genre, and tags as creative references:  
+Genre: ${melodyGenre.join(', ')}  
+Tags: ${lyricTag.join(', ')}
 
-The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally intense close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (like in a flirting or heartwarming context), reflect that mood visually — avoid overly somber or dramatic atmospheres.
+The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
 
-Focus on:
-– Natural lighting and soft shadows
-– Textural detail and atmospheric depth
-– Visual storytelling with a touch of poetic elegance
-– A mood that feels cinematic yet personal — more like a quiet moment from a film than a dramatic poster
+Focus on:  
+– Natural lighting with a touch of warmth  
+– Soft shadows and light contrast  
+– Detailed textures with a slightly lighter palette  
+– Visual storytelling with poetic charm and subtle humor  
+– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
 
-The overall style should remain refined and artistic, suitable for an album cover or visual storytelling piece — but not overly grand or intense.
+The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
 
 Avoid including any text or typography in the image.
 
@@ -252,7 +253,12 @@ const MelodyMaker = ({
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
     // 커버 생성 관련 프롬프트 요청 변수
-    const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
+    const refinedPrompt = generateAlbumCoverPrompt({
+      melodyTitle: title,
+      lyricTag: lyricData?.lyric_tag || [],
+      melodyGenre: melodyData?.melody_genre || [],
+      lyricStory,
+    });
     // gpt(dall-e-3) 달리모델에게 이미지 생성 부탁
     const response = await client.images.generate({
       model: 'dall-e-3',
@@ -307,7 +313,8 @@ const MelodyMaker = ({
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '');
+        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
 
       setFinalPrompt(promptText);
       return promptText;

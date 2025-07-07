@@ -75,18 +75,14 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     &__messages {
       display: flex;
       flex: 1 1 auto;
+      height: 100%;
+      max-height: 100%;
       flex-direction: column;
       align-items: flex-start;
       gap: 12px;
       align-self: stretch;
-      overflow: scroll !important;
       padding-bottom: 80px;
       min-height: 0;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE 10+ */
-      &::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Edge */
-      }
       font {
         font-family: inherit !important;
         font-size: inherit !important;

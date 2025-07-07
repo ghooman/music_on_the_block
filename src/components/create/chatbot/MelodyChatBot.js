@@ -173,7 +173,7 @@ const MelodyChatBot = ({
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
-        temperature: 0,
+        temperature: 0.8,
         stop: ['---\n'],
         messages: [
           {
@@ -590,7 +590,8 @@ const MelodyChatBot = ({
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '');
+        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -607,36 +608,58 @@ const MelodyChatBot = ({
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   // 앨범커버프롬프트
 
+  const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
+    return `
+  [가사 데이터]
+  태그: ${lyricTag.join(', ')}
+  장르: ${melodyGenre.join(', ')}
+  
+  [노래 제목]
+  ${melodyTitle}
+  
+  [노래 스토리]
+  ${lyricStory}
+  
+  [Design Instructions]
+  
+  Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
+  "${lyricStory}"
+  
+  Use the emotional tone, genre, and tags as creative references:
+  Genre: ${melodyGenre.join(', ')}
+  Tags: ${lyricTag.join(', ')}
+  
+  The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally intense close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (like in a flirting or heartwarming context), reflect that mood visually — avoid overly somber or dramatic atmospheres.
+  
+  Focus on:
+  – Natural lighting and soft shadows  
+  – Textural detail and atmospheric depth  
+  – Visual storytelling with a touch of poetic elegance  
+  – A mood that feels cinematic yet personal — more like a quiet moment from a film than a dramatic poster
+  
+  The overall style should remain refined and artistic, suitable for an album cover or visual storytelling piece — but not overly grand or intense.
+  
+  Avoid including any text or typography in the image.
+  `;
+  };
+
   const generateAlbumCover = async () => {
     try {
-      const instrumentsString = Array.isArray(melody_instrument)
-        ? melody_instrument.join(', ')
-        : melody_instrument;
+      const refinedPrompt = generateAlbumCoverPrompt({
+        melodyTitle: melody_title,
+        lyricTag: lyricData?.lyric_tag || [],
+        melodyGenre: Array.isArray(melody_genre) ? melody_genre : [melody_genre],
+        lyricStory,
+      });
 
       const response = await client.images.generate({
         model: 'dall-e-3',
-        prompt: `
-          [음악의 주제 및 분위기]
-          타이틀: ${melody_title}
-          태그: ${melody_tag.join(', ')}
-          장르: ${melody_genre.join(', ')}
-        
-          [노래의 스토리 또는 감정]
-          ${lyricStory}
-        
-          [이미지 생성 요청]
-          - 앨범 커버보다는 감성적인 아트워크 스타일로 제작해주세요.
-          - '${lyricStory}' 내용을 바탕으로 강렬한 분위기, 캐릭터, 배경 등을 시네마틱하게 묘사해주세요.
-          - '${melody_tag.join(', ')}'의 분위기를 시각적으로 표현해주세요.
-          - 타이틀 텍스트는 삽입하지 않아도 됩니다.
-          - 마치 영화 포스터나 하이엔드 일러스트처럼 고퀄리티의 비주얼을 만들어주세요.
-          - 예: 인스타그램에서 보일 법한 예술적이고 감각적인 스타일
-          `,
+        prompt: refinedPrompt,
         size: '1024x1024',
         quality: 'standard',
         n: 1,
       });
-      console.log('prompt', prompt);
+
       console.log('generateAlbumCover:', response.data);
       const cover = response.data[0].url;
       setAlbumCover(cover);
@@ -842,7 +865,17 @@ const MelodyChatBot = ({
                 </div>
               </div>
             ))}
-            {loading && <div className="message bot">Loading...</div>}
+            {/* {loading && <div className="message bot">Loading...</div>} */}
+            {loading && (
+              <div className="message assistant">
+                <div className="message__content">
+                  <div className="message__profile">
+                    <img src={melodyMaker} alt="profile" />
+                  </div>
+                  <pre className="message__content--text">{t('Loading...')}</pre>
+                </div>
+              </div>
+            )}
           </div>
           <div className="chatbot__textarea">
             <textarea

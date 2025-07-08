@@ -1,4 +1,6 @@
 import './CreateSideBar.scss';
+import { useTranslation } from 'react-i18next';
+
 // 아이콘 모음
 import checkWhite from '../../assets/images/icons/check-white-icon.svg';
 import checkGreen from '../../assets/images/icons/check-green-icon.svg';
@@ -15,6 +17,7 @@ const CreateSideBar = ({
   generatedLyric,
   setGeneratedLyric,
 }) => {
+  const { t } = useTranslation('song_create');
   console.log('사이드바에서 받음', pageNumber);
   console.log('isConfirmLyricStatus', isConfirmLyricStatus);
   // pageNumber가 0, generatedLyric이 ''이면 갸사 생성 박스 활성
@@ -42,7 +45,7 @@ const CreateSideBar = ({
             }`}
           >
             <img src={isConfirmLyricStatus ? checkGreen : checkWhite} />
-            <p>가사 생성</p>
+            <p>{t('Generate Lyrics')}</p>
           </div>
           <img
             className={`create__sidebar--item--icon ${
@@ -63,7 +66,7 @@ const CreateSideBar = ({
             }`}
           >
             <img src={pageNumber === 1 ? checkGreen : checkWhite} />
-            <p>가사 수정</p>
+            <p>{t('Edit Lyrics')}</p>
           </div>
           <img
             className={`create__sidebar--item--icon ${
@@ -79,7 +82,7 @@ const CreateSideBar = ({
               className={`create__sidebar--item--checktitle ${pageNumber === 1 ? '' : 'opacity'}`}
             >
               <img src={checkWhite} />
-              <p>멜로디 생성</p>
+              <p>{t('Generate Melody')}</p>
             </div>
             <img
               className={`create__sidebar--item--icon ${pageNumber === 1 ? '' : 'opacity'}`}
@@ -98,7 +101,7 @@ const CreateSideBar = ({
                 pageNumber === 1 ? '' : 'opacity'
               }`}
             >
-              <p>{pageNumber === 1 ? '가사보기/수정' : '가사'}</p>
+              <p>{pageNumber === 1 ? t('View/Edit Lyrics') : t('Lyrics')}</p>
               <img src={rightArrow} alt="right-arrow opacity" />
             </div>
           </button>

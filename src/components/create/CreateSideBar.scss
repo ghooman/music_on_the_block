@@ -94,3 +94,71 @@
 .opacity {
   opacity: 0.3;
 }
+
+@media screen and (max-width: 1200px) {
+  .create__sidebar {
+    width: 100%;
+    min-height: 0px;
+    &--group {
+      padding: 0px;
+      display: flex;
+      .create__sidebar--item {
+        display: flex;
+        width: 300px;
+        padding: 16px 20px;
+        align-items: center;
+        gap: 12px;
+        border-radius: 20px;
+        border: 1px solid var(--White-05, rgba(255, 255, 255, 0.05));
+        background: var(--Grey-900, #181818);
+        position: relative;
+        z-index: 1;
+
+        &.active {
+          background: #303030;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        &.lyrics {
+          width: 300px;
+        }
+
+        .create__sidebar--item--checktitle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+
+          &.create__sidebar--item--checktitle--spaced {
+            justify-content: space-between;
+            gap: 0;
+            width: 100%;
+          }
+          img {
+            width: 28px;
+            height: 28px;
+            aspect-ratio: 1 / 1;
+          }
+
+          p {
+            font-family: Pretendard700;
+            font-size: 20px;
+            font-style: normal;
+            line-height: 150%;
+          }
+        }
+
+        .create__sidebar--item--icon {
+          width: 32px;
+          height: 32px;
+          aspect-ratio: 1 / 1;
+          flex-shrink: 0;
+        }
+      }
+    }
+    &--line {
+      width: 0px;
+      height: 0px;
+    }
+  }
+}

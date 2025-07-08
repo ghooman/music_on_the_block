@@ -620,26 +620,27 @@ const MelodyChatBot = ({
   [노래 스토리]
   ${lyricStory}
   
-  [Design Instructions]
-  
-  Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
-  "${lyricStory}"
-  
-  Use the emotional tone, genre, and tags as creative references:
-  Genre: ${melodyGenre.join(', ')}
-  Tags: ${lyricTag.join(', ')}
-  
-  The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally intense close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (like in a flirting or heartwarming context), reflect that mood visually — avoid overly somber or dramatic atmospheres.
-  
-  Focus on:
-  – Natural lighting and soft shadows  
-  – Textural detail and atmospheric depth  
-  – Visual storytelling with a touch of poetic elegance  
-  – A mood that feels cinematic yet personal — more like a quiet moment from a film than a dramatic poster
-  
-  The overall style should remain refined and artistic, suitable for an album cover or visual storytelling piece — but not overly grand or intense.
-  
-  Avoid including any text or typography in the image.
+[Design Instructions]
+
+Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
+"${lyricStory}"
+
+Use the emotional tone, genre, and tags as creative references:  
+Genre: ${melodyGenre.join(', ')}  
+Tags: ${lyricTag.join(', ')}
+
+The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
+
+Focus on:  
+– Natural lighting with a touch of warmth  
+– Soft shadows and light contrast  
+– Detailed textures with a slightly lighter palette  
+– Visual storytelling with poetic charm and subtle humor  
+– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
+
+The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
+
+Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
   `;
   };
 
@@ -827,9 +828,10 @@ const MelodyChatBot = ({
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           icon={melodyMaker}
-          title={t('저는 멜로디 생성 AI예요!')}
+          title={t('I am a melody generation AI!')}
           description={t(
-            '이번엔 노래의 멜로디와 악기를 구성해볼까요?\n가사에 어울리는 장르를 선택하고, 템포와 악기를 선택해 노래의 사운드를 완성해보세요!'
+            `Shall we create the melody and instruments for the song this time?
+Choose a genre that fits the lyrics, select the tempo and instruments to complete the song’s sound!`
           )}
         >
           {/* <SubBanner>
@@ -872,7 +874,7 @@ const MelodyChatBot = ({
                   <div className="message__profile">
                     <img src={melodyMaker} alt="profile" />
                   </div>
-                  <pre className="message__content--text">{t('Loading...')}</pre>
+                  <pre className="message__content--text">{t('Typing...')}</pre>
                 </div>
               </div>
             )}
@@ -981,7 +983,7 @@ const MelodyChatBot = ({
           onClick={handleGenerateSong}
           disabled={isGenerateButtonDisabled}
         >
-          {t('Generate Song')}
+          {t('Create your own music')}
         </button>
       </div>
       {showLyricsModal && (

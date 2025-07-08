@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './LyricsModal.scss';
 import closeIcon from '../assets/images/icons/close-icon.svg';
 
 const LyricsModal = ({ setShowLyricsModal, generatedLyric, onSave }) => {
+  const { t } = useTranslation('song_create');
   /* 스크롤 잠금 */
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -32,7 +34,7 @@ const LyricsModal = ({ setShowLyricsModal, generatedLyric, onSave }) => {
       <div className="lyrics-modal__box">
         {/* Header */}
         <div className="lyrics-modal__header">
-          <h2 className="lyrics-modal__title">가사</h2>
+          <h2 className="lyrics-modal__title">{t('Lyrics')}</h2>
           <img
             src={closeIcon}
             alt="close"
@@ -53,7 +55,7 @@ const LyricsModal = ({ setShowLyricsModal, generatedLyric, onSave }) => {
             disabled={!isModified}
             onClick={handleSave}
           >
-            {isModified ? '가사 수정완료' : '가사 수정하기'}
+            {isModified ? t('Lyrics Edited') : t('Edit Lyrics')}
           </button>
         </div>
       </div>

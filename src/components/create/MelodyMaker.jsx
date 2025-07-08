@@ -117,7 +117,7 @@ const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
 // ──────────────────────────
 
 // 앨범 커버 프롬프트 생성 함수
-const generateAlbumCoverPrompt = (melodyTitle, lyricTag, melodyGenre, lyricStory) => {
+const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
   // const { lyric_tag = [], lyric_genre = [] } = lyricData;
   return `
       [가사 데이터]
@@ -150,8 +150,7 @@ Focus on:
 
 The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
 
-Avoid including any text or typography in the image.
-
+Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
     `;
 };
 
@@ -474,15 +473,18 @@ const MelodyMaker = ({
         selectedLanguage={selectedLanguage}
         setSelectedLanguage={setSelectedLanguage}
         icon={melodyMaker}
-        title={t('저는 멜로디 생성 AI예요!')}
+        title={t('I am a melody generation AI!')}
         description={t(
-          '이번엔 노래의 멜로디와 악기를 구성해볼까요?\n가사에 어울리는 장르를 선택하고, 템포와 악기를 선택해 노래의 사운드를 완성해보세요!'
+          `Shall we create the melody and instruments for the song this time?
+Choose a genre that fits the lyrics, select the tempo and instruments to complete the song’s sound!`
         )}
       >
         <SubBanner>
           {/* <SubBanner.LeftImages src={subBg2} /> */}
-          <SubBanner.Title text={t('어떤 분위기, 감정, 이미지로 멜로디를 생성할까요?')} />
-          <SubBanner.Message text={t('최대 5개의 태그를 선택할 수 있어요')} />
+          <SubBanner.Title
+            text={t('What kind of mood, emotion, or imagery should the melody express?')}
+          />
+          <SubBanner.Message text={t('You can select up to 5 tags.')} />
           <SelectItem
             subTitle={t('Popular Tags')}
             setter={setMelodyData}
@@ -492,13 +494,13 @@ const MelodyMaker = ({
             className="sub-banner__tags"
             multiple
             add
-            placeholder={t('원하는 키워드를 직접 입력할 수 있어요')}
+            placeholder={t('You can also enter your desired keywords manually.')}
           />
         </SubBanner>
 
         <SubBanner>
-          <SubBanner.Title text={t('어떤 장르의 멜로디를 생성할까요?')} />
-          <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
+          <SubBanner.Title text={t('What genre of melody would you like to create?')} />
+          <SubBanner.Message text={t('You can choose or add only one.')} />
           <SelectItem
             // subTitle={t('Popular Tags')}
             setter={setMelodyData}
@@ -506,13 +508,13 @@ const MelodyMaker = ({
             selected={melodyData?.melody_genre}
             preset={genrePreset}
             className="sub-banner__genre"
-            placeholder={t('원하는 장르를 직접 입력할 수 있어요')}
+            placeholder={t('You can also enter your desired genre manually.')}
           />
         </SubBanner>
 
         <SubBanner>
-          <SubBanner.Title text={t('어떤 악기를 사용할까요?')} />
-          <SubBanner.Message text={t('최대 5개까지 선택할 수 있어요')} />
+          <SubBanner.Title text={t('Which instruments would you like to use?')} />
+          <SubBanner.Message text={t('You can select up to 5 tags.')} />
           <SelectItem
             mainTitle={t('Instrument')}
             subTitle={t('Instrument Tags')}
@@ -523,13 +525,13 @@ const MelodyMaker = ({
             className="sub-banner__genre"
             multiple
             add
-            placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
+            placeholder={t('You can also enter your desired instruments manually.')}
           />
         </SubBanner>
 
         {selectedCreationMode === 'song' && (
           <SubBanner>
-            <SubBanner.Title text={t('어떤 성별의 목소리를 사용할까요?')} />
+            <SubBanner.Title text={t('What gender of voice would you like to use?')} />
             <SelectItem
               mainTitle={t('Select a Gender')}
               subTitle={t('Popular Gender')}
@@ -538,7 +540,7 @@ const MelodyMaker = ({
               selected={melodyData?.melody_gender}
               preset={genderPreset}
               className="sub-banner__gender"
-              placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
+              // placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
               hideInput={true}
               blockStyle={true}
             />
@@ -546,7 +548,7 @@ const MelodyMaker = ({
         )}
 
         <SubBanner>
-          <SubBanner.Title text={t('노래의 템포는 몇 BPM으로 생성할까요?')} />
+          <SubBanner.Title text={t('What tempo (BPM) should the song have?')} />
           <SelectItemTempo tempo={tempo} setTempo={setTempo} />
         </SubBanner>
 
@@ -554,17 +556,19 @@ const MelodyMaker = ({
           <SelectItemInputOnly
             value={melodyDetail}
             setter={setMelodyDetail}
-            title={t('디테일한 멜로디 요소가 있나요?')}
-            placeholder={t('바람소리, 보컬의 높낮이 등 원하는 요소를 작성해주세요')}
+            title={t('Are there any detailed melody elements you want to include?')}
+            placeholder={t(
+              'Please write any specific elements like wind sounds or vocal pitch changes.'
+            )}
           />
         </SubBanner>
 
         <SubBanner>
-          <SubBanner.Title text={t('노래 제목을 입력해주세요')} />
+          <SubBanner.Title text={t('Please enter the song title.')} />
           <TitleInputOnly
             value={title}
             setter={setTitle}
-            placeholder={t('이 노래의 제목을 작성해주세요')}
+            placeholder={t('Write a title for this song.')}
           />
         </SubBanner>
 
@@ -572,8 +576,8 @@ const MelodyMaker = ({
           <SelectItemInputOnly
             value={melody_introduction}
             setter={value => setMelodyData(prev => ({ ...prev, melody_introduction: value }))}
-            title={t('노래 설명을 작성해주세요')}
-            placeholder={t('이 노래에 대한 소개글을 작성해주세요')}
+            title={t('Please write a description of the song.')}
+            placeholder={t('Write an introduction for this song.')}
           />
         </SubBanner>
 
@@ -633,7 +637,7 @@ const MelodyMaker = ({
               loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
             }
           >
-            {loading ? t('Loading') : t('Generate')}
+            {loading ? t('Loading') : t('Create your own music')}
           </button>
 
           {loading && <CreateLoading textTrue />}

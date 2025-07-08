@@ -11,6 +11,7 @@ import typeIcon from '../../assets/images/icons/type-icon.svg';
 import versionIcon from '../../assets/images/icons/version-icon.svg';
 import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.svg';
 import standardModeIcon from '../../assets/images/icons/standardmode-icon.svg';
+import rightArrow from '../../assets/images/icons/right-arrow-icon.svg';
 import React from 'react';
 
 const GetStarted = ({
@@ -39,14 +40,15 @@ const GetStarted = ({
     {
       title: 'Chatbot Mode',
       type: 'chatbot',
-      description:
-        'Create music by chatting with AI. \n For limitless and free expression, choose Chatbot Mode!',
+      description: t(`Create music through a conversation with AI
+For boundless creativity, choose Chatbot Mode!`),
       keywords: [],
     },
     {
       title: 'Standard Mode',
       type: 'standard',
-      description: 'Select from various options. \n If you need guidance, choose Standard Mode!',
+      description: t(`Choose from a variety of options
+If you need guidance, go with Standard Mode!`),
       keywords: [],
     },
   ];
@@ -90,9 +92,16 @@ const GetStarted = ({
     <div className="create__get-started">
       <div className="create__get-started--title--section">
         <h1 className="create__get-started--title">
-          {t('Shall we create your own music with AI?')}
+          {t('Ready to create your own music with AI?')}
         </h1>
         <RemainCountButton createPossibleCount={remainCount} />
+      </div>
+
+      <div className="create__get-started--media-title">
+        <div className="create__get-started--media-title--group">
+          <img src={rightArrow} alt="right-arrow" />
+          <p>{t('AI Music Writing')}</p>
+        </div>
       </div>
 
       <div className="create__get-started--radio-box">
@@ -149,7 +158,7 @@ const GetStarted = ({
                     checked={selectedCreationMode === 'song'}
                     onChange={e => setSelectedCreationMode(e.target.value)}
                   />
-                  <label htmlFor="song">{t('Song')}</label>
+                  <label htmlFor="song">{t('SONG')}</label>
                 </div>
                 <div className="privacy-option">
                   <input
@@ -253,7 +262,7 @@ const GetStarted = ({
             }}
             disabled={remainCount === 0 || activeIndex === null}
           >
-            {t('Create')}
+            {t('Start Music Creation')}
           </button>
         ) : (
           /* ② 로그인하지 않은 경우 – 로그인/지갑 연결 컴포넌트 */

@@ -34,6 +34,8 @@ const LyricChatBot = ({
 }) => {
   const { t } = useTranslation('song_create');
 
+  const scrollContainerRef = useRef(null);
+
   const { data: userData } = useUserDetail();
   const generatedLyricsRef = useRef(null);
   // 선택된 언어에 따라 초기 메시지 선택
@@ -224,25 +226,16 @@ const LyricChatBot = ({
     !generatedLyric.trim() || // 가사 비어 있음
     !hasStructure; // Verse, Chorus 등이 없음
 
-  const scrollContainerRef = useRef(null);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
-    }
-  }, [chatHistory, loading]);
-
   const handleIsStatus = () => {
-    setIsConfirmLyricStatus(true);
-    window.scrollTo(0, 0);
+    setIsConfirmLyricStatus(true); // 가사 확정 플래그
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // 화면 맨 위로
   };
 
   if (!isConfirmLyricStatus)
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
-        <section className="chatbot">
+        <section className="chatbot chatbot-mode" ref={scrollContainerRef}>
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}
@@ -250,23 +243,25 @@ const LyricChatBot = ({
             icon={isConfirmLyricStatus ? lyricsEdit : lyricsCreate}
             title={
               isConfirmLyricStatus
-                ? t('가사를 클릭해 수정할 수 있어요')
-                : t('저는 가사 생성 AI예요!')
+                ? t('You can click the lyrics to edit them.')
+                : t(`I'm a lyrics-generating AI!`)
             }
             description={
               isConfirmLyricStatus
                 ? t(
-                    '생성된 가사를 그대로 쓰거나, 가사를 입맛대로 수정할 수 있어요\n수정된 가사에 맞춰 멜로디를 생성할 수 있어요'
+                    `Use the generated lyrics as-is or customize them as you like.
+You can generate a melody based on the edited lyrics.`
                   )
                 : t(
-                    '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요'
+                    `Shall we start by creating song lyrics?
+Create your own lyrics based on a special story`
                   )
             }
           >
             {/* <div className="chatbot__header">
               <h2>{t('Chat bot')}</h2>
             </div> */}
-            <div className="chatbot__messages" ref={scrollContainerRef}>
+            <div className="chatbot__messages">
               {chatHistory.map((msg, index) => (
                 <div key={index} className={`message ${msg.role}`}>
                   <div className="message__content">
@@ -287,7 +282,7 @@ const LyricChatBot = ({
                     <div className="message__profile">
                       <img src={lyricsCreate} alt="profile" />
                     </div>
-                    <pre className="message__content--text">{t('Loading...')}</pre>
+                    <pre className="message__content--text">{t('Typing...')}</pre>
                   </div>
                 </div>
               )}
@@ -343,7 +338,7 @@ const LyricChatBot = ({
             disabled={isGenerateButtonDisabled}
             onClick={handleIsStatus}
           >
-            {t('Confirm')}
+            {t('Go to Edit Lyrics')}
           </button>
           {createLoading && <CreateLoading />}
         </div>
@@ -360,16 +355,18 @@ const LyricChatBot = ({
             icon={isConfirmLyricStatus ? lyricsEdit : lyricsCreate}
             title={
               isConfirmLyricStatus
-                ? t('가사를 클릭해 수정할 수 있어요')
-                : t('저는 가사 생성 AI예요!')
+                ? t('You can click the lyrics to edit them.')
+                : t(`I'm a lyrics-generating AI!`)
             }
             description={
               isConfirmLyricStatus
                 ? t(
-                    '생성된 가사를 그대로 쓰거나, 가사를 입맛대로 수정할 수 있어요\n수정된 가사에 맞춰 멜로디를 생성할 수 있어요'
+                    `Use the generated lyrics as-is or customize them as you like.
+You can generate a melody based on the edited lyrics.`
                   )
                 : t(
-                    '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요'
+                    `Shall we start by creating song lyrics?
+Create your own lyrics based on a special story`
                   )
             }
           >
@@ -386,7 +383,7 @@ const LyricChatBot = ({
                   document.body.removeChild(element);
                 }}
               >
-                {t('Download as text')} (.txt)
+                {t('Download as text (.txt)')} (.txt)
               </button>
               <button
                 className="generated-lyrics__download-buttons--button pdf"
@@ -404,7 +401,7 @@ const LyricChatBot = ({
                   }
                 }}
               >
-                {t('Download as pdf')} (.pdf)
+                {t('Download as PDF (.pdf)')} (.pdf)
               </button>
             </div>
             {/* <h2>{t('Generated Lyrics')}</h2>
@@ -504,7 +501,7 @@ const LyricChatBot = ({
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              {t('CONFIRM')}
+              {t('Go to Melody Creation')}
             </button>
           </div>
 

@@ -30,7 +30,6 @@ const tagPreset = {
   Nature: ['Nature'],
   Cat: ['Cat'],
   Strawberry: ['Strawberry'],
-  Food: ['Food'],
 };
 
 const genrePreset = {
@@ -156,21 +155,29 @@ Additional Story: ${lyricStory || 'Not specified'}`,
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           icon={createdLyrics ? lyricsEdit : lyricsCreate}
-          title={createdLyrics ? t('가사를 클릭해 수정할 수 있어요') : t('저는 가사 생성 AI예요!')}
+          title={
+            createdLyrics
+              ? t('You can click the lyrics to edit them.')
+              : t(`I'm a lyrics-generating AI!`)
+          }
           description={
             createdLyrics
               ? t(
-                  '생성된 가사를 그대로 쓰거나, 가사를 입맛대로 수정할 수 있어요\n수정된 가사에 맞춰 멜로디를 생성할 수 있어요'
+                  `Use the generated lyrics as-is or customize them as you like.
+You can generate a melody based on the edited lyrics.`
                 )
               : t(
-                  '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요'
+                  `Shall we start by creating song lyrics?
+Create your own lyrics based on a special story`
                 )
           }
         >
           <SubBanner>
             {/* <SubBanner.LeftImages src={subBg2} /> */}
-            <SubBanner.Title text={t('생성할 가사의 주요 키워드는 무엇인가요?')} />
-            <SubBanner.Message text={t('최대 5개의 태그를 선택할 수 있어요')} />
+            <SubBanner.Title
+              text={t('What are the main keywords for the lyrics you want to create?')}
+            />
+            <SubBanner.Message text={t('You can select up to 5 tags.')} />
             <SelectItem
               // subTitle={t('Popular Tags')}
               setter={setLyricData}
@@ -180,13 +187,13 @@ Additional Story: ${lyricStory || 'Not specified'}`,
               className="sub-banner__tags"
               multiple
               add
-              placeholder={t('원하는 키워드를 직접 입력할 수 있어요')}
+              placeholder={t('You can also enter your desired keywords manually.')}
             />
           </SubBanner>
           <SubBanner>
             {/* <SubBanner.LeftImages src={subBg2} /> */}
-            <SubBanner.Title text={t('어떤 장르/스타일의 가사를 생성할까요?')} />
-            <SubBanner.Message text={t('한 가지만 고르거나 추가할 수 있어요')} />
+            <SubBanner.Title text={t('What genre/style of lyrics would you like to create?')} />
+            <SubBanner.Message text={t('You can choose or add only one.')} />
             <SelectItem
               // subTitle={t('Popular Tags')}
               setter={setLyricData}
@@ -194,7 +201,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
               selected={lyricData?.lyric_genre}
               preset={genrePreset}
               className="sub-banner__genre"
-              placeholder={t('원하는 장르를 직접 입력할 수 있어요')}
+              placeholder={t('You can also enter your desired genre manually.')}
             />
           </SubBanner>
 
@@ -202,8 +209,8 @@ Additional Story: ${lyricStory || 'Not specified'}`,
             <SelectItemInputOnly
               value={lyricStory}
               setter={setLyricStory}
-              title={t('가사 생성을 위한 당신만의 스토리가 있나요?')}
-              placeholder={t('자유롭게 아이디어를 남겨보세요!')}
+              title={t('Do you have your own story for the lyrics?')}
+              placeholder={t('Feel free to share your ideas!')}
             />
           </SubBanner>
 
@@ -217,7 +224,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
               onClick={handleGenerateLyrics}
               disabled={!isRequiredFieldsFilled || loading}
             >
-              {loading ? t('Loading') : t('Generate')}
+              {loading ? t('Loading') : t('Go to Edit Lyrics')}
             </button>
 
             {loading && <CreateLoading textTrue2={true} />}
@@ -233,14 +240,20 @@ Additional Story: ${lyricStory || 'Not specified'}`,
           selectedLanguage={selectedLanguage}
           setSelectedLanguage={setSelectedLanguage}
           icon={createdLyrics ? lyricsEdit : lyricsCreate}
-          title={createdLyrics ? t('가사를 클릭해 수정할 수 있어요') : t('저는 가사 생성 AI예요!')}
+          title={
+            createdLyrics
+              ? t('You can click the lyrics to edit them.')
+              : t(`I'm a lyrics-generating AI!`)
+          }
           description={
             createdLyrics
               ? t(
-                  '생성된 가사를 그대로 쓰거나, 가사를 입맛대로 수정할 수 있어요\n수정된 가사에 맞춰 멜로디를 생성할 수 있어요'
+                  `Use the generated lyrics as-is or customize them as you like.
+You can generate a melody based on the edited lyrics.`
                 )
               : t(
-                  '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요'
+                  `Shall we start by creating song lyrics?
+Create your own lyrics based on a special story`
                 )
           }
         >
@@ -257,7 +270,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
                 document.body.removeChild(element);
               }}
             >
-              {t('Download as text')} (.txt)
+              {t('Download as text (.txt)')} (.txt)
             </button>
             <button
               className="generated-lyrics__download-buttons--button"
@@ -275,7 +288,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
                 }
               }}
             >
-              {t('Download as pdf')} (.pdf)
+              {t('Download as PDF (.pdf)')} (.pdf)
             </button>
           </div>
           {/* <h2>{t('Generated Lyrics')}</h2> */}
@@ -339,7 +352,7 @@ Additional Story: ${lyricStory || 'Not specified'}`,
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
-                {t('CONFIRM')}
+                {t('Go to Melody Creation')}
               </button>
             </div>
 

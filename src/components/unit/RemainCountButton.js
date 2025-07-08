@@ -8,7 +8,7 @@ export const RemainCountButton = ({ createPossibleCount }) => {
 
   return (
     <div className="create__get-started--left-count">
-      {t('You have')} <span>{createPossibleCount}</span> {t('remaining creations today.')}
+      {t('You have')} <span>{createPossibleCount}</span> {t('remaining creations today')}
     </div>
   );
 };

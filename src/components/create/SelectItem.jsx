@@ -20,8 +20,8 @@ export const SelectItemWrap = ({
   setSelectedLanguage,
   currentStep,
   icon = lyricsCreate,
-  title = '저는 가사 생성 AI예요!',
-  description = '음악의 가사를 먼저 생성해볼까요?\n특별한 이야기를 기반으로 당신만의 가사를 만들어보세요',
+  title = 'I am a melody generation AI!',
+  description = 'Shall we create the melody and instruments for the song this time?\nChoose a genre that fits the lyrics, select the tempo and instruments to complete the song’s sound!',
   mode = 'default',
 }) => {
   const [visible, setVisible] = useState(!dropdown);
@@ -42,7 +42,7 @@ export const SelectItemWrap = ({
           <img src={icon} alt="create-icon" />
           <div className="tag-select-title--group">
             <h2>{title}</h2>
-            <p>{description}</p>
+            <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
           </div>
           {/* {dropdown && (
           <div
@@ -255,8 +255,12 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
             : ''
         }`}
       >
-        {tempo >= 60 && tempo <= 80 && t('느림 60-80 BPM은 차분하고 사색적인 곡으로 적당해요.')}
-        {tempo > 80 && tempo <= 120 && t('중간 81-120 BPM은 보통의 다용도 곡으로 적당해요.')}
+        {tempo >= 60 &&
+          tempo <= 80 &&
+          t('Slow 60–80 BPM is suitable for calm and contemplative songs.')}
+        {tempo > 80 &&
+          tempo <= 120 &&
+          t('Medium 81–120 BPM is suitable for general-purpose songs.')}
         {tempo > 120 && t('Fast: Energetic and upbeat (121-160 BPM)')}
       </div>
       <div className="tag-select__range" ref={rangeRef}>

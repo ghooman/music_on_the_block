@@ -5,6 +5,8 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 import lockIcon from '../../assets/images/icons/lock-icon.svg';
 import typeIcon from '../../assets/images/icons/type-icon.svg';
@@ -27,6 +29,7 @@ const GetStarted = ({
   setSelectedCreationMode,
 }) => {
   const { t } = useTranslation('song_create');
+  const navigate = useNavigate();
   const { isLoggedIn, isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -90,18 +93,24 @@ If you need guidance, go with Standard Mode!`),
   // radio 버튼 상태
   return (
     <div className="create__get-started">
+      <div className="create__get-started--media-title">
+        <div className="create__get-started--media-title--group">
+          <img
+            src={rightArrow}
+            alt="right-arrow"
+            onClick={() => navigate('/')} // 메인 페이지로 이동
+            style={{ cursor: 'pointer' }} // 클릭 가능하게 마우스 커서 설정
+          />
+
+          <p>{t('AI Music Writing')}</p>
+        </div>
+      </div>
+
       <div className="create__get-started--title--section">
         <h1 className="create__get-started--title">
           {t('Ready to create your own music with AI?')}
         </h1>
         <RemainCountButton createPossibleCount={remainCount} />
-      </div>
-
-      <div className="create__get-started--media-title">
-        <div className="create__get-started--media-title--group">
-          <img src={rightArrow} alt="right-arrow" />
-          <p>{t('AI Music Writing')}</p>
-        </div>
       </div>
 
       <div className="create__get-started--radio-box">

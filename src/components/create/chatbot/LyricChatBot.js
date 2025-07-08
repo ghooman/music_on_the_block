@@ -401,7 +401,7 @@ Create your own lyrics based on a special story`
                   }
                 }}
               >
-                {t('Download as PDF (.pdf)')} (.pdf)
+                {t('Download as PDF (.pdf)')}
               </button>
             </div>
             {/* <h2>{t('Generated Lyrics')}</h2>

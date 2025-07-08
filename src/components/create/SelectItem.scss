@@ -547,3 +547,47 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .create {
+    &.chatbot-mode {
+      .create__select-components {
+        .tag-select-title {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          align-self: stretch;
+          img {
+            width: 40px;
+            height: 40px;
+            aspect-ratio: 1/1;
+          }
+          .tag-select-title--group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            align-self: stretch;
+            h2 {
+              color: var(--White, #fff);
+              text-align: center;
+              font-family: Pretendard700;
+              font-size: 16px;
+              font-style: normal;
+              line-height: 24px; /* 150% */
+            }
+            p {
+              color: var(--Grey-600, #767676);
+              text-align: center;
+              font-family: Pretendard400;
+              font-size: 12px;
+              font-style: normal;
+              line-height: 18px; /* 150% */
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import './CreateSideBar.scss';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 // 아이콘 모음
 import checkWhite from '../../assets/images/icons/check-white-icon.svg';
@@ -18,21 +20,50 @@ const CreateSideBar = ({
   setGeneratedLyric,
 }) => {
   const { t } = useTranslation('song_create');
-  console.log('사이드바에서 받음', pageNumber);
-  console.log('isConfirmLyricStatus', isConfirmLyricStatus);
-  // pageNumber가 0, generatedLyric이 ''이면 갸사 생성 박스 활성
-  // pageNumber가 0, generatedLyric이 값이 있으면 갸사 수정 박스 활성
-  // pageNumber가 1, generatedLyric이 값이 있으면 멜로디 생성 박스 활성
-  //   if (pageNumber == 0 && isConfirmLyricStatus == null) {
-  //     document.querySelectorAll('.create__sidebar--item--checktitle')[0].classList.remove('opacity');
-  //     document.querySelectorAll('.create__sidebar--item--icon')[0].classList.remove('opacity');
-  //     document.querySelectorAll('.create__sidebar--item')[0].style.border =
-  //       '1px solid var(--White-10, rgba(255, 255, 255, 0.10))';
-  //     document.querySelectorAll('.create__sidebar--item')[0].style.background = '#303030';
-  //   }
+  const navigate = useNavigate();
+  // console.log('사이드바에서 받음', pageNumber);
+  // console.log('isConfirmLyricStatus', isConfirmLyricStatus);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1200);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 1200);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className="create__sidebar">
+      {window.innerWidth <= 1200 && (
+        <div className="create__sidebar--mobile-header">
+          <div className="create__sidebar--mobile-header--title">
+            <img src={rightArrow} className="back-arrow" alt="back" onClick={() => navigate(-1)} />
+            <div className="mobile-title">
+              {pageNumber === 0 && !isConfirmLyricStatus && t('Generate Lyrics')}
+              {pageNumber === 0 && isConfirmLyricStatus && t('Edit Lyrics')}
+              {pageNumber === 1 && t('Generate Melody')}
+            </div>
+          </div>
+
+          <div className="mobile-steps">
+            <div
+              className={`step-icon ${pageNumber === 0 && !isConfirmLyricStatus ? 'active' : ''}`}
+            >
+              <img src={lyricsCreate} alt="create" />
+            </div>
+            <div className="step-line"></div>
+            <div
+              className={`step-icon ${pageNumber === 0 && isConfirmLyricStatus ? 'active' : ''}`}
+            >
+              <img src={lyricsEdit} alt="edit" />
+            </div>
+            <div className="step-line"></div>
+            <div className={`step-icon ${pageNumber === 1 ? 'active' : ''}`}>
+              <img src={MelodyMaker} alt="melody" />
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="create__sidebar--group">
         <div
           className={`create__sidebar--item ${

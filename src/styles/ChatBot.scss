@@ -530,3 +530,290 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .chatbot__background,
+  .create__lyric-lab {
+    position: relative;
+    padding: 20px 0px 0px 0px;
+    .chatbot {
+      display: flex;
+      width: 100%;
+      padding: 20px 16px 100px 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      flex-shrink: 0;
+
+      &__messages {
+        height: auto !important;
+        max-height: none !important;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        align-self: stretch;
+        min-height: 0;
+
+        font {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
+        .message {
+          font {
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
+          &.user {
+            align-self: flex-end;
+            .message__content {
+              .message__content--text {
+                display: flex;
+                padding: 8px 12px;
+                align-items: flex-start;
+                gap: 10px;
+
+                border-radius: 16px 0px 16px 16px;
+                background: var(--White-10, rgba(255, 255, 255, 0.1));
+                white-space: break-spaces;
+                color: #fff;
+                font-family: Pretendard400;
+                font-size: 14px;
+                font-style: normal;
+                line-height: 22px;
+                font {
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
+              }
+            }
+          }
+
+          &.assistant {
+            .message__content {
+              display: flex;
+              align-items: flex-start;
+              gap: 8px;
+              align-self: stretch;
+              .message__profile {
+                display: flex;
+                width: 24px;
+                height: 24px;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                border-radius: 60px;
+                border: 1px solid var(--White-10, rgba(255, 255, 255, 0.1));
+                background: var(--White-05, rgba(255, 255, 255, 0.05));
+                img {
+                  width: 12px;
+                  height: 12px;
+                  flex-shrink: 0;
+                  aspect-ratio: 1/1;
+                }
+              }
+              .message__content--text {
+                white-space: break-spaces;
+                display: flex;
+                padding: 12px 20px;
+                align-items: flex-start;
+                gap: 10px;
+                border-radius: 0px 16px 16px 16px;
+                background: #cf0;
+                opacity: 0.5;
+                color: #000;
+                font-family: Pretendard400;
+                font-size: 14px;
+                font-style: normal;
+                line-height: 22px;
+                font {
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &__textarea {
+        display: flex;
+        // width: 100%;
+        height: 54px;
+        padding: 12px 20px;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+
+        border-radius: 12px;
+        border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+        background: var(--Black-10, rgba(0, 0, 0, 0.1));
+        backdrop-filter: blur(20px);
+
+        position: absolute; /* ③ 항상 하단 고정 */
+        left: 30px; /* .chatbot 내부 padding 값과 동일하게 */
+        right: 30px;
+        bottom: 24px; /* .chatbot 내부 padding 값과 동일하게 */
+        width: auto; /* 양쪽 여백 감안해 자동 계산 */
+
+        pointer-events: none;
+        textarea,
+        .send-icon {
+          pointer-events: auto;
+        }
+
+        .send-icon {
+          transition: opacity 0.2s ease;
+          &.active {
+            opacity: 1;
+            cursor: pointer;
+          }
+          &.disabled {
+            opacity: 0.3;
+            cursor: default;
+          }
+        }
+
+        textarea {
+          resize: none;
+          width: 100%;
+          color: #fff;
+          font-family: Pretendard400;
+          font-size: 14px;
+          background: transparent;
+          border: none;
+          outline: none;
+
+          height: 100%; /* 부모와 동일한 높이 */
+          line-height: 30px; /* 적절히 조정 */
+          padding: 0; /* 상하 패딩 제거 */
+          margin: 0;
+          display: flex;
+          align-items: center; // 일부 브라우저는 무시할 수 있음
+
+          overflow: hidden;
+          scrollbar-width: none; /* Firefox */
+          &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+          }
+          &::placeholder {
+            color: #767676;
+            font-family: Pretendard400;
+            font-size: 14px;
+            line-height: 30px;
+          }
+
+          font {
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
+          &::-webkit-scrollbar-button {
+            display: none;
+          }
+          &::-webkit-scrollbar-track {
+            border-radius: 0px 12px 12px 0px;
+          }
+        }
+      }
+      .generated-lyrics__download-buttons {
+        position: absolute;
+        bottom: 25px; // 가사 섹션 하단의 여백 위로 띄우기
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+
+        display: flex;
+        gap: 8px;
+
+        // 버튼 스타일 보완 (선택사항)
+        // &--button {
+        //   color: #fff;
+        //   font-family: Pretendard500;
+        //   font-size: 14px;
+        //   background: none;
+        //   border: none;
+        //   cursor: pointer;
+        //   white-space: nowrap;
+        // }
+      }
+    }
+    .create__btn {
+      width: 100%;
+      height: auto;
+      .create__get-started--button {
+        width: 100%;
+        display: flex;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 12px;
+        // background: var(--Primary_Dark, #3a9de3);
+        background-color: #cf0;
+        // color: var(--White, #fff);
+        color: #000;
+        text-align: center;
+        font-family: Pretendard700;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 24px;
+
+        &:disabled {
+          cursor: not-allowed;
+          display: flex;
+          padding: 12px 20px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          align-self: stretch;
+          border-radius: 12px;
+          // background: #24333e !important;
+          background-color: #000 !important;
+          color: var(--Grey-600, #767676) !important;
+          text-align: center;
+          font-family: Pretendard700;
+          font-size: 14px;
+          font-style: normal;
+          line-height: 24px;
+          &:hover {
+            transform: translateY(0px);
+            &::after {
+              transform: translateY(3px);
+            }
+          }
+
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

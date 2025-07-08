@@ -55,7 +55,7 @@ const LyricsModal = ({ setShowLyricsModal, generatedLyric, onSave }) => {
             disabled={!isModified}
             onClick={handleSave}
           >
-            {isModified ? t('Lyrics Edited') : t('Edit Lyrics')}
+            {isModified ? t('Lyrics Updated') : t('Update Lyrics')}
           </button>
         </div>
       </div>

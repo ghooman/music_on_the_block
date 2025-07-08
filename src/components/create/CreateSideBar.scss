@@ -3,6 +3,10 @@
   min-height: 100vh;
   position: relative;
 
+  .create__get-started--media-title {
+    display: none;
+  }
+
   &--group {
     display: flex;
     width: 360px;
@@ -98,67 +102,78 @@
 @media screen and (max-width: 1200px) {
   .create__sidebar {
     width: 100%;
-    min-height: 0px;
+    min-height: auto;
+    padding: 0;
+    background: none;
+    border: none;
+
     &--group {
-      padding: 0px;
+      display: none; // 기존 사이드바 항목 숨기기
+    }
+
+    &--line {
+      display: none; // 기존 사이드바 항목 숨기기
+    }
+
+    &--mobile-header {
       display: flex;
-      .create__sidebar--item {
+      width: 100%;
+      height: 48px;
+      padding: 12px 0px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--Grey-800, #303030);
+
+      &--title {
         display: flex;
-        width: 300px;
-        padding: 16px 20px;
         align-items: center;
-        gap: 12px;
-        border-radius: 20px;
-        border: 1px solid var(--White-05, rgba(255, 255, 255, 0.05));
-        background: var(--Grey-900, #181818);
-        position: relative;
-        z-index: 1;
+        gap: 8px;
 
-        &.active {
+        .back-arrow {
+          width: 22px;
+          height: 22px;
+          transform: rotate(180deg);
+          aspect-ratio: 1/1;
+        }
+
+        .mobile-title {
+          color: var(--White, #fff);
+          font-family: Pretendard700;
+          font-size: 14px;
+          font-style: normal;
+          line-height: 22px; /* 157.143% */
+        }
+      }
+
+      .mobile-steps {
+        display: flex;
+        align-items: center;
+
+        .step-icon {
+          width: 30px;
+          height: 30px;
           background: #303030;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        &.lyrics {
-          width: 300px;
-        }
-
-        .create__sidebar--item--checktitle {
+          border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
 
-          &.create__sidebar--item--checktitle--spaced {
-            justify-content: space-between;
-            gap: 0;
-            width: 100%;
-          }
           img {
-            width: 28px;
-            height: 28px;
-            aspect-ratio: 1 / 1;
+            width: 16px;
+            height: 16px;
           }
 
-          p {
-            font-family: Pretendard700;
-            font-size: 20px;
-            font-style: normal;
-            line-height: 150%;
+          &.active {
+            border: 2px solid rgba(255, 255, 255, 0.2);
           }
         }
 
-        .create__sidebar--item--icon {
-          width: 32px;
-          height: 32px;
-          aspect-ratio: 1 / 1;
-          flex-shrink: 0;
+        .step-line {
+          width: 16px;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.2);
         }
       }
-    }
-    &--line {
-      width: 0px;
-      height: 0px;
     }
   }
 }

@@ -14,9 +14,9 @@ import { useTokenApprove } from '../hooks/useTokenApprove';
 import {
   MOB_CONTRACT_ADDRESS,
   POL_CONTRACT_ADDRESS,
-  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
-  // USDT_CONTRACT_ADDRESS,
-  // USDC_CONTRACT_ADDRESS,
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
+  USDT_CONTRACT_ADDRESS,
+  USDC_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
   MARKET_PLACE_CONTRACT_ADDRESS,
 } from '../contract/contractAddresses';
@@ -88,9 +88,11 @@ const NftConfirmModal = ({
   // 취소
   const cancelListing = useCancelListing();
   // 구매 관련
-  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
-  const { mobAllowanceData, polAllowanceData } = useTokenAllowanceCheck();
-  const { mobTokenApprove, polTokenApprove } = useTokenApprove();
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
+  const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
+    useTokenAllowanceCheck();
+  const { mobTokenApprove, polTokenApprove, usdtTokenApprove, usdcTokenApprove } =
+    useTokenApprove();
   const buyFromListing = useBuyFromListing();
 
   // ====== NFT 민팅 함수 ======
@@ -123,10 +125,10 @@ const NftConfirmModal = ({
         return MOB_CONTRACT_ADDRESS;
       case 'POL':
         return POL_CONTRACT_ADDRESS;
-      // case 'USDT':
-      //   return USDT_CONTRACT_ADDRESS;
-      // case 'USDC':
-      //   return USDC_CONTRACT_ADDRESS;
+      case 'USDT':
+        return USDT_CONTRACT_ADDRESS;
+      case 'USDC':
+        return USDC_CONTRACT_ADDRESS;
       default:
         return null;
     }
@@ -287,12 +289,12 @@ const NftConfirmModal = ({
     case 'POL':
       currentAllowance = polAllowanceData;
       break;
-    // case 'USDT':
-    //   currentAllowance = usdtAllowanceData;
-    //   break;
-    // case 'USDC':
-    //   currentAllowance = usdcAllowanceData;
-    //   break;
+    case 'USDT':
+      currentAllowance = usdtAllowanceData;
+      break;
+    case 'USDC':
+      currentAllowance = usdcAllowanceData;
+      break;
     default:
       currentAllowance = 0;
   }
@@ -307,12 +309,12 @@ const NftConfirmModal = ({
         case 'POL':
           await polTokenApprove();
           break;
-        // case 'USDT':
-        //   await usdtTokenApprove();
-        //   break;
-        // case 'USDC':
-        //   await usdcTokenApprove();
-        //   break;
+        case 'USDT':
+          await usdtTokenApprove();
+          break;
+        case 'USDC':
+          await usdcTokenApprove();
+          break;
         default:
           throw new Error('지원하지 않는 토큰입니다.');
       }

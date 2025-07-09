@@ -10,9 +10,9 @@ import ContentWrap from '../unit/ContentWrap';
 // 이미지·아이콘 ------------------------------------------------------
 import micIcon from '../../assets/images/icon/mic-icon.svg';
 import mobIcon from '../../assets/images/icon/mob-icon.svg';
-// import polygonIcon from '../../assets/images/icon/polygon-icon.svg';
-// import usdtIcon from '../../assets/images/icon/usdt-icon.svg';
-// import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
+import polygonIcon from '../../assets/images/icon/polygon-icon.svg';
+import usdtIcon from '../../assets/images/icon/usdt-icon.svg';
+import usdcIcon from '../../assets/images/icon/usdc-icon.svg';
 
 import NftConfirmModal from '../NftConfirmModal';
 import SongsBar from '../unit/SongsBar';
@@ -26,23 +26,19 @@ function MintNftSellDetail2() {
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
+  const [isActive, setIsActive] = useState(false); // track active state for the title
   const [sellPrice, setSellPrice] = useState(null);
+  const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin
 
   const navigate = useNavigate();
 
-  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
-  // ↓ 대체 코드 (selectedCoin만 고정 상수로 유지)
-  const selectedCoin = { name: 'MOB', icon: mobIcon };
-  // const [isActive, setIsActive] = useState(false); // track active state for the title
-  // const [selectedCoin, setSelectedCoin] = useState({ name: 'MOB', icon: mobIcon }); // default coin
-
-  // const handleTitleClick = () => {
-  //   setIsActive(prev => !prev); // toggle active class
-  // };
-  // const handleCoinClick = (coinName, coinIcon) => {
-  //   setSelectedCoin({ name: coinName, icon: coinIcon }); // update title with selected coin
-  //   setIsActive(false); // remove active class
-  // };
+  const handleTitleClick = () => {
+    setIsActive(prev => !prev); // toggle active class
+  };
+  const handleCoinClick = (coinName, coinIcon) => {
+    setSelectedCoin({ name: coinName, icon: coinIcon }); // update title with selected coin
+    setIsActive(false); // remove active class
+  };
 
   const {
     data: nftInfo,
@@ -62,29 +58,20 @@ function MintNftSellDetail2() {
   );
   console.log('nftInfo', nftInfo);
 
-  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
-  // const getDecimalsBySymbol = symbol => {
-  //   switch (symbol.toUpperCase()) {
-  //     case 'USDT':
-  //     case 'USDC':
-  //       return 6;
-  //     default:
-  //       return 18;
-  //   }
-  // };
+  const getDecimalsBySymbol = symbol => {
+    switch (symbol.toUpperCase()) {
+      case 'USDT':
+      case 'USDC':
+        return 6;
+      default:
+        return 18;
+    }
+  };
 
-  // let sellPriceInWei;
-  // try {
-  //   const decimals = getDecimalsBySymbol(selectedCoin.name);
-  //   sellPriceInWei = parseUnits((sellPrice || '0').toString(), decimals);
-  // } catch (error) {
-  //   console.error('Failed to convert sellPrice to Wei:', error);
-  //   sellPriceInWei = parseUnits('0', 18);
-  // }
-  // ↓ 현재 구조에서는 이렇게 간단히 사용 가능
   let sellPriceInWei;
   try {
-    sellPriceInWei = parseUnits((sellPrice || '0').toString(), 18);
+    const decimals = getDecimalsBySymbol(selectedCoin.name);
+    sellPriceInWei = parseUnits((sellPrice || '0').toString(), decimals);
   } catch (error) {
     console.error('Failed to convert sellPrice to Wei:', error);
     sellPriceInWei = parseUnits('0', 18);
@@ -153,8 +140,7 @@ function MintNftSellDetail2() {
                 {/* <button className='sell-nft-input-box__value__btn'><img src={mobIcon} alt='mic-icon'/>MOB</button> */}
               </div>
             </div>
-            {/* 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리 */}
-            {/* <div className="sell-nft-select-box">
+            <div className="sell-nft-select-box">
               <p className="sell-nft-select-box__title">Select token</p>
               <div className={`sell-nft-select-box__value-box ${isActive ? 'active' : ''}`}>
                 <p className={`sell-nft-select-box__value-box__title `} onClick={handleTitleClick}>
@@ -165,7 +151,6 @@ function MintNftSellDetail2() {
                   <li onClick={() => handleCoinClick('MOB', mobIcon)}>
                     <img src={mobIcon} alt="MOB" /> MOB
                   </li>
-                  
                   <li onClick={() => handleCoinClick('USDT', usdtIcon)}>
                     <img src={usdtIcon} alt="USDT" /> USDT
                   </li>
@@ -173,15 +158,6 @@ function MintNftSellDetail2() {
                     <img src={usdcIcon} alt="USDC" /> USDC
                   </li>
                 </ul>
-              </div>
-            </div> */}
-            <div className="sell-nft-select-box">
-              <p className="sell-nft-select-box__title">Token</p>
-              <div className="sell-nft-select-box__value-box">
-                <p className="sell-nft-select-box__value-box__title">
-                  <img src={mobIcon} alt="MOB" />
-                  MOB
-                </p>
               </div>
             </div>
           </div>

@@ -9,7 +9,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
 .chatbot__background,
 .create__lyric-lab {
   max-width: 1220px;
-  max-height: 1006px;
+  // max-height: 1006px;
   display: flex;
   padding: 40px 30px;
   flex-direction: column;
@@ -536,6 +536,36 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   .create__lyric-lab {
     position: relative;
     padding: 20px 0px 0px 0px;
+    .generated-lyrics__download-buttons {
+      width: 100%;
+      order: 2; /* lyrics(1) 뒤로 */
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+
+      // 버튼 스타일 보완 (선택사항)
+      &--button {
+        width: 100%;
+        max-width: 200px;
+        display: flex;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        flex: 1 0 0;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+    }
+    .generated-lyrics__lyrics {
+      /* <pre> 또는 textarea 래퍼 */
+      order: 1; /* 1️⃣ 먼저 나옵니다 */
+    }
+    .generated-lyrics__confirm-buttons {
+      order: 3;
+    }
     .chatbot {
       display: flex;
       width: 100%;
@@ -742,6 +772,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         }
       }
       .generated-lyrics__download-buttons {
+        width: 100%;
+        max-width: 350px;
         position: absolute;
         bottom: 25px; // 가사 섹션 하단의 여백 위로 띄우기
         left: 50%;
@@ -752,15 +784,17 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         gap: 8px;
 
         // 버튼 스타일 보완 (선택사항)
-        // &--button {
-        //   color: #fff;
-        //   font-family: Pretendard500;
-        //   font-size: 14px;
-        //   background: none;
-        //   border: none;
-        //   cursor: pointer;
-        //   white-space: nowrap;
-        // }
+        &--button {
+          display: flex;
+          padding: 8px 16px;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 10px;
+          flex: 1 0 0;
+          font-size: 12px;
+          cursor: pointer;
+          white-space: nowrap;
+        }
       }
     }
     .create__btn {

@@ -190,7 +190,7 @@ const Filter = ({
                 filterName="token_filter"
                 filterItems={
                   // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
-                  typeof tokenFilter === 'boolean' ? ['MOB', 'POL'] : tokenFilter
+                  typeof tokenFilter === 'boolean' ? ['MOB', 'POL', 'USDT', 'USDC'] : tokenFilter
                 }
               />
             )}

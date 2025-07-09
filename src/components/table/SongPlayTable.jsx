@@ -132,6 +132,8 @@ const SongPlayTable = ({
             {releaseOption && <TableHeader.Col>{t('Release')}</TableHeader.Col>}
             {mintOption && <TableHeader.Col>{t('NFT Mint')}</TableHeader.Col>}
             {sellOption && <TableHeader.Col>{t('Sell NFT')}</TableHeader.Col>}
+            {/* Add Album (테이블에서 버튼 추가) */}
+            {/* <TableHeader.Col>{t('Add Album')}</TableHeader.Col> */}
           </TableHeader>
           <TableBody>
             {songList &&
@@ -204,6 +206,8 @@ const SongPlayTable = ({
                         handleClick={() => navigate(`/nft/sell/details/${item.song_id}/${item.id}`)}
                       />
                     )}
+                    {/* Add Album 버튼 추가 */}
+                    {/* <TableItem.Button title={t('Add')} type="add" /> */}
                   </TableItem>
                 </React.Fragment>
               ))}

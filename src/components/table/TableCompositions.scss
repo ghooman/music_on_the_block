@@ -24,14 +24,14 @@
   padding: 8px;
   color: #a9d400;
   text-align: center;
-  font-family:  Pretendard400;
+  font-family: Pretendard400;
   font-size: 14px;
   white-space: nowrap;
   &.index {
     width: 40px;
   }
   font {
-    font-family:  inherit !important;
+    font-family: inherit !important;
     font-size: inherit !important;
     font-weight: inherit !important;
     line-height: inherit !important;
@@ -91,6 +91,17 @@
     width: 40px;
   }
 
+  .add {
+    &::before {
+      background-color: #0b0b0c !important;
+      border: 1px solid #a9d400 !important;
+    }
+    &::after {
+      background-color: #0b0b0c !important;
+      border: 1px solid #a9d400 !important;
+    }
+  }
+
   .text {
     text-align: center;
     overflow: hidden;
@@ -102,7 +113,7 @@
     max-width: 340px;
     margin: 0 auto;
     font {
-      font-family:  inherit !important;
+      font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
       line-height: inherit !important;
@@ -160,7 +171,7 @@
     transition: 0.2s all;
     z-index: 1;
     font {
-      font-family:  inherit !important;
+      font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
       line-height: inherit !important;

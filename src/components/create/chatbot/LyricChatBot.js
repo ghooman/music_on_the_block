@@ -347,7 +347,7 @@ Create your own lyrics based on a special story`
   else
     return (
       <div ref={generatedLyricsRef} className="create__lyric-lab">
-        <section className="chatbot">
+        <section className="chatbot" style={{ paddingBottom: '48px' }}>
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}

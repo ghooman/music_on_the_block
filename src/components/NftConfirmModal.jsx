@@ -69,7 +69,7 @@ const NftConfirmModal = ({
   // 토큰 잔액 확인
   const { data: userData } = useUserDetail();
   const micBalance = userData?.mic_point || '0.00';
-  const serverApi = process.env.REACT_APP_SERVER_API;
+  const serverApi = process.env.REACT_APP_CREATE_SERVER_API;
   const { token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -200,21 +200,18 @@ const NftConfirmModal = ({
       setShowSuccessModal(true);
       if (onSuccess) onSuccess();
     } catch (error) {
-      // const rawMessage = error?.message || '';
-      // const match = rawMessage.match(/{.*}/);
-      // console.log('rawMessage', rawMessage);
+      const rawMessage = error?.message || '';
+      const match = rawMessage.match(/{.*}/);
+      console.log('rawMessage', rawMessage);
 
-      // let parsedMessage =
-      //   (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
+      let parsedMessage =
+        (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
 
-      // if (rawMessage.includes("AA21 didn't pay prefund")) {
-      //   parsedMessage = 'Insufficient Polygon gas fee.';
-      // }
-      console.log(error, '에러에욧!');
-      alert(1);
-      setErrorMessage(
-        error?.response?.data?.detail?.msg || error?.response?.data?.detail || error?.message
-      );
+      if (rawMessage.includes("AA21 didn't pay prefund")) {
+        parsedMessage = 'Insufficient Polygon gas fee.';
+      }
+
+      setErrorMessage(parsedMessage);
     } finally {
       setIsLoading(false);
     }

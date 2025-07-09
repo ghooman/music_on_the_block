@@ -79,7 +79,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
   };
 
   const { data: userData, isLoading, error, isInitialLoading } = useUserDetail();
-  // console.log('userData', userData);
+  console.log('userData', userData);
   const micBalance = userData?.mic_point?.toFixed(4) || '0.0000';
   // 슬라이드 탭(여러 개 X, 하나만 활성화)
   const handleSlideToggle = menuName => {
@@ -231,7 +231,8 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
     }
   }, [option, token, queryClient]);
 
-  const { mobBalance, polBalance, usdcBalance, usdtBalance } = useTokenBalance();
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
+  const { mobBalance, polBalance, usdtBalance, usdcBalance } = useTokenBalance();
   const flattenedDataList = notifications?.flatMap(item => item.data_list);
 
   // 개별 알림 삭제 mutation
@@ -612,6 +613,7 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                             POL
                           </span>
                         </div>
+                        {/* 0709 하늘 fix: USDT, USDC 관련 내용 복구 */}
                         <div className="menu__box__my-page__info__bottom__box">
                           <p>{usdtBalance}</p>
                           <span>
@@ -627,9 +629,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                           </span>
                         </div>
                         <Link
-                          to="/node-viewer"
-                          className="node-viewer-btn"
-                          onClick={() => {
+                          to={isActive ? '/node-viewer' : '#'}
+                          className={`node-viewer-btn ${isActive ? '' : 'disabled'}`}
+                          onClick={e => {
+                            if (!isActive) {
+                              e.preventDefault();
+                              return;
+                            }
                             setActiveSingle(null);
                             setActiveMenus([]);
                             setActive(false);

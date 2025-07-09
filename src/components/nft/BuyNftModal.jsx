@@ -10,6 +10,7 @@ import ErrorModal from '../modal/ErrorModal';
 import {
   MOB_CONTRACT_ADDRESS,
   POL_CONTRACT_ADDRESS,
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
   USDT_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
@@ -32,9 +33,10 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     fetchPolygonStatus();
   }, []);
   const polygonDisabled = polygonStatus?.status?.includes('장애');
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
   const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
     useTokenAllowanceCheck();
-  const { mobTokenApprove, polTokenApprove, usdcTokenApprove, usdtTokenApprove } =
+  const { mobTokenApprove, polTokenApprove, usdtTokenApprove, usdcTokenApprove } =
     useTokenApprove();
   const buyFromListing = useBuyFromListing();
   const { token } = useContext(AuthContext);
@@ -105,7 +107,7 @@ const BuyNftModal = ({ setBuyNftModal, nftData, selectedCollection }) => {
     };
 
     checkAllowance();
-  }, [nftData, mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData]);
+  }, [nftData, mobAllowanceData, polAllowanceData]);
 
   // 토큰 종류에 따라 적절한 approve 함수 호출
   const approveToken = async () => {

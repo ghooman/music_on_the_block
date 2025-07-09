@@ -244,6 +244,7 @@
           &.active {
             .menu__box__my-page__info__bottom {
               height: 162px;
+              // max-height: calc((24px * 5) + (4px * 5) + 22px);
               transition: 0.3s;
               opacity: 1;
               margin-top: 0px;

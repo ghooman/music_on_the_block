@@ -745,7 +745,7 @@ function AlbumDetail() {
                     <span>{t('Introduction')}</span>
                     <strong>{album?.introduction || ''}</strong>
                   </p>
-{/* 
+                  {/* 
                   <dl>
                     <dt>{t('Introduction')}</dt>
                     <dd>{album?.introduction || ''}</dd>

@@ -58,7 +58,8 @@ export const EvaluationListItem = ({ data, selectedMusic, handler, player }) => 
         </p>
         <p className="unit-component-evaluation-list-item__thought__txt">
           <img src={criticsDataForObject[data.critic]?.image} alt="Jinwoo-Yoo-img" />
-          <span>{evaluationByLang[language]?.feedback || '-'}</span>
+          {/* <span>{evaluationByLang[language]?.feedback || '-'}</span> */}
+          <span>{evaluationByLang[language]?.feedback?.trim() || '-'}</span>
         </p>
       </div>
       <dl className="unit-component-evaluation-list-item__title">

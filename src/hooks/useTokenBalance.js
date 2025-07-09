@@ -1,5 +1,6 @@
 import { useReadContract } from 'thirdweb/react';
 import { useWalletAddress } from './useWalletAddress';
+// 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
 import { mobContract, polContract, usdtContract, usdcContract } from '../contract/contracts';
 
 export const useTokenBalance = () => {
@@ -19,14 +20,14 @@ export const useTokenBalance = () => {
     params: [walletAddress],
   });
 
-  // USDT
+  // // USDT
   const { data: usdtData, refetch: refetchUsdt } = useReadContract({
     contract: usdtContract,
     method: 'function balanceOf(address account) view returns (uint256)',
     params: [walletAddress],
   });
 
-  // USDC
+  // // USDC
   const { data: usdcData, refetch: refetchUsdc } = useReadContract({
     contract: usdcContract,
     method: 'function balanceOf(address account) view returns (uint256)',

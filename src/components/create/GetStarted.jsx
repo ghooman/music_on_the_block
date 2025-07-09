@@ -5,7 +5,16 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RemainCountButton } from '../unit/RemainCountButton';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
+import lockIcon from '../../assets/images/icons/lock-icon.svg';
+import typeIcon from '../../assets/images/icons/type-icon.svg';
+import versionIcon from '../../assets/images/icons/version-icon.svg';
+import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.svg';
+import standardModeIcon from '../../assets/images/icons/standardmode-icon.svg';
+import rightArrow from '../../assets/images/icons/right-arrow-icon.svg';
+import React from 'react';
 
 const GetStarted = ({
   handler,
@@ -20,7 +29,8 @@ const GetStarted = ({
   setSelectedCreationMode,
 }) => {
   const { t } = useTranslation('song_create');
-  const { isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { isLoggedIn, isRegistered, setIsLoggedIn, setWalletAddress } = useContext(AuthContext);
   const serverApi = process.env.REACT_APP_SERVER_API;
   const handleWalletConnect = (loggedIn, walletAddress) => {
     setIsLoggedIn(loggedIn);
@@ -31,14 +41,18 @@ const GetStarted = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: 'Chatbot Format',
-      description: 'Chat with AI to create your own song.',
-      keywords: ['AI Chatbot', 'Conversation', 'Flow'],
+      title: 'Chatbot Mode',
+      type: 'chatbot',
+      description: t(`Create music through a conversation with AI
+For boundless creativity, choose Chatbot Mode!`),
+      keywords: [],
     },
     {
-      title: 'General Format',
-      description: 'Select and input to create your own song.',
-      keywords: ['Selection', 'Input', 'Control'],
+      title: 'Standard Mode',
+      type: 'standard',
+      description: t(`Choose from a variety of options
+If you need guidance, go with Standard Mode!`),
+      keywords: [],
     },
   ];
 
@@ -74,194 +88,193 @@ const GetStarted = ({
       setSelectedVersion('topmediai');
     }
   };
+  const remainCount = isLoggedIn ? createPossibleCount : 0;
+
   // radio 버튼 상태
   return (
     <div className="create__get-started">
-      <h1 className="create__get-started--title">{t('Create Your Own Song With AI')}</h1>
-      <h2 className="create__get-started--subtitle">
-        {t('Turn your ideas into beautiful lyrics and melodies with the power of AI')}
-      </h2>
-      {/* <div className="create__get-started--features">
-        <h3 className="create__get-started--features-title">{t('Code Features')}</h3>
-        <div className="create__get-started--features-items">
-          {['Lyrics Generation', 'Melody Composition', 'Style Adaptation'].map((item, index) => (
-            <div className="create__get-started--features-item" key={index}>
-              {t(item)}
-            </div>
-          ))}
+      <div className="create__get-started--media-title">
+        <div className="create__get-started--media-title--group">
+          <img
+            src={rightArrow}
+            alt="right-arrow"
+            onClick={() => navigate('/')} // 메인 페이지로 이동
+            style={{ cursor: 'pointer' }} // 클릭 가능하게 마우스 커서 설정
+          />
+
+          <p>{t('AI Music Writing')}</p>
         </div>
       </div>
-      <div className="create__get-started--features sequence">
-        <div>
-          <h3 className="create__get-started--features-title">{t('Cost')}</h3>
-          <p className="create__get-started--features-item">-- MOB</p>
-        </div>
-        <div>
-          <h3 className="create__get-started--features-title">{t('Used')}</h3>
-          <p className="create__get-started--features-item">--</p>
-        </div>
-        <div>
-          <h3 className="create__get-started--features-title">{t('Precision')}</h3>
-          <p className="create__get-started--features-item ">--%</p>
-        </div>
-      </div> */}
-      <RemainCountButton createPossibleCount={createPossibleCount} />
+
+      <div className="create__get-started--title--section">
+        <h1 className="create__get-started--title">
+          {t('Ready to create your own music with AI?')}
+        </h1>
+        <RemainCountButton createPossibleCount={remainCount} />
+      </div>
 
       <div className="create__get-started--radio-box">
-        <div className="created__get-started--privacy">
-          <h3>&lt;{t('Privacy')}&gt;</h3>
-          <div className="creation-mode-options">
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="release"
-                name="privacy"
-                value="release"
-                checked={selectedPrivacy === 'release'}
-                onChange={e => setSelectedPrivacy(e.target.value)}
-              />
-              <label htmlFor="release">{t('Release')}</label>
-            </div>
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="unrelease"
-                name="privacy"
-                value="unrelease"
-                checked={selectedPrivacy === 'unrelease'}
-                onChange={e => setSelectedPrivacy(e.target.value)}
-              />
-              <label htmlFor="unrelease">{t('Unrelease')}</label>
-            </div>
-          </div>
-        </div>
-
-        <div className="created__get-started--creation-mode">
-          <h3>&lt;{t('Creation Mode')}&gt;</h3>
-          <div className="creation-mode-options">
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="song"
-                name="creationMode"
-                value="song"
-                checked={selectedCreationMode === 'song'}
-                onChange={e => setSelectedCreationMode(e.target.value)}
-              />
-              <label htmlFor="song">{t('Song')}</label>
-            </div>
-            <div className="privacy-option">
-              <input
-                type="radio"
-                id="bgm"
-                name="creationMode"
-                value="bgm"
-                checked={selectedCreationMode === 'bgm'}
-                onChange={e => setSelectedCreationMode(e.target.value)}
-              />
-              <label htmlFor="bgm">BGM</label>
+        <h3 className="create__get-started--radio-box--title">
+          {t('Music Creation Basic Settings')}
+        </h3>
+        <div className="created__get-started--radio-box-group">
+          <div className="created__get-started--privacy">
+            <div className="creation-mode-options">
+              <div className="creation-mode-title">
+                <img src={lockIcon} alt="lock icon" />
+                <p>{t('Music Visibility')}</p>
+              </div>
+              <div className="privacy-option-group">
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="release"
+                    name="privacy"
+                    value="release"
+                    checked={selectedPrivacy === 'release'}
+                    onChange={e => setSelectedPrivacy(e.target.value)}
+                  />
+                  <label htmlFor="release">{t('Release')}</label>
+                </div>
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="unrelease"
+                    name="privacy"
+                    value="unrelease"
+                    checked={selectedPrivacy === 'unrelease'}
+                    onChange={e => setSelectedPrivacy(e.target.value)}
+                  />
+                  <label htmlFor="unrelease">{t('Unrelease')}</label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className={`create__get-started--version${open ? ' active' : ''}`}>
-        <p className="create__get-started--version__title">&lt;{t('Ai Version')}&gt;</p>
-        <div className="create__get-started--version__select">
-          <p className="create__get-started--version__select__title" onClick={() => setOpen(!open)}>
-            {title}
-          </p>
-          <ul className="create__get-started--version__select__list">
-            <li
-              className={!versionList.suno ? 'disabled' : ''}
-              onClick={() => versionList.suno && handleSelect('L&S Plus(V2.2)')}
-            >
-              <p>L&S Plus(V2.2)</p>
-              <span>{t('Advanced AI Model for High-Quality and Extended Song Generation')}</span>
-            </li>
-            <li
-              className={!versionList.mureka ? 'disabled' : ''}
-              onClick={() => versionList.mureka && handleSelect('L&S Pro(V2.0)')}
-            >
-              <p>L&S Pro(V2.0)</p>
-              <span>{t('Standard AI Model Offering Enhanced Audio Quality and Stability')}</span>
-            </li>
-            <li
-              className={!versionList.topmediai ? 'disabled' : ''}
-              onClick={() => versionList.topmediai && handleSelect('L&S One(V1.0)')}
-            >
-              <p>L&S One(V1.0)</p>
-              <span>{t('Basic AI Model for Simple Lyrics and Music Composition')}</span>
-            </li>
-          </ul>
+          <div className="created__get-started--creation-mode">
+            <div className="creation-mode-options">
+              <div className="creation-mode-title">
+                <img src={typeIcon} alt="type icon" />
+                <p>{t('Music Type')}</p>
+              </div>
+              <div className="privacy-option-group">
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="song"
+                    name="creationMode"
+                    value="song"
+                    checked={selectedCreationMode === 'song'}
+                    onChange={e => setSelectedCreationMode(e.target.value)}
+                  />
+                  <label htmlFor="song">{t('SONG')}</label>
+                </div>
+                <div className="privacy-option">
+                  <input
+                    type="radio"
+                    id="bgm"
+                    name="creationMode"
+                    value="bgm"
+                    checked={selectedCreationMode === 'bgm'}
+                    onChange={e => setSelectedCreationMode(e.target.value)}
+                  />
+                  <label htmlFor="bgm">{t('BGM')}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="created__get-started--version">
+            <div className="version-mode-options">
+              <div className="version-mode-title">
+                <img src={versionIcon} alt="version icon" />
+                <p>{t('Select AI Version')}</p>
+              </div>
+              <div className={`create__get-started--version${open ? ' active' : ''}`}>
+                <div className="create__get-started--version__select">
+                  <p
+                    className="create__get-started--version__select__title"
+                    onClick={() => setOpen(!open)}
+                  >
+                    {title}
+                  </p>
+                  <ul className="create__get-started--version__select__list">
+                    <li
+                      className={!versionList.suno ? 'disabled' : ''}
+                      onClick={() => versionList.suno && handleSelect('L&S Plus(V2.2)')}
+                    >
+                      <p>L&S Plus(V2.2)</p>
+                      <span>{t('Premium model – long, high-quality songs')}</span>
+                    </li>
+                    <li
+                      className={!versionList.mureka ? 'disabled' : ''}
+                      onClick={() => versionList.mureka && handleSelect('L&S Pro(V2.0)')}
+                    >
+                      <p>L&S Pro(V2.0)</p>
+                      <span>{t('Standard model – better sound & stability')}</span>
+                    </li>
+                    <li
+                      className={!versionList.topmediai ? 'disabled' : ''}
+                      onClick={() => versionList.topmediai && handleSelect('L&S One(V1.0)')}
+                    >
+                      <p>L&S One(V1.0)</p>
+                      <span>{t('Basic model – simple lyrics & music')}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <section className="create__get-started--format">
-        {formats.map((format, idx) => (
-          <article
-            key={idx}
-            className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
-            onClick={() => handleArticleClick(idx)}
-          >
-            <h3 className="create__get-started--format-item-title">&lt;{t(format.title)}&gt;</h3>
-            <p className="create__get-started--format-item-txt">
-              {t(format.description)}
-              <span>
-                * {t('Keywords')}:{' '}
-                {format.keywords.map((keyword, index, { length }) => {
-                  let suffix = index === length - 1 ? '' : ' · ';
-                  return t(keyword) + suffix;
-                })}
-              </span>
-            </p>
-            {/* <div className="create__get-started--format-item-select">
-              <p className="create__get-started--format-item-select-title">
-                {t('Language selection')}
+        <h3 className="create__get-started--format-title">{t('Select Creation Format')}</h3>
+        <div className="create__get-started--format-item-group">
+          {formats.map((format, idx) => (
+            <article
+              key={idx}
+              className={`create__get-started--format-item ${activeIndex === idx ? 'active' : ''}`}
+              onClick={() => handleArticleClick(idx)}
+            >
+              {/* 아이콘 삽입 */}
+              <img
+                className="create__get-started--format-item-icon"
+                src={format.type === 'chatbot' ? chatbotModeIcon : standardModeIcon}
+                alt={`${format.title} icon`}
+              />
+              <h3 className="create__get-started--format-item-title">{t(format.title)}</h3>
+              <p className="create__get-started--format-item-txt">
+                {format.description.split('\n').map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
               </p>
-              <div className="create__get-started--format-item-select-items">
-                <div className="container">
-                  {languages.map((lang, langIdx) => (
-                    <div className="radio" key={langIdx}>
-                      <input
-                        id={`radio-${idx}-${langIdx}`}
-                        name={`radio-${idx}`}
-                        type="radio"
-                        disabled={activeIndex !== idx}
-                        defaultChecked={langIdx === 0}
-                        onChange={() => {
-                          setSelectedLanguage(lang === '한국어' ? 'KOR' : 'ENG');
-                        }}
-                      />
-                      <label htmlFor={`radio-${idx}-${langIdx}`} className="radio-label">
-                        {t(lang)}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div> */}
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
       </section>
 
       <div className="create__btn">
-        {isRegistered ? (
+        {isLoggedIn ? (
+          /* ① 로그인한 경우 – ‘Create’ 버튼 */
           <button
             className={`create__get-started--button ${
-              createPossibleCount === 0 || activeIndex === null ? 'disabled' : ''
+              remainCount === 0 || activeIndex === null ? 'disabled' : ''
             }`}
             onClick={() => {
-              if (activeIndex === null) return; // 포맷 선택 전이면 동작 막음
+              if (activeIndex === null || remainCount === 0) return;
               const mode = activeIndex === 0 ? 'chatbot' : 'select';
               setCreateMode(mode);
               handler();
             }}
-            disabled={createPossibleCount === 0 || activeIndex === null}
+            disabled={remainCount === 0 || activeIndex === null}
           >
-            {t('Create')}
+            {t('Start Music Creation')}
           </button>
         ) : (
+          /* ② 로그인하지 않은 경우 – 로그인/지갑 연결 컴포넌트 */
           <WalletConnect onConnect={handleWalletConnect} />
         )}
       </div>

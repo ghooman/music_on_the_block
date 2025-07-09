@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OpenAI from 'openai';
 import SubBanner from './SubBanner';
+
+import melodyMaker from '../../assets/images/icons/melody-maker-icon.svg';
+
 import {
   SelectItem,
   SelectItemTempo,
   SelectItemWrap,
   SelectItemInputOnly,
   SelectItemIntroInputOnly,
+  TitleInputOnly,
 } from './SelectItem';
 import ExpandedButton from './ExpandedButton';
 import CompleteModal from './../SingUpCompleteModal';
@@ -81,7 +85,8 @@ const client = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-// localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분)
+// localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분) 알람모달에서 사용
+// 서버(소켓) 에서 노래 생성 정보를 유저 전체한테 보내주는데 자신이 만든 노래인지 확인후 해당유저만 알람을 보여주게 하기위해
 const albumIdStorageKey = 'generatedAlbumId';
 const storeAlbumId = (id, title) => {
   const expires = Date.now() + 15 * 60 * 1000; // 15분 후
@@ -90,6 +95,7 @@ const storeAlbumId = (id, title) => {
 
 // ──────────────────────────
 // 프리뷰 문자열의 각 라인에서 콜론(:) 뒤의 값에만 스타일을 적용하는 컴포넌트
+// 수노 외 프롬프트 제한길이 (200자) 때문에 길이체크를 유저에게 보여주기 위해 존재하는 기능
 const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
   // 줄바꿈을 기준으로 각 라인을 분리하고 빈 줄은 제거
   const lines = previewText.split('\n').filter(line => line.trim() !== '');
@@ -111,28 +117,40 @@ const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
 // ──────────────────────────
 
 // 앨범 커버 프롬프트 생성 함수
-const generateAlbumCoverPrompt = (lyricData, lyricStory) => {
-  const { lyric_tag = [], lyric_genre = [] } = lyricData;
+const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
+  // const { lyric_tag = [], lyric_genre = [] } = lyricData;
   return `
       [가사 데이터]
-      태그: ${lyric_tag.join(', ')}
-      장르: ${lyric_genre.join(', ')}
+      태그: ${lyricTag.join(', ')}
+      장르: ${melodyGenre.join(', ')}
       
       [노래 제목]
-      ${lyricData?.title}
+      ${melodyTitle}
 
       [노래 스토리]
       ${lyricStory}
       
-      [디자인 요청]
-      - 노래 제목이 있을 경우 (${lyricData?.title}) 그 제목을 포함할 것.
-      - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
-      앨범 커버 디자인 : 
-      - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-      - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-      - 이미지에는 위의 키워들을 반영하여, 예를 들어 "${lyric_tag.join(
-        ', '
-      )}"와 "${lyric_genre.join(', ')}"의 느낌을 표현할 것.
+[Design Instructions]
+
+Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
+"${lyricStory}"
+
+Use the emotional tone, genre, and tags as creative references:  
+Genre: ${melodyGenre.join(', ')}  
+Tags: ${lyricTag.join(', ')}
+
+The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
+
+Focus on:  
+– Natural lighting with a touch of warmth  
+– Soft shadows and light contrast  
+– Detailed textures with a slightly lighter palette  
+– Visual storytelling with poetic charm and subtle humor  
+– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
+
+The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
+
+Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
     `;
 };
 
@@ -146,6 +164,7 @@ const MelodyMaker = ({
   tempo,
   setTempo,
   generatedLyric,
+  setGeneratedLyric,
   generatedMusicResult,
   setGeneratedMusicResult,
   setPageNumber,
@@ -174,7 +193,7 @@ const MelodyMaker = ({
   const [showLyricsModal, setShowLyricsModal] = useState(false);
   // 타이틀은 무조건 필수이며, 추가 필드 중 하나 이상이 채워져야 하는 조건
   const isTitleFilled = title && title.trim() !== '';
-
+  // 유효성 곡생성 되는 활성화 조건들 (필요시 추가 나 삭제)
   const isAdditionalFieldFilled =
     (melody_tag && melody_tag.length > 0) ||
     (melody_genre && melody_genre.length > 0 && melody_genre[0].trim() !== '') ||
@@ -232,7 +251,14 @@ const MelodyMaker = ({
 
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
-    const refinedPrompt = generateAlbumCoverPrompt(lyricData, lyricStory);
+    // 커버 생성 관련 프롬프트 요청 변수
+    const refinedPrompt = generateAlbumCoverPrompt({
+      melodyTitle: title,
+      lyricTag: lyricData?.lyric_tag || [],
+      melodyGenre: melodyData?.melody_genre || [],
+      lyricStory,
+    });
+    // gpt(dall-e-3) 달리모델에게 이미지 생성 부탁
     const response = await client.images.generate({
       model: 'dall-e-3',
       prompt: refinedPrompt,
@@ -244,11 +270,12 @@ const MelodyMaker = ({
     return response.data[0].url;
   };
 
-  // 최종 프롬프트 생성 함수
+  // 최종 프롬프트 생성 함수 gpt 에 요청해서 노래 생성 할때 보내는 prompt 에 적절한 답을 요청하고 그걸 받아서 서버에 보냅니다.
   const generateFinalPrompt = async () => {
     try {
       // V4_5인지 여부에 따라 시스템 메시지를 분기
       const isV4_5 = selectedVersion === 'V4_5';
+      // V4_5 (수노) 일경우 프롬프트 를 자연스럽게만 수정 시키게하고 아닐 경우 형식을 고정 시켜서 글자길이를 최대 200자 이내로 강제로 만들어서 프롬프트를 수정시킵니다
       const systemPrompt = isV4_5
         ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
         : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
@@ -285,7 +312,8 @@ const MelodyMaker = ({
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '');
+        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
 
       setFinalPrompt(promptText);
       return promptText;
@@ -300,7 +328,7 @@ const MelodyMaker = ({
       return basicPrompt;
     }
   };
-  // 노래 생성 요청 함수
+  // 노래 생성 요청 함수 ////
   const musicGenerate = async () => {
     try {
       setLoading(true);
@@ -360,7 +388,7 @@ const MelodyMaker = ({
           style: '',
           gender: melody_gender?.[0] || '',
           musical_instrument: melody_instrument?.join(', ') || '',
-          ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
+          ai_service: selectedCreationMode === 'bgm' ? 0 : 1, // bgm 이면 0 , song이면 1
           ai_service_type: '',
           tempo: parseFloat(tempo),
           song_length: '',
@@ -372,7 +400,7 @@ const MelodyMaker = ({
           create_ai_type: create_ai_type,
           ai_model: ai_model,
           is_release: selectedPrivacy === 'release' ? true : false,
-          introduction: melody_introduction?.[0] || '',
+          introduction: melody_introduction || '',
         },
         album_lyrics_info: {
           language: selectedLanguage,
@@ -409,7 +437,7 @@ const MelodyMaker = ({
       setLoading(false);
     }
   };
-
+  ///////////
   useEffect(() => {
     if (generatedMusicResult) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -418,10 +446,11 @@ const MelodyMaker = ({
 
   const { t } = useTranslation('song_create');
 
+  console.log(typeof melody_introduction, melody_introduction);
+
   return (
     <div className="create__melody-maker">
-      <RemainCountButton createPossibleCount={createPossibleCount} />
-      <SubBanner>
+      {/* <SubBanner>
         <SubBanner.RightImages src={subBg1} />
         <SubBanner.Title text={t('View Lyrics Lab Results')} />
         <SubBanner.Message text={t('These lyrics were previously written by AI in Lyrics Lab.')} />
@@ -436,17 +465,26 @@ const MelodyMaker = ({
             setShowLyricsModal(true);
           }}
         ></SubBanner.Button>
-      </SubBanner>
+      </SubBanner> */}
 
-      <SelectItemWrap currentStep={'isMelodyPage'}>
+      {/* <SelectItemWrap currentStep={'isMelodyPage'}> */}
+      <SelectItemWrap
+        currentStep={'isMelodyPage'}
+        selectedLanguage={selectedLanguage}
+        setSelectedLanguage={setSelectedLanguage}
+        icon={melodyMaker}
+        title={t('I am a melody generation AI!')}
+        description={t(
+          `Shall we create the melody and instruments for the song this time?
+Choose a genre that fits the lyrics, select the tempo and instruments to complete the song’s sound!`
+        )}
+      >
         <SubBanner>
-          <SubBanner.LeftImages src={subBg2} />
-          <SubBanner.Title text={t('Select a Tags')} />
-          <SubBanner.Message
-            text={t(
-              'Please select tags that can express the mood, emotion, and image of the song.'
-            )}
+          {/* <SubBanner.LeftImages src={subBg2} /> */}
+          <SubBanner.Title
+            text={t('What kind of mood, emotion, or imagery should the melody express?')}
           />
+          <SubBanner.Message text={t('You can select up to 5 tags.')} />
           <SelectItem
             subTitle={t('Popular Tags')}
             setter={setMelodyData}
@@ -456,49 +494,94 @@ const MelodyMaker = ({
             className="sub-banner__tags"
             multiple
             add
+            placeholder={t('You can also enter your desired keywords manually.')}
           />
         </SubBanner>
-        <SelectItemInputOnly value={title} setter={setTitle} title={t('Title')} />
-        <SelectItem
-          mainTitle={t('Select a Genre')}
-          subTitle={t('Popular Genre')}
-          setter={setMelodyData}
-          objKey="melody_genre"
-          selected={melodyData?.melody_genre}
-          preset={genrePreset}
-        />
-        {selectedCreationMode === 'song' && (
+
+        <SubBanner>
+          <SubBanner.Title text={t('What genre of melody would you like to create?')} />
+          <SubBanner.Message text={t('You can choose or add only one.')} />
           <SelectItem
-            mainTitle={t('Select a Gender')}
-            subTitle={t('Popular Gender')}
+            // subTitle={t('Popular Tags')}
             setter={setMelodyData}
-            objKey="melody_gender"
-            selected={melodyData?.melody_gender}
-            preset={genderPreset}
+            objKey="melody_genre"
+            selected={melodyData?.melody_genre}
+            preset={genrePreset}
+            className="sub-banner__genre"
+            placeholder={t('You can also enter your desired genre manually.')}
           />
+        </SubBanner>
+
+        <SubBanner>
+          <SubBanner.Title text={t('Which instruments would you like to use?')} />
+          <SubBanner.Message text={t('You can select up to 5 tags.')} />
+          <SelectItem
+            mainTitle={t('Instrument')}
+            subTitle={t('Instrument Tags')}
+            setter={setMelodyData}
+            objKey="melody_instrument"
+            selected={melody_instrument || []}
+            preset={instrumentPreset}
+            className="sub-banner__genre"
+            multiple
+            add
+            placeholder={t('You can also enter your desired instruments manually.')}
+          />
+        </SubBanner>
+
+        {selectedCreationMode === 'song' && (
+          <SubBanner>
+            <SubBanner.Title text={t('What gender of voice would you like to use?')} />
+            <SelectItem
+              mainTitle={t('Select a Gender')}
+              subTitle={t('Popular Gender')}
+              setter={setMelodyData}
+              objKey="melody_gender"
+              selected={melodyData?.melody_gender}
+              preset={genderPreset}
+              className="sub-banner__gender"
+              // placeholder={t('원하는 악기를 직접 입력할 수 있어요')}
+              hideInput={true}
+              blockStyle={true}
+            />
+          </SubBanner>
         )}
-        <SelectItem
-          mainTitle={t('Instrument')}
-          subTitle={t('Instrument Tags')}
-          preset={instrumentPreset}
-          setter={setMelodyData}
-          objKey="melody_instrument"
-          selected={melody_instrument || []}
-          multiple={true}
-          add={true}
-        />
-        <SelectItemTempo tempo={tempo} setTempo={setTempo} />
-        <SelectItemInputOnly
-          value={melodyDetail}
-          setter={setMelodyDetail}
-          title={t('Music Detail')}
-        />
-        <SelectItemIntroInputOnly
-          value={melody_introduction}
-          setter={value => setMelodyData(prev => ({ ...prev, melody_introduction: value }))}
-          title={t('Introduction')}
-        />
-        <div className="selected-tag-list">
+
+        <SubBanner>
+          <SubBanner.Title text={t('What tempo (BPM) should the song have?')} />
+          <SelectItemTempo tempo={tempo} setTempo={setTempo} />
+        </SubBanner>
+
+        <SubBanner>
+          <SelectItemInputOnly
+            value={melodyDetail}
+            setter={setMelodyDetail}
+            title={t('Are there any detailed melody elements you want to include?')}
+            placeholder={t(
+              'Please write any specific elements like wind sounds or vocal pitch changes.'
+            )}
+          />
+        </SubBanner>
+
+        <SubBanner>
+          <SubBanner.Title text={t('Please enter the song title.')} />
+          <TitleInputOnly
+            value={title}
+            setter={setTitle}
+            placeholder={t('Write a title for this song.')}
+          />
+        </SubBanner>
+
+        <SubBanner>
+          <SelectItemInputOnly
+            value={melody_introduction}
+            setter={value => setMelodyData(prev => ({ ...prev, melody_introduction: value }))}
+            title={t('Please write a description of the song.')}
+            placeholder={t('Write an introduction for this song.')}
+          />
+        </SubBanner>
+
+        {/* <div className="selected-tag-list">
           <div className="selected-tag-list__title">
             <h3>
               {t('Selected Tags')}
@@ -518,9 +601,49 @@ const MelodyMaker = ({
           <div className="selected-tag-list__tags">
             <StyledPromptPreview previewText={promptPreview} valueColor="#cf0" />
           </div>
+        </div> */}
+        {/* <div className="button-wrap">
+          <div className="button-wrap__left">
+            <button className="back" onClick={() => setPageNumber(prev => prev - 1)}>
+              {t('Back')}
+            </button>
+            <button className="skip" onClick={onSkip} style={{ display: 'none' }}>
+              {t('Skip')}
+            </button>
+          </div>
+          <button
+            className={
+              loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+                ? 'next'
+                : 'next enable'
+            }
+            onClick={() => musicGenerate()}
+            disabled={
+              loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+            }
+          >
+            {loading ? t('Loading') : t('Generate')}
+          </button>
+        </div> */}
+        <div className="create__btn">
+          <button
+            className={`create__get-started--button ${
+              loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+                ? 'disabled'
+                : ''
+            }`}
+            onClick={() => musicGenerate()}
+            disabled={
+              loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+            }
+          >
+            {loading ? t('Loading') : t('Create your own music')}
+          </button>
+
+          {loading && <CreateLoading textTrue />}
         </div>
       </SelectItemWrap>
-      <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* <div className="mb40" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <SelectedWrap title={t('Lyrics Lab')}>
           <SelectedItem title={t('Tags')} value={lyricData?.lyric_tag} multiple />
           <SelectedItem title={t('Genre')} value={lyricData?.lyric_genre} />
@@ -548,33 +671,15 @@ const MelodyMaker = ({
           />
           <SelectedItem title={t('Tempo')} value={tempo} />
         </SelectedWrap>
-      )}
-      <div className="button-wrap">
-        <div className="button-wrap__left">
-          <button className="back" onClick={() => setPageNumber(prev => prev - 1)}>
-            {t('Back')}
-          </button>
-          <button className="skip" onClick={onSkip} style={{ display: 'none' }}>
-            {t('Skip')}
-          </button>
-        </div>
-        <button
-          className={
-            loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
-              ? 'next'
-              : 'next enable'
-          }
-          onClick={() => musicGenerate()}
-          disabled={
-            loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
-          }
-        >
-          {loading ? t('Loading') : t('Generate')}
-        </button>
-      </div>
+      )} */}
+
       {loading && <CreateLoading textTrue />}
       {showLyricsModal && (
-        <LyricsModal setShowLyricsModal={setShowLyricsModal} generatedLyric={generatedLyric} />
+        <LyricsModal
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+          onSave={newLyric => setGeneratedLyric(newLyric)} // ← 추가
+        />
       )}
     </div>
   );

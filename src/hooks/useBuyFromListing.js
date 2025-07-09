@@ -13,12 +13,14 @@ export const useBuyFromListing = () => {
     console.log('listingId', listingId);
     console.log('currencyAddress', currencyAddress);
     console.log('price', price);
-
+    // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
     const isSixDecimal =
       currencyAddress === USDT_CONTRACT_ADDRESS || currencyAddress === USDC_CONTRACT_ADDRESS;
 
     const decimals = isSixDecimal ? 6 : 18;
+    // 현재는 MOB만 지원 → 고정 소수점 18자리 처리
     const priceToWei = ethers.parseUnits(price.toString(), decimals);
+    // const priceToWei = ethers.parseUnits(price.toString(), 18);
     console.log('priceToWei', priceToWei);
 
     try {

@@ -14,6 +14,7 @@ import { useTokenApprove } from '../hooks/useTokenApprove';
 import {
   MOB_CONTRACT_ADDRESS,
   POL_CONTRACT_ADDRESS,
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
   USDT_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
@@ -87,9 +88,10 @@ const NftConfirmModal = ({
   // 취소
   const cancelListing = useCancelListing();
   // 구매 관련
+  // 0709 하늘 fix: USDT, USDC 관련 내용 복구
   const { mobAllowanceData, polAllowanceData, usdtAllowanceData, usdcAllowanceData } =
     useTokenAllowanceCheck();
-  const { mobTokenApprove, polTokenApprove, usdcTokenApprove, usdtTokenApprove } =
+  const { mobTokenApprove, polTokenApprove, usdtTokenApprove, usdcTokenApprove } =
     useTokenApprove();
   const buyFromListing = useBuyFromListing();
 

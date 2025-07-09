@@ -1,5 +1,6 @@
 import { useReadContract } from 'thirdweb/react';
 import { useWalletAddress } from './useWalletAddress';
+// 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
 import { mobContract, polContract, usdtContract, usdcContract } from '../contract/contracts';
 import { MARKET_PLACE_CONTRACT_ADDRESS } from '../contract/contractAddresses';
 

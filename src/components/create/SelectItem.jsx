@@ -8,12 +8,21 @@ import cancelIcon from '../../assets/images/icon/cancel.svg';
 
 import './SelectItem.scss';
 
+import lyricsCreate from '../../assets/images/icons/lyrics-create-icon.svg';
+import lyricsEdit from '../../assets/images/icons/lyrics-edit-icon.svg';
+import closeIcon from '../../assets/images/icons/close-icon.svg';
+import bpmThumbIcon from '../../assets/images/icons/BPM-thumb-icon.svg';
+
 export const SelectItemWrap = ({
   children,
   dropdown,
   selectedLanguage,
   setSelectedLanguage,
   currentStep,
+  icon = lyricsCreate,
+  title = 'I am a melody generation AI!',
+  description = 'Shall we create the melody and instruments for the song this time?\nChoose a genre that fits the lyrics, select the tempo and instruments to complete the song’s sound!',
+  mode = 'default',
 }) => {
   const [visible, setVisible] = useState(!dropdown);
   const { t } = useTranslation('song_create');
@@ -27,19 +36,24 @@ export const SelectItemWrap = ({
   };
 
   return (
-    <div className="create__select-components">
-      <div className="tag-select-title">
-        <h2 className="tag-select-title__text">{t('Select a Tags')}</h2>
-        {dropdown && (
+    <div className={`create ${mode === 'chatbot' ? 'chatbot-mode' : ''}`}>
+      <div className={`create__select-components`}>
+        <div className="tag-select-title">
+          <img src={icon} alt="create-icon" />
+          <div className="tag-select-title--group">
+            <h2>{title}</h2>
+            <p style={{ whiteSpace: 'pre-line' }}>{description}</p>
+          </div>
+          {/* {dropdown && (
           <div
             className={`tag-select-title__dropdown-toggle ${visible ? 'visible' : ''}`}
             onClick={() => setVisible(prev => !prev)}
           >
             <div className={`tag-select-title__dropdown-thumb ${visible ? 'visible' : ''}`}></div>
           </div>
-        )}
-      </div>
-      {/* {selectedLanguage && setSelectedLanguage && (
+        )} */}
+        </div>
+        {/* {selectedLanguage && setSelectedLanguage && (
         <div className="tag-select language-select">
           <div className="tag-title__block">
             <h3 className="tag-title">{t('Language')}</h3>
@@ -64,7 +78,8 @@ export const SelectItemWrap = ({
         </div>
       )} */}
 
-      {visible ? children : null}
+        {visible ? children : null}
+      </div>
     </div>
   );
 };
@@ -78,26 +93,27 @@ export const SelectItem = ({
   selected,
   multiple,
   add,
+  placeholder,
   color,
   className,
+  hideInput,
+  blockStyle,
 }) => {
   const [input, setInput] = useState('');
   const [selectedPreset, setSelectedPreset] = useState('');
   const { t } = useTranslation('song_create');
   const addItem = () => {
-    if (!input.trim()) return;
-    setSelectedPreset(null);
+    const trimmed = input.trim(); // ⭐ 추가됨
+    if (!trimmed) return;
 
     setter(prev => {
-      let copy = { ...prev };
+      const copy = { ...prev };
+      if (copy[objKey].length >= 5) return prev; // ✅ 5개 이상이면 입력도 막기
       if (multiple) {
-        let set = Array.from(new Set([...copy[objKey], input]));
-        if (set.length > 5) {
-          set.shift();
-        }
+        const set = Array.from(new Set([...copy[objKey], trimmed])); // ⭐ 중복 제거
         copy[objKey] = set;
       } else {
-        copy[objKey] = [input];
+        copy[objKey] = [trimmed];
       }
       return copy;
     });
@@ -114,92 +130,97 @@ export const SelectItem = ({
   };
 
   const handlePreset = (key, value) => {
-    if (add && multiple) {
-      setter(prev => {
-        let copy = { ...prev };
-        let set = Array.from(new Set([...copy[objKey], key]));
-        if (set.length > 5) {
-          set.shift();
+    setter(prev => {
+      const copy = { ...prev };
+      const alreadySelected = copy[objKey].includes(key);
+
+      if (multiple) {
+        if (alreadySelected) {
+          // 선택 해제
+          copy[objKey] = copy[objKey].filter(item => item !== key);
+        } else {
+          if (copy[objKey].length >= 5) return prev; // ✅ 5개 이상이면 추가 막기
+          copy[objKey] = [...copy[objKey], key];
         }
-        copy[objKey] = set;
-        return copy;
-      });
-    } else {
-      setter(prev => {
-        let copy = { ...prev };
-        copy[objKey] = value;
-        setSelectedPreset(key);
-        return copy;
-      });
-    }
+      } else {
+        copy[objKey] = alreadySelected ? [] : [key];
+      }
+
+      return copy;
+    });
   };
 
   return (
     <div className={`tag-select ${className}`}>
-      <div className="tag-title__block">
+      {/* <div className="tag-title__block">
         <h3 className="tag-title">{mainTitle}</h3>
-        {/* <p className="tag-title__notice">
+        <p className="tag-title__notice">
           {multiple
             ? "You can enter up to 5 keywords"
             : " You can select only one option"}
-        </p> */}
-      </div>
-      <h4 className="tag-sub-title">{subTitle}</h4>
-      <div className="tag-preset">
+        </p>
+      </div> */}
+      {/* <h4 className="tag-sub-title">{subTitle}</h4> */}
+      <div className={`tag-preset ${blockStyle ? 'preset-horizontal' : ''}`}>
+        {/* ⭐ 프리셋 버튼 안에서 X 아이콘이 선택된 경우만 표시 */}
         {preset &&
-          Object.entries(preset).map(([key, value], index) => (
+          Object.entries(preset).map(([key, value], index) => {
+            const isSelected = selected.includes(key); // ⭐ 추가
+            return (
+              <button
+                className={`tag-button presets 
+                        ${isSelected ? 'enable' : ''} 
+                        ${!isSelected && selected.length >= 5 ? 'disabled-button' : ''}
+                        ${blockStyle ? 'block-style' : ''}
+                      `}
+                key={`preset-${index}`}
+                onClick={() => {
+                  if (isSelected || selected.length < 5) {
+                    handlePreset(key, value);
+                  }
+                }}
+              >
+                {t(key)}
+                {/* ❌ blockStyle일 땐 cancel-icon(X) 숨김 */}
+                {!blockStyle && isSelected && (
+                  <img src={closeIcon} alt="cancel" className="cancel-icon" />
+                )}
+              </button>
+            );
+          })}
+
+        {/* ⭐ 직접 입력한 키워드는 preset에 없는 것만 걸러서 함께 렌더링 */}
+        {selected
+          .filter(item => !preset || !preset[item]) // ⭐ 프리셋 외 항목만 필터링
+          .map((item, index) => (
             <button
-              className={`tag-button presets ${selectedPreset === key ? 'enable' : ''}`}
-              key={`preset-${index}`}
-              onClick={() => handlePreset(key, value)}
+              className="tag-button selected"
+              key={`input-${index}`}
+              onClick={() => deleteItem(item)}
             >
-              {key}
+              {item}
+              <img src={closeIcon} alt="cancel" className="cancel-icon" /> {/* ⭐ X 아이콘 표시 */}
             </button>
           ))}
       </div>
-      <div className="tag-input-box">
-        <input
-          value={input}
-          className="tag-input"
-          placeholder={t('Please enter your keyword here')}
-          maxLength={10}
-          onChange={e => {
-            setInput(e.target.value);
-          }}
-          onKeyPress={e => {
-            if (e.key === 'Enter') addItem();
-          }}
-        ></input>
-        <div className="tag-input-comment-button-wrap">
-          {color && (
-            <label className="tag-input-comment-button">
-              {t('Select')}
-              <input
-                type="color"
-                onChange={e => setInput(e.target.value)}
-                onBlur={() => {
-                  addItem();
-                }}
-              />
-            </label>
-          )}
-          <button className="tag-input-comment-button" onClick={addItem}>
-            {t('Add')}
-          </button>
+      {/* ✅ hideInput이 false일 때만 input 박스 렌더 */}
+      {!hideInput && (
+        <div className="tag-input-box">
+          <input
+            value={input}
+            className="tag-input"
+            placeholder={placeholder || '직접 입력할 수 있어요'}
+            maxLength={20} // 200자 안넘게 잘적어야합니다
+            onChange={e => setInput(e.target.value)}
+            onKeyPress={e => {
+              if (e.key === 'Enter' && selected.length < 5) {
+                addItem();
+              }
+            }}
+            disabled={selected.length >= 5} // ✅ 입력창 자체 비활성화
+          />
         </div>
-      </div>
-      <div className="tag-selected">
-        {selected.map((item, index) => (
-          <button
-            className="tag-button selected"
-            key={`selected-${index}`}
-            onClick={() => deleteItem(item)}
-          >
-            <img src={cancelIcon} alt="close" />
-            {item}
-          </button>
-        ))}
-      </div>
+      )}
     </div>
   );
 };
@@ -221,7 +242,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
   return (
     <div className="tag-select">
       <div className="tag-title__block">
-        <h3 className="tag-title">{t('Select a Tempo')}</h3>
+        {/* <h3 className="tag-title">{t('Select a Tempo')}</h3> */}
       </div>
       <div
         className={`tag-title__tempos ${
@@ -234,8 +255,12 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
             : ''
         }`}
       >
-        {tempo >= 60 && tempo <= 80 && t('Slow : Calm and reflective (60-80 BPM)')}
-        {tempo > 80 && tempo <= 120 && t('Medium : Balanced and versatile (81-120 BPM)')}
+        {tempo >= 60 &&
+          tempo <= 80 &&
+          t('Slow 60–80 BPM is suitable for calm and contemplative songs.')}
+        {tempo > 80 &&
+          tempo <= 120 &&
+          t('Medium 81–120 BPM is suitable for general-purpose songs.')}
         {tempo > 120 && t('Fast: Energetic and upbeat (121-160 BPM)')}
       </div>
       <div className="tag-select__range" ref={rangeRef}>
@@ -253,7 +278,7 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
         {rangesInstance
           .handles()
           ?.map(({ value, onKeyDownHandler, onMouseDownHandler, onTouchStart }, i) => (
-            <button
+            <div
               className="tag-select__range--thumb"
               key={i}
               onKeyDown={onKeyDownHandler}
@@ -267,10 +292,11 @@ export const SelectItemTempo = ({ tempo, setTempo }) => {
                 left: `${rangesInstance.getPercentageForValue(value)}%`,
               }}
             >
+              <img src={bpmThumbIcon} alt="bpm-thumb" draggable={false} />
               <div className="tag-select__range--thumb-tick">
-                <span>{value}</span> BPM
+                <span className="thumb-value">{value}</span> <span className="thumb-bpm">BPM</span>
               </div>
-            </button>
+            </div>
           ))}
       </div>
     </div>
@@ -333,7 +359,7 @@ export const SelectItemSongLength = ({ songLength, setSongLength }) => {
   );
 };
 
-export const SelectItemInputOnly = ({ value, setter, title }) => {
+export const SelectItemInputOnly = ({ value, setter, title, placeholder }) => {
   const { t } = useTranslation('song_create');
   return (
     <div className="tag-select">
@@ -341,12 +367,32 @@ export const SelectItemInputOnly = ({ value, setter, title }) => {
         <h3 className="tag-title">{title}</h3>
         {/* <p className="tag-title__notice">You can enter up to 100 words</p> */}
       </div>
+      <textarea
+        className="tag-textarea"
+        value={value}
+        onChange={e => setter(e.target.value)}
+        // type="text"
+        placeholder={placeholder}
+        // maxLength={100}
+      />
+    </div>
+  );
+};
+
+export const TitleInputOnly = ({ value, setter, title, placeholder }) => {
+  const { t } = useTranslation('song_create');
+  return (
+    <div className="tag-select">
+      <div className="tag-title__block">
+        <h3 className="tag-title">{title}</h3>
+      </div>
       <input
         className="tag-input"
         value={value}
         onChange={e => setter(e.target.value)}
         type="text"
-        placeholder={t('Please enter a specific melody or sound effect.')}
+        placeholder={placeholder}
+        // maxLength={100}
       />
     </div>
   );

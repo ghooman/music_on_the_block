@@ -4,6 +4,7 @@ import {
   MOB_CONTRACT_ADDRESS,
   MUSIC_NFT_CONTRACT_ADDRESS,
   POL_CONTRACT_ADDRESS,
+  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
   USDT_CONTRACT_ADDRESS,
   USDC_CONTRACT_ADDRESS,
   MOB_NFT_CONTRACT_ADDRESS,
@@ -30,14 +31,14 @@ export const polContract = getContract({
   address: POL_CONTRACT_ADDRESS,
 });
 
-// USDT token
+// // USDT token
 export const usdtContract = getContract({
   client,
   chain,
   address: USDT_CONTRACT_ADDRESS,
 });
 
-// USDC token
+// // USDC token
 export const usdcContract = getContract({
   client,
   chain,

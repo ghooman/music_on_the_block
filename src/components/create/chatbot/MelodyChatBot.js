@@ -10,9 +10,13 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import { useUserDetail } from '../../../hooks/useUserDetail';
 import LyricsModal from '../../LyricsModal';
 import SubBanner from '../../create/SubBanner';
+import { SelectItem, SelectItemWrap, SelectItemInputOnly } from '../SelectItem';
+
 import defaultCoverImg from '../../../assets/images/header/logo.svg';
 import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
-import subBg1 from '../../../assets/images/create/subbanner-bg1.png';
+import melodyMaker from '../../../assets/images/icons/melody-maker-icon.svg';
+import chatSend from '../../../assets/images/icons/chat_send-icon.svg';
+
 // 언어별 리소스 파일 불러오기
 import koMelody from '../../../locales/koMelody';
 import enMelody from '../../../locales/enMelody';
@@ -22,8 +26,12 @@ import jaMelody from '../../../locales/jaMelody';
 import enBgmChat from '../../../locales/enBgmChat';
 import koBgmChat from '../../../locales/koBgmChat';
 import idBgmChat from '../../../locales/idBgmChat';
+import jaBgmChat from '../../../locales/jaBgmChat';
+import viBgmChat from '../../../locales/viBgmChat';
 import { useTranslation } from 'react-i18next';
 const MelodyChatBot = ({
+  selectedLanguage, // "KOR" 또는 "ENG" 또는 "IDN"
+  setSelectedLanguage,
   createLoading,
   setCreateLoading,
   lyricData,
@@ -33,7 +41,6 @@ const MelodyChatBot = ({
   setPageNumber,
   melodyData,
   setMelodyData,
-  selectedLanguage, // "KOR" 또는 "ENG" 또는 "IDN"
   albumCover,
   setAlbumCover,
   finalPrompt,
@@ -63,8 +70,8 @@ const MelodyChatBot = ({
     KOR: koBgmChat,
     ENG: enBgmChat,
     IDN: idBgmChat,
-    VIE: viMelody,
-    JPN: jaMelody,
+    VIE: viBgmChat,
+    JPN: jaBgmChat,
   };
 
   const locale =
@@ -82,7 +89,7 @@ const MelodyChatBot = ({
     melody_title = '',
     melody_introduction = '',
   } = melodyData || {};
-
+  // 예전 기획에서 장르별 검색 지원 있을때 장르별 조회를 위해서 추가했던 기능
   const genrePreset = {
     'K-POP': ['K-POP'],
     POP: ['POP'],
@@ -166,7 +173,7 @@ const MelodyChatBot = ({
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
-        temperature: 0,
+        temperature: 0.8,
         stop: ['---\n'],
         messages: [
           {
@@ -583,7 +590,8 @@ const MelodyChatBot = ({
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '');
+        .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -600,36 +608,59 @@ const MelodyChatBot = ({
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   // 앨범커버프롬프트
 
+  const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
+    return `
+  [가사 데이터]
+  태그: ${lyricTag.join(', ')}
+  장르: ${melodyGenre.join(', ')}
+  
+  [노래 제목]
+  ${melodyTitle}
+  
+  [노래 스토리]
+  ${lyricStory}
+  
+[Design Instructions]
+
+Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
+"${lyricStory}"
+
+Use the emotional tone, genre, and tags as creative references:  
+Genre: ${melodyGenre.join(', ')}  
+Tags: ${lyricTag.join(', ')}
+
+The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
+
+Focus on:  
+– Natural lighting with a touch of warmth  
+– Soft shadows and light contrast  
+– Detailed textures with a slightly lighter palette  
+– Visual storytelling with poetic charm and subtle humor  
+– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
+
+The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
+
+Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
+  `;
+  };
+
   const generateAlbumCover = async () => {
     try {
-      const instrumentsString = Array.isArray(melody_instrument)
-        ? melody_instrument.join(', ')
-        : melody_instrument;
+      const refinedPrompt = generateAlbumCoverPrompt({
+        melodyTitle: melody_title,
+        lyricTag: lyricData?.lyric_tag || [],
+        melodyGenre: Array.isArray(melody_genre) ? melody_genre : [melody_genre],
+        lyricStory,
+      });
 
       const response = await client.images.generate({
         model: 'dall-e-3',
-        prompt: `
-        [멜로디 데이터]
-        타이틀: ${melody_title}
-        태그: ${melody_tag.join(', ')}
-
-        [노래 스토리]
-        ${lyricStory}
-        
-        [디자인 요청]
-        앨범 커버 디자인 : 
-        - 주인공 및 스토리 요소 ("${lyricStory}")를 강조하여, 캐릭터와 분위기를 구체적으로 묘사할 것.
-        - 위에 태그 또는 장르, 스토리가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-        - 태그가 없을 경우, 일반적인 감정이나 주제를 반영한 디자인을 생성할 것.
-        - 타이틀("${melody_title}")을 강조하여, 타이틀을 포함한 디자인을 생성할 것.
-        - 멜로디 태그("${melody_tag.join(', ')}")가 있을 경우 그에 대한 디자인 요소를 포함할 것.
-        - 멜로디 세부 사항("${melody_detail}")이 있을 경우 그에 대한 디자인 요소를 포함할 것.
-      `,
+        prompt: refinedPrompt,
         size: '1024x1024',
         quality: 'standard',
         n: 1,
       });
-      console.log('prompt', prompt);
+
       console.log('generateAlbumCover:', response.data);
       const cover = response.data[0].url;
       setAlbumCover(cover);
@@ -791,7 +822,19 @@ const MelodyChatBot = ({
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
-      <SubBanner>
+      <section className="chatbot">
+        <SelectItemWrap
+          mode="chatbot"
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+          icon={melodyMaker}
+          title={t('I am a melody generation AI!')}
+          description={t(
+            `Shall we create the melody and instruments for the song this time?
+Choose a genre that fits the lyrics, select the tempo and instruments to complete the song’s sound!`
+          )}
+        >
+          {/* <SubBanner>
         <SubBanner.RightImages src={subBg1} />
         <SubBanner.Title text={t('View Lyrics Lab Results')} />
         <SubBanner.Message text={t('These lyrics were previously written by AI in Lyrics Lab.')} />
@@ -806,110 +849,141 @@ const MelodyChatBot = ({
             setShowLyricsModal(true);
           }}
         ></SubBanner.Button>
-      </SubBanner>
-      <section className="chatbot">
-        <div className="chatbot__header">
+      </SubBanner> */}
+          {/* <div className="chatbot__header">
           <h2>{t('Melody Maker')}</h2>
-        </div>
-        <div className="chatbot__messages" ref={scrollContainerRef}>
-          {chatHistory.map((msg, index) => (
-            <div key={index} className={`message ${msg.role}`}>
-              <div className="message__content">
-                <img
-                  src={
-                    msg.role === 'assistant' ? mobProfilerImg : userData?.profile || defaultCoverImg
-                  }
-                  alt="profile"
-                />
-                <p className="message__content--text">{msg.content}</p>
+        </div> */}
+          <div className="chatbot__messages" ref={scrollContainerRef}>
+            {chatHistory.map((msg, index) => (
+              <div key={index} className={`message ${msg.role}`}>
+                <div className="message__content">
+                  {/* user가 아닌 경우에만 이미지 보여줌 */}
+                  {msg.role !== 'user' && (
+                    <div className="message__profile">
+                      <img src={melodyMaker} alt="profile" />
+                    </div>
+                  )}
+                  <pre className="message__content--text">{msg.content}</pre>
+                </div>
               </div>
-            </div>
-          ))}
-          {loading && <div className="message bot">Loading...</div>}
-        </div>
-        <div className="chatbot__textarea">
-          <textarea
-            type="text"
-            value={userInput}
-            onChange={handleUserInput}
-            onKeyPress={handleKeyPress}
-            placeholder={t('Type your message...')}
-          />
-        </div>
-        <button className="chatbot__button" onClick={handleSendMessage}>
-          {t('Send')}
-        </button>
-      </section>
-      <section className={`music__information ${isActive ? 'active' : ''}`}>
-        <div className="music__information__header" onClick={handleToggle}>
-          <h2>{t('Music Information')}</h2>
-        </div>
-        <div className="music__information__tags">
-          <h3>{t('Melody Tags')}</h3>
-          <input
-            type="text"
-            value={melodyData?.melody_tag}
-            placeholder={t('Enter tags separated by commas')}
-            readOnly
-          />
-        </div>
-        <div className="music__information__genre">
-          <h3>{t('Melody Title')}</h3>
-          <input type="text" value={melodyData?.melody_title} placeholder={t('Enter')} readOnly />
-        </div>
-        <div className="music__information__genre">
-          <h3>{t('Melody Genre')}</h3>
-          <input type="text" value={melodyData?.melody_genre} placeholder={t('Enter')} readOnly />
-        </div>
-        {selectedCreationMode === 'song' && (
-          <div className="music__information__gender">
-            <h3>{t('Melody Gender')}</h3>
-            <input
+            ))}
+            {/* {loading && <div className="message bot">Loading...</div>} */}
+            {loading && (
+              <div className="message assistant">
+                <div className="message__content">
+                  <div className="message__profile">
+                    <img src={melodyMaker} alt="profile" />
+                  </div>
+                  <pre className="message__content--text">{t('Typing...')}</pre>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="chatbot__textarea">
+            <textarea
               type="text"
-              value={melodyData?.melody_gender}
-              placeholder={t('Enter')}
-              readOnly
+              value={userInput}
+              onChange={handleUserInput}
+              onKeyPress={handleKeyPress}
+              placeholder={t('Type your message...')}
+            />
+            <img
+              src={chatSend}
+              alt="chat-send-icon"
+              onClick={handleSendMessage}
+              className={userInput.trim() ? 'send-icon active' : 'send-icon disabled'}
             />
           </div>
-        )}
-        <div className="music__information__instrument">
-          <h3>{t('Melody Instrument')}</h3>
-          <input
-            type="text"
-            value={
-              Array.isArray(melodyData?.melody_instrument)
-                ? melodyData?.melody_instrument.join(', ')
-                : melodyData?.melody_instrument
-            }
-            placeholder={t('Enter')}
-            readOnly
-          />
-        </div>
-        <div className="music__information__tempo">
-          <h3>{t('Melody Tempo')}</h3>
-          <input type="text" value={melodyData?.melody_tempo} placeholder={t('Enter')} readOnly />
-        </div>
-        {/* <div className="music__information__detail">
+          {/* <button className="chatbot__button" onClick={handleSendMessage}>
+              {t('Send')}
+            </button> */}
+          {/* <section className={`music__information ${isActive ? 'active' : ''}`}>
+            <div className="music__information__header" onClick={handleToggle}>
+              <h2>{t('Music Information')}</h2>
+            </div>
+            <div className="music__information__tags">
+              <h3>{t('Melody Tags')}</h3>
+              <input
+                type="text"
+                value={melodyData?.melody_tag}
+                placeholder={t('Enter tags separated by commas')}
+                readOnly
+              />
+            </div>
+            <div className="music__information__genre">
+              <h3>{t('Melody Title')}</h3>
+              <input
+                type="text"
+                value={melodyData?.melody_title}
+                placeholder={t('Enter')}
+                readOnly
+              />
+            </div>
+            <div className="music__information__genre">
+              <h3>{t('Melody Genre')}</h3>
+              <input
+                type="text"
+                value={melodyData?.melody_genre}
+                placeholder={t('Enter')}
+                readOnly
+              />
+            </div>
+            {selectedCreationMode === 'song' && (
+              <div className="music__information__gender">
+                <h3>{t('Melody Gender')}</h3>
+                <input
+                  type="text"
+                  value={melodyData?.melody_gender}
+                  placeholder={t('Enter')}
+                  readOnly
+                />
+              </div>
+            )}
+            <div className="music__information__instrument">
+              <h3>{t('Melody Instrument')}</h3>
+              <input
+                type="text"
+                value={
+                  Array.isArray(melodyData?.melody_instrument)
+                    ? melodyData?.melody_instrument.join(', ')
+                    : melodyData?.melody_instrument
+                }
+                placeholder={t('Enter')}
+                readOnly
+              />
+            </div>
+            <div className="music__information__tempo">
+              <h3>{t('Melody Tempo')}</h3>
+              <input
+                type="text"
+                value={melodyData?.melody_tempo}
+                placeholder={t('Enter')}
+                readOnly
+              />
+            </div>
+            <div className="music__information__detail">
           <h3>{t('Melody Detail')}</h3>
           <input type="text" value={melodyData?.melody_detail} placeholder={t('Enter')} readOnly />
-        </div> */}
-        <div className="music__information__detail">
-          <h3>{t('Melody Introduction')}</h3>
-          <input
-            type="text"
-            value={melodyData?.melody_introduction}
-            placeholder={t('Enter')}
-            readOnly
-          />
         </div>
+            <div className="music__information__detail">
+              <h3>{t('Melody Introduction')}</h3>
+              <input
+                type="text"
+                value={melodyData?.melody_introduction}
+                placeholder={t('Enter')}
+                readOnly
+              />
+            </div>
+          </section> */}
+        </SelectItemWrap>
       </section>
-      <div className="music__information__buttons">
+      <div className="create__btn">
         <button
-          className={`music__information__button ${isGenerateButtonDisabled ? 'disabled' : ''}`}
+          className={`create__get-started--button ${isGenerateButtonDisabled ? 'disabled' : ''}`}
           onClick={handleGenerateSong}
-          disabled={isGenerateButtonDisabled} // 버튼 비활성화 조건 추가
+          disabled={isGenerateButtonDisabled}
         >
-          {t('Generate Song')}
+          {t('Create your own music')}
         </button>
       </div>
       {showLyricsModal && (

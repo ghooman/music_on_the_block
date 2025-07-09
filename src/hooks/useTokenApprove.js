@@ -3,6 +3,7 @@ import { useSendAndConfirmTransaction } from 'thirdweb/react';
 import {
   mobContract,
   polContract,
+  // 0630 하늘 fix: USDT, USDC 관련 내용 주석 처리
   usdcContract,
   usdtContract,
   marketPlaceContract,

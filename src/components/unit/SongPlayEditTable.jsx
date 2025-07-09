@@ -57,6 +57,8 @@ export const SongPlayEditTable = ({
 }) => {
   const { t } = useTranslation('album_collection');
 
+  console.log('song dataList', dataList);
+
   const allCheck = dataList?.length > 0 && dataList?.every(item => item.check);
   const elementName = target === 'Collection' ? 'NFT' : 'Song';
 

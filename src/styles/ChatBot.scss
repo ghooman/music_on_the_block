@@ -1,5 +1,3 @@
-// pages/ChatBot.scss
-
 // 색상 변수 설정 (필요에 따라 커스터마이징 가능)
 $background-dark: #0b0b0c;
 $foreground: #282828;
@@ -8,56 +6,55 @@ $input-bg: #323232;
 $text-color: #ffffff;
 $shadow-color: rgba(0, 0, 0, 0.3);
 
-.chatbot__background {
-  .chatbot {
-    height: 700px;
+.chatbot__background,
+.create__lyric-lab {
+  max-width: 1220px;
+  // max-height: 1006px;
+  display: flex;
+  padding: 40px 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  flex: 1 0 0;
+  align-self: stretch;
+  min-height: 0;
+
+  .generated-lyrics__download-buttons {
     width: 100%;
-    // max-width: 600px;
-    // background-color: $foreground;
-    // border-radius: 12px;
-    // box-shadow: 0 4px 12px $shadow-color;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .chatbot {
+    display: flex;
+    height: 100%;
+    max-height: 846px;
+    min-height: 0 !important;
+    padding: 24px 30px 100px 30px;
     flex-direction: column;
-    overflow: hidden;
-    // min-height: 800px;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #222;
-    &__header {
-      padding: 20px;
-      // background-color: $background-dark;
-      text-align: center;
-      h2 {
-        margin: 0;
-        font-weight: 600;
-        color: $text-color;
-        text-align: left;
-        color: #cf0;
-        font-family: Pretendard400;
-        font-size: 18px;
-        font{
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
-      }
-    }
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 20px;
+    border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+    position: relative;
+    overflow: visible;
 
     &__messages {
-      background: url('../assets/images/chat-bot/chat-mob-bg.png') no-repeat left bottom;
-      flex: 1;
-      padding: 20px;
-      // background-color: $foreground;
+      height: auto !important;
+      max-height: none !important;
       display: flex;
+      flex: 1 1 auto;
       flex-direction: column;
-      gap: 10px;
-      overflow-y: auto;
-      max-height: 500px;
-      font{
+      align-items: flex-start;
+      gap: 12px;
+      align-self: stretch;
+      min-height: 0;
+
+      font {
         font-family: inherit !important;
         font-size: inherit !important;
         font-weight: inherit !important;
@@ -67,13 +64,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         letter-spacing: inherit !important;
       }
       .message {
-        max-width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        font-size: 14px;
-        word-wrap: break-word;
-        transition: background-color 0.3s ease;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -84,123 +75,21 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         }
         &.user {
           align-self: flex-end;
-          // background-color: $primary;
-          // color: $text-color;
-          padding: 0px;
           .message__content {
-            display: flex;
-            flex-direction: row-reverse;
-            width: 100%;
-            align-items: center;
-            gap: 8px;
-            img {
-              width: 40px;
-              height: 40px;
-              border-radius: 100%;
-            }
             .message__content--text {
-              border-radius: 8px;
-              background: #cf0;
-              color: #1a1a1a;
+              display: flex;
+              padding: 12px 20px;
+              align-items: flex-start;
+              gap: 10px;
+              border-radius: 16px 0px 16px 16px;
+              background: var(--White-10, rgba(255, 255, 255, 0.1));
+              white-space: break-spaces;
+              color: #fff;
               font-family: Pretendard400;
               font-size: 14px;
-              padding: 12px;
-              white-space: break-spaces;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
-            }
-          }
-        }
-
-        &.assistant {
-          // align-self: flex-start;
-          // background-color: rgba(255, 255, 255, 0.1);
-          // border: 1px solid rgba(255, 255, 255, 0.2);
-          // color: $text-color;
-          padding: 0px;
-          .message__content {
-            display: flex;
-            width: 90%;
-            align-items: center;
-            gap: 8px;
-            img {
-              width: 40px;
-              height: 40px;
-              border-radius: 100%;
-            }
-            .message__content--text {
-              border-radius: 8px;
-              background: #1a1a1a;
-              color: #f1f1f1;
-              font-family: Pretendard400;
-              font-size: 14px;
-              padding: 12px;
-              white-space: break-spaces;
-                font{
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
-            }
-          }
-        }
-      }
-    }
-
-    &__input {
-      display: flex;
-      padding: 12px;
-      background-color: $background-dark;
-      align-items: center;
-      border-radius: 12px;
-      border: 1px solid #cf0;
-      background: #0b0b0c;
-      font{
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
-      input {
-        flex: 1;
-        // padding: 10px 12px;
-        border: none;
-        // border-radius: 8px;
-        font-size: 14px;
-        // background-color: $input-bg;
-        color: #fff;
-        outline: none;
-      }
-    }
-    &__textarea {
-      padding: 12px;
-      transition: 0.2s all;
-      border: 1px solid #cf0;
-      border-radius: 12px;
-
-      textarea {
-        resize: none;
-        color: #f1f1f1;
-        font-family: Pretendard400;
-        font-size: 14px;
-        all: unset;
-        width: 100%;
-        padding: 8px 0 0;
-                          font{
+              font-style: normal;
+              line-height: 22px;
+              font {
                 font-family: inherit !important;
                 font-size: inherit !important;
                 font-weight: inherit !important;
@@ -209,6 +98,138 @@ $shadow-color: rgba(0, 0, 0, 0.3);
                 color: inherit !important;
                 letter-spacing: inherit !important;
               }
+            }
+          }
+        }
+
+        &.assistant {
+          .message__content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            align-self: stretch;
+            .message__profile {
+              display: flex;
+              width: 48px;
+              height: 48px;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              border-radius: 60px;
+              border: 1px solid var(--White-10, rgba(255, 255, 255, 0.1));
+              background: var(--White-05, rgba(255, 255, 255, 0.05));
+              img {
+                width: 30px;
+                height: 30px;
+                flex-shrink: 0;
+                aspect-ratio: 1/1;
+              }
+            }
+            .message__content--text {
+              white-space: break-spaces;
+              display: flex;
+              padding: 12px 20px;
+              align-items: flex-start;
+              gap: 10px;
+              border-radius: 0px 16px 16px 16px;
+              background: #cf0;
+              opacity: 0.5;
+              color: #000;
+              font-family: Pretendard400;
+              font-size: 14px;
+              font-style: normal;
+              line-height: 22px;
+              font {
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                font-style: inherit !important;
+                color: inherit !important;
+                letter-spacing: inherit !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__textarea {
+      display: flex;
+      // width: 100%;
+      height: 54px;
+      padding: 12px 20px;
+      justify-content: space-between;
+      align-items: center;
+      align-self: stretch;
+
+      border-radius: 12px;
+      border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+      background: var(--Black-10, rgba(0, 0, 0, 0.1));
+      backdrop-filter: blur(20px);
+
+      position: absolute; /* ③ 항상 하단 고정 */
+      left: 30px; /* .chatbot 내부 padding 값과 동일하게 */
+      right: 30px;
+      bottom: 24px; /* .chatbot 내부 padding 값과 동일하게 */
+      width: auto; /* 양쪽 여백 감안해 자동 계산 */
+
+      pointer-events: none;
+      textarea,
+      .send-icon {
+        pointer-events: auto;
+      }
+
+      .send-icon {
+        transition: opacity 0.2s ease;
+        &.active {
+          opacity: 1;
+          cursor: pointer;
+        }
+        &.disabled {
+          opacity: 0.3;
+          cursor: default;
+        }
+      }
+
+      textarea {
+        resize: none;
+        width: 100%;
+        color: #fff;
+        font-family: Pretendard400;
+        font-size: 14px;
+        background: transparent;
+        border: none;
+        outline: none;
+
+        height: 100%; /* 부모와 동일한 높이 */
+        line-height: 30px; /* 적절히 조정 */
+        padding: 0; /* 상하 패딩 제거 */
+        margin: 0;
+        display: flex;
+        align-items: center; // 일부 브라우저는 무시할 수 있음
+
+        overflow: hidden;
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+          display: none; /* Chrome, Safari */
+        }
+        &::placeholder {
+          color: #767676;
+          font-family: Pretendard400;
+          font-size: 14px;
+          line-height: 30px;
+        }
+
+        font {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
         &::-webkit-scrollbar-button {
           display: none;
         }
@@ -217,50 +238,56 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         }
       }
     }
+  }
 
-    &__button {
-      font{
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
-      width: 100px;
-      height: 30px;
-      background: #cf0;
-      transition: 0.2s;
-      color: #1a1a1a;
-      font-family: Pretendard600;
-      font-size: 12px;
-      font-style: normal;
-      line-height: normal;
-      border-radius: 8px;
+  .create__btn {
+    width: 100%;
+    height: auto;
+    .create__get-started--button {
+      width: 100%;
       display: flex;
-      align-items: center;
+      padding: 12px 20px;
       justify-content: center;
-      position: relative;
-      margin-top: 16px;
-      margin-left: auto;
-      transition: 0.2s all;
-      top: 0px;
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 4px;
-        width: calc(100% - 2px);
-        transition: 0.2s all;
-        border-radius: 8px;
-        height: 29px;
-        border: 1px solid #cf0;
-      }
-      &:hover {
-        top: 4px;
-        &::before {
-          top: 0;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 12px;
+      // background: var(--Primary_Dark, #3a9de3);
+      background-color: #cf0;
+      // color: var(--White, #fff);
+      color: #000;
+      text-align: center;
+      font-family: Pretendard700;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 24px;
+
+      &:disabled {
+        cursor: not-allowed;
+        display: flex;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 12px;
+        // background: #24333e !important;
+        background-color: #000 !important;
+        color: var(--Grey-600, #767676) !important;
+        text-align: center;
+        font-family: Pretendard700;
+        font-size: 16px;
+        font-style: normal;
+        line-height: 24px;
+        &:hover {
+          transform: translateY(0px);
+          &::after {
+            transform: translateY(3px);
+          }
+        }
+
+        &::after {
+          display: none;
         }
       }
     }
@@ -300,20 +327,20 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       margin-bottom: 16px;
       position: relative;
       h2 {
-        color:#cf0;
+        color: #cf0;
         font-family: Pretendard400;
         font-size: 18px;
         font-style: normal;
         line-height: normal;
-                          font{
-                font-family: inherit !important;
-                font-size: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-                font-style: inherit !important;
-                color: inherit !important;
-                letter-spacing: inherit !important;
-              }
+        font {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
       }
 
       &::before {
@@ -343,7 +370,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
       .music__information__lyric--text {
         border-radius: 12px;
-        background:#1a1a1a;
+        background: #1a1a1a;
         padding: 12px 8px;
         textarea {
           height: 300px;
@@ -352,7 +379,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
       textarea {
         border-radius: 12px;
-        background:#1a1a1a;
+        background: #1a1a1a;
         height: 300px;
       }
       input,
@@ -376,15 +403,15 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       flex-direction: column;
       align-items: center;
       margin-top: 12px;
-        font{
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
+      font {
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        font-style: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+      }
       button {
         width: 100%;
         height: 40px;
@@ -401,7 +428,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         display: flex;
         align-items: center;
         justify-content: center;
-        font{
+        font {
           font-family: inherit !important;
           font-size: inherit !important;
           font-weight: inherit !important;
@@ -463,11 +490,11 @@ $shadow-color: rgba(0, 0, 0, 0.3);
 .music__information__tags,
 .music__information__story {
   h3 {
-    color:#f1f1f1;
+    color: #f1f1f1;
     font-family: Pretendard600;
     // font-size: 18px;
     margin-bottom: 8px;
-    font{
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
@@ -483,7 +510,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   }
   input,
   textarea {
-    color:#f1f1f1;
+    color: #f1f1f1;
     font-family: Pretendard500;
     font-size: 14px;
     font-style: normal;
@@ -492,7 +519,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     background: transparent;
     padding: 0;
     margin-bottom: 32px;
-    font{
+    font {
       font-family: inherit !important;
       font-size: inherit !important;
       font-weight: inherit !important;
@@ -500,6 +527,327 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       font-style: inherit !important;
       color: inherit !important;
       letter-spacing: inherit !important;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .chatbot__background,
+  .create__lyric-lab {
+    position: relative;
+    padding: 20px 0px 0px 0px;
+    .generated-lyrics__download-buttons {
+      width: 100%;
+      order: 2; /* lyrics(1) 뒤로 */
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+
+      // 버튼 스타일 보완 (선택사항)
+      &--button {
+        width: 100%;
+        max-width: 200px;
+        display: flex;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        flex: 1 0 0;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+    }
+    .generated-lyrics__lyrics {
+      /* <pre> 또는 textarea 래퍼 */
+      order: 1; /* 1️⃣ 먼저 나옵니다 */
+    }
+    .generated-lyrics__confirm-buttons {
+      order: 3;
+    }
+    .chatbot {
+      display: flex;
+      width: 100%;
+      padding: 20px 16px 100px 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      flex-shrink: 0;
+
+      &__messages {
+        height: auto !important;
+        max-height: none !important;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        align-self: stretch;
+        min-height: 0;
+
+        font {
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          font-style: inherit !important;
+          color: inherit !important;
+          letter-spacing: inherit !important;
+        }
+        .message {
+          font {
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
+          &.user {
+            align-self: flex-end;
+            .message__content {
+              .message__content--text {
+                display: flex;
+                padding: 8px 12px;
+                align-items: flex-start;
+                gap: 10px;
+
+                border-radius: 16px 0px 16px 16px;
+                background: var(--White-10, rgba(255, 255, 255, 0.1));
+                white-space: break-spaces;
+                color: #fff;
+                font-family: Pretendard400;
+                font-size: 14px;
+                font-style: normal;
+                line-height: 22px;
+                font {
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
+              }
+            }
+          }
+
+          &.assistant {
+            .message__content {
+              display: flex;
+              align-items: flex-start;
+              gap: 8px;
+              align-self: stretch;
+              .message__profile {
+                display: flex;
+                width: 24px;
+                height: 24px;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                border-radius: 60px;
+                border: 1px solid var(--White-10, rgba(255, 255, 255, 0.1));
+                background: var(--White-05, rgba(255, 255, 255, 0.05));
+                img {
+                  width: 12px;
+                  height: 12px;
+                  flex-shrink: 0;
+                  aspect-ratio: 1/1;
+                }
+              }
+              .message__content--text {
+                white-space: break-spaces;
+                display: flex;
+                padding: 12px 20px;
+                align-items: flex-start;
+                gap: 10px;
+                border-radius: 0px 16px 16px 16px;
+                background: #cf0;
+                opacity: 0.5;
+                color: #000;
+                font-family: Pretendard400;
+                font-size: 14px;
+                font-style: normal;
+                line-height: 22px;
+                font {
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  font-style: inherit !important;
+                  color: inherit !important;
+                  letter-spacing: inherit !important;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &__textarea {
+        display: flex;
+        // width: 100%;
+        height: 54px;
+        padding: 12px 20px;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+
+        border-radius: 12px;
+        border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+        background: var(--Black-10, rgba(0, 0, 0, 0.1));
+        backdrop-filter: blur(20px);
+
+        position: absolute; /* ③ 항상 하단 고정 */
+        left: 30px; /* .chatbot 내부 padding 값과 동일하게 */
+        right: 30px;
+        bottom: 24px; /* .chatbot 내부 padding 값과 동일하게 */
+        width: auto; /* 양쪽 여백 감안해 자동 계산 */
+
+        pointer-events: none;
+        textarea,
+        .send-icon {
+          pointer-events: auto;
+        }
+
+        .send-icon {
+          transition: opacity 0.2s ease;
+          &.active {
+            opacity: 1;
+            cursor: pointer;
+          }
+          &.disabled {
+            opacity: 0.3;
+            cursor: default;
+          }
+        }
+
+        textarea {
+          resize: none;
+          width: 100%;
+          color: #fff;
+          font-family: Pretendard400;
+          font-size: 14px;
+          background: transparent;
+          border: none;
+          outline: none;
+
+          height: 100%; /* 부모와 동일한 높이 */
+          line-height: 30px; /* 적절히 조정 */
+          padding: 0; /* 상하 패딩 제거 */
+          margin: 0;
+          display: flex;
+          align-items: center; // 일부 브라우저는 무시할 수 있음
+
+          overflow: hidden;
+          scrollbar-width: none; /* Firefox */
+          &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+          }
+          &::placeholder {
+            color: #767676;
+            font-family: Pretendard400;
+            font-size: 14px;
+            line-height: 30px;
+          }
+
+          font {
+            font-family: inherit !important;
+            font-size: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+            font-style: inherit !important;
+            color: inherit !important;
+            letter-spacing: inherit !important;
+          }
+          &::-webkit-scrollbar-button {
+            display: none;
+          }
+          &::-webkit-scrollbar-track {
+            border-radius: 0px 12px 12px 0px;
+          }
+        }
+      }
+      .generated-lyrics__download-buttons {
+        width: 100%;
+        max-width: 350px;
+        position: absolute;
+        bottom: 25px; // 가사 섹션 하단의 여백 위로 띄우기
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+
+        display: flex;
+        gap: 8px;
+
+        // 버튼 스타일 보완 (선택사항)
+        &--button {
+          display: flex;
+          padding: 8px 16px;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 10px;
+          flex: 1 0 0;
+          font-size: 12px;
+          cursor: pointer;
+          white-space: nowrap;
+        }
+      }
+    }
+    .create__btn {
+      width: 100%;
+      height: auto;
+      .create__get-started--button {
+        width: 100%;
+        display: flex;
+        padding: 12px 20px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        border-radius: 12px;
+        // background: var(--Primary_Dark, #3a9de3);
+        background-color: #cf0;
+        // color: var(--White, #fff);
+        color: #000;
+        text-align: center;
+        font-family: Pretendard700;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 24px;
+
+        &:disabled {
+          cursor: not-allowed;
+          display: flex;
+          padding: 12px 20px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          align-self: stretch;
+          border-radius: 12px;
+          // background: #24333e !important;
+          background-color: #000 !important;
+          color: var(--Grey-600, #767676) !important;
+          text-align: center;
+          font-family: Pretendard700;
+          font-size: 14px;
+          font-style: normal;
+          line-height: 24px;
+          &:hover {
+            transform: translateY(0px);
+            &::after {
+              transform: translateY(3px);
+            }
+          }
+
+          &::after {
+            display: none;
+          }
+        }
+      }
     }
   }
 }

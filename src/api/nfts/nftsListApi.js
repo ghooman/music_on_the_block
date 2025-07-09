@@ -10,7 +10,8 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @param {"Listed" | "Unlisted"} now_sales_status : 판매중, 등록되지 않음
  * @param {"Song" | "BGM"} ai_service : 노래냐 BGM이냐
  * @param {"New" | "Indie" | "Rising" | "Star" | "Legend"} nft_rating : nft 등급
- * @param {"MOB" | "POL" | "USDT" | "USDC"} sales_token : 토큰
+ *   // 0709 하늘 fix: USDT, USDC 관련 내용 복구
+ * @param {"MOB" | "POL"| "USDT"| "USDC"} sales_token : 토큰
  * @param {string} user_name : 유저네임
  * @returns
  */

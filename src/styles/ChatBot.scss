@@ -41,11 +41,11 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
     position: relative;
-    overflow: visible;
+    overflow: hidden;
 
     &__messages {
-      height: auto !important;
-      max-height: none !important;
+      height: 100% !important;
+      max-height: 100% !important;
       display: flex;
       flex: 1 1 auto;
       flex-direction: column;
@@ -53,6 +53,12 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       gap: 12px;
       align-self: stretch;
       min-height: 0;
+      overflow-y: auto; /* 가로 스크롤 방지용으로 auto 권장 */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+      }
 
       font {
         font-family: inherit !important;
@@ -77,6 +83,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           align-self: flex-end;
           .message__content {
             .message__content--text {
+              width: 100%;
+              max-width: 350px;
               display: flex;
               padding: 12px 20px;
               align-items: flex-start;
@@ -126,15 +134,16 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               }
             }
             .message__content--text {
+              width: 100%;
+              max-width: 350px;
               white-space: break-spaces;
               display: flex;
               padding: 12px 20px;
               align-items: flex-start;
               gap: 10px;
               border-radius: 0px 16px 16px 16px;
-              background: #cf0;
-              opacity: 0.5;
-              color: #000;
+              background: var(--White-10, rgba(255, 255, 255, 0.1));
+              color: #fff;
               font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
@@ -576,8 +585,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       flex-shrink: 0;
 
       &__messages {
-        height: auto !important;
-        max-height: none !important;
+        height: 100% !important;
+        max-height: 100% !important;
         display: flex;
         flex: 1 1 auto;
         flex-direction: column;
@@ -585,6 +594,12 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         gap: 8px;
         align-self: stretch;
         min-height: 0;
+        overflow-y: auto; /* 가로 스크롤 방지용으로 auto 권장 */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+        &::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Edge */
+        }
 
         font {
           font-family: inherit !important;
@@ -609,6 +624,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
             align-self: flex-end;
             .message__content {
               .message__content--text {
+                width: 100%;
+                max-width: 300px;
                 display: flex;
                 padding: 8px 12px;
                 align-items: flex-start;
@@ -659,6 +676,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
                 }
               }
               .message__content--text {
+                width: 100%;
+                max-width: 300px;
                 white-space: break-spaces;
                 display: flex;
                 padding: 12px 20px;

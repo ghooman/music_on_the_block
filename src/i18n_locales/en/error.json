@@ -53,5 +53,6 @@
  "Unable to measure the score. Please try again.": "Unable to measure the score. Please try again.",
  "Song generation is in progress.": "Song generation is in progress.",
  "You can proceed after it's done.": "You can proceed after it's done.",
- "Cannot create duplicates": "Cannot create duplicates"
+ "Cannot create duplicates": "Cannot create duplicates",
+ "Insufficient Polygon gas fee.": "Insufficient Polygon gas fee."
 }

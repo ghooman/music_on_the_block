@@ -52,5 +52,18 @@
  "Lowest Price": "Giá thấp nhất",
  "Graph List": "Danh sách biểu đồ",
  "Transaction Volume": "Khối lượng giao dịch",
- "Information": "Thông tin"
+ "Information": "Thông tin",
+ "Set NFT sell conditions": "Thiết lập điều kiện bán NFT",
+ "Grade of NFT": "Cấp độ NFT",
+ "Quantity": "Số lượng",
+ "Cumulative MIC earned": "Tổng MIC đã kiếm được",
+ "New": "Mới",
+ "Indie": "Indie",
+ "Rising": "Đang lên",
+ "Top": "Hàng đầu",
+ "Legend": "Huyền thoại",
+ "Sell price": "Giá bán",
+ "Select token": "Chọn token",
+ "How much will you sell each NFT for? (e.g. 0.05)": "Bạn sẽ bán mỗi NFT với giá bao nhiêu? (ví dụ: 0.05)",
+ "Sell": "Bán"
 }

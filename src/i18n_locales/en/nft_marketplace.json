@@ -52,5 +52,18 @@
  "Lowest Price": "Lowest Price",
  "Graph List": "Graph List",
  "Transaction Volume": "Transaction Volume",
- "Information": "Information"
+ "Information": "Information",
+ "Set NFT sell conditions": "Set NFT sell conditions",
+ "Grade of NFT": "Grade of NFT",
+ "Quantity": "Quantity",
+ "Cumulative MIC earned": "Cumulative MIC earned",
+ "New": "New",
+ "Indie": "Indie",
+ "Rising": "Rising",
+ "Top": "Top",
+ "Legend": "Legend",
+ "Sell price": "Sell price",
+ "Select token": "Select token",
+ "How much will you sell each NFT for? (e.g. 0.05)": "How much will you sell each NFT for? (e.g. 0.05)",
+ "Sell": "Sell"
 }

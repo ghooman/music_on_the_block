@@ -52,5 +52,18 @@
  "Lowest Price": "최저가",
  "Graph List": "그래프 목록",
  "Transaction Volume": "거래량",
- "Information": "정보"
+ "Information": "정보",
+ "Set NFT sell conditions": "NFT 판매 조건 설정",
+ "Grade of NFT": "NFT 등급",
+ "Quantity": "수량",
+ "Cumulative MIC earned": "누적 획득 MIC",
+ "New": "신규",
+ "Indie": "인디",
+ "Rising": "라이징",
+ "Top": "인기",
+ "Legend": "전설",
+ "Sell price": "판매 가격",
+ "Select token": "토큰 선택",
+ "How much will you sell each NFT for? (e.g. 0.05)": "각 NFT를 얼마에 판매하시겠습니까? (예: 0.05)",
+ "Sell": "판매"
 }

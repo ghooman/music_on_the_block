@@ -8,12 +8,13 @@
   }
   .chatbot-mode {
     height: 816px;
-    overflow-y: auto; /* 가로 스크롤 방지용으로 auto 권장 */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Edge */
-    }
+    overflow: hidden;
+    // overflow-y: auto; /* 가로 스크롤 방지용으로 auto 권장 */
+    // scrollbar-width: none; /* Firefox */
+    // -ms-overflow-style: none; /* IE 10+ */
+    // &::-webkit-scrollbar {
+    //   display: none; /* Chrome, Safari, Edge */
+    // }
   }
 
   .title {

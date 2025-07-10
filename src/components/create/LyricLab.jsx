@@ -270,7 +270,7 @@ Create your own lyrics based on a special story`
                 document.body.removeChild(element);
               }}
             >
-              {t('Download as text (.txt)')} (.txt)
+              {t('Download as text (.txt)')}
             </button>
             <button
               className="generated-lyrics__download-buttons--button"

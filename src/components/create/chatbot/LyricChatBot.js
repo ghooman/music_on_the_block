@@ -231,11 +231,20 @@ const LyricChatBot = ({
     window.scrollTo({ top: 0, behavior: 'smooth' }); // 화면 맨 위로
   };
 
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [chatHistory.length]);
+
   if (!isConfirmLyricStatus)
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
-        <section className="chatbot chatbot-mode" ref={scrollContainerRef}>
+        <section className="chatbot chatbot-mode">
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}
@@ -261,7 +270,7 @@ Create your own lyrics based on a special story`
             {/* <div className="chatbot__header">
               <h2>{t('Chat bot')}</h2>
             </div> */}
-            <div className="chatbot__messages">
+            <div className="chatbot__messages" ref={scrollContainerRef}>
               {chatHistory.map((msg, index) => (
                 <div key={index} className={`message ${msg.role}`}>
                   <div className="message__content">
@@ -383,7 +392,7 @@ Create your own lyrics based on a special story`
                   document.body.removeChild(element);
                 }}
               >
-                {t('Download as text (.txt)')} (.txt)
+                {t('Download as text (.txt)')}
               </button>
               <button
                 className="generated-lyrics__download-buttons--button pdf"

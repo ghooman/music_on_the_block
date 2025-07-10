@@ -814,11 +814,14 @@ Do not include any text, typography, labels, or written characters in the image 
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
     }
-  }, [chatHistory, loading]);
+  }, [chatHistory.length]);
+
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}

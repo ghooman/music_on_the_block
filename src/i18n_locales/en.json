@@ -146,7 +146,8 @@
  "Unable to measure the score. Please try again.": "Unable to measure the score. Please try again.",
  "Song generation is in progress.": "Song generation is in progress.",
  "You can proceed after it's done.": "You can proceed after it's done.",
- "Cannot create duplicates": "Cannot create duplicates"
+ "Cannot create duplicates": "Cannot create duplicates",
+ "Insufficient Polygon gas fee.": "Insufficient Polygon gas fee."
 ,
  "Level": "Level",
  "Songs": "Songs",
@@ -402,7 +403,20 @@
  "Lowest Price": "Lowest Price",
  "Graph List": "Graph List",
  "Transaction Volume": "Transaction Volume",
- "Information": "Information"
+ "Information": "Information",
+ "Set NFT sell conditions": "Set NFT sell conditions",
+ "Grade of NFT": "Grade of NFT",
+ "Quantity": "Quantity",
+ "Cumulative MIC earned": "Cumulative MIC earned",
+ "New": "New",
+ "Indie": "Indie",
+ "Rising": "Rising",
+ "Top": "Top",
+ "Legend": "Legend",
+ "Sell price": "Sell price",
+ "Select token": "Select token",
+ "How much will you sell each NFT for? (e.g. 0.05)": "How much will you sell each NFT for? (e.g. 0.05)",
+ "Sell": "Sell"
 ,
  "What shall we try today?": "What shall we try today?",
  "Create your own song": "Create your own song",

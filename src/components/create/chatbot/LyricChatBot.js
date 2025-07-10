@@ -244,7 +244,10 @@ const LyricChatBot = ({
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
-        <section className="chatbot chatbot-mode">
+        <section
+          className="chatbot chatbot-mode"
+          style={{ paddingBottom: !isConfirmLyricStatus ? '100px' : '0px' }}
+        >
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}
@@ -355,8 +358,8 @@ Create your own lyrics based on a special story`
     );
   else
     return (
-      <div ref={generatedLyricsRef} className="create__lyric-lab">
-        <section className="chatbot" style={{ paddingBottom: '48px' }}>
+      <div ref={generatedLyricsRef} className="chatbot__background">
+        <section className="chatbot chatbot-mode">
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}
@@ -438,40 +441,6 @@ Create your own lyrics based on a special story`
                 />
               </pre>
             )}
-
-            {/* <div className="generated-lyrics__confirm-buttons">
-            {selectedVersion !== 'V4_5' && (
-              <p
-                className={`generated-lyrics__confirm-buttons--text ${
-                  selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
-                }`}
-              >
-                {t('Lyrics Length')} : {generatedLyric?.length} / 1000
-              </p>
-            )}
-
-            <div className="generated-lyrics__confirm-buttons--button-wrap">
-              <button
-                className="generated-lyrics__confirm-buttons--button edit"
-                onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-              >
-                {t('EDIT')}
-              </button>
-              <button
-                className={`generated-lyrics__confirm-buttons--button confirm ${
-                  selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
-                }`}
-                disabled={selectedVersion !== 'V4_5' && generatedLyric?.length > 1000}
-                onClick={() => {
-                  setGeneratedLyric(generatedLyric);
-                  setPageNumber(prev => prev + 1);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              >
-                {t('CONFIRM')}
-              </button>
-            </div>
-          </div> */}
           </SelectItemWrap>
         </section>
         <div className="generated-lyrics__confirm-buttons">
@@ -484,20 +453,6 @@ Create your own lyrics based on a special story`
               {t('Lyrics Length')} : {isConfirmLyricStatus?.length} / 1000
             </p>
           )}
-
-          {/* <button
-              className={`generated-lyrics__confirm-buttons--button confirm ${
-                selectedVersion !== 'V4_5' && createdLyrics?.length > 1000 ? 'disabled' : ''
-              }`}
-              disabled={selectedVersion !== 'V4_5' && createdLyrics?.length > 1000}
-              onClick={() => {
-                setGeneratedLyric(createdLyrics);
-                setPageNumber(prev => prev + 1);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              {t('CONFIRM')}
-            </button> */}
           <div className="create__btn">
             <button
               className={`create__get-started--button ${
@@ -513,15 +468,6 @@ Create your own lyrics based on a special story`
               {t('Go to Melody Creation')}
             </button>
           </div>
-
-          {/* <div className="generated-lyrics__confirm-buttons--button-wrap">
-              <button
-                className="generated-lyrics__confirm-buttons--button edit"
-                onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-              >
-                {t('EDIT')}
-              </button>
-            </div> */}
         </div>
       </div>
     );

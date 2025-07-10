@@ -52,5 +52,18 @@
  "Lowest Price": "最低価格",
  "Graph List": "グラフ一覧",
  "Transaction Volume": "取引量",
- "Information": "情報"
+ "Information": "情報",
+ "Set NFT sell conditions": "NFTの販売条件を設定",
+ "Grade of NFT": "NFTのグレード",
+ "Quantity": "数量",
+ "Cumulative MIC earned": "累積獲得MIC",
+ "New": "新着",
+ "Indie": "インディー",
+ "Rising": "急上昇",
+ "Top": "トップ",
+ "Legend": "レジェンド",
+ "Sell price": "販売価格",
+ "Select token": "トークンを選択",
+ "How much will you sell each NFT for? (e.g. 0.05)": "各NFTはいくらで販売しますか？（例：0.05）",
+ "Sell": "販売"
 }

@@ -53,5 +53,6 @@
  "Unable to measure the score. Please try again.": "Không thể đo điểm. Vui lòng thử lại.",
  "Song generation is in progress.": "Đang tiến hành tạo bài hát.",
  "You can proceed after it's done.": "Bạn có thể tiếp tục sau khi hoàn tất.",
- "Cannot create duplicates": "Không thể tạo trùng lặp"
+ "Cannot create duplicates": "Không thể tạo trùng lặp",
+ "Insufficient Polygon gas fee.": "Phí gas Polygon không đủ."
 }

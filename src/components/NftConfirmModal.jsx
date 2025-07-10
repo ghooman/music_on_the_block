@@ -208,7 +208,9 @@ const NftConfirmModal = ({
         (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
 
       if (rawMessage.includes("AA21 didn't pay prefund")) {
-        parsedMessage = 'Insufficient Polygon gas fee.';
+
+        parsedMessage = t('Insufficient Polygon gas fee.');
+
       }
 
       setErrorMessage(parsedMessage);
@@ -260,7 +262,7 @@ const NftConfirmModal = ({
         (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
 
       if (rawMessage.includes("AA21 didn't pay prefund")) {
-        parsedMessage = 'Insufficient Polygon gas fee.';
+        parsedMessage = t('Insufficient Polygon gas fee.');
       }
 
       setErrorMessage(parsedMessage);
@@ -373,7 +375,7 @@ const NftConfirmModal = ({
         (match && JSON.parse(match?.[0]))?.message || error?.response?.data?.detail || rawMessage;
 
       if (rawMessage.includes("AA21 didn't pay prefund")) {
-        parsedMessage = 'Insufficient Polygon gas fee.';
+        parsedMessage = t('Insufficient Polygon gas fee.');
       }
 
       setErrorMessage(parsedMessage);

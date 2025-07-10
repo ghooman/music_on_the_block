@@ -348,13 +348,13 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             </div>
             {isMyProfile && (
               <div className="profile__info__btns">
-                <Link
+                {/* <Link
                   to={`/license-key`}
                   className="key-link"
                   //key-pass
                 >
                   {t('Link license key')}
-                </Link>
+                </Link> */}
                 <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
                   {t('Edit profile')}
                 </Link>

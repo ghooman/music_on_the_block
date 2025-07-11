@@ -7,6 +7,8 @@ import { useAudio } from '../../contexts/AudioContext';
 
 import { useTranslation } from 'react-i18next';
 
+import SongAddAlbumModal from '../mypage/albumsAndCollectionsComponents/modals/SongAddAlbumModal';
+
 /**
  *
  * @param {Array} songList : 곡의 데이터 리스트입니다.
@@ -112,6 +114,9 @@ const SongPlayTable = ({
     }
   };
 
+  const [showAddAlbumModal, setShowAddAlbumModal] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
+
   return (
     <>
       {/* 자체 오디오 엘리먼트 제거 - AudioContext에서 관리 */}
@@ -128,7 +133,7 @@ const SongPlayTable = ({
             {playsOption && <TableHeader.Col>{t('Plays')}</TableHeader.Col>}
             {likesOption && <TableHeader.Col>{t('Likes')}</TableHeader.Col>}
             {/* Add Album (테이블에서 버튼 추가) */}
-            {/* <TableHeader.Col>{t('Add Album')}</TableHeader.Col> */}
+            <TableHeader.Col>{t('Add Album')}</TableHeader.Col>
             <TableHeader.Col>{t('Details')}</TableHeader.Col>
             {deleteOption && <TableHeader.Col>{t('Delete')}</TableHeader.Col>}
             {releaseOption && <TableHeader.Col>{t('Release')}</TableHeader.Col>}
@@ -159,7 +164,15 @@ const SongPlayTable = ({
                     {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
 
                     {/* Add Album 버튼 추가 */}
-                    {/* <TableItem.Button title={t('Add')} type="add" /> */}
+                    <TableItem.Button
+                      title={t('Add')}
+                      type="add"
+                      handleClick={e => {
+                        e.stopPropagation(); // 테이블 row 클릭 방지
+                        setSelectedSong(item); // 선택한 곡 정보 저장
+                        setShowAddAlbumModal(true); // 모달 오픈
+                      }}
+                    />
 
                     <TableItem.Button
                       title={t('Details')}
@@ -218,6 +231,15 @@ const SongPlayTable = ({
           <NoneContent message="There are no songs created yet." height={300} />
         )}
       </TableWrapper>
+      {showAddAlbumModal && selectedSong && (
+        <SongAddAlbumModal
+          song={selectedSong}
+          onClose={() => {
+            setShowAddAlbumModal(false);
+            setSelectedSong(null);
+          }}
+        />
+      )}
     </>
   );
 };

@@ -38,7 +38,8 @@ const viMelody = {
       /Tempo\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Thẻ|Tiêu đề|Thể loại|Giọng hát|Nhạc cụ|Yếu tố thêm|Giới thiệu)|$)/i,
     detailRegex:
       /Yếu tố thêm\s*(?:[:\/]{1,2})?\s*[:：\-]\s*([\s\S]*?)(?=\s*(?:Giới thiệu|Lời nhắc cuối cùng)|$)/i,
-    introductionRegex: /Giới thiệu\s*[:：\-]\s*([\s\S]*?)(?=\s*Lời nhắc cuối cùng|$)/i,
+    introductionRegex:
+      /Giới thiệu\s*[:：\-]\s*([\s\S]*?)(?=\s*(Lời nhắc cuối cùng|Bây giờ|Hãy bắt đầu|Bạn đã sẵn sàng chưa|$))/i,
     promptTagRegex: /(?:Lời nhắc cuối cùng|Prompt)[\s\S]*?Thẻ\s*\(\s*([^)]+)\s*\)/i,
     promptTitleRegex: /(?:Lời nhắc cuối cùng|Prompt)[\s\S]*?Tiêu đề\s*\(\s*([^)]+)\s*\)/i,
     promptGenreRegex: /(?:Lời nhắc cuối cùng|Prompt)[\s\S]*?Thể loại\s*\(\s*([^)]+)\s*\)/i,

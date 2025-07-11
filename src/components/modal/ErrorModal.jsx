@@ -17,7 +17,7 @@ const ErrorModal = ({ title, setShowErrorModal, message, button, action }) => {
     <ModalWrap onClose={onClose} title={t(title) || t('Error')}>
       <div className="error-modal">
         <div className="error-modal__logo-box"></div>
-        <p className="error-modal__text">
+        <p className="error-modal__text" style={{ whiteSpace: 'pre-line' }}>
           {typeof message === 'object' &&
             message.map((text, index, { length }) => {
               if (index !== length - 1) {

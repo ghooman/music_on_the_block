@@ -37,7 +37,8 @@ const idMelody = {
     tempoRegex:
       /Tempo\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Tag|Judul|Genre|Suara|Instrumen|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     detailRegex: /Elemen Tambahan\s*[:：\-]\s*([\s\S]*?)(?=\s*(?:Deskripsi Lagu|Prompt Akhir)|$)/i,
-    introductionRegex: /Deskripsi Lagu\s*[:：\-]\s*([\s\S]*?)(?=\s*Prompt Akhir|$)/i,
+    introductionRegex:
+      /Deskripsi Lagu\s*[:：\-]\s*([\s\S]*?)(?=\s*(Prompt akhir|Sekarang|Ayo mulai|Apakah kamu siap|$))/i,
     promptTagRegex:
       /(?:Prompt\s*Akhir|최종\s*프롬프트)[\s\S]*?Tag\s*[:：\-]\s*([^,\n]+?)(?=\s*(?:Judul|Genre|Suara|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     promptTagRegex2:

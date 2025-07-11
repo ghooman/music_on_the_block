@@ -96,5 +96,7 @@
  "Please enter the song title.": "Silakan masukkan judul lagu.",
  "Write a title for this song.": "Tuliskan judul lagu ini.",
  "Please write a description of the song.": "Silakan masukkan deskripsi lagu.",
- "Write an introduction for this song.": "Tuliskan pengantar tentang lagu ini."
+ "Write an introduction for this song.": "Tuliskan pengantar tentang lagu ini.",
+ "Music cannot be generated.": "Musik tidak dapat dibuat.",
+ "Inappropriate or offensive words were detected in the lyrics.\nPlease revise the lyrics and try again.": "Terdeteksi kata-kata tidak pantas atau kasar dalam lirik.\nSilakan revisi liriknya dan coba lagi."
 }

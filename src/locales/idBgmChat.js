@@ -34,7 +34,8 @@ const idBgmChat = {
     tempoRegex:
       /Tempo\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Tag|Judul|Genre|Instrumen|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     detailRegex: /Elemen Tambahan\s*[:：\-]\s*([\s\S]*?)(?=\s*(?:Deskripsi Lagu|Prompt akhir)|$)/i,
-    introductionRegex: /Deskripsi Lagu\s*[:：\-]\s*([\s\S]*?)(?=\s*Prompt akhir|$)/i,
+    introductionRegex:
+      /Deskripsi Lagu\s*[:：\-]\s*([\s\S]*?)(?=\s*(Prompt akhir|Sekarang|Ayo mulai|Apakah kamu siap|$))/i,
     promptRegex: /Prompt akhir\s*[:：\-]\s*['"]?([\s\S]+?)['"]?$/i,
   },
 };

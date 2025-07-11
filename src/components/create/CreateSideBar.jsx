@@ -11,6 +11,9 @@ import lyricsEdit from '../../assets/images/icons/lyrics-edit-icon.svg';
 import MelodyMaker from '../../assets/images/icons/melody-maker-icon.svg';
 import rightArrow from '../../assets/images/icons/right-arrow-icon.svg';
 import LyricsModal from '../LyricsModal';
+import { badwords } from '../../data/badwords';
+import ErrorModal from '../modal/ErrorModal';
+
 const CreateSideBar = ({
   pageNumber,
   isConfirmLyricStatus,
@@ -40,6 +43,17 @@ const CreateSideBar = ({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // 가사의 부적절한 단어 포함 감지
+  const hasBadwords = (text = '') => {
+    const normalizedText = text.replace(/\s+/g, '').toLowerCase();
+    return badwords.some(word => normalizedText.includes(word));
+  };
+
+  // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   return (
     <div className="create__sidebar">
@@ -166,7 +180,18 @@ const CreateSideBar = ({
         <LyricsModal
           setShowLyricsModal={setShowLyricsModal}
           generatedLyric={generatedLyric}
-          onSave={newLyric => setGeneratedLyric(newLyric)} // ← 추가
+          onSave={newLyric => {
+            if (hasBadwords(newLyric)) {
+              setErrorTitle(t('Music cannot be generated.'));
+              setErrorMessage(
+                t(`Inappropriate or offensive words were detected in the lyrics.
+Please revise the lyrics and try again.`)
+              );
+              setShowErrorModal(true);
+              return;
+            }
+            setGeneratedLyric(newLyric);
+          }} // ← 추가
         />
       )}
       {isMobile && pageNumber === 1 && (
@@ -174,6 +199,14 @@ const CreateSideBar = ({
           {/* 필요하면 아이콘도 추가 */}
           {t('View/Edit Lyrics')}
         </button>
+      )}
+      {showErrorModal && (
+        <ErrorModal
+          title={errorTitle}
+          message={errorMessage}
+          button={true}
+          setShowErrorModal={setShowErrorModal}
+        />
       )}
     </div>
   );

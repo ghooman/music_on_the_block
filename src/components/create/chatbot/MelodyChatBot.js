@@ -894,7 +894,7 @@ Adjust the wording to match the song’s tone — whether warm, nostalgic, vibra
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
-      <section className="chatbot" style={{ paddingBottom: '100px' }}>
+      <section className="chatbot" style={{ paddingBottom: '120px' }}>
         <SelectItemWrap
           mode="chatbot"
           selectedLanguage={selectedLanguage}

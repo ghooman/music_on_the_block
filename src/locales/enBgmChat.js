@@ -36,7 +36,7 @@ const enBgmChat = {
     detailRegex:
       /Additional Elements\/Story\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,\s*Song Introduction|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Song Introduction)))/,
     introductionRegex:
-      /Song Introduction\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)))/,
+      /Song Introduction\s*(?:[:\-]\s*|\()([\s\S]*?)(?=\)|\n|$|\s*-\s*(Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)|\s*(Let’s|Let's|Shall we|Ready|Start))/i,
     promptTagRegex: /(?:Final Prompt|Prompt|generate)[\s\S]*?Tags\s*\(\s*([^)]+)\s*\)/i,
     promptTagRegex2:
       /(?:Final Prompt|Prompt|generate)[\s\S]*?Tags\s*[:]\s*([^,\n]+?)(?=\s*,\s*(?:Song|Title|Genre))/i,

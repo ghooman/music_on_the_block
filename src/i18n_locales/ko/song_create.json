@@ -96,5 +96,7 @@
  "Please enter the song title.": "노래 제목을 입력해주세요",
  "Write a title for this song.": "이 노래의 제목을 작성해주세요",
  "Please write a description of the song.": "노래 설명을 작성해주세요",
- "Write an introduction for this song.": "이 노래에 대한 소개글을 작성해주세요"
+ "Write an introduction for this song.": "이 노래에 대한 소개글을 작성해주세요",
+ "Music cannot be generated.": "음악을 생성할 수 없어요.",
+ "Inappropriate or offensive words were detected in the lyrics.\nPlease revise the lyrics and try again.": "가사에 비속어 및 부적절한 단어가 감지되었습니다.\n가사 수정 후 다시 생성해주세요."
 }

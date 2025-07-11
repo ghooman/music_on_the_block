@@ -261,7 +261,7 @@ const LyricChatBot = ({
         {createLoading && <CreateLoading />}
         <section
           className="chatbot chatbot-mode"
-          style={{ paddingBottom: !isConfirmLyricStatus ? '100px' : '0px' }}
+          style={{ paddingBottom: !isConfirmLyricStatus ? '120px' : '0px' }}
         >
           <SelectItemWrap
             mode="chatbot"

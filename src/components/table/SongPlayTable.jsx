@@ -127,13 +127,13 @@ const SongPlayTable = ({
             <TableHeader.Col>{t('Song Title')}</TableHeader.Col>
             {playsOption && <TableHeader.Col>{t('Plays')}</TableHeader.Col>}
             {likesOption && <TableHeader.Col>{t('Likes')}</TableHeader.Col>}
+            {/* Add Album (테이블에서 버튼 추가) */}
+            {/* <TableHeader.Col>{t('Add Album')}</TableHeader.Col> */}
             <TableHeader.Col>{t('Details')}</TableHeader.Col>
             {deleteOption && <TableHeader.Col>{t('Delete')}</TableHeader.Col>}
             {releaseOption && <TableHeader.Col>{t('Release')}</TableHeader.Col>}
             {mintOption && <TableHeader.Col>{t('NFT Mint')}</TableHeader.Col>}
             {sellOption && <TableHeader.Col>{t('Sell NFT')}</TableHeader.Col>}
-            {/* Add Album (테이블에서 버튼 추가) */}
-            {/* <TableHeader.Col>{t('Add Album')}</TableHeader.Col> */}
           </TableHeader>
           <TableBody>
             {songList &&
@@ -157,6 +157,9 @@ const SongPlayTable = ({
                     <TableItem.Text text={item.title || item.nft_name} />
                     {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
                     {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
+
+                    {/* Add Album 버튼 추가 */}
+                    {/* <TableItem.Button title={t('Add')} type="add" /> */}
 
                     <TableItem.Button
                       title={t('Details')}
@@ -206,8 +209,6 @@ const SongPlayTable = ({
                         handleClick={() => navigate(`/nft/sell/details/${item.song_id}/${item.id}`)}
                       />
                     )}
-                    {/* Add Album 버튼 추가 */}
-                    {/* <TableItem.Button title={t('Add')} type="add" /> */}
                   </TableItem>
                 </React.Fragment>
               ))}

@@ -163,7 +163,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     &__textarea {
       display: flex;
       // width: 100%;
-      height: 54px;
+      height: 80px;
       padding: 12px 20px;
       justify-content: space-between;
       align-items: center;
@@ -206,16 +206,17 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         font-size: 14px;
         background: transparent;
         border: none;
+        border-radius: 0px;
         outline: none;
 
         height: 100%; /* 부모와 동일한 높이 */
-        line-height: 30px; /* 적절히 조정 */
+        line-height: 22px; /* 적절히 조정 */
         padding: 0; /* 상하 패딩 제거 */
         margin: 0;
         display: flex;
         align-items: center; // 일부 브라우저는 무시할 수 있음
 
-        overflow: hidden;
+        overflow-y: auto;
         scrollbar-width: none; /* Firefox */
         &::-webkit-scrollbar {
           display: none; /* Chrome, Safari */
@@ -224,7 +225,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           color: #767676;
           font-family: Pretendard400;
           font-size: 14px;
-          line-height: 30px;
+          line-height: 22px;
         }
 
         font {

@@ -131,5 +131,14 @@
  "Add": "추가",
  "Delete Wallet": "지갑 삭제",
  "Are you sure you want to delete the registered wallet?": "등록된 지갑을 정말 삭제하시겠습니까?",
- "Please regenerate it again in a little while.": "잠시 후 다시 생성해 주세요."
+ "Please regenerate it again in a little while.": "잠시 후 다시 생성해 주세요.",
+ "Added to Album": "앨범에 추가되었습니다.",
+ "Selected music has been added successfully.": "선택한 음악이 성공적으로 추가되었습니다.",
+ "Failed to add to album": "앨범에 추가하지 못했습니다.",
+ "Music could not be added due to an error.": "오류로 인해 음악이 추가되지 않았습니다.",
+ "Add to Album": "앨범에 추가하기",
+ "No album has been registered.": "등록된 앨범이 없습니다.",
+ "Song": "곡",
+ "Registered": "등록됨",
+ "Registering...": "등록 중..."
 }

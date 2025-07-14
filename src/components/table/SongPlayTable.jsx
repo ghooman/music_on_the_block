@@ -64,6 +64,7 @@ const SongPlayTable = ({
 }) => {
   const { t } = useTranslation('module');
   const navigate = useNavigate();
+  const authToken = localStorage.getItem('token');
 
   // AudioContext 사용
   const { currentTrack, playTrack, togglePlayPause, isTrackActive } = useAudio();
@@ -234,6 +235,7 @@ const SongPlayTable = ({
       {showAddAlbumModal && selectedSong && (
         <SongAddAlbumModal
           song={selectedSong}
+          token={authToken}
           onClose={() => {
             setShowAddAlbumModal(false);
             setSelectedSong(null);

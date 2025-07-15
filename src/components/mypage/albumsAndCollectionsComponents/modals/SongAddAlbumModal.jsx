@@ -6,7 +6,9 @@ import './SongAddAlbumModal.scss'; // SCSS 파일 연결
 import ErrorModal from '../../../modal/ErrorModal';
 
 import { AuthContext } from '../../../../contexts/AuthContext';
+import Loading from '../../../../components/Loading.jsx';
 import defaultAlbumImage from '../../../../assets/images/intro/mob-album-cover.png';
+// import loadingGIF from '../../../../assets/images/loading-gif.gif';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -15,6 +17,8 @@ const SongAddAlbumModal = ({ song, onClose }) => {
   const [albums, setAlbums] = useState([]);
   const [selectedAlbumIds, setSelectedAlbumIds] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // 모달 오픈할 때 로딩 관련 상태 추가(false)
+  const [isLoading, setIsLoading] = useState(false);
   const { token, walletAddress, user } = useContext(AuthContext);
   const { address } = walletAddress || {};
 
@@ -24,7 +28,13 @@ const SongAddAlbumModal = ({ song, onClose }) => {
   console.log('address:', address);
 
   useEffect(() => {
+    console.log('🔁 isLoading 상태!!!:', isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
     const fetchAlbums = async () => {
+      // 로딩 상태 true
+      setIsLoading(true);
       try {
         const res = await axios.get(`${serverApi}/api/music/my/album/bundle/list`, {
           params: { page: 1 }, // 기본 페이지
@@ -43,11 +53,16 @@ const SongAddAlbumModal = ({ song, onClose }) => {
         setAlbums(albumsWithStatus);
       } catch (err) {
         console.error('❌ 앨범 리스트 조회 실패:', err);
+      } finally {
+        // 마지막엔 로딩 상태 false로
+        setIsLoading(false);
       }
     };
 
-    if (song && token) fetchAlbums();
-  }, [song, token]);
+    // if (song && token)
+    fetchAlbums();
+    // }, [song, token]);
+  }, []);
 
   // 2. 앨범 선택/해제
   const toggleSelect = albumId => {
@@ -138,43 +153,53 @@ const SongAddAlbumModal = ({ song, onClose }) => {
 
             <div className="song-add-album-modal__content">
               <div className="song-add-album-modal__scroll">
-                {albums.length === 0 && (
+                {/* {albums.length === 0 && (
                   <p style={{ color: '#aaa' }}>{t(`No album has been registered.`)}</p>
-                )}
-                {albums.map(album => (
-                  <div
-                    key={album.id}
-                    className={`song-add-album-modal__album-item 
+                )} */}
+                {isLoading === true ? (
+                  <div className="song-add-album-modal__loading">
+                    <Loading />
+                  </div>
+                ) : albums.length === 0 ? (
+                  <p className="song-add-album-modal__loading" style={{ color: '#aaa' }}>
+                    {t('No album has been registered.')}
+                  </p>
+                ) : (
+                  albums.map(album => (
+                    <div
+                      key={album.id}
+                      className={`song-add-album-modal__album-item 
                     ${
                       selectedAlbumIds.includes(album.id)
                         ? 'song-add-album-modal__album-item--selected'
                         : ''
                     }
                     ${album.registered ? 'song-add-album-modal__album-item--registered' : ''}`}
-                    onClick={() => {
-                      if (!album.registered) toggleSelect(album.id);
-                    }}
-                  >
-                    <img
-                      src={
-                        album.cover_image?.includes('public')
-                          ? album.cover_image.replace('public', '140to140')
-                          : defaultAlbumImage
-                      }
-                      alt={album.album_name}
-                    />
-                    <div className="song-add-album-modal__album-info">
-                      <div className="song-add-album-modal__album-name">{album.album_name}</div>
-                      <div className="song-add-album-modal__song-count">
-                        {album.song_cnt}
-                        {t(`Song`)}
+                      onClick={() => {
+                        if (!album.registered) toggleSelect(album.id);
+                      }}
+                    >
+                      <img
+                        src={
+                          album.cover_image?.includes('public')
+                            ? album.cover_image.replace('public', '140to140')
+                            : defaultAlbumImage
+                        }
+                        alt={album.album_name}
+                      />
+                      <div className="song-add-album-modal__album-info">
+                        <div className="song-add-album-modal__album-name">{album.album_name}</div>
+                        <div className="song-add-album-modal__song-count">
+                          {album.song_cnt}
+                          {t(`Song`)}
+                        </div>
                       </div>
+                      {album.registered && (
+                        <div className="song-add-album-modal__badge">{t(`Registered`)}</div>
+                      )}
                     </div>
-                    {album.registered && (
-                      <div className="song-add-album-modal__badge">{t(`Registered`)}</div>
-                    )}
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
 
               <div className="song-add-album-modal__footer">

@@ -167,6 +167,12 @@ const MelodyChatBot = ({
     dangerouslyAllowBrowser: true,
   });
 
+  useEffect(() => {
+    if (melodyData?.melody_introduction) {
+      console.log('[🎯 melodyData 업데이트됨 - 최종 곡 소개]', melodyData.melody_introduction);
+    }
+  }, [melodyData?.melody_introduction]);
+
   // 예시: getChatResponse 함수 내에서 프롬프트 관련 내용을 각각의 상태로 저장하는 부분
   async function getChatResponse() {
     setLoading(true);
@@ -187,8 +193,8 @@ const MelodyChatBot = ({
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 
-      // 디버깅을 위한 로그 추가
-      console.log('Bot message:', botMessage);
+      // 전체 응답 보기
+      console.log('[🟡 전체 GPT 응답]', botMessage);
 
       // 프롬프트/생성 키워드가 포함되어 있는지 확인
       const hasPromptKeyword = /(?:최종 프롬프트|프롬프트|생성|Final Prompt|Prompt|generate)/i.test(
@@ -474,17 +480,61 @@ const MelodyChatBot = ({
       }
 
       // [곡 소개 추출]
+      // if (locale.extraction.introductionRegex.test(botMessage)) {
+      //   const introductionMatch = botMessage.match(locale.extraction.introductionRegex);
+      //   // console.log('Introduction match (standard):', introductionMatch);
+      //   // 정규식 매칭 확인
+      //   console.log(
+      //     '[🔍 introductionRegex 매칭]',
+      //     locale.extraction.introductionRegex.test(botMessage)
+      //   );
+      //   if (introductionMatch && introductionMatch[1]) {
+      //     // 추출 결과 확인
+      //     console.log('[🎯 추출된 곡 소개]', introductionMatch[1].trim());
+      //     // console.log('Extracted introduction (standard):', introductionMatch[1].trim());
+      //     setMelodyData(prevData => ({
+      //       ...prevData,
+      //       melody_introduction: introductionMatch[1].trim(),
+      //     }));
+      //   }
+      // }
       if (locale.extraction.introductionRegex.test(botMessage)) {
         const introductionMatch = botMessage.match(locale.extraction.introductionRegex);
-        // console.log('Introduction match (standard):', introductionMatch);
         if (introductionMatch && introductionMatch[1]) {
-          // console.log('Extracted introduction (standard):', introductionMatch[1].trim());
+          let extractedIntro = introductionMatch[1].trim();
+
+          // // ✅ 불필요한 문장 제거 (가장 흔한 문장 패턴들)
+          // extractedIntro = extractedIntro
+          //   .replace(
+          //     /(이제\s*멜로디.*|도와드릴까요.*|어떤\s*부분.*|기대해\s*주세요.*|진행할게요.*|추가하실 내용.*)$/gi,
+          //     ''
+          //   )
+          //   .trim();
+
+          // 1. 줄바꿈 기준으로 나눈 뒤
+          const lines = extractedIntro.split(/\n+/);
+
+          // 2. "곡 소개로 간주될 수 없는 문장"을 필터링
+          const filtered = lines.filter(line => {
+            const lower = line.toLowerCase();
+            return !/멜로디\s*제작에\s*도움|도와드릴까요|필요하신\s*점|언제든|시작해볼까요|기대해\s*주세요|추가하실 내용|곡을\s*만들어보세요/i.test(
+              line
+            );
+          });
+
+          // 3. 다시 하나의 소개로 합치기
+          extractedIntro = filtered.join(' ').trim();
+
+          // 디버깅용 출력
+          console.log('[🎯 정제된 곡 소개]', extractedIntro);
+
           setMelodyData(prevData => ({
             ...prevData,
-            melody_introduction: introductionMatch[1].trim(),
+            melody_introduction: extractedIntro,
           }));
         }
       }
+
       // 프롬프트나 생성 키워드가 포함된 경우의 곡 소개 추출
       else if (
         locale.extraction.promptIntroductionRegex &&
@@ -587,15 +637,24 @@ const MelodyChatBot = ({
         }
       }
 
+      // 1. 전처리: 줄바꿈 제거한 상태로 한 줄로 만듦
+      promptText = promptText.replace(/\n/g, ' ').trim();
+
+      // // 2. 첫 번째 블록만 사용 (사용자 프롬프트 내용)
+      // promptText = parts[0];
+
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '')
-        .replace(/이제[^.!?]{0,50}[.!?]\s*$/gi, '')
-        .replace(/(도와드릴게요|도와드릴까요)[.!?]?\s*$/gi, '')
-        .replace(/(시작해도\s*될까요\??)[\s]*$/gi, '')
-        .replace(/(기대해\s*주세요|기대됩니다)[.!?]?\s*$/gi, '');
+        .replace(
+          /(혹시\s*.*|이제\s*.*|도와드릴게요.*|시작해볼까요.*|기대해\s*주세요.*|진행할게요.*)/gi,
+          ''
+        );
+
+      // 3. 결과 확인
+      console.log('[promptText]', promptText);
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -791,6 +850,7 @@ Adjust the wording to match the song’s tone — whether warm, nostalgic, vibra
     try {
       // 최종 프롬프트 생성하고 결과 받기
       const generatedPrompt = await generateFinalPrompt();
+      console.log('[🚀 음악 생성 직전] melody_introduction:', melodyData?.melody_introduction);
 
       // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
@@ -834,7 +894,7 @@ Adjust the wording to match the song’s tone — whether warm, nostalgic, vibra
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
-      <section className="chatbot" style={{ paddingBottom: '100px' }}>
+      <section className="chatbot" style={{ paddingBottom: '120px' }}>
         <SelectItemWrap
           mode="chatbot"
           selectedLanguage={selectedLanguage}

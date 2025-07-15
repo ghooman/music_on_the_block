@@ -13,6 +13,8 @@ import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 import lyricsCreate from '../../../assets/images/icons/lyrics-create-icon.svg';
 import lyricsEdit from '../../../assets/images/icons/lyrics-edit-icon.svg';
 import chatSend from '../../../assets/images/icons/chat_send-icon.svg';
+import { badwords } from '../../../data/badwords';
+import ErrorModal from '../../modal/ErrorModal';
 
 // 통일된 프롬프트 파일 불러오기
 import lyricPrompts from '../../../locales/lyricPrompts';
@@ -146,6 +148,7 @@ const LyricChatBot = ({
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
+        temperature: 0,
         messages: [
           {
             role: 'system',
@@ -231,6 +234,7 @@ const LyricChatBot = ({
     window.scrollTo({ top: 0, behavior: 'smooth' }); // 화면 맨 위로
   };
 
+  // 채팅 말풍선 새롭게 추가되면 부드럽게 하단으로 내려가는 애니메이션
   useEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
@@ -240,13 +244,24 @@ const LyricChatBot = ({
     }
   }, [chatHistory.length]);
 
+  // 가사의 부적절한 단어 포함 감지
+  const hasBadwords = (text = '') => {
+    const normalizedText = text.toLowerCase();
+    return badwords.some(word => normalizedText.includes(word));
+  };
+
+  // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   if (!isConfirmLyricStatus)
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
         <section
           className="chatbot chatbot-mode"
-          style={{ paddingBottom: !isConfirmLyricStatus ? '100px' : '0px' }}
+          style={{ paddingBottom: !isConfirmLyricStatus ? '120px' : '0px' }}
         >
           <SelectItemWrap
             mode="chatbot"
@@ -461,6 +476,21 @@ Create your own lyrics based on a special story`
               disabled={selectedVersion !== 'V4_5' && isConfirmLyricStatus?.length > 1000}
               onClick={() => {
                 // setGeneratedLyric(isConfirmLyricStatus);
+                console.log('generatedLyric:', generatedLyric);
+                console.log('badwords:', badwords);
+                console.log('hasBadwords:', hasBadwords(generatedLyric));
+                if (hasBadwords(generatedLyric)) {
+                  setErrorMessage(
+                    t(`Inappropriate or offensive words were detected in the lyrics.
+Please revise the lyrics and try again.`)
+                  );
+                  setErrorTitle(t('Music cannot be generated.'));
+                  setShowErrorModal(true);
+                  // 또는 requestLyrics 버튼을 여기서 보여주는 로직 추가
+                  // setShowRequestLyrics(true);
+                  return;
+                }
+                setGeneratedLyric(generatedLyric);
                 setPageNumber(prev => prev + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -469,6 +499,14 @@ Create your own lyrics based on a special story`
             </button>
           </div>
         </div>
+        {showErrorModal && (
+          <ErrorModal
+            title={errorTitle}
+            message={errorMessage}
+            button={true}
+            setShowErrorModal={setShowErrorModal}
+          />
+        )}
       </div>
     );
 };

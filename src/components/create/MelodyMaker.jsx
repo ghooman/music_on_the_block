@@ -310,15 +310,24 @@ const MelodyMaker = ({
         }
       }
 
+      // 1. 전처리: 줄바꿈 제거한 상태로 한 줄로 만듦
+      promptText = promptText.replace(/\n/g, ' ').trim();
+
+      // // 2. 첫 번째 블록만 사용 (사용자 프롬프트 내용)
+      // promptText = parts[0];
+
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '')
-        .replace(/이제[^.!?]{0,50}[.!?]\s*$/gi, '')
-        .replace(/(도와드릴게요|도와드릴까요)[.!?]?\s*$/gi, '')
-        .replace(/(시작해도\s*될까요\??)[\s]*$/gi, '')
-        .replace(/(기대해\s*주세요|기대됩니다)[.!?]?\s*$/gi, '');
+        .replace(
+          /(혹시\s*.*|이제\s*.*|도와드릴게요.*|시작해볼까요.*|기대해\s*주세요.*|진행할게요.*)/gi,
+          ''
+        );
+
+      // 3. 결과 확인
+      console.log('[promptText]', promptText);
 
       setFinalPrompt(promptText);
       return promptText;
@@ -349,6 +358,8 @@ const MelodyMaker = ({
         coverImageUrl = await generateAlbumCover();
         setAlbumCover(coverImageUrl);
       }
+
+      console.log('[🚀 생성 직전 melody_introduction 확인]', melody_introduction);
 
       // selectedVersion 에따라 create_ai_type 과 ai_model 구성
       let create_ai_type = '';
@@ -448,6 +459,12 @@ const MelodyMaker = ({
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [generatedMusicResult]);
+
+  useEffect(() => {
+    if (melody_introduction) {
+      console.log('[🎯 melody_introduction 업데이트됨]', melody_introduction);
+    }
+  }, [melody_introduction]);
 
   const { t } = useTranslation('song_create');
 

@@ -126,8 +126,8 @@ const SongAddAlbumModal = ({ song, onClose }) => {
         />
       )}
 
-      <div className="song-add-album-modal">
-        <div className="song-add-album-modal__box">
+      <div className="song-add-album-modal" onClick={onClose}>
+        <div className="song-add-album-modal__box" onClick={e => e.stopPropagation()}>
           <div className="song-add-album-modal__inner">
             <div className="song-add-album-modal__header">
               <div className="song-add-album-modal__title">{t(`Add to Album`)}</div>

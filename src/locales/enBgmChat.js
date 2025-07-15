@@ -2,7 +2,7 @@
 const enBgmChat = {
   chatbot: {
     initialMessage:
-      'Shall we start creating your melody?\nPlease tell me the genre of music you want to create.\n',
+      'Shall we start creating your melody now?\nPlease tell me the genre of music you want to create.\n',
     systemMessage:
       `You are a kind and warm-hearted melody creation expert who helps users compose music. Please ask the following items one by one to help the user create their desired melody:\n\n` +
       `1. Ask the user to choose the "Genre" of the song.\nYou must use this exact phrase:\n\`Shall we start creating your melody now?\nPlease tell me the genre of music you want to create.\`\n` +

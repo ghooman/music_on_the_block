@@ -94,6 +94,10 @@
     &--selected {
       border-color: #cf0;
       background: rgba(255, 255, 255, 0.05);
+      // 이 상태에서는 hover 효과 무시
+      &:hover {
+        border-color: #cf0;
+      }
     }
 
     &--registered {
@@ -206,6 +210,18 @@
       border: none;
       border-top: 1px solid #565656;
       animation: slideUp 0.3s ease;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .song-add-album-modal__title {
+        font-size: 16px;
+        letter-spacing: 0.48px;
+      }
     }
 
     @keyframes slideUp {

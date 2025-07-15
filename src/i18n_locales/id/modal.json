@@ -131,5 +131,14 @@
  "Add": "Tambah",
  "Delete Wallet": "Hapus Dompet",
  "Are you sure you want to delete the registered wallet?": "Apakah Anda yakin ingin menghapus dompet yang terdaftar?",
- "Please regenerate it again in a little while.": "Silakan buat ulang beberapa saat lagi."
+ "Please regenerate it again in a little while.": "Silakan buat ulang beberapa saat lagi.",
+ "Added to Album": "Ditambahkan ke album",
+ "Selected music has been added successfully.": "Musik yang dipilih berhasil ditambahkan",
+ "Failed to add to album": "Gagal menambahkan ke album",
+ "Music could not be added due to an error.": "Musik tidak dapat ditambahkan karena kesalahan",
+ "Add to Album": "Tambahkan ke Album",
+ "No album has been registered.": "Tidak ada album yang terdaftar",
+ "Song": "Lagu",
+ "Registered": "Terdaftar",
+ "Registering...": "Sedang mendaftar..."
 }

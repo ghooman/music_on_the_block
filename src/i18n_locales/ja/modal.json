@@ -131,5 +131,14 @@
  "Add": "追加",
  "Delete Wallet": "ウォレットを削除",
  "Are you sure you want to delete the registered wallet?": "登録済みウォレットを削除してもよろしいですか？",
- "Please regenerate it again in a little while.": "しばらくしてからもう一度生成してください。"
+ "Please regenerate it again in a little while.": "しばらくしてからもう一度生成してください。",
+ "Added to Album": "アルバムに追加されました。",
+ "Selected music has been added successfully.": "選択した音楽が正常に追加されました。",
+ "Failed to add to album": "アルバムに追加できませんでした。",
+ "Music could not be added due to an error.": "エラーのため音楽を追加できませんでした。",
+ "Add to Album": "アルバムに追加する",
+ "No album has been registered.": "登録されたアルバムがありません。",
+ "Song": "曲",
+ "Registered": "登録済み",
+ "Registering...": "登録中..."
 }

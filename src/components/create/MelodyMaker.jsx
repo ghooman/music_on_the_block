@@ -127,22 +127,23 @@ const generateAlbumCoverPrompt = ({ melodyTitle, melodyTag, melodyGenre, fullLyr
 
 [Visual Prompt for Album Cover Generation]
 
-Generate a single, natural-sounding English sentence that instructs an AI to design an album cover illustration.  
-The sentence should be based on the song’s title, genre, tags, and lyrics, and describe a moment or feeling in a cinematic and emotionally expressive way.  
-Adjust the wording to match the song’s tone — whether warm, nostalgic, vibrant, dreamy, or melancholic — while keeping the style grounded and story-driven.
+Create a cinematic and emotionally expressive illustration based on the song's narrative.  
+Focus on conveying the **core theme** of the lyrics — whether it revolves around a person, place, object, or atmosphere.  
+Adapt the composition and style to match the emotional tone and story of the song, such as warm, nostalgic, vibrant, dreamy, or melancholic.
 
 Key Instructions:
-– Focus on a **main character or characters**, expressing the emotion or action in the lyrics  
-– Show a **clear situation or moment**, not just an abstract or symbolic representation  
-– If possible, depict an actual **interaction, memory, or inner emotion** of the subject  
-– The **background** should support the scene, but not overpower the narrative
+– If the song centers around a **character**, illustrate that character expressing an emotion, action, or memory  
+– If the song focuses on a **place, object, or abstract theme**, depict a scene that visually captures its essence and mood  
+– Show a **clear situation or moment**, not just abstract symbols  
+– Include meaningful **visual cues** that reflect the lyrics (weather, time of day, setting, etc.)
 
 Styling Notes:
-– Use soft, natural lighting with realistic human expressions  
-– Favor close-up or mid-shot compositions that highlight facial expressions or gestures  
-– The color palette should match the emotion (e.g., warm for nostalgia, cool for loneliness, vibrant for excitement)  
-– Avoid surreal or overly symbolic styles — aim for a grounded, story-driven visual  
-– Think of it like a key frame from a movie scene
+– Use soft, natural lighting combined with cinematic framing that captures realistic human expressions.  
+– Favor close-up or mid-shot for character-focused scenes  
+– Use wide or atmospheric shots for landscape- or object-focused songs  
+– Match the color palette to the song's emotion  
+– Avoid surreal or overly symbolic art — keep it grounded and narrative-driven  
+– Think of it as a key visual from a movie scene
 
 ⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
   `;

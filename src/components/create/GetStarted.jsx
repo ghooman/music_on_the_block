@@ -11,8 +11,8 @@ import axios from 'axios';
 import lockIcon from '../../assets/images/icons/lock-icon.svg';
 import typeIcon from '../../assets/images/icons/type-icon.svg';
 import versionIcon from '../../assets/images/icons/version-icon.svg';
-import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.svg';
-import standardModeIcon from '../../assets/images/icons/standardmode-icon.svg';
+import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.png';
+import standardModeIcon from '../../assets/images/icons/standardmode-icon.png';
 import rightArrow from '../../assets/images/icons/right-arrow-icon.svg';
 import React from 'react';
 

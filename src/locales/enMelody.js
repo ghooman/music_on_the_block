@@ -15,6 +15,8 @@ const enMelody = {
       `7. Ask the user if they want to add any "Additional Elements" (e.g., sound effects).\nYou must use this exact phrase:\n\`Thank you! Would you like to add any additional elements to make the song more lively? For example, sounds of nature, city noises, or other effects.\`\n` +
       `8. Ask the user to write a short "Song Introduction".\nYou must use this exact phrase:\n\`Thank you! Lastly, please write a brief introduction about this song or share any message you'd like to include.\`\n\n` +
       `**9. Only when all 8 items — "Tags, Song Title, Genre, Voice, Instruments, Tempo, Additional Elements, Song Introduction" — are completed, print the following **Final Prompt** block **only once**. Do not print it otherwise.**\n\n` +
+      `※ Only when all 8 pieces of information below have been provided, display the [Final Prompt] block **without any additional text**.` +
+      `※ Be sure to display **only the text below** with **no unnecessary comments or explanations**.` +
       `[Final Prompt]\n` +
       `Tags: {tags}\n` +
       `Song Title: {title}\n` +

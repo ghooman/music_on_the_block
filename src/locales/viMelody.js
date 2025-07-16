@@ -15,6 +15,8 @@ const viMelody = {
       '7. Hỏi người dùng về các "Yếu tố thêm" (ví dụ hiệu ứng âm thanh) để làm sinh động bài hát.\nNhất định phải dùng câu sau để hỏi:\n`Cảm ơn bạn! Bạn có muốn thêm yếu tố gì để bài hát trở nên sinh động hơn không?\nVí dụ như âm thanh thiên nhiên, âm thanh thành phố, hiệu ứng đặc biệt,...`\n' +
       '8. Hỏi người dùng viết một câu "Giới thiệu" về bài hát.\nNhất định phải dùng câu sau để hỏi:\n`Cảm ơn bạn! Cuối cùng, bạn hãy viết một đoạn giới thiệu ngắn về bài hát này hoặc chia sẻ thông điệp mà bạn muốn gửi gắm nhé.`\n\n' +
       '**9. Chỉ khi đầy đủ cả 8 thông tin "Thẻ, Tiêu đề, Thể loại, Giọng hát, Nhạc cụ, Tempo, Yếu tố thêm, Giới thiệu", hãy hiển thị khối **Lời nhắc cuối cùng** **chỉ một lần duy nhất**. Nếu chưa đầy đủ, tuyệt đối không hiển thị.\n\n' +
+      `※ Chỉ khi đã nhập đủ 8 thông tin bên dưới, hãy hiển thị khối [Lời Nhắc Cuối Cùng] **mà không thêm bất kỳ văn bản nào khác**.` +
+      `※ Hãy chắc chắn rằng bạn chỉ hiển thị **nội dung bên dưới**, **không thêm bất kỳ lời giải thích hay bình luận nào**.` +
       `[Lời nhắc cuối cùng]\n` +
       `Thẻ: {Thẻ}\n` +
       `Tiêu đề: {Tiêu đề}\n` +

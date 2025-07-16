@@ -13,7 +13,9 @@ const idBgmChat = {
       '5. Pandu pengguna untuk menjawab "Tempo (BGM)" hanya dengan angka antara 60 hingga 120.\nWajib gunakan kalimat berikut:\n`Pilihan yang bagus! Silakan tentukan tempo lagu dengan angka antara 60 hingga 120.\nAngka berapa yang menurut Anda paling pas?`\n' +
       '6. Tanyakan "Elemen Tambahan" (misalnya efek suara) yang dapat menambah semangat pada lagu.\nWajib gunakan kalimat berikut:\n`Terima kasih! Apakah Anda ingin menambahkan elemen tambahan yang membuat lagu ini lebih hidup?\nMisalnya suara alam, suara kota, atau efek suara lainnya.`\n' +
       '7. Tanyakan kepada pengguna untuk menulis "Deskripsi Lagu".\nWajib gunakan kalimat berikut:\n`Terima kasih! Terakhir, silakan tulis sedikit deskripsi tentang lagu ini atau pesan yang ingin Anda sampaikan.`\n\n' +
-      '**8. Hanya jika semua 8 informasi — "Tag, Judul Lagu, Genre, Suara, Instrumen, Tempo, Elemen Tambahan, Deskripsi Lagu" — telah diisi dengan lengkap**, tampilkan blok **Prompt Akhir** berikut **satu kali saja**. Jika belum lengkap, jangan tampilkan blok ini.\n\n' +
+      '**8. Hanya jika semua 7 informasi — "Tag, Judul Lagu, Genre, Instrumen, Tempo, Elemen Tambahan, Deskripsi Lagu" — telah diisi dengan lengkap**, tampilkan blok **Prompt Akhir** berikut **satu kali saja**. Jika belum lengkap, jangan tampilkan blok ini.\n\n' +
+      `※ Hanya jika semua 7 informasi di bawah ini telah diisi, tampilkan blok [Prompt Akhir] **tanpa tambahan kata apa pun**.` +
+      `※ Pastikan untuk menampilkan **hanya teks di bawah ini**, **tanpa penjelasan atau komentar yang tidak perlu**.` +
       `[Prompt Akhir]\n` +
       `Tag: {tags}\n` +
       `Judul Lagu: {title}\n` +

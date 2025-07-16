@@ -44,11 +44,12 @@ const CreateSideBar = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // 0716 비속어 주석 처리
   // 가사의 부적절한 단어 포함 감지
-  const hasBadwords = (text = '') => {
-    const normalizedText = text.replace(/\s+/g, '').toLowerCase();
-    return badwords.some(word => normalizedText.includes(word));
-  };
+  // const hasBadwords = (text = '') => {
+  //   const normalizedText = text.replace(/\s+/g, '').toLowerCase();
+  //   return badwords.some(word => normalizedText.includes(word));
+  // };
 
   // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -181,15 +182,16 @@ const CreateSideBar = ({
           setShowLyricsModal={setShowLyricsModal}
           generatedLyric={generatedLyric}
           onSave={newLyric => {
-            if (hasBadwords(newLyric)) {
-              setErrorTitle(t('Music cannot be generated.'));
-              setErrorMessage(
-                t(`Inappropriate or offensive words were detected in the lyrics.
-Please revise the lyrics and try again.`)
-              );
-              setShowErrorModal(true);
-              return;
-            }
+            // 0716 비속어 주석 처리
+            //             if (hasBadwords(newLyric)) {
+            //               setErrorTitle(t('Music cannot be generated.'));
+            //               setErrorMessage(
+            //                 t(`Inappropriate or offensive words were detected in the lyrics.
+            // Please revise the lyrics and try again.`)
+            //               );
+            //               setShowErrorModal(true);
+            //               return;
+            //             }
             setGeneratedLyric(newLyric);
           }} // ← 추가
         />

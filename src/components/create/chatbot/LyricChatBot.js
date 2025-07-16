@@ -244,11 +244,12 @@ const LyricChatBot = ({
     }
   }, [chatHistory.length]);
 
+  // 0716 비속어 주석 처리
   // 가사의 부적절한 단어 포함 감지
-  const hasBadwords = (text = '') => {
-    const normalizedText = text.toLowerCase();
-    return badwords.some(word => normalizedText.includes(word));
-  };
+  // const hasBadwords = (text = '') => {
+  //   const normalizedText = text.toLowerCase();
+  //   return badwords.some(word => normalizedText.includes(word));
+  // };
 
   // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -477,19 +478,20 @@ Create your own lyrics based on a special story`
               onClick={() => {
                 // setGeneratedLyric(isConfirmLyricStatus);
                 console.log('generatedLyric:', generatedLyric);
-                console.log('badwords:', badwords);
-                console.log('hasBadwords:', hasBadwords(generatedLyric));
-                if (hasBadwords(generatedLyric)) {
-                  setErrorMessage(
-                    t(`Inappropriate or offensive words were detected in the lyrics.
-Please revise the lyrics and try again.`)
-                  );
-                  setErrorTitle(t('Music cannot be generated.'));
-                  setShowErrorModal(true);
-                  // 또는 requestLyrics 버튼을 여기서 보여주는 로직 추가
-                  // setShowRequestLyrics(true);
-                  return;
-                }
+                // 0716 비속어 주석 처리
+                //                 console.log('badwords:', badwords);
+                //                 console.log('hasBadwords:', hasBadwords(generatedLyric));
+                //                 if (hasBadwords(generatedLyric)) {
+                //                   setErrorMessage(
+                //                     t(`Inappropriate or offensive words were detected in the lyrics.
+                // Please revise the lyrics and try again.`)
+                //                   );
+                //                   setErrorTitle(t('Music cannot be generated.'));
+                //                   setShowErrorModal(true);
+                //                   // 또는 requestLyrics 버튼을 여기서 보여주는 로직 추가
+                //                   // setShowRequestLyrics(true);
+                //                   return;
+                //                 }
                 setGeneratedLyric(generatedLyric);
                 setPageNumber(prev => prev + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });

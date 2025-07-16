@@ -7,6 +7,8 @@ import { useAudio } from '../../contexts/AudioContext';
 
 import { useTranslation } from 'react-i18next';
 
+import SongAddAlbumModal from '../mypage/albumsAndCollectionsComponents/modals/SongAddAlbumModal';
+
 /**
  *
  * @param {Array} songList : 곡의 데이터 리스트입니다.
@@ -62,6 +64,7 @@ const SongPlayTable = ({
 }) => {
   const { t } = useTranslation('module');
   const navigate = useNavigate();
+  const authToken = localStorage.getItem('token');
 
   // AudioContext 사용
   const { currentTrack, playTrack, togglePlayPause, isTrackActive } = useAudio();
@@ -112,6 +115,9 @@ const SongPlayTable = ({
     }
   };
 
+  const [showAddAlbumModal, setShowAddAlbumModal] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
+
   return (
     <>
       {/* 자체 오디오 엘리먼트 제거 - AudioContext에서 관리 */}
@@ -127,13 +133,13 @@ const SongPlayTable = ({
             <TableHeader.Col>{t('Song Title')}</TableHeader.Col>
             {playsOption && <TableHeader.Col>{t('Plays')}</TableHeader.Col>}
             {likesOption && <TableHeader.Col>{t('Likes')}</TableHeader.Col>}
+            {/* Add Album (테이블에서 버튼 추가) */}
+            <TableHeader.Col>{t('Add Album')}</TableHeader.Col>
             <TableHeader.Col>{t('Details')}</TableHeader.Col>
             {deleteOption && <TableHeader.Col>{t('Delete')}</TableHeader.Col>}
             {releaseOption && <TableHeader.Col>{t('Release')}</TableHeader.Col>}
             {mintOption && <TableHeader.Col>{t('NFT Mint')}</TableHeader.Col>}
             {sellOption && <TableHeader.Col>{t('Sell NFT')}</TableHeader.Col>}
-            {/* Add Album (테이블에서 버튼 추가) */}
-            {/* <TableHeader.Col>{t('Add Album')}</TableHeader.Col> */}
           </TableHeader>
           <TableBody>
             {songList &&
@@ -157,6 +163,17 @@ const SongPlayTable = ({
                     <TableItem.Text text={item.title || item.nft_name} />
                     {playsOption && <TableItem.Text text={item.play_cnt?.toLocaleString()} />}
                     {likesOption && <TableItem.Text text={item.like?.toLocaleString()} />}
+
+                    {/* Add Album 버튼 추가 */}
+                    <TableItem.Button
+                      title={t('Add')}
+                      type="add"
+                      handleClick={e => {
+                        e.stopPropagation(); // 테이블 row 클릭 방지
+                        setSelectedSong(item); // 선택한 곡 정보 저장
+                        setShowAddAlbumModal(true); // 모달 오픈
+                      }}
+                    />
 
                     <TableItem.Button
                       title={t('Details')}
@@ -206,8 +223,6 @@ const SongPlayTable = ({
                         handleClick={() => navigate(`/nft/sell/details/${item.song_id}/${item.id}`)}
                       />
                     )}
-                    {/* Add Album 버튼 추가 */}
-                    {/* <TableItem.Button title={t('Add')} type="add" /> */}
                   </TableItem>
                 </React.Fragment>
               ))}
@@ -217,6 +232,16 @@ const SongPlayTable = ({
           <NoneContent message="There are no songs created yet." height={300} />
         )}
       </TableWrapper>
+      {showAddAlbumModal && selectedSong && (
+        <SongAddAlbumModal
+          song={selectedSong}
+          token={authToken}
+          onClose={() => {
+            setShowAddAlbumModal(false);
+            setSelectedSong(null);
+          }}
+        />
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-const badwords = [
+export const badwords = [
   '18년',
   '18놈',
   '18새끼',
@@ -604,4 +604,4 @@ const badwords = [
   'shittyfuck',
 ];
 
-module.exports = badwords;
+// module.exports = badwords;

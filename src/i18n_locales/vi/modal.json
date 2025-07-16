@@ -131,5 +131,14 @@
  "Add": "Thêm",
  "Delete Wallet": "Xóa ví",
  "Are you sure you want to delete the registered wallet?": "Bạn có chắc chắn muốn xóa ví đã đăng ký không?",
- "Please regenerate it again in a little while.": "Vui lòng tạo lại sau một lúc nữa."
+ "Please regenerate it again in a little while.": "Vui lòng tạo lại sau một lúc nữa.",
+ "Added to Album": "Đã thêm vào album",
+ "Selected music has been added successfully.": "Nhạc đã chọn được thêm thành công",
+ "Failed to add to album": "Không thể thêm vào album",
+ "Music could not be added due to an error.": "Nhạc không thể thêm do lỗi",
+ "Add to Album": "Thêm vào Album",
+ "No album has been registered.": "Không có album nào được đăng ký",
+ "Song": "Bài hát",
+ "Registered": "Đã đăng ký",
+ "Registering...": "Đang đăng ký..."
 }

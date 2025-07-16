@@ -167,13 +167,20 @@ const MelodyChatBot = ({
     dangerouslyAllowBrowser: true,
   });
 
+  useEffect(() => {
+    if (melodyData?.melody_introduction) {
+      console.log('[🎯 melodyData 업데이트됨 - 최종 곡 소개]', melodyData.melody_introduction);
+    }
+  }, [melodyData?.melody_introduction]);
+
   // 예시: getChatResponse 함수 내에서 프롬프트 관련 내용을 각각의 상태로 저장하는 부분
   async function getChatResponse() {
     setLoading(true);
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
-        temperature: 0.8,
+        // temperature: 0.8,
+        temperature: 0,
         stop: ['---\n'],
         messages: [
           {
@@ -187,8 +194,8 @@ const MelodyChatBot = ({
       let botMessage = response.choices[0].message.content;
       botMessage = botMessage.replace(/\*\*/g, '');
 
-      // 디버깅을 위한 로그 추가
-      console.log('Bot message:', botMessage);
+      // 전체 응답 보기
+      console.log('[🟡 전체 GPT 응답]', botMessage);
 
       // 프롬프트/생성 키워드가 포함되어 있는지 확인
       const hasPromptKeyword = /(?:최종 프롬프트|프롬프트|생성|Final Prompt|Prompt|generate)/i.test(
@@ -474,17 +481,61 @@ const MelodyChatBot = ({
       }
 
       // [곡 소개 추출]
+      // if (locale.extraction.introductionRegex.test(botMessage)) {
+      //   const introductionMatch = botMessage.match(locale.extraction.introductionRegex);
+      //   // console.log('Introduction match (standard):', introductionMatch);
+      //   // 정규식 매칭 확인
+      //   console.log(
+      //     '[🔍 introductionRegex 매칭]',
+      //     locale.extraction.introductionRegex.test(botMessage)
+      //   );
+      //   if (introductionMatch && introductionMatch[1]) {
+      //     // 추출 결과 확인
+      //     console.log('[🎯 추출된 곡 소개]', introductionMatch[1].trim());
+      //     // console.log('Extracted introduction (standard):', introductionMatch[1].trim());
+      //     setMelodyData(prevData => ({
+      //       ...prevData,
+      //       melody_introduction: introductionMatch[1].trim(),
+      //     }));
+      //   }
+      // }
       if (locale.extraction.introductionRegex.test(botMessage)) {
         const introductionMatch = botMessage.match(locale.extraction.introductionRegex);
-        // console.log('Introduction match (standard):', introductionMatch);
         if (introductionMatch && introductionMatch[1]) {
-          // console.log('Extracted introduction (standard):', introductionMatch[1].trim());
+          let extractedIntro = introductionMatch[1].trim();
+
+          // // ✅ 불필요한 문장 제거 (가장 흔한 문장 패턴들)
+          // extractedIntro = extractedIntro
+          //   .replace(
+          //     /(이제\s*멜로디.*|도와드릴까요.*|어떤\s*부분.*|기대해\s*주세요.*|진행할게요.*|추가하실 내용.*)$/gi,
+          //     ''
+          //   )
+          //   .trim();
+
+          // 1. 줄바꿈 기준으로 나눈 뒤
+          const lines = extractedIntro.split(/\n+/);
+
+          // 2. "곡 소개로 간주될 수 없는 문장"을 필터링
+          const filtered = lines.filter(line => {
+            const lower = line.toLowerCase();
+            return !/멜로디\s*제작에\s*도움|도와드릴까요|필요하신\s*점|언제든|시작해볼까요|기대해\s*주세요|추가하실 내용|곡을\s*만들어보세요/i.test(
+              line
+            );
+          });
+
+          // 3. 다시 하나의 소개로 합치기
+          extractedIntro = filtered.join(' ').trim();
+
+          // 디버깅용 출력
+          console.log('[🎯 정제된 곡 소개]', extractedIntro);
+
           setMelodyData(prevData => ({
             ...prevData,
-            melody_introduction: introductionMatch[1].trim(),
+            melody_introduction: extractedIntro,
           }));
         }
       }
+
       // 프롬프트나 생성 키워드가 포함된 경우의 곡 소개 추출
       else if (
         locale.extraction.promptIntroductionRegex &&
@@ -587,11 +638,24 @@ const MelodyChatBot = ({
         }
       }
 
+      // 1. 전처리: 줄바꿈 제거한 상태로 한 줄로 만듦
+      promptText = promptText.replace(/\n/g, ' ').trim();
+
+      // // 2. 첫 번째 블록만 사용 (사용자 프롬프트 내용)
+      // promptText = parts[0];
+
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '')
+        .replace(
+          /(혹시\s*.*|이제\s*.*|도와드릴게요.*|시작해볼까요.*|기대해\s*주세요.*|진행할게요.*)/gi,
+          ''
+        );
+
+      // 3. 결과 확인
+      console.log('[promptText]', promptText);
 
       console.log('Generated promptText:', promptText);
       console.log('promptText length:', promptText.length);
@@ -608,49 +672,55 @@ const MelodyChatBot = ({
   // ====== 앨범 커버 생성 함수 (앨범 커버 URL 반환) ======
   // 앨범커버프롬프트
 
-  const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
+  const generateAlbumCoverPrompt = ({ melodyTitle, melodyTag, melodyGenre, fullLyrics }) => {
     return `
-  [가사 데이터]
-  태그: ${lyricTag.join(', ')}
-  장르: ${melodyGenre.join(', ')}
+  [Song Metadata]
+  - Title: ${melodyTitle}
+  - Genre: ${melodyTag.join(', ')}
+  - Tags: ${melodyGenre.join(', ')}
+  - Lyrics: ${fullLyrics}
   
-  [노래 제목]
-  ${melodyTitle}
+[Visual Prompt for Album Cover Generation]
+
+Create a cinematic and emotionally expressive illustration based on the song's narrative.  
+Focus on conveying the **core theme** of the lyrics — whether it revolves around a person, place, object, or atmosphere.  
+Adapt the composition and style to match the emotional tone and story of the song, such as warm, nostalgic, vibrant, dreamy, or melancholic.
+
+Key Instructions:
+– If the song centers around a **character**, illustrate that character expressing an emotion, action, or memory  
+– If the song focuses on a **place, object, or abstract theme**, depict a scene that visually captures its essence and mood  
+– Show a **clear situation or moment**, not just abstract symbols  
+– Include meaningful **visual cues** that reflect the lyrics (weather, time of day, setting, etc.)
+
+Styling Notes:
+– Use soft, natural lighting combined with cinematic framing that captures realistic human expressions.  
+– Favor close-up or mid-shot for character-focused scenes  
+– Use wide or atmospheric shots for landscape- or object-focused songs  
+– Match the color palette to the song's emotion  
+– Avoid surreal or overly symbolic art — keep it grounded and narrative-driven  
+– Think of it as a key visual from a movie scene
   
-  [노래 스토리]
-  ${lyricStory}
-  
-[Design Instructions]
-
-Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
-"${lyricStory}"
-
-Use the emotional tone, genre, and tags as creative references:  
-Genre: ${melodyGenre.join(', ')}  
-Tags: ${lyricTag.join(', ')}
-
-The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
-
-Focus on:  
-– Natural lighting with a touch of warmth  
-– Soft shadows and light contrast  
-– Detailed textures with a slightly lighter palette  
-– Visual storytelling with poetic charm and subtle humor  
-– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
-
-The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
-
-Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
-  `;
+  ⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
+    `;
   };
 
   const generateAlbumCover = async () => {
     try {
+      console.log('=== 앨범 커버 생성 디버그 ===');
+      console.log('melodyTitle:', melodyData?.melody_title);
+      console.log('melodyTag:', melodyData?.melody_tag);
+      console.log('melodyGenre:', melodyData?.melody_genre);
+      console.log('fullLyrics (generatedLyric):', generatedLyric);
+
       const refinedPrompt = generateAlbumCoverPrompt({
-        melodyTitle: melody_title,
-        lyricTag: lyricData?.lyric_tag || [],
-        melodyGenre: Array.isArray(melody_genre) ? melody_genre : [melody_genre],
-        lyricStory,
+        melodyTitle: melodyData?.melody_title || '',
+        melodyTag: Array.isArray(melodyData?.melody_tag)
+          ? melodyData.melody_tag
+          : [melodyData?.melody_tag],
+        melodyGenre: Array.isArray(melodyData?.melody_genre)
+          ? melodyData.melody_genre
+          : [melodyData?.melody_genre],
+        fullLyrics: generatedLyric || '',
       });
 
       const response = await client.images.generate({
@@ -782,6 +852,7 @@ Do not include any text, typography, labels, or written characters in the image 
     try {
       // 최종 프롬프트 생성하고 결과 받기
       const generatedPrompt = await generateFinalPrompt();
+      console.log('[🚀 음악 생성 직전] melody_introduction:', melodyData?.melody_introduction);
 
       // 앨범 커버 생성 후 URL 반환
       const cover = await generateAlbumCover();
@@ -814,15 +885,18 @@ Do not include any text, typography, labels, or written characters in the image 
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
     }
-  }, [chatHistory, loading]);
+  }, [chatHistory.length]);
+
   return (
     <div className="chatbot__background">
       {createLoading && <CreateLoading />}
-      <section className="chatbot">
+      <section className="chatbot" style={{ paddingBottom: '120px' }}>
         <SelectItemWrap
           mode="chatbot"
           selectedLanguage={selectedLanguage}

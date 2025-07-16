@@ -52,5 +52,18 @@
  "Lowest Price": "Harga Terendah",
  "Graph List": "Daftar Grafik",
  "Transaction Volume": "Volume Transaksi",
- "Information": "Informasi"
+ "Information": "Informasi",
+ "Set NFT sell conditions": "Atur syarat penjualan NFT",
+ "Grade of NFT": "Tingkat NFT",
+ "Quantity": "Jumlah",
+ "Cumulative MIC earned": "MIC terkumpul",
+ "New": "Baru",
+ "Indie": "Indie",
+ "Rising": "Naik Daun",
+ "Top": "Teratas",
+ "Legend": "Legenda",
+ "Sell price": "Harga jual",
+ "Select token": "Pilih token",
+ "How much will you sell each NFT for? (e.g. 0.05)": "Berapa harga jual per NFT? (misalnya 0.05)",
+ "Sell": "Jual"
 }

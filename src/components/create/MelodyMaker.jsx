@@ -117,41 +117,36 @@ const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
 // ──────────────────────────
 
 // 앨범 커버 프롬프트 생성 함수
-const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
-  // const { lyric_tag = [], lyric_genre = [] } = lyricData;
+const generateAlbumCoverPrompt = ({ melodyTitle, melodyTag, melodyGenre, fullLyrics }) => {
   return `
-      [가사 데이터]
-      태그: ${lyricTag.join(', ')}
-      장르: ${melodyGenre.join(', ')}
-      
-      [노래 제목]
-      ${melodyTitle}
+[Song Metadata]
+- Title: ${melodyTitle}
+- Genre: ${melodyGenre.join(', ')}
+- Tags: ${melodyTag.join(', ')}
+- Lyrics: ${fullLyrics}
 
-      [노래 스토리]
-      ${lyricStory}
-      
-[Design Instructions]
+[Visual Prompt for Album Cover Generation]
 
-Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
-"${lyricStory}"
+Create a cinematic and emotionally expressive illustration based on the song's narrative.  
+Focus on conveying the **core theme** of the lyrics — whether it revolves around a person, place, object, or atmosphere.  
+Adapt the composition and style to match the emotional tone and story of the song, such as warm, nostalgic, vibrant, dreamy, or melancholic.
 
-Use the emotional tone, genre, and tags as creative references:  
-Genre: ${melodyGenre.join(', ')}  
-Tags: ${lyricTag.join(', ')}
+Key Instructions:
+– If the song centers around a **character**, illustrate that character expressing an emotion, action, or memory  
+– If the song focuses on a **place, object, or abstract theme**, depict a scene that visually captures its essence and mood  
+– Show a **clear situation or moment**, not just abstract symbols  
+– Include meaningful **visual cues** that reflect the lyrics (weather, time of day, setting, etc.)
 
-The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
+Styling Notes:
+– Use soft, natural lighting combined with cinematic framing that captures realistic human expressions.  
+– Favor close-up or mid-shot for character-focused scenes  
+– Use wide or atmospheric shots for landscape- or object-focused songs  
+– Match the color palette to the song's emotion  
+– Avoid surreal or overly symbolic art — keep it grounded and narrative-driven  
+– Think of it as a key visual from a movie scene
 
-Focus on:  
-– Natural lighting with a touch of warmth  
-– Soft shadows and light contrast  
-– Detailed textures with a slightly lighter palette  
-– Visual storytelling with poetic charm and subtle humor  
-– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
-
-The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
-
-Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
-    `;
+⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
+  `;
 };
 
 const MelodyMaker = ({
@@ -251,13 +246,20 @@ const MelodyMaker = ({
 
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
+    console.log('=== 앨범 커버 생성 디버그 ===');
+    console.log('melodyTitle:', title);
+    console.log('melodyTag:', melodyData?.melody_tag);
+    console.log('melodyGenre:', melodyData?.melody_genre);
+    console.log('fullLyrics (generatedLyric):', generatedLyric);
+
     // 커버 생성 관련 프롬프트 요청 변수
     const refinedPrompt = generateAlbumCoverPrompt({
-      melodyTitle: title,
-      lyricTag: lyricData?.lyric_tag || [],
+      melodyTitle: title || '',
+      melodyTag: melodyData?.melody_tag || [],
       melodyGenre: melodyData?.melody_genre || [],
-      lyricStory,
+      fullLyrics: generatedLyric || '',
     });
+
     // gpt(dall-e-3) 달리모델에게 이미지 생성 부탁
     const response = await client.images.generate({
       model: 'dall-e-3',
@@ -309,11 +311,24 @@ const MelodyMaker = ({
         }
       }
 
+      // 1. 전처리: 줄바꿈 제거한 상태로 한 줄로 만듦
+      promptText = promptText.replace(/\n/g, ' ').trim();
+
+      // // 2. 첫 번째 블록만 사용 (사용자 프롬프트 내용)
+      // promptText = parts[0];
+
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '')
+        .replace(
+          /(혹시\s*.*|이제\s*.*|도와드릴게요.*|시작해볼까요.*|기대해\s*주세요.*|진행할게요.*)/gi,
+          ''
+        );
+
+      // 3. 결과 확인
+      console.log('[promptText]', promptText);
 
       setFinalPrompt(promptText);
       return promptText;
@@ -344,6 +359,8 @@ const MelodyMaker = ({
         coverImageUrl = await generateAlbumCover();
         setAlbumCover(coverImageUrl);
       }
+
+      console.log('[🚀 생성 직전 melody_introduction 확인]', melody_introduction);
 
       // selectedVersion 에따라 create_ai_type 과 ai_model 구성
       let create_ai_type = '';
@@ -443,6 +460,12 @@ const MelodyMaker = ({
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [generatedMusicResult]);
+
+  useEffect(() => {
+    if (melody_introduction) {
+      console.log('[🎯 melody_introduction 업데이트됨]', melody_introduction);
+    }
+  }, [melody_introduction]);
 
   const { t } = useTranslation('song_create');
 

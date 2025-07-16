@@ -1,0 +1,245 @@
+.song-add-album-modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #0b0b0cb5;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__box {
+    max-width: 400px;
+    width: 100%;
+    max-height: 600px;
+    height: 100%;
+    padding: 32px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid var(--Color-03, #222);
+    background: var(--Color-02, #1a1a1a);
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    flex: 1 0 0;
+    width: 100%;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .song-add-album-modal__title {
+      font-family: Pretendard700;
+      font-size: 24px;
+      color: #f1f1f1;
+      letter-spacing: 0.72px;
+    }
+
+    .song-add-album-modal__close {
+      width: 24px;
+      height: 24px;
+      font-size: 18px;
+      line-height: 24px;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__scroll {
+    width: 100%;
+    max-height: 420px;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__album-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: border 0.2s;
+    position: relative;
+
+    &:hover {
+      border-color: #999;
+    }
+
+    &--selected {
+      border-color: #cf0;
+      background: rgba(255, 255, 255, 0.05);
+      // 이 상태에서는 hover 효과 무시
+      &:hover {
+        border-color: #cf0;
+      }
+    }
+
+    &--registered {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .song-add-album-modal__album-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .song-add-album-modal__album-name {
+        font-family: Pretendard400;
+        font-size: 14px;
+        color: #f1f1f1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 180px;
+      }
+
+      .song-add-album-modal__song-count {
+        font-family: Pretendard400;
+        font-size: 10px;
+        color: #aaa;
+      }
+    }
+
+    .song-add-album-modal__badge {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #fff;
+      font-family: Pretendard400;
+    }
+  }
+
+  &__footer {
+    width: 100%;
+  }
+
+  &__add-btn {
+    width: 100%;
+    height: 56px;
+    border-radius: 16px;
+    font-family: Pretendard700;
+    font-size: 20px;
+    background: #d4ff00;
+    color: #1a1a1a;
+    position: relative;
+    transition: 0.2s;
+
+    &:hover {
+      transform: translateY(5px);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid #cf0;
+      border-radius: 12px;
+      transform: translateY(5px);
+      transition: transform 0.2s;
+    }
+
+    &--disabled,
+    &:disabled {
+      background: #000 !important;
+      border: 1px solid #2c3a00 !important;
+      color: #565656 !important;
+      cursor: not-allowed;
+
+      &:hover {
+        transform: none;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+// 모바일 대응
+@media screen and (max-width: 768px) {
+  .song-add-album-modal {
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    &__box {
+      max-width: 100%;
+      border-radius: 0;
+      border: none;
+      border-top: 1px solid #565656;
+      animation: slideUp 0.3s ease;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .song-add-album-modal__title {
+        font-size: 16px;
+        letter-spacing: 0.48px;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+  }
+}

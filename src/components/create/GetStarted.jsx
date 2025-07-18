@@ -11,8 +11,9 @@ import axios from 'axios';
 import lockIcon from '../../assets/images/icons/lock-icon.svg';
 import typeIcon from '../../assets/images/icons/type-icon.svg';
 import versionIcon from '../../assets/images/icons/version-icon.svg';
-import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.png';
-import standardModeIcon from '../../assets/images/icons/standardmode-icon.png';
+import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.svg';
+import standardModeIcon from '../../assets/images/icons/standardmode-icon.svg';
+import freeModeIcon from '../../assets/images/icons/freemode-icon.svg';
 import rightArrow from '../../assets/images/icons/right-arrow-icon.svg';
 import React from 'react';
 
@@ -41,17 +42,21 @@ const GetStarted = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: 'Chatbot Mode',
-      type: 'chatbot',
-      description: t(`Create music through a conversation with AI
-For boundless creativity, choose Chatbot Mode!`),
+      title: 'Freeform',
+      type: 'freeform',
+      description: t(`Music in a snap freeform and limitless!`),
       keywords: [],
     },
     {
-      title: 'Standard Mode',
+      title: 'Chatbot',
+      type: 'chatbot',
+      description: t(`Create music easily with AI structured and chatbot-style!`),
+      keywords: [],
+    },
+    {
+      title: 'General',
       type: 'standard',
-      description: t(`Choose from a variety of options
-If you need guidance, go with Standard Mode!`),
+      description: t(`Choose from various options need help? Try standard mode!`),
       keywords: [],
     },
   ];
@@ -239,7 +244,7 @@ If you need guidance, go with Standard Mode!`),
               {/* 아이콘 삽입 */}
               <img
                 className="create__get-started--format-item-icon"
-                src={format.type === 'chatbot' ? chatbotModeIcon : standardModeIcon}
+                src={format.type === 'chatbot' ? chatbotModeIcon : format.type === 'freeform' ? freeModeIcon : standardModeIcon}
                 alt={`${format.title} icon`}
               />
               <h3 className="create__get-started--format-item-title">{t(format.title)}</h3>

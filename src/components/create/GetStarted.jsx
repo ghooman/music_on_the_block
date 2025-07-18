@@ -270,9 +270,18 @@ const GetStarted = ({
             }`}
             onClick={() => {
               if (activeIndex === null || remainCount === 0) return;
-              const mode = activeIndex === 0 ? 'chatbot' : 'select';
+
+              let mode;
+              if (activeIndex === 0) {
+                mode = 'freeform';
+              } else if (activeIndex === 1) {
+                mode = 'chatbot';
+              }else {
+                mode = 'select';
+              }
+
               setCreateMode(mode);
-              handler();
+              handler();          
             }}
             disabled={remainCount === 0 || activeIndex === null}
           >

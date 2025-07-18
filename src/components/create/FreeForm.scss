@@ -189,5 +189,30 @@
         transform: scale(1);
     }
   }
-}// custom-lyrics modal END
+}
+// custom-lyrics modal btn START
+.lyrics-modal__btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: Pretendard600;
+    background: #333;
+    color: #aaa;
+    border: 1px solid transparent;
+    pointer-events: none;
 
+    &--active {
+        background: #cf0;
+        color: #000;
+        pointer-events: auto;
+    }
+
+    &--editing {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.20);
+        color: #fff;
+        pointer-events: auto;
+    }
+} // custom-lyrics modal btn END
+// custom-lyrics modal END

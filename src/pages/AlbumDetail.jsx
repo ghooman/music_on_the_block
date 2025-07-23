@@ -369,7 +369,7 @@ function AlbumDetail() {
         setIsReleaseModal(true);
         break;
       case 'sell':
-        navigate(`/nft/sell/detail/${album?.id}/${album?.nft_id}`);
+        navigate(`/nft/sell/details/${album?.id}/${album?.nft_id}`);
         break;
       case 'cancel':
         navigate(`/nft/detail/${album?.nft_id}`);

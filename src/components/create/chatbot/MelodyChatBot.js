@@ -682,26 +682,29 @@ const MelodyChatBot = ({
   
 [Visual Prompt for Album Cover Generation]
 
-Create a cinematic and emotionally expressive illustration based on the song's narrative.  
-Focus on conveying the **core theme** of the lyrics — whether it revolves around a person, place, object, or atmosphere.  
-Adapt the composition and style to match the emotional tone and story of the song, such as warm, nostalgic, vibrant, dreamy, or melancholic.
+Create a visually expressive and cinematic illustration inspired by the overall narrative and emotion of the lyrics provided above.
 
-Key Instructions:
-– If the song centers around a **character**, illustrate that character expressing an emotion, action, or memory  
-– If the song focuses on a **place, object, or abstract theme**, depict a scene that visually captures its essence and mood  
-– Show a **clear situation or moment**, not just abstract symbols  
-– Include meaningful **visual cues** that reflect the lyrics (weather, time of day, setting, etc.)
+Instructions:
+– Identify the main **emotion** and **subject matter** of the song from the lyrics (e.g., celebration, longing, love, nostalgia, solitude, connection).  
+– Then, illustrate a **clear and grounded scene** that visually conveys this.  
+– The image should depict a **realistic moment or situation**, not just abstract or symbolic elements.  
+– Include **visual context cues** like weather, lighting, time of day, background setting, or human interactions that help reflect the story.  
+– Focus on emotional clarity — the viewer should feel the atmosphere and message of the song just by looking at the image.
 
-Styling Notes:
-– Use soft, natural lighting combined with cinematic framing that captures realistic human expressions.  
-– Favor close-up or mid-shot for character-focused scenes  
-– Use wide or atmospheric shots for landscape- or object-focused songs  
-– Match the color palette to the song's emotion  
-– Avoid surreal or overly symbolic art — keep it grounded and narrative-driven  
-– Think of it as a key visual from a movie scene
-  
-  ⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
-    `;
+Styling Guidelines:
+– Use **soft natural lighting** and cinematic composition.  
+– For character-driven songs, use a **close-up or mid-shot** focusing on expressions, gestures, or body language.  
+– For songs centered on places or scenes, use **wide or atmospheric shots**.  
+– Adjust the **color palette** to match the song's emotion:  
+   • Warm and bright for joy, gratitude, or love  
+   • Cool and muted for sadness, reflection, or loneliness  
+   • Dramatic or moody contrast for tension or rebellion  
+– Avoid surrealism, fantasy, or dream-like distortion.  
+– Treat the illustration as a **still from a meaningful movie scene**, not a poster or graphic.
+
+⚠️ Do NOT include any text, symbols, logos, or typography. The image should tell the story visually.
+
+`;
   };
 
   const generateAlbumCover = async () => {

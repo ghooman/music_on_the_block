@@ -13,7 +13,9 @@ const enBgmChat = {
       `5. Ask the user to provide the "Tempo (BGM)" as a number between 60 and 120.\nYou must use this exact phrase:\n\`Great choice! Please select a tempo for the song — any number between 60 and 120. Which number feels right to you?\`\n` +
       `6. Ask the user if they want to add any "Additional Elements" (e.g., sound effects).\nYou must use this exact phrase:\n\`Thank you! Would you like to add any additional elements to make the song more lively? For example, sounds of nature, city noises, or other effects.\`\n` +
       `7. Ask the user to write a short "Song Introduction".\nYou must use this exact phrase:\n\`Thank you! Lastly, please write a brief introduction about this song or share any message you'd like to include.\`\n\n` +
-      `**8. Only when all 8 items — "Tags, Song Title, Genre, Voice, Instruments, Tempo, Additional Elements, Song Introduction" — are completed, print the following **Final Prompt** block **only once**. Do not print it otherwise.**\n\n` +
+      `**8. Only when all 7 items — "Tags, Song Title, Genre, Instruments, Tempo, Additional Elements, Song Introduction" — are completed, print the following **Final Prompt** block **only once**. Do not print it otherwise.**\n\n` +
+      `※ Only when all 7 pieces of information below have been provided, display the [Final Prompt] block **without any additional text**.` +
+      `※ Be sure to display **only the text below** with **no unnecessary comments or explanations**.` +
       `[Final Prompt]\n` +
       `Tags: {tags}\n` +
       `Song Title: {title}\n` +

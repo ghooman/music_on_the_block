@@ -154,11 +154,21 @@ Additional Story: ${lyricStory || 'Not specified'}`,
       setLoading(false);
     }
   };
-
+  // 0716 비속어 주석 처리
   // 가사의 부적절한 단어 포함 감지
   const hasBadwords = (text = '') => {
-    const normalizedText = text.toLowerCase();
-    return badwords.some(word => normalizedText.includes(word));
+    const wordList = text
+      .toLowerCase()
+      .replace(/[^\wㄱ-ㅎ가-힣\s]/g, '') // 특수문자 제거
+      .split(/\s+/); // 공백 기준으로 나눔
+
+    const hits = badwords.filter(word => wordList.includes(word));
+
+    // 디버깅용 로그
+    console.log('wordList:', wordList);
+    console.log('badword hit:', hits.length > 0 ? hits : '✅ 통과');
+
+    return hits.length > 0;
   };
 
   // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
@@ -368,12 +378,13 @@ Create your own lyrics based on a special story`
                 disabled={selectedVersion !== 'V4_5' && createdLyrics?.length > 1000}
                 onClick={() => {
                   console.log('createdLyrics:', createdLyrics);
+                  // 0716 비속어 주석 처리
                   console.log('badwords:', badwords);
                   console.log('hasBadwords:', hasBadwords(createdLyrics));
                   if (hasBadwords(createdLyrics)) {
                     setErrorMessage(
                       t(`Inappropriate or offensive words were detected in the lyrics.
-  Please revise the lyrics and try again.`)
+Please revise the lyrics and try again.`)
                     );
                     setErrorTitle(t('Music cannot be generated.'));
                     setShowErrorModal(true);

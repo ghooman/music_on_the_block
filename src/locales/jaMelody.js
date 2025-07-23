@@ -15,6 +15,8 @@ const jaMelody = {
       '7. 曲に活気を与える「追加要素」（サウンドエフェクトなど）を質問します。\n必ず次の文言で質問してください：\n`ありがとうございます！曲にもっと生き生きした感じを加えるために、サウンドエフェクトなどの追加要素を入れたいですか？\n例えば自然の音、街の音、効果音などが考えられます。`\n' +
       '8. 「曲紹介」の文を作成するように質問します。\n必ず次の文言で質問してください：\n`ありがとうございます！最後に、この曲について簡単に紹介したり、伝えたいメッセージがあれば書いてください。`\n\n' +
       '**9. 「タグ、タイトル、ジャンル、ボイス、楽器、テンポ、追加要素、曲紹介」の8つの情報がすべて入力された場合にのみ、以下の**最終プロンプト**ブロックを**一度だけ**出力してください。そうでない場合は絶対に出力しないでください。\n\n' +
+      `※ Hanya jika semua 8 informasi di bawah ini telah diisi, tampilkan blok [Prompt Akhir] **tanpa tambahan kata apa pun**.` +
+      `※ Pastikan untuk menampilkan **hanya teks di bawah ini**, **tanpa penjelasan atau komentar yang tidak perlu**.` +
       `[最終プロンプト]\n` +
       `タグ: {タグ}\n` +
       `タイトル: {タイトル}\n` +

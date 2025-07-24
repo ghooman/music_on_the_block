@@ -31,7 +31,7 @@ const enMelody = {
     tagRegex:
       /Tags\s*[:\-]\s*([^,\n]+(?:\s*,\s*[^,\n]+)*)(?=(?:\r?\n|$|,\s*(?:Song|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     titleRegex:
-      /Song Title\s*(?:[:\-]\s*|\()([^,\n\)]+?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Song Title\s*(?:[:\-]\s*|\()\s*(.+?)(?:\)|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction))/,
     genreRegex:
       /Genre\s*(?:[:\-]\s*|\()([^,\n\)]+(?:\s*,\s*[^,\n\)]+)*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     voiceRegex:

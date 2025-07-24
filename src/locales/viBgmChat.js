@@ -29,7 +29,7 @@ const viBgmChat = {
     tagRegex:
       /Thẻ\s*[:：\-]\s*([^,\n\r]+(?:\s*,\s*[^,\n\r]+)*?)(?=\s*(?:Tiêu đề|Giới thiệu|Thể loại|Nhạc cụ|Tempo|Yếu tố thêm)|$)/i,
     titleRegex:
-      /(?:Tiêu đề|Tên bài hát)\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Thể loại|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu)|$)/i,
+      /(?:Tiêu đề|Tên bài hát)\s*[:：\-]?\s*(.+?)(?=\s*(?:Thể loại|Giọng hát|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu|$))/i,
     genreRegex:
       /Thể loại\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Thẻ|Tiêu đề|Nhạc cụ|Tempo|Yếu tố thêm|Giới thiệu)|$)/i,
     instrumentRegex: /Nhạc cụ\s*[:：\-]\s*([^\n]+?)(?=\s*\n\s*(?:Tempo|Yếu tố thêm|Giới thiệu)|$)/i,

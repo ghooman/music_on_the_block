@@ -31,7 +31,7 @@ const idMelody = {
     tagRegex:
       /Tag\s*[:：\-]\s*([^,\n\r]+(?:\s*,\s*[^,\n\r]+)*?)(?=\s*(?:Judul|Genre|Suara|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     titleRegex:
-      /(?:Judul Lagu|Judul)\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Genre|Suara|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
+      /(?:Judul Lagu|Judul)\s*[:：\-]?\s*(.+?)(?=\s*(?:Genre|Suara|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu|$))/i,
     genreRegex:
       /Genre\s*[:：\-]\s*([^,\n]+(?:\s*,\s*[^,\n]+)*?)(?=\s+(?:Tag|Judul|Suara|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     voiceRegex:

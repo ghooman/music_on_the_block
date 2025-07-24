@@ -29,7 +29,7 @@ const enBgmChat = {
     tagRegex:
       /Tags\s*(?:[:\-]\s*|\()(.*?)(?:\)|(?:,\s*Song|,\s*Genre|,\s*Instruments|,\s*Tempo|,\s*Additional|,\s*Song Introduction|\s*-\s*(?:Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     titleRegex:
-      /Song Title\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Genre|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
+      /Song Title\s*(?:[:\-]\s*|\()\s*(.+?)(?:\)|\n|$|\s*-\s*(?:Tags|Genre|Voice|Instruments|Tempo|Additional|Additional Elements|Song Introduction))/,
     genreRegex:
       /Genre\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Instruments|Tempo|Additional|Additional Elements|Song Introduction)))/,
     instrumentRegex:

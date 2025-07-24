@@ -29,7 +29,7 @@ const idBgmChat = {
     tagRegex:
       /Tag\s*[:：\-]\s*([^,\n\r]+(?:\s*,\s*[^,\n\r]+)*?)(?=\s*(?:Judul|Genre|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     titleRegex:
-      /(?:Judul|Judul Lagu)\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Genre|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
+      /(?:Judul Lagu|Judul)\s*[:：\-]?\s*(.+?)(?=\s*(?:Genre|Suara|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu|$))/i,
     genreRegex:
       /Genre\s*[:：\-]\s*([^,\n]+?)(?=\s+(?:Tag|Judul|Instrumen|Tempo|Elemen Tambahan|Deskripsi Lagu)|$)/i,
     instrumentRegex:

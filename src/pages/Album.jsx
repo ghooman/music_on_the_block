@@ -1,8 +1,9 @@
 import '../styles/Album.scss';
-import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo,  } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useAudio } from '../contexts/AudioContext';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
@@ -11,9 +12,12 @@ import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
+import songCreateImg from '../assets/images/album/music-icon.png';
+import mainBannerImg1 from '../assets/images/album/main-banner01.png';
 import songCreateIcon1 from '../assets/images/album/song-create-icon1.png';
 import songCreateIcon2 from '../assets/images/album/song-create-icon2.png';
 import songCreateIcon3 from '../assets/images/album/song-create-icon3.png';
+import { FaArrowRight } from "react-icons/fa";
 
 import PreparingModal from '../components/PreparingModal';
 
@@ -34,6 +38,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
+
 
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
@@ -199,54 +204,51 @@ function Album() {
 
   console.log('앨범');
 
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="main">
-        <section className="main__to-day-header">
-          <div className="main__to-day-header__song-create">
-            <p className="main__to-day-header__song-create__title">
-              {t('What shall we try today?')}
-            </p>
-            <div className="main__to-day-header__song-create-list">
-              <Link to="/create" className="main__to-day-header__song-create-list__item">
-                <p className="main__to-day-header__song-create-list__item__title">
-                  {/* <br /> */}
-                  <span>{t('very quickly')}</span>
-                  {t('Create your own song')}
-                </p>
-                <img src={songCreateIcon1} alt="songCreateIcon1" />
-                <p className="main__to-day-header__song-create-list__item__title__sub">
-                  {t('Try it now')}
-                </p>
-              </Link>
-              <Link to="/evaluation" className="main__to-day-header__song-create-list__item">
-                <p className="main__to-day-header__song-create-list__item__title">
-                  {t('Get your song')}
-                  {/* <br /> */}
-                  <span>{t('evaluated')}</span>
-                </p>
-                <img src={songCreateIcon2} alt="songCreateIcon2" />
-                <p className="main__to-day-header__song-create-list__item__title__sub">
-                  {t('Try it now')}
-                </p>
-              </Link>
-              <Link
-                onClick={() => setPreparingModal(true)}
-                className="main__to-day-header__song-create-list__item"
-              >
-                <p className="main__to-day-header__song-create-list__item__title">
-                  {t('Create a song')}
-                  {/* <br /> */}
-                  <span>{t('with your own voice')}</span>
-                </p>
-                <img src={songCreateIcon3} alt="songCreateIcon3" />
-                <p className="main__to-day-header__song-create-list__item__title__sub">
-                  {t('Coming soon!')}
-                </p>
-              </Link>
-            </div>
-          </div>
-        </section>
+        <div className='banner-slider'>
+          <Swiper
+            className="banner-slider__swiper"
+            modules={[Autoplay, Pagination]}
+            autoplay={{ delay: 6000, disableOnInteraction: false }}
+            loop={true}
+            allowTouchMove={true}
+            pagination={{ clickable: true }}
+          >
+            <SwiperSlide>
+              <div className="banner-slider__swiper-list" onClick={() => navigate('/create')}>
+                <div className='banner-slider__swiper-content banner-slider__swiper-content__crafted'>
+                  <div className='swiper-context'>
+                    <h2 className='banner-slider__welcome-txt'>Welcome To Music On The block!</h2>
+                    <div className='banner-slider__welcome-desc'>
+                      <p className='desc-txt'>
+                        <span>{t('Your own')}</span>
+                        <strong>{t('unique music,')}</strong>
+                      </p>
+                      <p className='desc-txt'>
+                        <span>{t('Created in no time')}</span>
+                        <strong>{t('with a simple guide.')}</strong>
+                      </p>
+                    </div>
+                    <p className='banner-slider__creattion-txt'>{t('Create Music')}<FaArrowRight width={6} color='#fff' opacity={0.7} /></p>
+                  </div>
+                  <img src={songCreateImg} alt="" className='banner-slider__music-icon' />
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="banner-slider__swiper-list">
+                <div className="banner-slider__swiper-content">
+                  <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
+                </div>
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
+
         {/* <article className="album__content-list__tab">
           <button
             className={`album__content-list__tab__item ${

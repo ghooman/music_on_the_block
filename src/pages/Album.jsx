@@ -374,26 +374,50 @@ function Album() {
             </h2>
 
             <Swiper
-              ref={artistSwiperRef}
-              onSlideChange={handleArtistSlideChange}
-              slidesPerView="auto"
+              modules={[Autoplay]} 
+              slidesPerView={9}
               centeredSlides={true}
-              initialSlide={1}
               loop={true}
-              spaceBetween={100}
-              grabCursor={true}
+              initialSlide={Math.floor(artistList.length / 2)}
+              slidesPerGroup={1} 
+              resistanceRatio={0}    
+              longSwipesRatio={0.99}
+              longSwipesMs={300}       
+              threshold={20}          
+              speed={400}             
+              autoplay={{
+                delay: 3000,  
+                disableOnInteraction: true, 
+              }}
+              breakpoints={{
+                1600: {
+                  slidesPerView: 9,
+                },
+                1360: {
+                  slidesPerView: 7,
+                },
+                768: {
+                  slidesPerView: 5,
+                },
+                480: {
+                  slidesPerView: 3,
+                },
+                0: {
+                  slidesPerView: 2,
+                },
+              }}
               className="artist-slider"
             >
               {artistList.map((artist, idx) => (
                 <SwiperSlide key={idx}>
-                  <figure className={`artist-item ${idx === artistActiveIndex ? 'is-active' : ''}`}>
+                  <figure className={`artist-item ${artistActiveIndex === idx % artistList.length ? 'is-active' : ''}`}>
                     <div className="artist-thumb">
                       <img src={artist.coverImage} alt={artist.name} />
                     </div>
                     <figcaption className="artist-info">
                       <h3 className="artist-name">
                         <span>{artist.name}</span>
-                        <img src={artistLevelIcon} alt="Artist Level Icon" />
+                        <img src={artistLevelIcon} alt="Artist Level Icon" className='artist-level' />
                       </h3>
                       <p className='artist-meta'>
                         <span>Music 
@@ -411,36 +435,12 @@ function Album() {
           </section>
 
 
-            <ListSlider
-              hitMusicList={hitList}
-              currentTime={currentTime}
-              handleLikeClick={handleLikeClick}
-              currentTrack={currentTrack}
-              handlePlay={handlePlay}
-              id="slide"
-              isTrackActive={isTrackActive}
-            />
-
           {/* 추천 앨범 캐러셀 */}
-          {/* <section className="main-album-carousel">
-            <Swiper
-              spaceBetween={12}
-              slidesPerView={'auto'}
-              grabCursor={true}
-            >
-              {albumData.map((album, idx) => (
-                <SwiperSlide key={idx} style={{ width: '200px' }}>
-                  <AlbumCollectionItems.Item
-                    {...album}
-                    target="Collection"
-                    handleNavigate={handleNavigate}
-                    handleDetail={handleDetail}
-                    translateFn={translateFn}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </section> */}
+          <section className="main-album-carousel">
+            <h2 className='album__content-list__title'>
+              {t('Recommended Albums')}
+            </h2>
+          </section>
         </div>
 
         {/* NFT 마켓플레이스 */}

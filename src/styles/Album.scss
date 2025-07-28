@@ -170,7 +170,7 @@
     }
   }
   .swiper-slide-active{
-    transform: scale(0.95) !important;
+    transform: scale(1) !important;
     opacity: 1;
     z-index: 2;
     .artist-item{
@@ -326,7 +326,6 @@
             color: #fff;
             font-family: Pretendard700;
             font-size: 24px;
-            // margin-bottom: 16px;
             position: relative;
             z-index: 1;
             font{
@@ -486,14 +485,13 @@
   .album__content-list__title{
     display: flex;
     align-items: center;
-    // justify-content: space-between;
     gap: 16px;
     color: #cf0;
     font-family: Pretendard400;
     font-size: 24px;
     font-style: normal;
     line-height: normal;
-    margin: 16px 0;
+    margin: 20px 0;
     position: relative;
     width: 100%;
       font{

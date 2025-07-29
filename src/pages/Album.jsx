@@ -13,12 +13,11 @@ import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
 import songCreateImg from '../assets/images/album/music-icon.png';
-import mainBannerImg1 from '../assets/images/album/main-banner01.png';
-import clearIcon from '../assets/images/icons/clear-icon.svg';
-import searchIcon from '../assets/images/icons/search-icon.svg';
+import mainBannerImg1 from '../assets/images/album/main-banner01.png'
 import artistSampleImg from '../assets/images/album/artist-sample.png';
 import artistLevelIcon from '../assets/images/icons/artist-level-icon.svg';
 import { FaArrowRight } from "react-icons/fa";
+import defaultAlbumImage from '../assets/images/album/album-cover.png';
 
 import PreparingModal from '../components/PreparingModal';
 
@@ -30,6 +29,7 @@ import AlbumItem from '../components/unit/AlbumItem';
 import IntroLogo2 from '../components/IntroLogo2';
 import NoneContent from '../components/unit/NoneContent';
 import AlbumCollectionItems from '../components/mypage/albumsAndCollectionsComponents/AlbumCollectionItems';
+import SearchBar from '../components/unit/SearchBar';
 
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -217,7 +217,7 @@ function Album() {
     setSearch('');
   };
 
-  // artist slider
+  // 추천 아티스트 슬라이더
   const artistSwiperRef = useRef(null);
   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
 
@@ -226,7 +226,7 @@ function Album() {
   };
 
 
-  // artist sample data
+  // 추천 아티스트 데이터
   const artistList = [
   {
     name: 'Artist Name',
@@ -289,6 +289,68 @@ function Album() {
     follower: 19,
   },
 ];
+// 추천 앨범 리스트 
+const handleNavigate = (albumId) => {
+  navigate(`/album/${albumId}`);
+};
+const albumList = [
+  {
+    id: 1,
+    title: 'MUSIC ON THE BLOCK',
+    artist: '징쨩',
+    songCount: 12,
+    isOwner: true,
+    coverImage: '/assets/images/sample-album.png',
+  },
+  {
+    id: 2,
+    title: 'ALBUM B',
+    artist: 'Artist B',
+    songCount: 8,
+    isOwner: false,
+    coverImage: '/assets/images/sample-album2.png',
+  },
+  {
+    id: 3,
+    title: 'ALBUM B',
+    artist: 'Artist B',
+    songCount: 8,
+    isOwner: false,
+    coverImage: '/assets/images/sample-album2.png',
+  },
+  {
+    id: 4,
+    title: 'ALBUM B',
+    artist: 'Artist B',
+    songCount: 8,
+    isOwner: false,
+    coverImage: '/assets/images/sample-album2.png',
+  },
+  {
+    id: 5,
+    title: 'ALBUM B',
+    artist: 'Artist B',
+    songCount: 8,
+    isOwner: false,
+    coverImage: '/assets/images/sample-album2.png',
+  },
+  {
+    id: 6,
+    title: 'ALBUM B',
+    artist: 'Artist B',
+    songCount: 8,
+    isOwner: false,
+    coverImage: '/assets/images/sample-album2.png',
+  },
+  {
+    id: 7,
+    title: 'ALBUM B',
+    artist: 'Artist B',
+    songCount: 8,
+    isOwner: false,
+    coverImage: '/assets/images/sample-album2.png',
+  },
+];
 
   return (
     <>
@@ -333,23 +395,11 @@ function Album() {
           </Swiper>
         </div>
 
-        <section className='search-section'>
-          <h2 className='search-section__tit'>{t('What are you looking for?')}</h2>
-          <div className='search-section__search-bar'>
-            <input type="text" className='search-bar__input' placeholder={t('Search for music and artists')} aria-label={t('Search for music and artists')} 
-              value={search} onChange={handleChange}
-            />
-            <div className='search-bar__button'>
-              <button className={`search-bar__btn-reset${search.length > 0 ? ' search-bar__btn-reset--typing' : ''}`} onClick={handleClear} 
-                aria-label={t('Clear Search Form')}>
-                <img src={clearIcon} alt="" />
-              </button>
-              <button className='search-bar__btn-search' aria-label={t('Search')}>
-                <img src={searchIcon} alt="" />
-              </button>
-            </div>
-          </div>
-        </section>
+      <SearchBar
+        search={search}
+        handleChange={handleChange}
+        handleClear={handleClear}
+      />
 
         <div className="main__content-item">
           {/* 인기 음악 */}
@@ -367,79 +417,106 @@ function Album() {
             isTrackActive={isTrackActive}
           />
 
-          {/* 추천 아티스트 슬라이드 */}
+          {/* 추천 아티스트 캐러셀 */}
           <section className='artist-section'>
             <h2 className='album__content-list__title'>
               {t('Recommended Artists')}
             </h2>
-
-            <Swiper
-              modules={[Autoplay]} 
-              slidesPerView={9}
-              centeredSlides={true}
-              loop={true}
-              initialSlide={Math.floor(artistList.length / 2)}
-              slidesPerGroup={1} 
-              resistanceRatio={0}    
-              longSwipesRatio={0.99}
-              longSwipesMs={300}       
-              threshold={20}          
-              speed={400}             
-              autoplay={{
-                delay: 3000,  
-                disableOnInteraction: true, 
-              }}
-              breakpoints={{
-                1600: {
-                  slidesPerView: 9,
-                },
-                1360: {
-                  slidesPerView: 7,
-                },
-                768: {
-                  slidesPerView: 5,
-                },
-                480: {
-                  slidesPerView: 3,
-                },
-                0: {
-                  slidesPerView: 2,
-                },
-              }}
-              className="artist-slider"
-            >
-              {artistList.map((artist, idx) => (
-                <SwiperSlide key={idx}>
-                  <figure className={`artist-item ${artistActiveIndex === idx % artistList.length ? 'is-active' : ''}`}>
-                    <div className="artist-thumb">
-                      <img src={artist.coverImage} alt={artist.name} />
-                    </div>
-                    <figcaption className="artist-info">
-                      <h3 className="artist-name">
-                        <span>{artist.name}</span>
-                        <img src={artistLevelIcon} alt="Artist Level Icon" className='artist-level' />
-                      </h3>
-                      <p className='artist-meta'>
-                        <span>Music 
-                          <small>{artist.music}</small>
-                        </span>
-                        <span>Follower 
-                          <small>{artist.follower}</small>
-                        </span>
-                      </p>
-                    </figcaption>
-                  </figure>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className='artist-slider-wrap'>
+              <Swiper
+                modules={[Autoplay]} 
+                slidesPerView={9}
+                centeredSlides={true}
+                loop={true}
+                initialSlide={Math.floor(artistList.length / 2)}
+                slidesPerGroup={1} 
+                resistanceRatio={0}    
+                longSwipesRatio={0.99}
+                longSwipesMs={300}       
+                threshold={20}          
+                speed={400}             
+                autoplay={{
+                  delay: 3000,  
+                  disableOnInteraction: true, 
+                }}
+                breakpoints={{
+                  1600: {
+                    slidesPerView: 9,
+                  },
+                  1360: {
+                    slidesPerView: 7,
+                  },
+                  768: {
+                    slidesPerView: 5,
+                  },
+                  480: {
+                    slidesPerView: 3,
+                  },
+                  0: {
+                    slidesPerView: 2,
+                  },
+                }}
+                className="artist-slider"
+              >
+                {artistList.map((artist, idx) => (
+                  <SwiperSlide key={idx}>
+                    <figure className={`artist-item ${artistActiveIndex === idx % artistList.length ? 'is-active' : ''}`}>
+                      <div className="artist-thumb">
+                        {/* 선택한 아티스트의 페이지로 이동 */}
+                        <Link to="/my-page?category=AI+Services">
+                          <img src={artist.coverImage} alt={artist.name} />
+                        </Link>
+                      </div>
+                      <figcaption className="artist-info">
+                        <h3 className="artist-name">
+                          <span>{artist.name}</span>
+                          <img src={artistLevelIcon} alt="Artist Level Icon" className='artist-level' />
+                        </h3>
+                        <p className='artist-meta'>
+                          <span>Music 
+                            <small>{artist.music}</small>
+                          </span>
+                          <span>Follower 
+                            <small>{artist.follower}</small>
+                          </span>
+                        </p>
+                      </figcaption>
+                    </figure>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </section>
 
 
-          {/* 추천 앨범 캐러셀 */}
-          <section className="main-album-carousel">
+          {/* 추천 앨범 리스트 */}
+          <section className="album-section">
             <h2 className='album__content-list__title'>
               {t('Recommended Albums')}
             </h2>
+            <Swiper
+                slidesPerView={'auto'}
+                spaceBetween={16}
+                grabCursor={true}
+                loop={false}
+                centeredSlides={false}
+                className="recommended-albums-slider"
+              >
+                {albumList.map((album) => (
+                  <SwiperSlide key={album.id} className='recommended-albums-item'>
+                    <AlbumCollectionItems.Item
+                      name={album.title}
+                      artist={album.artist}
+                      count={album.songCount}
+                      isOwner={album.isOwner}
+                      coverImage={album.defaultAlbumImage}
+                      handleNavigate={() => handleNavigate(album.id)}
+                      target="Collection"
+                      translateFn={(word) => word}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
           </section>
         </div>
 

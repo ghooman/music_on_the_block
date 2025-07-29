@@ -102,58 +102,32 @@
 } // swiper Indicator END
 
 
-// search-section START
-.search-section{
-  margin-bottom: 60px;
-  &__tit{
-    font-weight: 700;
-    color: #fff;
-    font-size: clamp(14px, 1.5vw, 20px);
-    line-height: clamp(22px, 2.2vw, 30px);
-    margin-bottom: 16px;
-  }
-  &__search-bar{
-    position: relative;
-    max-width: 500px;
-    .search-bar__input{
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      background-color: rgba(255, 255, 255, 0.05);
-      font-size: 14px;
-      line-height: 22px;
-      font-weight: 400;
-      color: #fff;
-      border-radius: 30px;
-      padding-right: 80px !important;
-      &::placeholder{
-        color: #767676;
-      }
-      &:focus{
-        border-color: rgba(255, 255, 255, 0.50);
-      }
-      &:focus::placeholder{
-        color: transparent;
-      }
-    }
-    .search-bar__button{
-      position: absolute;
-      right: 16px;
-      top: 0;
-      height: 42px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      column-gap: 12px;
-    }
-    .search-bar__btn-reset{
-      display: none;
-      &--typing{
-        display: block;
-      }
-    }
-  }
-}// search-section END
-
 // artist-slider START
+.artist-slider-wrap{
+  position: relative;
+  overflow: hidden;
+
+  &::before,
+  &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 30%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+  }
+  
+  &::before{
+    left: 0;
+    background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.8) 50%, rgba(18, 18, 18, 0) 100%);
+  }
+
+  &::after{
+    right: 0;
+    background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.8) 50%, rgba(18, 18, 18, 0) 100%);
+  }
+}
 .artist-slider{
   width: 100%;
   max-width: 100%;
@@ -231,6 +205,24 @@
     }
   }
 } // artist-slider END
+
+// album-section START
+.album-section{
+  .recommended-albums-slider{
+    padding-right: 0 !important;
+  }
+  .recommended-albums-item{
+    flex: 0 0 auto;
+    min-width: 320px;
+    max-width: 320px;
+    -webkit-overflow-scrolling: touch;
+    
+  }
+  .album-collections-module-items__info--edit-btn{
+    display: none;
+  }
+} // album-section END
+
 
 
   // .album__content-list{

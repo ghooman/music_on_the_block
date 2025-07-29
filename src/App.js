@@ -17,6 +17,8 @@ import NftSellList from './pages/NftSellList';
 import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
 import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 import VoiceTrainer from './pages/VoiceTrainer';
+import SearchResult from './pages/SearchResult';
+
 // 컴포넌트
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -348,6 +350,14 @@ function App() {
                       <ProtectedRoute>
                         <LicenseKey/>
                       </ProtectedRoute>
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/search-result"
+                  element={
+                    <Layout>
+                      <SearchResult />
                     </Layout>
                   }
                 />

@@ -2,7 +2,7 @@
 .banner-slider{
   width: 100%;
   position: relative;
-  padding-bottom: clamp(40px, 3.5vw, 60px);
+  padding-bottom: clamp(40px, 2.8vw, 60px);
   overflow: hidden;
   &__swiper{
     width: 100%;
@@ -112,9 +112,9 @@
     content: '';
     position: absolute;
     top: 0;
-    width: 30%;
+    width: 25%;
     height: 100%;
-    z-index: 5;
+    z-index: 2;
     pointer-events: none;
   }
   
@@ -182,6 +182,12 @@
       line-height: clamp(24px, 1.6vw, 36px);
       color: #fff;
       font-weight: 400;
+      span{
+        max-width: 130px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       .artist-level{
         width: 100%;
         max-width: 20px;

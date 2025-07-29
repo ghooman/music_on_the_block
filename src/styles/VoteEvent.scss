@@ -1,0 +1,8 @@
+.vote-wrapper{
+    width: calc(100% - 246px);
+    margin-left: auto;
+    @media screen and (max-width: 1000px) {
+        width: 100%;
+        padding: 114px 16px 100px;
+    }
+}

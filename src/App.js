@@ -18,6 +18,7 @@ import AlbumsEdit from './components/mypage/songs/AlbumsEdit';
 import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 import VoiceTrainer from './pages/VoiceTrainer';
 import SearchResult from './pages/SearchResult';
+import VoteEvent from './pages/VoteEvent';
 
 // 컴포넌트
 import Header from './components/Header';
@@ -359,6 +360,12 @@ function App() {
                     <Layout>
                       <SearchResult />
                     </Layout>
+                  }
+                />
+                <Route
+                  path="vote-event"
+                  element={
+                    <VoteEvent />
                   }
                 />
               </Routes>

@@ -195,10 +195,11 @@ function SearchResult() {
             {/* Album 탭 클릭 시 */}
             {selectedTab === 'Album' && (
             <div className="result-list__album">
-                {album.length > 0 ? (
-                album.map((album) => (
+                {pagedAlbum.length > 0 ? (
+                <>
+                    {pagedAlbum.map((album) => (
                     <div key={album.id} className="album-card">
-                    <AlbumCollectionItems.Item
+                        <AlbumCollectionItems.Item
                         name={album.title}
                         artist={album.artist}
                         count={album.songCount}
@@ -207,9 +208,16 @@ function SearchResult() {
                         handleNavigate={() => handleNavigate(album.id)}
                         target="Collection"
                         translateFn={(word) => word}
-                    />
+                        />
                     </div>
-                ))
+                    ))}
+                    <Pagination
+                    totalCount={album.length}
+                    viewCount={viewCountAlbum}
+                    page={albumPage}
+                    setPage={setAlbumPage}
+                    />
+                </>
                 ) : (
                 <div className="no-result-txt">{t('No search results found.')}</div>
                 )}

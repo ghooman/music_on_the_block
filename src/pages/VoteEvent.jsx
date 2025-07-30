@@ -15,6 +15,22 @@ import BannerIcon04 from '../assets/images/vote/vote-icon-04.png';
 import '../styles/VoteEvent.scss';
 
 function VoteEvent() {
+    const topMusicList = [
+        {
+            id: 1,
+            title: 'Music name',
+            artist: 'Yolkhead',
+            votes: 2115,
+            image: 'cover1.jpg',
+        },
+        {
+            id: 2,
+            title: 'Another music',
+            artist: 'Yolkhead',
+            votes: 1544,
+            image: 'cover2.jpg',
+        },
+    ];
   return (
     <>
       <div className="header-flex">
@@ -46,7 +62,7 @@ function VoteEvent() {
                     </div> */}
                 </div>
                 <div className="info-section__apply-content">
-                    <h2 className="unfo-section__tit">신청방법</h2>
+                    <h2 className="info-section__tit">신청방법</h2>
                     <ul>
                         <li>
                             <strong>STEP 01</strong>
@@ -56,36 +72,56 @@ function VoteEvent() {
                             </p>
                         </li>
                         <li>
-                            <strong>STEP 01</strong>
+                            <strong>STEP 02</strong>
                             <p>
                                 캡쳐한 이미지를 카카오톡 채널에 전송하면, 뮤직온더블록에서
                                 <b>신청 내용 및 음악 적합성을 확인해요.</b>
                             </p>
                         </li>
                         <li>
-                            <strong>STEP 01</strong>
+                            <strong>STEP 03</strong>
                             <p>
-
-                                <b></b>
+                                적합성에 문제가 없다면,
+                                <b>이벤트 페이지에 신청한 곡이 업로드 됩니다.</b>
                             </p>
                         </li>
                         <li>
-                            <strong>STEP 01</strong>
+                            <strong>STEP 04</strong>
                             <p>
-
-                                <b></b>
+                                Youtube / TikTok / Instagram에
+                                <b>#뮤직온더블록 #인기곡챌린지 태그를 달아 홍보하고, 표를 확보래 보세요!</b>
                             </p>
                         </li>
                     </ul>
+                     
                 </div>
-                <div className="info-section__top-content">
-                    <h2 className="unfo-section__tit">실시간 인기곡 TOP 10</h2>
+                {/* 출품곡이 10개 미만일 때는 해당 영역 미 노출, 10개 이상부터 노출됨 */}
+                <div className="info-section__popular-content">
+                    <h2 className="info-section__tit">실시간 인기곡 TOP 10</h2>
+                    <ol className="popular-list">
+                        {topMusicList.map((music, index) => (
+                            <li key={music.id} className='popular-item'>
+                                <div className='popular-item__left'>
+                                    <span className='rank-numb'>{index + 1}</span>
+                                    <div className='thumb-name'>
+                                        <img src={music.image} alt={music.title} />
+                                        <strong>{music.title}</strong>
+                                    </div>
+                                </div>
+                                <div className='popular-item__right'>
+                                    <div>
+                                        <img src="" alt="" />
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ol>
                 </div>
                 <div className="info-section__price-content">
-                    <h2 className="unfo-section__tit">상금 안내</h2>
+                    <h2 className="info-section__tit">상금 안내</h2>
                 </div>
                 <div className="info-section__info-content">
-                    <h2 className="unfo-section__tit">안내사항</h2>
+                    <h2 className="info-section__tit">안내사항</h2>
                     <ul>
                         <li>
                             해당 이벤트로 제공되는 상금은 전액 USDT 토큰으로 제공되며, 그에 따라 메타마스크 지갑 주소를 요청할 수 있습니다.
@@ -94,10 +130,13 @@ function VoteEvent() {
                             TOP 10 인기곡 제작 아티스트에게는 상금 수령을 위해 최초 메세지를 남겨주셨던 &#91;인스타그램 DM 혹은 카카오톡 채널&#93;로 상금 수령 관련 안내를 전송해드릴 예정입니다.
                         </li>
                         <li>
-
+                            1계정 당 1개의 음악만 신청할 수 있으며, 재신청의 경우 기존에 등록되었던 음악이 삭제되며, 투표 횟수도 초기화됩니다.
                         </li>
                         <li>
-
+                            부정행위 적발 등의 문제 발견 시 예고없이 등록된 음악이 삭제될 수 있습니다.
+                        </li>
+                        <li>
+                            2025년 9월 1일 이벤트가 종료되고, 순위 발표는 카카오톡 채널 및 홈페이지에서 확인 가능합니다.
                         </li>
                     </ul>
                 </div>

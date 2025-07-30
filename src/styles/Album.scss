@@ -46,13 +46,14 @@
     .desc-txt{
       display: flex;
       column-gap: 4px;
-      font-size: clamp(16px, 4vw, 34px);
-      line-height: clamp(24px, 5.5vw, 46px);
+      font-size: clamp(14px, 4vw, 34px);
+      line-height: clamp(22px, 5.5vw, 46px);
       span{
         color: rgba(255, 255, 255, 0.50);
       }
       strong{
         color: #fff;
+        
       }
     }
   }
@@ -76,6 +77,10 @@
     @media screen and (max-width: 768px){
       bottom: -35px;
     }
+  }
+  &__picture{
+    display: block;
+    height: 100%;
   }
   &__swiper-banner-img{
     object-fit: cover;

@@ -289,6 +289,7 @@ function Album() {
     music: 13,
     follower: 19,
   },
+
 ];
 // 추천 앨범 리스트 
 const handleNavigate = (albumId) => {

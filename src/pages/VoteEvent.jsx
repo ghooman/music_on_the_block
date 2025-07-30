@@ -10,6 +10,10 @@ import BannerIcon01 from '../assets/images/vote/vote-icon-01.png';
 import BannerIcon02 from '../assets/images/vote/vote-icon-02.png';
 import BannerIcon03 from '../assets/images/vote/vote-icon-03.png';
 import BannerIcon04 from '../assets/images/vote/vote-icon-04.png';
+import MedalIcon from '../assets/images/vote/vote-medal-icon.png';
+import KakaoIcon from '../assets/images/icons/kakao-icon.svg';
+import SampleAlbumImg from '../assets/images/vote/vote-sample-album.png';
+import SampleArtistImg from '../assets/images/vote/vote-sample-artist.png';
 
 // 스타일
 import '../styles/VoteEvent.scss';
@@ -21,14 +25,15 @@ function VoteEvent() {
             title: 'Music name',
             artist: 'Yolkhead',
             votes: 2115,
-            image: 'cover1.jpg',
+            coverImage: SampleAlbumImg,
+            artistImage: SampleArtistImg,
         },
         {
             id: 2,
             title: 'Another music',
             artist: 'Yolkhead',
             votes: 1544,
-            image: 'cover2.jpg',
+            coverImage: SampleAlbumImg,
         },
     ];
   return (
@@ -50,17 +55,39 @@ function VoteEvent() {
                         <span>최대 300만원의 상금</span>
                         을 받을 수 있어요!
                     </dd>
-                </dl>
+                </dl> 
             </div>
+
             <div className='info-section'>
                 <div className="info-section__countdown-centent">
                     <h2 className='info-section__tit'>참여 및 투표 마감까지</h2>
-                    
-                    {/* <div className='countdown-content__btn'>
-                        <button>인기곡 투표하러 가기</button>
+                    <ul>
+                        <li>
+                            <div>14</div>
+                            <span>DAYS</span>
+                        </li>
+                        <li>:</li>
+                        <li>
+                            <div>12</div>
+                            <span>HOURS</span>
+                        </li>
+                        <li>:</li>
+                        <li>
+                            <div>12</div>
+                            <span>MINUTES</span>
+                        </li>
+                        <li>:</li>
+                        <li>
+                            <div>12</div>
+                            <span>SECONDS</span>
+                        </li>
+                    </ul>
+                    <div className='countdown-content__btn'>
+                        <Link to="/vote-list"></Link>
                         <span>* 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.</span>
-                    </div> */}
+                    </div>
                 </div>
+
                 <div className="info-section__apply-content">
                     <h2 className="info-section__tit">신청방법</h2>
                     <ul>
@@ -93,8 +120,15 @@ function VoteEvent() {
                             </p>
                         </li>
                     </ul>
-                     
+                    <a href="https://pf.kakao.com/_cBeJn" target='_blank' rel='noopener noreferrer'>
+                        <img src={KakaoIcon} alt="" />
+                        참가 신청 카카오 채널 바로가기
+                    </a>
+                    <a href="https://open.kakao.com/o/g9AylBHh" target='_blank' rel='noopener noreferrer'>
+                        뮤블 오픈카톡 커뮤니티
+                    </a>
                 </div>
+
                 {/* 출품곡이 10개 미만일 때는 해당 영역 미 노출, 10개 이상부터 노출됨 */}
                 <div className="info-section__popular-content">
                     <h2 className="info-section__tit">실시간 인기곡 TOP 10</h2>
@@ -102,24 +136,58 @@ function VoteEvent() {
                         {topMusicList.map((music, index) => (
                             <li key={music.id} className='popular-item'>
                                 <div className='popular-item__left'>
-                                    <span className='rank-numb'>{index + 1}</span>
-                                    <div className='thumb-name'>
-                                        <img src={music.image} alt={music.title} />
+                                    <div className='thumb-rank'>
+                                        <span className='rank-numb'>{index + 1}</span>
+                                        <img src={music.coverImage} alt={music.title} />
+                                    </div>
+                                    <div className='thumb-artist'>
+                                        <img src={SampleArtistImg} alt="" />
                                         <strong>{music.title}</strong>
                                     </div>
                                 </div>
                                 <div className='popular-item__right'>
-                                    <div>
-                                        <img src="" alt="" />
-                                    </div>
+                                    <small>현재 득표 수</small>
+                                    <strong>{music.votes}</strong>
                                 </div>
                             </li>
                         ))}
                     </ol>
+                    <Link to="/vote-list">전체 음악 보러가기</Link>
                 </div>
+
                 <div className="info-section__price-content">
-                    <h2 className="info-section__tit">상금 안내</h2>
+                    <h2 className="info-section__tit">상금 안내
+                        <span className='subtit'>상금은 USDT로 제공되며, 각 등수 별 한화 기준 해당 금액 상당의 USDT를 전송해 드립니다.</span>
+                    </h2>
+                    <ul>
+                        <li>
+                            <h3>1등</h3>
+                            <p>
+                                <strong>1,000,000원</strong> 상당
+                            </p>
+                            <img src={MedalIcon} alt="" />
+                        </li>
+                        <li>
+                            <h3>2등</h3>
+                            <p>
+                                <strong>1,000,000원</strong> 상당
+                            </p>
+                        </li>
+                        <li>
+                            <h3>3등</h3>
+                            <p>
+                                <strong>1,000,000원</strong> 상당
+                            </p>
+                        </li>
+                        <li>
+                            <h3>4~10등</h3>
+                            <p>
+                                <strong>각 50,000원</strong> 상당
+                            </p>
+                        </li>
+                    </ul>
                 </div>
+
                 <div className="info-section__info-content">
                     <h2 className="info-section__tit">안내사항</h2>
                     <ul>

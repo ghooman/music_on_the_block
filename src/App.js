@@ -19,6 +19,7 @@ import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 import VoiceTrainer from './pages/VoiceTrainer';
 import SearchResult from './pages/SearchResult';
 import VoteEvent from './pages/VoteEvent';
+import VoteList from './pages/VoteList';
 
 // 컴포넌트
 import Header from './components/Header';
@@ -366,6 +367,14 @@ function App() {
                   path="vote-event"
                   element={
                     <VoteEvent />
+                  }
+                />
+                <Route
+                  path="/vote-list"
+                  element={
+                    <Layout>
+                      <VoteList />
+                    </Layout>
                   }
                 />
               </Routes>

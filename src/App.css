@@ -53,7 +53,7 @@ body {
   outline: 0;
   outline: none;
 }
-ul {
+ul, ol {
   list-style: none;
 }
 

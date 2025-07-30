@@ -6,10 +6,10 @@ import PlayerHeader from '../components/PlayerHeader';
 import AlarmModal from '../components/AlarmModal';
 // 이미지
 import BannerTxtImg from '../assets/images/vote/vote-banner-txt.png';
-import BannerIcon01 from '../assets/images/vote/vote-icon-01.png';
-import BannerIcon02 from '../assets/images/vote/vote-icon-02.png';
-import BannerIcon03 from '../assets/images/vote/vote-icon-03.png';
-import BannerIcon04 from '../assets/images/vote/vote-icon-04.png';
+import BannerIcon01 from '../assets/images/vote/vote-icon-01.svg';
+import BannerIcon02 from '../assets/images/vote/vote-icon-02.svg';
+import BannerIcon03 from '../assets/images/vote/vote-icon-03.svg';
+import BannerIcon04 from '../assets/images/vote/vote-icon-04.svg';
 import MedalIcon from '../assets/images/vote/vote-medal-icon.png';
 import KakaoIcon from '../assets/images/icons/kakao-icon.svg';
 import SampleAlbumImg from '../assets/images/vote/vote-sample-album.png';
@@ -43,88 +43,92 @@ function VoteEvent() {
         <div className='vote-wrapper'>
             <div className="banner-section">
                 <div className="banner-section__bg">
-                    <img src={BannerTxtImg} alt="나만의 노래 만들고 상금받자" />
-                    <img src={BannerIcon01} alt="" />
-                    <img src={BannerIcon02} alt="" />
-                    <img src={BannerIcon03} alt="" />
-                    <img src={BannerIcon04} alt="" />
+                    <img src={BannerTxtImg} alt="나만의 노래 만들고 상금받자" className='txt-img' />
+                    <img src={BannerIcon01} alt="" className='icon icon--01' />
+                    <img src={BannerIcon02} alt="" className='icon icon--02' />
+                    <img src={BannerIcon03} alt="" className='icon icon--03' />
+                    <img src={BannerIcon04} alt="" className='icon icon--04' />
                 </div>
-                <dl className='banner-section__txt'>
-                    <dt>AI로 만든 나만의 음악, 히트곡에 도전해볼까?</dt>
-                    <dd>음악을 만들고 이벤트에 참여해 보세요. 유저투표를 통해 인기곡 TOP 10에 선정되면 
-                        <span>최대 300만원의 상금</span>
-                        을 받을 수 있어요!
-                    </dd>
-                </dl> 
+                <div className='banner-section__txt'>
+                    <h3 className='txt-tit'>AI로 만든 나만의 음악, 히트곡에 도전해볼까?</h3>
+                    <div className='txt-desc'>
+                        <p>
+                            음악을 만들고 이벤트에 참여해 보세요. 
+                        </p>
+                        <p>
+                            유저투표를 통해 인기곡 TOP 10에 선정되면 
+                        </p>
+                        <p>
+                            <span className='color-green'> 최대 200만원의 상금</span>을 받을 수 있어요!
+                        </p>
+                    </div>
+                </div> 
             </div>
-
             <div className='info-section'>
-                <div className="info-section__countdown-centent">
+                <div className="info-section__countdown-content">
                     <h2 className='info-section__tit'>참여 및 투표 마감까지</h2>
-                    <ul>
+                    <ul className='info-section__countdown-list'>
                         <li>
-                            <div>14</div>
+                            <div className='count count--days'>14</div>
                             <span>DAYS</span>
                         </li>
                         <li>:</li>
                         <li>
-                            <div>12</div>
+                            <div className='count count--hours'>12</div>
                             <span>HOURS</span>
                         </li>
                         <li>:</li>
                         <li>
-                            <div>12</div>
+                            <div className='count count--minutes'>12</div>
                             <span>MINUTES</span>
                         </li>
                         <li>:</li>
                         <li>
-                            <div>12</div>
+                            <div className='count count--seconds'>12</div>
                             <span>SECONDS</span>
                         </li>
                     </ul>
-                    <div className='countdown-content__btn'>
-                        <Link to="/vote-list"></Link>
-                        <span>* 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.</span>
-                    </div>
+                    <Link to="/vote-list" className='info-section__countdown-btn'>인기곡 투표하러 가기</Link>
+                    <span className='color-green'>* 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.</span>
                 </div>
 
                 <div className="info-section__apply-content">
                     <h2 className="info-section__tit">신청방법</h2>
-                    <ul>
+                    <ul className='info-section__apply-list'>
                         <li>
                             <strong>STEP 01</strong>
                             <p>
                                 뮤직온더블록에서 나만의 음악 생성 후 참가 신청할 음악의
-                                <b>곡 정보 페이지 전체 화면을 캡쳐해 주세요.</b>
+                                <b> 곡 정보 페이지 전체 화면을 캡쳐해 주세요.</b>
                             </p>
                         </li>
                         <li>
                             <strong>STEP 02</strong>
                             <p>
                                 캡쳐한 이미지를 카카오톡 채널에 전송하면, 뮤직온더블록에서
-                                <b>신청 내용 및 음악 적합성을 확인해요.</b>
+                                <b> 신청 내용 및 음악 적합성을 확인해요.</b>
                             </p>
                         </li>
                         <li>
                             <strong>STEP 03</strong>
                             <p>
                                 적합성에 문제가 없다면,
-                                <b>이벤트 페이지에 신청한 곡이 업로드 됩니다.</b>
+                                <b> 이벤트 페이지에 신청한 곡이 업로드 됩니다.</b>
                             </p>
                         </li>
                         <li>
                             <strong>STEP 04</strong>
                             <p>
                                 Youtube / TikTok / Instagram에
-                                <b>#뮤직온더블록 #인기곡챌린지 태그를 달아 홍보하고, 표를 확보래 보세요!</b>
+                                <b> #뮤직온더블록 #인기곡챌린지 태그를 달아 홍보하고, 표를 확보래 보세요!</b>
                             </p>
                         </li>
                     </ul>
-                    <a href="https://pf.kakao.com/_cBeJn" target='_blank' rel='noopener noreferrer'>
+                    <a href="https://pf.kakao.com/_cBeJn" target='_blank' rel='noopener noreferrer' className='info-section__kakao-link'>
                         <img src={KakaoIcon} alt="" />
                         참가 신청 카카오 채널 바로가기
                     </a>
-                    <a href="https://open.kakao.com/o/g9AylBHh" target='_blank' rel='noopener noreferrer'>
+                    <a href="https://open.kakao.com/o/g9AylBHh" target='_blank' rel='noopener noreferrer' className='info-section__open-link'>
                         뮤블 오픈카톡 커뮤니티
                     </a>
                 </div>
@@ -132,7 +136,7 @@ function VoteEvent() {
                 {/* 출품곡이 10개 미만일 때는 해당 영역 미 노출, 10개 이상부터 노출됨 */}
                 <div className="info-section__popular-content">
                     <h2 className="info-section__tit">실시간 인기곡 TOP 10</h2>
-                    <ol className="popular-list">
+                    <ol className="info-section__popular-list">
                         {topMusicList.map((music, index) => (
                             <li key={music.id} className='popular-item'>
                                 <div className='popular-item__left'>

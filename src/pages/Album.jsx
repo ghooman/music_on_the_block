@@ -390,11 +390,13 @@ const albumList = [
             <SwiperSlide>
               <div className="banner-slider__swiper-list">
                 <div className="banner-slider__swiper-content">
-                  <picture className="banner-slider__picture">
-                    <source media="(min-width: 481px)" srcset={mainBannerImg1} />
-                    <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
-                    <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
-                  </picture>
+                  <Link to="/vote-event">
+                    <picture className="banner-slider__picture">
+                      <source media="(min-width: 481px)" srcset={mainBannerImg1} />
+                      <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
+                      <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
+                    </picture>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

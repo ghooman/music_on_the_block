@@ -1,10 +1,5 @@
 .result-section{
     min-height: calc(100vh - 548px);
-    .no-result-txt{
-        font-weight: 700;
-        font-size: clamp(16px, 2vw, 20px);
-        line-height: clamp(24px, 3vw, 30px);
-    }
     .result-list{
         &__music{
             display: flex;
@@ -70,8 +65,11 @@
             }
             .artist-thumb{
                 border-radius: 100%;
+                overflow: hidden;
+                aspect-ratio: 1 / 1;
                 img{
                     width: 100%;
+                    height: 100%;
                     max-width: 160px;
                     object-fit: cover;
                 }
@@ -150,6 +148,11 @@
         }
     }
 }
+.no-result-txt{
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: clamp(24px, 3vw, 30px);
+}
 
 // 탭 스타일 START
 .tab__nav{
@@ -188,53 +191,3 @@
     }
     }
 } // 탭 스타일 END
-
-// artist-slider START
-//   .artist-thumb{
-//     width: 160px;
-//     height: 160px;
-//     margin: 0 auto;
-//     border-radius: 100%;
-//     overflow: hidden;
-//     img {
-//       width: 100%;
-//       height: 100%;
-//       object-fit: cover;
-//     }
-//   }
-//   .artist-info{
-//     display: flex;
-//     flex-direction: column;
-//     row-gap: 12px;
-//     .artist-name{
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       column-gap: 12px;
-//       font-size: clamp(16px, 1.1vw, 24px);
-//       line-height: clamp(24px, 1.6vw, 36px);
-//       color: #fff;
-//       font-weight: 400;
-//       .artist-level{
-//         width: 100%;
-//         max-width: 20px;
-//       }
-//     }
-//     .artist-meta{
-//       display: flex;
-//       justify-content: space-around;
-//       span{
-//         color: #767676;
-//         font-size: clamp(12px, 1.5vw, 18px);
-//         line-height: clamp(18px, 2.2vw, 27px);
-//       }
-//       small{
-//         display: block;
-//         padding-top: 3px;
-//         color: #bbb;
-//         font-size: clamp(14px, 1.8vw, 21px);
-//         line-height: clamp(22px, 2.8vw, 33px);
-//       }
-//     }
-//   }
-// artist-slider END

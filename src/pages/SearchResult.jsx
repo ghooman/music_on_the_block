@@ -153,29 +153,29 @@ function SearchResult() {
                     <div className="artist-list">
                     {pagedArtist.map((artist) => (
                         <figure key={artist.id} className="artist-item">
-                        <div className="artist-thumb">
-                            <Link to="/my-page?category=AI+Services">
-                            <img src={artist.coverImage} alt={artist.name} />
-                            </Link>
-                        </div>
-                        <figcaption className="artist-info">
-                            <h3 className="artist-name">
-                            <span>{artist.name}</span>
-                            <img
-                                src={artistLevelIcon}
-                                alt="Artist Level Icon"
-                                className="artist-level"
-                            />
-                            </h3>
-                            <p className="artist-meta">
-                            <span>
-                                Music <small>{artist.music}</small>
-                            </span>
-                            <span>
-                                Follower <small>{artist.follower}</small>
-                            </span>
-                            </p>
-                        </figcaption>
+                            <div className="artist-thumb">
+                                <Link to="/my-page?category=AI+Services">
+                                <img src={artist.coverImage} alt={artist.name} />
+                                </Link>
+                            </div>
+                            <figcaption className="artist-info">
+                                <h3 className="artist-name">
+                                <span>{artist.name}</span>
+                                <img
+                                    src={artistLevelIcon}
+                                    alt="Artist Level Icon"
+                                    className="artist-level"
+                                />
+                                </h3>
+                                <p className="artist-meta">
+                                <span>
+                                    Music <small>{artist.music}</small>
+                                </span>
+                                <span>
+                                    Follower <small>{artist.follower}</small>
+                                </span>
+                                </p>
+                            </figcaption>
                         </figure>
                     ))}
                     </div>

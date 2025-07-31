@@ -60,6 +60,7 @@
     &__txt{
         padding-top: 10px;
         text-align: center;
+        cursor: default;
         .txt-tit{
             color: #fff;
             font-weight: 700;
@@ -75,7 +76,6 @@
                 font-weight: 400;
 
             }
-
             .color-green{
                 font-weight: 700;
             }
@@ -85,12 +85,14 @@
 
 /* -------------------- Info Section -------------------- */
 .info-section{
+    // 공통 영역 (wrapper, title) START
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     row-gap: clamp(60px, 8.33vw, 120px);
     max-width: 960px;
     align-items: center;
+    padding-bottom: clamp(60px, 8.33vw, 120px);
     > div{
         width: 100%;
         display: flex;
@@ -104,6 +106,7 @@
         line-height: clamp(24px, 3.3vw, 40px);
         margin-bottom: clamp(20px, 2vw, 30px);
         text-align: center;
+        cursor: default;
         .subtit{
             display: block;
             padding-top: clamp(8px, 1.1vw, 16px);
@@ -111,6 +114,13 @@
             line-height: clamp(18px, 1.5vw, 22px);
         }
     }
+    .color-green{
+        font-size: clamp(12px, 0.9vw, 14px);
+        line-height: clamp(18px, 1.5vw, 22px);
+    }
+    // 공통 영역 (wrapper, title) END
+
+
     // 참여 및 투표 마감 안내 START
     &__countdown-list{
         display: flex;
@@ -120,6 +130,7 @@
         margin-bottom: clamp(24px, 3.3vw, 48px);
         width: 100%;
         max-width: 600px;
+        cursor: default;
 
         li:nth-child(odd){
             display: flex;
@@ -172,11 +183,8 @@
         font-weight: 700;
         margin-bottom: 16px;
     }
-    .color-green{
-        font-size: clamp(12px, 0.9vw, 14px);
-        line-height: clamp(18px, 1.5vw, 22px);
-    }
     // 참여 및 투표 마감 안내 END
+
 
     // 신청 방법 START
     &__apply-list{
@@ -190,6 +198,7 @@
             padding: clamp(12px, 1.3vw, 20px) 2.5%;
             border-radius: 16px;
             background-color: rgba(255, 255, 255, 0.05);
+            cursor: default;
             strong{
                 font-size: clamp(12px, 0.9vw, 14px);
                 line-height: clamp(18px, 1.5vw, 22px);
@@ -228,16 +237,32 @@
     }
     // 신청 방법 END
 
+
     // 실시간 인기곡 TOP 10 START
     &__popular-list{
+        width: 100%;
+        margin-bottom: 30px;
+        cursor: default;
         li:not(:first-of-type){
             border-top: 1px solid rgba(255, 255, 255, 0.10);
         }
         li:first-of-type{
+            padding-bottom: clamp(8px, 0.8vw, 12px);
             .popular-item__left .rank-numb,
             .popular-item__right strong{
                 color: #CF0;
             }
+            .popular-item__right strong{
+                font-size: clamp(18px, 1.6vw, 24px);
+                line-height: clamp(24px, 2.3vw, 34px);
+                font-weight: 800;
+            }
+        }
+        li:nth-child(n+2):nth-last-child(n+2){
+            padding: clamp(8px, 0.8vw, 12px) 0;
+        }
+        li:last-of-type{
+            padding-top: clamp(8px, 0.8vw, 12px);
         }
         .popular-item{
             display: flex;
@@ -245,20 +270,230 @@
             align-items: center;
             &__left{
                 display: flex;
-                justify-content: space-between;
-                .rank-numb{
-                    margin-right: 16px;
-                }
-                img{
+                flex: 0 0 85%;
+                max-width: 85%;
+                .rank-thumb{
                     width: 100%;
-                    max-width: 80px;
+                    display: flex;
+                    align-items: center;
+                    column-gap: clamp(8px, 1.1vw, 16px);
+                }
+                .rank-numb{
+                    flex: 0 0 20px;
+                    font-variant-numeric: tabular-nums;
+                }
+                .rank-album-cover{
+                    max-width: clamp(48px, 5.5vw, 80px);
                     aspect-ratio: 1;
-                    border-radius: 16px;
+                    border-radius: clamp(8px, 0.9vw, 16px);
+                }
+                .rank-music{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    column-gap: 5%;
+                    row-gap: 2px;
+                    &-tit{
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        flex: 0 0 70%;
+                        max-width: clamp(120px, 40vw, 480px);
+                        font-size: clamp(16px, 1.3vw, 20px);
+                        line-height: clamp(24px, 2vw, 30px);
+                        font-weight: 700;
+                    }
+                    &-artist{
+                        flex: 0 0 25%;
+                        max-width: 25%;
+                        display: flex;
+                        align-items: center;
+                        column-gap: clamp(4px, 0.5vw, 8px);
+
+                        .rank-artist-cover{
+                            width: 100%;
+                            max-width: clamp(22px, 2vw, 30px);
+                        }
+                        .rank-artist-name{
+                            width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            color: #ababab;
+                            font-size: clamp(14px, 1.1vw, 16px);
+                            line-height: clamp(22px, 1.6vw, 24px);
+                            max-width: clamp(100px, 13.8vw, 200px);
+                        }
+                    }
+                }
+            }
+            &__right{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                flex: 0 0 auto;
+                column-gap: 4px;
+                small{
+                    color: #767676;
+                    font-size: clamp(12px, 0.9vw, 14px);
+                    line-height: clamp(18px, 1.5vw, 22px);
+                }
+                strong{
+                    color: #fff;
+                    font-size: clamp(14px, 1.3vw, 20px);
+                    line-height: clamp(22px, 2vw, 30px);
+                    font-weight: 700;
                 }
             }
         }
     }
+    &__popular-btn{
+        background-color: #CF0;
+        padding: clamp(8px, 0.8vw, 12px) clamp(30px, 3.3vw, 48px);
+        border-radius: 40px;
+        font-size: clamp(14px, 1.1vw, 16px);
+        line-height: clamp(22px, 1.6vw, 24px);
+        font-weight: 700;
+        color: #000;
+    }
     // 실시간 인기곡 TOP 10 END
+
+
+    // 상금 안내 START
+    &__price-list{
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        row-gap: clamp(8px, 1.3vw, 20px);
+        color: #fff;
+        cursor: default;
+        .price-item{
+            &--first{
+                position: relative;
+                overflow: hidden;
+                padding: clamp(16px, 2vw, 30px) clamp(20px, 2vw, 30px);
+                border-radius: clamp(16px, 1.6vw, 24px);
+                background: linear-gradient(90deg, #A811BC 0%, #E269F2 100%);
+                border: 1px solid rgba(255, 255, 255, 0.20);
+                
+                h3{
+                    font-size: clamp(16px, 1.6vw, 24px);
+                    line-height: clamp(24px, 2.3vw, 34px);
+                    font-weight: 700;
+                    margin-bottom: 12px;
+                }
+                p{
+                    font-size: clamp(16px, 2vw, 30px);
+                    line-height: clamp(24px, 2.7vw, 40px);
+                    font-weight: 700;
+                    strong{
+                        font-weight: 800;
+                        font-size: clamp(20px, 3.3vw, 48px);
+                        line-height: clamp(30px, 4.1vw, 60px);
+                        letter-spacing: 1px;                     
+                    }
+                }
+                img{
+                    position: absolute;
+                    right: 0;
+                    bottom: -28%;
+                    width: 100%;
+                    max-width: clamp(100px, 13.8vw, 200px);
+                }
+            }
+            &--second{
+                padding: clamp(12px, 1.6vw, 24px) clamp(20px, 2vw, 30px);
+                border-radius: clamp(16px, 1.3vw, 20px);
+                background: linear-gradient(90deg, #222 0%, #464646 100%);
+                border: 1px solid rgba(255, 255, 255, 0.20);
+                h3{
+                    font-size: clamp(16px, 1.3vw, 20px);
+                    line-height: clamp(24px, 2vw, 30px);
+                    font-weight: 700;
+                    margin-bottom: 8px;
+                }
+                p{
+                    font-size: clamp(14px, 1.3vw, 20px);
+                    line-height: clamp(22px, 2vw, 30px);
+                    font-weight: 700;
+                    strong{
+                        font-size: clamp(18px, 3.3vw, 30px);
+                        line-height: clamp(28px, 4.1vw, 40px);                   
+                    }
+                }
+            }
+            &--third{
+                padding: clamp(12px, 1.6vw, 24px) clamp(20px, 2vw, 30px);
+                border-radius: clamp(16px, 1.3vw, 20px);
+                background-color:  rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.20);
+                h3{
+                    font-size: clamp(16px, 1.3vw, 20px);
+                    line-height: clamp(24px, 2vw, 30px);
+                    font-weight: 700;
+                    margin-bottom: 8px;
+                }
+                p{
+                    font-size: clamp(14px, 1.1vw, 16px);
+                    line-height: clamp(22px, 1.6vw, 24px);
+                    font-weight: 700;
+                    strong{
+                        font-size: clamp(18px, 1.6vw, 24px);
+                        line-height: clamp(28px, 2.3vw, 34px);                   
+                    }
+                }
+            }
+            &--rest{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: clamp(12px, 1.3vw, 20px) clamp(20px, 2vw, 30px);
+                border-radius: clamp(12px, 1.3vw, 20px);
+                background-color:  transparent;
+                border: 1px solid rgba(255, 255, 255, 0.20);
+                h3{
+                    font-size: clamp(14px, 1.2vw, 18px);
+                    line-height: clamp(22px, 2vw, 30px);
+                    font-weight: 700;
+                }
+                p{
+                    font-size: clamp(12px, 1.1vw, 16px);
+                    line-height: clamp(18px, 1.6vw, 24px);
+                    font-weight: 700;
+                    strong{
+                        font-size: clamp(16px, 1.3vw, 20px);
+                        line-height: clamp(24px, 2vw, 30px);                   
+                    }
+                }
+            }            
+        }
+    }
+    // 상금 안내 END
+
+
+    // 안내사항 START
+    &__info-list{
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        color: #ababab;
+        font-size: clamp(12px, 0.9vw, 14px);
+        line-height: clamp(18px, 1.5vw, 22px);
+
+        li{
+            color: inherit;
+            padding-left: 20px;
+            position: relative;
+        }
+        li:before{
+            content: '•';
+            position: absolute;
+            left: 0;
+        }
+    }
+    // 안내사항 END
 }
 
 
@@ -315,7 +550,21 @@
    ▶ 반응형 max-width: 768px
 ============================================================ */
 @media screen and (max-width: 768px){
-
+    .rank-music{
+        flex-direction: column;
+        align-items: flex-start !important;
+        &-tit{
+            flex: 0 0 80% !important;
+            max-width: 80% !important;
+        }
+        &-artist{
+            flex: 0 0 80% !important;
+            max-width: 80% !important;
+            .rank-artist-name{
+                max-width: 100% !important;
+            }
+        }
+    }
 }
 
 /* ============================================================

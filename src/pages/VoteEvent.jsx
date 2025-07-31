@@ -120,7 +120,7 @@ function VoteEvent() {
                             <strong>STEP 04</strong>
                             <p>
                                 Youtube / TikTok / Instagram에
-                                <b> #뮤직온더블록 #인기곡챌린지 태그를 달아 홍보하고, 표를 확보래 보세요!</b>
+                                <b> #뮤직온더블록 #인기곡챌린지 태그를 달아 홍보하고, 표를 확보해 보세요!</b>
                             </p>
                         </li>
                     </ul>
@@ -140,13 +140,16 @@ function VoteEvent() {
                         {topMusicList.map((music, index) => (
                             <li key={music.id} className='popular-item'>
                                 <div className='popular-item__left'>
-                                    <div className='thumb-rank'>
+                                    <div className='rank-thumb'>
                                         <span className='rank-numb'>{index + 1}</span>
-                                        <img src={music.coverImage} alt={music.title} />
-                                    </div>
-                                    <div className='thumb-artist'>
-                                        <img src={SampleArtistImg} alt="" />
-                                        <strong>{music.title}</strong>
+                                        <img src={music.coverImage} alt={music.title} className='rank-album-cover' />
+                                        <div className='rank-music'>
+                                            <h3 className='rank-music-tit'>{music.title}</h3>
+                                            <div className='rank-music-artist'>
+                                                <img src={SampleArtistImg} alt="" className='rank-artist-cover' />
+                                                <strong className='rank-artist-name'>{music.title}</strong>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className='popular-item__right'>
@@ -156,34 +159,34 @@ function VoteEvent() {
                             </li>
                         ))}
                     </ol>
-                    <Link to="/vote-list">전체 음악 보러가기</Link>
+                    <Link to="/vote-list" className='info-section__popular-btn'>전체 음악 보러가기</Link>
                 </div>
 
                 <div className="info-section__price-content">
                     <h2 className="info-section__tit">상금 안내
                         <span className='subtit'>상금은 USDT로 제공되며, 각 등수 별 한화 기준 해당 금액 상당의 USDT를 전송해 드립니다.</span>
                     </h2>
-                    <ul>
-                        <li>
+                    <ul className='info-section__price-list'>
+                        <li className='price-item--first'>
                             <h3>1등</h3>
                             <p>
                                 <strong>1,000,000원</strong> 상당
                             </p>
                             <img src={MedalIcon} alt="" />
                         </li>
-                        <li>
+                        <li className='price-item--second'>
                             <h3>2등</h3>
                             <p>
-                                <strong>1,000,000원</strong> 상당
+                                <strong>500,000원</strong> 상당
                             </p>
                         </li>
-                        <li>
+                        <li className='price-item--third'>
                             <h3>3등</h3>
                             <p>
-                                <strong>1,000,000원</strong> 상당
+                                <strong>150,000원</strong> 상당
                             </p>
                         </li>
-                        <li>
+                        <li className='price-item--rest'>
                             <h3>4~10등</h3>
                             <p>
                                 <strong>각 50,000원</strong> 상당
@@ -194,7 +197,7 @@ function VoteEvent() {
 
                 <div className="info-section__info-content">
                     <h2 className="info-section__tit">안내사항</h2>
-                    <ul>
+                    <ul className='info-section__info-list'>
                         <li>
                             해당 이벤트로 제공되는 상금은 전액 USDT 토큰으로 제공되며, 그에 따라 메타마스크 지갑 주소를 요청할 수 있습니다.
                         </li>
@@ -216,7 +219,7 @@ function VoteEvent() {
         </div>
       </div>
       <Footer />
-      <PlayerHeader />
+      <PlayerHeader /> 
       <AlarmModal />
     </>
   )

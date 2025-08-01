@@ -15,7 +15,7 @@ import defaultCoverImg from '../assets/images/header/logo-png.png';
 import defaultCoverImg2 from '../assets/images/logo-png2.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
 import songCreateImg from '../assets/images/album/music-icon.png';
-import mainBannerImg1 from '../assets/images/album/main-banner01.png';
+import mainBannerImg1 from '../assets/images/album/main-banner-01.png';
 import mainBannerImgMobile1 from '../assets/images/album/main-banner-01-mobile.png';
 import artistSampleImg from '../assets/images/album/artist-sample.png';
 import artistLevelIcon from '../assets/images/icons/artist-level-icon.svg';

@@ -16,7 +16,8 @@ function VoteItem({
     artistImage, 
     artistName, 
     voteCount,
-    detailLink
+    detailLink,
+    isVoted = false, // 투표 전 btn--vote
 }) {
   return (
     <div className='vote-item'>
@@ -57,8 +58,12 @@ function VoteItem({
                 {voteCount}
             </strong>
         </div>
-        <button className='vote-item__btn vote-item__btn--vote'>
-            투표하기
+        <button
+        className={`vote-item__btn ${
+            isVoted ? 'vote-item__btn--sucess' : 'vote-item__btn--vote'
+        }`}
+        >
+        {isVoted ? '투표 완료' : '투표하기'}
         </button>
     </div>
   )

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Filter from '../components/unit/Filter';
 import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
-import SampleArtistImg from '../assets/images/vote/vote-sample-artist.png';
 
 // 스타일
 import '../styles/VoteList.scss';
@@ -28,20 +27,27 @@ function VoteList() {
       musicTitle: "Music name",
       artistImage: '',
       artistName: 'Yolkhead',
-      voteCount: '500 '
+      voteCount: '500 ',
+      isVoted: false
     },
     {
-      albumImage: SampleArtistImg,
+      albumImage: '',
       genre: "BGM",
       playCount: "125K",
       heartCount: "145",
       musicTitle: "Music name",
       artistImage: '',
       artistName: 'Yolkhead',
-      voteCount: '500 '
+      voteCount: '500 ',
+      isVoted: true
     }
   ]
 
+  // Pagination
+  const [page, setPage] = useState(1);
+  const viewCount = 20;
+  const pagedVoteList = voteList.slice((page - 1) * viewCount, page * viewCount);
+  
   return (
     <>
       <h2 className='album__content-list__title'>
@@ -72,6 +78,8 @@ function VoteList() {
                   artistImage={item.artistImage}
                   artistName={item.artistName}
                   voteCount={item.voteCount}
+                  isVoted={item.isVoted}
+                  // detailLink={`/vote/${item.id}`} -> 곡의 상세 페이지로 이동
                 />
               </li>
             ))}

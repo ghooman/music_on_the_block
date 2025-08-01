@@ -10,5 +10,27 @@
         display: flex;
         column-gap: 2%;
         row-gap: clamp(24px, 2vw, 30px);
+        flex-wrap: wrap;
+        .vote-list__item{
+            flex: 0 0 auto;
+            max-width: 289px;
+            
+            @media (min-width: 1399px) and (mmx-width: 1920px){
+                flex: 0 0 18.4%;
+            }
+            @media (min-width: 1199px) and (max-width: 1400px){
+                flex: 0 0 23.5%;
+            }
+
+            @media (min-width: 769px) and (max-width: 1200px){
+                flex: 0 0 32%;
+            }
+            @media (min-width: 359px) and (max-width: 768px){
+                flex: 0 0 49%;
+            }
+            @media (max-width: 360px){
+                flex: 0 0 100%;
+            }
+        }
     }
 } 

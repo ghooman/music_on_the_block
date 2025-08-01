@@ -3,11 +3,11 @@
     flex-direction: column;
     row-gap: clamp(8px, 0.8vw, 12px);
     &__music-cover{
-        display: block;
+        width: 100%;
         aspect-ratio: 1 / 1;
         border-radius: clamp(16px, 1.3vw, 20px) !important;
         overflow: hidden;
-        width: clamp(150px, 20vw, 289px);
+        min-width: clamp(150px, 20vw, 289px);
         img{
             width: 100%;
             height: 100%;
@@ -102,8 +102,8 @@
         }
         &--sucess{
             color: #767676;
-            border-color: #767676;
-            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            pointer-events: none;
         }
     }
 }

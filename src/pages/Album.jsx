@@ -1,23 +1,25 @@
 import '../styles/Album.scss';
-import React, { useState, useEffect, useRef, useContext, useMemo,  } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useAudio } from '../contexts/AudioContext';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
+import defaultCoverImg2 from '../assets/images/logo-png2.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
 import songCreateImg from '../assets/images/album/music-icon.png';
-import mainBannerImg1 from '../assets/images/album/main-banner-01.png'
-import mainBannerImgMobile1 from '../assets/images/album/main-banner-01-mobile.png'
+import mainBannerImg1 from '../assets/images/album/main-banner-01.png';
+import mainBannerImgMobile1 from '../assets/images/album/main-banner-01-mobile.png';
 import artistSampleImg from '../assets/images/album/artist-sample.png';
 import artistLevelIcon from '../assets/images/icons/artist-level-icon.svg';
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from 'react-icons/fa';
 import defaultAlbumImage from '../assets/images/album/album-cover.png';
 
 import PreparingModal from '../components/PreparingModal';
@@ -41,7 +43,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
-
 
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
@@ -71,6 +72,11 @@ function Album() {
 
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
+
+  // 추천 아티스트 상태
+  const [recommendedArtists, setRecommendedArtists] = useState([]);
+  // 추천 앨범 상태
+  const [recommendedAlbums, setRecommendedAlbums] = useState([]);
 
   // 로컬 상태로 관리할 데이터들
   const [totalList, setTotalList] = useState([]);
@@ -210,153 +216,59 @@ function Album() {
   const navigate = useNavigate();
 
   // search-bar : 타이핑 시 clear 버튼 노출, clear 버튼 클릭 시 setSearch 리셋
-  const [search, setSearch] = useState('');
-  const handleChange = (e) => {
-    setSearch(e.target.value);
+  const [keyword, setKeyword] = useState('');
+  const handleChange = e => {
+    setKeyword(e.target.value);
   };
   const handleClear = () => {
-    setSearch('');
+    setKeyword('');
   };
 
   // 추천 아티스트 슬라이더
   const artistSwiperRef = useRef(null);
   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
 
-  const handleArtistSlideChange = (swiper) => {
+  const handleArtistSlideChange = swiper => {
     setArtistActiveIndex(swiper.realIndex);
   };
 
+  // 추천 아티스트 가져오는 API 함수
+  const handleGetRecommendedArtist = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/recommend/artist`, null);
+      setRecommendedArtists(res.data);
+      console.log('추천 아티스트 가져오기 완료!', res.data);
+    } catch (error) {
+      console.error('추천 아티스트 가져오는 API 함수 error입니당', error);
+    }
+  };
 
-  // 추천 아티스트 데이터
-  const artistList = [
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 24,
-    follower: 8,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-  {
-    name: 'Artist Name',
-    coverImage: artistSampleImg,
-    music: 13,
-    follower: 19,
-  },
-];
-// 추천 앨범 리스트 
-const handleNavigate = (albumId) => {
-  navigate(`/album/${albumId}`);
-};
-const albumList = [
-  {
-    id: 1,
-    title: 'MUSIC ON THE BLOCK',
-    artist: '징쨩',
-    songCount: 12,
-    isOwner: true,
-    coverImage: '/assets/images/sample-album.png',
-  },
-  {
-    id: 2,
-    title: 'ALBUM B',
-    artist: 'Artist B',
-    songCount: 8,
-    isOwner: false,
-    coverImage: '/assets/images/sample-album2.png',
-  },
-  {
-    id: 3,
-    title: 'ALBUM B',
-    artist: 'Artist B',
-    songCount: 8,
-    isOwner: false,
-    coverImage: '/assets/images/sample-album2.png',
-  },
-  {
-    id: 4,
-    title: 'ALBUM B',
-    artist: 'Artist B',
-    songCount: 8,
-    isOwner: false,
-    coverImage: '/assets/images/sample-album2.png',
-  },
-  {
-    id: 5,
-    title: 'ALBUM B',
-    artist: 'Artist B',
-    songCount: 8,
-    isOwner: false,
-    coverImage: '/assets/images/sample-album2.png',
-  },
-  {
-    id: 6,
-    title: 'ALBUM B',
-    artist: 'Artist B',
-    songCount: 8,
-    isOwner: false,
-    coverImage: '/assets/images/sample-album2.png',
-  },
-  {
-    id: 7,
-    title: 'ALBUM B',
-    artist: 'Artist B',
-    songCount: 8,
-    isOwner: false,
-    coverImage: '/assets/images/sample-album2.png',
-  },
-];
+  // 추천 앨범 가져오는 API 함수
+  const handleGetRecommendedAlbum = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/recommend/bundle`, null);
+      setRecommendedAlbums(res.data);
+      console.log('추천 앨범 가져오기 완료!', res.data);
+    } catch (error) {
+      console.error('추천 앨범 가져오는 API 함수 error입니당', error);
+    }
+  };
+  // 추천 리스트 새로고침!
+  useEffect(() => {
+    if (!token) return;
+    handleGetRecommendedArtist();
+    handleGetRecommendedAlbum();
+  }, [token]);
+
+  // 추천 앨범 리스트
+  const handleNavigate = albumId => {
+    navigate(`/albums-detail/${albumId}`);
+  };
 
   return (
     <>
       <div className="main">
-        <div className='banner-slider'>
+        <div className="banner-slider">
           <Swiper
             className="banner-slider__swiper"
             modules={[Autoplay, Pagination]}
@@ -367,22 +279,25 @@ const albumList = [
           >
             <SwiperSlide>
               <div className="banner-slider__swiper-list" onClick={() => navigate('/create')}>
-                <div className='banner-slider__swiper-content banner-slider__swiper-content__crafted'>
-                  <div className='swiper-context'>
-                    <h2 className='banner-slider__welcome-txt'>Welcome To Music On The block!</h2>
-                    <div className='banner-slider__welcome-desc'>
-                      <p className='desc-txt'>
+                <div className="banner-slider__swiper-content banner-slider__swiper-content__crafted">
+                  <div className="swiper-context">
+                    <h2 className="banner-slider__welcome-txt">Welcome To Music On The Block!</h2>
+                    <div className="banner-slider__welcome-desc">
+                      <p className="desc-txt">
                         <span>{t('Your own')}</span>
                         <strong>{t('unique music,')}</strong>
                       </p>
-                      <p className='desc-txt'>
+                      <p className="desc-txt">
                         <span>{t('Created in no time')}</span>
                         <strong>{t('with a simple guide.')}</strong>
                       </p>
                     </div>
-                    <p className='banner-slider__creattion-txt'>{t('Create Music')}<FaArrowRight width={6} color='#fff' opacity={0.7} /></p>
+                    <p className="banner-slider__creattion-txt">
+                      {t('Create Music')}
+                      <FaArrowRight width={6} color="#fff" opacity={0.7} />
+                    </p>
                   </div>
-                  <img src={songCreateImg} alt="" className='banner-slider__music-icon' />
+                  <img src={songCreateImg} alt="" className="banner-slider__music-icon" />
                 </div>
               </div>
             </SwiperSlide>
@@ -392,7 +307,11 @@ const albumList = [
                   <picture className="banner-slider__picture">
                     <source media="(min-width: 481px)" srcset={mainBannerImg1} />
                     <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
-                    <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
+                    <img
+                      src={mainBannerImg1}
+                      alt="Main banner example"
+                      className="banner-slider__swiper-banner-img"
+                    />
                   </picture>
                 </div>
               </div>
@@ -400,22 +319,18 @@ const albumList = [
           </Swiper>
         </div>
 
-      <SearchBar
-        search={search}
-        handleChange={handleChange}
-        handleClear={handleClear}
-      />
+        <SearchBar keyword={keyword} handleChange={handleChange} handleClear={handleClear} />
 
         <div className="main__content-item">
           {/* 인기 음악 */}
           <List
             title={t('Hit Music')}
-            data={totalList}
+            data={hitList}
             id="Latest"
             currentTrack={currentTrack}
             handlePlay={handlePlay}
             currentTime={currentTime}
-            link="/song/list?songs=Latest"
+            link="/song/list?songs_sort=Most+Played"
             setPreparingModal={setPreparingModal}
             audioRef={audioRef}
             noDataMessage="There are no songs."
@@ -423,26 +338,24 @@ const albumList = [
           />
 
           {/* 추천 아티스트 캐러셀 */}
-          <section className='artist-section'>
-            <h2 className='album__content-list__title'>
-              {t('Recommended Artists')}
-            </h2>
-            <div className='artist-slider-wrap'>
+          <section className="artist-section">
+            <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
+            <div className="artist-slider-wrap">
               <Swiper
-                modules={[Autoplay]} 
+                modules={[Autoplay]}
                 slidesPerView={9}
                 centeredSlides={true}
                 loop={true}
-                initialSlide={Math.floor(artistList.length / 2)}
-                slidesPerGroup={1} 
-                resistanceRatio={0}    
+                initialSlide={Math.floor(recommendedArtists.length / 2)}
+                slidesPerGroup={1}
+                resistanceRatio={0}
                 longSwipesRatio={0.99}
-                longSwipesMs={300}       
-                threshold={20}          
-                speed={400}             
+                longSwipesMs={300}
+                threshold={20}
+                speed={400}
                 autoplay={{
-                  delay: 3000,  
-                  disableOnInteraction: true, 
+                  delay: 3000,
+                  disableOnInteraction: true,
                 }}
                 breakpoints={{
                   1600: {
@@ -463,26 +376,39 @@ const albumList = [
                 }}
                 className="artist-slider"
               >
-                {artistList.map((artist, idx) => (
+                {recommendedArtists.map((artist, idx) => (
                   <SwiperSlide key={idx}>
-                    <figure className={`artist-item ${artistActiveIndex === idx % artistList.length ? 'is-active' : ''}`}>
+                    <figure
+                      className={`artist-item ${
+                        artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
+                      }`}
+                    >
                       <div className="artist-thumb">
                         {/* 선택한 아티스트의 페이지로 이동 */}
-                        <Link to="/my-page?category=AI+Services">
-                          <img src={artist.coverImage} alt={artist.name} />
+                        <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
+                          <img
+                            src={artist.profile ? artist.profile : defaultCoverImg2}
+                            alt={artist.name}
+                          />
                         </Link>
                       </div>
                       <figcaption className="artist-info">
                         <h3 className="artist-name">
                           <span>{artist.name}</span>
-                          <img src={artistLevelIcon} alt="Artist Level Icon" className='artist-level' />
+                          <img
+                            src={getUserGradeSquareIcon(artist?.user_rating)}
+                            alt="Artist Level Icon"
+                            className="artist-level"
+                          />
                         </h3>
-                        <p className='artist-meta'>
-                          <span>Music 
-                            <small>{artist.music}</small>
+                        <p className="artist-meta">
+                          <span>
+                            Music
+                            <small>{artist.total_songs}</small>
                           </span>
-                          <span>Follower 
-                            <small>{artist.follower}</small>
+                          <span>
+                            Follower
+                            <small>{artist.followers}</small>
                           </span>
                         </p>
                       </figcaption>
@@ -493,35 +419,32 @@ const albumList = [
             </div>
           </section>
 
-
           {/* 추천 앨범 리스트 */}
           <section className="album-section">
-            <h2 className='album__content-list__title'>
-              {t('Recommended Albums')}
-            </h2>
+            <h2 className="album__content-list__title">{t('Recommended Albums')}</h2>
             <Swiper
-                slidesPerView={'auto'}
-                spaceBetween={16}
-                grabCursor={true}
-                loop={false}
-                centeredSlides={false}
-                className="recommended-albums-slider"
-              >
-                {albumList.map((album) => (
-                  <SwiperSlide key={album.id} className='recommended-albums-item'>
-                    <AlbumCollectionItems.Item
-                      name={album.title}
-                      artist={album.artist}
-                      count={album.songCount}
-                      isOwner={album.isOwner}
-                      coverImage={album.defaultAlbumImage}
-                      handleNavigate={() => handleNavigate(album.id)}
-                      target="Collection"
-                      translateFn={(word) => word}
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              slidesPerView={'auto'}
+              spaceBetween={16}
+              grabCursor={true}
+              loop={false}
+              centeredSlides={false}
+              className="recommended-albums-slider"
+            >
+              {recommendedAlbums.map(album => (
+                <SwiperSlide key={album.id} className="recommended-albums-item">
+                  <AlbumCollectionItems.Item
+                    name={album.album_name}
+                    artist={album.name}
+                    count={album.song_cnt}
+                    isOwner={album.is_owner}
+                    coverImage={album.cover_image}
+                    handleNavigate={() => handleNavigate(album.id)}
+                    target="Collection"
+                    translateFn={word => word}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </section>
         </div>
 
@@ -542,22 +465,23 @@ const albumList = [
               currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
-              link="/song/list?songs=Latest"
+              link="/song/list?songs_sort=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
               noDataMessage="There are no songs."
               isTrackActive={isTrackActive}
             />
 
-        {/* 추천음악 */}
+            {/* 추천음악 */}
             <List
               title={t('Recommended Music')}
-              data={totalList}
-              id="Latest"
+              data={randomList}
+              id="Recommended"
               currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
-              link="/song/list?songs=Latest"
+              // ✅ songs_sort는 'Latest', 대신 랜덤 플래그를 따로 추가
+              link="/song/list?songs_sort=Latest&from=RandomSection"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
               noDataMessage="There are no songs."
@@ -644,29 +568,24 @@ const albumList = [
                 {t('See More')}
               </Link>
             </p>
-            <article
-              className="main__content-item__persona"
-              ref={evaluationSectionRef}
-            >
-              {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map(
-                (persona, index) => (
-                  <div
-                    key={index}
-                    className={`main__content-item__persona__item ${
-                      critic === persona?.name ? 'active' : ''
-                    }`}
-                    onClick={() =>
-                      setSearchParams(prev => {
-                        setShowAllEvaluations(false);
-                        return { ...Object.fromEntries(prev), critic: persona.name };
-                      })
-                    }
-                  >
-                    <img src={persona.image} alt={persona.name} />
-                    <p>{persona.name}</p>
-                  </div>
-                )
-              )}
+            <article className="main__content-item__persona" ref={evaluationSectionRef}>
+              {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
+                <div
+                  key={index}
+                  className={`main__content-item__persona__item ${
+                    critic === persona?.name ? 'active' : ''
+                  }`}
+                  onClick={() =>
+                    setSearchParams(prev => {
+                      setShowAllEvaluations(false);
+                      return { ...Object.fromEntries(prev), critic: persona.name };
+                    })
+                  }
+                >
+                  <img src={persona.image} alt={persona.name} />
+                  <p>{persona.name}</p>
+                </div>
+              ))}
             </article>
 
             <div className="album__content-list__evaluation-stage">
@@ -699,9 +618,6 @@ const albumList = [
             </div>
           </article>
         </section>
-
-
-
 
         {/* 이전 코드 */}
         {/* {service === 'AI Lyrics & Songwriting' && (

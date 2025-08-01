@@ -15,7 +15,7 @@ import defaultCoverImg from '../assets/images/header/logo-png.png';
 import defaultCoverImg2 from '../assets/images/logo-png2.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
 import songCreateImg from '../assets/images/album/music-icon.png';
-import mainBannerImg1 from '../assets/images/album/main-banner-01.png';
+import mainBannerImg1 from '../assets/images/album/main-banner01.png';
 import mainBannerImgMobile1 from '../assets/images/album/main-banner-01-mobile.png';
 import artistSampleImg from '../assets/images/album/artist-sample.png';
 import artistLevelIcon from '../assets/images/icons/artist-level-icon.svg';
@@ -304,11 +304,13 @@ function Album() {
             <SwiperSlide>
               <div className="banner-slider__swiper-list">
                 <div className="banner-slider__swiper-content">
-                  <picture className="banner-slider__picture">
-                    <source media="(min-width: 481px)" srcset={mainBannerImg1} />
-                    <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
-                    <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
-                  </picture>
+                  <Link to="/vote-event" className='banner-slider__link'>
+                    <picture className="banner-slider__picture">
+                      <source media="(min-width: 481px)" srcset={mainBannerImg1} />
+                      <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
+                      <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
+                    </picture>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

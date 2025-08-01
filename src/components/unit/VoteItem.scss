@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     row-gap: clamp(8px, 0.8vw, 12px);
+    min-width: 0;
     &__music-cover{
         width: 100%;
         aspect-ratio: 1 / 1;
@@ -52,6 +53,7 @@
         text-overflow: ellipsis;
         display: block;
         white-space: nowrap;
+        max-width: 100%;
         margin-bottom: 8px;
     }
     &__artist{

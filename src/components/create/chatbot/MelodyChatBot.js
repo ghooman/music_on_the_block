@@ -179,7 +179,7 @@ const MelodyChatBot = ({
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
-        // temperature: 0.8,
+        // temperature: 0.7,
         temperature: 0,
         stop: ['---\n'],
         messages: [
@@ -196,6 +196,9 @@ const MelodyChatBot = ({
 
       // 전체 응답 보기
       console.log('[🟡 전체 GPT 응답]', botMessage);
+
+      // 👇 여기 추가
+      console.warn('🔍 botMessage 문자열 확인:', JSON.stringify(botMessage));
 
       // 프롬프트/생성 키워드가 포함되어 있는지 확인
       const hasPromptKeyword = /(?:최종 프롬프트|프롬프트|생성|Final Prompt|Prompt|generate)/i.test(
@@ -281,11 +284,20 @@ const MelodyChatBot = ({
       // [곡의 타이틀 추출]
       if (locale.extraction.titleRegex.test(botMessage)) {
         const titleMatch = botMessage.match(locale.extraction.titleRegex);
+
+        // 여기에 디버깅 로그 추가👇
+        console.log('[🟩 titleRegex 매칭됨]');
+        console.log('🔍 원문 메시지:', botMessage);
+        console.log('🎯 titleMatch 결과:', titleMatch);
+
         if (titleMatch && titleMatch[1]) {
-          const cleanTitle = cleanExtractedText(titleMatch[1].trim());
+          const rawTitle = cleanExtractedText(titleMatch[1].trim());
+          // const cleanTitle = rawTitle.split('\n')[0].trim(); // 🔥 여기서 한 줄만 쓰도록 자름
+
+          console.log('✅ [타이틀 추출 결과]:', rawTitle); // 🔥 이거 가장 중요
           setMelodyData(prevData => ({
             ...prevData,
-            melody_title: cleanTitle,
+            melody_title: rawTitle,
           }));
         }
       }
@@ -296,12 +308,18 @@ const MelodyChatBot = ({
       ) {
         const titleMatch = botMessage.match(locale.extraction.promptTitleRegex);
         if (titleMatch && titleMatch[1]) {
-          const cleanTitle = cleanExtractedText(titleMatch[1].trim());
+          const rawTitle = cleanExtractedText(titleMatch[1].trim());
+          // const cleanTitle = rawTitle.split('\n')[0].trim(); // 🔥 여기서 한 줄만 쓰도록 자름
+
           setMelodyData(prevData => ({
             ...prevData,
-            melody_title: cleanTitle,
+            melody_title: rawTitle,
           }));
         }
+      } else {
+        // 👈 여기에 붙여주세요!
+        console.warn('❌ titleRegex로 타이틀 추출 실패');
+        console.log('❗ botMessage 원문:', botMessage);
       }
 
       // [장르 추출]
@@ -682,23 +700,30 @@ const MelodyChatBot = ({
   
 [Visual Prompt for Album Cover Generation]
 
-Create a cinematic and emotionally expressive illustration based on the song's narrative.  
-Focus on conveying the **core theme** of the lyrics — whether it revolves around a person, place, object, or atmosphere.  
-Adapt the composition and style to match the emotional tone and story of the song, such as warm, nostalgic, vibrant, dreamy, or melancholic.
+Realistic, Emotionally Resonant Album Cover
 
-Key Instructions:
-– If the song centers around a **character**, illustrate that character expressing an emotion, action, or memory  
-– If the song focuses on a **place, object, or abstract theme**, depict a scene that visually captures its essence and mood  
-– Show a **clear situation or moment**, not just abstract symbols  
-– Include meaningful **visual cues** that reflect the lyrics (weather, time of day, setting, etc.)
+Create a naturalistic, grounded illustration inspired by the song’s overall tone, story, and emotion.
+It should feel like a real-life moment — subtle, intimate, and deeply human — not a fantasy or stylized poster.
+
+Interpretation Guidelines:
+– Understand the emotional core (joy, longing, sorrow, hope, etc.)
+– Ask: What is the song really about? A relationship, place, or memory?
+– Depict a concrete scene — e.g., someone by a window, a farewell at a train station, a solo walk at dawn
+– Avoid abstract or symbolic imagery; use real places, people, and natural gestures
+
+Visual Direction:
+– Choose realistic indoor or outdoor settings (cafe, beach, street, bedroom)
+– Use natural light, weather, time of day, and background elements to tell the story
+– Focus on expression and posture for character-driven songs
+– Use wider, quiet shots for songs about place or mood
 
 Styling Notes:
-– Use soft, natural lighting combined with cinematic framing that captures realistic human expressions.  
-– Favor close-up or mid-shot for character-focused scenes  
-– Use wide or atmospheric shots for landscape- or object-focused songs  
-– Match the color palette to the song's emotion  
-– Avoid surreal or overly symbolic art — keep it grounded and narrative-driven  
-– Think of it as a key visual from a movie scene
+– Soft, painterly or photographic style — emotional, not dramatic
+– Color palette should reflect the song’s tone (warm for comfort, cool for solitude, muted for nostalgia)
+– No surrealism, fantasy, typography, or heroic poses
+
+Goal:
+The artwork should feel like a real memory — subtle, beautiful, and emotionally true — complementing the music without overpowering it.
   
   ⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
     `;
@@ -875,6 +900,10 @@ Styling Notes:
   // 생성 버튼 허용 여부 Melody Title 값이 있을 경우 통과
   const isGenerateButtonDisabled =
     melodyData?.melody_title === '' || melodyData?.melody_title?.length === 0;
+
+  // 여기에 디버깅 로그 추가👇
+  console.log('🔎 melody_title 상태:', melodyData?.melody_title);
+  console.log('🚫 버튼 비활성화 상태:', isGenerateButtonDisabled);
 
   const [isActive, setIsActive] = useState(false);
 

@@ -89,7 +89,12 @@ const SongPlayTable = ({
       });
       triggerIndex.current = 0;
     }
-  }, [isTrigger, songList, playTrack, isContinue]);
+
+    // ✅ Stop 버튼 눌렀을 때 정지
+    if (isTrigger === false) {
+      togglePlayPause(false); // 또는 stopTrack() 등 명시적 정지 함수가 있다면 그것 사용
+    }
+  }, [isTrigger, songList]);
 
   // 곡 클릭 핸들러
   const handleSongClick = (item, index) => {

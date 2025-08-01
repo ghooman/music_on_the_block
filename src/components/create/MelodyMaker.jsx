@@ -127,23 +127,30 @@ const generateAlbumCoverPrompt = ({ melodyTitle, melodyTag, melodyGenre, fullLyr
 
 [Visual Prompt for Album Cover Generation]
 
-Create a cinematic and emotionally expressive illustration based on the song's narrative.  
-Focus on conveying the **core theme** of the lyrics — whether it revolves around a person, place, object, or atmosphere.  
-Adapt the composition and style to match the emotional tone and story of the song, such as warm, nostalgic, vibrant, dreamy, or melancholic.
+Realistic, Emotionally Resonant Album Cover
 
-Key Instructions:
-– If the song centers around a **character**, illustrate that character expressing an emotion, action, or memory  
-– If the song focuses on a **place, object, or abstract theme**, depict a scene that visually captures its essence and mood  
-– Show a **clear situation or moment**, not just abstract symbols  
-– Include meaningful **visual cues** that reflect the lyrics (weather, time of day, setting, etc.)
+Create a naturalistic, grounded illustration inspired by the song’s overall tone, story, and emotion.
+It should feel like a real-life moment — subtle, intimate, and deeply human — not a fantasy or stylized poster.
+
+Interpretation Guidelines:
+– Understand the emotional core (joy, longing, sorrow, hope, etc.)
+– Ask: What is the song really about? A relationship, place, or memory?
+– Depict a concrete scene — e.g., someone by a window, a farewell at a train station, a solo walk at dawn
+– Avoid abstract or symbolic imagery; use real places, people, and natural gestures
+
+Visual Direction:
+– Choose realistic indoor or outdoor settings (cafe, beach, street, bedroom)
+– Use natural light, weather, time of day, and background elements to tell the story
+– Focus on expression and posture for character-driven songs
+– Use wider, quiet shots for songs about place or mood
 
 Styling Notes:
-– Use soft, natural lighting combined with cinematic framing that captures realistic human expressions.  
-– Favor close-up or mid-shot for character-focused scenes  
-– Use wide or atmospheric shots for landscape- or object-focused songs  
-– Match the color palette to the song's emotion  
-– Avoid surreal or overly symbolic art — keep it grounded and narrative-driven  
-– Think of it as a key visual from a movie scene
+– Soft, painterly or photographic style — emotional, not dramatic
+– Color palette should reflect the song’s tone (warm for comfort, cool for solitude, muted for nostalgia)
+– No surrealism, fantasy, typography, or heroic poses
+
+Goal:
+The artwork should feel like a real memory — subtle, beautiful, and emotionally true — complementing the music without overpowering it.
 
 ⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
   `;

@@ -291,7 +291,11 @@ const Create = () => {
         </>
       )}
       {isFreeformMode && (
-        <FreeForm />
+        <FreeForm
+          selectedVersion={selectedVersion}
+          selectedPrivacy={selectedPrivacy}
+          selectedCreationMode={selectedCreationMode}
+        />
       )}
 
       {!isFreeformMode && (

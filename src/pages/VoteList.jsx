@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Filter from '../components/unit/Filter';
 import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
+import SuccessModal from '../components/modal/SuccessModal';
 
 // 스타일
 import '../styles/VoteList.scss';
@@ -58,7 +59,7 @@ function VoteList() {
         songsSort={['Latest', 'Oldest']} // 최신순/오래된순 정렬 기준 필터
       />
       <SearchBar
-        search={search}
+        keyword={search}
         handleChange={handleChange}
         handleClear={handleClear}
       />
@@ -86,6 +87,12 @@ function VoteList() {
           </ul>
         )}
       </div>
+
+        <SuccessModal
+          title="투표 완료"
+          content="소중한 한 표가 성공적으로 반영되었어요!"
+          closeIcon={false}
+        />
     </>
   )
 }

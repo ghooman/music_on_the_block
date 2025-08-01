@@ -60,7 +60,7 @@ function VoteItem({
         </div>
         <button
         className={`vote-item__btn ${
-            isVoted ? 'vote-item__btn--sucess' : 'vote-item__btn--vote'
+            isVoted ? 'vote-item__btn--success' : 'vote-item__btn--vote'
         }`}
         >
         {isVoted ? '투표 완료' : '투표하기'}

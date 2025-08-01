@@ -3,7 +3,7 @@ import ModalWrap from '../ModalWrap';
 
 import './SuccessModal.scss';
 
-const SuccessModal = ({ title, content, setShowSuccessModal, onSuccess }) => {
+const SuccessModal = ({ title, content, setShowSuccessModal, onSuccess, closeIcon = true }) => {
   const { t } = useTranslation('modal');
 
   const handleClose = () => {
@@ -12,7 +12,7 @@ const SuccessModal = ({ title, content, setShowSuccessModal, onSuccess }) => {
   };
 
   return (
-    <ModalWrap title={t(title)} onClose={handleClose}>
+    <ModalWrap title={t(title)} onClose={handleClose} closeIcon={closeIcon}>
       <div className="success-modal">
         {content && <p className="success-modal__message">{t(content)}</p>}
         <button className="success-modal__button" onClick={handleClose}>

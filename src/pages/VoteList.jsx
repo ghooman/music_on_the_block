@@ -5,6 +5,7 @@ import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
 import SuccessModal from '../components/modal/SuccessModal';
 import ConfirmModal from '../components/modal/ConfirmModal';
+import Pagination from '../components/unit/Pagination';
 
 // 스타일
 import '../styles/VoteList.scss';
@@ -82,6 +83,7 @@ function VoteList() {
         {voteList.length === 0 ? (
           <p className="no-result-txt">이벤트에 접수된 곡을 정리 중이에요!</p>
         ) : (
+          <>
           <ul className="vote-list">
             {voteList.map((item, index) => (
               <li className="vote-list__item" key={`vote-item-${index}`}>
@@ -101,6 +103,13 @@ function VoteList() {
               </li>
             ))}
           </ul>
+          <Pagination
+            totalCount={voteList.length}
+            viewCount={viewCount}
+            page={page}
+            setPage={setPage}
+          />
+          </>
         )}
       </div>
 

@@ -5,7 +5,7 @@
   left: 0;
   top: 0;
   background: #0b0b0cb5;
-  z-index: 1000;
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -611,8 +611,8 @@
 
 @media screen and (max-width: 768px) {
   .modal-wrap {
-    justify-content: end;
-    align-items: end;
+    justify-content: flex-end;
+    align-items: flex-end;
     .modal-content-box {
       max-width: 100%;
       width: 100%;

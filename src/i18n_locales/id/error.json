@@ -53,5 +53,6 @@
  "Unable to measure the score. Please try again.": "Tidak dapat mengukur skor. Silakan coba lagi.",
  "Song generation is in progress.": "Pembuatan lagu sedang berlangsung.",
  "You can proceed after it's done.": "Kamu bisa melanjutkan setelah proses selesai.",
- "Cannot create duplicates": "Tidak dapat membuat duplikat"
+ "Cannot create duplicates": "Tidak dapat membuat duplikat",
+ "Insufficient Polygon gas fee.": "Biaya gas Polygon tidak mencukupi."
 }

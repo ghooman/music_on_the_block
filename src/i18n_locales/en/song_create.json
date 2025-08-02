@@ -96,5 +96,7 @@
  "Please enter the song title.": "Please enter the song title.",
  "Write a title for this song.": "Write a title for this song.",
  "Please write a description of the song.": "Please write a description of the song.",
- "Write an introduction for this song.": "Write an introduction for this song."
+ "Write an introduction for this song.": "Write an introduction for this song.",
+ "Music cannot be generated.": "Music cannot be generated.",
+ "Inappropriate or offensive words were detected in the lyrics.\nPlease revise the lyrics and try again.": "Inappropriate or offensive words were detected in the lyrics.\nPlease revise the lyrics and try again."
 }

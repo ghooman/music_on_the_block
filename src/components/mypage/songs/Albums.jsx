@@ -124,7 +124,7 @@ const Albums = ({ username, isMyProfile }) => {
     <div className="albums">
       {isMyProfile && (
         <SubBanner>
-          <SubBanner.LeftImages src={subBannerImage4} />
+          {/* <SubBanner.LeftImages src={subBannerImage4} /> */}
           <SubBanner.Title text={t('Create Your Own Album')} />
           <SubBanner.Message
             text={t(

@@ -13,6 +13,8 @@ import mobProfilerImg from '../../../assets/images/mob-profile-img01.svg';
 import lyricsCreate from '../../../assets/images/icons/lyrics-create-icon.svg';
 import lyricsEdit from '../../../assets/images/icons/lyrics-edit-icon.svg';
 import chatSend from '../../../assets/images/icons/chat_send-icon.svg';
+import { badwords } from '../../../data/badwords';
+import ErrorModal from '../../modal/ErrorModal';
 
 // 통일된 프롬프트 파일 불러오기
 import lyricPrompts from '../../../locales/lyricPrompts';
@@ -146,6 +148,7 @@ const LyricChatBot = ({
     try {
       const response = await client.chat.completions.create({
         model: 'gpt-4.1-nano',
+        temperature: 0,
         messages: [
           {
             role: 'system',
@@ -231,11 +234,46 @@ const LyricChatBot = ({
     window.scrollTo({ top: 0, behavior: 'smooth' }); // 화면 맨 위로
   };
 
+  // 채팅 말풍선 새롭게 추가되면 부드럽게 하단으로 내려가는 애니메이션
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [chatHistory.length]);
+
+  // 0716 비속어 주석 처리
+  // 가사의 부적절한 단어 포함 감지
+  const hasBadwords = (text = '') => {
+    const wordList = text
+      .toLowerCase()
+      .replace(/[^\wㄱ-ㅎ가-힣\s]/g, '') // 특수문자 제거
+      .split(/\s+/); // 공백 기준으로 나눔
+
+    const hits = badwords.filter(word => wordList.includes(word));
+
+    // 디버깅용 로그
+    console.log('wordList:', wordList);
+    console.log('badword hit:', hits.length > 0 ? hits : '✅ 통과');
+
+    return hits.length > 0;
+  };
+
+  // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   if (!isConfirmLyricStatus)
     return (
       <div className="chatbot__background">
         {createLoading && <CreateLoading />}
-        <section className="chatbot chatbot-mode" ref={scrollContainerRef}>
+        <section
+          className="chatbot chatbot-mode"
+          style={{ paddingBottom: !isConfirmLyricStatus ? '120px' : '0px' }}
+        >
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}
@@ -261,7 +299,7 @@ Create your own lyrics based on a special story`
             {/* <div className="chatbot__header">
               <h2>{t('Chat bot')}</h2>
             </div> */}
-            <div className="chatbot__messages">
+            <div className="chatbot__messages" ref={scrollContainerRef}>
               {chatHistory.map((msg, index) => (
                 <div key={index} className={`message ${msg.role}`}>
                   <div className="message__content">
@@ -346,8 +384,8 @@ Create your own lyrics based on a special story`
     );
   else
     return (
-      <div ref={generatedLyricsRef} className="create__lyric-lab">
-        <section className="chatbot" style={{ paddingBottom: '48px' }}>
+      <div ref={generatedLyricsRef} className="chatbot__background">
+        <section className="chatbot chatbot-mode">
           <SelectItemWrap
             mode="chatbot"
             selectedLanguage={selectedLanguage}
@@ -383,7 +421,7 @@ Create your own lyrics based on a special story`
                   document.body.removeChild(element);
                 }}
               >
-                {t('Download as text (.txt)')} (.txt)
+                {t('Download as text (.txt)')}
               </button>
               <button
                 className="generated-lyrics__download-buttons--button pdf"
@@ -429,40 +467,6 @@ Create your own lyrics based on a special story`
                 />
               </pre>
             )}
-
-            {/* <div className="generated-lyrics__confirm-buttons">
-            {selectedVersion !== 'V4_5' && (
-              <p
-                className={`generated-lyrics__confirm-buttons--text ${
-                  selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
-                }`}
-              >
-                {t('Lyrics Length')} : {generatedLyric?.length} / 1000
-              </p>
-            )}
-
-            <div className="generated-lyrics__confirm-buttons--button-wrap">
-              <button
-                className="generated-lyrics__confirm-buttons--button edit"
-                onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-              >
-                {t('EDIT')}
-              </button>
-              <button
-                className={`generated-lyrics__confirm-buttons--button confirm ${
-                  selectedVersion !== 'V4_5' && generatedLyric?.length > 1000 ? 'disabled' : ''
-                }`}
-                disabled={selectedVersion !== 'V4_5' && generatedLyric?.length > 1000}
-                onClick={() => {
-                  setGeneratedLyric(generatedLyric);
-                  setPageNumber(prev => prev + 1);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              >
-                {t('CONFIRM')}
-              </button>
-            </div>
-          </div> */}
           </SelectItemWrap>
         </section>
         <div className="generated-lyrics__confirm-buttons">
@@ -475,20 +479,6 @@ Create your own lyrics based on a special story`
               {t('Lyrics Length')} : {isConfirmLyricStatus?.length} / 1000
             </p>
           )}
-
-          {/* <button
-              className={`generated-lyrics__confirm-buttons--button confirm ${
-                selectedVersion !== 'V4_5' && createdLyrics?.length > 1000 ? 'disabled' : ''
-              }`}
-              disabled={selectedVersion !== 'V4_5' && createdLyrics?.length > 1000}
-              onClick={() => {
-                setGeneratedLyric(createdLyrics);
-                setPageNumber(prev => prev + 1);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              {t('CONFIRM')}
-            </button> */}
           <div className="create__btn">
             <button
               className={`create__get-started--button ${
@@ -497,6 +487,22 @@ Create your own lyrics based on a special story`
               disabled={selectedVersion !== 'V4_5' && isConfirmLyricStatus?.length > 1000}
               onClick={() => {
                 // setGeneratedLyric(isConfirmLyricStatus);
+                console.log('generatedLyric:', generatedLyric);
+                // 0716 비속어 주석 처리
+                console.log('badwords:', badwords);
+                console.log('hasBadwords:', hasBadwords(generatedLyric));
+                if (hasBadwords(generatedLyric)) {
+                  setErrorMessage(
+                    t(`Inappropriate or offensive words were detected in the lyrics.
+Please revise the lyrics and try again.`)
+                  );
+                  setErrorTitle(t('Music cannot be generated.'));
+                  setShowErrorModal(true);
+                  // 또는 requestLyrics 버튼을 여기서 보여주는 로직 추가
+                  // setShowRequestLyrics(true);
+                  return;
+                }
+                setGeneratedLyric(generatedLyric);
                 setPageNumber(prev => prev + 1);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
@@ -504,16 +510,15 @@ Create your own lyrics based on a special story`
               {t('Go to Melody Creation')}
             </button>
           </div>
-
-          {/* <div className="generated-lyrics__confirm-buttons--button-wrap">
-              <button
-                className="generated-lyrics__confirm-buttons--button edit"
-                onClick={() => setMode(prev => (prev === 'edit' ? 'read' : 'edit'))}
-              >
-                {t('EDIT')}
-              </button>
-            </div> */}
         </div>
+        {showErrorModal && (
+          <ErrorModal
+            title={errorTitle}
+            message={errorMessage}
+            button={true}
+            setShowErrorModal={setShowErrorModal}
+          />
+        )}
       </div>
     );
 };

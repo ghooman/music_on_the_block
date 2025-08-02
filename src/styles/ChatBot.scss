@@ -6,10 +6,9 @@ $input-bg: #323232;
 $text-color: #ffffff;
 $shadow-color: rgba(0, 0, 0, 0.3);
 
-.chatbot__background,
-.create__lyric-lab {
+/* 챗봇 전체 (하단 생성 버튼 포함, 생성 단계 사이드바 미포함) */
+.chatbot__background {
   max-width: 1220px;
-  // max-height: 1006px;
   display: flex;
   padding: 40px 30px;
   flex-direction: column;
@@ -17,22 +16,14 @@ $shadow-color: rgba(0, 0, 0, 0.3);
   gap: 24px;
   flex: 1 0 0;
   align-self: stretch;
-  min-height: 0;
+  height: 100vh;
 
-  .generated-lyrics__download-buttons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-  }
-
+  /* 챗봇 박스 boder있는 박스 */
   .chatbot {
     display: flex;
     height: 100%;
-    max-height: 846px;
-    min-height: 0 !important;
-    padding: 24px 30px 100px 30px;
+    min-height: 0;
+    padding: 24px 30px;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
@@ -41,11 +32,12 @@ $shadow-color: rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
     position: relative;
-    overflow: visible;
 
+    /* 가사 생성 페이지 */
+    /* AI와 대화하는 섹션 (AI랑 유저랑 대화 주거니받거니하는 부분) */
     &__messages {
-      height: auto !important;
-      max-height: none !important;
+      height: 100% !important;
+      max-height: 100% !important;
       display: flex;
       flex: 1 1 auto;
       flex-direction: column;
@@ -53,6 +45,12 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       gap: 12px;
       align-self: stretch;
       min-height: 0;
+      overflow-y: auto; /* 가로 스크롤 방지용으로 auto 권장 */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+      }
 
       font {
         font-family: inherit !important;
@@ -73,10 +71,13 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           color: inherit !important;
           letter-spacing: inherit !important;
         }
+        /* AI와의 대화창에서 유저 */
         &.user {
           align-self: flex-end;
           .message__content {
             .message__content--text {
+              width: 100%;
+              max-width: 350px;
               display: flex;
               padding: 12px 20px;
               align-items: flex-start;
@@ -102,6 +103,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           }
         }
 
+        /* AI와의 대화창에서 AI */
         &.assistant {
           .message__content {
             display: flex;
@@ -112,6 +114,8 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               display: flex;
               width: 48px;
               height: 48px;
+              min-width: 48px;
+              max-height: 48px;
               justify-content: center;
               align-items: center;
               gap: 10px;
@@ -126,15 +130,16 @@ $shadow-color: rgba(0, 0, 0, 0.3);
               }
             }
             .message__content--text {
+              width: 100%;
+              max-width: 350px;
               white-space: break-spaces;
               display: flex;
               padding: 12px 20px;
               align-items: flex-start;
               gap: 10px;
               border-radius: 0px 16px 16px 16px;
-              background: #cf0;
-              opacity: 0.5;
-              color: #000;
+              background: var(--White-10, rgba(255, 255, 255, 0.1));
+              color: #fff;
               font-family: Pretendard400;
               font-size: 14px;
               font-style: normal;
@@ -154,10 +159,11 @@ $shadow-color: rgba(0, 0, 0, 0.3);
       }
     }
 
+    /* AI와의 대화창 하단의 입력창 */
     &__textarea {
       display: flex;
       // width: 100%;
-      height: 54px;
+      height: 80px;
       padding: 12px 20px;
       justify-content: space-between;
       align-items: center;
@@ -200,16 +206,17 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         font-size: 14px;
         background: transparent;
         border: none;
+        border-radius: 0px;
         outline: none;
 
         height: 100%; /* 부모와 동일한 높이 */
-        line-height: 30px; /* 적절히 조정 */
+        line-height: 22px; /* 적절히 조정 */
         padding: 0; /* 상하 패딩 제거 */
         margin: 0;
         display: flex;
         align-items: center; // 일부 브라우저는 무시할 수 있음
 
-        overflow: hidden;
+        overflow-y: auto;
         scrollbar-width: none; /* Firefox */
         &::-webkit-scrollbar {
           display: none; /* Chrome, Safari */
@@ -218,7 +225,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           color: #767676;
           font-family: Pretendard400;
           font-size: 14px;
-          line-height: 30px;
+          line-height: 22px;
         }
 
         font {
@@ -238,354 +245,30 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         }
       }
     }
-  }
 
-  .create__btn {
-    width: 100%;
-    height: auto;
-    .create__get-started--button {
-      width: 100%;
-      display: flex;
-      padding: 12px 20px;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      align-self: stretch;
-      border-radius: 12px;
-      // background: var(--Primary_Dark, #3a9de3);
-      background-color: #cf0;
-      // color: var(--White, #fff);
-      color: #000;
-      text-align: center;
-      font-family: Pretendard700;
-      font-size: 16px;
-      font-style: normal;
-      line-height: 24px;
-
-      &:disabled {
-        cursor: not-allowed;
-        display: flex;
-        padding: 12px 20px;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        align-self: stretch;
-        border-radius: 12px;
-        // background: #24333e !important;
-        background-color: #000 !important;
-        color: var(--Grey-600, #767676) !important;
-        text-align: center;
-        font-family: Pretendard700;
-        font-size: 16px;
-        font-style: normal;
-        line-height: 24px;
-        &:hover {
-          transform: translateY(0px);
-          &::after {
-            transform: translateY(3px);
-          }
-        }
-
-        &::after {
-          display: none;
-        }
-      }
-    }
-  }
-
-  .music__information {
-    width: 100%;
-    // max-width: 600px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    // min-height: 800px;
-    border-radius: 12px;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #222;
-    margin-top: 16px;
-    transition: 0.3s;
-    height: 54px;
-    &.active {
-      height: auto;
-      .music__information__header {
-        &::before {
-          border: 1px solid #fff;
-          background: url('../assets/images/arrow_drop_down2.svg') center no-repeat;
-          transform: translate(0, -50%) rotate(180deg);
-        }
-      }
-    }
-    &__header {
-      text-align: left;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      margin-bottom: 16px;
-      position: relative;
-      h2 {
-        color: #cf0;
-        font-family: Pretendard400;
-        font-size: 18px;
-        font-style: normal;
-        line-height: normal;
-        font {
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
-      }
-
-      &::before {
-        content: '';
-        width: 24px;
-        height: 24px;
-        border: 1px solid #cf0;
-        position: absolute;
-        top: 50%;
-        right: 16px;
-        transform: translate(0, -50%);
-        transition: 0.3s;
-        background: url('../assets/images/arrow_drop_down.svg') center no-repeat;
-        background-size: contain;
-      }
-    }
-
-    // 공통 양식: 장르, 타이틀, 프롬프트, 가사 영역에 대한 스타일
-    &__genre,
-    &__title,
-    &__prompt,
-    &__lyric {
-      h3 {
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: $text-color;
-      }
-      .music__information__lyric--text {
-        border-radius: 12px;
-        background: #1a1a1a;
-        padding: 12px 8px;
-        textarea {
-          height: 300px;
-          resize: none;
-        }
-      }
-      textarea {
-        border-radius: 12px;
-        background: #1a1a1a;
-        height: 300px;
-      }
-      input,
-      textarea {
-        width: 100%;
-        padding: 0;
-        border: none;
-        border-radius: 8px;
-        font-size: 14px;
-        // background-color: $input-bg;
-        color: $text-color;
-        outline: none;
-        margin-bottom: 32px;
-      }
-      // 필요한 경우 영역간 여백 조정
-      margin-bottom: 10px;
-    }
-
-    &__buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 12px;
-      font {
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-        font-style: inherit !important;
-        color: inherit !important;
-        letter-spacing: inherit !important;
-      }
-      button {
-        width: 100%;
-        height: 40px;
-        background: #cf0;
-        position: relative;
-        top: 0;
-        transition: 0.2s;
-        color: #1a1a1a;
-        font-family: Pretendard600;
-        font-size: 12px;
-        font-style: normal;
-        line-height: normal;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font {
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          font-style: inherit !important;
-          color: inherit !important;
-          letter-spacing: inherit !important;
-        }
-        &::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 4px;
-          width: calc(100% - 2px);
-          transition: 0.2s;
-          border-radius: 8px;
-          height: 39px;
-          border: 1px solid #cf0;
-        }
-        &:hover {
-          top: 4px;
-          &::before {
-            top: 0;
-          }
-        }
-      }
-      .disabled {
-        background-color: rgba(255, 255, 255, 0.1);
-        cursor: not-allowed;
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-        &::before {
-          border: 1px solid transparent;
-          // background-color: rgba(255, 255, 255, 0.1);
-        }
-      }
-    }
-  }
-}
-
-.music__information__instrument,
-.music__information__gender,
-.music__information__tempo,
-.music__information__detail {
-  input {
-    width: 100%;
-    padding: 0;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    background: transparent;
-    color: $text-color;
-    outline: none;
-    margin-bottom: 32px;
-  }
-}
-
-.music__information__tags,
-.music__information__story {
-  h3 {
-    color: #f1f1f1;
-    font-family: Pretendard600;
-    // font-size: 18px;
-    margin-bottom: 8px;
-    font {
-      font-family: inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
-  }
-  textarea {
-    max-height: 100px;
-    resize: none;
-  }
-  input,
-  textarea {
-    color: #f1f1f1;
-    font-family: Pretendard500;
-    font-size: 14px;
-    font-style: normal;
-    line-height: normal;
-    border: 0;
-    background: transparent;
-    padding: 0;
-    margin-bottom: 32px;
-    font {
-      font-family: inherit !important;
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      line-height: inherit !important;
-      font-style: inherit !important;
-      color: inherit !important;
-      letter-spacing: inherit !important;
-    }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .chatbot__background,
-  .create__lyric-lab {
-    position: relative;
-    padding: 20px 0px 0px 0px;
+    /* 가사 수정 페이지 */
+    /* 생성된 가사 txt랑 pdf 다운하는 버튼들*/
     .generated-lyrics__download-buttons {
       width: 100%;
-      order: 2; /* lyrics(1) 뒤로 */
       display: flex;
-      gap: 8px;
       justify-content: center;
       align-items: center;
+      gap: 12px;
 
-      // 버튼 스타일 보완 (선택사항)
+      /* 버튼 1개 디자인 */
       &--button {
-        width: 100%;
-        max-width: 200px;
         display: flex;
-        padding: 8px 16px;
-        justify-content: center;
-        align-items: flex-start;
+        padding: 12px 20px;
+        align-items: center;
         gap: 10px;
-        flex: 1 0 0;
-        font-size: 12px;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-    }
-    .generated-lyrics__lyrics {
-      /* <pre> 또는 textarea 래퍼 */
-      order: 1; /* 1️⃣ 먼저 나옵니다 */
-    }
-    .generated-lyrics__confirm-buttons {
-      order: 3;
-    }
-    .chatbot {
-      display: flex;
-      width: 100%;
-      padding: 20px 16px 100px 16px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-      flex-shrink: 0;
-
-      &__messages {
-        height: auto !important;
-        max-height: none !important;
-        display: flex;
-        flex: 1 1 auto;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        align-self: stretch;
-        min-height: 0;
-
+        border-radius: 40px;
+        border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
+        background: var(--Black-70, rgba(0, 0, 0, 0.7));
+        color: var(--White, #fff);
+        font-family: Pretendard400;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 22px;
         font {
           font-family: inherit !important;
           font-size: inherit !important;
@@ -595,208 +278,34 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           color: inherit !important;
           letter-spacing: inherit !important;
         }
-        .message {
-          font {
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
-          &.user {
-            align-self: flex-end;
-            .message__content {
-              .message__content--text {
-                display: flex;
-                padding: 8px 12px;
-                align-items: flex-start;
-                gap: 10px;
-
-                border-radius: 16px 0px 16px 16px;
-                background: var(--White-10, rgba(255, 255, 255, 0.1));
-                white-space: break-spaces;
-                color: #fff;
-                font-family: Pretendard400;
-                font-size: 14px;
-                font-style: normal;
-                line-height: 22px;
-                font {
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
-              }
-            }
-          }
-
-          &.assistant {
-            .message__content {
-              display: flex;
-              align-items: flex-start;
-              gap: 8px;
-              align-self: stretch;
-              .message__profile {
-                display: flex;
-                width: 24px;
-                height: 24px;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
-                border-radius: 60px;
-                border: 1px solid var(--White-10, rgba(255, 255, 255, 0.1));
-                background: var(--White-05, rgba(255, 255, 255, 0.05));
-                img {
-                  width: 12px;
-                  height: 12px;
-                  flex-shrink: 0;
-                  aspect-ratio: 1/1;
-                }
-              }
-              .message__content--text {
-                white-space: break-spaces;
-                display: flex;
-                padding: 12px 20px;
-                align-items: flex-start;
-                gap: 10px;
-                border-radius: 0px 16px 16px 16px;
-                background: #cf0;
-                opacity: 0.5;
-                color: #000;
-                font-family: Pretendard400;
-                font-size: 14px;
-                font-style: normal;
-                line-height: 22px;
-                font {
-                  font-family: inherit !important;
-                  font-size: inherit !important;
-                  font-weight: inherit !important;
-                  line-height: inherit !important;
-                  font-style: inherit !important;
-                  color: inherit !important;
-                  letter-spacing: inherit !important;
-                }
-              }
-            }
-          }
-        }
-      }
-
-      &__textarea {
-        display: flex;
-        // width: 100%;
-        height: 54px;
-        padding: 12px 20px;
-        justify-content: space-between;
-        align-items: center;
-        align-self: stretch;
-
-        border-radius: 12px;
-        border: 1px solid var(--White-20, rgba(255, 255, 255, 0.2));
-        background: var(--Black-10, rgba(0, 0, 0, 0.1));
-        backdrop-filter: blur(20px);
-
-        position: absolute; /* ③ 항상 하단 고정 */
-        left: 30px; /* .chatbot 내부 padding 값과 동일하게 */
-        right: 30px;
-        bottom: 24px; /* .chatbot 내부 padding 값과 동일하게 */
-        width: auto; /* 양쪽 여백 감안해 자동 계산 */
-
-        pointer-events: none;
-        textarea,
-        .send-icon {
-          pointer-events: auto;
-        }
-
-        .send-icon {
-          transition: opacity 0.2s ease;
-          &.active {
-            opacity: 1;
-            cursor: pointer;
-          }
-          &.disabled {
-            opacity: 0.3;
-            cursor: default;
-          }
-        }
-
-        textarea {
-          resize: none;
-          width: 100%;
-          color: #fff;
-          font-family: Pretendard400;
-          font-size: 14px;
-          background: transparent;
-          border: none;
-          outline: none;
-
-          height: 100%; /* 부모와 동일한 높이 */
-          line-height: 30px; /* 적절히 조정 */
-          padding: 0; /* 상하 패딩 제거 */
-          margin: 0;
-          display: flex;
-          align-items: center; // 일부 브라우저는 무시할 수 있음
-
-          overflow: hidden;
-          scrollbar-width: none; /* Firefox */
-          &::-webkit-scrollbar {
-            display: none; /* Chrome, Safari */
-          }
-          &::placeholder {
-            color: #767676;
-            font-family: Pretendard400;
-            font-size: 14px;
-            line-height: 30px;
-          }
-
-          font {
-            font-family: inherit !important;
-            font-size: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-            font-style: inherit !important;
-            color: inherit !important;
-            letter-spacing: inherit !important;
-          }
-          &::-webkit-scrollbar-button {
-            display: none;
-          }
-          &::-webkit-scrollbar-track {
-            border-radius: 0px 12px 12px 0px;
-          }
-        }
-      }
-      .generated-lyrics__download-buttons {
-        width: 100%;
-        max-width: 350px;
-        position: absolute;
-        bottom: 25px; // 가사 섹션 하단의 여백 위로 띄우기
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 5;
-
-        display: flex;
-        gap: 8px;
-
-        // 버튼 스타일 보완 (선택사항)
-        &--button {
-          display: flex;
-          padding: 8px 16px;
-          justify-content: center;
-          align-items: flex-start;
-          gap: 10px;
-          flex: 1 0 0;
-          font-size: 12px;
-          cursor: pointer;
-          white-space: nowrap;
+        &:hover {
+          border-color: #cf0;
+          transition: all 0.3s;
         }
       }
     }
+
+    /* 생성된 가사 수정하는 섹션 */
+    .generated-lyrics__lyrics {
+      background-color: transparent;
+      border: none;
+      width: 100%;
+      resize: none;
+      min-height: 50vh; // 화면 높이의 절반 정도를 기본값으로
+      max-height: 80vh; // 너무 커지지 않게 제한
+      height: auto; // 내용 따라 늘어남
+      white-space: break-spaces;
+      color: #fff;
+      font-family: Pretendard400;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 22px;
+    }
+  }
+
+  /* 가사 생성 & 가사 수정 페이지 최하단 버튼 */
+  .generated-lyrics__confirm-buttons {
+    width: 100%;
     .create__btn {
       width: 100%;
       height: auto;
@@ -815,7 +324,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
         color: #000;
         text-align: center;
         font-family: Pretendard700;
-        font-size: 14px;
+        font-size: 16px;
         font-style: normal;
         line-height: 24px;
 
@@ -833,7 +342,7 @@ $shadow-color: rgba(0, 0, 0, 0.3);
           color: var(--Grey-600, #767676) !important;
           text-align: center;
           font-family: Pretendard700;
-          font-size: 14px;
+          font-size: 16px;
           font-style: normal;
           line-height: 24px;
           &:hover {
@@ -845,6 +354,355 @@ $shadow-color: rgba(0, 0, 0, 0.3);
 
           &::after {
             display: none;
+          }
+        }
+      }
+    }
+  }
+
+  // .music__information {
+  //   width: 100%;
+  //   // max-width: 600px;
+  //   border-radius: 12px;
+  //   display: flex;
+  //   flex-direction: column;
+  //   overflow: hidden;
+  //   // min-height: 800px;
+  //   border-radius: 12px;
+  //   padding: 16px;
+  //   border-radius: 12px;
+  //   border: 1px solid #222;
+  //   margin-top: 16px;
+  //   transition: 0.3s;
+  //   height: 54px;
+  //   &.active {
+  //     height: auto;
+  //     .music__information__header {
+  //       &::before {
+  //         border: 1px solid #fff;
+  //         background: url('../assets/images/arrow_drop_down2.svg') center no-repeat;
+  //         transform: translate(0, -50%) rotate(180deg);
+  //       }
+  //     }
+  //   }
+  //   &__header {
+  //     text-align: left;
+  //     height: 40px;
+  //     display: flex;
+  //     align-items: center;
+  //     cursor: pointer;
+  //     margin-bottom: 16px;
+  //     position: relative;
+  //     h2 {
+  //       color: #cf0;
+  //       font-family: Pretendard400;
+  //       font-size: 18px;
+  //       font-style: normal;
+  //       line-height: normal;
+  //       font {
+  //         font-family: inherit !important;
+  //         font-size: inherit !important;
+  //         font-weight: inherit !important;
+  //         line-height: inherit !important;
+  //         font-style: inherit !important;
+  //         color: inherit !important;
+  //         letter-spacing: inherit !important;
+  //       }
+  //     }
+
+  //     &::before {
+  //       content: '';
+  //       width: 24px;
+  //       height: 24px;
+  //       border: 1px solid #cf0;
+  //       position: absolute;
+  //       top: 50%;
+  //       right: 16px;
+  //       transform: translate(0, -50%);
+  //       transition: 0.3s;
+  //       background: url('../assets/images/arrow_drop_down.svg') center no-repeat;
+  //       background-size: contain;
+  //     }
+  //   }
+
+  //   // 공통 양식: 장르, 타이틀, 프롬프트, 가사 영역에 대한 스타일
+  //   &__genre,
+  //   &__title,
+  //   &__prompt,
+  //   &__lyric {
+  //     h3 {
+  //       margin-bottom: 8px;
+  //       font-weight: 500;
+  //       color: $text-color;
+  //     }
+  //     .music__information__lyric--text {
+  //       border-radius: 12px;
+  //       background: #1a1a1a;
+  //       padding: 12px 8px;
+  //       textarea {
+  //         height: 300px;
+  //         resize: none;
+  //       }
+  //     }
+  //     textarea {
+  //       border-radius: 12px;
+  //       background: #1a1a1a;
+  //       height: 300px;
+  //     }
+  //     input,
+  //     textarea {
+  //       width: 100%;
+  //       padding: 0;
+  //       border: none;
+  //       border-radius: 8px;
+  //       font-size: 14px;
+  //       // background-color: $input-bg;
+  //       color: $text-color;
+  //       outline: none;
+  //       margin-bottom: 32px;
+  //     }
+  //     // 필요한 경우 영역간 여백 조정
+  //     margin-bottom: 10px;
+  //   }
+
+  //   &__buttons {
+  //     display: flex;
+  //     flex-direction: column;
+  //     align-items: center;
+  //     margin-top: 12px;
+  //     font {
+  //       font-family: inherit !important;
+  //       font-size: inherit !important;
+  //       font-weight: inherit !important;
+  //       line-height: inherit !important;
+  //       font-style: inherit !important;
+  //       color: inherit !important;
+  //       letter-spacing: inherit !important;
+  //     }
+  //     button {
+  //       width: 100%;
+  //       height: 40px;
+  //       background: #cf0;
+  //       position: relative;
+  //       top: 0;
+  //       transition: 0.2s;
+  //       color: #1a1a1a;
+  //       font-family: Pretendard600;
+  //       font-size: 12px;
+  //       font-style: normal;
+  //       line-height: normal;
+  //       border-radius: 8px;
+  //       display: flex;
+  //       align-items: center;
+  //       justify-content: center;
+  //       font {
+  //         font-family: inherit !important;
+  //         font-size: inherit !important;
+  //         font-weight: inherit !important;
+  //         line-height: inherit !important;
+  //         font-style: inherit !important;
+  //         color: inherit !important;
+  //         letter-spacing: inherit !important;
+  //       }
+  //       &::before {
+  //         content: '';
+  //         position: absolute;
+  //         left: 0;
+  //         top: 4px;
+  //         width: calc(100% - 2px);
+  //         transition: 0.2s;
+  //         border-radius: 8px;
+  //         height: 39px;
+  //         border: 1px solid #cf0;
+  //       }
+  //       &:hover {
+  //         top: 4px;
+  //         &::before {
+  //           top: 0;
+  //         }
+  //       }
+  //     }
+  //     .disabled {
+  //       background-color: rgba(255, 255, 255, 0.1);
+  //       cursor: not-allowed;
+  //       &:hover {
+  //         background-color: rgba(255, 255, 255, 0.1);
+  //       }
+  //       &::before {
+  //         border: 1px solid transparent;
+  //         // background-color: rgba(255, 255, 255, 0.1);
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+// .music__information__instrument,
+// .music__information__gender,
+// .music__information__tempo,
+// .music__information__detail {
+//   input {
+//     width: 100%;
+//     padding: 0;
+//     border: none;
+//     border-radius: 8px;
+//     font-size: 14px;
+//     background: transparent;
+//     color: $text-color;
+//     outline: none;
+//     margin-bottom: 32px;
+//   }
+// }
+
+// .music__information__tags,
+// .music__information__story {
+//   h3 {
+//     color: #f1f1f1;
+//     font-family: Pretendard600;
+//     // font-size: 18px;
+//     margin-bottom: 8px;
+//     font {
+//       font-family: inherit !important;
+//       font-size: inherit !important;
+//       font-weight: inherit !important;
+//       line-height: inherit !important;
+//       font-style: inherit !important;
+//       color: inherit !important;
+//       letter-spacing: inherit !important;
+//     }
+//   }
+//   textarea {
+//     max-height: 100px;
+//     resize: none;
+//   }
+//   input,
+//   textarea {
+//     color: #f1f1f1;
+//     font-family: Pretendard500;
+//     font-size: 14px;
+//     font-style: normal;
+//     line-height: normal;
+//     border: 0;
+//     background: transparent;
+//     padding: 0;
+//     margin-bottom: 32px;
+//     font {
+//       font-family: inherit !important;
+//       font-size: inherit !important;
+//       font-weight: inherit !important;
+//       line-height: inherit !important;
+//       font-style: inherit !important;
+//       color: inherit !important;
+//       letter-spacing: inherit !important;
+//     }
+//   }
+// }
+
+@media screen and (max-width: 768px) {
+  /* 챗봇 전체 (하단 생성 버튼 포함, 생성 단계 사이드바 미포함) */
+  .chatbot__background {
+    position: relative;
+    padding: 20px 0px 0px 0px;
+
+    /* 챗봇 박스 boder있는 박스 */
+    .chatbot {
+      &__messages {
+        gap: 8px;
+
+        .message {
+          /* AI와의 대화창에서 유저 */
+          &.user {
+            .message__content {
+              .message__content--text {
+                max-width: 300px;
+                padding: 8px 12px;
+              }
+            }
+          }
+
+          /* AI와의 대화창에서 AI */
+          &.assistant {
+            .message__content {
+              gap: 8px;
+              .message__profile {
+                width: 24px;
+                height: 24px;
+                min-width: 24px;
+                min-height: 24px;
+                img {
+                  width: 12px;
+                  height: 12px;
+                }
+              }
+              .message__content--text {
+                max-width: 300px;
+              }
+            }
+          }
+        }
+      }
+
+      /* 가사 수정 페이지 */
+      /* 생성된 가사 txt랑 pdf 다운하는 버튼들*/
+      .generated-lyrics__download-buttons {
+        max-width: 350px;
+        position: absolute;
+        bottom: 25px; // 가사 섹션 하단의 여백 위로 띄우기
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+        gap: 8px;
+
+        /* 버튼 1개 디자인 */
+        &--button {
+          padding: 8px 16px;
+          justify-content: center;
+          align-items: flex-start;
+          flex: 1 0 0;
+          font-size: 12px;
+          cursor: pointer;
+          white-space: nowrap;
+        }
+      }
+    }
+    /* 가사 수정 페이지 */
+    /* 생성된 가사 txt랑 pdf 다운하는 버튼들*/
+    .generated-lyrics__download-buttons {
+      order: 2; /* lyrics(1) 뒤로 */
+      gap: 8px;
+      max-width: 350px;
+      position: absolute;
+      bottom: 25px; // 가사 섹션 하단의 여백 위로 띄우기
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+
+      /* 버튼 1개 디자인 */
+      &--button {
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: flex-start;
+        flex: 1 0 0;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+    }
+    .generated-lyrics__lyrics {
+      /* <pre> 또는 textarea 래퍼 */
+      order: 1; /* 1️⃣ 먼저 나옵니다 */
+    }
+    .generated-lyrics__confirm-buttons {
+      order: 3;
+    }
+    /* 가사 생성 & 가사 수정 페이지 최하단 버튼 */
+    .generated-lyrics__confirm-buttons {
+      .create__btn {
+        .create__get-started--button {
+          font-size: 14px;
+
+          &:disabled {
+            font-size: 14px;
           }
         }
       }

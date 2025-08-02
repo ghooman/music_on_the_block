@@ -117,41 +117,43 @@ const StyledPromptPreview = ({ previewText, valueColor = '#cf0' }) => {
 // ──────────────────────────
 
 // 앨범 커버 프롬프트 생성 함수
-const generateAlbumCoverPrompt = ({ melodyTitle, lyricTag, melodyGenre, lyricStory }) => {
-  // const { lyric_tag = [], lyric_genre = [] } = lyricData;
+const generateAlbumCoverPrompt = ({ melodyTitle, melodyTag, melodyGenre, fullLyrics }) => {
   return `
-      [가사 데이터]
-      태그: ${lyricTag.join(', ')}
-      장르: ${melodyGenre.join(', ')}
-      
-      [노래 제목]
-      ${melodyTitle}
+[Song Metadata]
+- Title: ${melodyTitle}
+- Genre: ${melodyGenre.join(', ')}
+- Tags: ${melodyTag.join(', ')}
+- Lyrics: ${fullLyrics}
 
-      [노래 스토리]
-      ${lyricStory}
-      
-[Design Instructions]
+[Visual Prompt for Album Cover Generation]
 
-Please create a visually expressive and emotionally resonant digital artwork inspired by the following song narrative:
-"${lyricStory}"
+Realistic, Emotionally Resonant Album Cover
 
-Use the emotional tone, genre, and tags as creative references:  
-Genre: ${melodyGenre.join(', ')}  
-Tags: ${lyricTag.join(', ')}
+Create a naturalistic, grounded illustration inspired by the song’s overall tone, story, and emotion.
+It should feel like a real-life moment — subtle, intimate, and deeply human — not a fantasy or stylized poster.
 
-The image should subtly capture the atmosphere and key moments from the story, reflecting its emotional depth and symbolic elements. If the story centers around a specific character, figure, or animal, it's okay to focus closely on that subject — even with a portrait-like or emotionally expressive close-up — as long as it supports the narrative. If the narrative has a lighthearted, romantic, or playful tone (such as in a story about flirting, humor, or whimsy), reflect that feeling visually — aim for a warm, slightly whimsical atmosphere, and avoid overly dark or dramatic imagery.
+Interpretation Guidelines:
+– Understand the emotional core (joy, longing, sorrow, hope, etc.)
+– Ask: What is the song really about? A relationship, place, or memory?
+– Depict a concrete scene — e.g., someone by a window, a farewell at a train station, a solo walk at dawn
+– Avoid abstract or symbolic imagery; use real places, people, and natural gestures
 
-Focus on:  
-– Natural lighting with a touch of warmth  
-– Soft shadows and light contrast  
-– Detailed textures with a slightly lighter palette  
-– Visual storytelling with poetic charm and subtle humor  
-– A cinematic yet approachable mood — like a heartfelt or gently quirky scene from a film
+Visual Direction:
+– Choose realistic indoor or outdoor settings (cafe, beach, street, bedroom)
+– Use natural light, weather, time of day, and background elements to tell the story
+– Focus on expression and posture for character-driven songs
+– Use wider, quiet shots for songs about place or mood
 
-The overall style should feel refined and artistic, but not too grand or intense — keep it emotionally rich, but with a lighter, more uplifting tone.
+Styling Notes:
+– Soft, painterly or photographic style — emotional, not dramatic
+– Color palette should reflect the song’s tone (warm for comfort, cool for solitude, muted for nostalgia)
+– No surrealism, fantasy, typography, or heroic poses
 
-Do not include any text, typography, labels, or written characters in the image — even if they relate to the song title or genre. The artwork must remain entirely visual and symbolic.
-    `;
+Goal:
+The artwork should feel like a real memory — subtle, beautiful, and emotionally true — complementing the music without overpowering it.
+
+⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
+  `;
 };
 
 const MelodyMaker = ({
@@ -251,13 +253,20 @@ const MelodyMaker = ({
 
   // 앨범 커버 생성 함수
   const generateAlbumCover = async () => {
+    console.log('=== 앨범 커버 생성 디버그 ===');
+    console.log('melodyTitle:', title);
+    console.log('melodyTag:', melodyData?.melody_tag);
+    console.log('melodyGenre:', melodyData?.melody_genre);
+    console.log('fullLyrics (generatedLyric):', generatedLyric);
+
     // 커버 생성 관련 프롬프트 요청 변수
     const refinedPrompt = generateAlbumCoverPrompt({
-      melodyTitle: title,
-      lyricTag: lyricData?.lyric_tag || [],
+      melodyTitle: title || '',
+      melodyTag: melodyData?.melody_tag || [],
       melodyGenre: melodyData?.melody_genre || [],
-      lyricStory,
+      fullLyrics: generatedLyric || '',
     });
+
     // gpt(dall-e-3) 달리모델에게 이미지 생성 부탁
     const response = await client.images.generate({
       model: 'dall-e-3',
@@ -309,11 +318,24 @@ const MelodyMaker = ({
         }
       }
 
+      // 1. 전처리: 줄바꿈 제거한 상태로 한 줄로 만듦
+      promptText = promptText.replace(/\n/g, ' ').trim();
+
+      // // 2. 첫 번째 블록만 사용 (사용자 프롬프트 내용)
+      // promptText = parts[0];
+
       // 공통: 불필요한 문구 제거
       promptText = promptText
         .replace(/['"]\s*입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
         .replace(/입니다\.\s*이대로\s*곡을\s*생성하시겠습니까\s*[?]?\s*$/i, '')
-        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '');
+        .replace(/\s*혹시\s*더\s*수정하거나\s*추가하실\s*내용이\s*있나요[?]?\s*$/i, '')
+        .replace(
+          /(혹시\s*.*|이제\s*.*|도와드릴게요.*|시작해볼까요.*|기대해\s*주세요.*|진행할게요.*)/gi,
+          ''
+        );
+
+      // 3. 결과 확인
+      console.log('[promptText]', promptText);
 
       setFinalPrompt(promptText);
       return promptText;
@@ -344,6 +366,8 @@ const MelodyMaker = ({
         coverImageUrl = await generateAlbumCover();
         setAlbumCover(coverImageUrl);
       }
+
+      console.log('[🚀 생성 직전 melody_introduction 확인]', melody_introduction);
 
       // selectedVersion 에따라 create_ai_type 과 ai_model 구성
       let create_ai_type = '';
@@ -443,6 +467,12 @@ const MelodyMaker = ({
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [generatedMusicResult]);
+
+  useEffect(() => {
+    if (melody_introduction) {
+      console.log('[🎯 melody_introduction 업데이트됨]', melody_introduction);
+    }
+  }, [melody_introduction]);
 
   const { t } = useTranslation('song_create');
 

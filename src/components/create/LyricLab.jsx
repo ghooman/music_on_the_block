@@ -16,6 +16,8 @@ import { RemainCountButton } from '../unit/RemainCountButton';
 import { generateKoreanPdf } from '../../utils/pdfGenerator';
 import { useTranslation } from 'react-i18next';
 import lyricPrompts from '../../locales/lyricPrompts';
+import { badwords } from '../../data/badwords';
+import ErrorModal from '../modal/ErrorModal';
 
 const tagPreset = {
   Love: ['Love'],
@@ -145,6 +147,27 @@ Additional Story: ${lyricStory || 'Not specified'}`,
       setLoading(false);
     }
   };
+  // 0716 비속어 주석 처리
+  // 가사의 부적절한 단어 포함 감지
+  const hasBadwords = (text = '') => {
+    const wordList = text
+      .toLowerCase()
+      .replace(/[^\wㄱ-ㅎ가-힣\s]/g, '') // 특수문자 제거
+      .split(/\s+/); // 공백 기준으로 나눔
+
+    const hits = badwords.filter(word => wordList.includes(word));
+
+    // 디버깅용 로그
+    console.log('wordList:', wordList);
+    console.log('badword hit:', hits.length > 0 ? hits : '✅ 통과');
+
+    return hits.length > 0;
+  };
+
+  // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // 가사 생성 전 단계 UI createdLyrics 없을때
   if (!createdLyrics)
@@ -270,7 +293,7 @@ Create your own lyrics based on a special story`
                 document.body.removeChild(element);
               }}
             >
-              {t('Download as text (.txt)')} (.txt)
+              {t('Download as text (.txt)')}
             </button>
             <button
               className="generated-lyrics__download-buttons--button"
@@ -347,6 +370,22 @@ Create your own lyrics based on a special story`
                 }`}
                 disabled={selectedVersion !== 'V4_5' && createdLyrics?.length > 1000}
                 onClick={() => {
+                  console.log('createdLyrics:', createdLyrics);
+                  // 0716 비속어 주석 처리
+                  console.log('badwords:', badwords);
+                  console.log('hasBadwords:', hasBadwords(createdLyrics));
+                  if (hasBadwords(createdLyrics)) {
+                    setErrorMessage(
+                      t(`Inappropriate or offensive words were detected in the lyrics.
+Please revise the lyrics and try again.`)
+                    );
+                    setErrorTitle(t('Music cannot be generated.'));
+                    setShowErrorModal(true);
+                    // alert('부적절한 단어가 포함되어 있어 멜로디 생성이 불가능합니다.');
+                    // 또는 requestLyrics 버튼을 여기서 보여주는 로직 추가
+                    // setShowRequestLyrics(true);
+                    return;
+                  }
                   setGeneratedLyric(createdLyrics);
                   setPageNumber(prev => prev + 1);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -366,6 +405,14 @@ Create your own lyrics based on a special story`
             </div> */}
           </div>
         </SelectItemWrap>
+        {showErrorModal && (
+          <ErrorModal
+            title={errorTitle}
+            message={errorMessage}
+            button={true}
+            setShowErrorModal={setShowErrorModal}
+          />
+        )}
       </div>
     );
 };

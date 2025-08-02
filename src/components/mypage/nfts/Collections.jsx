@@ -122,7 +122,7 @@ const Collections = ({ token, username, isMyProfile, walletAddress }) => {
     <>
       {isMyProfile && (
         <SubBanner>
-          <SubBanner.LeftImages src={subBannerImage4} />
+          {/* <SubBanner.LeftImages src={subBannerImage4} /> */}
           <SubBanner.Title text={t('Create Your Own Collection')} />
           <SubBanner.Message
             text={t(

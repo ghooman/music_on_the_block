@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext, useTransition, useRef } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
@@ -27,8 +26,6 @@ import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 
 import '../styles/MyPage.scss';
 import { useTranslation } from 'react-i18next';
-
-
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -233,7 +230,6 @@ const UserProfile = () => {
 //==================================================
 
 const ProfileInfo = ({ userData, isMyProfile, children }) => {
-  
   const { t } = useTranslation('my_page');
   const [seeMore, setSeeMore] = useState(false);
   const [showSeeMoreButton, setShowSeeMoreButton] = useState(false);
@@ -244,7 +240,6 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
   // 한 줄을 넘는지 확인하는 함수
   const checkIfOverflows = () => {
-
     if (contentRef.current) {
       const element = contentRef.current;
       const parentElement = element.parentElement;
@@ -285,7 +280,6 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   };
 
   useEffect(() => {
-
     // DOM이 업데이트된 후 실제 높이를 확인
     const checkContentHeight = () => {
       if (contentRef.current) {
@@ -314,10 +308,9 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
   console.log('높이 측정', contentRef.current?.scrollHeight);
 
-  const linkCount = (userData?.link_list?.length || 0) - 1;  // 첫 링크 제외
+  const linkCount = (userData?.link_list?.length || 0) - 1; // 첫 링크 제외
 
   return (
-
     <>
       <div className="mypage__profile">
         <div
@@ -348,13 +341,13 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             </div>
             {isMyProfile && (
               <div className="profile__info__btns">
-                {/* <Link
+                <Link
                   to={`/license-key`}
                   className="key-link"
                   //key-pass
                 >
                   {t('Link license key')}
-                </Link> */}
+                </Link>
                 <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
                   {t('Edit profile')}
                 </Link>
@@ -389,20 +382,13 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
           </div>
           {userData?.link_list?.[0] && (
             <div className="profile__link">
-              <img 
-                className="profile__link--icon" 
-                src={linkIcon} alt="link" 
-              />
-              <Link className="profile__link--item"
-                to={userData?.link_list?.[0].link}
-                target='_b'
-              >{userData?.link_list?.[0].link}</Link>
+              <img className="profile__link--icon" src={linkIcon} alt="link" />
+              <Link className="profile__link--item" to={userData?.link_list?.[0].link} target="_b">
+                {userData?.link_list?.[0].link}
+              </Link>
 
               {linkCount > 0 && (
-                <p
-                  className="profile__link--count"
-                  onClick={() => setLinksModal(true)}
-                >
+                <p className="profile__link--count" onClick={() => setLinksModal(true)}>
                   {linkCount} {t('external link')}
                 </p>
               )}
@@ -426,9 +412,6 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
       )}
     </>
   );
-
-
-
 
   return (
     <div className="mypage__profile">
@@ -536,10 +519,3 @@ const Tabs = ({ tabs, handleTab, select }) => {
     </nav>
   );
 };
-
-
-
-
-
-
-

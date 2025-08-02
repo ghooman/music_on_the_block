@@ -53,5 +53,6 @@
  "Unable to measure the score. Please try again.": "スコアを測定できません。もう一度お試しください。",
  "Song generation is in progress.": "楽曲生成中です。",
  "You can proceed after it's done.": "完了後に進行可能です。",
- "Cannot create duplicates": "重複作成はできません"
+ "Cannot create duplicates": "重複作成はできません",
+ "Insufficient Polygon gas fee.": "Polygonのガス料金が不足しています。"
 }

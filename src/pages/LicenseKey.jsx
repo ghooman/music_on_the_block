@@ -1,14 +1,62 @@
 import '../styles/LicenseKey.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PreparingModal from '../components/PreparingModal';
 import LicenseKeyModal from '../components/LicenseKeyModal';
+import { AuthContext } from '../contexts/AuthContext';
+import axios from 'axios';
 
 function LicenseKey() {
   const { t } = useTranslation('my_page');
   const [preparingModal, setPreparingModal] = useState(false);
   const [licenseKeyModal, setLicenseKeyModal] = useState(false);
+
+  const serverAPI = process.env.REACT_APP_SERVER_API;
+
+  const { token } = useContext(AuthContext);
+
+  // 라이센스 키 상태
+  const [licenceKey, setLicenceKey] = useState('');
+
+  // 라이센스 키 체크하는 API 함수
+  const handleCheckLicenseKey = async () => {
+    try {
+      const res = await axios.get(`${serverAPI}/api/user/licence/key/check`, {
+        params: {
+          licence_key: licenceKey,
+        },
+      });
+      console.log('라이센스 키 체크 완료!', res.data);
+      console.log(res.data);
+      if (res.data === true) {
+        // 유효하면 연결 요청
+        await handleConnectLicenseKey();
+        setLicenseKeyModal(true); // 연결 성공 시 모달 열기
+      } else {
+        console.error('❌ 유효하지 않은 라이센스 키입니다.');
+      }
+    } catch (error) {
+      console.error('라이센스 키 체크 오류', error);
+    }
+  };
+
+  // 라이센스 키 연결 API 함수
+  const handleConnectLicenseKey = async () => {
+    try {
+      const res = await axios.post(`${serverAPI}/api/user/licence/key/connect`, null, {
+        params: {
+          licence_key: licenceKey,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('라이센스 키 연결 완료!', res.data);
+    } catch (error) {
+      console.error('라이센스 키 연결 오류', error);
+    }
+  };
 
   return (
     <>
@@ -35,15 +83,15 @@ function LicenseKey() {
         <dl className="license-key__input">
           <dt>{t('License Key')}</dt>
           <dd>
-            <input placeholder={t('Enter the License Key')} />
+            <input
+              placeholder={t('Enter the License Key')}
+              value={licenceKey}
+              onChange={e => setLicenceKey(e.target.value)}
+            />
           </dd>
         </dl>
         <div className="license-key__btns">
-          <button
-            className="license-key__btns__connect"
-            // onClick={()=>setLicenseKeyModal(true)}
-            onClick={() => setPreparingModal(true)}
-          >
+          <button className="license-key__btns__connect" onClick={handleCheckLicenseKey}>
             {t('Connect')}
           </button>
           <button className="license-key__btns__app" onClick={() => setPreparingModal(true)}>

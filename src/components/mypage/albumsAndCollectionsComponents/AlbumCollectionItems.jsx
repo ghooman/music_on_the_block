@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 import MoreHoriz from '../../../assets/images/icon/more-horiz.svg';
-import defaultAlbumImage from '../../../assets/images/intro/mob-album-cover.png';
+import defaultAlbumImage from '../../../assets/images/album/album-cover.png';
 
 import './AlbumCollectionItems.scss';
 

@@ -2,17 +2,20 @@
 const enBgmChat = {
   chatbot: {
     initialMessage:
-      'Shall we start creating your melody?\nPlease tell me the genre of music you want to create.\n',
+      'Shall we start creating your melody now?\nPlease tell me the genre of music you want to create.\n',
     systemMessage:
-      'You are a kind and warm-hearted melody creation expert who helps users compose music. Ask the following items one by one to help the user create their desired melody:\n\n' +
-      '1. Ask the user to select the "Genre" of the song.\n' +
-      '2. Ask the user to enter "Tags".\n' +
-      '3. Ask the user to enter the "Song Title".\n' +
-      '4. Ask the user which "Instruments" they want to use (e.g., piano, drums).\n' +
-      '5. Instruct the user to provide the "Tempo (BGM)" using only a number between 60 and 120.\n' +
-      '6. Ask for any "Additional Elements" (e.g., sound effects) to add liveliness to the music.\n' +
-      '7. Ask the user to write a "Song Introduction" sentence.\n\n' +
-      '**8. Only if all 7 items — "Tags, Song Title, Genre, Voice, Instruments, Tempo, Additional Elements, Song Introduction" — are completed**, print the following **Final Prompt** block **only once**. Do not print it otherwise.\n\n' +
+      `You are a kind and warm-hearted melody creation expert who helps users compose music. Please ask the following items one by one to help the user create their desired melody:\n\n` +
+      '※ If the user gives an irrelevant or unclear answer, repeat the same question exactly as it is.\n\n' +
+      `1. Ask the user to choose the "Genre" of the song.\nYou must use this exact phrase:\n\`Shall we start creating your melody now?\nPlease tell me the genre of music you want to create.\`\n` +
+      `2. Ask the user to enter "Tags".\nYou must use this exact phrase:\n\`Great! What keywords would you like to use as tags for this song? For example, "happy", "love", "cheerful" — feel free to express it your way.\`\n` +
+      `3. Ask the user to enter the "Song Title".\nYou must use this exact phrase:\n\`Thank you! Next, what would you like to title your song? Please choose a title that suits the melody.\`\n` +
+      `4. Ask the user which "Instruments" they want to use (e.g., piano, drums, etc.).\nYou must use this exact phrase:\n\`Thank you! What instruments would you like to include in this song? For example, piano, drums, guitar, and so on.\`\n` +
+      `5. Ask the user to provide the "Tempo (BGM)" as a number between 60 and 120.\nYou must use this exact phrase:\n\`Great choice! Please select a tempo for the song — any number between 60 and 120. Which number feels right to you?\`\n` +
+      `6. Ask the user if they want to add any "Additional Elements" (e.g., sound effects).\nYou must use this exact phrase:\n\`Thank you! Would you like to add any additional elements to make the song more lively? For example, sounds of nature, city noises, or other effects.\`\n` +
+      `7. Ask the user to write a short "Song Introduction".\nYou must use this exact phrase:\n\`Thank you! Lastly, please write a brief introduction about this song or share any message you'd like to include.\`\n\n` +
+      `**8. Only when all 7 items — "Tags, Song Title, Genre, Instruments, Tempo, Additional Elements, Song Introduction" — are completed, print the following **Final Prompt** block **only once**. Do not print it otherwise.**\n\n` +
+      `※ Only when all 7 pieces of information below have been provided, display the [Final Prompt] block **without any additional text**.` +
+      `※ Be sure to display **only the text below** with **no unnecessary comments or explanations**.` +
       `[Final Prompt]\n` +
       `Tags: {tags}\n` +
       `Song Title: {title}\n` +
@@ -36,7 +39,7 @@ const enBgmChat = {
     detailRegex:
       /Additional Elements\/Story\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,\s*Song Introduction|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Song Introduction)))/,
     introductionRegex:
-      /Song Introduction\s*(?:[:\-]\s*|\()([^,\n\)]*?)(?:\)|(?:,|\n|$|\s*-\s*(?:Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)))/,
+      /Song Introduction\s*(?:[:\-]\s*|\()([\s\S]*?)(?=\)|\n|$|\s*-\s*(Tags|Song|Song Title|Genre|Instruments|Tempo|Additional|Additional Elements)|\s*(Let’s|Let's|Shall we|Ready|Start))/i,
     promptTagRegex: /(?:Final Prompt|Prompt|generate)[\s\S]*?Tags\s*\(\s*([^)]+)\s*\)/i,
     promptTagRegex2:
       /(?:Final Prompt|Prompt|generate)[\s\S]*?Tags\s*[:]\s*([^,\n]+?)(?=\s*,\s*(?:Song|Title|Genre))/i,

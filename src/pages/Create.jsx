@@ -292,6 +292,10 @@ const Create = () => {
       )}
       {isFreeformMode && (
         <FreeForm
+          createMode={createMode}
+          setCreateMode={setCreateMode}
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
           selectedVersion={selectedVersion}
           selectedPrivacy={selectedPrivacy}
           selectedCreationMode={selectedCreationMode}

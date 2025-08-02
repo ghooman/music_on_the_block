@@ -42,21 +42,24 @@ const GetStarted = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: 'Freeform',
+      title: t('Freeform'),
       type: 'freeform',
-      description: t(`Music in a snap freeform and limitless!`),
+      description: t(`Create music instantly with just one message
+Freeform and limitless creation, no format required!`),
       keywords: [],
     },
     {
-      title: 'Chatbot',
+      title: t('Chatbot'),
       type: 'chatbot',
-      description: t(`Create music easily with AI structured and chatbot-style!`),
+      description: t(`Easily create music by chatting with AI
+Well-structured and step-by-step, chatbot style!`),
       keywords: [],
     },
     {
-      title: 'General',
+      title: t('General'),
       type: 'standard',
-      description: t(`Choose from various options need help? Try standard mode!`),
+      description: t(`Choose what you like from a variety of options
+If creation feels tricky, go with general mode!`),
       keywords: [],
     },
   ];
@@ -244,7 +247,13 @@ const GetStarted = ({
               {/* 아이콘 삽입 */}
               <img
                 className="create__get-started--format-item-icon"
-                src={format.type === 'chatbot' ? chatbotModeIcon : format.type === 'freeform' ? freeModeIcon : standardModeIcon}
+                src={
+                  format.type === 'chatbot'
+                    ? chatbotModeIcon
+                    : format.type === 'freeform'
+                    ? freeModeIcon
+                    : standardModeIcon
+                }
                 alt={`${format.title} icon`}
               />
               <h3 className="create__get-started--format-item-title">{t(format.title)}</h3>
@@ -276,12 +285,12 @@ const GetStarted = ({
                 mode = 'freeform';
               } else if (activeIndex === 1) {
                 mode = 'chatbot';
-              }else {
+              } else {
                 mode = 'select';
               }
 
               setCreateMode(mode);
-              handler();          
+              handler();
             }}
             disabled={remainCount === 0 || activeIndex === null}
           >

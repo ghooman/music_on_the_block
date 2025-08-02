@@ -1,12 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OpenAI from 'openai';
 
 import { AuthContext } from '../../contexts/AuthContext';
-import lyricPrompts from '../../locales/lyricPrompts';
+import lyricPromptsFreeform from '../../locales/lyricPromptsFreeform';
 import { badwords } from '../../data/badwords';
 import ErrorModal from '../modal/ErrorModal';
+import CreateLoading from '../CreateLoading';
 
 // img
 import freeModeIcon from '../../assets/images/icons/freemode-icon.svg';
@@ -21,11 +23,21 @@ const client = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
+function FreeForm({
+  createMode,
+  setCreateMode,
+  selectedLanguage,
+  setSelectedLanguage,
+  selectedVersion,
+  selectedPrivacy,
+  selectedCreationMode,
+}) {
+  const { t } = useTranslation('song_create');
   const { token } = useContext(AuthContext);
   const serverAPI = process.env.REACT_APP_CREATE_SERVER_API;
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // 프롬프트 입력
   const [promptText, setPromptText] = useState('');
@@ -44,6 +56,12 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
   // Custom Lyrics 저장 후 다시 눌렀을 때 편집 가능 여부
   const [isEditing, setIsEditing] = useState(true);
 
+  // -------------에러 모달 ------------------------------------------------------------------------
+  // 가사 부적절한 단어 포함 시, 에러 모달 띄우기 위함
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorTitle, setErrorTitle] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   // localStorage에 앨범 id와 title 만료 시각을 저장하는 함수 (15분) 알람모달에서 사용
   // 서버(소켓) 에서 노래 생성 정보를 유저 전체한테 보내주는데 자신이 만든 노래인지 확인후 해당유저만 알람을 보여주게 하기위해
   const albumIdStorageKey = 'generatedAlbumId';
@@ -53,9 +71,20 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
   };
 
   // ✨ 가사 자동 생성 함수
-  const generateLyricsFromPrompt = async (promptText, language = 'KOR') => {
+  const generateLyricsFromPrompt = async (promptText, selectedLanguage) => {
+    const languageAliasMap = {
+      Korean: 'KOR',
+      English: 'ENG',
+      Japanese: 'JPN',
+      Chinese: 'CHN',
+      Indonesian: 'IDN',
+      Vietnamese: 'VIE',
+    };
+
+    const shortLangCode = languageAliasMap[selectedLanguage] || 'ENG';
     const systemPrompt =
-      lyricPrompts.chatbot.systemMessages[language] || lyricPrompts.chatbot.systemMessages.KOR;
+      lyricPromptsFreeform.systemMessages[selectedLanguage] ||
+      lyricPromptsFreeform.systemMessages.ENG;
 
     try {
       const chatCompletion = await client.chat.completions.create({
@@ -67,8 +96,23 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
         temperature: 0.7,
       });
 
-      const generated = chatCompletion.choices?.[0]?.message?.content || '';
-      return generated.trim();
+      const generated = chatCompletion.choices?.[0]?.message?.content?.trim() || '';
+
+      // ❌ 너무 짧거나 안내 메시지일 경우 실패 처리
+      const invalidPhrases = [
+        '내용이 너무 짧아서',
+        '조금 더 정확하게 알려주세요',
+        '더 구체적으로',
+        '도와드릴게요',
+        '무엇을 원하시나요',
+      ];
+
+      if (!generated || generated.length < 20 || invalidPhrases.some(p => generated.includes(p))) {
+        console.warn('[⚠️ 가사 생성 실패 문구 감지]', generated);
+        return null;
+      }
+
+      return generated;
     } catch (error) {
       console.error('[❌ 가사 생성 실패]', error);
       return null;
@@ -76,10 +120,20 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
   };
 
   // 앨범 커버 프롬프트 생성 함수
-  const getAlbumCoverPrompt = ({ finalPrompt }) => {
+  const generateAlbumCoverPrompt = ({
+    melodyTitle,
+    melodyGenre,
+    melodyTag,
+    fullLyrics,
+    finalPrompt,
+  }) => {
     return `
-  Create a realistic and emotionally resonant album cover based on the following theme:
-  "${finalPrompt}"
+[Song Metadata]
+- Title: ${melodyTitle}
+- Genre: ${melodyGenre.join(', ')}
+- Tags: ${melodyTag.join(', ')}
+- Lyrics: ${fullLyrics}
+${finalPrompt ? `- User Prompt (Theme): ${finalPrompt}` : ''}
   
   [Visual Prompt for Album Cover Generation]
   
@@ -113,8 +167,19 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
   };
 
   // 앨범 커버 생성 함수
-  const generateAlbumCover = async finalPrompt => {
-    const prompt = getAlbumCoverPrompt(finalPrompt);
+  const generateAlbumCover = async ({ metadata, fullLyrics, finalPrompt }) => {
+    const prompt = generateAlbumCoverPrompt({
+      melodyTitle: metadata?.title || '',
+      melodyGenre:
+        typeof metadata?.genre === 'string' ? metadata.genre.split(',').map(x => x.trim()) : [],
+      melodyTag:
+        typeof metadata?.tags === 'string' ? metadata.tags.split(',').map(x => x.trim()) : [],
+      fullLyrics,
+      finalPrompt,
+    });
+
+    console.log('📷 생성된 커버 이미지 프롬프트:', prompt);
+
     try {
       const response = await client.images.generate({
         model: 'dall-e-3',
@@ -124,9 +189,8 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
         n: 1,
       });
 
-      const imageUrl = response.data[0].url;
-      console.log('[🖼️ 앨범 커버 URL]', imageUrl);
-      setCoverImageUrl(imageUrl); // 결과 저장
+      const imageUrl = response.data[0]?.url;
+      setCoverImageUrl(imageUrl);
       return imageUrl;
     } catch (err) {
       console.error('[❌ 앨범 커버 생성 실패]', err);
@@ -190,6 +254,10 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
       create_ai_type = 'suno';
       ai_model = 'V4_5';
       break;
+    case 'V4_5':
+      create_ai_type = 'suno';
+      ai_model = 'V4_5';
+      break;
     default:
       create_ai_type = 'topmediai';
       ai_model = '';
@@ -197,25 +265,28 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
   }
 
   // 음악 요소들(제목, 키워드, 장르, etc...) 생성 함수
-  const generateMusicMetadata = async promptText => {
+  const generateMusicMetadata = async (promptText, selectedLanguage) => {
     const systemPrompt = `
-  당신은 AI 음악 제작 보조 도우미입니다.
-  사용자가 입력한 자유 주제에 가장 어울리는 아래 항목들만 JSON 형식으로 추천해주세요.
-  
-  {
-    "title": "",
-    "detail": "",
-    "language": "",
-    "genre": "",
-    "gender": "",
-    "musical_instrument": "",
-    "tags": ""
-  }
-  
-  출력은 반드시 JSON 형식으로 해주세요.
-  
-  사용자 입력: "${promptText}"
-    `;
+You are an AI assistant that generates music metadata based on the user's free-form music theme.
+Please write all of the following fields according to the selected language. The output **must** be in JSON format.
+
+Requested language: ${selectedLanguage}
+
+Output format example:
+{
+  "title": "",
+  "detail": "",
+  "genre": "",               // e.g., Pop, Hip-hop
+  "gender": "",              // e.g., only Male or Female
+  "musical_instrument": "", // e.g., Piano, Guitar, Synth
+  "tempo": "",                // numeric only (BPM), must be between 60 and 120
+  "tags": "",                // comma-separated keywords
+  "introduction": ""         // a short description of the song
+}
+
+User input:
+"${promptText}"
+`;
 
     try {
       const res = await client.chat.completions.create({
@@ -227,55 +298,104 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
       const content = res.choices[0].message.content;
       const jsonString = content.slice(content.indexOf('{'), content.lastIndexOf('}') + 1);
       const parsed = JSON.parse(jsonString);
-      console.log('[🎛️ 메타데이터 추출]', parsed);
-      return parsed;
+
+      // 🎛️ gender 보정
+      let validatedGender = parsed.gender?.toLowerCase();
+      if (validatedGender === 'male') validatedGender = 'Male';
+      else if (validatedGender === 'female') validatedGender = 'Female';
+
+      // 언어별 성별 변환
+      const languageAliasMap = {
+        Korean: 'KOR',
+        English: 'ENG',
+        Japanese: 'JPN',
+        Chinese: 'CHN',
+        Indonesian: 'IDN',
+        Vietnamese: 'VIE',
+      };
+      const shortLangCode = languageAliasMap[selectedLanguage] || 'ENG';
+
+      const genderMap = {
+        KOR: { Male: '남성', Female: '여성' },
+        ENG: { Male: 'Male', Female: 'Female' },
+        JPN: { Male: '男性', Female: '女性' },
+        CHN: { Male: '男性', Female: '女性' },
+        IDN: { Male: 'Pria', Female: 'Wanita' },
+        VIE: { Male: 'Nam', Female: 'Nữ' },
+      };
+
+      if (genderMap[shortLangCode] && genderMap[shortLangCode][validatedGender]) {
+        parsed.gender = genderMap[shortLangCode][validatedGender];
+      }
+
+      const cleaned = {
+        ...parsed,
+      };
+
+      console.log('[🎛️ 보정된 Metadata]', cleaned);
+      return cleaned;
     } catch (err) {
-      console.error('❌ 메타데이터 생성 실패', err);
+      console.error('❌ Metadata generation failed', err);
       return null;
     }
   };
 
   // 음악 생성 함수
-  const musicGenerate = async finalLyrics => {
-    try {
-      //   setLoading(true); // 로딩 상태 표시 (추가 가능)
+  const musicGenerate = async (finalLyrics, metadata) => {
+    const {
+      title,
+      detail,
+      genre,
+      gender,
+      musical_instrument,
+      tempo,
+      tags,
+      introduction,
+      cover_image,
+    } = metadata;
 
+    try {
+      setLoading(true);
       const formData = {
         album: {
-          title: promptText.slice(0, 30),
-          detail: '', // 상세 설명 비워도 문자열이면 OK
-          language: 'English',
-          genre: 'Pop',
-          style: 'Modern',
-          gender: 'Mixed',
-          musical_instrument: 'Synth',
+          title: title,
+          detail: detail || '',
+          language: selectedLanguage,
+          genre: genre || '',
+          style: '', // 현재 사용하지 않음!
+          gender: gender || '',
+          musical_instrument: musical_instrument || '',
           ai_service: selectedCreationMode === 'bgm' ? 0 : 1,
-          ai_service_type: 'suno',
-          tempo: 120,
-          song_length: '2min',
+          ai_service_type: '',
+          tempo: parseInt(tempo) || 90,
+          song_length: '',
           lyrics: finalLyrics.trim() || '',
-          mood: 'Happy',
-          tags: 'AI, Music, FreeForm',
-          cover_image: coverImageUrl,
+          mood: '', // 현재 사용하지 않음!
+          tags: tags || '',
+          cover_image: cover_image,
           prompt: finalPrompt,
-          is_release: selectedPrivacy === 'release',
-          create_ai_type: 'suno',
-          ai_model: selectedVersion || 'V4_5',
-          introduction: 'This song was created with AI inspiration.',
+          create_ai_type: create_ai_type,
+          ai_model: ai_model,
+          is_release: selectedPrivacy === 'release' ? true : false,
+          introduction: introduction || '',
         },
         album_lyrics_info: {
-          language: 'English',
-          feelings: 'Joy',
-          genre: 'Pop',
-          style: 'Modern',
+          language: selectedLanguage,
+          feelings: '',
+          genre: '',
           form: 'Free',
           my_story: '',
         },
       };
 
-      const res = await axios.post(`${serverAPI}/api/music/v2/album/`, formData, {
+      const url =
+        selectedCreationMode === 'song'
+          ? `${serverAPI}/api/music/v2/album/`
+          : `${serverAPI}/api/music/v2/album/bgm`;
+
+      const res = await axios.post(url, formData, {
         headers: {
-          Authorization: `Bearer ${token}`, // AuthContext에서 받아온 토큰
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
@@ -284,55 +404,100 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
       return res;
     } catch (err) {
       console.error('[❌ 음악 생성 실패]', err);
-      alert('음악 생성 중 오류가 발생했습니다.');
       return null;
     } finally {
-      //   setLoading(false);
+      setLoading(false);
     }
   };
 
   // 로직 확인 함수
   const handleMusicCreation = async () => {
     console.log('[🎯 START] Music creation triggered');
-    console.log('Prompt Text:', promptText);
-    console.log('Custom Lyrics:', lyrics.trim() ? lyrics : '(no lyrics)');
+    setLoading(true); // ✅ 버튼 클릭 즉시 로딩 시작
 
-    let finalLyrics = lyrics;
+    try {
+      console.log('Prompt Text:', promptText);
+      console.log('Custom Lyrics:', lyrics.trim() ? lyrics : '(no lyrics)');
 
-    // 1. 자동 가사 생성 조건
-    if (!lyrics.trim()) {
-      console.log('[✍️ 자동 가사 생성 시작]');
-      finalLyrics = await generateLyricsFromPrompt(promptText);
-      if (!finalLyrics) {
-        console.error('❌ 가사 생성 실패');
+      // ✍️ 1. 가사 생성 또는 자동 생성
+      let finalLyrics = lyrics?.trim();
+
+      // bgm일 경우는 가사 생성 안해도 됨
+      if (selectedCreationMode === 'bgm') {
+        finalLyrics = '';
+      } else if (!finalLyrics) {
+        console.log('[✍️ 자동 가사 생성 시작]');
+        finalLyrics = await generateLyricsFromPrompt(promptText, selectedLanguage);
+
+        if (!finalLyrics || finalLyrics.trim() === '') {
+          console.error('❌ 가사 생성 실패');
+          setErrorTitle('Music cannot be generated.');
+          setErrorMessage('가사가 생성되지 않았어요. 입력을 조금 더 구체적으로 수정해 주세요.');
+          setShowErrorModal(true);
+          setLoading(false); // 실패 시 로딩 멈춤
+          return;
+        }
+
+        setLyrics(finalLyrics);
+        setIsLyricsSaved(true);
+        setIsEditing(false);
+      }
+
+      console.log('[🎼 최종 가사 출력]', finalLyrics);
+
+      // 🚫 2. 비속어 필터 검사
+      const hasBadwords = (text = '') => {
+        const normalizedText = text.replace(/\s+/g, '').toLowerCase();
+        return badwords.some(word => normalizedText.includes(word));
+      };
+
+      if (hasBadwords(finalLyrics)) {
+        console.error('❌ 부적절한 가사 탐지됨');
+        setErrorTitle('Music cannot be generated.');
+        setErrorMessage(
+          'Inappropriate or offensive words were detected in the lyrics.\nPlease revise the lyrics and try again.'
+        );
+        setShowErrorModal(true);
+        setLoading(false); // 실패 시 로딩 멈춤
         return;
       }
-      setLyrics(finalLyrics);
-      setIsLyricsSaved(true);
-      setIsEditing(false);
-    }
 
-    console.log('[🎼 최종 가사 출력]');
-    console.log(finalLyrics);
+      // 3. 프롬프트 생성
+      const final = await generateFinalPrompt();
+      setFinalPrompt(final);
+      console.log('[📦 최종 프롬프트]', final);
 
-    const final = await generateFinalPrompt();
-    setFinalPrompt(final);
-    console.log('[📦 최종 프롬프트]', final);
+      // 4. 메타데이터 생성
+      const metadata = await generateMusicMetadata(promptText, selectedLanguage);
+      if (!metadata) {
+        console.error('❌ 메타데이터 생성 실패');
+        setLoading(false); // 실패 시 로딩 멈춤
+        return;
+      }
+      console.table(metadata);
 
-    const imageUrl = await generateAlbumCover(final);
-    setCoverImageUrl(imageUrl);
-    console.log('[🖼️ 최종 앨범 커버 URL]', imageUrl);
+      // 5. 이미지 생성
+      const imageUrl = await generateAlbumCover({
+        metadata,
+        fullLyrics: finalLyrics,
+        finalPrompt: final,
+      });
+      setCoverImageUrl(imageUrl);
+      console.log('[🖼️ 최종 앨범 커버 URL]', imageUrl);
 
-    const response = await musicGenerate(finalLyrics);
-
-    // ✅ localStorage에 저장하는 함수!
-    if (response && response.data && response.data.id) {
-      storeAlbumId(response.data.id, response.data.title); // 15분 저장
-      alert('음악이 성공적으로 생성되었습니다!');
-      navigate('/'); // 홈으로 이동
-    } else {
-      console.error('❌ 앨범 생성 실패');
-      alert('음악 생성 중 오류가 발생했습니다.');
+      // 6. 음악 생성
+      const response = await musicGenerate(finalLyrics, {
+        ...metadata,
+        cover_image: imageUrl, // 여기서 직접 전달
+      });
+      if (response && response.data && response.data.id) {
+        storeAlbumId(response.data.id, response.data.title);
+        navigate('/');
+      }
+    } catch (err) {
+      console.error('[❌ 음악 생성 도중 에러]', err);
+    } finally {
+      setLoading(false); // 마지막에 로딩 멈춤
     }
   };
 
@@ -342,27 +507,31 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
         <div className="freeform-section__inner">
           <div className="freeform-section__inner__tit">
             <img src={freeModeIcon} alt="" />
-            <h2>Freeform Music Creation</h2>
+            <h2>{t(`Freeform Music Creation`)}</h2>
             <p>
-              <span>Write a prompt for your music.</span>
-              <span>To add your own lyrics, tap [Custom Lyrics].</span>
+              <span>{t(`Write a prompt for your music.`)}</span>
+              <span>{t(`To add your own lyrics, tap [Custom Lyrics].`)}</span>
             </p>
           </div>
           <textarea
             className="freeform-section__inner__textarea"
-            placeholder="Feel free to enter traits, instruments, tempo, gender, and more."
+            placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
             value={promptText}
             onChange={e => setPromptText(e.target.value)}
             readOnly={!isEditing}
           />
-          <button
-            type="button"
-            className="btn-lyrics-modal"
-            onClick={() => setIsCustomLyricsModal(true)}
-          >
-            <img src={plusIcon} alt="Plus Icon" />
-            <span>{isLyricsSaved ? 'View & edit lyrics' : 'Custom Lyrics'}</span>
-          </button>
+          {selectedCreationMode === 'song' ? (
+            <button
+              type="button"
+              className="btn-lyrics-modal"
+              onClick={() => setIsCustomLyricsModal(true)}
+            >
+              <img src={plusIcon} alt="Plus Icon" />
+              <span>{isLyricsSaved ? t('View & edit lyrics') : t('Custom Lyrics')}</span>
+            </button>
+          ) : (
+            ''
+          )}
         </div>
         <div className="btn-full-box">
           <button
@@ -372,8 +541,9 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
             disabled={promptText.length === 0}
             onClick={handleMusicCreation}
           >
-            Music Creation
+            {t(`Music Creation`)}
           </button>
+          {loading && <CreateLoading textTrue />}
         </div>
       </section>
 
@@ -387,7 +557,7 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
           ></div>
           <div className="custom-lyrics-modal__box">
             <div className="custom-lyrics-modal__box__tit">
-              <h3>Custom Lyrics</h3>
+              <h3>{t(`Custom Lyrics`)}</h3>
               <button className="btn-close" onClick={() => setIsCustomLyricsModal(false)}>
                 <img src={closeIcon} alt="Close" />
               </button>
@@ -395,7 +565,7 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
 
             <textarea
               className="custom-lyrics-modal__box__textarea"
-              placeholder="Please add your own lyrics."
+              placeholder={t('Please add your own lyrics.')}
               value={lyrics}
               onChange={e => setLyrics(e.target.value)}
               readOnly={!isEditing}
@@ -407,7 +577,7 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
                 className="lyrics-modal__btn lyrics-modal__btn--editing"
                 onClick={() => setIsEditing(true)}
               >
-                Edit
+                {t(`Edit`)}
               </button>
             ) : (
               <button
@@ -419,11 +589,19 @@ function FreeForm({ selectedVersion, selectedPrivacy, selectedCreationMode }) {
                 }}
                 disabled={!lyrics.trim()}
               >
-                {isEditing ? 'Save' : 'Done'}
+                {isEditing ? t(`Save`) : t(`Done`)}
               </button>
             )}
           </div>
         </div>
+      )}
+      {loading && <CreateLoading textTrue />}
+      {showErrorModal && (
+        <ErrorModal
+          title={errorTitle}
+          message={errorMessage}
+          onClose={() => setShowErrorModal(false)}
+        />
       )}
     </>
   );

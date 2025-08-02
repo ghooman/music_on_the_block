@@ -281,7 +281,9 @@ function Album() {
               <div className="banner-slider__swiper-list" onClick={() => navigate('/create')}>
                 <div className="banner-slider__swiper-content banner-slider__swiper-content__crafted">
                   <div className="swiper-context">
-                    <h2 className="banner-slider__welcome-txt">Welcome To Music On The Block!</h2>
+                    <h2 className="banner-slider__welcome-txt">
+                      {t(`Welcome To Music On The Block!`)}
+                    </h2>
                     <div className="banner-slider__welcome-desc">
                       <p className="desc-txt">
                         <span>{t('Your own')}</span>

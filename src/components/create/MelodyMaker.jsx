@@ -127,29 +127,33 @@ const generateAlbumCoverPrompt = ({ melodyTitle, melodyTag, melodyGenre, fullLyr
 
 [Visual Prompt for Album Cover Generation]
 
-Create a visually expressive and cinematic illustration inspired by the overall narrative and emotion of the lyrics provided above.
+Realistic, Emotionally Resonant Album Cover
 
-Instructions:
-– Identify the main **emotion** and **subject matter** of the song from the lyrics (e.g., celebration, longing, love, nostalgia, solitude, connection).  
-– Then, illustrate a **clear and grounded scene** that visually conveys this.  
-– The image should depict a **realistic moment or situation**, not just abstract or symbolic elements.  
-– Include **visual context cues** like weather, lighting, time of day, background setting, or human interactions that help reflect the story.  
-– Focus on emotional clarity — the viewer should feel the atmosphere and message of the song just by looking at the image.
+Create a naturalistic, grounded illustration inspired by the song’s overall tone, story, and emotion.
+It should feel like a real-life moment — subtle, intimate, and deeply human — not a fantasy or stylized poster.
 
-Styling Guidelines:
-– Use **soft natural lighting** and cinematic composition.  
-– For character-driven songs, use a **close-up or mid-shot** focusing on expressions, gestures, or body language.  
-– For songs centered on places or scenes, use **wide or atmospheric shots**.  
-– Adjust the **color palette** to match the song's emotion:  
-   • Warm and bright for joy, gratitude, or love  
-   • Cool and muted for sadness, reflection, or loneliness  
-   • Dramatic or moody contrast for tension or rebellion  
-– Avoid surrealism, fantasy, or dream-like distortion.  
-– Treat the illustration as a **still from a meaningful movie scene**, not a poster or graphic.
+Interpretation Guidelines:
+– Understand the emotional core (joy, longing, sorrow, hope, etc.)
+– Ask: What is the song really about? A relationship, place, or memory?
+– Depict a concrete scene — e.g., someone by a window, a farewell at a train station, a solo walk at dawn
+– Avoid abstract or symbolic imagery; use real places, people, and natural gestures
 
-⚠️ Do NOT include any text, symbols, logos, or typography. The image should tell the story visually.
+Visual Direction:
+– Choose realistic indoor or outdoor settings (cafe, beach, street, bedroom)
+– Use natural light, weather, time of day, and background elements to tell the story
+– Focus on expression and posture for character-driven songs
+– Use wider, quiet shots for songs about place or mood
 
-`;
+Styling Notes:
+– Soft, painterly or photographic style — emotional, not dramatic
+– Color palette should reflect the song’s tone (warm for comfort, cool for solitude, muted for nostalgia)
+– No surrealism, fantasy, typography, or heroic poses
+
+Goal:
+The artwork should feel like a real memory — subtle, beautiful, and emotionally true — complementing the music without overpowering it.
+
+⚠️ Do NOT include any text, letters, or graphic elements like logos or typography. The image should be purely visual and narrative-driven.
+  `;
 };
 
 const MelodyMaker = ({
@@ -393,6 +397,11 @@ const MelodyMaker = ({
           create_ai_type = 'suno';
           ai_model = 'V4_5';
           break;
+        case 'V4_5':
+          create_ai_type = 'suno';
+          ai_model = 'V4_5';
+          break;
+
         default:
           create_ai_type = 'topmediai';
           ai_model = '';

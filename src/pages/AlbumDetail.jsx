@@ -433,6 +433,9 @@ function AlbumDetail() {
     case 'V4_5':
       create_version = 'L&S Plus (V2.2)';
       break;
+    case 'V4_5':
+      create_version = 'L&S Plus (V2.2)';
+      break;
     default:
       create_version = 'L&S One (V1.0)';
       break;

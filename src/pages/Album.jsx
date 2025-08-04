@@ -3,17 +3,24 @@ import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useAudio } from '../contexts/AudioContext';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 
 import coverImg10 from '../assets/images/intro/intro-demo-img4.png';
 import loveIcon from '../assets/images/album/love-icon.svg';
 import halfHeartIcon from '../assets/images/icon/half-heart.svg';
 import playIcon from '../assets/images/album/play-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo-png.png';
+import defaultCoverImg2 from '../assets/images/logo-png2.png';
 import persona01 from '../assets/images/evaluation/persona-all-bg.png';
-import songCreateIcon1 from '../assets/images/album/song-create-icon1.png';
-import songCreateIcon2 from '../assets/images/album/song-create-icon2.png';
-import songCreateIcon3 from '../assets/images/album/song-create-icon3.png';
+import songCreateImg from '../assets/images/album/music-icon.png';
+import mainBannerImg1 from '../assets/images/album/main-banner-01.png';
+import mainBannerImgMobile1 from '../assets/images/album/main-banner-01-mobile.png';
+import artistSampleImg from '../assets/images/album/artist-sample.png';
+import artistLevelIcon from '../assets/images/icons/artist-level-icon.svg';
+import { FaArrowRight } from 'react-icons/fa';
+import defaultAlbumImage from '../assets/images/album/album-cover.png';
 
 import PreparingModal from '../components/PreparingModal';
 
@@ -24,6 +31,8 @@ import AlbumItem from '../components/unit/AlbumItem';
 // import PlayerHeader from '../components/PlayerHeader';
 import IntroLogo2 from '../components/IntroLogo2';
 import NoneContent from '../components/unit/NoneContent';
+import AlbumCollectionItems from '../components/mypage/albumsAndCollectionsComponents/AlbumCollectionItems';
+import SearchBar from '../components/unit/SearchBar';
 
 //스와이프
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -63,6 +72,11 @@ function Album() {
 
   const [isPreparingModal, setPreparingModal] = useState(false);
   const [activeTab, setActiveTab] = useState('AI Lyrics & Songwriting');
+
+  // 추천 아티스트 상태
+  const [recommendedArtists, setRecommendedArtists] = useState([]);
+  // 추천 앨범 상태
+  const [recommendedAlbums, setRecommendedAlbums] = useState([]);
 
   // 로컬 상태로 관리할 데이터들
   const [totalList, setTotalList] = useState([]);
@@ -199,89 +213,251 @@ function Album() {
 
   console.log('앨범');
 
+  const navigate = useNavigate();
+
+  // search-bar : 타이핑 시 clear 버튼 노출, clear 버튼 클릭 시 setSearch 리셋
+  const [keyword, setKeyword] = useState('');
+  const handleChange = e => {
+    setKeyword(e.target.value);
+  };
+  const handleClear = () => {
+    setKeyword('');
+  };
+
+  // 추천 아티스트 슬라이더
+  const artistSwiperRef = useRef(null);
+  const [artistActiveIndex, setArtistActiveIndex] = useState(0);
+
+  const handleArtistSlideChange = swiper => {
+    setArtistActiveIndex(swiper.realIndex);
+  };
+
+  // 추천 아티스트 가져오는 API 함수
+  const handleGetRecommendedArtist = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/recommend/artist`, null);
+      setRecommendedArtists(res.data);
+      console.log('추천 아티스트 가져오기 완료!', res.data);
+    } catch (error) {
+      console.error('추천 아티스트 가져오는 API 함수 error입니당', error);
+    }
+  };
+
+  // 추천 앨범 가져오는 API 함수
+  const handleGetRecommendedAlbum = async () => {
+    try {
+      const res = await axios.get(`${serverApi}/api/music/recommend/bundle`, null);
+      setRecommendedAlbums(res.data);
+      console.log('추천 앨범 가져오기 완료!', res.data);
+    } catch (error) {
+      console.error('추천 앨범 가져오는 API 함수 error입니당', error);
+    }
+  };
+  // 추천 리스트 새로고침!
+  useEffect(() => {
+    if (!token) return;
+    handleGetRecommendedArtist();
+    handleGetRecommendedAlbum();
+  }, [token]);
+
+  // 추천 앨범 리스트
+  const handleNavigate = albumId => {
+    navigate(`/albums-detail/${albumId}`);
+  };
+
   return (
     <>
       <div className="main">
-        <section className="main__to-day-header">
-          <div className="main__to-day-header__song-create">
-            <p className="main__to-day-header__song-create__title">
-              {t('What shall we try today?')}
-            </p>
-            <div className="main__to-day-header__song-create-list">
-              <Link to="/create" className="main__to-day-header__song-create-list__item">
-                <p className="main__to-day-header__song-create-list__item__title">
-                  {/* <br /> */}
-                  <span>{t('very quickly')}</span>
-                  {t('Create your own song')}
-                </p>
-                <img src={songCreateIcon1} alt="songCreateIcon1" />
-                <p className="main__to-day-header__song-create-list__item__title__sub">
-                  {t('Try it now')}
-                </p>
-              </Link>
-              <Link to="/evaluation" className="main__to-day-header__song-create-list__item">
-                <p className="main__to-day-header__song-create-list__item__title">
-                  {t('Get your song')}
-                  {/* <br /> */}
-                  <span>{t('evaluated')}</span>
-                </p>
-                <img src={songCreateIcon2} alt="songCreateIcon2" />
-                <p className="main__to-day-header__song-create-list__item__title__sub">
-                  {t('Try it now')}
-                </p>
-              </Link>
-              <Link
-                onClick={() => setPreparingModal(true)}
-                className="main__to-day-header__song-create-list__item"
-              >
-                <p className="main__to-day-header__song-create-list__item__title">
-                  {t('Create a song')}
-                  {/* <br /> */}
-                  <span>{t('with your own voice')}</span>
-                </p>
-                <img src={songCreateIcon3} alt="songCreateIcon3" />
-                <p className="main__to-day-header__song-create-list__item__title__sub">
-                  {t('Coming soon!')}
-                </p>
-              </Link>
-            </div>
-          </div>
-        </section>
-        {/* <article className="album__content-list__tab">
-          <button
-            className={`album__content-list__tab__item ${
-              service === 'AI Lyrics & Songwriting' ? 'active' : ''
-            }`}
-            onClick={() => {
-              setSearchParams({ service: 'AI Lyrics & Songwriting' });
-            }}
+        <div className="banner-slider">
+          <Swiper
+            className="banner-slider__swiper"
+            modules={[Autoplay, Pagination]}
+            autoplay={{ delay: 6000, disableOnInteraction: false }}
+            loop={true}
+            allowTouchMove={true}
+            pagination={{ clickable: true }}
           >
-            {t('AI Lyrics & Songwriting')}
-          </button>
-          <button
-            className={`album__content-list__tab__item ${
-              service === 'AI Singing Evaluation' ? 'active' : ''
-            }`}
-            onClick={() => {
-              if (disableEvaluation) {
-                setPreparingModal(true);
-                return;
-              }
+            <SwiperSlide>
+              <div className="banner-slider__swiper-list" onClick={() => navigate('/create')}>
+                <div className="banner-slider__swiper-content banner-slider__swiper-content__crafted">
+                  <div className="swiper-context">
+                    <h2 className="banner-slider__welcome-txt">
+                      {t(`Welcome To Music On The Block!`)}
+                    </h2>
+                    <div className="banner-slider__welcome-desc">
+                      <p className="desc-txt">
+                        <span>{t('Your own')}</span>
+                        <strong>{t('unique music,')}</strong>
+                      </p>
+                      <p className="desc-txt">
+                        <span>{t('Created in no time')}</span>
+                        <strong>{t('with a simple guide.')}</strong>
+                      </p>
+                    </div>
+                    <p className="banner-slider__creattion-txt">
+                      {t('Create Music')}
+                      <FaArrowRight width={6} color="#fff" opacity={0.7} />
+                    </p>
+                  </div>
+                  <img src={songCreateImg} alt="" className="banner-slider__music-icon" />
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="banner-slider__swiper-list">
+                <div className="banner-slider__swiper-content">
+                  <picture className="banner-slider__picture">
+                    <source media="(min-width: 481px)" srcset={mainBannerImg1} />
+                    <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
+                    <img
+                      src={mainBannerImg1}
+                      alt="Main banner example"
+                      className="banner-slider__swiper-banner-img"
+                    />
+                  </picture>
+                </div>
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
 
-              setSearchParams({ service: 'AI Singing Evaluation', critic: 'All' });
-            }}
-          >
-            {t('AI Singing Evaluation')}
-          </button>
-          <button
-            className={`album__content-list__tab__item ${
-              service === 'AI Cover Creation' ? 'active' : ''
-            }`}
-            onClick={() => setPreparingModal(true)}
-          >
-            {t('AI Cover Creation')}
-          </button>
-        </article> */}
+        <SearchBar keyword={keyword} handleChange={handleChange} handleClear={handleClear} />
+
+        <div className="main__content-item">
+          {/* 인기 음악 */}
+          <List
+            title={t('Hit Music')}
+            data={hitList}
+            id="Latest"
+            currentTrack={currentTrack}
+            handlePlay={handlePlay}
+            currentTime={currentTime}
+            link="/song/list?songs_sort=Most+Played"
+            setPreparingModal={setPreparingModal}
+            audioRef={audioRef}
+            noDataMessage="There are no songs."
+            isTrackActive={isTrackActive}
+          />
+
+          {/* 추천 아티스트 캐러셀 */}
+          <section className="artist-section">
+            <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
+            <div className="artist-slider-wrap">
+              <Swiper
+                modules={[Autoplay]}
+                slidesPerView={9}
+                centeredSlides={true}
+                loop={true}
+                initialSlide={Math.floor(recommendedArtists.length / 2)}
+                slidesPerGroup={1}
+                resistanceRatio={0}
+                longSwipesRatio={0.99}
+                longSwipesMs={300}
+                threshold={20}
+                speed={400}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: true,
+                }}
+                breakpoints={{
+                  1600: {
+                    slidesPerView: 9,
+                  },
+                  1360: {
+                    slidesPerView: 7,
+                  },
+                  768: {
+                    slidesPerView: 5,
+                  },
+                  480: {
+                    slidesPerView: 3,
+                  },
+                  0: {
+                    slidesPerView: 2,
+                  },
+                }}
+                className="artist-slider"
+              >
+                {recommendedArtists.map((artist, idx) => (
+                  <SwiperSlide key={idx}>
+                    <figure
+                      className={`artist-item ${
+                        artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
+                      }`}
+                    >
+                      <div className="artist-thumb">
+                        {/* 선택한 아티스트의 페이지로 이동 */}
+                        <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
+                          <img
+                            src={artist.profile ? artist.profile : defaultCoverImg2}
+                            alt={artist.name}
+                          />
+                        </Link>
+                      </div>
+                      <figcaption className="artist-info">
+                        <h3 className="artist-name">
+                          <span>{artist.name}</span>
+                          <img
+                            src={getUserGradeSquareIcon(artist?.user_rating)}
+                            alt="Artist Level Icon"
+                            className="artist-level"
+                          />
+                        </h3>
+                        <p className="artist-meta">
+                          <span>
+                            Music
+                            <small>{artist.total_songs}</small>
+                          </span>
+                          <span>
+                            Follower
+                            <small>{artist.followers}</small>
+                          </span>
+                        </p>
+                      </figcaption>
+                    </figure>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </section>
+
+          {/* 추천 앨범 리스트 */}
+          <section className="album-section">
+            <h2 className="album__content-list__title">{t('Recommended Albums')}</h2>
+            <Swiper
+              slidesPerView={'auto'}
+              spaceBetween={16}
+              grabCursor={true}
+              loop={false}
+              centeredSlides={false}
+              className="recommended-albums-slider"
+            >
+              {recommendedAlbums.map(album => (
+                <SwiperSlide key={album.id} className="recommended-albums-item">
+                  <AlbumCollectionItems.Item
+                    name={album.album_name}
+                    artist={album.name}
+                    count={album.song_cnt}
+                    isOwner={album.is_owner}
+                    coverImage={album.cover_image}
+                    handleNavigate={() => handleNavigate(album.id)}
+                    target="Collection"
+                    translateFn={word => word}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </section>
+        </div>
+
+        {/* NFT 마켓플레이스 */}
+        <section className="main__nft-market">
+          <Link to="/nft" className="main__nft-market__link">
+            <span className="main__nft-market__link-text">{t('NFT Marketplace')}</span>
+          </Link>
+        </section>
+
+        {/* 최신음악 */}
         {service === 'AI Lyrics & Songwriting' && (
           <article className="main__content-item">
             <List
@@ -291,178 +467,28 @@ function Album() {
               currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
-              link="/song/list?songs=Latest"
+              link="/song/list?songs_sort=Latest"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
               noDataMessage="There are no songs."
               isTrackActive={isTrackActive}
             />
-            {/* <List
-              title={t('Total')}
+
+            {/* 추천음악 */}
+            <List
+              title={t('Recommended Music')}
               data={randomList}
-              // data={[...totalList].sort(() => Math.random() - 0.5)}
-              id="total"
+              id="Recommended"
               currentTrack={currentTrack}
               handlePlay={handlePlay}
               currentTime={currentTime}
-              link="/song/list?songs=Latest"
+              // ✅ songs_sort는 'Latest', 대신 랜덤 플래그를 따로 추가
+              link="/song/list?songs_sort=Latest&from=RandomSection"
               setPreparingModal={setPreparingModal}
               audioRef={audioRef}
               noDataMessage="There are no songs."
               isTrackActive={isTrackActive}
-            /> */}
-
-            <section className="main__content-item">
-              <article className="album__content-list">
-                <p className="album__content-list__title">
-                  {t('Evaluation Stage')}
-                  <Link
-                    className="album__content-list__see-more-btn"
-                    to="/song/list?service=AI+Singing+Evaluation"
-                  >
-                    {t('See More')}
-                  </Link>
-                </p>
-                <article
-                  className="main__content-item__persona"
-                  ref={evaluationSectionRef}
-                  // style={{ scrollMarginTop: '-100px' }}
-                >
-                  {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map(
-                    (persona, index) => (
-                      <div
-                        key={index}
-                        className={`main__content-item__persona__item ${
-                          critic === persona?.name ? 'active' : ''
-                        }`}
-                        onClick={() =>
-                          setSearchParams(prev => {
-                            setShowAllEvaluations(false);
-                            return { ...Object.fromEntries(prev), critic: persona.name };
-                          })
-                        }
-                      >
-                        <img src={persona.image} alt={persona.name} />
-                        <p>{persona.name}</p>
-                      </div>
-                    )
-                  )}
-                </article>
-
-                <div className="album__content-list__evaluation-stage">
-                  {/* <button className='album__content-list__evaluation-stage__item'>
-                  <div className='album__content-list__evaluation-stage__item__thought'>
-                    <p className='album__content-list__evaluation-stage__item__thought__play'>
-                      <img src={coverImg10} alt='coverImg'/>
-                    </p>
-                    <p className='album__content-list__evaluation-stage__item__thought__txt'>
-                      <img src={persona02} alt='Jinwoo-Yoo-img'/>
-                      "This track almost made me feel something. Almost. That's a masterpiece."
-                    </p>
-                  </div>
-                  <dl className='album__content-list__evaluation-stage__item__title'>
-                    <dt>he dances through his masks like breathing - Yolkhead</dt>
-                    <dd><img src={defaultCoverImg} alt='user-name'/>Artist name</dd>
-                  </dl>
-                  <div className='album__content-list__evaluation-stage__item__details-number'>
-                    <p className='basic'>100</p>
-                    <button className='details-btn'>Details</button>
-                  </div>
-                </button> */}
-                  {evaluationListByHighScore.length > 0 && (
-                    <EvaluationListItemWrapper>
-                      {(showAllEvaluations
-                        ? evaluationListByHighScore
-                        : evaluationListByHighScore.slice(0, 5)
-                      ).map(item => (
-                        <EvaluationListItem
-                          key={item.id}
-                          data={item}
-                          selectedMusic={currentTrack}
-                          player={audioPlayer}
-                          handler={() => handlePlayEvaluation(item)}
-                        />
-                      ))}
-                    </EvaluationListItemWrapper>
-                  )}
-                  {evaluationListByHighScore.length <= 0 && (
-                    <NoneContent height={300} message="No evaluation history yet." />
-                  )}
-
-                  {/* {evaluationListByHighScore.length > 5 && (
-                  <button 
-                    className='album__content-list__evaluation-stage__view-all-btn'
-                    onClick={() => {
-                      setShowAllEvaluations(!showAllEvaluations);
-                      if (showAllEvaluations) {
-                        // When clicking "Show Less", scroll to the evaluation section with offset
-                        setTimeout(() => {
-                          evaluationSectionRef.current?.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'center'
-                          });
-                        }, 100);
-                      }
-                    }}
-                  >
-                    {showAllEvaluations ? t('Show less') : t('View all evaluations')}
-                  </button>
-                )} */}
-
-                  <Link
-                    to="/evaluation-stage"
-                    className="album__content-list__evaluation-stage__view-all-btn"
-                  >
-                    {t('View all evaluations')}
-                  </Link>
-                </div>
-              </article>
-              {/* <List
-              title={t('Recently Rated')}
-              className="recently-rated"
-              data={evaluationListByLatest}
-              id="evaluation-latest"
-              currentTrack={currentTrack}
-              handlePlay={handlePlay}
-              currentTime={currentTime}
-              link="/song/list?songs=Latest"
-              setPreparingModal={setPreparingModal}
-              audioRef={audioRef}
-              noDataMessage="No evaluation history yet."
-              type="evaluation"
-              isTrackActive={isTrackActive}
-            /> */}
-            </section>
-
-            <section className="main__nft-market">
-              <Link to="/nft" className="main__nft-market__link">
-                <span className="main__nft-market__link-text">{t('NFT Marketplace')}</span>
-              </Link>
-            </section>
-
-            <ListSlider
-              hitMusicList={hitList}
-              currentTime={currentTime}
-              handleLikeClick={handleLikeClick}
-              currentTrack={currentTrack}
-              handlePlay={handlePlay}
-              id="slide"
-              isTrackActive={isTrackActive}
             />
-            <section className="album__content-list">
-              <List
-                title={t('AI Lyrics & Songwriting')}
-                data={randomList}
-                id="random"
-                currentTrack={currentTrack}
-                handlePlay={handlePlay}
-                currentTime={currentTime}
-                setPreparingModal={setPreparingModal}
-                link="/song/list?songs=Latest"
-                noDataMessage="There are no songs."
-                isTrackActive={isTrackActive}
-              />
-            </section>
           </article>
         )}
 
@@ -533,7 +559,252 @@ function Album() {
           </section>
         )}
 
-        <section className="main__stats">
+        <section className="main__content-item">
+          <article className="album__content-list">
+            <p className="album__content-list__title">
+              {t('Evaluation Stage')}
+              <Link
+                className="album__content-list__see-more-btn"
+                to="/song/list?service=AI+Singing+Evaluation"
+              >
+                {t('See More')}
+              </Link>
+            </p>
+            <article className="main__content-item__persona" ref={evaluationSectionRef}>
+              {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
+                <div
+                  key={index}
+                  className={`main__content-item__persona__item ${
+                    critic === persona?.name ? 'active' : ''
+                  }`}
+                  onClick={() =>
+                    setSearchParams(prev => {
+                      setShowAllEvaluations(false);
+                      return { ...Object.fromEntries(prev), critic: persona.name };
+                    })
+                  }
+                >
+                  <img src={persona.image} alt={persona.name} />
+                  <p>{persona.name}</p>
+                </div>
+              ))}
+            </article>
+
+            <div className="album__content-list__evaluation-stage">
+              {evaluationListByHighScore.length > 0 && (
+                <EvaluationListItemWrapper>
+                  {(showAllEvaluations
+                    ? evaluationListByHighScore
+                    : evaluationListByHighScore.slice(0, 5)
+                  ).map(item => (
+                    <EvaluationListItem
+                      key={item.id}
+                      data={item}
+                      selectedMusic={currentTrack}
+                      player={audioPlayer}
+                      handler={() => handlePlayEvaluation(item)}
+                    />
+                  ))}
+                </EvaluationListItemWrapper>
+              )}
+              {evaluationListByHighScore.length <= 0 && (
+                <NoneContent height={300} message="No evaluation history yet." />
+              )}
+
+              <Link
+                to="/evaluation-stage"
+                className="album__content-list__evaluation-stage__view-all-btn"
+              >
+                {t('View all evaluations')}
+              </Link>
+            </div>
+          </article>
+        </section>
+
+        {/* 이전 코드 */}
+        {/* {service === 'AI Lyrics & Songwriting' && (
+          <article className="main__content-item">
+            <List
+              title={t('Latest')}
+              data={totalList}
+              id="Latest"
+              currentTrack={currentTrack}
+              handlePlay={handlePlay}
+              currentTime={currentTime}
+              link="/song/list?songs=Latest"
+              setPreparingModal={setPreparingModal}
+              audioRef={audioRef}
+              noDataMessage="There are no songs."
+              isTrackActive={isTrackActive}
+            />
+
+            <section className="main__content-item">
+              <article className="album__content-list">
+                <p className="album__content-list__title">
+                  {t('Evaluation Stage')}
+                  <Link
+                    className="album__content-list__see-more-btn"
+                    to="/song/list?service=AI+Singing+Evaluation"
+                  >
+                    {t('See More')}
+                  </Link>
+                </p>
+                <article
+                  className="main__content-item__persona"
+                  ref={evaluationSectionRef}
+                >
+                  {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map(
+                    (persona, index) => (
+                      <div
+                        key={index}
+                        className={`main__content-item__persona__item ${
+                          critic === persona?.name ? 'active' : ''
+                        }`}
+                        onClick={() =>
+                          setSearchParams(prev => {
+                            setShowAllEvaluations(false);
+                            return { ...Object.fromEntries(prev), critic: persona.name };
+                          })
+                        }
+                      >
+                        <img src={persona.image} alt={persona.name} />
+                        <p>{persona.name}</p>
+                      </div>
+                    )
+                  )}
+                </article>
+
+                <div className="album__content-list__evaluation-stage">
+                  {evaluationListByHighScore.length > 0 && (
+                    <EvaluationListItemWrapper>
+                      {(showAllEvaluations
+                        ? evaluationListByHighScore
+                        : evaluationListByHighScore.slice(0, 5)
+                      ).map(item => (
+                        <EvaluationListItem
+                          key={item.id}
+                          data={item}
+                          selectedMusic={currentTrack}
+                          player={audioPlayer}
+                          handler={() => handlePlayEvaluation(item)}
+                        />
+                      ))}
+                    </EvaluationListItemWrapper>
+                  )}
+                  {evaluationListByHighScore.length <= 0 && (
+                    <NoneContent height={300} message="No evaluation history yet." />
+                  )}
+
+                  <Link
+                    to="/evaluation-stage"
+                    className="album__content-list__evaluation-stage__view-all-btn"
+                  >
+                    {t('View all evaluations')}
+                  </Link>
+                </div>
+              </article>
+            </section>
+
+            <section className="main__nft-market">
+              <Link to="/nft" className="main__nft-market__link">
+                <span className="main__nft-market__link-text">{t('NFT Marketplace')}</span>
+              </Link>
+            </section>
+
+            <ListSlider
+              hitMusicList={hitList}
+              currentTime={currentTime}
+              handleLikeClick={handleLikeClick}
+              currentTrack={currentTrack}
+              handlePlay={handlePlay}
+              id="slide"
+              isTrackActive={isTrackActive}
+            />
+            <section className="album__content-list">
+              <List
+                title={t('AI Lyrics & Songwriting')}
+                data={randomList}
+                id="random"
+                currentTrack={currentTrack}
+                handlePlay={handlePlay}
+                currentTime={currentTime}
+                setPreparingModal={setPreparingModal}
+                link="/song/list?songs=Latest"
+                noDataMessage="There are no songs."
+                isTrackActive={isTrackActive}
+              />
+            </section>
+          </article>
+        )} */}
+
+        {/* {service === 'AI Singing Evaluation' && (
+          <section className="main__content-item">
+            <article className="main__content-item__persona">
+              {[{ name: 'All', image: persona01 }, ...criticsDataForArray].map((persona, index) => (
+                <div
+                  key={index}
+                  className={`main__content-item__persona__item ${
+                    critic === persona?.name ? 'active' : ''
+                  }`}
+                  onClick={() =>
+                    setSearchParams(prev => {
+                      return { ...Object.fromEntries(prev), critic: persona.name };
+                    })
+                  }
+                >
+                  <img src={persona.image} alt={persona.name} />
+                  <p>{persona.name}</p>
+                </div>
+              ))}
+            </article>
+            <article className="album__content-list">
+              <p className="album__content-list__title">
+                {t('Evaluation Stage')}
+                <Link
+                  className="album__content-list__see-more-btn"
+                  to="/song/list?service=AI+Singing+Evaluation"
+                >
+                  {t('See More')}
+                </Link>
+              </p>
+              <div className="album__content-list__evaluation-stage">
+                {evaluationListByHighScore.length > 0 && (
+                  <EvaluationListItemWrapper>
+                    {evaluationListByHighScore.map(item => (
+                      <EvaluationListItem
+                        key={item.id}
+                        data={item}
+                        selectedMusic={currentTrack}
+                        player={audioPlayer}
+                        handler={() => handlePlayEvaluation(item)}
+                      />
+                    ))}
+                  </EvaluationListItemWrapper>
+                )}
+                {evaluationListByHighScore.length <= 0 && (
+                  <NoneContent height={300} message="No evaluation history yet." />
+                )}
+              </div>
+            </article>
+            <List
+              title={t('Recently Rated')}
+              className="recently-rated"
+              data={evaluationListByLatest}
+              id="evaluation-latest"
+              currentTrack={currentTrack}
+              handlePlay={handlePlay}
+              currentTime={currentTime}
+              link="/song/list?songs=Latest"
+              setPreparingModal={setPreparingModal}
+              audioRef={audioRef}
+              noDataMessage="No evaluation history yet."
+              type="evaluation"
+              isTrackActive={isTrackActive}
+            />
+          </section>
+        )} */}
+
+        {/* <section className="main__stats">
           <dl className="main__stats__title">
             <dt>{t('Number of Artists')}</dt>
             <dd>
@@ -552,7 +823,7 @@ function Album() {
               <Counter targetNumber={transaction?.transaction} />
             </dd>
           </dl>
-        </section>
+        </section> */}
 
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>

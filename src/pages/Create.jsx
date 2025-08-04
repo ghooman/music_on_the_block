@@ -13,6 +13,7 @@ import AlbumCoverStudio from '../components/create/AlbumCoverStudio';
 import Finalize from '../components/create/Finalize';
 import CreateCompleteModal from '../components/CreateCompleteModal';
 import SkipModal from '../components/SkipModal';
+import FreeForm from '../components/create/FreeForm';
 import '../styles/Create.scss';
 import { getCreatePossibleCount } from '../api/getCreatePossibleCount';
 import { useUserDetail } from '../hooks/useUserDetail';
@@ -177,8 +178,9 @@ const Create = () => {
 
   const isLyricPage = pageNumber === 0;
   const isMelodyPage = pageNumber === 1;
+  const isFreeformMode = createMode === 'freeform';
   return (
-    <div className="music_create">
+    <div className={`music_create ${isFreeformMode ? 'freeform-mode' : ''}`}>
       {createMode === 'chatbot' && (
         <>
           {pageNumber === 0 && (
@@ -288,14 +290,28 @@ const Create = () => {
           )}
         </>
       )}
-      <CreateSideBar
-        pageNumber={pageNumber}
-        isConfirmLyricStatus={isConfirmLyricStatus}
-        showLyricsModal={showLyricsModal}
-        setShowLyricsModal={setShowLyricsModal}
-        generatedLyric={generatedLyric}
-        setGeneratedLyric={setGeneratedLyric}
-      />
+      {isFreeformMode && (
+        <FreeForm
+          createMode={createMode}
+          setCreateMode={setCreateMode}
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+          selectedVersion={selectedVersion}
+          selectedPrivacy={selectedPrivacy}
+          selectedCreationMode={selectedCreationMode}
+        />
+      )}
+
+      {!isFreeformMode && (
+        <CreateSideBar
+          pageNumber={pageNumber}
+          isConfirmLyricStatus={isConfirmLyricStatus}
+          showLyricsModal={showLyricsModal}
+          setShowLyricsModal={setShowLyricsModal}
+          generatedLyric={generatedLyric}
+          setGeneratedLyric={setGeneratedLyric}
+        />
+      )}
     </div>
   );
 };

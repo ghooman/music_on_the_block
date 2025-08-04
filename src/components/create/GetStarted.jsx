@@ -11,8 +11,9 @@ import axios from 'axios';
 import lockIcon from '../../assets/images/icons/lock-icon.svg';
 import typeIcon from '../../assets/images/icons/type-icon.svg';
 import versionIcon from '../../assets/images/icons/version-icon.svg';
-import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.png';
-import standardModeIcon from '../../assets/images/icons/standardmode-icon.png';
+import chatbotModeIcon from '../../assets/images/icons/chatbotmode-icon.svg';
+import standardModeIcon from '../../assets/images/icons/standardmode-icon.svg';
+import freeModeIcon from '../../assets/images/icons/freemode-icon.svg';
 import rightArrow from '../../assets/images/icons/right-arrow-icon.svg';
 import React from 'react';
 
@@ -41,17 +42,24 @@ const GetStarted = ({
   const [activeIndex, setActiveIndex] = useState(null);
   const formats = [
     {
-      title: 'Chatbot Mode',
-      type: 'chatbot',
-      description: t(`Create music through a conversation with AI
-For boundless creativity, choose Chatbot Mode!`),
+      title: t('Freeform'),
+      type: 'freeform',
+      description: t(`Create music instantly with just one message
+Freeform and limitless creation, no format required!`),
       keywords: [],
     },
     {
-      title: 'Standard Mode',
+      title: t('Chatbot'),
+      type: 'chatbot',
+      description: t(`Easily create music by chatting with AI
+Well-structured and step-by-step, chatbot style!`),
+      keywords: [],
+    },
+    {
+      title: t('General'),
       type: 'standard',
-      description: t(`Choose from a variety of options
-If you need guidance, go with Standard Mode!`),
+      description: t(`Choose what you like from a variety of options
+If creation feels tricky, go with general mode!`),
       keywords: [],
     },
   ];
@@ -239,7 +247,13 @@ If you need guidance, go with Standard Mode!`),
               {/* 아이콘 삽입 */}
               <img
                 className="create__get-started--format-item-icon"
-                src={format.type === 'chatbot' ? chatbotModeIcon : standardModeIcon}
+                src={
+                  format.type === 'chatbot'
+                    ? chatbotModeIcon
+                    : format.type === 'freeform'
+                    ? freeModeIcon
+                    : standardModeIcon
+                }
                 alt={`${format.title} icon`}
               />
               <h3 className="create__get-started--format-item-title">{t(format.title)}</h3>
@@ -265,7 +279,16 @@ If you need guidance, go with Standard Mode!`),
             }`}
             onClick={() => {
               if (activeIndex === null || remainCount === 0) return;
-              const mode = activeIndex === 0 ? 'chatbot' : 'select';
+
+              let mode;
+              if (activeIndex === 0) {
+                mode = 'freeform';
+              } else if (activeIndex === 1) {
+                mode = 'chatbot';
+              } else {
+                mode = 'select';
+              }
+
               setCreateMode(mode);
               handler();
             }}

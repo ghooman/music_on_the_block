@@ -209,14 +209,14 @@ const Footer = ({ setIsLoggedIn }) => {
                       {t('NFT MarketPlace')}
                     </Link>
                   </dd>
-                  <dd>
+                  {/* <dd>
                     <Link
                       to="/affiliate"
                       // onClick={() => setPreparingModal(true)}
                     >
                       {t('Affiliate')}
                     </Link>
-                  </dd>
+                  </dd> */}
                 </dl>
                 <dl>
                   <dt>{t('Eco System')}</dt>

@@ -303,7 +303,7 @@ function Album() {
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            {/* <SwiperSlide>
               <div className="banner-slider__swiper-list">
                 <div className="banner-slider__swiper-content">
                   <picture className="banner-slider__picture">
@@ -317,7 +317,7 @@ function Album() {
                   </picture>
                 </div>
               </div>
-            </SwiperSlide>
+            </SwiperSlide> */}
           </Swiper>
         </div>
 

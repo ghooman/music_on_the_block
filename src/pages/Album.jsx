@@ -255,10 +255,9 @@ function Album() {
   };
   // 추천 리스트 새로고침!
   useEffect(() => {
-    if (!token) return;
     handleGetRecommendedArtist();
     handleGetRecommendedAlbum();
-  }, [token]);
+  }, []);
 
   // 추천 앨범 리스트
   const handleNavigate = albumId => {

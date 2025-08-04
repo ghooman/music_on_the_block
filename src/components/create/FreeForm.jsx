@@ -477,11 +477,35 @@ User input:
       console.table(metadata);
 
       // 5. 이미지 생성
-      const imageUrl = await generateAlbumCover({
-        metadata,
-        fullLyrics: finalLyrics,
-        finalPrompt: final,
-      });
+      let imageUrl = null;
+      let retries = 3;
+      let attempt = 0;
+
+      while (!imageUrl && attempt < retries) {
+        imageUrl = await generateAlbumCover({
+          metadata,
+          fullLyrics: finalLyrics,
+          finalPrompt: final,
+        });
+
+        if (!imageUrl) {
+          attempt++;
+          console.warn(`🎨 이미지 생성 재시도 (${attempt}/${retries})`);
+          if (attempt < retries) {
+            await new Promise(res => setTimeout(res, 2000)); // 2초 대기
+          }
+        }
+      }
+
+      if (!imageUrl) {
+        console.error('[❌ 최종 이미지 생성 실패]');
+        setErrorTitle('Music cannot be generated.');
+        setErrorMessage('앨범 커버 이미지 생성에 실패했어요. 다시 시도해 주세요.');
+        setShowErrorModal(true);
+        setLoading(false);
+        return;
+      }
+
       setCoverImageUrl(imageUrl);
       console.log('[🖼️ 최종 앨범 커버 URL]', imageUrl);
 
@@ -518,7 +542,7 @@ User input:
             placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
             value={promptText}
             onChange={e => setPromptText(e.target.value)}
-            readOnly={!isEditing}
+            // readOnly={!isEditing}
           />
           {selectedCreationMode === 'song' ? (
             <button

@@ -22,6 +22,8 @@ const SongAddAlbumModal = ({ song, onClose }) => {
   const { token, walletAddress, user } = useContext(AuthContext);
   const { address } = walletAddress || {};
 
+  console.log('isLoading', isLoading);
+
   // 1. 앨범 리스트 불러오기
   console.log('song:', song);
   console.log('token:', token);

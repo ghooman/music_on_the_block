@@ -1,4 +1,5 @@
 import './App.css';
+
 // 라이브러리
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -19,6 +20,16 @@ import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 import VoiceTrainer from './pages/VoiceTrainer';
 import SearchResult from './pages/SearchResult';
 import VoteEvent from './pages/VoteEvent';
+
+// 노드 레퍼럴 페이지
+import NodeLogin from './node-referral/pages/Login';
+import NodeSignUp from './node-referral/pages/SignUp';
+import NodeScrollToTop from './node-referral/components/ScrollToTop';
+import NodePrivateRoute from './node-referral/components/routes/PrivateRoute';
+import NodeProtectedRoutes from './node-referral/components/routes/ProtectedRoutes';
+// 노드 레퍼럴 style
+import './node-referral/App.css';
+import './node-referral/styles/Main.scss';
 
 // 컴포넌트
 import Header from './components/Header';
@@ -103,6 +114,7 @@ function App() {
           <AudioProvider>
             <div className="App">
               <title>MUSIC ON THE BLOCK</title>
+              <NodeScrollToTop />
               <Routes>
                 {/* <Route path="/" element={<Intro />} /> 인트로에는 헤더 X */}
                 <Route
@@ -349,7 +361,7 @@ function App() {
                   element={
                     <Layout>
                       <ProtectedRoute>
-                        <LicenseKey/>
+                        <LicenseKey />
                       </ProtectedRoute>
                     </Layout>
                   }
@@ -362,10 +374,19 @@ function App() {
                     </Layout>
                   }
                 />
+
+                <Route path="vote-event" element={<VoteEvent />} />
+
+                {/* 공개 접근 가능한 페이지 */}
+                <Route path="/affiliate/login" element={<NodeLogin />} />
+                <Route path="/affiliate/signup" element={<NodeSignUp />} />
+                {/* 보호된 페이지는 모두 여기 아래에서 감쌈 */}
                 <Route
-                  path="vote-event"
+                  path="/*"
                   element={
-                    <VoteEvent />
+                    <NodePrivateRoute>
+                      <NodeProtectedRoutes />
+                    </NodePrivateRoute>
                   }
                 />
               </Routes>

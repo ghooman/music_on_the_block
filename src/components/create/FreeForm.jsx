@@ -254,9 +254,9 @@ ${finalPrompt ? `- User Prompt (Theme): ${finalPrompt}` : ''}
       create_ai_type = 'suno';
       ai_model = 'V4_5';
       break;
-    case 'V4_5':
+    case 'V4_5PLUS':
       create_ai_type = 'suno';
-      ai_model = 'V4_5';
+      ai_model = 'V4_5PLUS';
       break;
     default:
       create_ai_type = 'topmediai';

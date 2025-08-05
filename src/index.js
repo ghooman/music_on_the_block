@@ -1,12 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-import { ThirdwebProvider } from "thirdweb/react";
-const root = ReactDOM.createRoot(document.getElementById("root"));
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { ThirdwebProvider } from 'thirdweb/react';
 
-if (process.env.NODE_ENV === "production") {
+// ✅ 자동재생 방지: 새로고침 시 무조건 false로 초기화
+sessionStorage.setItem('preventAutoPlay', 'false');
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+if (process.env.NODE_ENV === 'production') {
   console.log = () => {};
   // console.error = () => {};
 }

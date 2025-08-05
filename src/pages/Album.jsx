@@ -162,6 +162,8 @@ function Album() {
 
   // 전역 오디오 상태를 사용하는 handlePlay 함수
   const handlePlay = ({ list, id, track }) => {
+    // ✅ 자동재생 허용 플래그 세팅
+    sessionStorage.setItem('preventAutoPlay', 'true');
     playTrack({
       track,
       playlist: list,
@@ -169,15 +171,34 @@ function Album() {
     });
   };
 
-  // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
+  // // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
+  // useEffect(() => {
+  //   // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
+  //   if (!totalList) return;
+  //   const timer = setTimeout(() => {
+  //     if (totalList.length > 0 && !currentTrack) {
+  //       handlePlay({ list: totalList, id: 'total', track: totalList[0] });
+  //     }
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, [totalList, currentTrack]);
+
+  // 자동 재생 막기
   useEffect(() => {
-    // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
     if (!totalList) return;
+
     const timer = setTimeout(() => {
+      const hasVisited = sessionStorage.getItem('hasVisited');
+      if (!hasVisited) {
+        sessionStorage.setItem('hasVisited', 'true');
+        return; // ❗ 최초 진입이면 자동 재생 방지 (곡도 설정 안 함)
+      }
+
       if (totalList.length > 0 && !currentTrack) {
         handlePlay({ list: totalList, id: 'total', track: totalList[0] });
       }
     }, 2000);
+
     return () => clearTimeout(timer);
   }, [totalList, currentTrack]);
 
@@ -203,6 +224,8 @@ function Album() {
     if (isCurrentlyActive) {
       togglePlayPause();
     } else {
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       playTrack({
         track: item,
         playlist: evaluationListByHighScore,

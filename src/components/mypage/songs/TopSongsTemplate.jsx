@@ -18,6 +18,7 @@ import './TopSongsTemplate.scss';
 import { useTranslation } from 'react-i18next';
 import { getEvaluationList } from '../../../api/evaluation/getList';
 import NoneContent from '../../unit/NoneContent';
+import { useAudio } from '../../../contexts/AudioContext';
 
 const serverApi = process.env.REACT_APP_SERVER_API;
 
@@ -36,6 +37,7 @@ export default TopSongsTemplates;
 //==============
 const LyricsAndSongwriting = ({ username }) => {
   const { t } = useTranslation('my_page');
+  const { playTrack, isTrackActive, currentTime, audioRef } = useAudio();
 
   const { data: topSongsData } = useQuery(
     ['top_songs_data_by_username', { username }],
@@ -45,21 +47,51 @@ const LyricsAndSongwriting = ({ username }) => {
     }
   );
 
+  const handlePlay = track => {
+    // ✅ 자동재생 허용 플래그 세팅
+    sessionStorage.setItem('preventAutoPlay', 'true');
+    playTrack({
+      track,
+      playlist: [topSongsData.top_plays, topSongsData.top_like, topSongsData.top_comments].filter(
+        Boolean
+      ),
+      playlistId: 'top-songs',
+    });
+  };
+
   return (
     <>
       {topSongsData ? (
         <div className="top-songs-template">
           <div className="top-songs-template__item">
             <p className="top-songs-template__item--title">{t('Top Plays')}</p>
-            <AlbumItem track={topSongsData?.top_plays} />
+            <AlbumItem
+              track={topSongsData?.top_plays}
+              isActive={isTrackActive(topSongsData.top_plays, 'top-songs')}
+              currentTime={currentTime} // ✅ 추가
+              audioRef={audioRef} // ✅ 필요한 경우 추가
+              onClick={() => handlePlay(topSongsData?.top_plays)}
+            />
           </div>
           <div className="top-songs-template__item">
             <p className="top-songs-template__item--title">{t('Top Likes')}</p>
-            <AlbumItem track={topSongsData?.top_like} />
+            <AlbumItem
+              track={topSongsData?.top_like}
+              isActive={isTrackActive(topSongsData.top_like, 'top-songs')}
+              currentTime={currentTime} // ✅ 추가
+              audioRef={audioRef} // ✅ 필요한 경우 추가
+              onClick={() => handlePlay(topSongsData?.top_like)}
+            />
           </div>
           <div className="top-songs-template__item">
             <p className="top-songs-template__item--title">{t('Top Comments')}</p>
-            <AlbumItem track={topSongsData?.top_comments} />
+            <AlbumItem
+              track={topSongsData?.top_comments}
+              isActive={isTrackActive(topSongsData.top_comments, 'top-songs')}
+              currentTime={currentTime} // ✅ 추가
+              audioRef={audioRef} // ✅ 필요한 경우 추가
+              onClick={() => handlePlay(topSongsData?.top_comments)}
+            />
           </div>
         </div>
       ) : (
@@ -70,6 +102,8 @@ const LyricsAndSongwriting = ({ username }) => {
 };
 
 const SingingEvaluation = ({ username }) => {
+  const { playTrack, isTrackActive, currentTime, audioRef } = useAudio();
+
   const { data: topScoreData } = useQuery(['top_score_data_by_username', username], async () => {
     const res = await axios.get(`${serverApi}/api/music/evaluation/list`, {
       params: {
@@ -100,7 +134,22 @@ const SingingEvaluation = ({ username }) => {
         <Swiper {...swiperOptions} className="top-songs-template-swiper-wrap">
           {topScoreData?.map(item => (
             <SwiperSlide key={item.id} className="top-songs-template-swiper-item">
-              <AlbumItem track={item} type="evaluation" />
+              <AlbumItem
+                track={item}
+                type="evaluation"
+                isActive={isTrackActive(item, 'top-songs')}
+                currentTime={currentTime}
+                audioRef={audioRef}
+                onClick={() => {
+                  // ✅ 자동재생 허용 플래그 세팅
+                  sessionStorage.setItem('preventAutoPlay', 'true');
+                  playTrack({
+                    track: item,
+                    playlist: topScoreData,
+                    playlistId: 'top-songs',
+                  });
+                }}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

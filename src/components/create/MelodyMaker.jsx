@@ -397,6 +397,11 @@ const MelodyMaker = ({
           create_ai_type = 'suno';
           ai_model = 'V4_5';
           break;
+        case 'V4_5':
+          create_ai_type = 'suno';
+          ai_model = 'V4_5';
+          break;
+
         default:
           create_ai_type = 'topmediai';
           ai_model = '';

@@ -18,6 +18,8 @@ function LicenseKey() {
 
   // 라이센스 키 상태
   const [licenceKey, setLicenceKey] = useState('');
+  // 라이센스 키 연결 여부
+  const [isConnected, setIsConnected] = useState(false);
 
   // 라이센스 키 체크하는 API 함수
   const handleCheckLicenseKey = async () => {
@@ -53,6 +55,7 @@ function LicenseKey() {
         },
       });
       console.log('라이센스 키 연결 완료!', res.data);
+      setIsConnected(true); // ✅ 연결 성공 처리
     } catch (error) {
       console.error('라이센스 키 연결 오류', error);
     }
@@ -87,11 +90,16 @@ function LicenseKey() {
               placeholder={t('Enter the License Key')}
               value={licenceKey}
               onChange={e => setLicenceKey(e.target.value)}
+              readOnly={isConnected} // ✅ 연결된 경우 입력 불가
             />
           </dd>
         </dl>
         <div className="license-key__btns">
-          <button className="license-key__btns__connect" onClick={handleCheckLicenseKey}>
+          <button
+            className="license-key__btns__connect"
+            onClick={handleCheckLicenseKey}
+            disabled={isConnected} // ✅ 연결된 경우 비활성화
+          >
             {t('Connect')}
           </button>
           <button className="license-key__btns__app" onClick={() => setPreparingModal(true)}>

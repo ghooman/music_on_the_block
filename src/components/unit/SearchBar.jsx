@@ -8,7 +8,7 @@ import clearIcon from '../../assets/images/icons/clear-icon.svg';
 import searchIcon from '../../assets/images/icons/search-icon.svg';
 
 const SearchBar = ({ keyword, handleChange, handleClear }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('main');
   const navigate = useNavigate();
 
   const handleSearch = () => {

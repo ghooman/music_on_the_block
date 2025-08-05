@@ -151,7 +151,10 @@
     flex-shrink: 0;
     transition: all .3s ease;
     text-align: center;
+    width: 160px;
     .artist-item {
+      width: 160px;
+      flex-shrink: 0;
       transform: scale(0.68);
       transition: transform 0.3s ease;
     }
@@ -232,8 +235,7 @@
   }
   .recommended-albums-item{
     flex: 0 0 auto;
-    min-width: 320px;
-    max-width: 320px;
+    max-width: 280px;
     -webkit-overflow-scrolling: touch;
     
   }

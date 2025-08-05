@@ -281,7 +281,9 @@ function Album() {
               <div className="banner-slider__swiper-list" onClick={() => navigate('/create')}>
                 <div className="banner-slider__swiper-content banner-slider__swiper-content__crafted">
                   <div className="swiper-context">
-                    <h2 className="banner-slider__welcome-txt">Welcome To Music On The Block!</h2>
+                    <h2 className="banner-slider__welcome-txt">
+                      {t(`Welcome To Music On The Block!`)}
+                    </h2>
                     <div className="banner-slider__welcome-desc">
                       <p className="desc-txt">
                         <span>{t('Your own')}</span>
@@ -341,7 +343,7 @@ function Album() {
             <div className="artist-slider-wrap">
               <Swiper
                 modules={[Autoplay]}
-                slidesPerView={9}
+                slidesPerView="auto"
                 centeredSlides={true}
                 loop={true}
                 initialSlide={Math.floor(recommendedArtists.length / 2)}
@@ -353,25 +355,26 @@ function Album() {
                 speed={400}
                 autoplay={{
                   delay: 3000,
-                  disableOnInteraction: true,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: false,
                 }}
-                breakpoints={{
-                  1600: {
-                    slidesPerView: 9,
-                  },
-                  1360: {
-                    slidesPerView: 7,
-                  },
-                  768: {
-                    slidesPerView: 5,
-                  },
-                  480: {
-                    slidesPerView: 3,
-                  },
-                  0: {
-                    slidesPerView: 2,
-                  },
-                }}
+                // breakpoints={{
+                //   1600: {
+                //     slidesPerView: 9,
+                //   },
+                //   1360: {
+                //     slidesPerView: 7,
+                //   },
+                //   768: {
+                //     slidesPerView: 5,
+                //   },
+                //   480: {
+                //     slidesPerView: 3,
+                //   },
+                //   0: {
+                //     slidesPerView: 2,
+                //   },
+                // }}
                 className="artist-slider"
               >
                 {recommendedArtists.map((artist, idx) => (

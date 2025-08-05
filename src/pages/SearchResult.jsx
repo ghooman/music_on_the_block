@@ -25,12 +25,13 @@ const serverAPI = process.env.REACT_APP_SERVER_API;
 function SearchResult() {
   const navigate = useNavigate();
   const { t } = useTranslation('main');
-  const { token, walletAddress } = useContext(AuthContext);
+  const { walletAddress } = useContext(AuthContext);
 
   // 검색어 가져오기
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const initialKeyword = searchParams.get('keyword') || '';
-  const [keyword, setKeyword] = useState(initialKeyword);
+  const [keyword, setKeyword] = useState(initialKeyword); // 입력 중인 값
+  const [confirmedKeyword, setConfirmedKeyword] = useState(initialKeyword); // 실제 검색 기준
 
   // 검색어 상태
   const handleChange = e => setKeyword(e.target.value);
@@ -39,11 +40,6 @@ function SearchResult() {
   // 페이지네이션 상태
   const pageFromUrl = Number(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
-
-  // Pagination
-  const [musicPage, setMusicPage] = useState(1);
-  const [artistPage, setArtistPage] = useState(1);
-  const [albumPage, setAlbumPage] = useState(1);
 
   // 로딩
   const [isLoading, setIsLoading] = useState(false);
@@ -57,19 +53,16 @@ function SearchResult() {
   const [selectedTab, setSelectedTab] = useState('Music');
   const tabs = [{ name: 'Music' }, { name: 'Artist' }, { name: 'Album' }];
 
+  // 탭의 응답 여부
+  const [artistFetched, setArtistFetched] = useState(false);
+  const [albumFetched, setAlbumFetched] = useState(false);
+  const [musicFetched, setMusicFetched] = useState(false);
+
   const [currentTrack, setCurrentTrack] = useState(null);
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef(null);
 
-  //   const [music, setMusic] = useState([
-  //     { id: 1, title: 'Test Song A' },
-  //     { id: 2, title: 'Test Song B' },
-  //     { id: 3, title: 'Test Song C' },
-  //     { id: 4, title: 'Test Song D' },
-  //     { id: 5, title: 'Test Song E' },
-  //     { id: 6, title: 'Test Song F' },
-  //   ]);
-
+  // 페이지네이션 한 페이지 데이터 갯수
   const getViewCount = () => {
     switch (selectedTab) {
       case 'Music':
@@ -82,116 +75,63 @@ function SearchResult() {
         return 15;
     }
   };
-
   const viewCount = getViewCount();
 
-  const [artist, setArtist] = useState([
-    {
-      id: 1,
-      name: 'Test Artist X',
-      coverImage: artistSampleImg,
-      music: 12,
-      follower: 3500,
-    },
-  ]);
-
-  const [album, setAlbum] = useState([
-    {
-      id: 1,
-      title: 'Test Album Z',
-      artist: '앨범 아티스트',
-      songCount: 12,
-      isOwner: false,
-      defaultAlbumImage: defaultAlbumImage,
-    },
-  ]);
-
-  //   const pagedMusic = music.slice((musicPage - 1) * viewCountMusic, musicPage * viewCountMusic);
-  //   const pagedArtist = artist.slice(
-  //     (artistPage - 1) * viewCountArtist,
-  //     artistPage * viewCountArtist
-  //   );
-  //   const pagedAlbum = album.slice((albumPage - 1) * viewCountAlbum, albumPage * viewCountAlbum);
-
-  // 곡 검색 API 함수
+  // // 곡&아티스트&앨범 검색 API 함수
   useEffect(() => {
+    if (!confirmedKeyword.trim() || !walletAddress) return;
+
     setIsLoading(true);
-    if (selectedTab !== 'Music' || !keyword.trim() || !walletAddress) return;
+    setArtistFetched(false);
+    setAlbumFetched(false);
+    setMusicFetched(false);
 
-    const handleGetSongList = async () => {
-      try {
-        const res = await axios.get(`${serverAPI}/api/music/search/list`, {
-          params: {
-            search_keyword: keyword,
-            // page: currentPage,
-            limit: 9999,
-            wallet_address: walletAddress?.address,
-          },
-        });
-        const list = res.data.data_list;
-        console.log('곡 검색 API 함수 가져오기 완료~!', list);
-        setSongList(list);
-      } catch (error) {
-        console.error('곡 검색 API 함수 error입니당', error);
-      } finally {
+    const fetchSongs = axios.get(`${serverAPI}/api/music/search/list`, {
+      params: {
+        search_keyword: confirmedKeyword,
+        limit: 9999,
+        wallet_address: walletAddress?.address,
+      },
+    });
+
+    const fetchArtists = axios.get(`${serverAPI}/api/music/artist/search/list`, {
+      params: {
+        search_keyword: confirmedKeyword,
+        limit: 9999,
+      },
+    });
+
+    const fetchAlbums = axios.get(`${serverAPI}/api/music/album/bundle/search/list`, {
+      params: {
+        search_keyword: confirmedKeyword,
+        limit: 9999,
+      },
+    });
+
+    Promise.all([fetchSongs, fetchArtists, fetchAlbums])
+      .then(([songsRes, artistsRes, albumsRes]) => {
+        setSongList(songsRes.data.data_list);
+        setArtistList(artistsRes.data.data_list);
+        setAlbumList(albumsRes.data.data_list);
+      })
+      .catch(err => {
+        console.error('통합 검색 실패:', err);
+      })
+      .finally(() => {
+        setMusicFetched(true);
+        setArtistFetched(true);
+        setAlbumFetched(true);
         setIsLoading(false);
-      }
-    };
+      });
+  }, [confirmedKeyword, walletAddress]);
 
-    handleGetSongList();
-  }, [keyword, walletAddress, selectedTab]);
-
-  // 아티스트 검색 API 함수
+  // url 바뀌었을 때 상태 반영하기
   useEffect(() => {
-    setIsLoading(true);
-    if (selectedTab !== 'Artist' || !keyword.trim()) return;
-
-    const handleGetArtistList = async () => {
-      try {
-        const res = await axios.get(`${serverAPI}/api/music/artist/search/list`, {
-          params: {
-            search_keyword: keyword,
-            limit: 9999,
-          },
-        });
-        const list = res.data.data_list;
-        console.log('아티스트 검색 API 함수 가져오기 완료~!', list);
-        setArtistList(list);
-      } catch (error) {
-        console.error('아티스트 검색 API 함수 error입니당', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    handleGetArtistList();
-  }, [keyword, selectedTab]);
-
-  // 앨범 검색 API 함수
-  useEffect(() => {
-    setIsLoading(true);
-    if (selectedTab !== 'Album' || !keyword.trim()) return;
-
-    const handleGetAlbumList = async () => {
-      try {
-        const res = await axios.get(`${serverAPI}/api/music/album/bundle/search/list`, {
-          params: {
-            search_keyword: keyword,
-            limit: 9999,
-          },
-        });
-        const list = res.data.data_list;
-        console.log('앨범 검색 API 함수 가져오기 완료~!', list);
-        setAlbumList(list);
-      } catch (error) {
-        console.error('앨범 검색 API 함수 error입니당', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    handleGetAlbumList();
-  }, [keyword, selectedTab]);
+    const newKeyword = searchParams.get('keyword') || '';
+    setKeyword(newKeyword);
+    setConfirmedKeyword(newKeyword);
+    setCurrentPage(Number(searchParams.get('page')) || 1);
+  }, [searchParams]);
 
   // 현재 페이지에 보여줄 리스트 자르기
   const getListByTab = () => {
@@ -199,9 +139,9 @@ function SearchResult() {
       case 'Music':
         return songList;
       case 'Artist':
-        return artist;
+        return artistList;
       case 'Album':
-        return album;
+        return albumList;
       default:
         return [];
     }
@@ -213,12 +153,6 @@ function SearchResult() {
   useEffect(() => {
     setCurrentPage(pageFromUrl);
   }, [searchParams]);
-
-  // 페이지네이션 페이지 함수
-  const handlePageChange = newPage => {
-    setMusicPage(newPage); // 내부 상태가 필요하다면 유지
-    navigate(`/search-result?keyword=${encodeURIComponent(keyword)}&page=${newPage}`);
-  };
 
   const handlePlay = track => {
     setCurrentTrack(track);
@@ -232,38 +166,60 @@ function SearchResult() {
     navigate(`/album/${albumId}`);
   };
 
+  // 검색 결과 판단 로직
+  useEffect(() => {
+    if (musicFetched && artistFetched && albumFetched) {
+      if (songList.length > 0) setSelectedTab('Music');
+      else if (artistList.length > 0) setSelectedTab('Artist');
+      else if (albumList.length > 0) setSelectedTab('Album');
+    }
+  }, [musicFetched, artistFetched, albumFetched, songList, artistList, albumList]);
+
+  const allFetchDone = artistFetched && albumFetched && musicFetched;
+  const noResult =
+    allFetchDone && songList.length === 0 && artistList.length === 0 && albumList.length === 0;
+
   return (
     <>
       <SearchBar keyword={keyword} handleChange={handleChange} handleClear={handleClear} />
-      {/* 로딩 중일 때 전체 화면 로딩 컴포넌트 출력 */}
-      {isLoading ? (
+
+      {/* 로딩 중일 때 */}
+      {isLoading && (
         <div className="result-loading">
           <Loading />
         </div>
-      ) : (
-        <div className="result-section">
-          {songList.length === 0 && artist.length === 0 && album.length === 0 ? (
-            <p className="no-result-txt">{t('No search results found.')}</p>
+      )}
+
+      {/* 로딩 끝난 후 */}
+      {!isLoading && (
+        <>
+          {songList.length === 0 && artistList.length === 0 && albumList.length === 0 ? (
+            <div className="result-section">
+              <p className="no-result-txt">{t('No search results found.')}</p>
+            </div>
           ) : (
-            <>
+            <div className="result-section">
+              {/* 탭 보여주기 */}
               <nav className="tab__nav">
                 {tabs.map(tab => (
                   <button
                     key={tab.name}
                     className={`tab__nav-item ${selectedTab === tab.name ? 'active' : ''}`}
                     onClick={() => {
-                      if (tab.preparing) {
-                        alert(t('PREPARING'));
-                      } else {
-                        setSelectedTab(tab.name);
-                        setCurrentPage(1); // 탭 바뀔 때 페이지 초기화
-                      }
+                      setSelectedTab(tab.name);
+                      setCurrentPage(1);
+                      setSearchParams(prev => ({
+                        ...Object.fromEntries(prev),
+                        page: '1',
+                        keyword: confirmedKeyword,
+                      }));
                     }}
                   >
                     {t(tab.name)}
                   </button>
                 ))}
               </nav>
+
               {/* Music 탭 클릭 시 */}
               {selectedTab === 'Music' && (
                 <div className="result-list__music">
@@ -295,10 +251,10 @@ function SearchResult() {
               {/* Artist 탭 클릭 시 */}
               {selectedTab === 'Artist' && (
                 <div className="result-list__artist">
-                  {artistList.length > 0 ? (
+                  {pagedList.length > 0 ? (
                     <>
                       <div className="artist-list">
-                        {artistList.map(artist => (
+                        {pagedList.map(artist => (
                           <figure key={artist.id} className="artist-item">
                             <div className="artist-thumb">
                               <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
@@ -330,7 +286,7 @@ function SearchResult() {
                         ))}
                       </div>
                       <Pagination
-                        totalCount={artist.length}
+                        totalCount={artistList.length}
                         viewCount={viewCount}
                         page={currentPage}
                         setPage={setCurrentPage}
@@ -345,9 +301,9 @@ function SearchResult() {
               {/* Album 탭 클릭 시 */}
               {selectedTab === 'Album' && (
                 <div className="result-list__album">
-                  {albumList.length > 0 ? (
+                  {pagedList.length > 0 ? (
                     <>
-                      {albumList.map(album => (
+                      {pagedList.map(album => (
                         <div key={album.id} className="album-card">
                           <AlbumCollectionItems.Item
                             name={album.album_name}
@@ -362,7 +318,7 @@ function SearchResult() {
                         </div>
                       ))}
                       <Pagination
-                        totalCount={album.length}
+                        totalCount={albumList.length}
                         viewCount={viewCount}
                         page={currentPage}
                         setPage={setCurrentPage}
@@ -373,9 +329,9 @@ function SearchResult() {
                   )}
                 </div>
               )}
-            </>
+            </div>
           )}
-        </div>
+        </>
       )}
     </>
   );

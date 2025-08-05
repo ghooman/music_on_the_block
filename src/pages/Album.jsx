@@ -325,7 +325,8 @@ function Album() {
                 </div>
               </div>
             </SwiperSlide>
-            <SwiperSlide>
+            {/* 0805 투표 배너 가리기 */}
+            {/* <SwiperSlide>
               <div className="banner-slider__swiper-list">
                 <div className="banner-slider__swiper-content">
                   <Link to="/vote-event" className='banner-slider__link'>
@@ -337,7 +338,7 @@ function Album() {
                   </Link>
                 </div>
               </div>
-            </SwiperSlide>
+            </SwiperSlide> */}
           </Swiper>
         </div>
 

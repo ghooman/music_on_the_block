@@ -20,6 +20,7 @@ import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 import VoiceTrainer from './pages/VoiceTrainer';
 import SearchResult from './pages/SearchResult';
 import VoteEvent from './pages/VoteEvent';
+import VoteList from './pages/VoteList';
 
 // 노드 레퍼럴 페이지
 import NodeLogin from './node-referral/pages/Login';
@@ -387,6 +388,14 @@ function App() {
                     <NodePrivateRoute>
                       <NodeProtectedRoutes />
                     </NodePrivateRoute>
+                  }
+                />
+                <Route
+                  path="/vote-list"
+                  element={
+                    <Layout>
+                      <VoteList />
+                    </Layout>
                   }
                 />
               </Routes>

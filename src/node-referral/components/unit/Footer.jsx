@@ -115,8 +115,8 @@ function Footer() {
           </ul>
         </div>
         <div className="node-footer__bottom">
-          <div className="node-footer__bottom__left">
-            {/* <address className="address-content">
+                    {/* <div className="node-footer__bottom__left">
+            <address className="address-content">
               <p>
                 <b>대표</b>
                 <span>김낙일</span>
@@ -132,8 +132,8 @@ function Footer() {
                 <b>문의</b>
                 <span>02-0000-0000</span>
               </p>
-            </address> */}
-            {/* <div className="link-content">
+            </address>
+            <div className="link-content">
               <Link to="/" target="_blank" rel="noopener noreferrer">
                 회사소개
               </Link>
@@ -149,8 +149,9 @@ function Footer() {
               <Link to="/" target="_blank" rel="noopener noreferrer">
                 마케팅 수신
               </Link>
-            </div> */}
-          </div>
+            </div>
+          </div> */}
+
           <div className="node-footer__bottom__right">
             <div className="token-ui mob-token">
               <div className="token-ui__mob-info">

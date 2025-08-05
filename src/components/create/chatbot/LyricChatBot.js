@@ -470,7 +470,7 @@ Create your own lyrics based on a special story`
           </SelectItemWrap>
         </section>
         <div className="generated-lyrics__confirm-buttons">
-          {selectedVersion !== 'V4_5' && (
+          {selectedVersion !== 'V4_5PLUS' && (
             <p
               className={`generated-lyrics__confirm-buttons--text ${
                 isConfirmLyricStatus?.length > 1000 ? 'disabled' : ''
@@ -482,9 +482,11 @@ Create your own lyrics based on a special story`
           <div className="create__btn">
             <button
               className={`create__get-started--button ${
-                selectedVersion !== 'V4_5' && isConfirmLyricStatus?.length > 1000 ? 'disabled' : ''
+                selectedVersion !== 'V4_5PLUS' && isConfirmLyricStatus?.length > 1000
+                  ? 'disabled'
+                  : ''
               }`}
-              disabled={selectedVersion !== 'V4_5' && isConfirmLyricStatus?.length > 1000}
+              disabled={selectedVersion !== 'V4_5PLUS' && isConfirmLyricStatus?.length > 1000}
               onClick={() => {
                 // setGeneratedLyric(isConfirmLyricStatus);
                 console.log('generatedLyric:', generatedLyric);

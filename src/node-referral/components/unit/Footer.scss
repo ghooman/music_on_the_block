@@ -101,7 +101,8 @@
       @include flex-between;
       cursor: default;
       gap: 12px;
-      width: 65%;
+      // width: 65%;
+      width: 100%;
       align-items: stretch;
       .token-ui {
         @include flex-column;

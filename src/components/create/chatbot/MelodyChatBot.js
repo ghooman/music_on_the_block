@@ -626,8 +626,8 @@ const MelodyChatBot = ({
         : melody_instrument;
 
       // V4_5인지 여부에 따라 시스템 메시지를 분기
-      const isV4_5 = selectedVersion === 'V4_5';
-      const systemPrompt = isV4_5
+      const isV4_5PLUS = selectedVersion === 'V4_5PLUS';
+      const systemPrompt = isV4_5PLUS
         ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
         : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
 
@@ -649,8 +649,8 @@ const MelodyChatBot = ({
 
       let promptText = response.choices[0].message.content.trim();
 
-      if (!isV4_5) {
-        // V4_5가 아닐 때만 200자 초과 시 잘라내기
+      if (!isV4_5PLUS) {
+        // V4_5PLUS가 아닐 때만 200자 초과 시 잘라내기
         if (promptText.length > 200) {
           promptText = promptText.substring(0, 197) + '...';
         }
@@ -806,9 +806,9 @@ The artwork should feel like a real memory — subtle, beautiful, and emotionall
         create_ai_type = 'suno';
         ai_model = 'V4_5';
         break;
-      case 'V4_5':
+      case 'V4_5PLUS':
         create_ai_type = 'suno';
-        ai_model = 'V4_5';
+        ai_model = 'V4_5PLUS';
         break;
 
       default:

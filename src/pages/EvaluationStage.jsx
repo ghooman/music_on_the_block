@@ -57,6 +57,8 @@ function EvaluationStage() {
       return;
     }
 
+    // ✅ 자동재생 허용 플래그 세팅
+    sessionStorage.setItem('preventAutoPlay', 'true');
     playTrack({
       track,
       playlist: list,

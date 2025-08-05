@@ -20,6 +20,17 @@ import CollectionsEdit from './components/mypage/nfts/CollectionsEdit';
 import VoiceTrainer from './pages/VoiceTrainer';
 import SearchResult from './pages/SearchResult';
 import VoteEvent from './pages/VoteEvent';
+import VoteList from './pages/VoteList';
+
+// 노드 레퍼럴 페이지
+import NodeLogin from './node-referral/pages/Login';
+import NodeSignUp from './node-referral/pages/SignUp';
+import NodeScrollToTop from './node-referral/components/ScrollToTop';
+import NodePrivateRoute from './node-referral/components/routes/PrivateRoute';
+import NodeProtectedRoutes from './node-referral/components/routes/ProtectedRoutes';
+// 노드 레퍼럴 style
+import './node-referral/App.css';
+import './node-referral/styles/Main.scss';
 
 // 노드 레퍼럴 페이지
 import NodeLogin from './node-referral/pages/Login';
@@ -381,12 +392,21 @@ function App() {
                 <Route path="/affiliate/login" element={<NodeLogin />} />
                 <Route path="/affiliate/signup" element={<NodeSignUp />} />
                 {/* 보호된 페이지는 모두 여기 아래에서 감쌈 */}
+
                 <Route
                   path="/*"
                   element={
                     <NodePrivateRoute>
                       <NodeProtectedRoutes />
                     </NodePrivateRoute>
+                  }
+                />
+                <Route
+                  path="/vote-list"
+                  element={
+                    <Layout>
+                      <VoteList />
+                    </Layout>
                   }
                 />
               </Routes>

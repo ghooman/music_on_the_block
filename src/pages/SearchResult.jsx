@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -51,7 +51,14 @@ function SearchResult() {
 
   // 탭 구분
   const [selectedTab, setSelectedTab] = useState('Music');
-  const tabs = [{ name: 'Music' }, { name: 'Artist' }, { name: 'Album' }];
+  // const tabs = [{ name: 'Music' }, { name: 'Artist' }, { name: 'Album' }];
+  const tabs = useMemo(() => {
+    const list = [];
+    if (songList.length > 0) list.push({ name: 'Music' });
+    if (artistList.length > 0) list.push({ name: 'Artist' });
+    if (albumList.length > 0) list.push({ name: 'Album' });
+    return list;
+  }, [songList, artistList, albumList]);
 
   // 탭의 응답 여부
   const [artistFetched, setArtistFetched] = useState(false);
@@ -79,7 +86,7 @@ function SearchResult() {
 
   // // 곡&아티스트&앨범 검색 API 함수
   useEffect(() => {
-    if (!confirmedKeyword.trim() || !walletAddress) return;
+    if (!confirmedKeyword.trim()) return;
 
     setIsLoading(true);
     setArtistFetched(false);
@@ -123,7 +130,7 @@ function SearchResult() {
         setAlbumFetched(true);
         setIsLoading(false);
       });
-  }, [confirmedKeyword, walletAddress]);
+  }, [confirmedKeyword]);
 
   // url 바뀌었을 때 상태 반영하기
   useEffect(() => {
@@ -163,7 +170,7 @@ function SearchResult() {
   };
 
   const handleNavigate = albumId => {
-    navigate(`/album/${albumId}`);
+    navigate(`/albums-detail/${albumId}`);
   };
 
   // 검색 결과 판단 로직

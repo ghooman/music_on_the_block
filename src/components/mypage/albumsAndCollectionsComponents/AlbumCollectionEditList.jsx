@@ -84,18 +84,44 @@ const AlbumCollectionEditList = ({
   //=================
   // 음악 재생
   //=================
-  useEffect(
-    function playMusic() {
-      if (!activeSong) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.currentTime = 0;
-        audioRef.current.src = activeSong?.music_url;
-        audioRef.current.play();
-      }
-    },
-    [activeSong]
-  );
+  // useEffect(
+  //   function playMusic() {
+  //     if (!activeSong) {
+  //       audioRef.current.pause();
+  //     } else {
+  //       audioRef.current.currentTime = 0;
+  //       audioRef.current.src = activeSong?.music_url;
+  //       audioRef.current.play();
+  //     }
+  //   },
+  //   [activeSong]
+  // );
+
+  // 음악 자동 재생 막기
+  useEffect(() => {
+    if (!activeSong) {
+      audioRef.current.pause();
+      return;
+    }
+
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    const shouldPlay = hasVisited === 'true';
+
+    if (!hasVisited) {
+      sessionStorage.setItem('hasVisited', 'true');
+    }
+
+    audioRef.current.currentTime = 0;
+    audioRef.current.src = activeSong.music_url;
+
+    if (shouldPlay) {
+      audioRef.current.play().catch(err => {
+        console.warn('🔇 Autoplay blocked or canceled:', err);
+      });
+    } else {
+      audioRef.current.pause();
+    }
+  }, [activeSong]);
 
   // 공용 프롭스
   const props = {

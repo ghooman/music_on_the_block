@@ -342,17 +342,20 @@ function Album() {
             <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
             <div className="artist-slider-wrap">
               <Swiper
-                modules={[Autoplay]}
-                slidesPerView="auto"
+                ref={artistSwiperRef}
+                slidesPerView={7}
                 centeredSlides={true}
                 loop={true}
+                loopAdditionalSlides={recommendedArtists.length * 2}
                 initialSlide={Math.floor(recommendedArtists.length / 2)}
-                slidesPerGroup={1}
-                resistanceRatio={0}
-                longSwipesRatio={0.99}
-                longSwipesMs={300}
-                threshold={20}
-                speed={400}
+                // slidesPerGroup={1}
+                // resistanceRatio={0}
+                // longSwipesRatio={0.99}
+                // longSwipesMs={300}
+                // threshold={20}
+                // speed={400}
+                // watchSlidesProgress={true}
+                // watchOverflow={true}
                 autoplay={{
                   delay: 3000,
                   disableOnInteraction: false,

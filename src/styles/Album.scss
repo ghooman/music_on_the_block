@@ -148,12 +148,14 @@
     justify-content: space-between;
   }
   .swiper-slide{
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
     transition: all .3s ease;
     text-align: center;
-    width: 160px;
+    min-width: 160px;
+    margin-right: 16px;
+    width: auot;
     .artist-item {
-      width: 160px;
+      width: 100%;
       flex-shrink: 0;
       transform: scale(0.68);
       transition: transform 0.3s ease;

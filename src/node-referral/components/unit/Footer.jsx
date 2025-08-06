@@ -115,7 +115,7 @@ function Footer() {
           </ul>
         </div>
         <div className="node-footer__bottom">
-          {/* <div className="node-footer__bottom__left">
+                    {/* <div className="node-footer__bottom__left">
             <address className="address-content">
               <p>
                 <b>대표</b>
@@ -151,6 +151,7 @@ function Footer() {
               </Link>
             </div>
           </div> */}
+
           <div className="node-footer__bottom__right">
             <div className="token-ui mob-token">
               <div className="token-ui__mob-info">

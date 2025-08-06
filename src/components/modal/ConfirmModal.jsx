@@ -6,11 +6,13 @@ import './ConfirmModal.scss';
 const ConfirmModal = ({
   title,
   content,
+  customContent, // 커스텀 컨텐츠 용 (투표 리스트 추가 txt)
   setShowConfirmModal,
   cancelMessage,
   okMessage,
   okHandler,
   loading,
+  closeIcon = true
 }) => {
   const { t } = useTranslation('modal');
 
@@ -19,9 +21,14 @@ const ConfirmModal = ({
   };
 
   return (
-    <ModalWrap title={t(title)} onClose={handleClose}>
+    <ModalWrap title={t(title)} onClose={handleClose} closeIcon={closeIcon}>
       <div className="confirm-modal">
-        {content && <p className="confirm-modal__message">{t(content)}</p>}
+        {/* customContent가 있으면 그것을 우선 표시 */}
+        {customContent ? (
+          <div className="confirm-modal__message">{customContent}</div>
+        ) : (
+          <p className="confirm-modal__message">{t(content)}</p>
+        )}
         <div className="confirm-modal__button-container">
           <button className="confirm-modal__button cancel" onClick={handleClose}>
             {cancelMessage}

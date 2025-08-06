@@ -300,6 +300,8 @@ const NftItemDetailInfo = ({ id, t }) => {
         is_like: nftDetailData.is_like,
       };
 
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       playTrack({
         track,
         playlist: [track], // 단일 트랙 플레이리스트
@@ -329,10 +331,8 @@ const NftItemDetailInfo = ({ id, t }) => {
         </p>
         <section className="nft-item-detail__song-detail">
           <div className="nft-item-detail__song-detail__bot">
-            <p className='nft-item-detail__song-detail__bot__title'>
-            {nftDetailData?.nft_name}
-            </p>
-            <div className='nft-item-detail__song-detail__cover'>
+            <p className="nft-item-detail__song-detail__bot__title">{nftDetailData?.nft_name}</p>
+            <div className="nft-item-detail__song-detail__cover">
               <div className="nft-item-detail__song-detail__left">
                 <div
                   className={`nft-item-detail__song-detail__left__img ${isActive ? 'active' : ''}`}
@@ -340,7 +340,9 @@ const NftItemDetailInfo = ({ id, t }) => {
                 >
                   {nftDetailData ? (
                     <img
-                      src={nftDetailData?.nft_image?.replace('public', '400to400') || defaultCoverImg}
+                      src={
+                        nftDetailData?.nft_image?.replace('public', '400to400') || defaultCoverImg
+                      }
                       alt="앨범 이미지"
                     />
                   ) : (
@@ -400,7 +402,10 @@ const NftItemDetailInfo = ({ id, t }) => {
                       {nftDetailData?.play_cnt || 0}
                     </p>
                     <p className="love" onClick={likeHandler}>
-                      <img src={nftDetailData?.is_like ? halfHeartIcon : loveIcon} alt="love Icon" />
+                      <img
+                        src={nftDetailData?.is_like ? halfHeartIcon : loveIcon}
+                        alt="love Icon"
+                      />
                       {nftDetailData?.like || 0}
                     </p>
                     <p className={`nfts ${nftDetailData?.rating}`}>
@@ -566,7 +571,6 @@ const NftItemDetailInfo = ({ id, t }) => {
                 )}
               </div>
             </div>
-
           </div>
         </section>
       </div>
@@ -640,8 +644,8 @@ const TrackInformation = ({ id }) => {
           />
           <NftOverviewItem title={t('Type')} value="Lyrics + Songwriting" isTwo typeImg />
           {/* <NftOverviewItem title={t('Language')} value={activityData?.nft_language || '-'} isTwo /> */}
-          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} isTwo/>
-          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} isTwo/>
+          <NftOverviewItem title={t('Genre')} value={activityData?.genre || '-'} isTwo />
+          <NftOverviewItem title={t('Gender')} value={activityData?.nft_gender || '-'} isTwo />
           <NftOverviewItem
             title={t('Musical Instrument')}
             value={activityData?.nft_musical_instrument || '-'}

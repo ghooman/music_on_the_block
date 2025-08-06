@@ -545,9 +545,9 @@ const AccountSettings = () => {
       {showModal && (
         <Modal
           title="Success"
-          setShowModal={() => navigate('/my-page')}
+          setShowModal={() => navigate('/my-page?category=AI+Services')}
           message="Successfully updated"
-          handleClick={() => navigate(prev || '/my-page')}
+          handleClick={() => navigate(prev || '/my-page?category=AI+Services')}
         />
       )}
       {showErrorModal && (

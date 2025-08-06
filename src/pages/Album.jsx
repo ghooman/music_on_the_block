@@ -162,6 +162,8 @@ function Album() {
 
   // 전역 오디오 상태를 사용하는 handlePlay 함수
   const handlePlay = ({ list, id, track }) => {
+    // ✅ 자동재생 허용 플래그 세팅
+    sessionStorage.setItem('preventAutoPlay', 'true');
     playTrack({
       track,
       playlist: list,
@@ -169,15 +171,34 @@ function Album() {
     });
   };
 
-  // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
+  // // tracks 업데이트 후, 선택된 트랙이 없다면 첫 번째 트랙(인덱스 0)을 선택
+  // useEffect(() => {
+  //   // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
+  //   if (!totalList) return;
+  //   const timer = setTimeout(() => {
+  //     if (totalList.length > 0 && !currentTrack) {
+  //       handlePlay({ list: totalList, id: 'total', track: totalList[0] });
+  //     }
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, [totalList, currentTrack]);
+
+  // 자동 재생 막기
   useEffect(() => {
-    // 2초후 에 트랙이 없으면 첫 번째 트랙을 선택
     if (!totalList) return;
+
     const timer = setTimeout(() => {
+      const hasVisited = sessionStorage.getItem('hasVisited');
+      if (!hasVisited) {
+        sessionStorage.setItem('hasVisited', 'true');
+        return; // ❗ 최초 진입이면 자동 재생 방지 (곡도 설정 안 함)
+      }
+
       if (totalList.length > 0 && !currentTrack) {
         handlePlay({ list: totalList, id: 'total', track: totalList[0] });
       }
     }, 2000);
+
     return () => clearTimeout(timer);
   }, [totalList, currentTrack]);
 
@@ -203,6 +224,8 @@ function Album() {
     if (isCurrentlyActive) {
       togglePlayPause();
     } else {
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       playTrack({
         track: item,
         playlist: evaluationListByHighScore,
@@ -255,10 +278,9 @@ function Album() {
   };
   // 추천 리스트 새로고침!
   useEffect(() => {
-    if (!token) return;
     handleGetRecommendedArtist();
     handleGetRecommendedAlbum();
-  }, [token]);
+  }, []);
 
   // 추천 앨범 리스트
   const handleNavigate = albumId => {
@@ -303,6 +325,7 @@ function Album() {
                 </div>
               </div>
             </SwiperSlide>
+<<<<<<< HEAD
             {/* <SwiperSlide>
               <div className="banner-slider__swiper-list">
                 <div className="banner-slider__swiper-content">
@@ -315,6 +338,19 @@ function Album() {
                       className="banner-slider__swiper-banner-img"
                     />
                   </picture>
+=======
+            {/* 0805 투표 배너 가리기 */}
+            {/* <SwiperSlide>
+              <div className="banner-slider__swiper-list">
+                <div className="banner-slider__swiper-content">
+                  <Link to="/vote-event" className='banner-slider__link'>
+                    <picture className="banner-slider__picture">
+                      <source media="(min-width: 481px)" srcset={mainBannerImg1} />
+                      <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
+                      <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
+                    </picture>
+                  </Link>
+>>>>>>> b32b5f1cee5f1b9d30cc0a76573ab4005852b4a0
                 </div>
               </div>
             </SwiperSlide> */}
@@ -345,7 +381,7 @@ function Album() {
             <div className="artist-slider-wrap">
               <Swiper
                 modules={[Autoplay]}
-                slidesPerView={9}
+                slidesPerView="auto"
                 centeredSlides={true}
                 loop={true}
                 initialSlide={Math.floor(recommendedArtists.length / 2)}
@@ -357,25 +393,26 @@ function Album() {
                 speed={400}
                 autoplay={{
                   delay: 3000,
-                  disableOnInteraction: true,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: false,
                 }}
-                breakpoints={{
-                  1600: {
-                    slidesPerView: 9,
-                  },
-                  1360: {
-                    slidesPerView: 7,
-                  },
-                  768: {
-                    slidesPerView: 5,
-                  },
-                  480: {
-                    slidesPerView: 3,
-                  },
-                  0: {
-                    slidesPerView: 2,
-                  },
-                }}
+                // breakpoints={{
+                //   1600: {
+                //     slidesPerView: 9,
+                //   },
+                //   1360: {
+                //     slidesPerView: 7,
+                //   },
+                //   768: {
+                //     slidesPerView: 5,
+                //   },
+                //   480: {
+                //     slidesPerView: 3,
+                //   },
+                //   0: {
+                //     slidesPerView: 2,
+                //   },
+                // }}
                 className="artist-slider"
               >
                 {recommendedArtists.map((artist, idx) => (

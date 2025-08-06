@@ -99,15 +99,28 @@ export const AudioProvider = ({ children }) => {
   // 음악 재생 함수
   const playTrack = useCallback(
     ({ track, playlist = [], playlistId = null, continuePlay = true }) => {
+      console.log('🔊 playTrack called', {
+        track,
+        preventAutoPlay: sessionStorage.getItem('preventAutoPlay'),
+      });
+
       setCurrentTrack(track);
       setCurrentPlaylist(playlist);
       setCurrentPlaylistId(playlistId);
       setIsContinue(continuePlay);
-      setIsPlaying(true);
       setCurrentTime(0);
-      setPlayKey(prev => prev + 1); // 매번 새로운 키 생성
+      setPlayKey(prev => prev + 1);
 
-      // 오디오 요소가 있다면 처음부터 재생하도록 설정
+      const preventAutoPlay = sessionStorage.getItem('preventAutoPlay') === 'true';
+
+      if (!preventAutoPlay) {
+        console.log('⛔ Auto play prevented at playTrack');
+        setIsPlaying(false);
+        return;
+      }
+
+      setIsPlaying(true);
+
       setTimeout(() => {
         const audioElement = audioRef.current?.audio?.current;
         if (audioElement) {
@@ -123,10 +136,16 @@ export const AudioProvider = ({ children }) => {
   const playNext = useCallback(() => {
     if (!currentPlaylist.length || !currentTrack) return;
 
+    // ✅ preventAutoPlay가 설정되지 않았으면 자동재생 하지 않음
+    const preventAutoPlay = sessionStorage.getItem('preventAutoPlay') !== 'true';
+    if (preventAutoPlay) {
+      console.log('자동재생 방지됨 (playNext)');
+      return; // B 재생하지 않음
+    }
+
     const currentIndex = currentPlaylist.findIndex(track => track.id === currentTrack.id);
     const nextIndex = (currentIndex + 1) % currentPlaylist.length;
 
-    // 마지막 곡이고 자동 재생이 비활성화된 경우 재생 중지
     if (currentIndex === currentPlaylist.length - 1 && !isContinue) {
       setIsPlaying(false);
       return;
@@ -138,7 +157,17 @@ export const AudioProvider = ({ children }) => {
       ...nextTrack,
       music_url: nextTrack?.music_url || nextTrack?.nft_music_url,
     });
+
     setCurrentTime(0);
+
+    setTimeout(() => {
+      const audioElement = audioRef.current?.audio?.current;
+      if (audioElement) {
+        audioElement.currentTime = 0;
+        audioElement.play().catch(console.error);
+        setIsPlaying(true);
+      }
+    }, 100);
   }, [currentPlaylist, currentTrack, isContinue]);
 
   // 이전 곡 재생

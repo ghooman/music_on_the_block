@@ -21,7 +21,7 @@ AlbumCollectionItems.Item = ({
   target,
   translateFn,
 }) => {
-  const element = target === 'Collection' ? 'NFT' : 'Song';
+  const element = target === 'Collection' ? 'Track' : 'Track';
 
   return (
     <div className="album-collections-module-items" onClick={() => handleNavigate()}>

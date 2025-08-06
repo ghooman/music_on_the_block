@@ -209,6 +209,7 @@ const Footer = ({ setIsLoggedIn }) => {
                       {t('NFT MarketPlace')}
                     </Link>
                   </dd>
+<<<<<<< HEAD
                   {/* <dd>
                     <Link
                       to="/affiliate"
@@ -217,6 +218,8 @@ const Footer = ({ setIsLoggedIn }) => {
                       {t('Affiliate')}
                     </Link>
                   </dd> */}
+=======
+>>>>>>> b32b5f1cee5f1b9d30cc0a76573ab4005852b4a0
                 </dl>
                 <dl>
                   <dt>{t('Eco System')}</dt>
@@ -239,6 +242,17 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                   <dd>
                     <Link to="/my-page?category=NFTs">{t('NFTs')}</Link>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>{t('Affiliate')}</dt>
+                  <dd>
+                    <Link
+                      to="/affiliate/login"
+                      // onClick={() => setPreparingModal(true)}
+                    >
+                      {t('Affiliate')}
+                    </Link>
                   </dd>
                 </dl>
               </div>

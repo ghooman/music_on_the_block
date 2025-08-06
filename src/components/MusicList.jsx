@@ -50,21 +50,40 @@ const MusicList = ({ initialState = {}, onStateChange }) => {
   };
 
   // 트랙이 바뀔 때마다 audio 로드 및 자동 재생 시도
+  // useEffect(() => {
+  //   const audio = getAudio();
+  //   if (!audio) return;
+
+  //   const handleCanPlay = async () => {
+  //     setIsLoaded(true);
+  //     updateState({ isLoaded: true });
+
+  //     try {
+  //       // await audio.play();
+  //       // setPlaying(true);
+  //       // updateState({ playing: true });
+  //     } catch (e) {
+  //       console.warn('자동재생 실패:', e);
+  //     }
+  //   };
+
+  //   audio.addEventListener('canplaythrough', handleCanPlay);
+  //   audio.load();
+
+  //   return () => {
+  //     audio.removeEventListener('canplaythrough', handleCanPlay);
+  //   };
+  // }, [track, onStateChange]);
+  // ✅ 최종 형태 예시
   useEffect(() => {
     const audio = getAudio();
     if (!audio) return;
 
-    const handleCanPlay = async () => {
+    const handleCanPlay = () => {
       setIsLoaded(true);
       updateState({ isLoaded: true });
 
-      try {
-        // await audio.play();
-        // setPlaying(true);
-        // updateState({ playing: true });
-      } catch (e) {
-        console.warn('자동재생 실패:', e);
-      }
+      // ❌ 자동재생은 안 함
     };
 
     audio.addEventListener('canplaythrough', handleCanPlay);
@@ -149,7 +168,7 @@ const MusicList = ({ initialState = {}, onStateChange }) => {
             playing={playing}
             mediaElt={audioRef.current}
             onPositionChange={handlePositionChange}
-            autoPlay={true}
+            autoPlay={false}
           />
         </div>
       )}

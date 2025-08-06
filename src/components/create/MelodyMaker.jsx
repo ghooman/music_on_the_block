@@ -282,10 +282,10 @@ const MelodyMaker = ({
   // 최종 프롬프트 생성 함수 gpt 에 요청해서 노래 생성 할때 보내는 prompt 에 적절한 답을 요청하고 그걸 받아서 서버에 보냅니다.
   const generateFinalPrompt = async () => {
     try {
-      // V4_5인지 여부에 따라 시스템 메시지를 분기
-      const isV4_5 = selectedVersion === 'V4_5';
-      // V4_5 (수노) 일경우 프롬프트 를 자연스럽게만 수정 시키게하고 아닐 경우 형식을 고정 시켜서 글자길이를 최대 200자 이내로 강제로 만들어서 프롬프트를 수정시킵니다
-      const systemPrompt = isV4_5
+      // V4_5PLUS인지 여부에 따라 시스템 메시지를 분기
+      const isV4_5PLUS = selectedVersion === 'V4_5PLUS';
+      // V4_5PLUS (수노) 일경우 프롬프트 를 자연스럽게만 수정 시키게하고 아닐 경우 형식을 고정 시켜서 글자길이를 최대 200자 이내로 강제로 만들어서 프롬프트를 수정시킵니다
+      const systemPrompt = isV4_5PLUS
         ? 'You are an AI assistant that transforms music metadata into an English sentence. Based on the provided metadata, create a natural-sounding sentence that describes the song'
         : `You are an AI assistant that converts music metadata into a concise English prompt. Take the provided music metadata and create a single natural-sounding sentence that describes the song, similar to: "A male and female duet pop song at 140 BPM, inspired by themes of travel. Featuring instruments such as violin, cello, flute, trumpet, and synthesizer." Your response MUST be less than 200 characters total.`;
 
@@ -311,8 +311,8 @@ const MelodyMaker = ({
 
       let promptText = response.choices[0].message.content.trim();
 
-      if (!isV4_5) {
-        // V4_5가 아닐 때만 200자 초과 시 잘라내기
+      if (!isV4_5PLUS) {
+        // V4_5PLUS가 아닐 때만 200자 초과 시 잘라내기
         if (promptText.length > 200) {
           promptText = promptText.substring(0, 197) + '...';
         }
@@ -397,9 +397,9 @@ const MelodyMaker = ({
           create_ai_type = 'suno';
           ai_model = 'V4_5';
           break;
-        case 'V4_5':
+        case 'V4_5PLUS':
           create_ai_type = 'suno';
-          ai_model = 'V4_5';
+          ai_model = 'V4_5PLUS';
           break;
 
         default:
@@ -663,13 +663,15 @@ Choose a genre that fits the lyrics, select the tempo and instruments to complet
         <div className="create__btn">
           <button
             className={`create__get-started--button ${
-              loading || (!selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+              loading ||
+              (!selectedVersion !== 'V4_5PLUS' && valuesOnly.length > 200) ||
+              !isFormValid
                 ? 'disabled'
                 : ''
             }`}
             onClick={() => musicGenerate()}
             disabled={
-              loading || (selectedVersion !== 'V4_5' && valuesOnly.length > 200) || !isFormValid
+              loading || (selectedVersion !== 'V4_5PLUS' && valuesOnly.length > 200) || !isFormValid
             }
           >
             {loading ? t('Loading') : t('Create your own music')}

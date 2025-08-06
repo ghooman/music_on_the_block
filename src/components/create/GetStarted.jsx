@@ -89,7 +89,7 @@ If creation feels tricky, go with general mode!`),
     setTitle(newTitle);
     setOpen(false);
     if (newTitle === 'L&S Plus(V2.2)') {
-      setSelectedVersion('V4_5');
+      setSelectedVersion('V4_5PLUS');
     } else if (newTitle === 'L&S Pro(V2.0)') {
       setSelectedVersion('mureka-6');
     } else if (newTitle === 'L&S One(V1.0)') {

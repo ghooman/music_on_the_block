@@ -32,16 +32,6 @@ import NodeProtectedRoutes from './node-referral/components/routes/ProtectedRout
 import './node-referral/App.css';
 import './node-referral/styles/Main.scss';
 
-// 노드 레퍼럴 페이지
-import NodeLogin from './node-referral/pages/Login';
-import NodeSignUp from './node-referral/pages/SignUp';
-import NodeScrollToTop from './node-referral/components/ScrollToTop';
-import NodePrivateRoute from './node-referral/components/routes/PrivateRoute';
-import NodeProtectedRoutes from './node-referral/components/routes/ProtectedRoutes';
-// 노드 레퍼럴 style
-import './node-referral/App.css';
-import './node-referral/styles/Main.scss';
-
 // 컴포넌트
 import Header from './components/Header';
 import Footer from './components/Footer';

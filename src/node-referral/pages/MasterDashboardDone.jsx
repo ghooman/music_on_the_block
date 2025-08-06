@@ -7,6 +7,7 @@ import Footer from '../components/unit/Footer';
 import Pagination from '../components/unit/Pagination';
 import CopyButton from '../components/unit/CopyButton';
 import MyDatePicker from '../components/unit/MyDatePicker';
+import Loading from '../../../src/components/Loading.jsx';
 // img
 import SearchIcon from '../assets/images/icon-search.svg';
 import arrowDownIcon from '../assets/images/icon-arrow-down.svg';
@@ -40,6 +41,9 @@ function MasterDashboardDone() {
   };
   const [openIndex, setOpenIndex] = useState(null);
 
+  // 로딩
+  const [isLoading, setIsLoading] = useState(false);
+
   const toggle = index => {
     setOpenIndex(prev => (prev === index ? null : index));
   };
@@ -47,6 +51,7 @@ function MasterDashboardDone() {
   // 상단 대시보드 API 함수
   const handleGetDashboard = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.get(`${serverAPI}/api/sales/settlement/dashboard`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -56,6 +61,8 @@ function MasterDashboardDone() {
       setDashboard(res.data);
     } catch (error) {
       console.error('상단 대시보드 가져오는 API 함수 error입니당', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -121,6 +128,12 @@ function MasterDashboardDone() {
     });
     // "2025. 07. 19. 15:16" → "2025. 07. 19 15:16"
     return raw.replace(/(\d{2})\.\s(\d{2})\.\s(\d{2})\.\s/, '$1. $2. $3 ');
+  };
+
+  // 지갑 주소 포맷팅 함수 (앞뒤 4글자씩 짜르기 0x00....0000)
+  const formatWalletAddress = address => {
+    if (!address || address.length < 10) return address;
+    return `${address.slice(0, 4)}....${address.slice(-4)}`;
   };
 
   return (
@@ -210,36 +223,46 @@ function MasterDashboardDone() {
           </div>
           <div className="table-section full-content-section">
             <div className="table-section-inner">
-              {/* table head */}
-              <div className="table-section__tit__list-head">
-                <div className="col">구매자</div>
-                <div className="col">판매자 이메일</div>
-                <div className="col">지갑주소</div>
-                <div className="col">개수</div>
-                <div className="col">총금액</div>
-                <div className="col">정산금</div>
-                <div className="col">수수료</div>
-                <div className="col">정산완료일시</div>
-              </div>
-
-              {/* table body */}
-              {dataList.map((item, index) => (
-                <div key={index} className="list-item">
-                  <div className="list-item__row">
-                    <div className="col">{item.buyer_name}</div>
-                    <div className="col email">{item.username}</div>
-                    <div className="col wallet-copy-com">
-                      {item.wallet_address}
-                      <CopyButton textToCopy={item.wallet_address} />
-                    </div>
-                    <div className="col">{item.cnt}</div>
-                    <div className="col">{item.amount}</div>
-                    <div className="col">{item.total_settlement_amount}</div>
-                    <div className="col">{item.fee}</div>
-                    <div className="col">{formatDate(item.settlement_dt)}</div>
-                  </div>
+              {isLoading && (
+                <div className="result-loading">
+                  <Loading />
                 </div>
-              ))}
+              )}
+
+              {!isLoading && (
+                <>
+                  {/* table head */}
+                  <div className="table-section__tit__list-head">
+                    <div className="col">구매자</div>
+                    <div className="col">판매자 이메일</div>
+                    <div className="col">지갑주소</div>
+                    <div className="col">개수</div>
+                    <div className="col">총금액</div>
+                    <div className="col">정산금</div>
+                    <div className="col">수수료</div>
+                    <div className="col">정산완료일시</div>
+                  </div>
+
+                  {/* table body */}
+                  {dataList.map((item, index) => (
+                    <div key={index} className="list-item">
+                      <div className="list-item__row">
+                        <div className="col">{item.buyer_name}</div>
+                        <div className="col email">{item.username}</div>
+                        <div className="col wallet-copy-com">
+                          {formatWalletAddress(item.wallet_address)}
+                          <CopyButton textToCopy={item.wallet_address} />
+                        </div>
+                        <div className="col">{item.cnt}</div>
+                        <div className="col">{item.amount}</div>
+                        <div className="col">{item.total_settlement_amount}</div>
+                        <div className="col">{item.fee}</div>
+                        <div className="col">{formatDate(item.settlement_dt)}</div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           </div>
           <Pagination

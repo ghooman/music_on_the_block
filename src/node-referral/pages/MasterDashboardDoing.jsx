@@ -70,9 +70,13 @@ function MasterDashboardDoing() {
 
     try {
       setIsLoading(true);
+
       const res = await axios.get(`${serverAPI}/api/sales/record/approval/settlement/list`, {
         params: {
-          state: selectedStatus !== 'all' ? selectedStatus : undefined,
+          state:
+            selectedStatus !== 'all'
+              ? statusToServerMap[selectedStatus] || selectedStatus
+              : undefined,
           page: currentPage,
           limit: 20,
           search_keyword: searchKeyword !== '' ? searchKeyword : undefined,
@@ -83,14 +87,29 @@ function MasterDashboardDoing() {
       });
 
       const rawList = res.data.data_list;
-      const allowedStates = ['승인대기', '승인취소', '승인완료', '정산완료'];
 
-      // allowedStates로 1차 필터링 → selectedStatus가 all이 아니면 2차 필터링
-      const filteredList = rawList
+      // ✅ state 영문 → 한글로 매핑
+      const mappedList = rawList.map(item => ({
+        ...item,
+        state: stateMap[item.state] || item.state,
+      }));
+
+      const allowedStates = [
+        '승인요청',
+        '승인대기',
+        '승인완료',
+        '승인취소',
+        '정산대기',
+        '정산완료',
+      ];
+
+      // ✅ 1차 필터링 + 선택 상태 필터링
+      const filteredList = mappedList
         .filter(item => allowedStates.includes(item.state))
         .filter(item => selectedStatus === 'all' || item.state === selectedStatus);
 
       console.log('하단 리스트 가져오기 완료!', filteredList);
+
       setTotalCnt(filteredList.length);
       setDataList(filteredList);
       setTotalPages(Math.ceil(res.data.total_cnt / 20));
@@ -195,6 +214,15 @@ function MasterDashboardDoing() {
   //   return map[state] || state; // 못 찾으면 그냥 원래 값 반환
   // };
 
+  const stateMap = {
+    requested: '승인요청',
+    pending: '승인대기',
+    approved: '승인완료',
+    cancelled: '승인취소',
+    settlement_pending: '정산대기',
+    settled: '정산완료',
+  };
+
   // 날짜 포맷팅
   const formatDate = isoString => {
     const raw = new Date(isoString).toLocaleString('ko-KR', {
@@ -216,6 +244,15 @@ function MasterDashboardDoing() {
     승인취소: '승인취소',
     승인완료: '승인완료',
     정산완료: '정산완료',
+  };
+
+  const statusToServerMap = {
+    승인요청: 'requested',
+    승인대기: 'pending',
+    승인완료: 'approved',
+    승인취소: 'cancelled',
+    정산대기: 'settlement_pending',
+    정산완료: 'settled',
   };
 
   // 정렬 필터 변경 함수
@@ -373,6 +410,7 @@ function MasterDashboardDoing() {
 
               {!isLoading && (
                 <>
+                  {/* table head */}
                   <div className="table-section__tit__list-head">
                     <div className="col">상태</div>
                     <div className="col">입금된 지갑주소</div>
@@ -382,14 +420,15 @@ function MasterDashboardDoing() {
                     <div className="col">전송할 지갑주소</div>
                     <div className="col">액션</div>
                   </div>
+                  {/* table body */}
                   {dataList.map((item, index) => (
                     <div key={index} className={`list-item ${openIndex === index ? 'open' : ''}`}>
                       <div className="list-item__row">
                         <div
                           className={`col status-col
-                  ${item.state === '승인대기' ? 'status--pending' : ''}
-                  ${item.state === '승인취소' ? 'status--cancelled' : ''}
-              `}
+      ${item.state === '승인대기' ? 'status--pending' : ''}
+      ${item.state === '승인취소' ? 'status--cancelled' : ''}
+  `}
                         >
                           {item.state}
                         </div>
@@ -484,6 +523,7 @@ function MasterDashboardDoing() {
                                     <button
                                       className="btn--blue-line"
                                       onClick={() => handleSettlement(user.id)}
+                                      disabled={item.state !== '승인완료'} // 승인완료 아니면 비활성화
                                     >
                                       정산
                                     </button>

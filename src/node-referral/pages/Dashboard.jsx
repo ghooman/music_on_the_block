@@ -46,6 +46,9 @@ function Dashboard() {
   // 버튼 로딩 상태
   const [isLoading, setIsLoading] = useState(false);
 
+  // 페이지 로딩
+  const [isPageLoading, setIsPageLoading] = useState(false);
+
   //---- 지갑주소 상태 ----------------------------------------------------
   // 지갑주소 등록 모달 오픈
   const [isOpenAddWalletModal, setIsOpenAddWalletModal] = useState(false);
@@ -93,7 +96,7 @@ function Dashboard() {
   // 초대 코드 모달 오픈
   const [isOpenInviteModal, setIsOpenInviteModal] = useState(false);
   // 초대코드 생성 시, 분리할 지분 (버튼)
-  const [selectedShare, setSelectedShare] = useState('5'); // 기본값 5%
+  const [selectedShare, setSelectedShare] = useState('0'); // 기본값 0%
   const [customShare, setCustomShare] = useState('');
   // 초대코드 생성 시, 닉네임 설정
   const [nickname, setNickname] = useState('');
@@ -352,6 +355,7 @@ function Dashboard() {
   // 새 거래등록 확인 함수
   const fetchNewDealList = async () => {
     try {
+      setIsPageLoading(true);
       const res = await axios.get(`${serverAPI}/api/sales/list`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -367,6 +371,8 @@ function Dashboard() {
       setNewDealList(list);
     } catch (error) {
       console.error('새 거래등록 리스트 가져오기 실패', error);
+    } finally {
+      setIsPageLoading(false);
     }
   };
 
@@ -424,6 +430,7 @@ function Dashboard() {
   // 초대코드 확인 함수
   const fetchInviteCodeList = async () => {
     try {
+      setIsPageLoading(true);
       const res = await axios.get(`${serverAPI}/api/user/invitation/code/list`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -449,12 +456,22 @@ function Dashboard() {
       } else {
         console.log('기타 에러:', error.message);
       }
+    } finally {
+      setIsPageLoading(false);
     }
   };
+
+  const shareOptions = [
+    0,
+    Math.floor(userShare / 3), //소수점 버림 처리 (Math.floor)로 고정 지분보다 작거나 같게 유지
+    Math.floor((userShare * 2) / 3),
+    userShare,
+  ];
 
   //----- 하위 레퍼럴 활동현황 ----------------------------------------------------
   const handleDownReferralActiveList = async () => {
     try {
+      setIsPageLoading(true);
       const res = await axios.get(`${serverAPI}/api/sales/referrals/income/list`, {
         params: {
           page: 1,
@@ -468,6 +485,8 @@ function Dashboard() {
       setDownReferralActive(res.data.data_list);
     } catch (error) {
       console.error('하위 레퍼럴 활동현황 error입니당', error);
+    } finally {
+      setIsPageLoading(false);
     }
   };
 
@@ -590,6 +609,7 @@ function Dashboard() {
           fetchNewDealList={fetchNewDealList}
           formatDate={formatDate}
           sliceList5={sliceList5}
+          isPageLoading={isPageLoading}
         />
 
         {/* 초대 코드 리스트 */}
@@ -598,6 +618,7 @@ function Dashboard() {
           inviteCodeList={inviteCodeList}
           formatDate={formatDate}
           sliceList5={sliceList5}
+          isPageLoading={isPageLoading}
         />
 
         {/* 하위 수입자 리스트 */}
@@ -606,6 +627,7 @@ function Dashboard() {
           handleToggle={setOpenEarningsIndex}
           downReferralActive={downReferralActive}
           sliceList5={sliceList5}
+          isPageLoading={isPageLoading}
         />
       </div>
       <Footer />
@@ -832,7 +854,7 @@ function Dashboard() {
                   <p className="share-setting__label">지분 설정</p>
                   <div className="share-setting__options" role="radiogroup" aria-label="지분 설정">
                     <div className="share-setting__left">
-                      {[0, 5, 10, 15].map(value => (
+                      {shareOptions.map(value => (
                         <button
                           key={value}
                           type="button"

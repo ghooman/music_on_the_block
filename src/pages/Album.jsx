@@ -235,11 +235,11 @@ function Album() {
   const OPTIONS ={
     loop: true,
     align: 'start',
-    dragFree: false,
+    dragFree: true,
     speed: 4,
   }
   const autoplay = useRef(
-    AutoplayPlugin({ delay: 3000, stopOnInteraction: false, stopMouseEnter: true})
+    AutoplayPlugin({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true})
   )
   const [emblaRef] = useEmblaCarousel(OPTIONS, [autoplay.current])
 
@@ -783,7 +783,7 @@ function Album() {
           </section>
         )} */}
 
-        {/* <section className="main__stats">
+        <section className="main__stats">
           <dl className="main__stats__title">
             <dt>{t('Number of Artists')}</dt>
             <dd>
@@ -802,7 +802,7 @@ function Album() {
               <Counter targetNumber={transaction?.transaction} />
             </dd>
           </dl>
-        </section> */}
+        </section>
 
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>

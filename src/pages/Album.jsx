@@ -231,20 +231,6 @@ function Album() {
 
   // 추천 아티스트 슬라이더
   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
-  // const artistSwiperRef = useRef(null);
-
-  // const handleArtistSlideChange = swiper => {
-  //   setArtistActiveIndex(swiper.realIndex);
-  // };
-  // const swiperRef = useRef(null);
-
-  // const handleSwiperInit = (swiper) => {
-  //   setTimeout(() => {
-  //     swiper.slideNext(0);
-  //     swiper.autoplay?.start();
-  //   }, 300);
-  // };
-
   // 엠블라 캐러셀 
   const OPTIONS ={
     loop: true,
@@ -363,67 +349,7 @@ function Album() {
             isTrackActive={isTrackActive}
           />
 
-          {/* 추천 아티스트 ticker */}
-          {/* <section className="artist-section">
-            <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
-            <div className="artist-slider-wrap">
-              <Swiper 
-                modules={[FreeMode]}
-                loop={false}
-                slidesPerView="auto"
-                spaceBetween={20}
-                freeMode={true}
-                grabCursor={true}
-                speed={3000}
-                autoplay={{
-                  delay: 0,
-                  disableOnInteraction: false,
-                  pauseOnMouseEnter: true,
-                }}
-                className="artist-slider"
-              >
-                {recommendedArtists.map((artist, idx) => (
-                  <SwiperSlide key={idx} style={{ width: 'auto' }}>
-                    <figure
-                      className={`artist-item ${
-                        artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
-                      }`}
-                    >
-                      <div className="artist-thumb">
-                        <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
-                          <img
-                            src={artist.profile ? artist.profile : defaultCoverImg2}
-                            alt={artist.name}
-                          />
-                        </Link>
-                      </div>
-                      
-                      <figcaption className="artist-info">
-                        <h3 className="artist-name">
-                          <span>{artist.name}</span>
-                          <img
-                            src={getUserGradeSquareIcon(artist?.user_rating)}
-                            alt="Artist Level Icon"
-                            className="artist-level"
-                          />
-                        </h3>
-                        <p className="artist-meta">
-                          <span>
-                            Music
-                            <small>{artist.total_songs}</small>
-                          </span>
-                          <span>
-                            Follower
-                            <small>{artist.followers}</small>
-                          </span>
-                        </p>
-                      </figcaption>
-                    </figure>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          </section> */}
+          {/* 추천 아티스트 */}
           <section className="artist-section">
             <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
             <div className="artist-slider-wrap">

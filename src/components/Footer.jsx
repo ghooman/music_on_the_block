@@ -236,12 +236,7 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>{t('Affiliate')}</dt>
                   <dd>
-                    <Link
-                      to="/affiliate/login"
-                      // onClick={() => setPreparingModal(true)}
-                    >
-                      {t('Affiliate')}
-                    </Link>
+                    <a href="/node.html#/affiliate/login">{t('Affiliate')}</a>
                   </dd>
                 </dl>
               </div>

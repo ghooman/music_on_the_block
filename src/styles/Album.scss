@@ -2,7 +2,7 @@
 .banner-slider{
   width: 100%;
   position: relative;
-  padding-bottom: clamp(40px, 2.8vw, 60px);
+  padding-bottom: clamp(40px, 4.1vw, 60px);
   overflow: hidden;
   &__swiper{
     width: 100%;
@@ -11,7 +11,7 @@
   }
   &__swiper-list{
     width: 100%;
-    height: clamp(180px, 30vw, 340px);
+    height: clamp(180px, 23vw, 340px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,45 +24,43 @@
   &__swiper-content{
     width: 100%;
     height: 100%;
-    min-height: clamp(180px, 30vw, 340px);
+    min-height: clamp(180px, 23vw, 340px);
     position: relative;
     display: flex;
     flex-direction: column;
     font-weight: 700;
     flex: 1;
     .swiper-context{
-      padding: clamp(16px, 3.5vw, 34px) 2.5%;
-      height: clamp(180px, 30vw, 340px);
+      padding: clamp(16px, 2.3vw, 34px) 2.5%;
+      height: clamp(180px, 23vw, 340px);
       display: flex;
       flex-direction: column;
     }
   }
   &__welcome-txt{
-    font-size: clamp(12px, 2vw, 24px);
-    line-height: clamp(20px, 3vw, 34px);
+    font-size: clamp(12px, 1.6vw, 24px);
+    line-height: clamp(20px, 2.3vw, 34px);
     color: rgba(255, 255, 255, 0.80);
     margin-bottom: 20px;
   }
   &__welcome-desc{
     .desc-txt{
-      display: flex;
-      column-gap: 4px;
-      font-size: clamp(14px, 4vw, 34px);
-      line-height: clamp(22px, 5.5vw, 46px);
+      font-size: clamp(14px, 2.3vw, 34px);
+      line-height: clamp(22px, 3.1vw, 46px);
       span{
         color: rgba(255, 255, 255, 0.50);
       }
       strong{
         color: #fff;
-        
+        margin-left: 4px;
       }
     }
   }
   &__creattion-txt{
     margin-top: auto;
     color: rgba(255, 255, 255, 0.70);
-    font-size: clamp(12px, 2.5vw, 16px);
-    line-height: clamp(18px, 3.5vw, 24px);
+    font-size: clamp(12px, 1.1vw, 16px);
+    line-height: clamp(18px, 1.6vw, 24px);
     display: flex;
     align-items: center;
     column-gap: 10px;
@@ -87,7 +85,7 @@
   &__picture{
     display: block;
     height: 100%;
-    min-height: clamp(180px, 30vw, 340px);
+    min-height: clamp(180px, 23vw, 340px);
   }
   &__swiper-banner-img{
     object-fit: cover;
@@ -133,102 +131,195 @@
   
   &::before{
     left: 0;
-    background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.8) 50%, rgba(18, 18, 18, 0) 100%);
+    background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0) 100%);
   }
 
   &::after{
     right: 0;
-    background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.8) 50%, rgba(18, 18, 18, 0) 100%);
+    background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0) 100%);
   }
 }
-.artist-slider{
+// .artist-slider{
+//   width: 100%;
+//   max-width: 100%;
+//   .swiper-wrapper{
+//     transition-timing-function: linear;
+//   }
+//   .swiper-slide{
+//     flex-shrink: 0 !important;
+//     transition: all .3s ease;
+//     text-align: center;
+//     min-width: 140px;
+//     max-width: 160px;
+//     width: auto;
+//     .artist-item {
+//       width: 100%;
+//       flex-shrink: 0;
+//       transition: transform 0.3s ease;
+//     }
+//   }
+
+//   .artist-item{
+//     display: flex; 
+//     flex-direction: column;
+//     row-gap: 24px;
+//     flex-shrink: 0;
+//   }
+//   .artist-thumb{
+//     width: 160px;
+//     height: 160px;
+//     margin: 0 auto;
+//     border-radius: 100%;
+//     overflow: hidden;
+//     img {
+//       width: 100%;
+//       height: 100%;
+//       object-fit: cover;
+//     }
+//   }
+//   .artist-info{
+//     display: flex;
+//     flex-direction: column;
+//     row-gap: 12px;
+//     .artist-name{
+//       display: flex;
+//       justify-content: center;
+//       align-items: center;
+//       column-gap: 12px;
+//       font-size: clamp(16px, 1.6vw, 24px);
+//       line-height: clamp(24px, 2.4vw, 36px);
+//       color: #fff;
+//       font-weight: 400;
+//       span{
+//         max-width: 130px;
+//         white-space: nowrap;
+//         overflow: hidden;
+//         text-overflow: ellipsis;
+//       }
+//       .artist-level{
+//         width: 100%;
+//         max-width: 20px;
+//       }
+//     }
+//     .artist-meta{
+//       display: flex;
+//       justify-content: space-around;
+//       span{
+//         color: #767676;
+//         font-size: clamp(12px, 1.2vw, 18px);
+//         line-height: clamp(18px, 1.8vw, 27px);
+//       }
+//       small{
+//         display: block;
+//         padding-top: 3px;
+//         color: #bbb;
+//         font-size: clamp(14px, 1.4vw, 21px);
+//         line-height: clamp(22px, 2.2vw, 33px);
+//       }
+//     }
+//   }
+// } 
+// artist-slider END
+.artist-slider {
   width: 100%;
   max-width: 100%;
-  .swiper-wrapper{
-    justify-content: space-between;
+
+  // Keen Slider 자체가 wrapper이므로 여기 transition 적용
+  &.keen-slider {
+    transition-timing-function: linear;
   }
-  .swiper-slide{
+
+  // 슬라이드 한 칸
+  .keen-slider__slide {
     flex-shrink: 0 !important;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
     text-align: center;
-    min-width: 160px;
-    margin-right: 16px;
-    width: auot;
+    min-width: 140px;
+    max-width: 160px;
+    width: auto;
+    margin-right: 30px;
+
     .artist-item {
       width: 100%;
       flex-shrink: 0;
-      transform: scale(0.68);
       transition: transform 0.3s ease;
     }
   }
-  .swiper-slide-active{
-    transform: scale(1) !important;
-    opacity: 1;
-    z-index: 2;
-    .artist-item{
-      transform: scale(1);
-    }
-  }
-  .artist-item{
-    display: flex; 
+
+  // 아티스트 블록 구성
+  .artist-item {
+    display: flex;
     flex-direction: column;
     row-gap: 24px;
     flex-shrink: 0;
   }
-  .artist-thumb{
+
+  // 썸네일 (프로필 이미지)
+  .artist-thumb {
     width: 160px;
     height: 160px;
     margin: 0 auto;
     border-radius: 100%;
     overflow: hidden;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
-  .artist-info{
+
+  // 아티스트 정보
+  .artist-info {
     display: flex;
     flex-direction: column;
     row-gap: 12px;
-    .artist-name{
+
+    .artist-name {
       display: flex;
       justify-content: center;
       align-items: center;
       column-gap: 12px;
-      font-size: clamp(16px, 1.1vw, 24px);
-      line-height: clamp(24px, 1.6vw, 36px);
+      font-size: clamp(16px, 1.6vw, 24px);
+      line-height: clamp(24px, 2.4vw, 36px);
       color: #fff;
       font-weight: 400;
-      span{
+
+      span {
         max-width: 130px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .artist-level{
+
+      .artist-level {
         width: 100%;
         max-width: 20px;
       }
     }
-    .artist-meta{
+
+    .artist-meta {
       display: flex;
       justify-content: space-around;
-      span{
+
+      span {
         color: #767676;
-        font-size: clamp(12px, 1.5vw, 18px);
-        line-height: clamp(18px, 2.2vw, 27px);
+        font-size: clamp(12px, 1.2vw, 18px);
+        line-height: clamp(18px, 1.8vw, 27px);
       }
-      small{
+
+      small {
         display: block;
         padding-top: 3px;
         color: #bbb;
-        font-size: clamp(14px, 1.8vw, 21px);
-        line-height: clamp(22px, 2.8vw, 33px);
+        font-size: clamp(14px, 1.4vw, 21px);
+        line-height: clamp(22px, 2.2vw, 33px);
       }
     }
   }
-} // artist-slider END
+}
+
+
 
 // album-section START
 .album-section{

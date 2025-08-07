@@ -44,6 +44,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 
+
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
@@ -224,13 +225,52 @@ function Album() {
     setKeyword('');
   };
 
-  // 추천 아티스트 슬라이더
-  const artistSwiperRef = useRef(null);
-  const [artistActiveIndex, setArtistActiveIndex] = useState(0);
+  // 추천 아티스트 킨 슬라이더
+//   const artistSwiperRef = useRef(null);
+//   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
 
-  const handleArtistSlideChange = swiper => {
-    setArtistActiveIndex(swiper.realIndex);
-  };
+//   const handleArtistSlideChange = swiper => {
+//     setArtistActiveIndex(swiper.realIndex);
+//   };
+//   const swiperRef = useRef(null);
+
+// const handleSwiperInit = (swiper) => {
+//   setTimeout(() => {
+//     swiper.slideNext(0);
+//     swiper.autoplay?.start();
+//   }, 300);
+// };
+  const animation = { duration: 5000, easing: (t) => t }
+
+  const autoplayPausedRef = useRef(false)
+
+  const [sliderRef, slider] = useKeenSlider({
+    loop: true,
+    renderMode: 'performance',
+    drag: true,
+    slides: {
+      perView: 'auto',
+      spacing: 20,
+    },
+    created(s) {
+      autoplay(s)
+    },
+    updated(s) {
+      autoplay(s)
+    },
+    animationEnded(s) {
+      autoplay(s)
+    },
+  })
+
+  function autoplay(s) {
+    if (autoplayPausedRef.current) return
+    if (!s.track || !s.track.details) return 
+    clearTimeout(s.container.autoplayTimeout)
+    s.container.autoplayTimeout = setTimeout(() => {
+      s.moveToIdx(s.track.details.abs + 1, true, animation)
+    }, 2000)
+  }
 
   // 추천 아티스트 가져오는 API 함수
   const handleGetRecommendedArtist = async () => {
@@ -337,58 +377,33 @@ function Album() {
             isTrackActive={isTrackActive}
           />
 
-          {/* 추천 아티스트 캐러셀 */}
-          <section className="artist-section">
+          {/* 추천 아티스트 ticker */}
+          {/* <section className="artist-section">
             <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
             <div className="artist-slider-wrap">
-              <Swiper
-                ref={artistSwiperRef}
-                slidesPerView={7}
-                centeredSlides={true}
-                loop={true}
-                loopAdditionalSlides={recommendedArtists.length * 2}
-                initialSlide={Math.floor(recommendedArtists.length / 2)}
-                // slidesPerGroup={1}
-                // resistanceRatio={0}
-                // longSwipesRatio={0.99}
-                // longSwipesMs={300}
-                // threshold={20}
-                // speed={400}
-                // watchSlidesProgress={true}
-                // watchOverflow={true}
+              <Swiper 
+                modules={[Autoplay, FreeMode]}
+                loop={false}
+                slidesPerView="auto"
+                spaceBetween={20}
+                freeMode={true}
+                grabCursor={true}
+                speed={3000}
                 autoplay={{
-                  delay: 3000,
+                  delay: 0,
                   disableOnInteraction: false,
-                  pauseOnMouseEnter: false,
+                  pauseOnMouseEnter: true,
                 }}
-                // breakpoints={{
-                //   1600: {
-                //     slidesPerView: 9,
-                //   },
-                //   1360: {
-                //     slidesPerView: 7,
-                //   },
-                //   768: {
-                //     slidesPerView: 5,
-                //   },
-                //   480: {
-                //     slidesPerView: 3,
-                //   },
-                //   0: {
-                //     slidesPerView: 2,
-                //   },
-                // }}
                 className="artist-slider"
               >
                 {recommendedArtists.map((artist, idx) => (
-                  <SwiperSlide key={idx}>
+                  <SwiperSlide key={idx} style={{ width: 'auto' }}>
                     <figure
                       className={`artist-item ${
                         artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
                       }`}
                     >
                       <div className="artist-thumb">
-                        {/* 선택한 아티스트의 페이지로 이동 */}
                         <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
                           <img
                             src={artist.profile ? artist.profile : defaultCoverImg2}
@@ -396,6 +411,7 @@ function Album() {
                           />
                         </Link>
                       </div>
+                      
                       <figcaption className="artist-info">
                         <h3 className="artist-name">
                           <span>{artist.name}</span>
@@ -421,7 +437,8 @@ function Album() {
                 ))}
               </Swiper>
             </div>
-          </section>
+          </section> */}
+
 
           {/* 추천 앨범 리스트 */}
           <section className="album-section">

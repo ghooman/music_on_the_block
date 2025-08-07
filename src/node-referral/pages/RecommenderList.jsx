@@ -257,6 +257,12 @@ function RecommenderList() {
     { label: '할당인원 내림차순', value: 'members_desc' },
   ];
 
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
+
   return (
     <>
       <div className="layout">
@@ -327,7 +333,7 @@ function RecommenderList() {
                           <div className="col">{item.share}%</div>
                           <div className="col">{item.invitation_code}</div>
                           <div className="col mobile-del">{item.nick_name}</div>
-                          <div className="col mobile-del">{item.allocation_cnt}</div>
+                          <div className="col mobile-del">{formatNumber(item.allocation_cnt)}</div>
                           <div className="col mobile-del">{formatDate(item.create_dt)}</div>
                           <div className="col col--action invite-code-button toggle-btn-box">
                             <button

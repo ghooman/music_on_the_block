@@ -14,6 +14,7 @@ function InviteCodeList({
   formatDate,
   sliceList5,
   isPageLoading,
+  formatNumber,
 }) {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -82,7 +83,7 @@ function InviteCodeList({
                     <div className="col">{item.share}%</div>
                     <div className="col">{item.invitation_code}</div>
                     <div className="col mobile-del">{item.nick_name}</div>
-                    <div className="col mobile-del">{item.allocation_cnt}</div>
+                    <div className="col mobile-del">{formatNumber(item.allocation_cnt)}</div>
                     <div className="col mobile-del">{formatDate(item.create_dt)}</div>
                     <div className="col col--action invite-code-button toggle-btn-box">
                       <button

@@ -13,6 +13,7 @@ function ReferralEarnings({
   downReferralActive,
   sliceList5,
   isPageLoading,
+  formatNumber,
 }) {
   const dummyDataList = [
     {
@@ -129,10 +130,10 @@ function ReferralEarnings({
                         {getStateLabel(item.state)}
                       </span>
                     </div>
-                    <div className="col">{item.unit_price}</div>
-                    <div className="col">{item.cnt}</div>
-                    <div className="col">{item.amount}</div>
-                    <div className="col">{item.my_settlement_amount}</div>
+                    <div className="col">{formatNumber(item.unit_price)}</div>
+                    <div className="col">{formatNumber(item.cnt)}</div>
+                    <div className="col">{formatNumber(item.amount)}</div>
+                    <div className="col">{formatNumber(item.my_settlement_amount)}</div>
                     <div
                       className="col col--btn toggle-btn-box"
                       style={{ width: '15px', height: '20px' }}
@@ -175,7 +176,7 @@ function ReferralEarnings({
                               )}
                             </div>
                             <div className="col">{user.share}%</div>
-                            <div className="col">{user.settlement_amount}</div>
+                            <div className="col">{formatNumber(user.settlement_amount)}</div>
                             <div className="col">
                               <span
                                 className={`status ${

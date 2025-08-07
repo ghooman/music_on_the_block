@@ -19,6 +19,7 @@ function SalesRecordList({
   formatDate,
   sliceList5,
   isPageLoading,
+  formatNumber,
 }) {
   const [openIndex, setOpenIndex] = useState(null);
   const [showConfirmModalIndex, setShowConfirmModalIndex] = useState(null);
@@ -108,10 +109,10 @@ function SalesRecordList({
                 <div className={`list-item ${openIndex === index ? 'open' : ''}`} key={index}>
                   <div className="list-item__row sales-record">
                     <div className="col">{item.buyer_name}</div>
-                    <div className="col mobile-del">{item.cnt}</div>
-                    <div className="col mobile-del">{item.unit_price}</div>
-                    <div className="col">{item.cnt * item.unit_price}</div>
-                    <div className="col">{item.settlement_amount}</div>
+                    <div className="col mobile-del">{formatNumber(item.cnt)}</div>
+                    <div className="col mobile-del">{formatNumber(item.unit_price)}</div>
+                    <div className="col">{formatNumber(item.cnt * item.unit_price)}</div>
+                    <div className="col">{formatNumber(item.settlement_amount)}</div>
                     <div className="col mobile-del">{formatDate(item.create_dt)}</div>
                     <div className="col toggle-btn-box">
                       <button

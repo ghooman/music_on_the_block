@@ -358,6 +358,12 @@ function SalesRecord() {
     }
   };
 
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
+
   return (
     <>
       <div className="layout">
@@ -373,19 +379,19 @@ function SalesRecord() {
             <ul className="sales-section__record-list">
               <li>
                 <h3>나의 판매 수입</h3>
-                <p>{myRevenue}</p>
+                <p>{formatNumber(myRevenue)}</p>
               </li>
               <li>
                 <h3>나의 판매 정산금</h3>
-                <p>{mySettlement}</p>
+                <p>{formatNumber(mySettlement)}</p>
               </li>
               <li>
                 <h3>나의 추천인</h3>
-                <p>{myReferrals}</p>
+                <p>{formatNumber(myReferrals)}</p>
               </li>
               <li>
                 <h3>나의 판매 노드 수</h3>
-                <p>{mySoldNode}</p>
+                <p>{formatNumber(mySoldNode)}</p>
               </li>
             </ul>
             <button type="button" className="sales-section__btn" onClick={handleClickNewDealBtn}>
@@ -458,10 +464,10 @@ function SalesRecord() {
                         >
                           <div className="list-item__row sales-record">
                             <div className="col">{item.buyer_name}</div>
-                            <div className="col mobile-del">{item.cnt}</div>
-                            <div className="col mobile-del">{item.unit_price}</div>
-                            <div className="col">{item.cnt * item.unit_price}</div>
-                            <div className="col">{item.settlement_amount}</div>
+                            <div className="col mobile-del">{formatNumber(item.cnt)}</div>
+                            <div className="col mobile-del">{formatNumber(item.unit_price)}</div>
+                            <div className="col">{formatNumber(item.cnt * item.unit_price)}</div>
+                            <div className="col">{formatNumber(item.settlement_amount)}</div>
                             <div className="col mobile-del">{formatDate(item.create_dt)}</div>
                             <div className="col toggle-btn-box">
                               <button

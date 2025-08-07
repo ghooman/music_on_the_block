@@ -178,6 +178,13 @@ function OtherSalesRecord() {
   const getBadgeClassName = state => {
     return state; // 상태명이 곧 className과 동일함
   };
+
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
+
   return (
     <>
       <div className="layout">
@@ -206,19 +213,19 @@ function OtherSalesRecord() {
             <ul className="sales-section__record-list referral-record-list">
               <li>
                 <h3>판매 수입</h3>
-                <p>{subUserDashboard.sales_revenue}</p>
+                <p>{formatNumber(subUserDashboard.sales_revenue)}</p>
               </li>
               <li>
                 <h3>판매 정산금</h3>
-                <p>{subUserDashboard.settlement}</p>
+                <p>{formatNumber(subUserDashboard.settlement)}</p>
               </li>
               <li>
                 <h3>추천인</h3>
-                <p>{subUserDashboard.referrals}</p>
+                <p>{formatNumber(subUserDashboard.referrals)}</p>
               </li>
               <li>
                 <h3>판매 노드 수</h3>
-                <p>{subUserDashboard.sold_nodes}</p>
+                <p>{formatNumber(subUserDashboard.sold_nodes)}</p>
               </li>
             </ul>
           </div>
@@ -282,10 +289,10 @@ function OtherSalesRecord() {
                               {getKoreanState(item.state)}
                             </span>
                           </div>
-                          <div className="col">{item.unit_price}</div>
-                          <div className="col">{item.cnt}</div>
-                          <div className="col">{item.amount}</div>
-                          <div className="col">{item.settlement_amount}</div>
+                          <div className="col">{formatNumber(item.unit_price)}</div>
+                          <div className="col">{formatNumber(item.cnt)}</div>
+                          <div className="col">{formatNumber(item.amount)}</div>
+                          <div className="col">{formatNumber(item.settlement_amount)}</div>
                           <div className="col">{formatDate(item.create_dt)}</div>
                           <div className="col">{item.buyer_name}</div>
                         </div>

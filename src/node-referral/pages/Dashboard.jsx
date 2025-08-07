@@ -175,6 +175,12 @@ function Dashboard() {
     return list.slice(0, count);
   };
 
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
+
   //---- 지갑주소 ----------------------------------------------------
   // 지갑주소 클릭 함수
   const handleClickAddWalletBtn = async () => {
@@ -509,11 +515,11 @@ function Dashboard() {
           <p className="user-section__email">{userName}</p>
           <ul className="user-section__wallet">
             <li>
-              <span>나의 지분</span>
+              <span>My Share</span>
               <strong>{userShare}%</strong>
             </li>
             <li>
-              <span>본사 입금 지갑주소</span>
+              <span>Company Wallet</span>
               <div className="user-section__wallet__copy-com">
                 <strong>{formatWalletAddress(userOfficeWallet)}</strong>
                 {/* <strong>0x00....0000</strong> */}
@@ -521,10 +527,10 @@ function Dashboard() {
               </div>
             </li>
             <li>
-              <span>내 지갑주소</span>
+              <span>My Wallet Address</span>
               {!userWallet ? (
                 <button type="button" className="btn-register" onClick={handleClickAddWalletBtn}>
-                  지갑주소 등록
+                  Register Wallet Address
                 </button>
               ) : (
                 <div className="user-section__wallet__copy-com">
@@ -545,54 +551,54 @@ function Dashboard() {
           <div className="dash-section__txt">
             <ul className="dash-section__txt__board">
               <li>
-                <h3>전체 수입 (USDT)</h3>
-                <p>{totalRevenue}</p>
+                <h3>Total Revenue (USDT)</h3>
+                <p>{formatNumber(totalRevenue)}</p>
               </li>
               <li>
-                <h3>전체 정산금 (USDT)</h3>
-                <p>{totalSettlement}</p>
+                <h3>Total Settlements (USDT)</h3>
+                <p>{formatNumber(totalSettlement)}</p>
               </li>
               <li>
-                <h3>전체 추천인</h3>
-                <p>{totalReferrals}</p>
+                <h3>Total Referrals</h3>
+                <p>{formatNumber(totalReferrals)}</p>
               </li>
               <li>
-                <h3>전체 판매 노드 수 (NODE)</h3>
-                <p>{totalSoldNode}</p>
+                <h3>Total Sold Nodes (NODE)</h3>
+                <p>{formatNumber(totalSoldNode)}</p>
               </li>
             </ul>
             <ul className="dash-section__txt__list">
               <li>
-                <h3>나의 판매 수입</h3>
-                <p>{myRevenue}</p>
+                <h3>My Sales Revenue</h3>
+                <p>{formatNumber(myRevenue)}</p>
               </li>
               <li>
-                <h3>나의 판매 정산금</h3>
-                <p>{mySettlement}</p>
+                <h3>My Sales Settlements</h3>
+                <p>{formatNumber(mySettlement)}</p>
               </li>
               <li>
-                <h3>나의 추천인</h3>
-                <p>{myReferrals}</p>
+                <h3>My Referrals</h3>
+                <p>{formatNumber(myReferrals)}</p>
               </li>
               <li>
-                <h3>나의 판매 노드 수</h3>
-                <p>{mySoldNode}</p>
+                <h3>My Sold Nodes</h3>
+                <p>{formatNumber(mySoldNode)}</p>
               </li>
               <li>
-                <h3>하위자 판매 수입</h3>
-                <p>{downRevenue}</p>
+                <h3>Sub-affiliate Sales Revenue</h3>
+                <p>{formatNumber(downRevenue)}</p>
               </li>
               <li>
-                <h3>하위자 판매 정산금</h3>
-                <p>{downSettlement}</p>
+                <h3>Sub-affiliate Settlements</h3>
+                <p>{formatNumber(downSettlement)}</p>
               </li>
               <li>
-                <h3>하위자 추천인</h3>
-                <p>{downReferrals}</p>
+                <h3>Sub-affiliate Referrals</h3>
+                <p>{formatNumber(downReferrals)}</p>
               </li>
               <li>
-                <h3>하위자 판매 노드 수</h3>
-                <p>{downSoldNode}</p>
+                <h3>Sub-affiliate Sold Nodes</h3>
+                <p>{formatNumber(downSoldNode)}</p>
               </li>
             </ul>
           </div>
@@ -610,6 +616,7 @@ function Dashboard() {
           formatDate={formatDate}
           sliceList5={sliceList5}
           isPageLoading={isPageLoading}
+          formatNumber={formatNumber}
         />
 
         {/* 초대 코드 리스트 */}
@@ -619,6 +626,7 @@ function Dashboard() {
           formatDate={formatDate}
           sliceList5={sliceList5}
           isPageLoading={isPageLoading}
+          formatNumber={formatNumber}
         />
 
         {/* 하위 수입자 리스트 */}
@@ -628,6 +636,7 @@ function Dashboard() {
           downReferralActive={downReferralActive}
           sliceList5={sliceList5}
           isPageLoading={isPageLoading}
+          formatNumber={formatNumber}
         />
       </div>
       <Footer />
@@ -676,7 +685,7 @@ function Dashboard() {
           <div className="modal modal-wallet">
             <div className="modal__content">
               <div className="modal__header">
-                <h2>내 지갑주소 수정</h2>
+                <h2>Edit My Wallet Address</h2>
                 <button type="button">
                   <img
                     src={closeBtn}
@@ -688,9 +697,9 @@ function Dashboard() {
               <div className="modal__body">
                 <InputField
                   id="userWalletAddress"
-                  label="내 지갑주소"
+                  label="My Wallet Address"
                   type="text"
-                  placeholder="지갑 주소를 입력해 주세요"
+                  placeholder="Please enter your wallet address"
                   defaultValue="2938293829382938292"
                   required
                   value={userWalletEdit}
@@ -706,7 +715,7 @@ function Dashboard() {
                   disabled={!userWalletEdit || userWalletEdit.trim() === userWallet}
                   onClick={() => handleSaveWallet(userWalletEdit)}
                 >
-                  {isLoading ? '지갑주소 수정 중' : '지갑주소 수정'} <LoadingDots />
+                  {isLoading ? 'Edit Wallet Address' : 'Edit Wallet Address'} <LoadingDots />
                 </button>
               </div>
             </div>

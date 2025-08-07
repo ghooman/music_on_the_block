@@ -216,6 +216,12 @@ function ReferralEarningList() {
     settled: '정산완료',
   };
 
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
+
   return (
     <>
       <div className="layout">
@@ -232,19 +238,19 @@ function ReferralEarningList() {
             <ul className="sales-section__record-list referral-record-list">
               <li>
                 <h3>하위자 활동 수입</h3>
-                <p>{downRevenue}</p>
+                <p>{formatNumber(downRevenue)}</p>
               </li>
               <li>
                 <h3>하위자 활동 정산금</h3>
-                <p>{downSettlement}</p>
+                <p>{formatNumber(downSettlement)}</p>
               </li>
               <li>
                 <h3>하위자 Affiliate 추천인</h3>
-                <p>{downReferrals}</p>
+                <p>{formatNumber(downReferrals)}</p>
               </li>
               <li>
                 <h3>하위자 Referral 추천인</h3>
-                <p>{downSoldNode}</p>
+                <p>{formatNumber(downSoldNode)}</p>
               </li>
             </ul>
           </div>
@@ -313,10 +319,10 @@ function ReferralEarningList() {
                               {getStateLabel(item.state)}
                             </span>
                           </div>
-                          <div className="col">{item.unit_price}</div>
-                          <div className="col">{item.cnt}</div>
-                          <div className="col">{item.amount}</div>
-                          <div className="col">{item.my_settlement_amount}</div>
+                          <div className="col">{formatNumber(item.unit_price)}</div>
+                          <div className="col">{formatNumber(item.cnt)}</div>
+                          <div className="col">{formatNumber(item.amount)}</div>
+                          <div className="col">{formatNumber(item.my_settlement_amount)}</div>
 
                           <div
                             className="col col--btn toggle-btn-box"
@@ -362,7 +368,7 @@ function ReferralEarningList() {
                                     )}
                                   </div>
                                   <div className="col">{user.share}</div>
-                                  <div className="col">{user.settlement_amount}</div>
+                                  <div className="col">{formatNumber(user.settlement_amount)}</div>
                                   <div className="col">
                                     <span
                                       className={`status ${

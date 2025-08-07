@@ -30,7 +30,7 @@ const Create = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const [finalPrompt, setFinalPrompt] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [selectedVersion, setSelectedVersion] = useState('V4_5');
+  const [selectedVersion, setSelectedVersion] = useState('V4_5PLUS');
   const [selectedPrivacy, setSelectedPrivacy] = useState('release');
   const [selectedCreationMode, setSelectedCreationMode] = useState('song');
   const [isConfirmLyricStatus, setIsConfirmLyricStatus] = useState(false); // 가사 완료후 제네러이트 송 상태

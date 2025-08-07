@@ -16,10 +16,35 @@ function LicenseKey() {
 
   const { token } = useContext(AuthContext);
 
+  // 라이센스 키
+  const [myLicenceKey, setMyLicenceKey] = useState('');
   // 라이센스 키 상태
   const [licenceKey, setLicenceKey] = useState('');
   // 라이센스 키 연결 여부
   const [isConnected, setIsConnected] = useState(false);
+
+  // 연결된 라이센스 키 보여주는 함수
+  useEffect(() => {
+    const fetchUserLicenseKey = async () => {
+      try {
+        const res = await axios.get(`${serverAPI}/api/user/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const key = res.data.licence_key;
+        if (key) {
+          setMyLicenceKey(key);
+          setLicenceKey(key); // 입력창에도 표시
+          setIsConnected(true); // 연결 상태 true
+        }
+      } catch (error) {
+        console.error('아직 라이센스 키 연결 안되었는디용', error);
+      }
+    };
+
+    fetchUserLicenseKey();
+  }, [serverAPI, token]);
 
   // 라이센스 키 체크하는 API 함수
   const handleCheckLicenseKey = async () => {

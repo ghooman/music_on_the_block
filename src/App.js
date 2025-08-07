@@ -1,8 +1,10 @@
 import './App.css';
+
 // 라이브러리
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+
 // 페이지
 import Album from './pages/Album';
 import Create from './pages/Create';
@@ -75,8 +77,6 @@ function App() {
   const { pathname } = useLocation();
   const { language } = navigator;
 
-  // console.log('navigator', navigator);
-
   // 접속 지역에 따라 자동으로 언어 선택해주는 기능
   useEffect(() => {
     if (language?.startsWith('ko')) {
@@ -96,7 +96,6 @@ function App() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // console.log("렌더링")
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -105,7 +104,6 @@ function App() {
             <div className="App">
               <title>MUSIC ON THE BLOCK</title>
               <Routes>
-                {/* <Route path="/" element={<Intro />} /> 인트로에는 헤더 X */}
                 <Route
                   path="/"
                   element={
@@ -160,9 +158,7 @@ function App() {
                   path="/albums-detail/:id"
                   element={
                     <Layout>
-                      {/* <ProtectedRoute> */}
                       <AlbumsDetail />
-                      {/* </ProtectedRoute> */}
                     </Layout>
                   }
                 />
@@ -171,7 +167,6 @@ function App() {
                   element={
                     <Layout>
                       <ProtectedRoute>
-                        {/* <EditAlbumSongs /> */}
                         <AlbumsEdit />
                       </ProtectedRoute>
                     </Layout>
@@ -350,7 +345,7 @@ function App() {
                   element={
                     <Layout>
                       <ProtectedRoute>
-                        <LicenseKey/>
+                        <LicenseKey />
                       </ProtectedRoute>
                     </Layout>
                   }
@@ -363,12 +358,7 @@ function App() {
                     </Layout>
                   }
                 />
-                <Route
-                  path="vote-event"
-                  element={
-                    <VoteEvent />
-                  }
-                />
+                <Route path="vote-event" element={<VoteEvent />} />
                 <Route
                   path="/vote-list"
                   element={

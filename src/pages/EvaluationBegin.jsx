@@ -424,6 +424,8 @@ const Step1 = ({
     if (item?.id === currentTrack?.id) {
       togglePlayPause();
     } else {
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       playTrack({
         track: item,
         playlist: listData,
@@ -592,6 +594,8 @@ const Step3 = ({
     if (item?.id === currentTrack?.id) {
       togglePlayPause();
     } else {
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       playTrack({
         track: item,
         playlist: [],

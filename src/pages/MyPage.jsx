@@ -178,7 +178,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (username === userData?.name) {
-      navigate('/my-page', { replace: true });
+      navigate('/my-page?category=AI+Services', { replace: true });
     } else if (!username) {
       navigate('/', { replace: true });
     } else if (!category) {

@@ -433,7 +433,7 @@ function AlbumDetail() {
     case 'V4_5':
       create_version = 'L&S Plus (V2.2)';
       break;
-    case 'V4_5':
+    case 'V4_5PLUS':
       create_version = 'L&S Plus (V2.2)';
       break;
     default:
@@ -504,6 +504,8 @@ function AlbumDetail() {
 
   // Play/Stop 버튼 클릭 핸들러
   const handlePlayStopClick = () => {
+    // ✅ 자동재생 허용 플래그 세팅
+    sessionStorage.setItem('preventAutoPlay', 'true');
     // 항상 처음부터 재생하도록 변경
     playTrack({
       track: album,

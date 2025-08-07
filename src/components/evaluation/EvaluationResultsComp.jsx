@@ -7,6 +7,7 @@ import NoneContent from '../../components/unit/NoneContent';
 import { RadarChart } from '../../components/unit/Chart';
 import EvaluationGuideModal from '../../components/EvaluationGuideModal';
 import AlbumItem from '../unit/AlbumItem';
+import { useAudio } from '../../contexts/AudioContext';
 
 import './EvaluationResultsComp.scss';
 
@@ -267,6 +268,7 @@ const FullEvaluation = ({ t, evaluationData }) => {
 };
 
 const SongsCritic = ({ t, critic, id }) => {
+  const { playTrack, isTrackActive, currentTime, audioRef } = useAudio();
   const swiperOptions = {
     loop: false,
     slidesPerView: 'auto',
@@ -297,7 +299,27 @@ const SongsCritic = ({ t, critic, id }) => {
           <Swiper {...swiperOptions} className="critic-list__swiper-wrapper">
             {criticEvaluationList.map(item => (
               <SwiperSlide key={item.id} className="critic-list__swiper-slide">
-                <AlbumItem track={item} type="evaluation" />
+                <AlbumItem
+                  track={item}
+                  type="song"
+                  currentTime={currentTime} // ✅ 추가
+                  audioRef={audioRef} // ✅ 추가
+                  isActive={isTrackActive(item, 'critic-eval')} // ✅ 추가
+                  onClick={() => {
+                    console.log('🎬 playTrack 실행', {
+                      trackId: item.id,
+                      playlistId: 'critic-eval',
+                    });
+
+                    // ✅ 자동재생 허용 플래그 세팅
+                    sessionStorage.setItem('preventAutoPlay', 'true');
+                    playTrack({
+                      track: item,
+                      playlist: criticEvaluationList,
+                      playlistId: 'critic-eval',
+                    });
+                  }}
+                />
               </SwiperSlide>
             ))}
           </Swiper>

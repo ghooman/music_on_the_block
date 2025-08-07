@@ -78,6 +78,9 @@ const SongPlayTable = ({
     if (isTrigger === true && songList.length > 0) {
       // 첫 번째 곡 자동 재생
       const firstSong = songList[0];
+
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       playTrack({
         track: {
           ...firstSong,
@@ -104,6 +107,8 @@ const SongPlayTable = ({
       // 현재 재생 중인 곡이면 재생/일시정지 토글
       togglePlayPause();
     } else {
+      // ✅ 자동재생 허용 플래그 세팅
+      sessionStorage.setItem('preventAutoPlay', 'true');
       // 다른 곡이면 새로 재생
       playTrack({
         track: {

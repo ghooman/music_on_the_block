@@ -209,14 +209,6 @@ const Footer = ({ setIsLoggedIn }) => {
                       {t('NFT MarketPlace')}
                     </Link>
                   </dd>
-                  <dd>
-                    <Link
-                      to="/affiliate"
-                      // onClick={() => setPreparingModal(true)}
-                    >
-                      {t('Affiliate')}
-                    </Link>
-                  </dd>
                 </dl>
                 <dl>
                   <dt>{t('Eco System')}</dt>
@@ -239,6 +231,14 @@ const Footer = ({ setIsLoggedIn }) => {
                   </dd>
                   <dd>
                     <Link to="/my-page?category=NFTs">{t('NFTs')}</Link>
+                  </dd>
+                </dl>
+                <dl>
+                  <dt>{t('Affiliate')}</dt>
+                  <dd>
+                    <a href="https://affiliate.musicontheblock.com/login" target="_blank">
+                      {t('Affiliate')}
+                    </a>
                   </dd>
                 </dl>
               </div>

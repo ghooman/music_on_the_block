@@ -38,10 +38,10 @@ function BackHeader() {
           <img onClick={handleLogoClick} src={logoImg} alt="Music On The Block Affiliate Logo" />
         </h1>
         <div className="node-header__actions">
-          <button type="button" className="node-header__lang" aria-label="Change language">
+          {/* <button type="button" className="node-header__lang" aria-label="Change language">
             <img src={iconLang} alt="" aria-hidden="true" />
             <span>KOR</span>
-          </button>
+          </button> */}
           <button className="node-header__sign-out" onClick={handleSignOut}>
             Sign Out
           </button>

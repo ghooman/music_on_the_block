@@ -11,6 +11,7 @@ import CopyButton from '../components/unit/CopyButton';
 import SalesRecordList from '../components/dashboard/SalesRecordList';
 import InputField from '../components/unit/InputField';
 import Pagination from '../components/unit/Pagination';
+import Loading from '../../../src/components/Loading.jsx';
 
 // img
 import arrowDownIcon from '../assets/images/icon-arrow-down.svg';
@@ -37,6 +38,8 @@ function RecommenderList() {
   const userRole = localStorage.getItem('userRole');
   const isMaster = userRole === 'master';
 
+  const [isPageLoading, setIsPageLoading] = useState(false);
+
   // 버튼 로딩 상태
   const [isLoading, setIsLoading] = useState(false);
   // 정렬 필터 오픈 상태
@@ -54,7 +57,7 @@ function RecommenderList() {
   // 초대 코드 모달 오픈
   const [isOpenInviteModal, setIsOpenInviteModal] = useState(false);
   // 초대코드 생성 시, 분리할 지분 (버튼)
-  const [selectedShare, setSelectedShare] = useState('5'); // 기본값 5%
+  const [selectedShare, setSelectedShare] = useState('0'); // 기본값 0%
   const [customShare, setCustomShare] = useState('');
   // 초대코드 생성 시, 닉네임 설정
   const [nickname, setNickname] = useState('');
@@ -144,6 +147,7 @@ function RecommenderList() {
   // 초대코드 확인 함수
   const fetchInviteCodeList = async () => {
     try {
+      setIsPageLoading(true);
       const res = await axios.get(`${serverAPI}/api/user/invitation/code/list`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -172,8 +176,17 @@ function RecommenderList() {
       } else {
         console.log('기타 에러:', error.message);
       }
+    } finally {
+      setIsPageLoading(false);
     }
   };
+
+  const shareOptions = [
+    0,
+    Math.floor(userShare / 3), //소수점 버림 처리 (Math.floor)로 고정 지분보다 작거나 같게 유지
+    Math.floor((userShare * 2) / 3),
+    userShare,
+  ];
 
   // 날짜 포맷팅
   const formatDate = isoString => {
@@ -199,7 +212,7 @@ function RecommenderList() {
 
   const handleCopyLink = (code, index) => {
     // url 확정되면 변경 필요
-    const fullUrl = `https://https://musicontheblock.com/affiliate/signup/?r=${code}`;
+    const fullUrl = `https://musicontheblock.com/affiliate/signup/?r=${code}`;
     navigator.clipboard.writeText(fullUrl);
     setCopiedIndex(prev => ({ ...prev, link: index }));
   };
@@ -243,6 +256,12 @@ function RecommenderList() {
     { label: '할당인원 오름차순', value: 'members_asc' },
     { label: '할당인원 내림차순', value: 'members_desc' },
   ];
+
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
 
   return (
     <>
@@ -289,69 +308,83 @@ function RecommenderList() {
 
           <section className="table-section">
             <div className="table-section-inner">
-              <div className="table-section__tit__list-head">
-                <div className="col">지분</div>
-                <div className="col">초대코드</div>
-                <div className="col mobile-del">닉네임</div>
-                <div className="col mobile-del">할당인원</div>
-                <div className="col mobile-del">코드 생성일</div>
-                <div className="col col--action">액션</div>
-              </div>
+              {isPageLoading && (
+                <div className="result-loading">
+                  <Loading />
+                </div>
+              )}
 
-              {/* 초대코드 리스트가 있는 경우 */}
-              {inviteCodeList.length > 0 ? (
-                inviteCodeList.map((item, index) => (
-                  <div key={index} className={`list-item ${openIndex === index ? 'open' : ''}`}>
-                    <div className="list-item__row">
-                      <div className="col">{item.share}%</div>
-                      <div className="col">{item.invitation_code}</div>
-                      <div className="col mobile-del">{item.nick_name}</div>
-                      <div className="col mobile-del">{item.allocation_cnt}</div>
-                      <div className="col mobile-del">{formatDate(item.create_dt)}</div>
-                      <div className="col col--action invite-code-button toggle-btn-box">
-                        <button
-                          className={`btn--line-mini ${copiedIndex.code === index ? 'copied' : ''}`}
-                          onClick={() => handleCopyCode(item.invitation_code, index)}
-                        >
-                          {copiedIndex.code === index ? '복사 완료' : '코드 복사'}
-                        </button>
+              {!isPageLoading && (
+                <>
+                  <div className="table-section__tit__list-head">
+                    <div className="col">지분</div>
+                    <div className="col">초대코드</div>
+                    <div className="col mobile-del">닉네임</div>
+                    <div className="col mobile-del">할당인원</div>
+                    <div className="col mobile-del">코드 생성일</div>
+                    <div className="col col--action">액션</div>
+                  </div>
 
-                        <button
-                          className={`btn--line-mini ${copiedIndex.link === index ? 'copied' : ''}`}
-                          onClick={() => handleCopyLink(item.invitation_code, index)}
-                        >
-                          {copiedIndex.link === index ? '복사 완료' : '링크 복사'}
-                        </button>
-                        {/* QR코드 주석 처리 (정해진 내용이 없다고 함) */}
-                        {/* <button className="btn--line-mini">QR코드</button> */}
-                        <button
-                          className={`toggle-btn ${openIndex === index ? 'rotate' : ''}`}
-                          onClick={() => toggle(index)}
-                        >
-                          <img src={arrowDownIcon} alt="토글" />
-                        </button>
-                      </div>
-                    </div>
+                  {/* 초대코드 리스트가 있는 경우 */}
+                  {inviteCodeList.length > 0 ? (
+                    inviteCodeList.map((item, index) => (
+                      <div key={index} className={`list-item ${openIndex === index ? 'open' : ''}`}>
+                        <div className="list-item__row">
+                          <div className="col">{item.share}%</div>
+                          <div className="col">{item.invitation_code}</div>
+                          <div className="col mobile-del">{item.nick_name}</div>
+                          <div className="col mobile-del">{formatNumber(item.allocation_cnt)}</div>
+                          <div className="col mobile-del">{formatDate(item.create_dt)}</div>
+                          <div className="col col--action invite-code-button toggle-btn-box">
+                            <button
+                              className={`btn--line-mini ${
+                                copiedIndex.code === index ? 'copied' : ''
+                              }`}
+                              onClick={() => handleCopyCode(item.invitation_code, index)}
+                            >
+                              {copiedIndex.code === index ? '복사 완료' : '코드 복사'}
+                            </button>
 
-                    {openIndex === index && item.user_list?.length > 0 && (
-                      <div className="list-item__detail invite-code">
-                        {item.user_list.map((user, i) => (
-                          <div key={i} className="email-row">
-                            <Link to={`/affiliate/other-sales-record?email=${user.username}`}>
-                              <span className="index">{i + 1}</span>
-                              <span className="email">{user.username}</span>
-                            </Link>
-                            <button className="arrow">
-                              <img src={arrowRightIcon} alt="더보기" />
+                            <button
+                              className={`btn--line-mini ${
+                                copiedIndex.link === index ? 'copied' : ''
+                              }`}
+                              onClick={() => handleCopyLink(item.invitation_code, index)}
+                            >
+                              {copiedIndex.link === index ? '복사 완료' : '링크 복사'}
+                            </button>
+                            {/* QR코드 주석 처리 (정해진 내용이 없다고 함) */}
+                            {/* <button className="btn--line-mini">QR코드</button> */}
+                            <button
+                              className={`toggle-btn ${openIndex === index ? 'rotate' : ''}`}
+                              onClick={() => toggle(index)}
+                            >
+                              <img src={arrowDownIcon} alt="토글" />
                             </button>
                           </div>
-                        ))}
+                        </div>
+
+                        {openIndex === index && item.user_list?.length > 0 && (
+                          <div className="list-item__detail invite-code">
+                            {item.user_list.map((user, i) => (
+                              <div key={i} className="email-row">
+                                <Link to={`/affiliate/other-sales-record?email=${user.username}`}>
+                                  <span className="index">{i + 1}</span>
+                                  <span className="email">{user.username}</span>
+                                </Link>
+                                <button className="arrow">
+                                  <img src={arrowRightIcon} alt="더보기" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="table-empty">생성한 초대코드 리스트가 없습니다.</div>
+                    ))
+                  ) : (
+                    <div className="table-empty">생성한 초대코드 리스트가 없습니다.</div>
+                  )}
+                </>
               )}
             </div>
           </section>
@@ -389,7 +422,7 @@ function RecommenderList() {
                   <p className="share-setting__label">지분 설정</p>
                   <div className="share-setting__options" role="radiogroup" aria-label="지분 설정">
                     <div className="share-setting__left">
-                      {[0, 5, 10, 15].map(value => (
+                      {shareOptions.map(value => (
                         <button
                           key={value}
                           type="button"

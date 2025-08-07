@@ -7,6 +7,7 @@ import Footer from '../components/unit/Footer';
 import Pagination from '../components/unit/Pagination';
 import CopyButton from '../components/unit/CopyButton';
 import MyDatePicker from '../components/unit/MyDatePicker';
+import Loading from '../../../src/components/Loading.jsx';
 // img
 import SearchIcon from '../assets/images/icon-search.svg';
 import arrowDownIcon from '../assets/images/icon-arrow-down.svg';
@@ -40,6 +41,9 @@ function MasterDashboardDone() {
   };
   const [openIndex, setOpenIndex] = useState(null);
 
+  // 로딩
+  const [isLoading, setIsLoading] = useState(false);
+
   const toggle = index => {
     setOpenIndex(prev => (prev === index ? null : index));
   };
@@ -47,6 +51,7 @@ function MasterDashboardDone() {
   // 상단 대시보드 API 함수
   const handleGetDashboard = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.get(`${serverAPI}/api/sales/settlement/dashboard`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -56,6 +61,8 @@ function MasterDashboardDone() {
       setDashboard(res.data);
     } catch (error) {
       console.error('상단 대시보드 가져오는 API 함수 error입니당', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -123,6 +130,18 @@ function MasterDashboardDone() {
     return raw.replace(/(\d{2})\.\s(\d{2})\.\s(\d{2})\.\s/, '$1. $2. $3 ');
   };
 
+  // 지갑 주소 포맷팅 함수 (앞뒤 4글자씩 짜르기 0x00....0000)
+  const formatWalletAddress = address => {
+    if (!address || address.length < 10) return address;
+    return `${address.slice(0, 4)}....${address.slice(-4)}`;
+  };
+
+  // 숫자 포맷 함수
+  const formatNumber = num => {
+    if (isNaN(num)) return 0;
+    return Number(num).toLocaleString('en-US'); // "1,000", "50,000" 형태
+  };
+
   return (
     <>
       <div className="layout">
@@ -130,16 +149,16 @@ function MasterDashboardDone() {
         <div className="page-wrapper masterdashboard-wrapper">
           <ul className="tab-ui">
             <li>
-              <Link to="/affiliate/master-dashboard-doing">판매승인/정산</Link>
+              <Link to="/affiliate/master-dashboard-doing">Sales Approval / Settlement</Link>
             </li>
             <li className="selected">
-              <Link to="/affiliate/master-dashboard-done">정산기록</Link>
+              <Link to="/affiliate/master-dashboard-done">Settlement History</Link>
             </li>
           </ul>
 
           {/* 날짜 필터링 */}
           <div className="filter-date">
-            <label htmlFor="startDate">날짜 필터링</label>
+            <label htmlFor="startDate"> Date Filter</label>
             <div className="date-field">
               {/* 시작일 */}
               <MyDatePicker selected={startDate} onChange={date => setStartDate(date)} />
@@ -147,7 +166,7 @@ function MasterDashboardDone() {
               {/* 종료일 */}
               <MyDatePicker selected={endDate} onChange={date => setEndDate(date)} />
               <button className="btn--reset" onClick={handleReset}>
-                초기화
+                Reset
               </button>
             </div>
           </div>
@@ -158,24 +177,24 @@ function MasterDashboardDone() {
             <div className="dash-section__txt">
               <ul className="dash-section__txt__board">
                 <li>
-                  <h3>정산완료</h3>
-                  <p>{dashboard.settlement_complt}</p>
+                  <h3>Settled</h3>
+                  <p>{formatNumber(dashboard.settlement_complt)}</p>
                 </li>
                 <li>
-                  <h3>전체 수입</h3>
-                  <p>{dashboard.total_income}</p>
+                  <h3>Total Revenue</h3>
+                  <p>{formatNumber(dashboard.total_income)}</p>
                 </li>
                 <li>
-                  <h3>전체 정산금</h3>
-                  <p>{dashboard.total_settlement}</p>
+                  <h3>Total Settlement Amount</h3>
+                  <p>{formatNumber(dashboard.total_settlement)}</p>
                 </li>
                 <li>
-                  <h3>총 수수료 수입</h3>
-                  <p>{dashboard.total_fee_income}</p>
+                  <h3>Total Fee Revenue</h3>
+                  <p>{formatNumber(dashboard.total_fee_income)}</p>
                 </li>
                 <li>
-                  <h3>총 전송 노드</h3>
-                  <p>{dashboard.total_node}</p>
+                  <h3>Total Sent Nodes</h3>
+                  <p>{formatNumber(dashboard.total_node)}</p>
                 </li>
               </ul>
             </div>
@@ -184,7 +203,7 @@ function MasterDashboardDone() {
             <div className="node-search-bar">
               <input
                 type="text"
-                placeholder="이메일 및 지갑주소로 검색"
+                placeholder="Search by Email or Wallet Address"
                 className="node-search-bar__input"
                 value={searchKeyword}
                 onChange={e => setSearchKeyword(e.target.value)}
@@ -210,36 +229,46 @@ function MasterDashboardDone() {
           </div>
           <div className="table-section full-content-section">
             <div className="table-section-inner">
-              {/* table head */}
-              <div className="table-section__tit__list-head">
-                <div className="col">구매자</div>
-                <div className="col">판매자 이메일</div>
-                <div className="col">지갑주소</div>
-                <div className="col">개수</div>
-                <div className="col">총금액</div>
-                <div className="col">정산금</div>
-                <div className="col">수수료</div>
-                <div className="col">정산완료일시</div>
-              </div>
-
-              {/* table body */}
-              {dataList.map((item, index) => (
-                <div key={index} className="list-item">
-                  <div className="list-item__row">
-                    <div className="col">{item.buyer_name}</div>
-                    <div className="col email">{item.username}</div>
-                    <div className="col wallet-copy-com">
-                      {item.wallet_address}
-                      <CopyButton textToCopy={item.wallet_address} />
-                    </div>
-                    <div className="col">{item.cnt}</div>
-                    <div className="col">{item.amount}</div>
-                    <div className="col">{item.total_settlement_amount}</div>
-                    <div className="col">{item.fee}</div>
-                    <div className="col">{formatDate(item.settlement_dt)}</div>
-                  </div>
+              {isLoading && (
+                <div className="result-loading">
+                  <Loading />
                 </div>
-              ))}
+              )}
+
+              {!isLoading && (
+                <>
+                  {/* table head */}
+                  <div className="table-section__tit__list-head">
+                    <div className="col">Buyer</div>
+                    <div className="col">Seller Email</div>
+                    <div className="col">Wallet Address</div>
+                    <div className="col">Quantity</div>
+                    <div className="col">Total Amount</div>
+                    <div className="col">Settlement Amount</div>
+                    <div className="col">Fee</div>
+                    <div className="col">Settlement Date & Time</div>
+                  </div>
+
+                  {/* table body */}
+                  {dataList.map((item, index) => (
+                    <div key={index} className="list-item">
+                      <div className="list-item__row">
+                        <div className="col">{item.buyer_name}</div>
+                        <div className="col email">{item.username}</div>
+                        <div className="col wallet-copy-com">
+                          {formatWalletAddress(item.wallet_address)}
+                          <CopyButton textToCopy={item.wallet_address} />
+                        </div>
+                        <div className="col">{formatNumber(item.cnt)}</div>
+                        <div className="col">{formatNumber(item.amount)}</div>
+                        <div className="col">{formatNumber(item.total_settlement_amount)}</div>
+                        <div className="col">{formatNumber(item.fee)}</div>
+                        <div className="col">{formatDate(item.settlement_dt)}</div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           </div>
           <Pagination

@@ -1,29 +1,29 @@
 // img
-import logoImg from "../assets/images/logo/logo-affiliate-01.svg";
+import logoImg from '../assets/images/logo/logo-affiliate-01.svg';
 // Components
-import InputField from "../components/unit/InputField";
-import LoadingDots from "../components/unit/LoadingDots";
-import ModalWrap from "../components/modal/ModalWrap";
-import ConfirmModal from "../components/modal/ConfirmModal";
+import InputField from '../components/unit/InputField';
+import LoadingDots from '../components/unit/LoadingDots';
+import ModalWrap from '../components/modal/ModalWrap';
+import ConfirmModal from '../components/modal/ConfirmModal';
 // style
-import "../styles/pages/Login.scss";
+import '../styles/pages/Login.scss';
 // 외부 라이브러리 및 패키지
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const serverAPI = process.env.REACT_APP_NODE_SERVER_API;
 
 function Login() {
   // 사용자 아이디 & 비번 상태
-  const [userId, setUserId] = useState("");
-  const [userPw, setUserPw] = useState("");
+  const [userId, setUserId] = useState('');
+  const [userPw, setUserPw] = useState('');
   // 로그인 성공 화면 이동
   const navigate = useNavigate();
   // 로그인 실패 모달 상태
   const [showFailModal, setShowFailModal] = useState(false);
   // 인풋 유효성 검사 (임시)
-  const isFormValid = userId.trim() !== "" && userPw.trim() !== "";
+  const isFormValid = userId.trim() !== '' && userPw.trim() !== '';
   // API data 가져오는 텀
   const [isLoading, setIsLoading] = useState(false);
   // 로그인 성공실패 여부 함수
@@ -41,27 +41,27 @@ function Login() {
       // console.log("res.data코드확인중..!", res.data);
       if (res.data?.token) {
         // 로그인 성공 처리
-        console.log("✅ 로그인 성공!", res.data);
+        console.log('✅ 로그인 성공!', res.data);
         // 1. 토큰 저장
-        localStorage.setItem("userToken", res.data.token);
+        localStorage.setItem('userToken', res.data.token);
         // 2. 이메일 저장
-        localStorage.setItem("userEmail", userId.trim());
+        localStorage.setItem('userEmail', userId.trim());
         // 3. 역할 저장 (없으면 이메일로 판단)
-        const role = userId.trim() === "nisoft83@naver.com" ? "master" : "user";
-        localStorage.setItem("userRole", role);
+        const role = userId.trim() === 'nisoft83@naver.com' ? 'master' : 'user';
+        localStorage.setItem('userRole', role);
         // 메인 (Dashboard 페이지로 이동)
-        if (role == "master") {
-          navigate("/affiliate/master-dashboard-doing");
+        if (role == 'master') {
+          navigate('/affiliate/master-dashboard-doing');
         } else {
-          navigate("/affiliate/dashboard");
+          navigate('/affiliate/dashboard');
         }
       } else {
         // 로그인 실패 처리
-        console.warn("❌ 로그인 실패. 사용자 정보 불일치.");
+        console.warn('❌ 로그인 실패. 사용자 정보 불일치.');
         setShowFailModal(true);
       }
     } catch (error) {
-      console.error("🚨 서버 오류 또는 네트워크 문제", error);
+      console.error('🚨 서버 오류 또는 네트워크 문제', error);
       setShowFailModal(true);
     } finally {
       setIsLoading(false);
@@ -73,12 +73,12 @@ function Login() {
       <div className="login__box">
         <h1 className="login__logo">
           <img src={logoImg} alt="Music On the Block Affiliate Logo" />
-          <span>우리의 제휴 서비스에 오신 것을 환영합니다</span>
+          <span>Welcome to our affiliate service</span>
         </h1>
 
         <form
           className="login__form"
-          onSubmit={(e) => {
+          onSubmit={e => {
             // 기본 제출 방지
             e.preventDefault();
             handleIsLogin();
@@ -87,22 +87,22 @@ function Login() {
           <fieldset>
             <InputField
               id="userId"
-              label="아이디"
+              label="ID"
               type="email"
-              placeholder="아이디를 입력해주세요"
+              placeholder="Please enter your ID"
               required
               value={userId}
-              onChange={(e) => setUserId(e.target.value)}
+              onChange={e => setUserId(e.target.value)}
             />
             <InputField
               id="userPw"
-              label="비밀번호"
+              label="Password"
               type="password"
-              placeholder="비밀번호를 입력해주세요"
+              placeholder="Please enter your Password"
               required
               withToggle={true}
               value={userPw}
-              onChange={(e) => setUserPw(e.target.value)}
+              onChange={e => setUserPw(e.target.value)}
             />
           </fieldset>
           <button
@@ -111,21 +111,21 @@ function Login() {
             disabled={!isFormValid || isLoading}
             onClick={handleIsLogin}
           >
-            로그인
+            Login
             <LoadingDots />
             {/* 비활성화--disabled / 활성화--active / 로딩 중--loading */}
           </button>
         </form>
 
         <Link to="/affiliate/signup" className="btn btn-signup">
-          회원가입
+          Sign Up
         </Link>
       </div>
       {showFailModal && (
         // 로그인 실패 시 로그인 실패 모달 띄우기
         <ConfirmModal
-          title="로그인 실패"
-          message="회원 정보가 일치하지 않습니다."
+          title="Login Failed"
+          message="The account information does not match our records."
           buttonText="OK"
           onClose={() => setShowFailModal(false)}
         />

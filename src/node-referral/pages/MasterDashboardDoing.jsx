@@ -86,6 +86,7 @@ function MasterDashboardDoing() {
           ? rawList.filter(item => allowedStates.includes(item.state)) // allowedStates 안에 있는 것만 보여줌
           : rawList;
 
+      console.log('하단 리스트 가져오기 완료!', filteredList);
       setTotalCnt(filteredList.length);
       setDataList(filteredList);
       setTotalPages(Math.ceil(res.data.total_cnt / 20));

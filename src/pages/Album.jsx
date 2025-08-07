@@ -44,6 +44,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 
+// 엠블라 캐러셀 (추천 아티스트)
+import useEmblaCarousel from 'embla-carousel-react';
+import AutoplayPlugin from 'embla-carousel-autoplay';
+
 
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
@@ -225,52 +229,34 @@ function Album() {
     setKeyword('');
   };
 
-  // 추천 아티스트 킨 슬라이더
-//   const artistSwiperRef = useRef(null);
-//   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
+  // 추천 아티스트 슬라이더
+  const [artistActiveIndex, setArtistActiveIndex] = useState(0);
+  // const artistSwiperRef = useRef(null);
 
-//   const handleArtistSlideChange = swiper => {
-//     setArtistActiveIndex(swiper.realIndex);
-//   };
-//   const swiperRef = useRef(null);
+  // const handleArtistSlideChange = swiper => {
+  //   setArtistActiveIndex(swiper.realIndex);
+  // };
+  // const swiperRef = useRef(null);
 
-// const handleSwiperInit = (swiper) => {
-//   setTimeout(() => {
-//     swiper.slideNext(0);
-//     swiper.autoplay?.start();
-//   }, 300);
-// };
-  const animation = { duration: 5000, easing: (t) => t }
+  // const handleSwiperInit = (swiper) => {
+  //   setTimeout(() => {
+  //     swiper.slideNext(0);
+  //     swiper.autoplay?.start();
+  //   }, 300);
+  // };
 
-  const autoplayPausedRef = useRef(false)
-
-  const [sliderRef, slider] = useKeenSlider({
+  // 엠블라 캐러셀 
+  const OPTIONS ={
     loop: true,
-    renderMode: 'performance',
-    drag: true,
-    slides: {
-      perView: 'auto',
-      spacing: 20,
-    },
-    created(s) {
-      autoplay(s)
-    },
-    updated(s) {
-      autoplay(s)
-    },
-    animationEnded(s) {
-      autoplay(s)
-    },
-  })
-
-  function autoplay(s) {
-    if (autoplayPausedRef.current) return
-    if (!s.track || !s.track.details) return 
-    clearTimeout(s.container.autoplayTimeout)
-    s.container.autoplayTimeout = setTimeout(() => {
-      s.moveToIdx(s.track.details.abs + 1, true, animation)
-    }, 2000)
+    align: 'start',
+    dragFree: false,
+    speed: 4,
   }
+  const autoplay = useRef(
+    AutoplayPlugin({ delay: 3000, stopOnInteraction: false, stopMouseEnter: true})
+  )
+  const [emblaRef] = useEmblaCarousel(OPTIONS, [autoplay.current])
+
 
   // 추천 아티스트 가져오는 API 함수
   const handleGetRecommendedArtist = async () => {
@@ -382,7 +368,7 @@ function Album() {
             <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
             <div className="artist-slider-wrap">
               <Swiper 
-                modules={[Autoplay, FreeMode]}
+                modules={[FreeMode]}
                 loop={false}
                 slidesPerView="auto"
                 spaceBetween={20}
@@ -438,6 +424,54 @@ function Album() {
               </Swiper>
             </div>
           </section> */}
+          <section className="artist-section">
+            <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
+            <div className="artist-slider-wrap">
+              <div className="artist-slider artist-embla" ref={emblaRef}>
+                <div className="artist-embla__container">
+                  {recommendedArtists.map((artist, idx) => (
+                    <div className="artist-embla__slide" key={idx}>
+                      <figure
+                        className={`artist-item ${
+                          artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
+                        }`}
+                      >
+                        <div className="artist-thumb">
+                          <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
+                            <img
+                              src={artist.profile || defaultCoverImg2}
+                              alt={artist.name}
+                            />
+                          </Link>
+                        </div>
+
+                        <figcaption className="artist-info">
+                          <h3 className="artist-name">
+                            <span>{artist.name}</span>
+                            <img
+                              src={getUserGradeSquareIcon(artist?.user_rating)}
+                              alt="Artist Level Icon"
+                              className="artist-level"
+                            />
+                          </h3>
+                          <p className="artist-meta">
+                            <span>
+                              Music
+                              <small>{artist.total_songs}</small>
+                            </span>
+                            <span>
+                              Follower
+                              <small>{artist.followers}</small>
+                            </span>
+                          </p>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
 
 
           {/* 추천 앨범 리스트 */}

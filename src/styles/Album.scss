@@ -52,7 +52,7 @@
       }
       strong{
         color: #fff;
-        margin-left: 4px;
+        margin-left: 1%;
       }
     }
   }
@@ -114,60 +114,34 @@
 
 
 // artist-slider START
-.artist-slider-wrap{
-  position: relative;
-  overflow: hidden;
-
-  &::before,
-  &::after{
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 25%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-  }
-  
-  &::before{
-    left: 0;
-    background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0) 100%);
-  }
-
-  &::after{
-    right: 0;
-    background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.6) 70%, rgba(18, 18, 18, 0) 100%);
-  }
-}
 // .artist-slider{
 //   width: 100%;
 //   max-width: 100%;
 //   .swiper-wrapper{
 //     transition-timing-function: linear;
+//     will-change: transform;
+//     transform: translateZ(0);
+//     }
 //   }
 //   .swiper-slide{
 //     flex-shrink: 0 !important;
 //     transition: all .3s ease;
 //     text-align: center;
-//     min-width: 140px;
+//     min-width: 130px;
 //     max-width: 160px;
 //     width: auto;
-//     .artist-item {
-//       width: 100%;
-//       flex-shrink: 0;
-//       transition: transform 0.3s ease;
-//     }
 //   }
-
 //   .artist-item{
-//     display: flex; 
-//     flex-direction: column;
-//     row-gap: 24px;
+//     width: 100%;
 //     flex-shrink: 0;
+//     transition: transform 0.3s ease;
+//     display: flex;
+//     row-gap: 24px;
+//     flex-direction: column;
 //   }
 //   .artist-thumb{
-//     width: 160px;
-//     height: 160px;
+//     width: clamp(130px, 11vw, 160px);
+//     height: clamp(130px, 11vw, 160px);
 //     margin: 0 auto;
 //     border-radius: 100%;
 //     overflow: hidden;
@@ -175,6 +149,7 @@
 //       width: 100%;
 //       height: 100%;
 //       object-fit: cover;
+//       aspect-ratio: 1 / 1;
 //     }
 //   }
 //   .artist-info{
@@ -220,62 +195,69 @@
 //   }
 // } 
 // artist-slider END
-.artist-slider {
-  width: 100%;
-  max-width: 100%;
 
-  // Keen Slider 자체가 wrapper이므로 여기 transition 적용
-  &.keen-slider {
-    transition-timing-function: linear;
+.artist-slider-wrap{
+  position: relative;
+  overflow: hidden;
+
+  &::before,
+  &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  &::before{
+    left: 0;
+    background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.6) 35%, rgba(18, 18, 18, 0) 100%);
   }
 
-  // 슬라이드 한 칸
-  .keen-slider__slide {
-    flex-shrink: 0 !important;
-    transition: all 0.3s ease;
-    text-align: center;
-    min-width: 140px;
-    max-width: 160px;
-    width: auto;
-    margin-right: 30px;
-
-    .artist-item {
-      width: 100%;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
+  &::after{
+    right: 0;
+    background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.6) 35%, rgba(18, 18, 18, 0) 100%);
   }
+}
+.artist-embla {
+  overflow: hidden;
+  padding: 10px 0;
 
-  // 아티스트 블록 구성
-  .artist-item {
+  &__container {
     display: flex;
-    flex-direction: column;
-    row-gap: 24px;
-    flex-shrink: 0;
+    gap: 30px;
   }
 
-  // 썸네일 (프로필 이미지)
+  &__slide {
+    flex: 0 0 160px;
+    min-width: 160px;
+    max-width: 160px;
+  }
+}
+
+.artist-item {
+  width: 100%;
+
   .artist-thumb {
-    width: 160px;
-    height: 160px;
-    margin: 0 auto;
-    border-radius: 100%;
-    overflow: hidden;
+    width: clamp(130px, 11vw, 160px);
+    height: clamp(130px, 11vw, 160px);
+    aspect-ratio: 1 / 1;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50%;
     }
   }
-
-  // 아티스트 정보
-  .artist-info {
+  .artist-info{
     display: flex;
     flex-direction: column;
     row-gap: 12px;
-
-    .artist-name {
+    width: 100%;
+    .artist-name{
       display: flex;
       justify-content: center;
       align-items: center;
@@ -284,31 +266,26 @@
       line-height: clamp(24px, 2.4vw, 36px);
       color: #fff;
       font-weight: 400;
-
-      span {
+      span{
         max-width: 130px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
-      .artist-level {
+      .artist-level{
         width: 100%;
         max-width: 20px;
       }
     }
-
-    .artist-meta {
+    .artist-meta{
       display: flex;
       justify-content: space-around;
-
-      span {
+      span{
         color: #767676;
         font-size: clamp(12px, 1.2vw, 18px);
         line-height: clamp(18px, 1.8vw, 27px);
       }
-
-      small {
+      small{
         display: block;
         padding-top: 3px;
         color: #bbb;
@@ -317,7 +294,8 @@
       }
     }
   }
-}
+} 
+
 
 
 

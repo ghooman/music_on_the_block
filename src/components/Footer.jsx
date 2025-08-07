@@ -209,17 +209,6 @@ const Footer = ({ setIsLoggedIn }) => {
                       {t('NFT MarketPlace')}
                     </Link>
                   </dd>
-<<<<<<< HEAD
-                  {/* <dd>
-                    <Link
-                      to="/affiliate"
-                      // onClick={() => setPreparingModal(true)}
-                    >
-                      {t('Affiliate')}
-                    </Link>
-                  </dd> */}
-=======
->>>>>>> b32b5f1cee5f1b9d30cc0a76573ab4005852b4a0
                 </dl>
                 <dl>
                   <dt>{t('Eco System')}</dt>

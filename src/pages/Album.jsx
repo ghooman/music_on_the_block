@@ -325,20 +325,6 @@ function Album() {
                 </div>
               </div>
             </SwiperSlide>
-<<<<<<< HEAD
-            {/* <SwiperSlide>
-              <div className="banner-slider__swiper-list">
-                <div className="banner-slider__swiper-content">
-                  <picture className="banner-slider__picture">
-                    <source media="(min-width: 481px)" srcset={mainBannerImg1} />
-                    <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
-                    <img
-                      src={mainBannerImg1}
-                      alt="Main banner example"
-                      className="banner-slider__swiper-banner-img"
-                    />
-                  </picture>
-=======
             {/* 0805 투표 배너 가리기 */}
             {/* <SwiperSlide>
               <div className="banner-slider__swiper-list">
@@ -350,7 +336,6 @@ function Album() {
                       <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
                     </picture>
                   </Link>
->>>>>>> b32b5f1cee5f1b9d30cc0a76573ab4005852b4a0
                 </div>
               </div>
             </SwiperSlide> */}

@@ -236,7 +236,9 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>{t('Affiliate')}</dt>
                   <dd>
-                    <a href="/node.html#/affiliate/login">{t('Affiliate')}</a>
+                    <a href="https://affiliate.musicontheblock.com/" target="_blank">
+                      {t('Affiliate')}
+                    </a>
                   </dd>
                 </dl>
               </div>

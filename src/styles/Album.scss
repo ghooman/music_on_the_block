@@ -52,7 +52,7 @@
       }
       strong{
         color: #fff;
-        margin-left: 1%;
+        margin-left: clamp(4px, 0.6vw, 10px);
       }
     }
   }

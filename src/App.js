@@ -1,9 +1,10 @@
-import './App.css';
+// import './App.css';
 
 // 라이브러리
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+
 // 페이지
 import Album from './pages/Album';
 import Create from './pages/Create';
@@ -21,16 +22,6 @@ import VoiceTrainer from './pages/VoiceTrainer';
 import SearchResult from './pages/SearchResult';
 import VoteEvent from './pages/VoteEvent';
 import VoteList from './pages/VoteList';
-
-// 노드 레퍼럴 페이지
-import NodeLogin from './node-referral/pages/Login';
-import NodeSignUp from './node-referral/pages/SignUp';
-import NodeScrollToTop from './node-referral/components/ScrollToTop';
-import NodePrivateRoute from './node-referral/components/routes/PrivateRoute';
-import NodeProtectedRoutes from './node-referral/components/routes/ProtectedRoutes';
-// 노드 레퍼럴 style
-import './node-referral/App.css';
-import './node-referral/styles/Main.scss';
 
 // 컴포넌트
 import Header from './components/Header';
@@ -83,10 +74,31 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  useEffect(() => {
+    // App.css 동적 로드
+    const appStyleLink = document.createElement('link');
+    appStyleLink.rel = 'stylesheet';
+    appStyleLink.href = '/App.css';
+    appStyleLink.id = 'app-styles';
+    document.head.appendChild(appStyleLink);
+
+    // NodeApp.css 제거 (있다면)
+    const nodeStyleLink = document.getElementById('nodeapp-styles');
+    if (nodeStyleLink) {
+      nodeStyleLink.remove();
+    }
+
+    // 컴포넌트 언마운트 시 App.css 제거
+    return () => {
+      const styleLink = document.getElementById('app-styles');
+      if (styleLink) {
+        styleLink.remove();
+      }
+    };
+  }, []);
+
   const { pathname } = useLocation();
   const { language } = navigator;
-
-  // console.log('navigator', navigator);
 
   // 접속 지역에 따라 자동으로 언어 선택해주는 기능
   useEffect(() => {
@@ -107,7 +119,6 @@ function App() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // console.log("렌더링")
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -115,9 +126,7 @@ function App() {
           <AudioProvider>
             <div className="App">
               <title>MUSIC ON THE BLOCK</title>
-              <NodeScrollToTop />
               <Routes>
-                {/* <Route path="/" element={<Intro />} /> 인트로에는 헤더 X */}
                 <Route
                   path="/"
                   element={
@@ -172,9 +181,7 @@ function App() {
                   path="/albums-detail/:id"
                   element={
                     <Layout>
-                      {/* <ProtectedRoute> */}
                       <AlbumsDetail />
-                      {/* </ProtectedRoute> */}
                     </Layout>
                   }
                 />
@@ -183,7 +190,6 @@ function App() {
                   element={
                     <Layout>
                       <ProtectedRoute>
-                        {/* <EditAlbumSongs /> */}
                         <AlbumsEdit />
                       </ProtectedRoute>
                     </Layout>
@@ -375,22 +381,7 @@ function App() {
                     </Layout>
                   }
                 />
-
                 <Route path="vote-event" element={<VoteEvent />} />
-
-                {/* 공개 접근 가능한 페이지 */}
-                <Route path="/affiliate/login" element={<NodeLogin />} />
-                <Route path="/affiliate/signup" element={<NodeSignUp />} />
-                {/* 보호된 페이지는 모두 여기 아래에서 감쌈 */}
-
-                <Route
-                  path="/*"
-                  element={
-                    <NodePrivateRoute>
-                      <NodeProtectedRoutes />
-                    </NodePrivateRoute>
-                  }
-                />
                 <Route
                   path="/vote-list"
                   element={

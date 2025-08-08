@@ -509,7 +509,7 @@ const SongList = () => {
       }
     };
 
-    if (!walletAddress?.address) return; // 주소 없는 경우 막기
+    // if (!walletAddress?.address) return; // 주소 없는 경우 막기
 
     getSongListData();
   }, [page, songsSort, service]); // 불필요한 deps 줄이기

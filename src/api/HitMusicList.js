@@ -8,5 +8,6 @@ const serverApi = process.env.REACT_APP_SERVER_API;
  * @returns {Promise} axios GET 요청 반환
  */
 export const getHitMusicList = async walletAddress => {
-  return axios.get(`${serverApi}/api/music/hit/list?wallet_address=${walletAddress?.address}`, {});
+  console.log('getHitMusicList');
+  return axios.get(`${serverApi}/api/music/hit/list`, {});
 };

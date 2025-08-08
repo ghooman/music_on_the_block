@@ -44,6 +44,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 
+// 엠블라 캐러셀 (추천 아티스트)
+import useEmblaCarousel from 'embla-carousel-react';
+import AutoplayPlugin from 'embla-carousel-autoplay';
+
+
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
@@ -248,12 +253,19 @@ function Album() {
   };
 
   // 추천 아티스트 슬라이더
-  const artistSwiperRef = useRef(null);
   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
+  // 엠블라 캐러셀 
+  const OPTIONS ={
+    loop: true,
+    align: 'start',
+    dragFree: true,
+    speed: 4,
+  }
+  const autoplay = useRef(
+    AutoplayPlugin({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true})
+  )
+  const [emblaRef] = useEmblaCarousel(OPTIONS, [autoplay.current])
 
-  const handleArtistSlideChange = swiper => {
-    setArtistActiveIndex(swiper.realIndex);
-  };
 
   // 추천 아티스트 가져오는 API 함수
   const handleGetRecommendedArtist = async () => {
@@ -360,88 +372,56 @@ function Album() {
             isTrackActive={isTrackActive}
           />
 
-          {/* 추천 아티스트 캐러셀 */}
-          <section className="artist-section">
+          {/* 추천 아티스트 */}
+          <section className="artist-slide-section">
             <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
             <div className="artist-slider-wrap">
-              <Swiper
-                modules={[Autoplay]}
-                slidesPerView="auto"
-                centeredSlides={true}
-                loop={true}
-                initialSlide={Math.floor(recommendedArtists.length / 2)}
-                slidesPerGroup={1}
-                resistanceRatio={0}
-                longSwipesRatio={0.99}
-                longSwipesMs={300}
-                threshold={20}
-                speed={400}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
-                  pauseOnMouseEnter: false,
-                }}
-                // breakpoints={{
-                //   1600: {
-                //     slidesPerView: 9,
-                //   },
-                //   1360: {
-                //     slidesPerView: 7,
-                //   },
-                //   768: {
-                //     slidesPerView: 5,
-                //   },
-                //   480: {
-                //     slidesPerView: 3,
-                //   },
-                //   0: {
-                //     slidesPerView: 2,
-                //   },
-                // }}
-                className="artist-slider"
-              >
-                {recommendedArtists.map((artist, idx) => (
-                  <SwiperSlide key={idx}>
-                    <figure
-                      className={`artist-item ${
-                        artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
-                      }`}
-                    >
-                      <div className="artist-thumb">
-                        {/* 선택한 아티스트의 페이지로 이동 */}
-                        <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
-                          <img
-                            src={artist.profile ? artist.profile : defaultCoverImg2}
-                            alt={artist.name}
-                          />
-                        </Link>
-                      </div>
-                      <figcaption className="artist-info">
-                        <h3 className="artist-name">
-                          <span>{artist.name}</span>
-                          <img
-                            src={getUserGradeSquareIcon(artist?.user_rating)}
-                            alt="Artist Level Icon"
-                            className="artist-level"
-                          />
-                        </h3>
-                        <p className="artist-meta">
-                          <span>
-                            Music
-                            <small>{artist.total_songs}</small>
-                          </span>
-                          <span>
-                            Follower
-                            <small>{artist.followers}</small>
-                          </span>
-                        </p>
-                      </figcaption>
-                    </figure>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              <div className="artist-slider artist-embla" ref={emblaRef}>
+                <div className="artist-embla__container">
+                  {recommendedArtists.map((artist, idx) => (
+                    <div className="artist-embla__slide" key={idx}>
+                      <figure
+                        className={`artist-item ${
+                          artistActiveIndex === idx % recommendedArtists.length ? 'is-active' : ''
+                        }`}
+                      >
+                        <div className="artist-thumb">
+                          <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
+                            <img
+                              src={artist.profile || defaultCoverImg2}
+                              alt={artist.name}
+                            />
+                          </Link>
+                        </div>
+
+                        <figcaption className="artist-info">
+                          <h3 className="artist-name">
+                            <span>{artist.name}</span>
+                            <img
+                              src={getUserGradeSquareIcon(artist?.user_rating)}
+                              alt="Artist Level Icon"
+                              className="artist-level"
+                            />
+                          </h3>
+                          <p className="artist-meta">
+                            <span>
+                              Music
+                              <small>{artist.total_songs}</small>
+                            </span>
+                            <span>
+                              Follower
+                              <small>{artist.followers}</small>
+                            </span>
+                          </p>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
+
 
           {/* 추천 앨범 리스트 */}
           <section className="album-section">
@@ -826,7 +806,7 @@ function Album() {
           </section>
         )} */}
 
-        {/* <section className="main__stats">
+        <section className="main__stats">
           <dl className="main__stats__title">
             <dt>{t('Number of Artists')}</dt>
             <dd>
@@ -845,7 +825,7 @@ function Album() {
               <Counter targetNumber={transaction?.transaction} />
             </dd>
           </dl>
-        </section> */}
+        </section>
 
         {isPreparingModal && <PreparingModal setPreparingModal={setPreparingModal} />}
       </div>

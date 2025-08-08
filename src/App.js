@@ -1,4 +1,4 @@
-// import './App.css';
+import './App.css';
 
 // 라이브러리
 import React, { useEffect } from 'react';
@@ -74,29 +74,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  useEffect(() => {
-    // App.css 동적 로드
-    const appStyleLink = document.createElement('link');
-    appStyleLink.rel = 'stylesheet';
-    appStyleLink.href = '/App.css';
-    appStyleLink.id = 'app-styles';
-    document.head.appendChild(appStyleLink);
-
-    // NodeApp.css 제거 (있다면)
-    const nodeStyleLink = document.getElementById('nodeapp-styles');
-    if (nodeStyleLink) {
-      nodeStyleLink.remove();
-    }
-
-    // 컴포넌트 언마운트 시 App.css 제거
-    return () => {
-      const styleLink = document.getElementById('app-styles');
-      if (styleLink) {
-        styleLink.remove();
-      }
-    };
-  }, []);
-
   const { pathname } = useLocation();
   const { language } = navigator;
 

@@ -236,12 +236,9 @@ const Footer = ({ setIsLoggedIn }) => {
                 <dl>
                   <dt>{t('Affiliate')}</dt>
                   <dd>
-                    <Link
-                      to="/affiliate/login"
-                      // onClick={() => setPreparingModal(true)}
-                    >
+                    <a href="https://affiliate.musicontheblock.com/" target="_blank">
                       {t('Affiliate')}
-                    </Link>
+                    </a>
                   </dd>
                 </dl>
               </div>

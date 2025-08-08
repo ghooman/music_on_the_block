@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useContext, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { useAudio } from '../contexts/AudioContext';
 import { useTranslation } from 'react-i18next';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
 import axios from 'axios';
@@ -26,6 +27,7 @@ function SearchResult() {
   const navigate = useNavigate();
   const { t } = useTranslation('main');
   const { walletAddress } = useContext(AuthContext);
+  const { currentTrack, currentTime, playTrack, isTrackActive, audioRef } = useAudio();
 
   // 검색어 가져오기
   const [searchParams, setSearchParams] = useSearchParams();
@@ -65,9 +67,9 @@ function SearchResult() {
   const [albumFetched, setAlbumFetched] = useState(false);
   const [musicFetched, setMusicFetched] = useState(false);
 
-  const [currentTrack, setCurrentTrack] = useState(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const audioRef = useRef(null);
+  // const [currentTrack, setCurrentTrack] = useState(null);
+  // const [currentTime, setCurrentTime] = useState(0);
+  // const audioRef = useRef(null);
 
   // 페이지네이션 한 페이지 데이터 갯수
   const getViewCount = () => {
@@ -161,12 +163,10 @@ function SearchResult() {
     setCurrentPage(pageFromUrl);
   }, [searchParams]);
 
-  const handlePlay = track => {
-    setCurrentTrack(track);
-    const player = audioRef?.current;
-    if (!player) return;
-    player.src = track.url;
-    player.play();
+  const handlePlay = ({ list, track, id }) => {
+    // ✅ 자동재생 허용 플래그 세팅
+    sessionStorage.setItem('preventAutoPlay', 'true');
+    playTrack({ track, playlist: list, playlistId: id });
   };
 
   const handleNavigate = albumId => {
@@ -236,9 +236,15 @@ function SearchResult() {
                         <AlbumItem
                           key={track.id}
                           track={track}
-                          isActive={currentTrack?.id === track.id}
+                          isActive={isTrackActive(track, 'search-result')}
                           currentTime={currentTime}
-                          onClick={() => handlePlay(track)}
+                          onClick={() =>
+                            handlePlay({
+                              list: songList, // or pagedList
+                              track,
+                              id: 'search-result',
+                            })
+                          }
                           audioRef={audioRef}
                         />
                       ))}

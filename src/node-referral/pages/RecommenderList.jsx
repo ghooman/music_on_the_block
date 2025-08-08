@@ -382,7 +382,7 @@ function RecommenderList() {
                       </div>
                     ))
                   ) : (
-                    <div className="table-empty">생성한 초대코드 리스트가 없습니다.</div>
+                    <div className="table-empty">No invitation codes have been created.</div>
                   )}
                 </>
               )}

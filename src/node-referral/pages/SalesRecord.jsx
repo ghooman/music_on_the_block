@@ -294,26 +294,45 @@ function SalesRecord() {
     }
   };
 
-  const getKoreanState = state => {
-    const stateMap = {
-      requested: '승인요청',
-      pending: '승인대기',
-      cancelled: '승인취소',
-      approved: '승인완료',
-      settlement_pending: '정산대기',
-      settled: '정산완료',
-    };
-    return stateMap[state] || state;
-  };
+  // const getKoreanState = state => {
+  //   const stateMap = {
+  //     requested: '승인요청',
+  //     pending: '승인대기',
+  //     cancelled: '승인취소',
+  //     approved: '승인완료',
+  //     settlement_pending: '정산대기',
+  //     settled: '정산완료',
+  //   };
+  //   return stateMap[state] || state;
+  // };
+
+  // const statusMap = {
+  //   all: '전체',
+  //   requested: '승인요청',
+  //   pending: '승인대기',
+  //   cancelled: '승인취소',
+  //   approved: '승인완료',
+  //   settlement_pending: '정산대기',
+  //   settled: '정산완료',
+  // };
 
   const statusMap = {
-    all: '전체',
-    requested: '승인요청',
-    pending: '승인대기',
-    cancelled: '승인취소',
-    approved: '승인완료',
-    settlement_pending: '정산대기',
-    settled: '정산완료',
+    all: 'All',
+    requested: 'Approval Requested',
+    pending: 'Pending Approval',
+    approved: 'Approved',
+    cancelled: 'Approval Cancelled',
+    settlement_pending: 'Pending Settlement',
+    settled: 'Settled',
+  };
+
+  const displayStateMap = {
+    requested: 'Approval Requested',
+    pending: 'Pending Approval',
+    approved: 'Approved',
+    cancelled: 'Approval Cancelled',
+    settlement_pending: 'Pending Settlement',
+    settled: 'Settled',
   };
 
   const getBadgeClassName = state => {
@@ -371,36 +390,36 @@ function SalesRecord() {
         <div className="page-wrapper padding-del">
           <div className="sales-section">
             <div className="sales-section__record-tit">
-              <h2>내 판매기록 전체보기</h2>
+              <h2>View All My Sales Records</h2>
               <span>
-                총 <small>{totalCnt}</small>건
+                Total <small>{totalCnt}</small>
               </span>
             </div>
             <ul className="sales-section__record-list">
               <li>
-                <h3>나의 판매 수입</h3>
+                <h3>My Sales Revenue</h3>
                 <p>{formatNumber(myRevenue)}</p>
               </li>
               <li>
-                <h3>나의 판매 정산금</h3>
+                <h3>My Sales Settlements</h3>
                 <p>{formatNumber(mySettlement)}</p>
               </li>
               <li>
-                <h3>나의 추천인</h3>
+                <h3>My Referrals</h3>
                 <p>{formatNumber(myReferrals)}</p>
               </li>
               <li>
-                <h3>나의 판매 노드 수</h3>
+                <h3>My Sold Nodes</h3>
                 <p>{formatNumber(mySoldNode)}</p>
               </li>
             </ul>
             <button type="button" className="sales-section__btn" onClick={handleClickNewDealBtn}>
-              새 거래 등록
+              Add New Transaction
             </button>
           </div>
           {/* 필터 영역 */}
           <div className="filter-group">
-            <div className="filter-group__title">필터링</div>
+            <div className="filter-group__title">Filter</div>
             <div className={`custom-select ${isFilterOpen ? 'is-open' : ''}`}>
               <button
                 type="button"
@@ -440,14 +459,14 @@ function SalesRecord() {
                 <>
                   {/* list-head는 항상 보여줌 */}
                   <div className="table-section__tit__list-head sales-record">
-                    <div className="col">구매자</div>
-                    <div className="col mobile-del">개수</div>
-                    <div className="col mobile-del">객단가</div>
-                    <div className="col">총 금액</div>
-                    <div className="col">정산금</div>
-                    <div className="col mobile-del">등록일시</div>
-                    <div className="col">상태</div>
-                    <div className="col">액션</div>
+                    <div className="col">Buyer</div>
+                    <div className="col mobile-del">Quantity</div>
+                    <div className="col mobile-del">Unit Price</div>
+                    <div className="col">Total Amount</div>
+                    <div className="col">Settlement Amount</div>
+                    <div className="col mobile-del">Registered At</div>
+                    <div className="col">Status</div>
+                    <div className="col">Action</div>
                   </div>
 
                   {/* 데이터 유무에 따라 item or empty */}
@@ -491,7 +510,7 @@ function SalesRecord() {
                                   }
                                 }}
                               >
-                                {getKoreanState(item.state)}
+                                {displayStateMap[item.state] || item.state}
                               </button>
                             </div>
                             <div className="col toggle-btn-box">
@@ -502,7 +521,7 @@ function SalesRecord() {
                                     className="btn-line-cancel"
                                     onClick={() => setCancelTargetId(item.id)}
                                   >
-                                    취소
+                                    Cancel
                                   </button>
                                 ) : (
                                   <span style={{ visibility: 'hidden', minWidth: '60px' }}>-</span> // 공간 유지용

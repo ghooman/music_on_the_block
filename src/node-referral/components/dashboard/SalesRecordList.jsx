@@ -29,16 +29,35 @@ function SalesRecordList({
     setOpenIndex(prev => (prev === index ? null : index));
   };
 
-  const getKoreanState = state => {
-    const stateMap = {
-      requested: '승인요청',
-      pending: '승인대기',
-      cancelled: '승인취소',
-      approved: '승인완료',
-      settlement_pending: '정산대기',
-      settled: '정산완료',
-    };
-    return stateMap[state] || state;
+  // const getKoreanState = state => {
+  //   const stateMap = {
+  //     requested: '승인요청',
+  //     pending: '승인대기',
+  //     cancelled: '승인취소',
+  //     approved: '승인완료',
+  //     settlement_pending: '정산대기',
+  //     settled: '정산완료',
+  //   };
+  //   return stateMap[state] || state;
+  // };
+
+  const statusMap = {
+    all: 'All',
+    requested: 'Approval Requested',
+    pending: 'Pending Approval',
+    approved: 'Approved',
+    cancelled: 'Approval Cancelled',
+    settlement_pending: 'Pending Settlement',
+    settled: 'Settled',
+  };
+
+  const displayStateMap = {
+    requested: 'Approval Requested',
+    pending: 'Pending Approval',
+    approved: 'Approved',
+    cancelled: 'Approval Cancelled',
+    settlement_pending: 'Pending Settlement',
+    settled: 'Settled',
   };
 
   const getBadgeClassName = state => {
@@ -81,22 +100,22 @@ function SalesRecordList({
           <>
             <div className="table-section__tit">
               <div className="table-section__tit__tit-button">
-                <h2>내 판매기록</h2>
+                <h2>My Sales Records</h2>
                 <button type="button" className="btn-sm" onClick={handleClickNewDealBtn}>
-                  새 거래 등록
+                  Add New Transaction
                 </button>
               </div>
-              <Link to="/affiliate/sales-record">전체보기</Link>
+              <Link to="/affiliate/sales-record">View All</Link>
             </div>
 
             <div className="table-section__tit__list-head sales-record">
-              <div className="col">구매자</div>
-              <div className="col mobile-del">개수</div>
-              <div className="col mobile-del">객단가</div>
-              <div className="col">총 금액</div>
-              <div className="col">정산금</div>
-              <div className="col mobile-del">등록일시</div>
-              <div className="col">상태</div>
+              <div className="col">Buyer</div>
+              <div className="col mobile-del">Quantity</div>
+              <div className="col mobile-del">Unit Price</div>
+              <div className="col">Total Amount</div>
+              <div className="col">Settlement Amount</div>
+              <div className="col mobile-del">Registered At</div>
+              <div className="col">Status</div>
             </div>
 
             {newDealList.length === 0 ? (
@@ -129,7 +148,7 @@ function SalesRecordList({
                           }
                         }}
                       >
-                        {getKoreanState(item.state)}
+                        {displayStateMap[item.state] || item.state}
                       </button>
 
                       <button
@@ -145,24 +164,24 @@ function SalesRecordList({
                     <div className="list-item__detail">
                       <div className="list-item__detail__list">
                         <p>
-                          <b>지갑주소</b>
+                          <b>Wallet Address</b>
                           <span>
                             {item.buyer_wallet_address}
                             <CopyButton textToCopy={item.buyer_wallet_address} />
                           </span>
                         </p>
                         <p>
-                          <b>비고</b>
+                          <b>Note</b>
                           <span>{item.memo ? item.memo : '-'}</span>
                         </p>
                       </div>
                       <div className="list-item__detail__list">
                         <p>
-                          <b>승인완료 날짜</b>
+                          <b>Approval Date</b>
                           <span>{item.approval_dt ? formatDate(item.approval_dt) : '-'}</span>
                         </p>
                         <p>
-                          <b>정산완료 날짜</b>
+                          <b>Settlement Date</b>
                           <span>{item.settlement_dt ? formatDate(item.settlement_dt) : '-'}</span>
                         </p>
                       </div>
@@ -177,8 +196,8 @@ function SalesRecordList({
 
       {showConfirmModalIndex !== null && (
         <ConfirmModal
-          title="승인 요청"
-          message={`요청 전송 시 노드 전송 및 정산을 진행합니다.\n노드 전송 및 정산금 입금은 영업일 기준 2~3일 소요됩니다.`}
+          title="Request Approval"
+          message={`Sending the request will initiate node transfer and settlement.\nNode transfer and settlement payment will take 2–3 business days.`}
           onClose={() => setShowConfirmModalIndex(null)}
           onConfirm={() => {
             handleChangeState(showConfirmModalIndex, 'pending');

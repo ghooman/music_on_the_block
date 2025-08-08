@@ -726,8 +726,8 @@ function Dashboard() {
       {/* '지갑주소 등록' 없이 '새 거래 등록' 선택 시 Confirm Modal 노출  */}
       {isOpenConfirmModal && (
         <ConfirmModal
-          title="새로운 거래를 등록할 수 없습니다"
-          message="내 지갑주소를 먼저 등록해 주세요!"
+          title="You cannot register a new transaction"
+          message="Please register your wallet address first!"
           buttonText="OK"
           onClose={() => setIsOpenConfirmModal(false)}
           onClick={() => setIsOpenConfirmModal(false)}
@@ -739,7 +739,7 @@ function Dashboard() {
           <div className="modal modal-transaction">
             <div className="modal__content">
               <div className="modal__header">
-                <h2>거래등록</h2>
+                <h2>Register Transaction</h2>
                 <button
                   type="button"
                   onClick={() => {
@@ -753,9 +753,9 @@ function Dashboard() {
               <div className="modal__body">
                 <InputField
                   id="buyerName"
-                  label="구매자명"
+                  label="Buyer Name"
                   type="text"
-                  placeholder="구매자명을 입력해 주세요"
+                  placeholder="Please enter the buyer’s name"
                   required
                   value={newDealUser}
                   onChange={handleBuyerNameChange}
@@ -765,8 +765,8 @@ function Dashboard() {
                     <InputField
                       type="text"
                       id="avgPrice"
-                      label="객단가"
-                      placeholder="객단가 입력"
+                      label="Unit Price"
+                      placeholder="Enter unit price"
                       required
                       value={newDealPerPrice}
                       onChange={e => setNewDealPerPrice(e.target.value)}
@@ -775,9 +775,9 @@ function Dashboard() {
                   <div>
                     <InputField
                       type="text"
-                      label="판매 개수"
+                      label="Quantity"
                       id="salesCount"
-                      placeholder="판매 노드 개수 입력"
+                      placeholder="Enter number of nodes to sell"
                       required
                       value={newDealNumber}
                       onChange={e => setNewDealNumber(e.target.value)}
@@ -785,7 +785,7 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className="total-amount-field">
-                  <b>총 금액(자동계산)</b>
+                  <b>Total Amount (Auto-calculated)</b>
                   <p>
                     <span>{newDealTotalAmount.toLocaleString()}</span>
                     USDT
@@ -793,18 +793,18 @@ function Dashboard() {
                 </div>
                 <InputField
                   id="buyerWalletAddress"
-                  label="구매자 지갑 주소"
+                  label="Buyer's Wallet Address"
                   type="text"
-                  placeholder="노드를 받을 구매자의 지갑 주소를 입력해 주세요"
+                  placeholder="Please enter the wallet address of the buyer"
                   required
                   value={newDealWallet}
                   onChange={e => setNewDealWallet(e.target.value)}
                 />
                 <InputField
                   id="addInput"
-                  label="비고"
+                  label="Note"
                   type="text"
-                  placeholder="최대 30자까지 입력 가능합니다"
+                  placeholder="Up to 30 characters allowed"
                   maxLength={30}
                   value={newDealNote}
                   onChange={handleNoteChange}
@@ -818,7 +818,7 @@ function Dashboard() {
                   disabled={!isNewDealValid}
                   onClick={handleNewDealSubmit}
                 >
-                  {isLoading ? '거래등록 중' : '거래등록 완료'} <LoadingDots />
+                  {isLoading ? 'Registering transaction' : 'Complete Registration'} <LoadingDots />
                 </button>
               </div>
             </div>
@@ -829,9 +829,9 @@ function Dashboard() {
       {/* '새 거래 등록' 완료 시 Confirm Modal 노출  */}
       {isNewDealCreateSuccess && (
         <ConfirmModal
-          title="등록 완료"
-          message="등록 후 승인요청 버튼을 꼭 클릭해 주세요. 노드 전송 및 정산금 입금은 영업일 기준 2~3일 소요됩니다."
-          buttonText="확인"
+          title="Registration complete"
+          message="Please make sure to click the “Request Approval” button after registration. Node transfer and settlement payment will take 2–3 business days."
+          buttonText="OK"
           onClose={() => {}}
           onClick={() => setIsNewDealCreateSuccess(false)}
         />

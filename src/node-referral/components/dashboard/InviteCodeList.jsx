@@ -58,21 +58,21 @@ function InviteCodeList({
           <>
             <div className="table-section__tit">
               <div className="table-section__tit__tit-button">
-                <h2>초대코드 리스트</h2>
+                <h2>Invitation Code List</h2>
                 <button type="button" className="btn-sm" onClick={handleClickInviteBtn}>
-                  초대코드 생성
+                  Create Invitation Code
                 </button>
               </div>
-              <Link to="/affiliate/recommender-list">전체보기</Link>
+              <Link to="/affiliate/recommender-list">View All</Link>
             </div>
 
             <div className="table-section__tit__list-head">
-              <div className="col">지분</div>
-              <div className="col">초대코드</div>
-              <div className="col mobile-del">닉네임</div>
-              <div className="col mobile-del">할당인원</div>
-              <div className="col mobile-del">코드 생성일</div>
-              <div className="col col--action">액션</div>
+              <div className="col">Share</div>
+              <div className="col">Code</div>
+              <div className="col mobile-del">Nickname</div>
+              <div className="col mobile-del">Assigned</div>
+              <div className="col mobile-del">Created At</div>
+              <div className="col col--action">Action</div>
             </div>
 
             {/* 초대코드 리스트가 있는 경우 */}
@@ -90,14 +90,14 @@ function InviteCodeList({
                         className={`btn--line-mini ${copiedIndex.code === index ? 'copied' : ''}`}
                         onClick={() => handleCopyCode(item.invitation_code, index)}
                       >
-                        {copiedIndex.code === index ? '복사 완료' : '코드 복사'}
+                        {copiedIndex.code === index ? 'Copied' : 'Copy Code'}
                       </button>
 
                       <button
                         className={`btn--line-mini ${copiedIndex.link === index ? 'copied' : ''}`}
                         onClick={() => handleCopyLink(item.invitation_code, index)}
                       >
-                        {copiedIndex.link === index ? '복사 완료' : '링크 복사'}
+                        {copiedIndex.link === index ? 'Copied' : 'Copy Link'}
                       </button>
                       {/* QR코드 주석 처리 (정해진 내용이 없다고 함) */}
                       {/* <button className="btn--line-mini">QR코드</button> */}
@@ -128,7 +128,7 @@ function InviteCodeList({
                 </div>
               ))
             ) : (
-              <div className="table-empty">생성한 초대코드 리스트가 없습니다.</div>
+              <div className="table-empty">No invitation codes have been created.</div>
             )}
           </>
         )}

@@ -373,7 +373,7 @@ function Album() {
           />
 
           {/* 추천 아티스트 */}
-          <section className="artist-section">
+          <section className="artist-slide-section">
             <h2 className="album__content-list__title">{t('Recommended Artists')}</h2>
             <div className="artist-slider-wrap">
               <div className="artist-slider artist-embla" ref={emblaRef}>

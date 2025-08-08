@@ -31,7 +31,7 @@
     font-weight: 700;
     flex: 1;
     .swiper-context{
-      padding: clamp(16px, 2.3vw, 34px) 2.5%;
+      padding: clamp(16px, 2.3vw, 34px) clamp(16px, 2.7vw, 40px);
       height: clamp(180px, 23vw, 340px);
       display: flex;
       flex-direction: column;
@@ -42,8 +42,9 @@
     font-size: clamp(12px, 1.6vw, 24px);
     line-height: clamp(20px, 2.3vw, 34px);
     color: rgba(255, 255, 255, 0.80);
-    margin-bottom: 20px;
+    margin-bottom: clamp(12px, 1.3vw, 20px);
     width: 80%;
+    font-weight: 700;
   }
   &__welcome-desc{
     .desc-txt{
@@ -55,6 +56,7 @@
       strong {
         color: #fff;
         margin-left: clamp(4px, 0.6vw, 10px);
+        font-weight: 800;
       }
     }
   }
@@ -71,7 +73,7 @@
   &__music-icon {
     position: absolute;
     width: 100%;
-    max-width: clamp(120px, 25vw, 390px);
+    max-width: clamp(120px, 23vw, 390px);
     right: 0;
     bottom: -55px;
     transition: all 0.3s ease;
@@ -115,111 +117,113 @@
 } // swiper Indicator END
 
 // artist-slider START
-.artist-slider-wrap{
-  position: relative;
-  overflow: hidden;
+.artist-slide-section{
+  .artist-slider-wrap{
+    position: relative;
+    overflow: hidden;
 
-  &::before,
-  &::after{
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 25%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-  }
-  
-  &::before{
-    left: 0;
-    background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.6) 35%, rgba(18, 18, 18, 0) 100%);
-  }
-
-  &::after{
-    right: 0;
-    background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.6) 35%, rgba(18, 18, 18, 0) 100%);
-  }
-}
-.artist-embla {
-  overflow: hidden;
-  padding: 10px 0;
-
-  &__container {
-    display: flex;
-    gap: clamp(20px, 2vw, 30px);
-    transition: all linear;
-  }
-
-  &__slide {
-    flex: 0 0 160px;
-    min-width: 160px;
-    max-width: 160px;
-  }
-}
-
-.artist-item {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  row-gap: 24px;
-  align-items: center;
-
-  .artist-thumb {
-    width: clamp(110px, 9vw, 130px);
-    height: clamp(110px, 9vw, 130px);
-    aspect-ratio: 1 / 1;
-
-    img {
-      width: 100%;
+    &::before,
+    &::after{
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 25%;
       height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    
+    &::before{
+      left: 0;
+      background: linear-gradient(to right, #121212 0%, rgba(18, 18, 18, 0.6) 35%, rgba(18, 18, 18, 0) 100%);
+    }
+
+    &::after{
+      right: 0;
+      background: linear-gradient(to left, #121212 0%, rgba(18, 18, 18, 0.6) 35%, rgba(18, 18, 18, 0) 100%);
     }
   }
-  .artist-info{
+  .artist-embla {
+    overflow: hidden;
+    padding: 10px 0;
+
+    &__container {
+      display: flex;
+      gap: clamp(8px, 2vw, 30px);
+      transition: all linear;
+    }
+
+    &__slide {
+      flex: 0 0 160px;
+      min-width: 160px;
+      max-width: 160px;
+    }
+  }
+
+  .artist-item {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
-    width: 100%;
-    .artist-name{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      column-gap: 12px;
-      font-size: clamp(16px, 1.3vw, 18px);
-      line-height: clamp(22px, 1.6vw, 24px);
-      color: #fff;
-      font-weight: 400;
-      span{
-        max-width: 130px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .artist-level{
+    row-gap: clamp(16px, 1.6vw, 24px);
+    align-items: center;
+
+    .artist-thumb {
+      width: clamp(115px, 9vw, 130px);
+      height: clamp(115px, 9vw, 130px);
+      aspect-ratio: 1 / 1;
+
+      img {
         width: 100%;
-        max-width: 18px;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
       }
     }
-    .artist-meta{
+    .artist-info{
       display: flex;
-      justify-content: space-around;
-      text-align: center;
-      span{
-        color: #767676;
-        font-size: clamp(12px, 1.2vw, 14px);
-        line-height: clamp(18px, 1.3vw, 20px);
+      flex-direction: column;
+      row-gap: 12px;
+      width: 100%;
+      .artist-name{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 12px;
+        font-size: clamp(16px, 1.3vw, 18px);
+        line-height: clamp(22px, 1.6vw, 24px);
+        color: #fff;
+        font-weight: 400;
+        span{
+          max-width: 130px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .artist-level{
+          width: 100%;
+          max-width: 18px;
+        }
       }
-      small{
-        display: block;
-        padding-top: 3px;
-        color: #bbb;
-        font-size: clamp(12px, 1.2vw, 14px);
-        line-height: clamp(18px, 1.3vw, 20px);
+      .artist-meta{
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        span{
+          color: #767676;
+          font-size: clamp(12px, 1.2vw, 14px);
+          line-height: clamp(18px, 1.3vw, 20px);
+        }
+        small{
+          display: block;
+          padding-top: 3px;
+          color: #bbb;
+          font-size: clamp(12px, 1.2vw, 14px);
+          line-height: clamp(18px, 1.3vw, 20px);
+        }
       }
     }
-  }
-} 
+  } 
+}
 
 
 // album-section START
@@ -1001,7 +1005,6 @@
   display: flex;
   align-items: start;
   gap: 16px;
-  // min-height: 220px;
   transition: 0.3s;
   margin-top: 50px;
   margin-bottom: -60px;
@@ -1012,9 +1015,9 @@
     border-radius: 24px 8px 24px 24px;
     border: 2px solid #383838;
     flex-direction: column;
-    padding: 16px 0;
+    padding: clamp(14px, 1.6vw, 20px) 0;
     flex: 1;
-    gap: 16px;
+    gap: clamp(8px, 1.1vw, 16px);
     transition: 0.3s;
     position: relative;
     dt {
@@ -1043,9 +1046,10 @@
       text-align: center;
       text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
       font-family: Pretendard700;
-      font-size: 48px;
+      font-size: clamp(36px, 3.3vw, 48px);
       position: relative;
       z-index: 1;
+      line-height: 100%;
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -1656,11 +1660,11 @@
     }
   }
 
-  .main__stats {
-    .main__stats__title {
-      min-height: 164px;
-    }
-  }
+  // .main__stats {
+  //   .main__stats__title {
+  //     min-height: 164px;
+  //   }
+  // }
 }
 
 @media screen and (max-width: 768px) {

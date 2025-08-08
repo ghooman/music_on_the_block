@@ -701,7 +701,6 @@
   top: 110px;
   left: calc(100% + 8px);
   width: 116px;
-  // padding: 8px 0px;
   padding: 0;
   border-radius: 12px;
   border: 1px solid #678300;
@@ -713,8 +712,10 @@
   &.visible {
     padding: 8px 0px;
     opacity: 1;
-    height: calc((47.98px * 5) + (16px * 2));
-    padding: 8px 0px;
+    // height: calc((47.98px * 5) + (16px * 2));
+    height: auto;
+    max-height: 300px;
+    overflow: hidden;
   }
   &.mobile {
     display: none;

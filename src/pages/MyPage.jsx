@@ -20,6 +20,8 @@ import PreparingModal from '../components/PreparingModal';
 import Connections from '../components/mypage/connections/Connections';
 import UnFollowModal from '../components/UnFollowModal';
 import NFTs from '../components/mypage/nfts/NFTs';
+import MicEarning from '../components/mypage/mic/MicEarning';
+import OtherConnections from '../components/mypage/connections/OtherConnections';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
@@ -56,11 +58,13 @@ const MyProfile = () => {
 
   const category = searchParams.get('category');
 
+  // 마이페이지 : Music, NFT, Connections, AI Searvice, MIC Earning 노출
   const serviceTabObj = [
-    { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
     { name: 'NFTs', preparing: false },
     { name: 'Connections', preparing: false },
+    { name: 'AI Services', preparing: false },
+    { name: 'MIC Earning', preparing: false },
   ];
 
   const handleTab = tab => {
@@ -74,10 +78,14 @@ const MyProfile = () => {
         {/* <ProfileInfo.TokenAmount mic={0} mob={0} /> */}
       </ProfileInfo>
       <Tabs tabs={serviceTabObj} select={category} handleTab={handleTab} />
-      {category === 'AI Services' && <AiServices username={userData?.name} />}
       {category === 'Songs' && <Songs username={userData?.name} isMyProfile token={token} />}
-      {category === 'Connections' && <Connections />}
       {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
+      {/* {category === 'Connections' && <Connections />} */}
+      {category === 'Connections' && (
+        <Connections ownerName={userData?.name} isSelf />
+      )}
+      {category === 'AI Services' && <AiServices username={userData?.name} />}
+      {category === 'MIC Earning' && <MicEarning username={userData?.name} isMyProfile />}
     </div>
   );
 };
@@ -100,10 +108,11 @@ const UserProfile = () => {
   const username = searchParams.get('username');
   const category = searchParams.get('category');
 
+  // 다른 사람의 마이페이지 : SONGS, NFT, CONNECTIONS 노출
   const serviceTabObj = [
-    { name: 'AI Services', preparing: false },
     { name: 'Songs', preparing: false },
     { name: 'NFTs', preparing: false },
+    { name: 'Connections', preparing: false },
   ];
 
   const handleWalletConnect = (loggedIn, walletAddress) => {
@@ -209,9 +218,9 @@ const UserProfile = () => {
         )}
       </ProfileInfo>
       <Tabs tabs={serviceTabObj} handleTab={handleTab} select={category} />
-      {category === 'AI Services' && <AiServices username={username} />}
       {category === 'Songs' && <Songs username={username} />}
       {category === 'NFTs' && <NFTs username={username} />}
+      {category === 'AI Services' && <AiServices username={username} />}
       {unFollowModal && isLoggedIn && (
         <UnFollowModal
           setUnFollowModal={setUnFollowModal}

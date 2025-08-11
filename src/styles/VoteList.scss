@@ -2,6 +2,53 @@
    ▶ VoteList 전역 스타일
 ============================================================ */
 
+/* -------------------- 투표하기 타이틀 + 등록 버튼 -------------------- */
+.vote-list-title{
+    display: flex;
+    justify-content: space-between;
+    .register-btn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        padding: 10px 2%;
+        border-radius: 12px;
+        color: #1a1a1a;
+        font-size: clamp(12px, 0.9vw, 14px);
+        // height: 40px;
+        text-align: center;
+        position: relative;
+        white-space: nowrap;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s all;
+        background-color: #cf0;
+        top: 0;
+        margin: 20px 0;
+
+        &:hover{
+            top: 4px;
+        }
+
+        &::after{
+            content: "";
+            position: absolute;
+            width: calc(100% - 2px);
+            height: calc(100% - 1px);
+            left: 0;
+            top: 4px;
+            border-radius: 12px;
+            border: 1px solid;
+            transition: 0.2s all;
+            border-color: #cf0;
+        }
+
+        &:hover::after{
+            top: 0;
+        }
+    }
+}
+
 /* -------------------- 투표하기 리스트 섹션 -------------------- */
 .vote-list-section{
     min-height: calc(100vh - 560px);

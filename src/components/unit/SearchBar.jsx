@@ -7,7 +7,7 @@ import './SearchBar.scss';
 import clearIcon from '../../assets/images/icons/clear-icon.svg';
 import searchIcon from '../../assets/images/icons/search-icon.svg';
 
-const SearchBar = ({ keyword, handleChange, handleClear }) => {
+const SearchBar = ({ keyword, handleChange, handleClear, hideTitle = false }) => {
   const { t } = useTranslation('main');
   const navigate = useNavigate();
 
@@ -18,7 +18,11 @@ const SearchBar = ({ keyword, handleChange, handleClear }) => {
 
   return (
     <section className="search-section">
-      <h2 className="search-section__tit">{t('What are you looking for?')}</h2>
+      {!hideTitle && (
+        <h2 className="search-section__tit">
+          {t('What are you looking for?')}
+        </h2>
+      )}
       <div className="search-section__search-bar">
         <input
           type="text"

@@ -31,6 +31,9 @@
 }
 
 .mic-history-table{
+    border: 1px solid rgb(34, 34, 34);
+    padding: 16px;
+    border-radius: 12px;
     &__tit{
         color: #fff;
         font-size: clamp(16px, 1.3vw, 20px);
@@ -44,6 +47,9 @@
         line-height: clamp(18px, 1.5vw, 22px);
         font-weight: 400;
         margin-bottom: 16px;
+    }
+    .table__wrapper{
+        margin-bottom: 24px;
     }
 }
 

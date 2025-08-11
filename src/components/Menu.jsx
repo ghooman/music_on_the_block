@@ -852,13 +852,13 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         className={activeSubItem === 'Songs' ? 'active' : ''}
                         onClick={() => handleSubItemClick('Songs')}
                       >
-                        <Link to="/my-page?category=AI+Services">{t('AI Services')}</Link>
+                        <Link to="/my-page?category=Songs">{t('Songs')}</Link>
                       </li>
                       <li
-                        className={activeSubItem === 'Songs' ? 'active' : ''}
-                        onClick={() => handleSubItemClick('Songs')}
+                        className={activeSubItem === 'NFTs' ? 'active' : ''}
+                        onClick={() => handleSubItemClick('NFTs')}
                       >
-                        <Link to="/my-page?category=Songs">{t('Songs')}</Link>
+                        <Link to="/my-page?category=NFTs">{t('NFTs')}</Link>
                       </li>
                       <li
                         className={activeSubItem === 'Connections' ? 'active' : ''}
@@ -867,10 +867,16 @@ const Menu = ({ active, setActive, setPreparingModal, login, setSignInModal, set
                         <Link to="/my-page?category=Connections">{t('Connections')}</Link>
                       </li>
                       <li
-                        className={activeSubItem === 'NFTs' ? 'active' : ''}
-                        onClick={() => handleSubItemClick('NFTs')}
+                        className={activeSubItem === 'Songs' ? 'active' : ''}
+                        onClick={() => handleSubItemClick('Songs')}
                       >
-                        <Link to="/my-page?category=NFTs">{t('NFTs')}</Link>
+                        <Link to="/my-page?category=AI+Services">{t('AI Services')}</Link>
+                      </li>
+                      <li
+                        className={activeSubItem === 'MIC Earning' ? 'active' : ''}
+                        onClick={() => handleSubItemClick('MIC Earning')}
+                      >
+                        <Link to="/my-page?category=MIC+Earning">{t('MIC Earning')}</Link>
                       </li>
                     </ul>
                   </div>

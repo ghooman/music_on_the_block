@@ -1,12 +1,20 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MicHistoryTable from '../../table/MicHistoryTable';
+import Pagination from '../../unit/Pagination';
 import './MicEarning.scss';
 
 function MicEarning() {
     const { t } = useTranslation('my_page');
+    const [page, setPage] = useState(1);
+    const viewCount = 10;
+
+    // 테스트용 데이터
     const micHistory = [
         { date: '2025-07-12T00:00:00Z', listening: 30, generated: 20, total: 50 },
     ];
+
+    const pagedData = micHistory.slice((page - 1) * viewCount, page * viewCount);
   return (
     <>
         <ul className='mic-stats'>
@@ -29,7 +37,7 @@ function MicEarning() {
             
             {/* MIC History Table */}
             <MicHistoryTable micHistory={micHistory} />
-
+            <Pagination totalCount={micHistory.length} viewCount={viewCount} page={page} />
         </section>
     
     </>

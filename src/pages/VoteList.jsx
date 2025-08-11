@@ -6,6 +6,7 @@ import VoteItem from '../components/unit/VoteItem';
 import SuccessModal from '../components/modal/SuccessModal';
 import ConfirmModal from '../components/modal/ConfirmModal';
 import Pagination from '../components/unit/Pagination';
+import VoteRegisterModal from '../components/modal/VoteRegisterModal';
 
 // 스타일
 import '../styles/VoteList.scss';
@@ -51,10 +52,11 @@ function VoteList() {
   const viewCount = 20;
   const pagedVoteList = voteList.slice((page - 1) * viewCount, page * viewCount);
 
-  // Modal
+  // Modal 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false); // 투표 등록 모달 추가
 
   const handleVoteSubmit = () => {
     setIsVoting(true);
@@ -67,9 +69,12 @@ function VoteList() {
 
   return (
     <>
-      <h2 className='album__content-list__title'>
-        인기곡 투표
-      </h2>
+      <div className='vote-list-title'>
+        <h2 className='album__content-list__title'>
+          인기곡 투표
+        </h2>
+        <button className='register-btn' onClick={() => setShowRegisterModal(true)}>이벤트 음악 등록</button>
+      </div>
       <Filter 
         aiServiceFilter={true} // 곡/비지엠 선택 필터
         songsSort={['Latest', 'Oldest']} // 최신순/오래된순 정렬 기준 필터
@@ -138,6 +143,19 @@ function VoteList() {
           content="소중한 한 표가 성공적으로 반영되었어요!"
           closeIcon={false}
           setShowSuccessModal={setShowSuccessModal}
+        />
+      )}
+
+
+      {/* '이벤트 음악 등록' 클릭 시 나오는 투표 등록 모달 */}
+      {showRegisterModal && (
+        <VoteRegisterModal
+          // ↓ 모달 닫기용 콜백 (컴포넌트 prop 이름에 맞춰 바꿔 주세요)
+          onClose={() => setShowRegisterModal(false)}
+          // 혹은 이런 네이밍일 수도 있어요:
+          // setShowVoteRegisterModal={setShowRegisterModal}
+          // setOpen={setShowRegisterModal}
+          // close={() => setShowRegisterModal(false)}
         />
       )}
     </>

@@ -21,6 +21,7 @@ import Connections from '../components/mypage/connections/Connections';
 import UnFollowModal from '../components/UnFollowModal';
 import NFTs from '../components/mypage/nfts/NFTs';
 import MicEarning from '../components/mypage/mic/MicEarning';
+import OtherConnections from '../components/mypage/connections/OtherConnections';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
@@ -79,7 +80,10 @@ const MyProfile = () => {
       <Tabs tabs={serviceTabObj} select={category} handleTab={handleTab} />
       {category === 'Songs' && <Songs username={userData?.name} isMyProfile token={token} />}
       {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
-      {category === 'Connections' && <Connections />}
+      {/* {category === 'Connections' && <Connections />} */}
+      {category === 'Connections' && (
+        <Connections ownerName={userData?.name} isSelf />
+      )}
       {category === 'AI Services' && <AiServices username={userData?.name} />}
       {category === 'MIC Earning' && <MicEarning username={userData?.name} isMyProfile />}
     </div>
@@ -108,7 +112,7 @@ const UserProfile = () => {
   const serviceTabObj = [
     { name: 'Songs', preparing: false },
     { name: 'NFTs', preparing: false },
-    { name: 'AI Services', preparing: false },
+    { name: 'Connections', preparing: false },
   ];
 
   const handleWalletConnect = (loggedIn, walletAddress) => {

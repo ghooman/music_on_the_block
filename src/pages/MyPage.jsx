@@ -335,19 +335,44 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                 src={userData?.profile || defaultCoverImg}
                 alt="profile"
               />
-              <p className="profile__info--name-text">{userData?.name}</p>
-              <div className="profile__info--level">
-                <p className="profile__info--level-text">Level</p>
-                {getUserGradeSquareIcon(userData?.user_rating) && (
-                  <img
-                    className="profile__info--level-icon"
-                    src={getUserGradeSquareIcon(userData?.user_rating)}
-                    alt="icon"
-                  />
-                )}
-                <p className="profile__info--level-rating">{userData?.user_rating}</p>
-              </div>
+              <div className="profile__info--profile-top">
+                <p className="profile__info--name-text">{userData?.name}</p>
+                <div className='profile__info--count'>
+                  <div className="profile__info--level">
+                    <p className="profile__info--level-text">Level</p>
+                    {getUserGradeSquareIcon(userData?.user_rating) && (
+                      <img
+                        className="profile__info--level-icon"
+                        src={getUserGradeSquareIcon(userData?.user_rating)}
+                        alt="icon"
+                      />
+                    )}
+                    <p className="profile__info--level-rating">{userData?.user_rating}</p>
+                  </div>
+                  <div className='profile__info--img-count'>
+                    {/* 해당 사용자의 모든 곡 재생 수 */}
+                    <span className='total-play-count'>125K</span>
+                    {/* 해당 사용자의 모든 곡 좋아요 수 */}
+                    <span className='total-like-count'>145</span>
+                  </div>
+                </div>
+                <div className="profile__record">
+                  <div className="profile__record--item">
+                    <p className="profile__record--item-title">{t('Songs')}</p>
+                    <p className="profile__record--item-value">{userData?.total_songs}</p>
+                  </div>
+                  <div className="profile__record--item">
+                    <p className="profile__record--item-title">{t('Following')}</p>
+                    <p className="profile__record--item-value">{userData?.followings}</p>
+                  </div>
+                  <div className="profile__record--item">
+                    <p className="profile__record--item-title">{t('Followers')}</p>
+                    <p className="profile__record--item-value">{userData?.followers}</p>
+                  </div>
+                </div> 
+              </div> 
             </div>
+
             {isMyProfile && (
               <div className="profile__info__btns">
                 <Link
@@ -361,10 +386,10 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                   {t('Edit profile')}
                 </Link>
               </div>
-            )}
+            )}          
           </div>
           {/* === */}
-          <div className="profile__record">
+          {/* <div className="profile__record">
             <div className="profile__record--item">
               <p className="profile__record--item-title">{t('Songs')}</p>
               <p className="profile__record--item-value">{userData?.total_songs}</p>
@@ -377,7 +402,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-title">{t('Followers')}</p>
               <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
-          </div>
+          </div> */}
           <div className="profile__desc">
             <p ref={contentRef} className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
               {content}

@@ -6,6 +6,10 @@ import VoteItem from '../components/unit/VoteItem';
 import SuccessModal from '../components/modal/SuccessModal';
 import ConfirmModal from '../components/modal/ConfirmModal';
 import Pagination from '../components/unit/Pagination';
+import VoteRegisterModal from '../components/modal/VoteRegisterModal';
+
+import SampleAlbumImg from '../assets/images/vote/vote-sample-album.png';
+import SampleArtistImg from '../assets/images/vote/vote-sample-artist.png';
 
 // 스타일
 import '../styles/VoteList.scss';
@@ -51,10 +55,16 @@ function VoteList() {
   const viewCount = 20;
   const pagedVoteList = voteList.slice((page - 1) * viewCount, page * viewCount);
 
-  // Modal
+  // Modal - 투표하기
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  // Modal - 음악 등록하기
+  const [selectedTracks, setSelectedTracks] = useState([]); 
+  const [showRegisterModal, setShowRegisterModal] = useState(false); // 투표 등록 모달 추가
+  const [showRegisterConfirm, setShowRegisterConfirm] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+
 
   const handleVoteSubmit = () => {
     setIsVoting(true);
@@ -65,11 +75,40 @@ function VoteList() {
     }, 1000); // 예시: 1초 후 완료
   };
 
+  const handleRegisterSelect = (tracks) => {
+    setSelectedTracks(tracks);
+    setShowRegisterModal(false);
+    setShowRegisterConfirm(true);
+  };
+
+  const dummyTracks = [
+  { 
+    id: 1, 
+    albumImage: SampleAlbumImg, 
+    musicTitle: 'Music name',  
+    artistImage: SampleArtistImg, 
+    artistName: 'Yolkhead' },
+  { 
+    id: 2,  
+    albumImage: SampleAlbumImg, 
+    musicTitle: 'Music name',    
+    artistImage: SampleArtistImg, 
+    artistName: 'Yolkhead' },
+  { 
+    id: 3,  
+    albumImage: SampleAlbumImg, 
+    musicTitle: 'Music name',        
+    artistImage: SampleArtistImg, 
+    artistName: 'Yolkhead' },
+];
   return (
     <>
-      <h2 className='album__content-list__title'>
-        인기곡 투표
-      </h2>
+      <div className='vote-list-title'>
+        <h2 className='album__content-list__title'>
+          인기곡 투표
+        </h2>
+        <button className='register-btn' onClick={() => setShowRegisterModal(true)}>이벤트 음악 등록</button>
+      </div>
       <Filter 
         aiServiceFilter={true} // 곡/비지엠 선택 필터
         songsSort={['Latest', 'Oldest']} // 최신순/오래된순 정렬 기준 필터
@@ -138,6 +177,29 @@ function VoteList() {
           content="소중한 한 표가 성공적으로 반영되었어요!"
           closeIcon={false}
           setShowSuccessModal={setShowSuccessModal}
+        />
+      )}
+
+
+      {/* '이벤트 음악 등록' 클릭 시 나오는 투표 등록 모달 */}
+      {showRegisterModal && (
+        <VoteRegisterModal
+          onClose={() => setShowRegisterModal(false)}
+          onSubmit={handleRegisterSelect} // 선택 결과
+          tracks={dummyTracks} 
+        />
+      )}
+      {/* 투표 등록 모달 내 '음악 등록' 클릭 시 나오는 컨펌 모달, '취소' 클릭해도 선택한 정보 그대로 남아있도록 부탁드립니다. */}
+      {showRegisterConfirm && (
+        <ConfirmModal
+          title={`총 ${selectedTracks.length} 개의 음악을 등록할까요?`}
+          customContent={<>선택한 음악이 전부 이벤트 음악으로 등록됩니다.</>}
+          cancelMessage="취소"
+          okMessage="확인"
+          // okHandler={handleRegisterSubmit}
+          setShowConfirmModal={setShowRegisterConfirm}
+          closeIcon={false}
+          loading={isRegistering}
         />
       )}
     </>

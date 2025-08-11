@@ -64,8 +64,10 @@
     }
 
     .profile__info--profile-image {
-      width: 112px;
-      height: 112px;
+      width: 100%;
+      height: 100%;
+      max-width: 112px;
+      max-height: 112px;
       object-fit: cover;
       border-radius: 100%;
     }
@@ -78,6 +80,7 @@
       font-family: Pretendard400;
       font-size: clamp(18px, 1.6vw, 24px);
       line-height: clamp(28px, 2.3vw, 34px);
+      margin-bottom: 4px;
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -89,6 +92,10 @@
       }
     }
     .profile__info--count{
+      display: flex;
+      column-gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
       .profile__info--img-count{
         span{
           padding-left: 22px;
@@ -99,13 +106,13 @@
         span::before{
           position: absolute;
           content: '';
-          width: 22px;
-          height: 22px;
+          width: 20px;
+          height: 20px;
           background-repeat: no-repeat;
           background-position: left center;
-          background-size: 22px;
+          background-size: 20px;
           left: 0;
-          top: -4px;
+          top: -2px;
         }
         .total-like-count{
           margin-left: 8px;

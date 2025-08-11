@@ -1,0 +1,58 @@
+.mic-stats{
+    display: flex;
+    width: 100%;
+    column-gap: 16px;
+    row-gap: 8px;
+    align-items: stretch;
+    margin-bottom: clamp(20px, 3.1vw, 45px);
+    
+    li{
+        padding: clamp(12px, 1.3vw, 20px) clamp(16px, 1.3vw, 20px);
+        flex: 0 0 calc((100% - 32px) / 3);
+        border: 1px solid rgba(255, 255, 255, 0.20);
+        border-radius: clamp(12px, 1.1vw, 16px);
+    }
+    &__tit{
+        display: block;
+        margin-bottom: 4px;
+        color: #767676;
+        font-size: clamp(12px, 0.9vw, 14px);
+        line-height: clmap(18px, 1.5vw, 22px);
+        font-weight: 400;
+    }
+    &__txt{
+        display: block;
+        color: #fff;
+        font-size: clamp(16px, 1.3vw, 20px);
+        line-height: clamp(24px, 2vw, 30px);
+        font-weight: 700;
+    }
+
+}
+
+.mic-history-table{
+    &__tit{
+        color: #fff;
+        font-size: clamp(16px, 1.3vw, 20px);
+        line-height: clamp(24px, 2vw, 30px);
+        margin-bottom: 4px;
+        font-weight: 700;
+    }
+    &__txt{
+        color: #767676;
+        font-size: clamp(12px, 0.9vw, 14px);
+        line-height: clamp(18px, 1.5vw, 22px);
+        font-weight: 400;
+        margin-bottom: 16px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mic-stats{
+        flex-direction: column;
+
+        li{
+            flex: 0 0 100%;
+        }
+    }
+}

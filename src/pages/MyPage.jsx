@@ -20,6 +20,7 @@ import PreparingModal from '../components/PreparingModal';
 import Connections from '../components/mypage/connections/Connections';
 import UnFollowModal from '../components/UnFollowModal';
 import NFTs from '../components/mypage/nfts/NFTs';
+import MicEarning from '../components/mypage/mic/MicEarning';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
@@ -56,11 +57,13 @@ const MyProfile = () => {
 
   const category = searchParams.get('category');
 
+  // 마이페이지 : Music, NFT, Connections, AI Searvice, MIC Earning 노출
   const serviceTabObj = [
     { name: 'Songs', preparing: false },
     { name: 'NFTs', preparing: false },
     { name: 'Connections', preparing: false },
     { name: 'AI Services', preparing: false },
+    { name: 'MIC Earning', preparing: false },
   ];
 
   const handleTab = tab => {
@@ -78,6 +81,7 @@ const MyProfile = () => {
       {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
       {category === 'Connections' && <Connections />}
       {category === 'AI Services' && <AiServices username={userData?.name} />}
+      {category === 'MIC Earning' && <MicEarning username={userData?.name} isMyProfile />}
     </div>
   );
 };
@@ -100,6 +104,7 @@ const UserProfile = () => {
   const username = searchParams.get('username');
   const category = searchParams.get('category');
 
+  // 다른 사람의 마이페이지 : SONGS, NFT, CONNECTIONS 노출
   const serviceTabObj = [
     { name: 'Songs', preparing: false },
     { name: 'NFTs', preparing: false },

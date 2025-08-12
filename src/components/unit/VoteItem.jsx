@@ -17,6 +17,7 @@ function VoteItem({
   detailLink,
   isVoted = false, // 투표 전 btn--vote
   onVoteClick,
+  disabled = false,
 }) {
   return (
     <div className="vote-item">
@@ -46,7 +47,9 @@ function VoteItem({
         <strong>{voteCount}</strong>
       </div>
       <button
-        className={`vote-item__btn ${isVoted ? 'vote-item__btn--success' : 'vote-item__btn--vote'}`}
+        className={`vote-item__btn ${
+          disabled ? 'vote-item__btn--success' : 'vote-item__btn--vote'
+        }`}
         onClick={onVoteClick}
       >
         {isVoted ? '투표를 완료하였습니다.' : '투표하기'}

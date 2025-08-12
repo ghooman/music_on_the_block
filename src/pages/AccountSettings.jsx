@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 // 이미지
 import demoUser from '../assets/images/account/demo-user1.png';
 import defaultProfileImage from '../assets/images/header/logo.svg';
-import editIcon1 from '../assets/images/icon/picture1.svg';
+import editIcon1 from '../assets/images/icons/icons-camera.svg';
 import demoBg from '../assets/images/mypage/demo-bg.png';
 import closeIcon from '../assets/images/icon/close.svg';
 import dragIcon from '../assets/images/icon/drag_handle.svg';
@@ -21,6 +21,7 @@ import ErrorModal from '../components/modal/ErrorModal';
 import Loading from '../components/CreateLoading';
 
 // import { checkArtistName, checkEmail } from "../api/DuplicateCheck";
+
 
 const urlRegex = /^(https?|ftp):\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
 
@@ -286,7 +287,7 @@ const AccountSettings = () => {
             style={{ backgroundImage: `url(${memoPreview})` }}
           >
             <label className="background-box__edit-btn" htmlFor="bg-image">
-              <img src={editIcon1} alt="edit" /> <span>{t('Update')}</span>
+              <img src={editIcon1} alt="edit" />
             </label>
             <input
               type="file"

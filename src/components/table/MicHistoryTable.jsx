@@ -2,12 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import NoneContent from '../unit/NoneContent';
 import { Table, TableBody, TableHeader, TableItem, TableWrapper } from '../table/TableCompositions';
+import { format } from 'date-fns';
 
 
 function MicHistoryTable() {
     const { t } = useTranslation('my_page');
     const micHistory = [ 
-        { date: '2025-07-12T00:00:00Z', listening: 30, generated: 20, total: 50 },
+        { date: '2025-07-12', listening: 30, generated: 20, total: 50 },
     ];
   return (
     <TableWrapper>
@@ -23,8 +24,7 @@ function MicHistoryTable() {
           {micHistory.map((item, idx) => (
             <React.Fragment key={idx}>
               <TableItem>
-                {/* 날짜는 유틸 formatLocalTime을 쓰는 TableItem.Date 활용 */}
-                <TableItem.Date date={item.date} />
+                <TableItem.Text text={format(new Date(item.date), 'yyyy. MM. dd')} />
                 {/* 숫자는 천단위 표시 */}
                 <TableItem.Text text={Number(item.listening ?? 0).toLocaleString()} />
                 <TableItem.Text text={Number(item.generated ?? 0).toLocaleString()} />

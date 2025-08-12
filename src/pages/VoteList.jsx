@@ -34,7 +34,11 @@ function VoteList() {
   const [songCnt, setSongCnt] = useState(0);
   // 남은 투표 가능 횟수 상태
   const [remainVoteCnt, setRemainVoteCnt] = useState(0);
+  // 신청곡 추가 권한 유저 지갑주소 상태
+  const [masterUserWallet, setMasterUserWallet] = useState([]);
 
+  const handleChange = e => setSearch(e.target.value);
+  const handleClear = () => setSearch('');
   // ----------- 필터링 -----------
   // UI → 서버 파라미터 매핑
   const TYPE_MAP = { Song: 'song', BGM: 'bgm' };
@@ -49,20 +53,6 @@ function VoteList() {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   // 한 페이지에 보여줄 데이터 개수 (API 문서에서 limit=15로 설정되어 있음)
   const itemsPerPage = 15;
-
-  // ------------ 이벤트 음악 등록 --------------
-  // 검색어 가져오기
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialKeyword = searchParams.get('keyword') || '';
-  const [keyword, setKeyword] = useState(initialKeyword); // 입력 중인 값
-  const [confirmedKeyword, setConfirmedKeyword] = useState(initialKeyword); // 실제 검색 기준
-
-  // 검색어 상태
-  const handleChange = e => setKeyword(e.target.value);
-  const handleClear = () => setKeyword('');
-
-  // 검색된 리스트 상태
-  const [addSearchSongList, setAddSearchSongList] = useState([]);
 
   // Modal - 투표하기
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -206,32 +196,28 @@ function VoteList() {
     }
   };
 
-  // // 곡&아티스트&앨범 검색 API 함수
+  // 신청곡 추가 권한 유저 지갑주소 함수
+  const handleGetMasterUserWallet = async () => {
+    try {
+      const res = await axios.get(`${serverAPI}/api/music/popular/vote/song/create/wallet/address`);
+      console.log('유저 지갑주소 모음', res.data);
+      setMasterUserWallet(res.data);
+    } catch (err) {
+      console.error('신청곡 추가 권한 유저 지갑주소 함수 error입니당', err);
+    }
+  };
+
+  // 유저 지갑 주소에 따라서 마스터계정 유무 판별
   useEffect(() => {
-    if (!confirmedKeyword.trim()) return;
+    handleGetMasterUserWallet();
+  }, [walletAddress]);
 
-    setIsPageLoading(true);
-
-    const fetchSongs = axios.get(`${serverAPI}/api/music/search/list`, {
-      params: {
-        search_keyword: confirmedKeyword,
-        page: 1,
-        limit: 9999,
-        wallet_address: walletAddress?.address,
-      },
-    });
-
-    Promise.all([fetchSongs])
-      .then(([songsRes]) => {
-        setAddSearchSongList(songsRes.data.data_list);
-      })
-      .catch(err => {
-        console.error('통합 검색 실패:', err);
-      })
-      .finally(() => {
-        setIsPageLoading(false);
-      });
-  }, [confirmedKeyword]);
+  // 마스터 유저 지갑주소 리스트에 현재 지갑이 있는지 판별 (대소문자/공백 정규화)
+  const isMasterWallet =
+    !!walletAddress &&
+    masterUserWallet
+      ?.map(v => (v?.address ?? v)?.toString().trim().toLowerCase())
+      .includes((walletAddress?.address ?? walletAddress)?.toString().trim().toLowerCase());
 
   // 4. useEffect 수정 - currentPage가 변경될 때마다 API 호출
   // 신청된 곡 리스트 업데이트
@@ -272,15 +258,17 @@ function VoteList() {
     <>
       <div className="vote-list-title">
         <h2 className="album__content-list__title">인기곡 투표</h2>
-        <button
-          className="register-btn"
-          onClick={() => {
-            console.log('지갑주소!!', walletAddress);
-            setShowRegisterModal(true);
-          }}
-        >
-          이벤트 음악 등록
-        </button>
+        {isMasterWallet && (
+          <button
+            className="register-btn"
+            onClick={() => {
+              console.log('지갑주소!!', walletAddress);
+              setShowRegisterModal(true);
+            }}
+          >
+            이벤트 음악 등록
+          </button>
+        )}
       </div>
       <Filter
         aiServiceFilter={true}

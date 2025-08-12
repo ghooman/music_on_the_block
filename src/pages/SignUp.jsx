@@ -242,6 +242,24 @@ const AIDetailedSettings = ({
             <input value={walletAddress?.address} readOnly />
           </div>
         </div>
+
+        {/* 가맹/유저코드 추가 */}
+        {/* <div className="input-box">
+          <p className="input-box__title">
+            {t('Franchise/User Code')}
+          </p>
+          <div className="input-box__cover">
+          <input
+            placeholder={t('Please enter the franchise or user code')}
+            value={formData.code}                                
+            />
+
+            <button className="btn">
+              {t('Check')}
+            </button>
+          </div>
+          <p className="err-txt">{t('This code does not exist.')}</p>
+        </div> */}
       </div>
 
       <div className="check-list">
@@ -365,12 +383,17 @@ function SignUp() {
     artistName: '',
     email: '',
     introduction: '',
+    code: '',
   });
   const [selectedImageFile, setSelectedImageFile] = useState(null);
   // 선택한 장르를 관리하는 상태 추가
   const [selectedGenre, setSelectedGenre] = useState(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  // 가맹/유저코드
+  const [passCode, setPassCode] = useState(false);
+  const [codeErrorMessage, setCodeErrorMessage] = useState('');
 
   useEffect(() => {
     if (!walletAddress) {

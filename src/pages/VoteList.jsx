@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import Filter from '../components/unit/Filter';
 import SearchBar from '../components/unit/SearchBar';
@@ -48,6 +49,20 @@ function VoteList() {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   // 한 페이지에 보여줄 데이터 개수 (API 문서에서 limit=15로 설정되어 있음)
   const itemsPerPage = 15;
+
+  // ------------ 이벤트 음악 등록 --------------
+  // 검색어 가져오기
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialKeyword = searchParams.get('keyword') || '';
+  const [keyword, setKeyword] = useState(initialKeyword); // 입력 중인 값
+  const [confirmedKeyword, setConfirmedKeyword] = useState(initialKeyword); // 실제 검색 기준
+
+  // 검색어 상태
+  const handleChange = e => setKeyword(e.target.value);
+  const handleClear = () => setKeyword('');
+
+  // 검색된 리스트 상태
+  const [addSearchSongList, setAddSearchSongList] = useState([]);
 
   // Modal - 투표하기
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -191,18 +206,38 @@ function VoteList() {
     }
   };
 
+  // // 곡&아티스트&앨범 검색 API 함수
+  useEffect(() => {
+    if (!confirmedKeyword.trim()) return;
+
+    setIsPageLoading(true);
+
+    const fetchSongs = axios.get(`${serverAPI}/api/music/search/list`, {
+      params: {
+        search_keyword: confirmedKeyword,
+        page: 1,
+        limit: 9999,
+        wallet_address: walletAddress?.address,
+      },
+    });
+
+    Promise.all([fetchSongs])
+      .then(([songsRes]) => {
+        setAddSearchSongList(songsRes.data.data_list);
+      })
+      .catch(err => {
+        console.error('통합 검색 실패:', err);
+      })
+      .finally(() => {
+        setIsPageLoading(false);
+      });
+  }, [confirmedKeyword]);
+
   // 4. useEffect 수정 - currentPage가 변경될 때마다 API 호출
   // 신청된 곡 리스트 업데이트
   useEffect(() => {
     handleGetSongList({ page: currentPage });
   }, [currentPage, walletAddress]);
-
-  const handleChange = e => {
-    setSearch(e.target.value);
-  };
-  const handleClear = () => {
-    setSearch('');
-  };
 
   const handleRegisterSelect = tracks => {
     setSelectedTracks(tracks);

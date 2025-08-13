@@ -6,7 +6,7 @@
   width: 100%;
   padding: 30px 0;
   &__inner{
-    padding: 24px 2%;
+    padding: clamp(20px, 1.6vw, 24px) clamp(16px, 2vw, 30px);
     display: flex;
     flex-direction: column;
     row-gap: 24px;
@@ -43,6 +43,13 @@
     &__prompt-box{
       .textarea-content{
         position: relative;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        row-gap: 8px;
+        flex: 1 1 0;
+        min-height: 0;
+
       }
       .custom-tit{
         font-size: 14px;
@@ -50,7 +57,6 @@
         font-weight: 700;
         color: #fff;
         display: block;
-        margin-bottom: 8px;
       }
       .chat-count{
         position: absolute;
@@ -65,8 +71,8 @@
     }
     &__textarea{
       padding: 20px;
-      height: 45vh;
-      min-height: 300px;
+      height: clamp(350px, 45vh, 520px);
+      min-height: clamp(190px, 20vw, 300px);
       resize: none;
       font-size: clamp(12px, 1.2vw, 14px);
       line-height: clamp(18px, 1.8vw, 22px);
@@ -86,23 +92,49 @@
       display: flex;
       column-gap: 2%;
       align-items: stretch;
+      height: 100%;
       row-gap: clamp(12px, 1.3vw, 20px);
+      max-height: clamp(350px, 45vh, 520px);
 
       .custom{
         &-left,
         &-right{
           flex: 1 1 49%;
+          min-height: 0;
         }
 
         &-left{
+          display: flex;
+          flex-direction: column;
           .custom-title{
             margin-bottom: 20px;
+            flex: 0 0 auto;
 
             input{
               background-color: rgba(255, 255, 255, 0.05);
+              font-size: clamp(12px, 1.2vw, 14px);
+              line-height: clamp(18px, 1.8vw, 22px);
+              font-weight: 400;
+              &::placeholder{
+                font-size: clamp(12px, 1.2vw, 14px);
+                color: #767676;
+                font-weight: 400;
+              }
+              &:focus::placeholder{
+                visibility: hidden;
+              }
             }
           }
         }
+        .textarea-content{
+          flex: 1 1 0 !important;
+          min-height: 0 !important;
+        }
+      }
+      textarea{
+        flex: 1 1 auto;
+        min-height: 0;
+        
       }
     }
     .btn-lyrics-modal{
@@ -353,6 +385,7 @@
     }
     &__inner__custom{
       flex-direction: column;
+      height: 100%;
       .custom-left,
       .custom-right{
         flex: 1 1 100%;

@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Filter from '../components/unit/Filter';
-import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
 import SuccessModal from '../components/modal/SuccessModal';
 import ConfirmModal from '../components/modal/ConfirmModal';

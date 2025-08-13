@@ -51,6 +51,7 @@ const Filter = ({
   nftSort,
   collectionSort,
   userSort,
+  onApply, // ← 추가
 }) => {
   const { t } = useTranslation('module');
 
@@ -96,12 +97,34 @@ const Filter = ({
     userSort_,
   ];
 
+  // const handleQueryParameter = () => {
+  //   setSearchParams(prev => {
+  //     const parameters = { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
+  //     return Object.fromEntries(
+  //       Object.entries(parameters).filter(([key, value]) => value !== null)
+  //     );
+  //   });
+  //   setModal(false);
+  // };
+
   const handleQueryParameter = () => {
     setSearchParams(prev => {
-      const parameters = { ...Object.fromEntries(prev), ...paramsObj, ...(page && { page: 1 }) };
-      return Object.fromEntries(
-        Object.entries(parameters).filter(([key, value]) => value !== null)
+      const prevObj = Object.fromEntries(prev);
+      const parameters = {
+        ...prevObj,
+        ...paramsObj,
+        ...(page && { page: 1 }),
+      };
+
+      // null 값 제거
+      const cleaned = Object.fromEntries(
+        Object.entries(parameters).filter(([_, value]) => value !== null)
       );
+
+      // 부모에게 알림
+      onApply?.(cleaned); // ← 추가
+
+      return cleaned;
     });
     setModal(false);
   };

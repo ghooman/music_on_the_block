@@ -1,6 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AuthContext } from '../contexts/AuthContext';
+
 import Filter from '../components/unit/Filter';
 import VoteItem from '../components/unit/VoteItem';
 import SuccessModal from '../components/modal/SuccessModal';
@@ -13,111 +15,266 @@ import SampleArtistImg from '../assets/images/vote/vote-sample-artist.png';
 import clearIcon from '../assets/images/icons/clear-icon.svg';
 import searchIcon from '../assets/images/icons/search-icon.svg';
 
+import Loading from '../components/Loading.js';
+
 // 스타일
 import '../styles/VoteList.scss';
 import '../components/unit/SearchBar.scss';
 
+import axios from 'axios';
+import { Wallet } from 'ethers';
+
+const serverAPI = process.env.REACT_APP_SERVER_API;
+
+
 function VoteList() {
-    const { t } = useTranslation('main');
+  const { t } = useTranslation('main');
+  const { token, walletAddress } = useContext(AuthContext);
+  const isLoggedIn = Boolean(token);
+  // -------------------- 상태 모음 -------------------------------------------------
+
   // search-bar : 타이핑 시 clear 버튼 노출, clear 버튼 클릭 시 setSearch 리셋
   const [search, setSearch] = useState('');
-  const handleChange = (e) => {
+  // 페이지 로딩
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  // 신청된 곡 리스트 상태
+  const [songList, setSongList] = useState([]);
+  const [songCnt, setSongCnt] = useState(0);
+  // 남은 투표 가능 횟수 상태
+  const [remainVoteCnt, setRemainVoteCnt] = useState(0);
+
+  // ----------- 필터링 -----------
+  // UI → 서버 파라미터 매핑
+  const TYPE_MAP = { Song: 'song', BGM: 'bgm' };
+  const SORT_MAP = { Latest: 'latest', Oldest: 'oldest', 'Most Voted': 'vote_desc' };
+
+  // 필터 선택 상태 (UI 라벨 기준으로 저장)
+  const [selectedTypeLabel, setSelectedTypeLabel] = useState(null); // 'Song' | 'BGM' | null
+  const [selectedSortLabel, setSelectedSortLabel] = useState('Most Voted'); // 기본값 예시
+
+  // ----------- 페이지네이션 -----------
+  // 페이지네이션을 위한 상태들
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  // 한 페이지에 보여줄 데이터 개수 (API 문서에서 limit=15로 설정되어 있음)
+  const itemsPerPage = 15;
+
+  // Modal - 투표하기
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isVoting, setIsVoting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false); // 오류났을경우
+  const [showNoVoteLeftModal, setShowNoVoteLeftModal] = useState(false); // 투표횟수 0회
+
+  // 선택된 곡의 ID를 저장하는 상태 변수 추가
+  const [selectedSongId, setSelectedSongId] = useState(null);
+
+  // Modal - 음악 등록하기
+  const [selectedTracks, setSelectedTracks] = useState([]);
+  const [showRegisterModal, setShowRegisterModal] = useState(false); // 투표 등록 모달 추가
+  const [showRegisterConfirm, setShowRegisterConfirm] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  // -------------------- 함수 모음 -------------------------------------------------
+  // 안전하게 문자열 주소만 추출
+  const walletAddr =
+    typeof walletAddress === 'string' ? walletAddress : walletAddress?.address ?? '';
+
+  // 신청된 곡 리스트 가져오는 함수
+  // 리스트 가져오기: 인자에 type/sort 라벨을 받을 수 있게
+  const handleGetSongList = async ({
+    page = 1,
+    typeLabel = selectedTypeLabel,
+    sortLabel = selectedSortLabel,
+  } = {}) => {
+    try {
+      setIsPageLoading(true);
+
+      const type = TYPE_MAP[typeLabel] ?? undefined; // 'song' | 'bgm' | undefined
+      const sort = SORT_MAP[sortLabel] ?? undefined; // 'latest' | 'oldest' | 'vote_desc' | undefined
+
+      const finalParams = {
+        page,
+        limit: itemsPerPage,
+        ...(type && { type }),
+        ...(sort && { sort }),
+        ...(walletAddr && { wallet_address: walletAddr }),
+      };
+
+      console.log('[GET /popular/vote/song params]', finalParams);
+
+      const res = await axios.get(`${serverAPI}/api/music/popular/vote/song`, {
+        params: finalParams,
+      });
+
+      const list = res.data.data_list ?? [];
+      const cnt = res.data.total_cnt ?? 0;
+
+      console.log('신청된 곡 리스트 가져오기 완료!', list);
+      setSongList(list);
+      setSongCnt(cnt);
+    } catch (error) {
+      console.error('신청된 곡 리스트 가져오는 함수 error입니당', error);
+      setSongList([]);
+    } finally {
+      setIsPageLoading(false);
+    }
+  };
+
+  // 남은 투표 가능 횟수 조회
+  const handleRemainVoteCount = async () => {
+    try {
+      const res = await axios.get(`${serverAPI}/api/user/vote/cnt`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const cnt = res.data.cnt;
+      console.log('남은 투표 가능 횟수 조회하기 완료!', cnt);
+      setRemainVoteCnt(cnt);
+    } catch (error) {
+      console.error('남은 투표 가능 횟수 조회하기 error입니당', error);
+    }
+  };
+
+  // 실패 detail → 내부 reason 매핑
+  const mapDetailToReason = detail => {
+    switch (detail) {
+      case 'Already Vote Song':
+        return 'already_voted';
+      case 'No vote count':
+        return 'no_vote_count';
+      default:
+        return 'unknown';
+    }
+  };
+
+  // 곡 투표하는 함수
+  const handleVoteSong = async songId => {
+    try {
+      const id = Number(songId);
+      const res = await axios.post(`${serverAPI}/api/music/${id}/vote`, null, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.data?.status === 'success') {
+        await handleRemainVoteCount();
+        await handleGetSongList({ page: currentPage });
+        return { ok: true };
+      }
+
+      return { ok: false, reason: mapDetailToReason(res.data?.detail) };
+    } catch (error) {
+      const detail = error.response?.data?.detail;
+      console.error('곡 투표하기 함수 error입니당', error);
+      return { ok: false, reason: mapDetailToReason(detail) };
+    }
+  };
+
+  // 곡 투표 제출하는 함수
+  const handleVoteSubmit = async () => {
+    if (!selectedSongId || isVoting) return;
+
+    if (remainVoteCnt <= 0) {
+      setShowConfirmModal(false);
+      setShowNoVoteLeftModal(true);
+      return;
+    }
+
+    setIsVoting(true);
+    try {
+      const result = await handleVoteSong(selectedSongId);
+
+      if (result.ok) {
+        setShowConfirmModal(false);
+        setShowSuccessModal(true);
+      } else {
+        setShowConfirmModal(false);
+        if (result.reason === 'no_vote_count') setShowNoVoteLeftModal(true);
+        else if (result.reason === 'already_voted') setShowFailModal(true);
+        else setShowFailModal(true);
+      }
+    } catch (e) {
+      console.error('투표 제출 중 오류', e);
+      setShowConfirmModal(false);
+      setShowFailModal(true);
+    } finally {
+      setIsVoting(false);
+    }
+  };
+
+  // 4. useEffect 수정 - currentPage가 변경될 때마다 API 호출
+  // 신청된 곡 리스트 업데이트
+  useEffect(() => {
+    handleGetSongList({ page: currentPage });
+  }, [currentPage, walletAddress]);
+
+  const handleChange = e => {
     setSearch(e.target.value);
   };
   const handleClear = () => {
     setSearch('');
   };
 
-  // VoteItem Data
-  const voteList = [
-    {
-      albumImage: '',
-      genre: "BGM",
-      playCount: "125K",
-      heartCount: "145",
-      musicTitle: "Music name",
-      artistImage: '',
-      artistName: 'Yolkhead',
-      voteCount: '500 ',
-      isVoted: false
-    },
-    {
-      albumImage: '',
-      genre: "BGM",
-      playCount: "125K",
-      heartCount: "145",
-      musicTitle: "Music name",
-      artistImage: '',
-      artistName: 'Yolkhead',
-      voteCount: '500 ',
-      isVoted: true
-    }
-  ]
-
-  // Pagination
-  const [page, setPage] = useState(1);
-  const viewCount = 20;
-  const pagedVoteList = voteList.slice((page - 1) * viewCount, page * viewCount);
-
-  // Modal - 투표하기
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [isVoting, setIsVoting] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  // Modal - 음악 등록하기
-  const [selectedTracks, setSelectedTracks] = useState([]); 
-  const [showRegisterModal, setShowRegisterModal] = useState(false); // 투표 등록 모달 추가
-  const [showRegisterConfirm, setShowRegisterConfirm] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
-
-
-  const handleVoteSubmit = () => {
-    setIsVoting(true);
-    setTimeout(() => {
-      setIsVoting(false);
-      setShowConfirmModal(false);
-      setShowSuccessModal(true);
-    }, 1000); // 예시: 1초 후 완료
-  };
-
-  const handleRegisterSelect = (tracks) => {
+  const handleRegisterSelect = tracks => {
     setSelectedTracks(tracks);
     setShowRegisterModal(false);
     setShowRegisterConfirm(true);
   };
 
   const dummyTracks = [
-  { 
-    id: 1, 
-    albumImage: SampleAlbumImg, 
-    musicTitle: 'Music name',  
-    artistImage: SampleArtistImg, 
-    artistName: 'Yolkhead' },
-  { 
-    id: 2,  
-    albumImage: SampleAlbumImg, 
-    musicTitle: 'Music name',    
-    artistImage: SampleArtistImg, 
-    artistName: 'Yolkhead' },
-  { 
-    id: 3,  
-    albumImage: SampleAlbumImg, 
-    musicTitle: 'Music name',        
-    artistImage: SampleArtistImg, 
-    artistName: 'Yolkhead' },
-];
+    {
+      id: 1,
+      albumImage: SampleAlbumImg,
+      musicTitle: 'Music name',
+      artistImage: SampleArtistImg,
+      artistName: 'Yolkhead',
+    },
+    {
+      id: 2,
+      albumImage: SampleAlbumImg,
+      musicTitle: 'Music name',
+      artistImage: SampleArtistImg,
+      artistName: 'Yolkhead',
+    },
+    {
+      id: 3,
+      albumImage: SampleAlbumImg,
+      musicTitle: 'Music name',
+      artistImage: SampleArtistImg,
+      artistName: 'Yolkhead',
+    },
+  ];
   return (
     <>
-      <div className='vote-list-title'>
-        <h2 className='album__content-list__title'>
-          인기곡 투표
-        </h2>
-        <button className='register-btn' onClick={() => setShowRegisterModal(true)}>이벤트 음악 등록</button>
+      <div className="vote-list-title">
+        <h2 className="album__content-list__title">인기곡 투표</h2>
+        <button
+          className="register-btn"
+          onClick={() => {
+            console.log('지갑주소!!', walletAddress);
+            setShowRegisterModal(true);
+          }}
+        >
+          이벤트 음악 등록
+        </button>
       </div>
-      <Filter 
-        aiServiceFilter={true} // 곡/비지엠 선택 필터
-        songsSort={['Latest', 'Oldest']} // 최신순/오래된순 정렬 기준 필터
+
+
+      <Filter
+        aiServiceFilter={true}
+        songsSort={['Latest', 'Oldest']}
+        onApply={params => {
+          // params 예: { ai_service_filter: 'Song', songs_sort: 'Latest', page: 1, ... }
+          const nextTypeLabel = params?.ai_service_filter ?? null; // 'Song' | 'BGM' | null
+          const nextSortLabel = params?.songs_sort ?? 'Most Voted'; // 'Most Voted' | 'Latest' | 'Oldest'
+
+          setSelectedTypeLabel(nextTypeLabel);
+          setSelectedSortLabel(nextSortLabel);
+          setCurrentPage(1);
+
+          // 바로 조회 (라벨을 인자로 넘겨 안전하게)
+          handleGetSongList({ page: 1, typeLabel: nextTypeLabel, sortLabel: nextSortLabel });
+        }}
       />
-      <section className="search-section">
+       <section className="search-section">
         <h2 className="search-section__tit">
           {t('What are you looking for?')}
         </h2>
@@ -155,36 +312,52 @@ function VoteList() {
           </div>
         </div>
       </section>
-      <div className='vote-list-section'>
-        {voteList.length === 0 ? (
-          <p className="no-result-txt">이벤트에 접수된 곡을 정리 중이에요!</p>
-        ) : (
+
+      <div className="vote-list-section">
+        {isPageLoading && (
+          <div className="result-loading">
+            <Loading />
+          </div>
+        )}
+
+        {!isPageLoading && (
           <>
-          <ul className="vote-list">
-            {voteList.map((item, index) => (
-              <li className="vote-list__item" key={`vote-item-${index}`}>
-                <VoteItem
-                  albumImage={item.albumImage}
-                  genre={item.genre}
-                  playCount={item.playCount}
-                  heartCount={item.heartCount}
-                  musicTitle={item.musicTitle}
-                  artistImage={item.artistImage}
-                  artistName={item.artistName}
-                  voteCount={item.voteCount}
-                  isVoted={item.isVoted}
-                  onVoteClick={() => setShowConfirmModal(true)}
-                  // detailLink={`/song-detail/${item.id}`} -> 곡의 상세 페이지로 이동
+            {songList.length === 0 ? (
+              <p className="no-result-txt">이벤트에 접수된 곡을 정리 중이에요!</p>
+            ) : (
+              <>
+                <ul className="vote-list">
+                  {songList.map((item, index) => (
+                    <li className="vote-list__item" key={`vote-item-${index}`}>
+                      <VoteItem
+                        albumImage={item.cover_image}
+                        type={item.type}
+                        playCount={item.play_cnt}
+                        likeCount={item.like_cnt}
+                        musicTitle={item.song_name}
+                        artistImage={item.artist_profile_image}
+                        artistName={item.artist_name}
+                        voteCount={item.vote_cnt}
+                        isVoted={item.voted_by_me}
+                        disabled={!isLoggedIn || item.voted_by_me || isVoting}
+                        onVoteClick={() => {
+                          setSelectedSongId(item.song_id); // 선택된 곡 ID 저장
+                          setShowConfirmModal(true); // 모달 열기
+                          handleRemainVoteCount(); // 남은 투표 횟수
+                        }}
+                        detailLink={`/song-detail/${item.song_id}`} // -> 곡의 상세 페이지로 이동
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <Pagination
+                  totalCount={songCnt}
+                  viewCount={itemsPerPage}
+                  page={currentPage}
+                  handler={setCurrentPage}
                 />
-              </li>
-            ))}
-          </ul>
-          <Pagination
-            totalCount={voteList.length}
-            viewCount={viewCount}
-            page={page}
-            setPage={setPage}
-          />
+              </>
+            )}
           </>
         )}
       </div>
@@ -195,13 +368,19 @@ function VoteList() {
           title="이 음악에 투표하시겠어요?"
           customContent={
             <>
-            계정 당 투표는 3회만 가능하며, 재투표 및 취소가 불가능하니 신중하게 투표해 주세요.
-            <p className='vote-txt'>현재 <b className='color-green'><span className='color-green'>3</span>회</b> 투표할 수 있습니다.</p>
+              계정 당 투표는 3회만 가능하며, 재투표 및 취소가 불가능하니 신중하게 투표해 주세요.
+              <p className="vote-txt">
+                현재{' '}
+                <b className="color-green">
+                  <span className="color-green">{remainVoteCnt}</span>회
+                </b>{' '}
+                투표할 수 있습니다.
+              </p>
             </>
           }
           cancelMessage="취소"
           okMessage="투표"
-          okHandler={handleVoteSubmit}
+          okHandler={handleVoteSubmit} // 투표 제출
           setShowConfirmModal={setShowConfirmModal}
           closeIcon={false}
           loading={isVoting}
@@ -210,20 +389,37 @@ function VoteList() {
       {/* 투표 컨펌 모달 내 '투표' 클릭 후, 투표 완료 시 나오는 성공 모달 */}
       {showSuccessModal && (
         <SuccessModal
-          title="투표 완료"
+          title="투표 완료!"
           content="소중한 한 표가 성공적으로 반영되었어요!"
           closeIcon={false}
-          setShowSuccessModal={setShowSuccessModal}
+          onClose={setShowSuccessModal}
         />
       )}
-
+      {/* 투표 컨펌 모달 내 '투표' 클릭 후, 투표 오류 시 나오는 오류 모달 */}
+      {showFailModal && (
+        <SuccessModal
+          title="통신 중 문제가 발생했어요."
+          content="다시 시도해주세요."
+          closeIcon={false}
+          onClose={setShowFailModal}
+        />
+      )}
+      {/* 출제곡 리스트 중 '투표하기' 클릭 시 나오는 투표 컨펌 모달 -> 유저의 남은 투표 횟수 0회일 경우 */}
+      {showNoVoteLeftModal && (
+        <SuccessModal
+          title="투표 기회를 모두 소진하였어요."
+          content="3회의 투표기회를 모두 소진하여 더 이상 투표할 수 없어요!"
+          closeIcon={false}
+          onClose={setShowNoVoteLeftModal}
+        />
+      )}
 
       {/* '이벤트 음악 등록' 클릭 시 나오는 투표 등록 모달 */}
       {showRegisterModal && (
         <VoteRegisterModal
           onClose={() => setShowRegisterModal(false)}
           onSubmit={handleRegisterSelect} // 선택 결과
-          tracks={dummyTracks} 
+          tracks={dummyTracks}
         />
       )}
       {/* 투표 등록 모달 내 '음악 등록' 클릭 시 나오는 컨펌 모달, '취소' 클릭해도 선택한 정보 그대로 남아있도록 부탁드립니다. */}
@@ -240,7 +436,7 @@ function VoteList() {
         />
       )}
     </>
-  )
+  );
 }
 
-export default VoteList
+export default VoteList;

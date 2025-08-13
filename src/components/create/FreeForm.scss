@@ -40,8 +40,18 @@
         }
       }
     }
-    &__textarea-box{
-      position: relative;
+    &__prompt-box{
+      .textarea-content{
+        position: relative;
+      }
+      .custom-tit{
+        font-size: 14px;
+        line-height: 22px;
+        font-weight: 700;
+        color: #fff;
+        display: block;
+        margin-bottom: 8px;
+      }
       .chat-count{
         position: absolute;
         right: 20px;
@@ -69,6 +79,30 @@
       }
       &:focus::placeholder{
         visibility: hidden;
+      }
+    }
+    // 커스텀 모드 START
+    &__custom{
+      display: flex;
+      column-gap: 2%;
+      align-items: stretch;
+      row-gap: clamp(12px, 1.3vw, 20px);
+
+      .custom{
+        &-left,
+        &-right{
+          flex: 1 1 49%;
+        }
+
+        &-left{
+          .custom-title{
+            margin-bottom: 20px;
+
+            input{
+              background-color: rgba(255, 255, 255, 0.05);
+            }
+          }
+        }
       }
     }
     .btn-lyrics-modal{
@@ -179,6 +213,7 @@
       border-radius: 8px;
       font-size: clamp(12px, 1.2vw, 14px);
       line-height: clamp(18px, 1.8vw, 22px);
+      flex: 1;
 
       &::placeholder{
         color: #767676;
@@ -230,7 +265,7 @@
 } // custom-lyrics modal btn END
 // custom-lyrics modal END
 
-// custom-toggle START
+// 커스텀 모든 변경 스위치 : custom-toggle START
 .custom-toggle{
   margin-bottom: clamp(12px, 1.1vw, 16px);
   .switch{
@@ -261,8 +296,8 @@
       left: 3px;
       top: 3px;
       background-color: #22A3FF;
-      -webkit-transition: .3s;
-      transition: .3s;
+      -webkit-transition: transform .3s;
+      transition: transform .3s;
     }
     input:checked + .slider{
       background-color: #2196F3;
@@ -294,24 +329,35 @@
 .custom-toggle.is-on .custom-mode-txt {
   color: #fff;
   font-weight: 700;
-}
+} // 커스텀 모든 변경 스위치 : custom-toggle END
 
+
+// 반응형
 @media (max-width: 1000px) {
-  .custom-toggle{
-    .switch {
-      width: 48px;
-      height: 26px;
-      .slider::before {
-        width: 22px;
-        height: 22px;
-        left: 3px;
-        top: 2px;
-      }
+  .freeform-section{
+    .custom-toggle{
+      .switch {
+        width: 48px;
+        height: 26px;
+        .slider::before {
+          width: 22px;
+          height: 22px;
+          left: 3px;
+          top: 2px;
+        }
 
-      input:checked + .slider:before {
-        transform: translateX(20px);
+        input:checked + .slider:before {
+          transform: translateX(20px);
+        }
+      }
+    }
+    &__inner__custom{
+      flex-direction: column;
+      .custom-left,
+      .custom-right{
+        flex: 1 1 100%;
       }
     }
   }
+  
 }
-// custom-toggle END

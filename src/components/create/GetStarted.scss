@@ -1,6 +1,6 @@
 .create__get-started {
   display: flex;
-  padding: 40px 30px 0px 30px;
+  padding: 40px 0 0;
   flex-direction: column;
   align-items: flex-start;
   gap: 40px;
@@ -373,7 +373,7 @@
   .create__get-started--format-item-group {
     width: 100%;
     display: flex;
-    gap: 2.5%;
+    gap: 2%;
     .create__get-started--format-item {
       min-height: 158px;
       transition: 0.3s;
@@ -403,7 +403,7 @@
         .create__get-started--format-item-icon {
           position: absolute;
           top: 20px;
-          right: 0;
+          right: -3PX;
           width: 100%;
           max-width:  140px;
           aspect-ratio: 1/1;
@@ -420,10 +420,10 @@
         .create__get-started--format-item-txt {
           color: var(--Grey-600, #767676);
           font-family: Pretendard400;
-          font-size: 14px;
+          font-size: clamp(12px, 0.8vw, 14px);
           font-style: normal;
-          line-height: 22px;
-          width: 70%;
+          line-height: clamp(18px, 1.3vw, 22px);
+          width: 75%;
           max-width: 350px;
         }
       &:nth-of-type(2).active{
@@ -437,7 +437,7 @@
       .create__get-started--format-item-icon {
         position: absolute;
         top: 20px;
-        right: 0;
+        right: -3PX;
         width: 100%;
         max-width: 140px;
         aspect-ratio: 1/1;
@@ -462,11 +462,12 @@
       .create__get-started--format-item-txt {
         color: var(--Grey-600, #767676);
         font-family: Pretendard400;
-        font-size: 14px;
+        font-size: clamp(12px, 0.8vw, 14px);
+        line-height: clamp(18px, 1.3vw, 22px);
         font-style: normal;
-        line-height: 22px;
-        width: 70%;
+        width: 75%;
         max-width: 350px;
+        z-index: 1;
         font {
           font-family: inherit !important;
           font-size: inherit !important;
@@ -542,7 +543,7 @@
   }
   .created__get-started--radio-box-group {
     display: flex;
-    gap: 2.5%;
+    gap: 2%;
     width: 100%;
 
     .created__get-started--privacy,

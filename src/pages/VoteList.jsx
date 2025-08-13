@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Filter from '../components/unit/Filter';
 import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
@@ -10,11 +11,15 @@ import VoteRegisterModal from '../components/modal/VoteRegisterModal';
 
 import SampleAlbumImg from '../assets/images/vote/vote-sample-album.png';
 import SampleArtistImg from '../assets/images/vote/vote-sample-artist.png';
+import clearIcon from '../assets/images/icons/clear-icon.svg';
+import searchIcon from '../assets/images/icons/search-icon.svg';
 
 // 스타일
 import '../styles/VoteList.scss';
+import '../components/unit/SearchBar.scss';
 
 function VoteList() {
+    const { t } = useTranslation('main');
   // search-bar : 타이핑 시 clear 버튼 노출, clear 버튼 클릭 시 setSearch 리셋
   const [search, setSearch] = useState('');
   const handleChange = (e) => {
@@ -113,11 +118,44 @@ function VoteList() {
         aiServiceFilter={true} // 곡/비지엠 선택 필터
         songsSort={['Latest', 'Oldest']} // 최신순/오래된순 정렬 기준 필터
       />
-      <SearchBar
-        keyword={search}
-        handleChange={handleChange}
-        handleClear={handleClear}
-      />
+      <section className="search-section">
+        <h2 className="search-section__tit">
+          {t('What are you looking for?')}
+        </h2>
+        <div className="search-section__search-bar">
+          <input
+            type="text"
+            className="search-bar__input"
+            placeholder={t('Search for music and artists')}
+            aria-label={t('Search for music and artists')}
+            // value={keyword}
+            // onChange={handleChange}
+            // onKeyDown={e => {
+            //   if (e.key === 'Enter') {
+            //     handleSearch();
+            //   }
+            // }}
+          />
+          <div className="search-bar__button">
+            <button className="search-bar__btn-reset"
+              // className={`search-bar__btn-reset${
+              //   keyword.length > 0 ? ' search-bar__btn-reset--typing' : ''
+              // }`}
+              onClick={handleClear}
+              aria-label={t('Clear Search Form')}
+            >
+              <img src={clearIcon} alt="" />
+            </button>
+            <button
+              className="search-bar__btn-search"
+              aria-label={t('Search')}
+              // onClick={handleSearch}
+            >
+              <img src={searchIcon} alt="" />
+            </button>
+          </div>
+        </div>
+      </section>
       <div className='vote-list-section'>
         {voteList.length === 0 ? (
           <p className="no-result-txt">이벤트에 접수된 곡을 정리 중이에요!</p>

@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom'; // 추가
-// 스타일
+import { useNavigate } from 'react-router-dom';
 import './SearchBar.scss';
-// 이미지
 import clearIcon from '../../assets/images/icons/clear-icon.svg';
 import searchIcon from '../../assets/images/icons/search-icon.svg';
 
-const SearchBar = ({ keyword, handleChange, handleClear, hideTitle = false, onSearch }) => {
+const SearchBar = ({
+  keyword,
+  handleChange,
+  handleClear,
+  hideTitle = false,
+  onSearch, // callback 모드에서 사용
+  navigateTo = '/search-result', // navigate 모드에서 기본 목적지
+  buildUrl, // (옵션) URL 커스터마이즈: (kw) => string
+  mode = 'auto', // 'auto' | 'callback' | 'navigate'
+}) => {
   const { t } = useTranslation('main');
   const navigate = useNavigate();
 
@@ -15,11 +22,26 @@ const SearchBar = ({ keyword, handleChange, handleClear, hideTitle = false, onSe
     const keyWord = keyword?.trim();
     if (!keyWord) return;
 
-    if (typeof onSearch === 'function') {
-      onSearch(keyWord); // ✅ 콜백이 있으면 네비게이션 대신 콜백 호출
-    } else {
-      navigate(`/search-result?keyword=${encodeURIComponent(keyWord)}&page=1`); // 기존 동작 유지
+    const resolvedMode =
+      mode === 'auto' ? (typeof onSearch === 'function' ? 'callback' : 'navigate') : mode;
+
+    if (resolvedMode === 'callback') {
+      if (typeof onSearch !== 'function') {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn('[SearchBar] mode=callback 인데 onSearch가 없습니다.');
+        }
+        return;
+      }
+      onSearch(keyWord);
+      return;
     }
+
+    // resolvedMode === 'navigate'
+    const url =
+      typeof buildUrl === 'function'
+        ? buildUrl(keyWord)
+        : `${navigateTo}?keyword=${encodeURIComponent(keyWord)}&page=1`;
+    navigate(url);
   };
 
   return (

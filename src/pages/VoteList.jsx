@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import Filter from '../components/unit/Filter';
@@ -38,7 +38,12 @@ function VoteList() {
   const [masterUserWallet, setMasterUserWallet] = useState([]);
 
   const handleChange = e => setSearch(e.target.value);
-  const handleClear = () => setSearch('');
+  const handleClear = () => {
+    setSearch('');
+    // 검색어 클리어 시 첫 페이지로 재조회
+    handleGetSongList({ page: 1, searchKeyword: '' });
+    setCurrentPage(1);
+  };
   // ----------- 필터링 -----------
   // UI → 서버 파라미터 매핑
   const TYPE_MAP = { Song: 'song', BGM: 'bgm' };
@@ -81,6 +86,7 @@ function VoteList() {
     page = 1,
     typeLabel = selectedTypeLabel,
     sortLabel = selectedSortLabel,
+    searchKeyword = search, // 기본은 현재 상태의 검색어
   } = {}) => {
     try {
       setIsPageLoading(true);
@@ -94,6 +100,7 @@ function VoteList() {
         ...(type && { type }),
         ...(sort && { sort }),
         ...(walletAddr && { wallet_address: walletAddr }),
+        ...(searchKeyword?.trim() && { search_keyword: searchKeyword.trim() }),
       };
 
       console.log('[GET /popular/vote/song params]', finalParams);
@@ -219,6 +226,41 @@ function VoteList() {
       ?.map(v => (v?.address ?? v)?.toString().trim().toLowerCase())
       .includes((walletAddress?.address ?? walletAddress)?.toString().trim().toLowerCase());
 
+  // 모달 내부에서 검색해서 선택한 곡들을 리스트 형태로 POST 보내는 함수
+  const handleAddMusic = async () => {
+    if (isRegistering) return;
+
+    // 모달에서 받은 selectedTracks(객체 배열) → id 배열로 변환
+    const ids = Array.from(
+      new Set((selectedTracks ?? []).map(t => Number(t?.id)).filter(n => Number.isInteger(n)))
+    );
+    if (ids.length === 0) return;
+
+    setIsRegistering(true);
+
+    try {
+      const res = await axios.post(`${serverAPI}/api/music/popular/vote/song`, ids, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.data?.status === 'success') {
+        setShowRegisterConfirm(false);
+        setSelectedTracks([]); // 선택 초기화
+        await handleGetSongList({ page: currentPage }); // 목록 새로고침
+      }
+    } catch (err) {
+      console.error('검색해서 선택한 곡 POST 보내는 함수 error입니당', err);
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
+  // ✅ 현재 목록에서 이미 등록된 곡의 id 모음 (song_id 사용)
+  const registeredIds = useMemo(
+    () => (songList ?? []).map(v => Number(v?.song_id)).filter(n => Number.isFinite(n)),
+    [songList]
+  );
+
   // 4. useEffect 수정 - currentPage가 변경될 때마다 API 호출
   // 신청된 곡 리스트 업데이트
   useEffect(() => {
@@ -231,29 +273,6 @@ function VoteList() {
     setShowRegisterConfirm(true);
   };
 
-  const dummyTracks = [
-    {
-      id: 1,
-      albumImage: SampleAlbumImg,
-      musicTitle: 'Music name',
-      artistImage: SampleArtistImg,
-      artistName: 'Yolkhead',
-    },
-    {
-      id: 2,
-      albumImage: SampleAlbumImg,
-      musicTitle: 'Music name',
-      artistImage: SampleArtistImg,
-      artistName: 'Yolkhead',
-    },
-    {
-      id: 3,
-      albumImage: SampleAlbumImg,
-      musicTitle: 'Music name',
-      artistImage: SampleArtistImg,
-      artistName: 'Yolkhead',
-    },
-  ];
   return (
     <>
       <div className="vote-list-title">
@@ -286,7 +305,21 @@ function VoteList() {
           handleGetSongList({ page: 1, typeLabel: nextTypeLabel, sortLabel: nextSortLabel });
         }}
       />
-      <SearchBar keyword={search} handleChange={handleChange} handleClear={handleClear} />
+      <SearchBar
+        mode="callback"
+        keyword={search}
+        handleChange={e => setSearch(e.target.value)}
+        handleClear={() => {
+          setSearch('');
+          setCurrentPage(1);
+          handleGetSongList({ page: 1, searchKeyword: '' });
+        }}
+        onSearch={kw => {
+          setSearch(kw);
+          setCurrentPage(1);
+          handleGetSongList({ page: 1, searchKeyword: kw });
+        }}
+      />
       <div className="vote-list-section">
         {isPageLoading && (
           <div className="result-loading">
@@ -393,7 +426,7 @@ function VoteList() {
         <VoteRegisterModal
           onClose={() => setShowRegisterModal(false)}
           onSubmit={handleRegisterSelect} // 선택 결과
-          tracks={dummyTracks}
+          excludedIds={registeredIds}
         />
       )}
       {/* 투표 등록 모달 내 '음악 등록' 클릭 시 나오는 컨펌 모달, '취소' 클릭해도 선택한 정보 그대로 남아있도록 부탁드립니다. */}
@@ -403,7 +436,7 @@ function VoteList() {
           customContent={<>선택한 음악이 전부 이벤트 음악으로 등록됩니다.</>}
           cancelMessage="취소"
           okMessage="확인"
-          // okHandler={handleRegisterSubmit}
+          okHandler={handleAddMusic}
           setShowConfirmModal={setShowRegisterConfirm}
           closeIcon={false}
           loading={isRegistering}

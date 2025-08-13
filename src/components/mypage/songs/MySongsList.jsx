@@ -30,8 +30,8 @@ import { disableEvaluation } from '../../../data/service';
 const serverApi = process.env.REACT_APP_SERVER_API;
 
 const myAlbumsCategoryList = [
-  { name: 'Unreleased', preparing: false },
   { name: 'Released', preparing: false },
+  { name: 'Unreleased', preparing: false },
 ];
 
 const topAlbumsCategoryList = [
@@ -66,7 +66,7 @@ const MySongsList = ({ token, username }) => {
   const page = searchParams.get('page') || 1;
   const search = searchParams.get('search') || '';
   const songsSort = searchParams.get('songs_sort');
-  const releaseType = searchParams.get('release_type') || 'Unreleased';
+  const releaseType = searchParams.get('release_type') || 'Released';
   const aiServiceFilter = searchParams.get('ai_service_filter');
   const criticFilter = searchParams.get('critic_filter');
   const queryClient = useQueryClient();

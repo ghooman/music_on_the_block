@@ -8,27 +8,27 @@
   .mypage__profile {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    row-gap: clamp(16px, 2vw, 30px);
     .profile__bg {
       height: 170px;
       width: 100%;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      border-radius: 20px;
     }
 
     .profile__info {
-      border: 1px solid #cf0;
       border-radius: 12px;
-      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
     }
 
     .profile__info__cover{
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      row-gap: clamp(12px, 1.3vw, 20px);
       .profile__info__btns{
         display: flex;
         align-items: center;
@@ -50,28 +50,50 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #FFF;
-          font-family: Pretendard400;
-          font-size: 14px;
+          color: #CF0;
+          font-weight: 700;
+          font-size: clamp(12px, 0.9vw, 14px);
         }//edit-btn--END--
       }//profile__info__btns--END--
 
     }//profile__info__cover--END--
     .profile__info--name-level {
       display: flex;
-      gap: 12px;
+      gap: clamp(9px, 0.8vw, 12px);
       align-items: center;
     }
 
     .profile__info--profile-image {
-      width: 24px;
-      height: 24px;
+      width: 100%;
+      height: 100%;
+      max-width: clamp(54px, 7.7vw, 112px);
+      max-height: clamp(54px, 7.7vw, 112px);
       object-fit: cover;
       border-radius: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .profile__info--profile-top{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .profile__info--profile--name{
+      display: flex;
+      column-gap: 10px;
+      align-items: center;
+      margin-bottom: 4px;
+      @media screen and (max-width: 999px) {
+        justify-content: space-between;
+        align-items: flex-start;
+      }
     }
     .profile__info--name-text {
-      font-family: Pretendard400;
-      font-size: 24px;
+      font-size: clamp(18px, 1.6vw, 24px);
+      line-height: clamp(28px, 2.3vw, 34px);
+      font-weight: 400;
+      word-break: break-all;
+      max-width: 75%;
+      
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -82,14 +104,49 @@
         letter-spacing: inherit !important;
       }
     }
+    .profile__info--count{
+      display: flex;
+      column-gap: clamp(12px, 1.3vw, 20px);
+      align-items: center;
+      margin-bottom: 12px;
+      .profile__info--img-count{
+        span{
+          padding-left: 22px;
+          position: relative;
+          font-size: clamp(12px, 0.9vw, 14px);
+          line-height: clamp(18px, 1.3vw, 22px);
+        }
+        span::before{
+          position: absolute;
+          content: '';
+          width: 20px;
+          height: 20px;
+          background-repeat: no-repeat;
+          background-position: left center;
+          background-size: 20px;
+          left: 0;
+          top: -2px;
+        }
+        .total-like-count{
+          margin-left: 8px;
+        }
+        .total-play-count::before{
+          background-image: url('../assets/images/vote/music-play-icon.svg');
+        }
+        .total-like-count::before{
+          background-image: url('../assets/images/vote/music-heart-icon.svg')
+        }
+      }
+    }
     .profile__info--level {
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: clamp(12px, 0.9vw, 14px);
+      line-height: clamp(18px, 1.3vw, 22px);
     }
     .profile__info--level-text {
-      color: #cf0;
-      font-size: 12px;
+      color: #767676;
       font-family: Pretendard400;
       font {
         font-family: inherit !important;
@@ -102,12 +159,11 @@
       }
     }
     .profile__info--level-icon {
-      width: 20px;
-      height: 20px;
+      width: clamp(20px, 1.6vw, 24px);
+      height: clamp(20px, 1.6vw, 24px);
     }
     .profile__info--level-rating {
-      color: #aaa;
-      font-size: 14px;
+      color: #fff;
       font-family: Pretendard400;
       font {
         font-family: inherit !important;
@@ -121,18 +177,24 @@
     }
     .profile__record {
       display: flex;
-      gap: 8px 12px;
+      gap: clamp(12px, 1.3vw, 20px);
       flex-wrap: wrap;
     }
     .profile__record--item {
       display: flex;
-      gap: 8px;
+      gap: clamp(4px, 0.5vw, 8px);
       align-items: center;
+      font-size: clamp(12px, 0.9vw, 14px);
+    }
+    .profile__record--modal-btn{
+      img{
+        width: 100%;
+        max-width: clamp(20px, 1.6vw, 24px);
+      }
     }
     .profile__record--item-title {
       font-family: Pretendard400;
-      font-size: 12px;
-      color: #f1f1f1;
+      color: #767676;
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -145,8 +207,7 @@
     }
     .profile__record--item-value {
       font: Pretendard400;
-      font-size: 14px;
-      color: #aaa;
+      color: #fff;
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -159,16 +220,16 @@
     }
     .profile__desc {
       display: flex;
-      justify-content: space-between;
-      gap: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
       min-height: 21px;
-      align-items: center;
     }
     .profile__link {
       display: flex;
       align-items: center;
       cursor: pointer;
-      gap: 4px 8px;
+      gap: 4px;
       flex-wrap: wrap;
     }
     .profile__link--icon {
@@ -176,9 +237,14 @@
       height: 24px;
     }
     .profile__link--item {
-      color: #5a9bf6;
+      color: #fff;
       font-family: Pretendard400;
-      font-size: 14px;
+      font-size: clamp(12px, 0.9vw, 14px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+      max-width: clamp(150px, 50vw, 500px);
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -190,9 +256,13 @@
       }
     }
     .profile__link--count {
-      color: #f1f1f1;
-      font-family: Pretendard400;
-      font-size: 14px;
+      color: #CF0;
+      font-weight: 700;
+      font-size: clamp(12px, 0.9vw, 14px);
+      span{
+        color: #767676;
+        font-weight: 400;
+      }
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -205,12 +275,13 @@
     }
 
     .profile__desc--content {
-      color: #aaa;
+      color: #a8a8a8;
+      width: 100%;
       font-family: Pretendard400;
-      font-size: 14px;
+      font-size: clamp(12px, 0.9vw, 14px);
       word-wrap: break-word;
       line-height: 1.4;
-      max-height: 1.4em; // 한 줄 높이로 제한
+      max-height: 1.4rem;
       overflow: hidden;
       white-space: nowrap; // 한 줄로 제한
       text-overflow: ellipsis; // 말줄임표 표시
@@ -233,10 +304,13 @@
       }
     }
     .profile__desc--button {
-      font-family: Pretendard400;
-      font-size: 14px;
-      color: #f1f1f1;
+      font-weight: 400;
+      font-size: clamp(12px, 0.9vw, 14px);
+      color: #767676;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      column-gap: 2px;
       font {
         font-family: inherit !important;
         font-size: inherit !important;
@@ -246,18 +320,28 @@
         color: inherit !important;
         letter-spacing: inherit !important;
       }
+
+      .profile__desc--button__arrow{
+        transition: transform 0.4s ease;
+        width: 100%;
+        max-width: 20px;
+      }
+      .profile__desc--button__arrow.up{
+         transform: rotate(180deg);
+      }
     }
-    .tw-connect-wallet,
-    .mypage__follow-btn {
+    .tw-connect-wallet{
+      width: 100%;
+      height: 40px;
+    }
+    .tw-connect-wallet{
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
       border-radius: 12px;
       color: #1a1a1a;
       font-family: Pretendard600;
       font-size: 16px;
-      height: 40px;
       text-align: center;
       position: relative;
       cursor: pointer;
@@ -301,11 +385,29 @@
         }
       }
       &.unfollow {
-        color: #bc0036;
+        color: #fff;
         background-color: #383838;
         &::after {
           border-color: #383838;
         }
+      }
+    }
+    .mypage__follow-btn{
+      padding: 4px clamp(12px, 1.1vw, 16px);
+      font-size: clamp(12px, 0.9vw, 14px);
+      flex-shrink: 0;
+      font-weight: 700;
+      border: 1px solid transparent;
+      border-radius: 8px;
+
+      &.follow{
+        background-color: #cf0;
+        color: #fff;
+      }
+      &.unfollow{
+        background-color: transparent;
+        border-color: #cf0;
+        color: #cf0;
       }
     }
   }
@@ -559,7 +661,7 @@
   // }
   .mypage__nav {
     display: flex;
-    margin: 40px auto;
+    margin: clamp(24px, 2vw, 30px) auto;
     .mypage__nav-item {
       margin-right: 12px;
       display: flex;
@@ -598,13 +700,6 @@
       // height: 580px;
       .profile__info__btns{
         margin-bottom: 8px;
-        a{
-          flex: 1;
-        }
-      }
-      .profile__info__cover{
-        flex-direction: column;
-        gap: 12px;
       }
       .mypage__profile-bg {
         width: calc(100% + 32px);
@@ -642,11 +737,30 @@
     }
     .mypage__nav {
       overflow: auto;
-      margin: 32px auto 16px;
-      padding: 8px 0;
+      // padding: 8px 0;
       .mypage__nav-item {
         font-size: 12px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .mypage{
+    .mypage__profile{
+      .profile__info--name-level{
+        position: relative;
+        padding-bottom: 30px;
+      }
+      .profile__info--count{
+        margin-bottom: 0;
+      }
+      .profile__record{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+
   }
 }

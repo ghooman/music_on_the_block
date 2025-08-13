@@ -10,6 +10,8 @@ import linkIcon from '../assets/images/icon/link.svg';
 import mobIcon from '../assets/images/icon/mob-icon.svg';
 import micIcon from '../assets/images/icon/mic-icon.svg';
 import defaultCoverImg from '../assets/images/header/logo.svg';
+import arrowDownIcon from '../assets/images/icons/icons-arrow-down.svg';
+import infoIcon from '../assets/images/icons/icons-info.svg';
 
 import AiServices from '../components/mypage/aiservices/AiServices';
 import Songs from '../components/mypage/songs/Songs';
@@ -22,6 +24,7 @@ import UnFollowModal from '../components/UnFollowModal';
 import NFTs from '../components/mypage/nfts/NFTs';
 import MicEarning from '../components/mypage/mic/MicEarning';
 import OtherConnections from '../components/mypage/connections/OtherConnections';
+import InfoModal from '../components/modal/InfoModal';
 
 import { useUserDetail } from '../hooks/useUserDetail';
 import { getUserGradeSquareIcon } from '../utils/getGradeIcon';
@@ -58,6 +61,7 @@ const MyProfile = () => {
 
   const category = searchParams.get('category');
 
+
   // 마이페이지 : Music, NFT, Connections, AI Searvice, MIC Earning 노출
   const serviceTabObj = [
     { name: 'Songs', preparing: false },
@@ -71,6 +75,7 @@ const MyProfile = () => {
     if (tab === category) return;
     setSearchParams({ category: tab });
   };
+
 
   return (
     <div className="mypage">
@@ -121,6 +126,7 @@ const UserProfile = () => {
       setWalletAddress(walletAddress);
     }
   };
+
 
   // 프로필 데이터
   const {
@@ -191,7 +197,7 @@ const UserProfile = () => {
     } else if (!username) {
       navigate('/', { replace: true });
     } else if (!category) {
-      setSearchParams({ category: 'AI Services', username: username }, { replace: true });
+      setSearchParams({ category: 'Songs', username: username }, { replace: true });
     }
   }, [userData]);
 
@@ -318,6 +324,8 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   console.log('높이 측정', contentRef.current?.scrollHeight);
 
   const linkCount = (userData?.link_list?.length || 0) - 1; // 첫 링크 제외
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
 
   return (
     <>
@@ -335,21 +343,59 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                 src={userData?.profile || defaultCoverImg}
                 alt="profile"
               />
-              <p className="profile__info--name-text">{userData?.name}</p>
-              <div className="profile__info--level">
-                <p className="profile__info--level-text">Level</p>
-                {getUserGradeSquareIcon(userData?.user_rating) && (
-                  <img
-                    className="profile__info--level-icon"
-                    src={getUserGradeSquareIcon(userData?.user_rating)}
-                    alt="icon"
-                  />
-                )}
-                <p className="profile__info--level-rating">{userData?.user_rating}</p>
-              </div>
+              <div className="profile__info--profile-top">
+                <div className='profile__info--profile--name'>
+                  <p className="profile__info--name-text">{userData?.name}</p>
+                  {/* 팔로우버튼 */}
+                  {children}
+                </div>
+                <div className='profile__info--count'>
+                  <div className="profile__info--level">
+                    <p className="profile__info--level-text">Level</p>
+                    {getUserGradeSquareIcon(userData?.user_rating) && (
+                      <img
+                        className="profile__info--level-icon"
+                        src={getUserGradeSquareIcon(userData?.user_rating)}
+                        alt="icon"
+                      />
+                    )}
+                    <p className="profile__info--level-rating">{userData?.user_rating}</p>
+                  </div>
+                  <div className='profile__info--img-count'>
+                    {/* 해당 사용자의 모든 곡에 대한 재생 수 */}
+                    <span className='total-play-count'>125K</span>
+                    {/* 해당 사용자의 모든 곡에 대한 좋아요 수 */}
+                    <span className='total-like-count'>145</span>
+                  </div>
+                </div>
+                <div className="profile__record">
+                  <div className="profile__record--item">
+                    <p className="profile__record--item-title">{t('Songs')}</p>
+                    <p className="profile__record--item-value">{userData?.total_songs}</p>
+                  </div>
+                  <div className="profile__record--item">
+                    <p className="profile__record--item-title">{t('Following')}</p>
+                    <p className="profile__record--item-value">{userData?.followings}</p>
+                  </div>
+                  <div className="profile__record--item">
+                    <p className="profile__record--item-title">{t('Followers')}</p>
+                    <p className="profile__record--item-value">{userData?.followers}</p>
+                  </div>
+                  <button className='profile__record--item profile__record--modal-btn'
+                  onClick={() => setIsInfoModalOpen(true)}
+                  >
+                    <img src={infoIcon} alt="Artist Information Modal Button" />
+                  </button>
+                </div> 
+              </div> 
             </div>
+
             {isMyProfile && (
               <div className="profile__info__btns">
+                <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
+                  {t('Edit profile')}
+                </Link>
+                {/* 라이센트 키 연동 시 버튼 삭제 필요 */}
                 <Link
                   to={`/license-key`}
                   className="key-link"
@@ -357,14 +403,11 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                 >
                   {t('Link license key')}
                 </Link>
-                <Link to={`/account-setting?prev=${pathname + queryParameter}`}>
-                  {t('Edit profile')}
-                </Link>
               </div>
-            )}
+            )}          
           </div>
           {/* === */}
-          <div className="profile__record">
+          {/* <div className="profile__record">
             <div className="profile__record--item">
               <p className="profile__record--item-title">{t('Songs')}</p>
               <p className="profile__record--item-value">{userData?.total_songs}</p>
@@ -377,8 +420,8 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               <p className="profile__record--item-title">{t('Followers')}</p>
               <p className="profile__record--item-value">{userData?.followers}</p>
             </div>
-          </div>
-          <div className="profile__desc">
+          </div> */}
+          {/* <div className="profile__desc">
             <p ref={contentRef} className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
               {content}
             </p>
@@ -388,7 +431,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                 {seeMore ? t('Hide') : t('See More')}
               </button>
             )}
-          </div>
+          </div> */}
           {userData?.link_list?.[0] && (
             <div className="profile__link">
               <img className="profile__link--icon" src={linkIcon} alt="link" />
@@ -398,7 +441,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
 
               {linkCount > 0 && (
                 <p className="profile__link--count" onClick={() => setLinksModal(true)}>
-                  {linkCount} {t('external link')}
+                  <span>{t('and')}</span> {linkCount} {t('link')}
                 </p>
               )}
               {/* {userData?.link_list.length > 0 && (
@@ -410,13 +453,31 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
               )} */}
             </div>
           )}
-          {children}
+          <div className="profile__desc">
+            <p ref={contentRef} className={`profile__desc--content ${seeMore ? 'open' : ''}`}>
+              {content}
+            </p>
+            {console.log('현재 클래스명:', `profile__desc--content ${seeMore ? 'open' : ''}`)}
+            {showSeeMoreButton && (
+              <button className="profile__desc--button" onClick={toggleSeeMore}>
+                {seeMore ? t('Hide') : t('See More')}
+                <img src={arrowDownIcon} alt="" className={`profile__desc--button__arrow ${seeMore ? 'up' : 'down'}`} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
       {linksModal && (
         <LinksModal
           linkItems={userData?.link_list.map(item => item.link)}
           setLinksModal={setLinksModal}
+        />
+      )}
+
+      {isInfoModalOpen && (
+        <InfoModal
+          onClose={() => setIsInfoModalOpen(false)}
+          isMyProfile={isMyProfile}
         />
       )}
     </>

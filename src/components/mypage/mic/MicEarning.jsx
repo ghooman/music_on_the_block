@@ -11,7 +11,7 @@ function MicEarning() {
 
     // 테스트용 데이터
     const micHistory = [
-        { date: '2025-07-12T00:00:00Z', listening: 30, generated: 20, total: 50 },
+        { date: '2025-07-12', listening: 30, generated: 20, total: 50 },
     ];
 
     const pagedData = micHistory.slice((page - 1) * viewCount, page * viewCount);

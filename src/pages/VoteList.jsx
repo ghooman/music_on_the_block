@@ -1,9 +1,8 @@
-
-import React, { useState, useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-
 import Filter from '../components/unit/Filter';
+import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
 import SuccessModal from '../components/modal/SuccessModal';
 import ConfirmModal from '../components/modal/ConfirmModal';
@@ -12,17 +11,11 @@ import VoteRegisterModal from '../components/modal/VoteRegisterModal';
 
 import SampleAlbumImg from '../assets/images/vote/vote-sample-album.png';
 import SampleArtistImg from '../assets/images/vote/vote-sample-artist.png';
-import clearIcon from '../assets/images/icons/clear-icon.svg';
-import searchIcon from '../assets/images/icons/search-icon.svg';
 
 import Loading from '../components/Loading.js';
 
 // 스타일
 import '../styles/VoteList.scss';
-import '../components/unit/SearchBar.scss';
-
-function VoteList() {
-  const { t } = useTranslation('main');
 import axios from 'axios';
 import { Wallet } from 'ethers';
 
@@ -32,7 +25,6 @@ function VoteList() {
   const { token, walletAddress } = useContext(AuthContext);
   const isLoggedIn = Boolean(token);
   // -------------------- 상태 모음 -------------------------------------------------
-
   // search-bar : 타이핑 시 clear 버튼 노출, clear 버튼 클릭 시 setSearch 리셋
   const [search, setSearch] = useState('');
   // 페이지 로딩
@@ -42,7 +34,16 @@ function VoteList() {
   const [songCnt, setSongCnt] = useState(0);
   // 남은 투표 가능 횟수 상태
   const [remainVoteCnt, setRemainVoteCnt] = useState(0);
+  // 신청곡 추가 권한 유저 지갑주소 상태
+  const [masterUserWallet, setMasterUserWallet] = useState([]);
 
+  const handleChange = e => setSearch(e.target.value);
+  const handleClear = () => {
+    setSearch('');
+    // 검색어 클리어 시 첫 페이지로 재조회
+    handleGetSongList({ page: 1, searchKeyword: '' });
+    setCurrentPage(1);
+  };
   // ----------- 필터링 -----------
   // UI → 서버 파라미터 매핑
   const TYPE_MAP = { Song: 'song', BGM: 'bgm' };
@@ -85,6 +86,7 @@ function VoteList() {
     page = 1,
     typeLabel = selectedTypeLabel,
     sortLabel = selectedSortLabel,
+    searchKeyword = search, // 기본은 현재 상태의 검색어
   } = {}) => {
     try {
       setIsPageLoading(true);
@@ -98,6 +100,7 @@ function VoteList() {
         ...(type && { type }),
         ...(sort && { sort }),
         ...(walletAddr && { wallet_address: walletAddr }),
+        ...(searchKeyword?.trim() && { search_keyword: searchKeyword.trim() }),
       };
 
       console.log('[GET /popular/vote/song params]', finalParams);
@@ -200,18 +203,69 @@ function VoteList() {
     }
   };
 
+  // 신청곡 추가 권한 유저 지갑주소 함수
+  const handleGetMasterUserWallet = async () => {
+    try {
+      const res = await axios.get(`${serverAPI}/api/music/popular/vote/song/create/wallet/address`);
+      console.log('유저 지갑주소 모음', res.data);
+      setMasterUserWallet(res.data);
+    } catch (err) {
+      console.error('신청곡 추가 권한 유저 지갑주소 함수 error입니당', err);
+    }
+  };
+
+  // 유저 지갑 주소에 따라서 마스터계정 유무 판별
+  useEffect(() => {
+    handleGetMasterUserWallet();
+  }, [walletAddress]);
+
+  // 마스터 유저 지갑주소 리스트에 현재 지갑이 있는지 판별 (대소문자/공백 정규화)
+  const isMasterWallet =
+    !!walletAddress &&
+    masterUserWallet
+      ?.map(v => (v?.address ?? v)?.toString().trim().toLowerCase())
+      .includes((walletAddress?.address ?? walletAddress)?.toString().trim().toLowerCase());
+
+  // 모달 내부에서 검색해서 선택한 곡들을 리스트 형태로 POST 보내는 함수
+  const handleAddMusic = async () => {
+    if (isRegistering) return;
+
+    // 모달에서 받은 selectedTracks(객체 배열) → id 배열로 변환
+    const ids = Array.from(
+      new Set((selectedTracks ?? []).map(t => Number(t?.id)).filter(n => Number.isInteger(n)))
+    );
+    if (ids.length === 0) return;
+
+    setIsRegistering(true);
+
+    try {
+      const res = await axios.post(`${serverAPI}/api/music/popular/vote/song`, ids, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.data?.status === 'success') {
+        setShowRegisterConfirm(false);
+        setSelectedTracks([]); // 선택 초기화
+        await handleGetSongList({ page: currentPage }); // 목록 새로고침
+      }
+    } catch (err) {
+      console.error('검색해서 선택한 곡 POST 보내는 함수 error입니당', err);
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
+  // ✅ 현재 목록에서 이미 등록된 곡의 id 모음 (song_id 사용)
+  const registeredIds = useMemo(
+    () => (songList ?? []).map(v => Number(v?.song_id)).filter(n => Number.isFinite(n)),
+    [songList]
+  );
+
   // 4. useEffect 수정 - currentPage가 변경될 때마다 API 호출
   // 신청된 곡 리스트 업데이트
   useEffect(() => {
     handleGetSongList({ page: currentPage });
   }, [currentPage, walletAddress]);
-
-  const handleChange = e => {
-    setSearch(e.target.value);
-  };
-  const handleClear = () => {
-    setSearch('');
-  };
 
   const handleRegisterSelect = tracks => {
     setSelectedTracks(tracks);
@@ -219,45 +273,22 @@ function VoteList() {
     setShowRegisterConfirm(true);
   };
 
-  const dummyTracks = [
-    {
-      id: 1,
-      albumImage: SampleAlbumImg,
-      musicTitle: 'Music name',
-      artistImage: SampleArtistImg,
-      artistName: 'Yolkhead',
-    },
-    {
-      id: 2,
-      albumImage: SampleAlbumImg,
-      musicTitle: 'Music name',
-      artistImage: SampleArtistImg,
-      artistName: 'Yolkhead',
-    },
-    {
-      id: 3,
-      albumImage: SampleAlbumImg,
-      musicTitle: 'Music name',
-      artistImage: SampleArtistImg,
-      artistName: 'Yolkhead',
-    },
-  ];
   return (
     <>
       <div className="vote-list-title">
         <h2 className="album__content-list__title">인기곡 투표</h2>
-        <button
-          className="register-btn"
-          onClick={() => {
-            console.log('지갑주소!!', walletAddress);
-            setShowRegisterModal(true);
-          }}
-        >
-          이벤트 음악 등록
-        </button>
+        {isMasterWallet && (
+          <button
+            className="register-btn"
+            onClick={() => {
+              console.log('지갑주소!!', walletAddress);
+              setShowRegisterModal(true);
+            }}
+          >
+            이벤트 음악 등록
+          </button>
+        )}
       </div>
-
-
       <Filter
         aiServiceFilter={true}
         songsSort={['Latest', 'Oldest']}
@@ -274,45 +305,21 @@ function VoteList() {
           handleGetSongList({ page: 1, typeLabel: nextTypeLabel, sortLabel: nextSortLabel });
         }}
       />
-       <section className="search-section">
-        <h2 className="search-section__tit">
-          {t('What are you looking for?')}
-        </h2>
-        <div className="search-section__search-bar">
-          <input
-            type="text"
-            className="search-bar__input"
-            placeholder={t('Search for music and artists')}
-            aria-label={t('Search for music and artists')}
-            // value={keyword}
-            // onChange={handleChange}
-            // onKeyDown={e => {
-            //   if (e.key === 'Enter') {
-            //     handleSearch();
-            //   }
-            // }}
-          />
-          <div className="search-bar__button">
-            <button className="search-bar__btn-reset"
-              // className={`search-bar__btn-reset${
-              //   keyword.length > 0 ? ' search-bar__btn-reset--typing' : ''
-              // }`}
-              onClick={handleClear}
-              aria-label={t('Clear Search Form')}
-            >
-              <img src={clearIcon} alt="" />
-            </button>
-            <button
-              className="search-bar__btn-search"
-              aria-label={t('Search')}
-              // onClick={handleSearch}
-            >
-              <img src={searchIcon} alt="" />
-            </button>
-          </div>
-        </div>
-      </section>
-
+      <SearchBar
+        mode="callback"
+        keyword={search}
+        handleChange={e => setSearch(e.target.value)}
+        handleClear={() => {
+          setSearch('');
+          setCurrentPage(1);
+          handleGetSongList({ page: 1, searchKeyword: '' });
+        }}
+        onSearch={kw => {
+          setSearch(kw);
+          setCurrentPage(1);
+          handleGetSongList({ page: 1, searchKeyword: kw });
+        }}
+      />
       <div className="vote-list-section">
         {isPageLoading && (
           <div className="result-loading">
@@ -419,7 +426,7 @@ function VoteList() {
         <VoteRegisterModal
           onClose={() => setShowRegisterModal(false)}
           onSubmit={handleRegisterSelect} // 선택 결과
-          tracks={dummyTracks}
+          excludedIds={registeredIds}
         />
       )}
       {/* 투표 등록 모달 내 '음악 등록' 클릭 시 나오는 컨펌 모달, '취소' 클릭해도 선택한 정보 그대로 남아있도록 부탁드립니다. */}
@@ -429,7 +436,7 @@ function VoteList() {
           customContent={<>선택한 음악이 전부 이벤트 음악으로 등록됩니다.</>}
           cancelMessage="취소"
           okMessage="확인"
-          // okHandler={handleRegisterSubmit}
+          okHandler={handleAddMusic}
           setShowConfirmModal={setShowRegisterConfirm}
           closeIcon={false}
           loading={isRegistering}

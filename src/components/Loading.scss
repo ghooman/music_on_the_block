@@ -11,7 +11,7 @@
   top: 50%;
   // left: 50%;
   left: calc(50% - 0px);
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@
   border: 1px solid #222;
   H2 {
     color: #cf0;
-    font-family:  Pretendard400;
+    font-family: Pretendard400;
     font-size: 18px;
     letter-spacing: 0.54px;
     margin-bottom: 12px;
@@ -129,7 +129,7 @@
   .middle__title {
     top: calc(50% + 46px);
   }
-  .loading-wrap{
+  .loading-wrap {
     margin-left: auto !important;
   }
 }

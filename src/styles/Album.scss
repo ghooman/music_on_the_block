@@ -1573,6 +1573,7 @@
     max-width: clamp(350px, 36vw, 520px);
     border-radius: clamp(12px, 1.3vw, 20px);
     overflow: hidden;
+    border: 1px solid #4b4b4b;
   }
 
   &__img {

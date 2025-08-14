@@ -46,6 +46,9 @@ function FreeForm({
   // 음악 생성용 최종 프롬프트
   const [finalPrompt, setFinalPrompt] = useState('');
 
+  // 커스텀모드 상태
+  const [isCustomMode, setIsCustomMode] = useState(false);
+
   // -------------가사 모달 ----------------------------------------------------------------------
   // Modal open/close 상태
   const [isCustomLyricsModal, setIsCustomLyricsModal] = useState(false);
@@ -534,17 +537,32 @@ User input:
             <h2>{t(`Freeform Music Creation`)}</h2>
             <p>
               <span>{t(`Write a prompt for your music.`)}</span>
-              <span>{t(`To add your own lyrics, tap [Custom Lyrics].`)}</span>
             </p>
           </div>
-          <textarea
-            className="freeform-section__inner__textarea"
-            placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
-            value={promptText}
-            onChange={e => setPromptText(e.target.value)}
-            // readOnly={!isEditing}
-          />
-          {selectedCreationMode === 'song' ? (
+          <div className='freeform-section__inner__textarea-box'>
+            <div className={`custom-toggle ${isCustomMode ? 'is-on' : ''}`}>
+              <label class="switch">
+                <input type="checkbox"       
+                checked={isCustomMode}
+                  onChange={e => setIsCustomMode(e.target.checked)}
+                />
+                <span class="slider round"></span>
+              </label>
+              <span className='custom-mode-txt'>Custom Mode</span>
+            </div>
+            <textarea
+              className="freeform-section__inner__textarea"
+              placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
+              value={promptText}
+              onChange={e => setPromptText(e.target.value)}
+              maxLength={199}
+              // readOnly={!isEditing}
+            />
+              <div className="chat-count">
+              {promptText.length}/199
+            </div>
+          </div>
+          {/* {selectedCreationMode === 'song' ? (
             <button
               type="button"
               className="btn-lyrics-modal"
@@ -555,7 +573,7 @@ User input:
             </button>
           ) : (
             ''
-          )}
+          )} */}
         </div>
         <div className="btn-full-box">
           <button

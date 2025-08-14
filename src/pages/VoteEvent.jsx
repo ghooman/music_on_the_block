@@ -127,12 +127,6 @@ function VoteEvent() {
                   <span>SECONDS</span>
                 </li>
               </ul>
-              <Link to="/vote-list" className="info-section__countdown-btn">
-                인기곡 투표하러 가기
-              </Link>
-              <span className="color-green">
-                * 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.
-              </span>
             </div>
 
             <div className="info-section__apply-content">
@@ -184,6 +178,13 @@ function VoteEvent() {
               >
                 뮤블 오픈카톡 커뮤니티
               </a>
+
+              <Link to="/vote-list" className="info-section__countdown-btn">
+                인기곡 투표하러 가기
+              </Link>
+              <span className="color-green">
+                * 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.
+              </span>
             </div>
 
             {/* 출품곡이 10개 미만일 때는 해당 영역 미 노출, 10개 이상부터 노출됨 */}

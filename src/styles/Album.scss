@@ -1549,6 +1549,107 @@
   }
 } //album__content-list__evaluation-stage__view-all-btn--END--
 
+
+// event-noti-modal (이벤트 모달) START
+.event-noti-modal {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 16px;
+  z-index: 10;
+  transition: top .3s ease;
+
+  @media screen and (max-width: 1000px) {
+    top: 96px;
+  }
+
+
+  &__content {
+    width: 100%;
+    height: fit-content;
+    max-width: 350px;
+    border-radius: clamp(12px, 1.3vw, 20px);
+    overflow: hidden;
+    border: 1px solid #909090;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
+  }
+
+  &__footer {
+    background-color: #181818;
+    padding: 16px;
+    font-size: clamp(12px, 0.9vw, 14px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__daycheck {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #767676;
+    cursor: pointer;
+
+    input {
+      display: none;
+    }
+
+    .checkmark {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid #767676;
+      border-radius: 8px;
+      flex-shrink: 0;
+      background-color: transparent;
+      transition: all 0.2s ease;
+      text-indent: -9999px;
+    }
+
+    input:checked + .checkmark {
+      background-color: #fff;
+      border-color: #fff;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 1px;
+        width: 5px;
+        height: 10px;
+        border: solid #000;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+
 @media screen and (max-width: 1500px) {
   .main {
     .main__content-item {
@@ -1823,3 +1924,4 @@
     transform: translateX(0);
   }
 }
+

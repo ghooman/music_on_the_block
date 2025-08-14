@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import Filter from '../components/unit/Filter';
 import SearchBar from '../components/unit/SearchBar';
 import VoteItem from '../components/unit/VoteItem';
@@ -16,12 +17,17 @@ import Loading from '../components/Loading.js';
 
 // 스타일
 import '../styles/VoteList.scss';
+import '../components/unit/SearchBar.scss';
+
+
 import axios from 'axios';
 import { Wallet } from 'ethers';
 
 const serverAPI = process.env.REACT_APP_SERVER_API;
 
+
 function VoteList() {
+  const { t } = useTranslation('main');
   const { token, walletAddress } = useContext(AuthContext);
   const isLoggedIn = Boolean(token);
   // -------------------- 상태 모음 -------------------------------------------------

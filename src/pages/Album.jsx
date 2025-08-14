@@ -21,6 +21,8 @@ import artistSampleImg from '../assets/images/album/artist-sample.png';
 import artistLevelIcon from '../assets/images/icons/artist-level-icon.svg';
 import { FaArrowRight } from 'react-icons/fa';
 import defaultAlbumImage from '../assets/images/album/album-cover.png';
+import eventModalImg from '../assets/images/album/event-modal-img.png';
+import eventModalImgMobile from '../assets/images/album/event-modal-img-mo.png';
 
 import PreparingModal from '../components/PreparingModal';
 
@@ -341,8 +343,8 @@ function Album() {
                 <div className="banner-slider__swiper-content">
                   <Link to="/vote-event" className="banner-slider__link">
                     <picture className="banner-slider__picture">
-                      <source media="(min-width: 481px)" srcset={mainBannerImg1} />
-                      <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
+                      <source media="(min-width: 481px)" srcSet={mainBannerImg1} />
+                      <source media="(max-width: 480px)" srcSet={mainBannerImgMobile1} />
                       <img
                         src={mainBannerImg1}
                         alt="Main banner example"
@@ -835,6 +837,23 @@ function Album() {
       </div>
       <IntroLogo2 autoClose={true} />
       {/* <CreateLoading/> */}
+
+      {/* 이벤트 공지 모달 */}
+      <div className="event-noti-modal">
+        <div className="event-noti-modal__content">
+          <Link to="/vote-event" target="_blank" rel="noopener noreferrer" className="event-noti-modal__img">
+              <img src={eventModalImgMobile} alt="Event Modal" />
+          </Link>
+          <div className="event-noti-modal__footer">
+            <label className="event-noti-modal__daycheck">
+              <input type="checkbox" />
+              <span className="checkmark">Checkbox</span>
+              {t("Don't show again today")}
+            </label>
+            <button className="event-noti-modal__close">{t("Close")}</button>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

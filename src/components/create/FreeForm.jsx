@@ -41,6 +41,12 @@ function FreeForm({
 
   // 프롬프트 입력
   const [promptText, setPromptText] = useState('');
+  // 커스텀 모드 - 제목
+  const [customTitle, setCustomTitle] = useState('');
+  // 커스텀 모드 - 음악 스타일 및 디테일
+  const [customStyleDetail, setCustomStyleDetail] = useState('');
+  // 커스텀 모드 - 가사
+  const [customLyrics, setCustomLyrics] = useState('');
   // 이미지 상태
   const [coverImageUrl, setCoverImageUrl] = useState('');
   // 음악 생성용 최종 프롬프트
@@ -539,28 +545,74 @@ User input:
               <span>{t(`Write a prompt for your music.`)}</span>
             </p>
           </div>
-          <div className='freeform-section__inner__textarea-box'>
+          <div className={`freeform-section__inner__prompt-box ${isCustomMode ? 'is-custom-on' : ''}`}>
+            {/* 자유형식 커스텀모드 토글 버튼 */}
             <div className={`custom-toggle ${isCustomMode ? 'is-on' : ''}`}>
               <label class="switch">
-                <input type="checkbox"       
-                checked={isCustomMode}
-                  onChange={e => setIsCustomMode(e.target.checked)}
-                />
-                <span class="slider round"></span>
+                <input type="checkbox" checked={isCustomMode} onChange={e => setIsCustomMode(e.target.checked)}/>
+                <span class="slider round" aria-label='Custom Mode Button'></span>
               </label>
-              <span className='custom-mode-txt'>Custom Mode</span>
+              <span className='custom-mode-txt'>{t('Custom Mode')}</span>
             </div>
-            <textarea
-              className="freeform-section__inner__textarea"
-              placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
-              value={promptText}
-              onChange={e => setPromptText(e.target.value)}
-              maxLength={199}
-              // readOnly={!isEditing}
-            />
-              <div className="chat-count">
-              {promptText.length}/199
-            </div>
+
+            {/* 자유형식 기본 모드 (프롬프트 한 번에 입력) */}
+            {!isCustomMode && (
+              <div className='freeform-section__inner__normal textarea-content'>
+                <textarea
+                  className="freeform-section__inner__textarea"
+                  placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
+                  value={promptText}
+                  onChange={e => setPromptText(e.target.value)}
+                  maxLength={199}>
+                </textarea>
+                <div className="chat-count">
+                  {promptText.length}/199
+                </div>
+              </div>
+            )}
+
+            {/* 자유형식 커스텀 모드 */}
+            {isCustomMode && (
+              <div className="freeform-section__inner__custom">
+                <div className='custom-left'>
+                  <div className='textarea-content custom-title'>
+                    <label className='custom-tit'>{t('Title')}</label>
+                    <input
+                        type="text"
+                        placeholder={t('Please enter the song title.')}
+                        value={customTitle}
+                        onChange={e => setCustomTitle(e.target.value)}
+                      />
+                  </div>
+                  <div className='textarea-content'>
+                    <label className='custom-tit'>{t('Music Style & Details')}</label>
+                    <textarea
+                      className="freeform-section__inner__textarea"
+                      placeholder={t('Feel free to enter traits, instruments, tempo, gender, and more.')}
+                      value={customStyleDetail}
+                      onChange={e => setCustomStyleDetail(e.target.value)}
+                      maxLength={1000}>
+                    </textarea>
+                    <div className="chat-count">
+                      {customStyleDetail.length}/1000
+                    </div>
+                  </div>
+                </div>
+                <div className='custom-right textarea-content'>
+                  <label className='custom-tit'>{t('Lyrics')}</label>
+                  <textarea
+                    className="freeform-section__inner__textarea"
+                    placeholder={t('Please enter the desired lyrics.')}
+                    value={customLyrics}
+                    onChange={e => setCustomLyrics(e.target.value)}
+                    maxLength={5000}>
+                  </textarea>
+                  <div className="chat-count">
+                    {customLyrics.length}/5000
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           {/* {selectedCreationMode === 'song' ? (
             <button
@@ -575,6 +627,7 @@ User input:
             ''
           )} */}
         </div>
+        {/* 제목, 음악 스타일&디테일, 가사 3항목 모두 1글자라도 입력 시 버튼 활성화 */}
         <div className="btn-full-box">
           <button
             className={`btn-full-primary ${

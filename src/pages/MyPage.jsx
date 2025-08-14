@@ -61,7 +61,6 @@ const MyProfile = () => {
 
   const category = searchParams.get('category');
 
-
   // 마이페이지 : Music, NFT, Connections, AI Searvice, MIC Earning 노출
   const serviceTabObj = [
     { name: 'Songs', preparing: false },
@@ -76,7 +75,6 @@ const MyProfile = () => {
     setSearchParams({ category: tab });
   };
 
-
   return (
     <div className="mypage">
       <ProfileInfo userData={userData} token={token} isMyProfile>
@@ -86,9 +84,7 @@ const MyProfile = () => {
       {category === 'Songs' && <Songs username={userData?.name} isMyProfile token={token} />}
       {category === 'NFTs' && <NFTs username={userData?.name} isMyProfile />}
       {/* {category === 'Connections' && <Connections />} */}
-      {category === 'Connections' && (
-        <Connections ownerName={userData?.name} isSelf />
-      )}
+      {category === 'Connections' && <Connections ownerName={userData?.name} isSelf />}
       {category === 'AI Services' && <AiServices username={userData?.name} />}
       {category === 'MIC Earning' && <MicEarning username={userData?.name} isMyProfile />}
     </div>
@@ -126,7 +122,6 @@ const UserProfile = () => {
       setWalletAddress(walletAddress);
     }
   };
-
 
   // 프로필 데이터
   const {
@@ -326,7 +321,6 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
   const linkCount = (userData?.link_list?.length || 0) - 1; // 첫 링크 제외
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
-
   return (
     <>
       <div className="mypage__profile">
@@ -344,12 +338,12 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                 alt="profile"
               />
               <div className="profile__info--profile-top">
-                <div className='profile__info--profile--name'>
+                <div className="profile__info--profile--name">
                   <p className="profile__info--name-text">{userData?.name}</p>
                   {/* 팔로우버튼 */}
                   {children}
                 </div>
-                <div className='profile__info--count'>
+                <div className="profile__info--count">
                   <div className="profile__info--level">
                     <p className="profile__info--level-text">Level</p>
                     {getUserGradeSquareIcon(userData?.user_rating) && (
@@ -361,11 +355,11 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                     )}
                     <p className="profile__info--level-rating">{userData?.user_rating}</p>
                   </div>
-                  <div className='profile__info--img-count'>
+                  <div className="profile__info--img-count">
                     {/* 해당 사용자의 모든 곡에 대한 재생 수 */}
-                    <span className='total-play-count'>125K</span>
+                    <span className="total-play-count">125K</span>
                     {/* 해당 사용자의 모든 곡에 대한 좋아요 수 */}
-                    <span className='total-like-count'>145</span>
+                    <span className="total-like-count">145</span>
                   </div>
                 </div>
                 <div className="profile__record">
@@ -381,13 +375,14 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                     <p className="profile__record--item-title">{t('Followers')}</p>
                     <p className="profile__record--item-value">{userData?.followers}</p>
                   </div>
-                  <button className='profile__record--item profile__record--modal-btn'
-                  onClick={() => setIsInfoModalOpen(true)}
+                  <button
+                    className="profile__record--item profile__record--modal-btn"
+                    onClick={() => setIsInfoModalOpen(true)}
                   >
                     <img src={infoIcon} alt="Artist Information Modal Button" />
                   </button>
-                </div> 
-              </div> 
+                </div>
+              </div>
             </div>
 
             {isMyProfile && (
@@ -404,7 +399,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
                   {t('Link license key')}
                 </Link>
               </div>
-            )}          
+            )}
           </div>
           {/* === */}
           {/* <div className="profile__record">
@@ -461,7 +456,11 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
             {showSeeMoreButton && (
               <button className="profile__desc--button" onClick={toggleSeeMore}>
                 {seeMore ? t('Hide') : t('See More')}
-                <img src={arrowDownIcon} alt="" className={`profile__desc--button__arrow ${seeMore ? 'up' : 'down'}`} />
+                <img
+                  src={arrowDownIcon}
+                  alt=""
+                  className={`profile__desc--button__arrow ${seeMore ? 'up' : 'down'}`}
+                />
               </button>
             )}
           </div>
@@ -475,10 +474,7 @@ const ProfileInfo = ({ userData, isMyProfile, children }) => {
       )}
 
       {isInfoModalOpen && (
-        <InfoModal
-          onClose={() => setIsInfoModalOpen(false)}
-          isMyProfile={isMyProfile}
-        />
+        <InfoModal onClose={() => setIsInfoModalOpen(false)} isMyProfile={isMyProfile} />
       )}
     </>
   );

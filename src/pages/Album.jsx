@@ -48,7 +48,6 @@ import 'swiper/css/free-mode';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoplayPlugin from 'embla-carousel-autoplay';
 
-
 // 유틸 & API 통신 함수
 import { getTransaction } from '../api/Transaction';
 import { getSongsGradeIcon } from '../utils/getGradeIcon';
@@ -254,18 +253,17 @@ function Album() {
 
   // 추천 아티스트 슬라이더
   const [artistActiveIndex, setArtistActiveIndex] = useState(0);
-  // 엠블라 캐러셀 
-  const OPTIONS ={
+  // 엠블라 캐러셀
+  const OPTIONS = {
     loop: true,
     align: 'start',
     dragFree: true,
     speed: 4,
-  }
+  };
   const autoplay = useRef(
-    AutoplayPlugin({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true})
-  )
-  const [emblaRef] = useEmblaCarousel(OPTIONS, [autoplay.current])
-
+    AutoplayPlugin({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
+  const [emblaRef] = useEmblaCarousel(OPTIONS, [autoplay.current]);
 
   // 추천 아티스트 가져오는 API 함수
   const handleGetRecommendedArtist = async () => {
@@ -338,23 +336,33 @@ function Album() {
               </div>
             </SwiperSlide>
             {/* 0805 투표 배너 가리기 */}
-            {/* <SwiperSlide>
+            <SwiperSlide>
               <div className="banner-slider__swiper-list">
                 <div className="banner-slider__swiper-content">
-                  <Link to="/vote-event" className='banner-slider__link'>
+                  <Link to="/vote-event" className="banner-slider__link">
                     <picture className="banner-slider__picture">
                       <source media="(min-width: 481px)" srcset={mainBannerImg1} />
                       <source media="(max-width: 480px)" srcset={mainBannerImgMobile1} />
-                      <img src={mainBannerImg1} alt="Main banner example" className='banner-slider__swiper-banner-img' />
+                      <img
+                        src={mainBannerImg1}
+                        alt="Main banner example"
+                        className="banner-slider__swiper-banner-img"
+                      />
                     </picture>
                   </Link>
                 </div>
               </div>
-            </SwiperSlide> */}
+            </SwiperSlide>
           </Swiper>
         </div>
 
-        <SearchBar keyword={keyword} handleChange={handleChange} handleClear={handleClear} />
+        <SearchBar
+          mode="navigate"
+          keyword={keyword}
+          handleChange={handleChange}
+          handleClear={handleClear}
+          navigateTo="/search-result"
+        />
 
         <div className="main__content-item">
           {/* 인기 음악 */}
@@ -387,10 +395,7 @@ function Album() {
                       >
                         <div className="artist-thumb">
                           <Link to={`/profile?category=AI+Services&username=${artist.name}`}>
-                            <img
-                              src={artist.profile || defaultCoverImg2}
-                              alt={artist.name}
-                            />
+                            <img src={artist.profile || defaultCoverImg2} alt={artist.name} />
                           </Link>
                         </div>
 
@@ -421,7 +426,6 @@ function Album() {
               </div>
             </div>
           </section>
-
 
           {/* 추천 앨범 리스트 */}
           <section className="album-section">

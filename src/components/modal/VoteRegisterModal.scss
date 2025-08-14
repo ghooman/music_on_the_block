@@ -1,143 +1,194 @@
+.vote-register-modal .result-box {
+  height: 31vh;
+  box-sizing: border-box;
+  /* 리스트 상태에서만 있던 20px 여백을 여기로 흡수 */
+  padding-bottom: 20px;
+  overflow: hidden;
+}
 
-.vote-register-modal{
-    .search-section{
-        padding: 0;
-        margin-bottom: 20px;
-    }
-    .search-section__search-bar{
-        max-width: 100%;
+/* 세 상태 공통: 부모 높이에 정확히 맞추기 */
+.vote-register-modal .no-result-txt,
+.vote-register-modal .result-loading,
+.vote-register-modal__track-list {
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* no-result는 padding 제거하고 가운데 정렬만 */
+.vote-register-modal .no-result-txt {
+  padding: 0; /* ← 기존 50px 0 제거 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14px, 1.2vw, 18px);
+  line-height: clamp(18px, 1.9vw, 28px);
+  color: #767676;
+  text-align: center;
+}
+
+/* 로딩도 같은 높이에 중앙정렬 */
+.vote-register-modal .result-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 리스트는 내부 스크롤만 */
+.vote-register-modal__track-list {
+  overflow-y: auto;
+  /* 기존 margin-bottom: 20px 제거 */
+}
+
+// 원래코드
+
+.vote-register-modal {
+  .search-section {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  .search-section__search-bar {
+    max-width: 100%;
+  }
+
+  .no-result-txt {
+    padding: 50px 0;
+    font-size: clamp(14px, 1.2vw, 18px);
+    line-height: clamp(18px, 1.9vw, 28px);
+    color: #767676;
+    text-align: center;
+    height: 31vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .result-loading {
+    min-height: 31vh !important;
+  }
+  &__track-list {
+    height: 31vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+  &__track-item {
+    display: flex;
+    column-gap: 12px;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: border-color 0.3s ease;
+
+    &.active {
+      border-color: #cf0;
     }
 
-    .no-result-txt{
-        padding: 50px 0;
-        font-size: clamp(14px, 1.2vw, 18px);
-        line-height: clamp(18px, 1.9vw, 28px);
-        color: #767676;
-        text-align: center;
+    .album-thumb {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 48px;
+      max-height: 48px;
+      object-fit: cover;
+      border-radius: 8px;
     }
-
-    &__track-list{
-        max-height: 40vh;
-        overflow-y: auto;
-        margin-bottom: 20px;
-    }
-    &__track-item{
-        display: flex;
-        column-gap: 12px;
-        align-items: center;
-        padding: 12px;
-        cursor: pointer;
-        border-radius: 12px;
-        border: 1px solid transparent;
-        transition: border-color .3s ease;
-
-        &.active{
-            border-color: #CF0;
-        }
-
-        .album-thumb{
-            width: 100%;
-            height: 100%;
-            aspect-ratio: 1 / 1;
-            max-width: 48px;
-            max-height: 48px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .meta-content{
-            font-size: clamp(12px, 0.9vw, 14px);
-            line-height: clamp(18px, 1.5vw, 22px);
-            overflow: hidden;
-            width: 100%;
-            .meta-title{
-                display: block;
-                width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                color: #F1F1F1;
-                font-weight: 700;
-                margin-bottom: 4px;
-                white-space: nowrap;
-            }
-            .meta-artist{
-                display: flex;
-                align-items: center;
-                column-gap: 8px;
-                color: #a8a8a8;
-                font-weight: 400;
-                overflow: hidden;
-                .artist-thumb{
-                    border-radius: 24px;
-                    width: 100%;
-                    height: 100%;
-                    aspect-ratio: 1 / 1;
-                    max-width: 24px;
-                    max-height: 24px;
-                    object-fit: cover;
-                }
-                .artist-name{
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    width: 100%;
-                }
-            }
-        }
-    }
-
-    &__track-item:not(:first-child){
-        margin-top: 8px;
-    }
-    &__btn{
-        align-items: center;
-        border-radius: 12px;
-        display: flex;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        height: 38px;
-        justify-content: center;
-        letter-spacing: .48px;
-        line-height: normal;
-        position: relative;
-        top: 0;
+    .meta-content {
+      font-size: clamp(12px, 0.9vw, 14px);
+      line-height: clamp(18px, 1.5vw, 22px);
+      overflow: hidden;
+      width: 100%;
+      .meta-title {
+        display: block;
         width: 100%;
-        transition: all .3s ease;
-        background-color: #383838;
-
-        &:hover{
-            top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #f1f1f1;
+        font-weight: 700;
+        margin-bottom: 4px;
+        white-space: nowrap;
+      }
+      .meta-artist {
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
+        color: #a8a8a8;
+        font-weight: 400;
+        overflow: hidden;
+        .artist-thumb {
+          border-radius: 24px;
+          width: 100%;
+          height: 100%;
+          aspect-ratio: 1 / 1;
+          max-width: 24px;
+          max-height: 24px;
+          object-fit: cover;
         }
-
-        &::after{
-            border-radius: 12px;
-            content: "";
-            height: 100%;
-            position: absolute;
-            top: 4px;
-            transition: .2s;
-            width: calc(100% - 2px);
-            border: 1px solid transparent;
+        .artist-name {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          width: 100%;
         }
-
-        &:hover::after{
-            top: -1px;
-        }
-
-        &--deactive{
-            background-color: #383838;
-            color: #fff;
-            pointer-events: none;
-        }
-        &--deactive:after{
-            border-color: #383838;
-        }
-        &--active{
-            background-color: #cf0 !important;
-            color: #1a1a1a;
-        }
-        &--active::after{
-            border-color: #cf0;
-        }
+      }
     }
+  }
+
+  &__track-item:not(:first-child) {
+    margin-top: 8px;
+  }
+  &__btn {
+    align-items: center;
+    border-radius: 12px;
+    display: flex;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    height: 38px;
+    justify-content: center;
+    letter-spacing: 0.48px;
+    line-height: normal;
+    position: relative;
+    top: 0;
+    width: 100%;
+    transition: all 0.3s ease;
+    background-color: #383838;
+
+    &:hover {
+      top: 5px;
+    }
+
+    &::after {
+      border-radius: 12px;
+      content: '';
+      height: 100%;
+      position: absolute;
+      top: 4px;
+      transition: 0.2s;
+      width: calc(100% - 2px);
+      border: 1px solid transparent;
+    }
+
+    &:hover::after {
+      top: -1px;
+    }
+
+    &--deactive {
+      background-color: #383838;
+      color: #fff;
+      pointer-events: none;
+    }
+    &--deactive:after {
+      border-color: #383838;
+    }
+    &--active {
+      background-color: #cf0 !important;
+      color: #1a1a1a;
+    }
+    &--active::after {
+      border-color: #cf0;
+    }
+  }
 }

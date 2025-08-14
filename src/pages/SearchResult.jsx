@@ -188,7 +188,13 @@ function SearchResult() {
 
   return (
     <>
-      <SearchBar keyword={keyword} handleChange={handleChange} handleClear={handleClear} />
+      <SearchBar
+        mode="navigate"
+        keyword={keyword}
+        handleChange={handleChange}
+        handleClear={handleClear}
+        navigateTo="/search-result"
+      />
 
       {/* 로딩 중일 때 */}
       {isLoading && (

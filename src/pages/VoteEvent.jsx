@@ -1,3 +1,4 @@
+import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -18,11 +19,49 @@ import defaultCoverImg from '../assets/images/header/logo.svg';
 // 스타일
 import '../styles/VoteEvent.scss';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 
 function VoteEvent() {
   const serverApi = process.env.REACT_APP_SERVER_API;
+  // ===== 카운트다운 상태 =====
+  const targetDate = useMemo(
+    () => new Date('2025-09-30T23:59:59+09:00'), // KST 명시
+    []
+  );
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const diff = targetDate.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      setTimeLeft({ days, hours, minutes, seconds });
+    };
+
+    // 즉시 1회 계산 + 1초마다 갱신
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
+  // 보기 좋게 2자리 패딩
+  const pad2 = n => String(n).padStart(2, '0');
+
+  // ===== 인기곡 목록 =====
   const [voteMusicList, setVoteMusicList] = useState([]);
 
   const getVoteMusicList = async () => {
@@ -39,23 +78,6 @@ function VoteEvent() {
     getVoteMusicList();
   }, []);
 
-  const topMusicList = [
-    {
-      id: 1,
-      title: 'Music name',
-      artist: 'Yolkhead',
-      votes: 2115,
-      coverImage: SampleAlbumImg,
-      artistImage: SampleArtistImg,
-    },
-    {
-      id: 2,
-      title: 'Another music',
-      artist: 'Yolkhead',
-      votes: 1544,
-      coverImage: SampleAlbumImg,
-    },
-  ];
   return (
     <>
       <div className="header-flex">
@@ -75,7 +97,7 @@ function VoteEvent() {
                 <p>음악을 만들고 이벤트에 참여해 보세요.</p>
                 <p>유저투표를 통해 인기곡 TOP 10에 선정되면</p>
                 <p>
-                  <span className="color-green"> 최대 200만원의 상금</span>을 받을 수 있어요!
+                  <span className="color-green"> 총 상금 200만원의 상금</span>을 받을 수 있어요!
                 </p>
               </div>
             </div>
@@ -83,33 +105,28 @@ function VoteEvent() {
           <div className="info-section">
             <div className="info-section__countdown-content">
               <h2 className="info-section__tit">참여 및 투표 마감까지</h2>
+              {/* 카운트다운 UI */}
               <ul className="info-section__countdown-list">
                 <li>
-                  <div className="count count--days">14</div>
+                  <div className="count count--days">{pad2(timeLeft.days)}</div>
                   <span>DAYS</span>
                 </li>
                 <li>:</li>
                 <li>
-                  <div className="count count--hours">12</div>
+                  <div className="count count--hours">{pad2(timeLeft.hours)}</div>
                   <span>HOURS</span>
                 </li>
                 <li>:</li>
                 <li>
-                  <div className="count count--minutes">12</div>
+                  <div className="count count--minutes">{pad2(timeLeft.minutes)}</div>
                   <span>MINUTES</span>
                 </li>
                 <li>:</li>
                 <li>
-                  <div className="count count--seconds">12</div>
+                  <div className="count count--seconds">{pad2(timeLeft.seconds)}</div>
                   <span>SECONDS</span>
                 </li>
               </ul>
-              <Link to="/vote-list" className="info-section__countdown-btn">
-                인기곡 투표하러 가기
-              </Link>
-              <span className="color-green">
-                * 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.
-              </span>
             </div>
 
             <div className="info-section__apply-content">
@@ -161,6 +178,13 @@ function VoteEvent() {
               >
                 뮤블 오픈카톡 커뮤니티
               </a>
+
+              <Link to="/vote-list" className="info-section__countdown-btn">
+                인기곡 투표하러 가기
+              </Link>
+              <span className="color-green">
+                * 계정 단 3회씩 투표할 수 있고, 같은 곡 중복 투표는 불가능해요.
+              </span>
             </div>
 
             {/* 출품곡이 10개 미만일 때는 해당 영역 미 노출, 10개 이상부터 노출됨 */}
@@ -256,7 +280,7 @@ function VoteEvent() {
                 </li>
                 <li>부정행위 적발 등의 문제 발견 시 예고없이 등록된 음악이 삭제될 수 있습니다.</li>
                 <li>
-                  2025년 9월 31일 이벤트가 종료되고, 순위 발표는 카카오톡 채널 및 홈페이지에서 확인
+                  2025년 9월 30일 이벤트가 종료되고, 순위 발표는 카카오톡 채널 및 홈페이지에서 확인
                   가능합니다.
                 </li>
               </ul>

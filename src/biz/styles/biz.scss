@@ -1,0 +1,266 @@
+/* ==========================================================
+    ▶ 뮤블 사업자 전용 공통 스타일
+========================================================== */
+
+/* -------------------- Reset -------------------- */
+.biz {
+    /* 기본 박스 사이징 설정 */
+    *,
+    *::before,
+    *::after{
+        box-sizing: border-box;
+    }
+
+    /* 기본 마진, 패딩 제거 */
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ol,
+    ul,
+    figure,
+    blockquote,
+    dl,
+    dd,
+    fieldset,
+    input{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: block;
+        font-size: inherit;
+        font-weight: inherit;
+    }
+    
+    /* 리스트 스타일 제거 */
+    ul[role="list"],
+    ol[role="list"]{
+        list-style: none;
+    }
+
+    /* 앵커 태그 밑줄 제거 및 기본 색상 초기화 */
+    a{
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease-out;
+    }
+
+    /* 이미지, 비디오가 부모 요소 크기를 벗어나지 않도록 설정 */
+    img,
+    picture,
+    video,
+    canvas,
+    svg{
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 입력, 버튼 기본 스타일 초기화 */
+    input,
+    button,
+    textarea,
+    select,
+    fieldset{
+        font: inherit;
+        border: none;
+        background: none;
+    }
+
+    /* button 요소 설정 */
+    button{
+        cursor: pointer;
+        padding: 0;
+        display: block;
+    }
+    :focus{
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    :focus-visible{
+        outline: 1px solid #5b9bd5;
+    }
+
+    /* table 초기화 */
+    table{
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    // scroll style START
+    .table-section{
+        overflow-x: auto;
+
+        &::-webkit-scrollbar{
+            height: 6px;
+        }
+
+        &::-webkit-scrollbar-track{
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb{
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        &::-webkit-scrollbar-thumb:hover{
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        &::-webkit-scrollbar-thumb:active{
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+    .table-section-inner{
+        min-width: 1279px;
+        width: 100%;
+        height: 100%;
+    }
+    // scroll style END
+}
+
+
+/* ==========================================================
+    ▶ Style Guide
+========================================================== */
+
+/* -------------------- Color Palette -------------------- */
+// Primary Color
+$color-primary: #48b3ff;
+$color-primary-dark: #3a9de3;
+
+// BG_Gradient
+$bg-gradient: linear-gradient(154deg, #000000 4.97%, #222222 77.35%);
+
+// Opacity Varients
+$color-w-o05: rgba(255, 255, 255, 0.05);
+$color-w-o10: rgba(255, 255, 255, 0.1);
+$color-w-o20: rgba(255, 255, 255, 0.2);
+$color-w-o50: rgba(255, 255, 255, 0.5);
+
+$color-b-o05: rgba(0, 0, 0, 0.05);
+$color-b-o10: rgba(0, 0, 0, 0.1);
+$color-b-o50: rgba(0, 0, 0, 0.5);
+$color-b-o70: rgba(0, 0, 0, 0.7);
+$color-b-o80: rgba(0, 0, 0, 0.8);
+
+// Gray Scales
+$gs-900: #181818;
+$gs-800: #303030;
+$gs-700: #4b4b4b;
+$gs-600: #767676;
+$gs-500: #959595;
+$gs-400: #a8a8a8;
+$gs-300: #bbbbbb;
+$gs-000: #ffffff;
+
+/* -------------------- Typography -------------------- */
+@mixin font-14 {
+  font-size: clamp(12px, 0.9vw, 14px);
+  line-height: clamp(18px, 1.5vw, 22px);
+}
+@mixin font-16 {
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: clamp(22px, 1.6vw, 24px);
+}
+@mixin font-18 {
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: clamp(24px, 1.9vw, 28px);
+}
+@mixin font-20 {
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: clamp(24px, 2vw, 30px);
+}
+@mixin font-24 {
+  font-size: clamp(16px, 1.6vw, 24px);
+  line-height: clamp(24px, 2.3vw, 34px);
+}
+@mixin font-30 {
+  font-size: clamp(16px, 2vw, 30px);
+  line-height: clamp(24px, 2.7vw, 40px);
+}
+
+
+/* ============================================================
+   ▶ Common Styles
+============================================================ */
+
+/* -------------------- Media Query -------------------- */
+/* tablet~mobile (max-width: 999px) */
+@mixin md{
+    @media (max-width: 999px){
+        @content;
+    }
+}
+
+/* -------------------- Flex -------------------- */
+// 좌 정렬, 가운데 맞춤
+@mixin flex-start{
+    display: flex;
+    align-items: center;
+}
+
+// 좌 정렬, 컨텐츠 높이 맞춤
+@mixin flex-start-full{
+    display: flex;
+    align-items: stretch;
+}
+
+// 좌우 정렬, 가운데 맞춤 
+@mixin flex-between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// 세로 정렬
+@mixin flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ==========================================================
+    ▶ BizLayout
+========================================================== */
+.biz{
+    background-color: $bg-gradient;
+    &-header{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: clamp(16px, 1.6vw, 24px) 4%;
+        background-color: rgba(#181818, 0.7);
+        z-index: 1;
+    }
+    &-inner{
+        max-width: 1440px;
+        margin: 0 auto;
+        @include flex-between;
+        &__logo{
+            cursor: pointer;
+            img{
+                width: 100%;
+                max-width: clamp(200px, 20vw, 300px);
+            }
+        }
+
+        &__action{
+            @include flex-start;
+        }
+        &__sign-out{
+            @include font-14;
+            color: $gs-000;
+            font-weight: 700;
+        }
+    }
+
+}

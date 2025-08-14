@@ -50,6 +50,10 @@ import EvaluationStage from './pages/EvaluationStage';
 import NodeViewer from './pages/NodeViewer';
 import LicenseKey from './pages/LicenseKey';
 
+// 사업자 페이지
+import BizLayout from './biz/layouts/BizLayout';
+import BizLogin from './biz/pages/BizLogin';
+
 function Layout({ children }) {
   return (
     <>
@@ -367,6 +371,15 @@ function App() {
                     </Layout>
                   }
                 />
+                {/* Biz 전용 Layout 페이지들 */}
+                  <Route
+                    path="/biz/login"
+                    element={
+                      <BizLayout>
+                        <BizLogin />
+                      </BizLayout>
+                    }
+                  />
               </Routes>
             </div>
           </AudioProvider>

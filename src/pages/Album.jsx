@@ -840,23 +840,17 @@ function Album() {
 
       {/* 이벤트 공지 모달 */}
       <div className="event-noti-modal">
-        <div className="event-noti-modal__overlay">
-          <div className="event-noti-modal__content">
-            <Link to="/vote-event" target="_blank" rel="noopener noreferrer" className="event-noti-modal__img">
-              <picture>
-                <source media="(min-width: 999px)" srcSet={eventModalImgMobile} />
-                <source media="(max-width: 1000px)" srcSet={eventModalImg} />
-                <img src={eventModalImg} alt="Event Modal" />
-              </picture>
-            </Link>
-            <div className="event-noti-modal__footer">
-              <label className="event-noti-modal__daycheck">
-                <input type="checkbox" />
-                <span className="checkmark">Checkbox</span>
-                {t("Don't show again today")}
-              </label>
-              <button className="event-noti-modal__close">{t("Close")}</button>
-            </div>
+        <div className="event-noti-modal__content">
+          <Link to="/vote-event" target="_blank" rel="noopener noreferrer" className="event-noti-modal__img">
+              <img src={eventModalImgMobile} alt="Event Modal" />
+          </Link>
+          <div className="event-noti-modal__footer">
+            <label className="event-noti-modal__daycheck">
+              <input type="checkbox" />
+              <span className="checkmark">Checkbox</span>
+              {t("Don't show again today")}
+            </label>
+            <button className="event-noti-modal__close">{t("Close")}</button>
           </div>
         </div>
       </div>

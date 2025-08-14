@@ -1554,26 +1554,27 @@
 .event-noti-modal {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 16px;
+  z-index: 10;
+  transition: top .3s ease;
 
-  &__overlay {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
+  @media screen and (max-width: 1000px) {
+    top: 96px;
   }
+
 
   &__content {
     width: 100%;
-    max-width: clamp(350px, 36vw, 520px);
+    height: fit-content;
+    max-width: 350px;
     border-radius: clamp(12px, 1.3vw, 20px);
     overflow: hidden;
-    border: 1px solid #4b4b4b;
+    border: 1px solid #909090;
   }
 
   &__img {
@@ -1589,7 +1590,7 @@
 
   &__footer {
     background-color: #181818;
-    padding: clamp(16px, 1.6vw, 24px);
+    padding: 16px;
     font-size: clamp(12px, 0.9vw, 14px);
     display: flex;
     justify-content: space-between;
